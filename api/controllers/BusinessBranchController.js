@@ -8,7 +8,7 @@
     module.exports = {
         saveData: function(req, res) {
             if (req.body) {
-                BusinesssBranch.saveData(req.body, function(err, respo) {
+                BusinessBranch.saveData(req.body, function(err, respo) {
                     if (err) {
                         res.json({
                             value: false,
@@ -30,7 +30,7 @@
         },
         getAll: function(req, res) {
             if (req.body) {
-                BusinesssBranch.getAll(req.body, function(err, respo) {
+                BusinessBranch.getAll(req.body, function(err, respo) {
                     if (err) {
                         res.json({
                             value: false,
@@ -54,7 +54,7 @@
             if (req.body) {
                 if (req.body._id && req.body._id != "") {
                     //	console.log("not valid");
-                    BusinesssBranch.deleteData(req.body, function(err, respo) {
+                    BusinessBranch.deleteData(req.body, function(err, respo) {
                         if (err) {
                             res.json({
                                 value: false,
@@ -83,7 +83,7 @@
         getOne: function(req, res) {
             if (req.body) {
                 if (req.body._id && req.body._id != "") {
-                    BusinesssBranch.getOne(req.body, function(err, respo) {
+                    BusinessBranch.getOne(req.body, function(err, respo) {
                         if (err) {
                             res.json({
                                 value: false,

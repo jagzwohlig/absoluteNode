@@ -1,14 +1,14 @@
 /**
- * FunctionController
+ * FuncController
  *
- * @description :: Server-side logic for managing Functions
+ * @description :: Server-side logic for managing Funcs
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
-    module.exports = {
+ module.exports = {
         saveData: function(req, res) {
             if (req.body) {
-                Function.saveData(req.body, function(err, respo) {
+                Func.saveData(req.body, function(err, respo) {
                     if (err) {
                         res.json({
                             value: false,
@@ -30,7 +30,7 @@
         },
         getAll: function(req, res) {
             if (req.body) {
-                Function.getAll(req.body, function(err, respo) {
+                Func.getAll(req.body, function(err, respo) {
                     if (err) {
                         res.json({
                             value: false,
@@ -54,7 +54,7 @@
             if (req.body) {
                 if (req.body._id && req.body._id != "") {
                     //	console.log("not valid");
-                    Function.deleteData(req.body, function(err, respo) {
+                    Func.deleteData(req.body, function(err, respo) {
                         if (err) {
                             res.json({
                                 value: false,
@@ -83,7 +83,7 @@
         getOne: function(req, res) {
             if (req.body) {
                 if (req.body._id && req.body._id != "") {
-                    Function.getOne(req.body, function(err, respo) {
+                    Func.getOne(req.body, function(err, respo) {
                         if (err) {
                             res.json({
                                 value: false,

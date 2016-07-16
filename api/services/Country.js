@@ -40,7 +40,9 @@
 
      },
      getAll: function(data, callback) {
+       console.log(data);
          this.find({}, {}, {}).exec(function(err, deleted) {
+           console.log(deleted);
              if (err) {
                  callback(err, null);
              } else {

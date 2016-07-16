@@ -81,6 +81,7 @@
           }
       },
       getOne: function(req, res) {
+        console.log(req);
           if (req.body) {
               if (req.body._id && req.body._id != "") {
                   City.getOne(req.body, function(err, respo) {

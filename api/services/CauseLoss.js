@@ -9,7 +9,9 @@
   var Schema = mongoose.Schema;
 
   var schema = new Schema({
-    name: String
+    name: String,
+    department: String,
+    status: String
   })
 
   module.exports = mongoose.model('CauseLoss', schema)

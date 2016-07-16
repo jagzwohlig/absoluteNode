@@ -1,10 +1,9 @@
 /**
- * Function.js
+ * Func.js
  *
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
  */
-
  var mongoose = require('mongoose');
  var Schema = mongoose.Schema;
 
@@ -12,7 +11,7 @@
    name: String
  })
 
- module.exports = mongoose.model('Function', schema)
+ module.exports = mongoose.model('Func', schema)
 
  var models = {
 

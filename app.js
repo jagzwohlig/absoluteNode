@@ -17,17 +17,19 @@
  * The same command-line arguments are supported, e.g.:
  * `node app.js --silent --port=80 --prod`
  */
- process.chdir(__dirname);
- var mongoose;
- mongoose = require('mongoose');
- mongoose.connect('mongodb://localhost:27017/absolute', function(err, data) {
-     if (err) {
-         console.log(err);
-     } else {
-         console.log("Database Connected to absolute");
-     }
- });
 
+// Ensure we're in the project directory, so relative paths work as expected
+// no matter where we actually lift from.
+process.chdir(__dirname);
+var mongoose;
+mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/absolute', function(err, data) {
+    if (err) {
+        console.log(err);
+    } else {
+        console.log("Database Connected to Jacknows");
+    }
+});
 // Ensure a "sails" can be located:
 (function() {
   var sails;
