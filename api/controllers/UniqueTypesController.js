@@ -8,6 +8,7 @@
      module.exports = {
          saveData: function(req, res) {
              if (req.body) {
+               console.log(req.body);
                  UniqueTypes.saveData(req.body, function(err, respo) {
                      if (err) {
                          res.json({

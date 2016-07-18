@@ -10,9 +10,9 @@
 
   var schema = new Schema({
     name: String,
-    natureCode: String,
+    code: String,
     department: String,
-    causeOfLoss: String,
+    causeLoss: String,
     status: String
   })
 

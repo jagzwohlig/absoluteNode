@@ -11,7 +11,8 @@
   var schema = new Schema({
     name: String,
     department: String,
-    status: String
+    status: String,
+    causeLoss: String
   })
 
   module.exports = mongoose.model('CauseLoss', schema)
