@@ -1,51 +1,42 @@
 /**
- * User.js
+ * Branch.js
  *
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
  */
+
+
 var mongoose = require('mongoose');
-var md5 = require('md5');
 var Schema = mongoose.Schema;
 
 var schema = new Schema({
   name: String,
-  email: String,
-  password: String,
-  emp_type: String,
-  access: String,
-  back_days: String,
-  isserverer: String,
-  department: String,
-  branch: String,
+  code: String,
+  address: String,
+  country: String,
+  state: String,
+  city: String,
+  pincode: String,
+  fax: String,
+  emailid: String,
   status: String,
-  // role:Schema.Types.Mixed,
-  role: [{
-      user_type: String,
-      roleName: String,
-      menu: String,
-      roleDescription: String
+  isBillable: String,
+  series_formate: String,
+  TAT: String,
+  LTAT: String,
+  BranchType:String,
+  contact: [{
+      contact_no: String,
+      label: String
     }],
-    //  role:{
-    //    type:[{
-    //      user_type:String,
-    //      roleName:String,
-    //      menu:String,
-    //      roleDescription:String
-    //    }],
-    //    index:true
-    //  },
-  module_right: String,
-});
+})
 
-module.exports = mongoose.model('User', schema);
+module.exports = mongoose.model('Branch', schema)
+
 var models = {
 
   saveData: function(data, callback) {
-    if (data.password && data.password != "") {
-      data.password = md5(data.password);
-    }
-    var user = this(data);
+    var branch = this(data);
     if (data._id) {
       this.findOneAndUpdate({
         _id: data._id
@@ -57,7 +48,7 @@ var models = {
         }
       });
     } else {
-      user.save(function(err, data2) {
+      branch.save(function(err, data2) {
         if (err) {
           callback(err, null);
         } else {
@@ -99,6 +90,7 @@ var models = {
       }
     });
   },
+
 
 };
 module.exports = _.assign(module.exports, models);

@@ -11,8 +11,8 @@
   var schema = new Schema({
     name: String,
     code: String,
-    department: String,
-    causeLoss: String,
+    // department: String,
+    // causeLoss: String,
     status: String
   })
 

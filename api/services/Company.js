@@ -1,51 +1,44 @@
 /**
- * User.js
+ * Company.js
  *
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
  */
 var mongoose = require('mongoose');
-var md5 = require('md5');
 var Schema = mongoose.Schema;
 
 var schema = new Schema({
   name: String,
-  email: String,
-  password: String,
-  emp_type: String,
-  access: String,
-  back_days: String,
-  isserverer: String,
-  department: String,
-  branch: String,
-  status: String,
-  // role:Schema.Types.Mixed,
-  role: [{
-      user_type: String,
-      roleName: String,
-      menu: String,
-      roleDescription: String
-    }],
-    //  role:{
-    //    type:[{
-    //      user_type:String,
-    //      roleName:String,
-    //      menu:String,
-    //      roleDescription:String
-    //    }],
-    //    index:true
-    //  },
-  module_right: String,
+  companyCode: String,
+  NEFT: String,
+  shortName: String,
+  Image: String,
+
+  ServiceTax: String,
+  Pan: String,
+  Services: String,
+  Cin: String,
+  Website: String,
+  Status: String,
+
+  Address: String,
+  Country: String,
+  State: String,
+  City: String,
+  Pincode: String,
+  FinalAddress: String,
+
+  Phone: String,
+  Fax: String,
+  Email: String,
+
 });
 
-module.exports = mongoose.model('User', schema);
+module.exports = mongoose.model('Company', schema);
 var models = {
 
   saveData: function(data, callback) {
-    if (data.password && data.password != "") {
-      data.password = md5(data.password);
-    }
-    var user = this(data);
+    var company = this(data);
     if (data._id) {
       this.findOneAndUpdate({
         _id: data._id
@@ -57,7 +50,7 @@ var models = {
         }
       });
     } else {
-      user.save(function(err, data2) {
+      company.save(function(err, data2) {
         if (err) {
           callback(err, null);
         } else {

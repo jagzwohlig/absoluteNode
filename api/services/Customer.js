@@ -1,5 +1,5 @@
 /**
- * Department.js
+ * Customer.js
  *
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
@@ -8,18 +8,16 @@
  var Schema = mongoose.Schema;
 
  var schema = new Schema({
-     name: String,
-    //  unique_type: String,
-     short_name: String,
-     status: String
+
+       CustomerCompany: String,
 
  });
 
- module.exports = mongoose.model('Department', schema);
+ module.exports = mongoose.model('CustomerCompany', schema);
  var models = {
 
      saveData: function(data, callback) {
-         var department = this(data);
+         var customercompany = this(data);
          if (data._id) {
              this.findOneAndUpdate({
                  _id: data._id
@@ -31,7 +29,7 @@
                  }
              });
          } else {
-             department.save(function(err, data2) {
+             customercompany.save(function(err, data2) {
                  if (err) {
                      callback(err, null);
                  } else {

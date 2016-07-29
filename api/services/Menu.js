@@ -11,7 +11,8 @@
      main_menu: String,
      sub_menu: String,
      right_menu: String,
-     status: String
+     status: String,
+     activity:String,
 
  });
 
