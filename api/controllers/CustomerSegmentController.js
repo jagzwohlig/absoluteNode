@@ -8,7 +8,7 @@
  module.exports = {
 		 saveData: function(req, res) {
 				 if (req.body) {
-						 CusstomerSegment.saveData(req.body, function(err, respo) {
+						 CustomerSegment.saveData(req.body, function(err, respo) {
 								 if (err) {
 										 res.json({
 												 value: false,
@@ -30,7 +30,7 @@
 		 },
 		 getAll: function(req, res) {
 				 if (req.body) {
-						 CusstomerSegment.getAll(req.body, function(err, respo) {
+						 CustomerSegment.getAll(req.body, function(err, respo) {
 								 if (err) {
 										 res.json({
 												 value: false,
@@ -54,7 +54,7 @@
 				 if (req.body) {
 						 if (req.body._id && req.body._id != "") {
 								 //	console.log("not valid");
-								 CusstomerSegment.deleteData(req.body, function(err, respo) {
+								 CustomerSegment.deleteData(req.body, function(err, respo) {
 										 if (err) {
 												 res.json({
 														 value: false,
@@ -83,7 +83,7 @@
 		 getOne: function(req, res) {
 				 if (req.body) {
 						 if (req.body._id && req.body._id != "") {
-								 CusstomerSegment.getOne(req.body, function(err, respo) {
+								 CustomerSegment.getOne(req.body, function(err, respo) {
 										 if (err) {
 												 res.json({
 														 value: false,

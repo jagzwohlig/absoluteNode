@@ -9,15 +9,40 @@
 
  var schema = new Schema({
 
-       CustomerCompany: String,
+   address: String,
+   country: String,
+   state: String,
+   city: String,
+   pincode: String,
+   finalAddress: String,
+   segment: String,
+   officeLevel:String,
+   officeCode: String,
+   shortName:String,
+   creditLimit: String,
+   status: String,
+   clientCompany: String,
+   other: String,
+   contactPerson: String,
+   category: String,
+   office: String,
+   limit: String,
+   direct: String,
+   phone1: String,
+   phone2: String,
+   phone3: String,
+   fax1: String,
+   fax2: String,
+   email: String,
+
 
  });
 
- module.exports = mongoose.model('CustomerCompany', schema);
+ module.exports = mongoose.model('Customer', schema);
  var models = {
 
      saveData: function(data, callback) {
-         var customercompany = this(data);
+         var customer = this(data);
          if (data._id) {
              this.findOneAndUpdate({
                  _id: data._id
@@ -29,7 +54,7 @@
                  }
              });
          } else {
-             customercompany.save(function(err, data2) {
+             customer.save(function(err, data2) {
                  if (err) {
                      callback(err, null);
                  } else {

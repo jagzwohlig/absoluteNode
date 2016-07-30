@@ -14,11 +14,11 @@
 
  });
 
- module.exports = mongoose.model('CustomerCompany', schema);
+ module.exports = mongoose.model('CustomerSegment', schema);
  var models = {
 
      saveData: function(data, callback) {
-         var customercompany = this(data);
+         var customersegment = this(data);
          if (data._id) {
              this.findOneAndUpdate({
                  _id: data._id
@@ -30,7 +30,7 @@
                  }
              });
          } else {
-             customercompany.save(function(err, data2) {
+             customersegment.save(function(err, data2) {
                  if (err) {
                      callback(err, null);
                  } else {

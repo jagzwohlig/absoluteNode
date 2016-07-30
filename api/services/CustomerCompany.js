@@ -8,10 +8,7 @@
  var Schema = mongoose.Schema;
 
  var schema = new Schema({
-   role: [{
-       name: String,
-       shortName: String
-     }],
+  customerType: String,
 
  });
 

@@ -19,22 +19,13 @@ var schema = new Schema({
   department: String,
   branch: String,
   status: String,
-  // role:Schema.Types.Mixed,
-  role: [{
-      user_type: String,
-      roleName: String,
-      menu: String,
-      roleDescription: String
-    }],
-    //  role:{
-    //    type:[{
-    //      user_type:String,
-    //      roleName:String,
-    //      menu:String,
-    //      roleDescription:String
-    //    }],
-    //    index:true
-    //  },
+  // role: [{
+  //     user_type: String,
+  //     roleName: String,
+  //     menu: String,
+  //     roleDescription: String
+  //   }],
+
   module_right: String,
 });
 
