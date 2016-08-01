@@ -9,6 +9,9 @@
 
  var schema = new Schema({
   customerType: String,
+  name: String,
+  shortName: String,
+
 
  });
 
