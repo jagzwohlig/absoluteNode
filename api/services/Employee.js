@@ -35,15 +35,14 @@ var schema = new Schema({
   isSBC:Boolean,
   isField:Boolean,
   address: {
-    type: [{
+
       homeaddress: String,
       country: String,
       state: String,
       city: String,
       pincode: String,
       finalAddress: String
-    }],
-    index: true
+    
   },
   // contact: {
   //   type: [{
