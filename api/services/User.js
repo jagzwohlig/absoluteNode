@@ -18,7 +18,7 @@ var schema = new Schema({
   isserverer: String,
   department: String,
   branch: String,
-  status: String,
+  status: Boolean,
   // role: [{
   //     user_type: String,
   //     roleName: String,

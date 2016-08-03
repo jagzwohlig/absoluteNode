@@ -19,7 +19,7 @@ var schema = new Schema({
   pincode: String,
   fax: String,
   emailid: String,
-  status: String,
+  status: Boolean,
   isBillable: String,
   series_formate: String,
   TAT: String,

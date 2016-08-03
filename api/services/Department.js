@@ -11,7 +11,7 @@
      name: String,
     //  unique_type: String,
      short_name: String,
-     status: String
+     status: Boolean,
 
  });
 

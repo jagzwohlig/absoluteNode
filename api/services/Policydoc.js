@@ -18,7 +18,7 @@ var schema = new Schema({
   policyPeriodTo: String,
   Document: String,
   // department: String,
-  status: String,
+  status: Boolean,
 
 });
 

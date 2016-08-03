@@ -1,25 +1,24 @@
 /**
- * Category.js
+ * Salvage.js
  *
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
  */
-
  var mongoose = require('mongoose');
  var Schema = mongoose.Schema;
 
  var schema = new Schema({
-     name: String,
-     industry: String,
-     status:Boolean,
+     salvage: String,
+     sequence: String,
+     status: Boolean
 
  });
 
- module.exports = mongoose.model('Category', schema);
+ module.exports = mongoose.model('Salvage', schema);
  var models = {
 
      saveData: function(data, callback) {
-         var category = this(data);
+         var salvage = this(data);
          if (data._id) {
              this.findOneAndUpdate({
                  _id: data._id
@@ -31,7 +30,7 @@
                  }
              });
          } else {
-             category.save(function(err, data2) {
+             salvage.save(function(err, data2) {
                  if (err) {
                      callback(err, null);
                  } else {

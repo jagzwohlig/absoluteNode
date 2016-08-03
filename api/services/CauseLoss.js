@@ -11,7 +11,7 @@
   var schema = new Schema({
     name: String,
     department: String,
-    status: String,
+    status: Boolean,
     causeLoss: String
   })
 

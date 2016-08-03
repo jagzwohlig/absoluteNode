@@ -19,7 +19,7 @@ var schema = new Schema({
   services: String,
   cin: String,
   website: String,
-  status: String,
+  status: Boolean,
 
   address: String,
   country: String,

@@ -10,7 +10,7 @@
  var schema = new Schema({
      policyType: String,
      department: String,
-     status: String
+     status: Boolean
 
  });
 

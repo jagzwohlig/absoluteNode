@@ -10,7 +10,7 @@
 
  var schema = new Schema({
      name: String,
-     status: String
+     status: Boolean
 
  });
 
