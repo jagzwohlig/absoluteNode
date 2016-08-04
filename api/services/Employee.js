@@ -11,14 +11,13 @@ var Schema = mongoose.Schema;
 
 var schema = new Schema({
   name: String,
-  lastName:String,
-  salutation:String,
+  lastName: String,
+  salutation: String,
   company: String,
   division: String,
   designation: String,
   other: String,
   mobile: String,
-  OfficeMobile: String,
   hourlyRateFromDate: String,
   hourlyRateToDate: String,
   houseColor: String,
@@ -27,41 +26,33 @@ var schema = new Schema({
   EmployeeCode: String,
   SlabRate: String,
   EmployeeDocuments: String,
-  status:Boolean,
-  dob:Date,
-  marriageDate:Date,
-  joiningDate:Date,
-  leavingDate:Date,
-  isSBC:Boolean,
-  isField:Boolean,
+  status: Boolean,
+  dob: Date,
+  marriageDate: Date,
+  joiningDate: Date,
+  leavingDate: Date,
+  isSBC: Boolean,
+  isField: Boolean,
   address: {
-
-      homeaddress: String,
-      country: String,
-      state: String,
-      city: String,
-      pincode: String,
-      finalAddress: String
-    
+    homeaddress: String,
+    country: String,
+    state: String,
+    city: String,
+    pincode: String,
+    finalAddress: String
   },
-  // contact: {
-  //   type: [{
-      office: String,
-      home: String,
-      mobile: String,
-      extention: String,
-      email: String,
-  //   }],
-  //   index: true
-  // },
+  contact: {
+    OfficeMobile: String,
+    home: String,
+    mobile: String,
+    extention: String,
+    email: String,
+  },
   surveyor: {
-    type: [{
-      isSurveyou: Boolean,
-      valid_upto: String,
-      licence: String,
-      docs: String
-    }],
-    index: true
+    isSurveyou: Boolean,
+    valid_upto: Date,
+    licence: String,
+    docs: String
   },
 
 
