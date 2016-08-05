@@ -8,6 +8,10 @@
  var Schema = mongoose.Schema;
 
  var schema = new Schema({
+   country: String,
+   zone: String,
+   state: String,
+   city: String,
      name: String,
      district: String,
      stdCode: String,
