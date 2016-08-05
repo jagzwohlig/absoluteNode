@@ -1,5 +1,5 @@
 /**
- * Salvage.js
+ * Product.js
  *
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
@@ -8,17 +8,18 @@
  var Schema = mongoose.Schema;
 
  var schema = new Schema({
-     salvage: String,
-     seq: String,
+     industry: String,
+     category: String,
+     name: String,
      status: Boolean,
 
  });
 
- module.exports = mongoose.model('Salvage', schema);
+ module.exports = mongoose.model('Product', schema);
  var models = {
 
      saveData: function(data, callback) {
-         var salvage = this(data);
+         var product = this(data);
          if (data._id) {
              this.findOneAndUpdate({
                  _id: data._id
@@ -30,7 +31,7 @@
                  }
              });
          } else {
-             salvage.save(function(err, data2) {
+             product.save(function(err, data2) {
                  if (err) {
                      callback(err, null);
                  } else {

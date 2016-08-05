@@ -9,24 +9,22 @@ var md5 = require('md5');
 var Schema = mongoose.Schema;
 
 var schema = new Schema({
+  title: String,
   name: String,
   email: String,
   password: String,
-  emp_type: String,
+  userType: String,
+  empType: String,
   access: String,
-  back_days: String,
-  isserverer: String,
+  rollName: String,
+  menu: String,
+  description: String,
+  backDays: String,
+  isServeyor: Boolean,
   department: String,
   branch: String,
   status: Boolean,
-  // role: [{
-  //     user_type: String,
-  //     roleName: String,
-  //     menu: String,
-  //     roleDescription: String
-  //   }],
-
-  module_right: String,
+  moduleRight: String,
 });
 
 module.exports = mongoose.model('User', schema);
