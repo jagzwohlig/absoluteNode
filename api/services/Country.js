@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var uniqueValidator = require('mongoose-unique-validator');
 var timestamps = require('mongoose-timestamp');
+require('mongoose-middleware').initialize(mongoose);
 var Schema = mongoose.Schema;
 
 var schema = new Schema({
@@ -83,7 +84,34 @@ var models = {
             _id: data._id
         }).exec(callback);
     },
+    getPagination: function(data, callback) {
+        var Model = this;
+        var Const = this(data);
+        var maxCol = 5;
+        var page = 1;
+        var options = {
+            filters: {
+                field: ['name'],
+                mandatory: {
+                    contains: {
+                        home: data.keyword
+                    }
+                }
+            },
+            sort: {
+                asc: 'name'
+            },
+            start: (page - 1) * maxCol,
+            count: maxCol
+        };
 
+        Model.find()
+            .field(options)
+            .keyword(options)
+            .filter(options)
+            .order(options)
+            .page(options, callback);
+    }
 };
 module.exports = _.assign(module.exports, models);
 sails.Country = module.exports;
