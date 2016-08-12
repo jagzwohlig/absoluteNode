@@ -114,8 +114,6 @@ var models = {
                 callback("Can not delete the Object as Restricted Deleted Points are available.", null);
             }
         });
-
-
     },
     getOne: function(data, callback) {
         var Model = this;
