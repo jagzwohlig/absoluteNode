@@ -24,7 +24,7 @@ var schema = new Schema({
 module.exports = mongoose.model('Config', schema);
 
 var models = {
-    checkRestrictedDelete: function(Model, data, callback) {
+    checkRestrictedDelete: function(Model, schema, data, callback) {
 
         var values = schema.tree;
         var arr = [];
@@ -34,6 +34,7 @@ var models = {
                 arr.push(key);
             }
         });
+
         Model.findOne({
             "_id": data._id
         }, function(err, data2) {
@@ -41,7 +42,6 @@ var models = {
                 callback(err, null);
             } else {
                 _.each(arr, function(n) {
-                    console.log(n);
                     if (data2[n].length !== 0) {
                         ret = false;
                     }

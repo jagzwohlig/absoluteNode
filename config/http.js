@@ -92,27 +92,27 @@ module.exports.http = {
                     case "delete":
                         {
                             if (mongoose.Types.ObjectId.isValid(req.body._id)) {
-                                next();
+                                req.model.deleteData(req.body, res.callback);
                             } else {
                                 res.json({
                                     value: false,
                                     data: "ObjectId Invalid"
                                 });
                             }
-                            req.model.deleteData(req.body, res.callback);
+
                         }
                         break;
                     case "getOne":
                         {
                             if (mongoose.Types.ObjectId.isValid(req.body._id)) {
-                                next();
+                                req.model.getOne(req.body, res.callback);
                             } else {
                                 res.json({
                                     value: false,
                                     data: "ObjectId Invalid"
                                 });
                             }
-                            req.model.getOne(req.body, res.callback);
+
                         }
                         break;
                     default:
