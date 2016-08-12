@@ -18,7 +18,6 @@ var schema = new Schema({
     ISDCodes: {
         type: String,
         default: 0,
-        unique: true
     },
     zone: {
         type: [{
@@ -84,33 +83,39 @@ var models = {
             _id: data._id
         }).exec(callback);
     },
-    getPagination: function(data, callback) {
+    search: function(data, callback) {
         var Model = this;
         var Const = this(data);
-        var maxCol = 5;
+        var maxRow = Config.maxRow;
+
         var page = 1;
+        var field = data.field;
+      
+
         var options = {
+            field: data.field,
             filters: {
-                field: ['name'],
+                keyword: {
+                    fields: ['name', 'countryCode'],
+                    term: data.keyword
+                },
                 mandatory: {
-                    contains: {
-                        home: data.keyword
-                    }
+                    exact: data.filter
                 }
             },
             sort: {
                 asc: 'name'
             },
-            start: (page - 1) * maxCol,
-            count: maxCol
+            start: (page - 1) * maxRow,
+            count: maxRow
         };
 
-        Model.find()
-            .field(options)
+        var Search = Model.find()
             .keyword(options)
             .filter(options)
             .order(options)
             .page(options, callback);
+
     }
 };
 module.exports = _.assign(module.exports, models);

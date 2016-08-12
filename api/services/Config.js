@@ -24,6 +24,7 @@ var schema = new Schema({
 module.exports = mongoose.model('Config', schema);
 
 var models = {
+    maxRow: 5,
     checkRestrictedDelete: function(Model, schema, data, callback) {
 
         var values = schema.tree;

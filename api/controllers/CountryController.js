@@ -5,7 +5,7 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 module.exports = {
-    findLimited: function(req, res) {
-        Country.getPagination(req.body, res.callback);
+    search: function(req, res) {
+        Country.search(req.body, res.callback);
     }
 };
