@@ -120,6 +120,11 @@ module.exports.http = {
 
                         }
                         break;
+                    case "search":
+                        {
+                            req.model.search(req.body, res.callback);
+                        }
+                        break;
                     default:
                         next();
                 }

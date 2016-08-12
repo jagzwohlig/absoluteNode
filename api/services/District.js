@@ -80,6 +80,40 @@ var models = {
             _id: data._id
         }).exec(callback);
     },
+    search: function(data, callback) {
+        var Model = this;
+        var Const = this(data);
+        var maxRow = Config.maxRow;
+
+        var page = 1;
+        var field = data.field;
+
+
+        var options = {
+            field: data.field,
+            filters: {
+                keyword: {
+                    fields: ['name'],
+                    term: data.keyword
+                },
+                mandatory: {
+                    exact: data.filter
+                }
+            },
+            sort: {
+                asc: 'name'
+            },
+            start: (page - 1) * maxRow,
+            count: maxRow
+        };
+
+        var Search = Model.find()
+            .keyword(options)
+            .filter(options)
+            .order(options)
+            .page(options, callback);
+
+    }
 
 };
 module.exports = _.assign(module.exports, models);
