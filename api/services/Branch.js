@@ -29,9 +29,9 @@ var schema = new Schema({
       contact_no: String,
       label: String
     }],
-})
+});
 
-module.exports = mongoose.model('Branch', schema)
+module.exports = mongoose.model('Branch', schema);
 
 var models = {
 

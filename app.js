@@ -27,7 +27,7 @@ mongoose.connect('mongodb://localhost:27017/absolute', function(err, data) {
     if (err) {
         console.log(err);
     } else {
-        console.log("Database Connected to Jacknows");
+        console.log("Database Connected to Absolute");
     }
 });
 // Ensure a "sails" can be located:

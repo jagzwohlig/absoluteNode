@@ -29,7 +29,7 @@
          }
      },
      getAll: function(req, res) {
-         if (req.body) {
+         if (true) {
              Country.getAll(req.body, function(err, respo) {
                  if (err) {
                      res.json({
@@ -52,7 +52,7 @@
      },
      delete: function(req, res) {
          if (req.body) {
-             if (req.body._id && req.body._id != "") {
+             if (req.body._id && req.body._id !== "") {
                  //	console.log("not valid");
                  Country.deleteData(req.body, function(err, respo) {
                      if (err) {
