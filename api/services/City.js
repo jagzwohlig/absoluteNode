@@ -27,64 +27,112 @@ var schema = new Schema({
 
 schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
-module.exports = mongoose.model('City', schema);
-var models = {
+module.exports = mongoose.model("City", schema);
 
+var models = {
+    checkRestrictedDelete: function(data, callback) {
+        var Model = this;
+        var values = schema.tree;
+        var arr = [];
+        var ret = true;
+        _.each(values, function(n, key) {
+            if (n.restrictedDelete) {
+                arr.push(key);
+            }
+        });
+        Model.findOne({
+            "_id": data._id
+        }, function(err, data2) {
+            if (err) {
+                callback(err, null);
+            } else {
+                _.each(arr, function(n) {
+                    console.log(n);
+                    if (data2[n].length !== 0) {
+                        ret = false;
+                    }
+                });
+                callback(null, ret);
+            }
+        });
+    },
+    manageArrayObject: function(id, data, key, action, callback) {
+        var Model = this;
+
+        Model.findOne({
+            "_id": id
+        }, function(err, data2) {
+            if (err) {
+                callback(err, null);
+            } else {
+                switch (action) {
+                    case "create":
+                        {
+                            data2[key].push(data);
+                            data2.save(callback);
+                        }
+                        break;
+                    case "delete":
+                        {
+                            _.remove(data2[key], function(n) {
+                                return n == data;
+                            });
+                            data2.save(callback);
+                        }
+                        break;
+
+                }
+            }
+        });
+
+
+    },
     saveData: function(data, callback) {
-        var city = this(data);
+        var Model = this;
+        var Const = this(data);
         if (data._id) {
-            this.findOneAndUpdate({
+            Model.findOneAndUpdate({
                 _id: data._id
-            }, data, function(err, data2) {
-                if (err) {
-                    callback(err, null);
-                } else {
-                    callback(null, data2);
-                }
-            });
+            }, data, callback);
         } else {
-            city.save(function(err, data2) {
-                if (err) {
-                    callback(err, null);
-                } else {
-                    callback(null, data2);
-                }
-            });
+            Const.save(callback);
         }
 
     },
     getAll: function(data, callback) {
-        this.find({}, {}, {}).exec(function(err, deleted) {
-            if (err) {
-                callback(err, null);
-            } else {
-                callback(null, deleted);
-            }
-        });
+        var Model = this;
+        var Const = this(data);
+        Model.find({}, {}, {}).exec(callback);
     },
     deleteData: function(data, callback) {
-        this.findOneAndRemove({
+        var Model = this;
+        var Const = this(data);
+        Model.checkRestrictedDelete({
             _id: data._id
-        }, function(err, deleted) {
+        }, function(err, value) {
             if (err) {
-                callback(err, null)
-            } else {
-                callback(null, deleted)
+                callback(err, null);
+            } else if (value) {
+                Model.findOne({
+                    _id: data._id
+                }).exec(function(err, data) {
+                    data.remove({}, callback);
+                });
+            } else if (!value) {
+                callback("Can not delete the Object as Restricted Deleted Points are available.", null);
             }
         });
+
+
     },
     getOne: function(data, callback) {
-        this.findOne({
+        var Model = this;
+        var Const = this(data);
+        Model.findOne({
             _id: data._id
-        }).exec(function(err, data2) {
-            if (err) {
-                console.log(err);
-                callback(err, null)
-            } else {
-                callback(null, data2);
-            }
-        });
+        }).exec(callback);
     },
 
 };
 module.exports = _.assign(module.exports, models);
+sails.City = module.exports;

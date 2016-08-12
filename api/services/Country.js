@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
 var uniqueValidator = require('mongoose-unique-validator');
 var timestamps = require('mongoose-timestamp');
-
 var Schema = mongoose.Schema;
 
 var schema = new Schema({
@@ -75,9 +74,7 @@ var models = {
                     case "create":
                         {
                             data2[key].push(data);
-                            data2.save(function(err, data2) {
-                                callback(err, data2);
-                            });
+                            data2.save(callback);
                         }
                         break;
                     case "delete":
@@ -85,9 +82,7 @@ var models = {
                             _.remove(data2[key], function(n) {
                                 return n == data;
                             });
-                            data2.save(function(err, data2) {
-                                callback(err, data2);
-                            });
+                            data2.save(callback);
                         }
                         break;
 
@@ -97,41 +92,22 @@ var models = {
 
 
     },
-
     saveData: function(data, callback) {
         var Model = this;
         var Const = this(data);
         if (data._id) {
             Model.findOneAndUpdate({
                 _id: data._id
-            }, data, function(err, data2) {
-                if (err) {
-                    callback(err, null);
-                } else {
-                    callback(null, data2);
-                }
-            });
+            }, data, callback);
         } else {
-            Const.save(function(err, data2) {
-                if (err) {
-                    callback(err, null);
-                } else {
-                    callback(null, data2);
-                }
-            });
+            Const.save(callback);
         }
 
     },
     getAll: function(data, callback) {
         var Model = this;
         var Const = this(data);
-        Model.find({}, {}, {}).exec(function(err, deleted) {
-            if (err) {
-                callback(err, null);
-            } else {
-                callback(null, deleted);
-            }
-        });
+        Model.find({}, {}, {}).exec(callback);
     },
     deleteData: function(data, callback) {
         var Model = this;
@@ -145,16 +121,10 @@ var models = {
                 Model.findOne({
                     _id: data._id
                 }).exec(function(err, data) {
-                    data.remove({}, function(err, data) {
-                        if (err) {
-                            callback(err, null);
-                        } else {
-                            callback(null, data);
-                        }
-                    });
+                    data.remove({}, callback);
                 });
             } else if (!value) {
-                callback("Can not delete the Object as Restricted Deleted Points are available.",null);
+                callback("Can not delete the Object as Restricted Deleted Points are available.", null);
             }
         });
 
@@ -165,13 +135,7 @@ var models = {
         var Const = this(data);
         Model.findOne({
             _id: data._id
-        }).exec(function(err, data2) {
-            if (err) {
-                callback(err, null);
-            } else {
-                callback(null, data2);
-            }
-        });
+        }).exec(callback);
     },
 
 };

@@ -78,19 +78,46 @@ module.exports.http = {
                     data: "Invalid call"
                 });
             } else {
-                if (req.models[2] == "delete" || req.models[2] == "getOne") {
-                    if (mongoose.Types.ObjectId.isValid(req.body._id)) {
+                switch (req.models[2]) {
+                    case "save":
+                        {
+                            req.model.saveData(req.body, res.callback);
+                        }
+                        break;
+                    case "getAll":
+                        {
+                            req.model.getAll(req.body, res.callback);
+                        }
+                        break;
+                    case "delete":
+                        {
+                            if (mongoose.Types.ObjectId.isValid(req.body._id)) {
+                                next();
+                            } else {
+                                res.json({
+                                    value: false,
+                                    data: "ObjectId Invalid"
+                                });
+                            }
+                            req.model.deleteData(req.body, res.callback);
+                        }
+                        break;
+                    case "getOne":
+                        {
+                            if (mongoose.Types.ObjectId.isValid(req.body._id)) {
+                                next();
+                            } else {
+                                res.json({
+                                    value: false,
+                                    data: "ObjectId Invalid"
+                                });
+                            }
+                            req.model.getOne(req.body, res.callback);
+                        }
+                        break;
+                    default:
                         next();
-                    } else {
-                        res.json({
-                            value: false,
-                            data: "ObjectId Invalid"
-                        });
-                    }
-                } else {
-                    next();
                 }
-
             }
         }
 
