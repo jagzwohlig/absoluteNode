@@ -17,7 +17,6 @@ var schema = new Schema({
     status: Boolean
 });
 
-
 schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('Product', schema);
