@@ -30,6 +30,6 @@ module.exports = {
                 data: "User id Invalid"
             });
         }
-    },
+    }
 
 };
