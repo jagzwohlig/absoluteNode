@@ -34,7 +34,6 @@ module.exports.http = {
             'startRequestTimer',
             'cookieParser',
             'session',
-
             'bodyParser',
             'handleBodyParserError',
             'myRequestLogger',
@@ -77,58 +76,7 @@ module.exports.http = {
                     });
                 }
             };
-            if (_.isEmpty(req.body) && !_.isEmpty(req.model)) {
-                res.json({
-                    value: false,
-                    data: "Invalid call"
-                });
-            } else {
-                switch (req.models[2]) {
-                    case "save":
-                        {
-                            req.model.saveData(req.body, res.callback);
-                        }
-                        break;
-                    case "getAll":
-                        {
-                            req.model.getAll(req.body, res.callback);
-                        }
-                        break;
-                    case "delete":
-                        {
-                            if (mongoose.Types.ObjectId.isValid(req.body._id)) {
-                                req.model.deleteData(req.body, res.callback);
-                            } else {
-                                res.json({
-                                    value: false,
-                                    data: "ObjectId Invalid"
-                                });
-                            }
-
-                        }
-                        break;
-                    case "getOne":
-                        {
-                            if (mongoose.Types.ObjectId.isValid(req.body._id)) {
-                                req.model.getOne(req.body, res.callback);
-                            } else {
-                                res.json({
-                                    value: false,
-                                    data: "ObjectId Invalid"
-                                });
-                            }
-
-                        }
-                        break;
-                    case "search":
-                        {
-                            req.model.search(req.body, res.callback);
-                        }
-                        break;
-                    default:
-                        next();
-                }
-            }
+            next();
         }
 
         /***************************************************************************

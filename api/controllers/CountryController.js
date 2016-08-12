@@ -5,5 +5,35 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 module.exports = {
-    
+    save: function(req, res) {
+        req.model.saveData(req.body, res.callback);
+    },
+    getAll: function(req, res) {
+        req.model.getAll(req.body, res.callback);
+    },
+    delete: function(req, res) {
+        if (mongoose.Types.ObjectId.isValid(req.body._id)) {
+            req.model.deleteData(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: "ObjectId Invalid"
+            });
+        }
+
+    },
+    getOne: function(req, res) {
+        if (mongoose.Types.ObjectId.isValid(req.body._id)) {
+            req.model.getOne(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: "ObjectId Invalid"
+            });
+        }
+    },
+    search: function(req, res) {
+        req.model.search(req.body, res.callback);
+    }
+
 };
