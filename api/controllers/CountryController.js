@@ -12,24 +12,9 @@ module.exports = {
         req.model.getAll(req.body, res.callback);
     },
     delete: function(req, res) {
-        if (req.body._id && req.body._id !== "") {
-            req.model.deleteData(req.body, res.callback);
-        } else {
-            res.json({
-                value: false,
-                data: "Invalid Id"
-            });
-        }
+        req.model.deleteData(req.body, res.callback);
     },
     getOne: function(req, res) {
-        if (req.body._id && req.body._id !== "") {
-            req.model.getOne(req.body, res.callback);
-        } else {
-            res.json({
-                value: false,
-                data: "User id Invalid"
-            });
-        }
+        req.model.getOne(req.body, res.callback);
     }
-
 };

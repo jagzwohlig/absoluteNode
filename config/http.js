@@ -8,7 +8,7 @@
  * For more information on configuration, check out:
  * http://sailsjs.org/#!/documentation/reference/sails.config/sails.config.http.html
  */
-
+var mongoose = require("mongoose");
 module.exports.http = {
 
     /****************************************************************************
@@ -78,7 +78,19 @@ module.exports.http = {
                     data: "Invalid call"
                 });
             } else {
-                next();
+                if (req.models[2] == "delete" || req.models[2] == "getOne") {
+                    if (mongoose.Types.ObjectId.isValid(req.body._id)) {
+                        next();
+                    } else {
+                        res.json({
+                            value: false,
+                            data: "ObjectId Invalid"
+                        });
+                    }
+                } else {
+                    next();
+                }
+
             }
         }
 
