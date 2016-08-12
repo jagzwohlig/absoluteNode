@@ -56,6 +56,8 @@ module.exports.http = {
          ****************************************************************************/
 
         myRequestLogger: function(req, res, next) {
+            req.models = req.path.split("/");
+            req.model = sails[_.capitalize(req.models[1])];
 
             res.callback = function(err, data) {
                 if (err) {
@@ -70,10 +72,14 @@ module.exports.http = {
                     });
                 }
             };
-            res.validate = function(format) {
-
-            };
-            next();
+            if (_.isEmpty(req.body) && !_.isEmpty(req.model)) {
+                res.json({
+                    value: false,
+                    data: "Invalid call"
+                });
+            } else {
+                next();
+            }
         }
 
         /***************************************************************************

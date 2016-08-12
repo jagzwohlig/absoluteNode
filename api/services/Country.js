@@ -154,7 +154,7 @@ var models = {
                     });
                 });
             } else if (!value) {
-                callback("Can not delete the Object as Restricted Deleted Points are there.",null);
+                callback("Can not delete the Object as Restricted Deleted Points are available.",null);
             }
         });
 
@@ -176,3 +176,4 @@ var models = {
 
 };
 module.exports = _.assign(module.exports, models);
+sails.Country = module.exports;
