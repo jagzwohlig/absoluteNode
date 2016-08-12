@@ -57,7 +57,7 @@ var models = {
     deleteData: function(data, callback) {
         var Model = this;
         var Const = this(data);
-        Config.checkRestrictedDelete(Model,schema {
+        Config.checkRestrictedDelete(Model,schema, {
             _id: data._id
         }, function(err, value) {
             if (err) {

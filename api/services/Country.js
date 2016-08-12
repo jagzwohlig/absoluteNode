@@ -55,7 +55,7 @@ var models = {
     deleteData: function(data, callback) {
         var Model = this;
         var Const = this(data);
-        Config.checkRestrictedDelete(Model,schema, {
+        Config.checkRestrictedDelete(Model, schema, {
             _id: data._id
         }, function(err, value) {
             if (err) {
@@ -65,7 +65,11 @@ var models = {
                 Model.findOne({
                     _id: data._id
                 }).exec(function(err, data2) {
-                    data2.remove({}, callback);
+                    if (err) {
+                        callback("Error Occured", null);
+                    } else if (data2) {
+                        data2.remove({}, callback);
+                    }
                 });
             } else if (!value) {
                 callback("Can not delete the Object as Restricted Deleted Points are available.", null);

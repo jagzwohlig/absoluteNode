@@ -65,10 +65,15 @@ module.exports.http = {
                         error: err,
                         value: false
                     });
-                } else {
+                } else if (data) {
                     res.json({
                         data: data,
                         value: true
+                    });
+                } else {
+                    res.json({
+                        data: "No Data Found",
+                        value: false
                     });
                 }
             };

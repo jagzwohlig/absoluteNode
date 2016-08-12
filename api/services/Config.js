@@ -40,13 +40,15 @@ var models = {
         }, function(err, data2) {
             if (err) {
                 callback(err, null);
-            } else {
+            } else if (data2) {
                 _.each(arr, function(n) {
                     if (data2[n].length !== 0) {
                         ret = false;
                     }
                 });
                 callback(null, ret);
+            } else {
+                callback("No Data Found", null);
             }
         });
     },
@@ -57,7 +59,7 @@ var models = {
         }, function(err, data2) {
             if (err) {
                 callback(err, null);
-            } else {
+            } else if (data2) {
                 switch (action) {
                     case "create":
                         {
@@ -75,6 +77,8 @@ var models = {
                         break;
 
                 }
+            } else {
+                callback("No Data Found for the ID", null);
             }
         });
 

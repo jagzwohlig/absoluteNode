@@ -1,79 +1,67 @@
-/**
- * Bank.js
- *
- * @description :: TODO: You might write a short summary of how this model works and what it represents here.
- * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
- */
+var mongoose = require('mongoose');
+var uniqueValidator = require('mongoose-unique-validator');
+var timestamps = require('mongoose-timestamp');
+var Schema = mongoose.Schema;
 
+var schema = new Schema({
+    name: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    status: Boolean,
+});
 
- var mongoose = require('mongoose');
- var Schema = mongoose.Schema;
+schema.plugin(uniqueValidator);
+schema.plugin(timestamps);
+module.exports = mongoose.model('Bank', schema);
 
- var schema = new Schema({
-   name: String,
-   status: Boolean,
- })
+var models = {
+    saveData: function(data, callback) {
+        var Model = this;
+        var Const = this(data);
+        if (data._id) {
+            Model.findOneAndUpdate({
+                _id: data._id
+            }, data, callback);
+        } else {
+            Const.save(callback);
+        }
 
- module.exports = mongoose.model('Bank', schema)
+    },
+    getAll: function(data, callback) {
+        var Model = this;
+        var Const = this(data);
+        Model.find({}, {}, {}).exec(callback);
+    },
+    deleteData: function(data, callback) {
+        var Model = this;
+        var Const = this(data);
+        Config.checkRestrictedDelete(Model, schema, {
+            _id: data._id
+        }, function(err, value) {
+            if (err) {
+                callback(err, null);
+            } else if (value) {
+                console.log(value);
+                Model.findOne({
+                    _id: data._id
+                }).exec(function(err, data2) {
+                    data2.remove({}, callback);
+                });
+            } else if (!value) {
+                callback("Can not delete the Object as Restricted Deleted Points are available.", null);
+            }
+        });
+    },
+    getOne: function(data, callback) {
+        var Model = this;
+        var Const = this(data);
+        Model.findOne({
+            _id: data._id
+        }).exec(callback);
+    },
 
- var models = {
-
-   saveData: function(data, callback) {
-     var bank = this(data);
-     if (data._id) {
-       this.findOneAndUpdate({
-         _id: data._id
-       }, data, function(err, data2) {
-         if (err) {
-           callback(err, null);
-         } else {
-           callback(null, data2);
-         }
-       });
-     } else {
-       bank.save(function(err, data2) {
-         if (err) {
-           callback(err, null);
-         } else {
-           callback(null, data2);
-         }
-       });
-     }
-
-   },
-   getAll: function(data, callback) {
-     this.find({}, {}, {}).exec(function(err, deleted) {
-       if (err) {
-         callback(err, null);
-       } else {
-         callback(null, deleted);
-       }
-     });
-   },
-   deleteData: function(data, callback) {
-     this.findOneAndRemove({
-       _id: data._id
-     }, function(err, deleted) {
-       if (err) {
-         callback(err, null)
-       } else {
-         callback(null, deleted)
-       }
-     });
-   },
-   getOne: function(data, callback) {
-     this.findOne({
-       _id: data._id
-     }).exec(function(err, data2) {
-       if (err) {
-         console.log(err);
-         callback(err, null)
-       } else {
-         callback(null, data2);
-       }
-     });
-   },
-
-
- };
- module.exports = _.assign(module.exports, models);
+};
+module.exports = _.assign(module.exports, models);
+sails.Bank = module.exports;
