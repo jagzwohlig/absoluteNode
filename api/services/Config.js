@@ -24,6 +24,62 @@ var schema = new Schema({
 module.exports = mongoose.model('Config', schema);
 
 var models = {
+    checkRestrictedDelete: function(Model, data, callback) {
+
+        var values = schema.tree;
+        var arr = [];
+        var ret = true;
+        _.each(values, function(n, key) {
+            if (n.restrictedDelete) {
+                arr.push(key);
+            }
+        });
+        Model.findOne({
+            "_id": data._id
+        }, function(err, data2) {
+            if (err) {
+                callback(err, null);
+            } else {
+                _.each(arr, function(n) {
+                    console.log(n);
+                    if (data2[n].length !== 0) {
+                        ret = false;
+                    }
+                });
+                callback(null, ret);
+            }
+        });
+    },
+    manageArrayObject: function(Model, id, data, key, action, callback) {
+
+        Model.findOne({
+            "_id": id
+        }, function(err, data2) {
+            if (err) {
+                callback(err, null);
+            } else {
+                switch (action) {
+                    case "create":
+                        {
+                            data2[key].push(data);
+                            data2.save(callback);
+                        }
+                        break;
+                    case "delete":
+                        {
+                            _.remove(data2[key], function(n) {
+                                return n == data;
+                            });
+                            data2.save(callback);
+                        }
+                        break;
+
+                }
+            }
+        });
+
+
+    },
     GlobalCallback: function(err, data, res) {
         if (err) {
             res.json({
