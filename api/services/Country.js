@@ -99,9 +99,10 @@ var models = {
     },
 
     saveData: function(data, callback) {
-        var country = this(data);
+        var Model = this;
+        var Const = this(data);
         if (data._id) {
-            this.findOneAndUpdate({
+            Model.findOneAndUpdate({
                 _id: data._id
             }, data, function(err, data2) {
                 if (err) {
@@ -111,7 +112,7 @@ var models = {
                 }
             });
         } else {
-            country.save(function(err, data2) {
+            Const.save(function(err, data2) {
                 if (err) {
                     callback(err, null);
                 } else {
@@ -122,9 +123,9 @@ var models = {
 
     },
     getAll: function(data, callback) {
-        console.log(data);
-        this.find({}, {}, {}).exec(function(err, deleted) {
-            console.log(deleted);
+        var Model = this;
+        var Const = this(data);
+        Model.find({}, {}, {}).exec(function(err, deleted) {
             if (err) {
                 callback(err, null);
             } else {
@@ -133,25 +134,39 @@ var models = {
         });
     },
     deleteData: function(data, callback) {
-        this.findOne({
+        var Model = this;
+        var Const = this(data);
+        Model.checkRestrictedDelete({
             _id: data._id
-        }).exec(function(err, data) {
-            data.remove({}, function(err, data) {
-                if (err) {
-                    callback(err, null);
-                } else {
-                    callback(null, data);
-                }
-            });
+        }, function(err, value) {
+            if (err) {
+                callback(err, null);
+            } else if (value) {
+                Model.findOne({
+                    _id: data._id
+                }).exec(function(err, data) {
+                    data.remove({}, function(err, data) {
+                        if (err) {
+                            callback(err, null);
+                        } else {
+                            callback(null, data);
+                        }
+                    });
+                });
+            } else if (!value) {
+                callback("Can not delete the Object as Restricted Deleted Points are there.",null);
+            }
         });
+
 
     },
     getOne: function(data, callback) {
-        this.findOne({
+        var Model = this;
+        var Const = this(data);
+        Model.findOne({
             _id: data._id
         }).exec(function(err, data2) {
             if (err) {
-                console.log(err);
                 callback(err, null);
             } else {
                 callback(null, data2);
