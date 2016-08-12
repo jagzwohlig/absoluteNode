@@ -23,8 +23,7 @@ var schema = new Schema({
     district: {
         type: [{
             type: Schema.Types.ObjectId,
-            ref: "District",
-
+            ref: "District"
         }],
         index: true,
         restrictedDelete: true

@@ -1,78 +1,139 @@
-/**
- * Category.js
- *
- * @description :: TODO: You might write a short summary of how this model works and what it represents here.
- * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
- */
+var mongoose = require('mongoose');
+var uniqueValidator = require('mongoose-unique-validator');
+var timestamps = require('mongoose-timestamp');
+var Schema = mongoose.Schema;
 
- var mongoose = require('mongoose');
- var Schema = mongoose.Schema;
+var schema = new Schema({
+    name: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    industry: {
+        type: Schema.Types.ObjectId,
+        ref: "Industry",
+        index: true
+    },
+    status: Boolean,
+    product: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: "Product"
+        }],
+        index: true,
+        restrictedDelete: true
+    }
+});
 
- var schema = new Schema({
-     name: String,
-     industry: String,
-     status:Boolean,
 
- });
+schema.plugin(uniqueValidator);
+schema.plugin(timestamps);
+module.exports = mongoose.model('Category', schema);
 
- module.exports = mongoose.model('Category', schema);
- var models = {
+var models = {
+    checkRestrictedDelete: function(data, callback) {
+        var Model = this;
+        var values = schema.tree;
+        var arr = [];
+        var ret = true;
+        _.each(values, function(n, key) {
+            if (n.restrictedDelete) {
+                arr.push(key);
+            }
+        });
+        Model.findOne({
+            "_id": data._id
+        }, function(err, data2) {
+            if (err) {
+                callback(err, null);
+            } else {
+                _.each(arr, function(n) {
+                    console.log(n);
+                    if (data2[n].length !== 0) {
+                        ret = false;
+                    }
+                });
+                callback(null, ret);
+            }
+        });
+    },
+    manageArrayObject: function(id, data, key, action, callback) {
+        var Model = this;
 
-     saveData: function(data, callback) {
-         var category = this(data);
-         if (data._id) {
-             this.findOneAndUpdate({
-                 _id: data._id
-             }, data, function(err, data2) {
-                 if (err) {
-                     callback(err, null);
-                 } else {
-                     callback(null, data2);
-                 }
-             });
-         } else {
-             category.save(function(err, data2) {
-                 if (err) {
-                     callback(err, null);
-                 } else {
-                     callback(null, data2);
-                 }
-             });
-         }
+        Model.findOne({
+            "_id": id
+        }, function(err, data2) {
+            if (err) {
+                callback(err, null);
+            } else {
+                switch (action) {
+                    case "create":
+                        {
+                            data2[key].push(data);
+                            data2.save(callback);
+                        }
+                        break;
+                    case "delete":
+                        {
+                            _.remove(data2[key], function(n) {
+                                return n == data;
+                            });
+                            data2.save(callback);
+                        }
+                        break;
 
-     },
-     getAll: function(data, callback) {
-         this.find({}, {}, {}).exec(function(err, deleted) {
-             if (err) {
-                 callback(err, null);
-             } else {
-                 callback(null, deleted);
-             }
-         });
-     },
-     deleteData: function(data, callback) {
-         this.findOneAndRemove({
-             _id: data._id
-         }, function(err, deleted) {
-             if (err) {
-                 callback(err, null)
-             } else {
-                 callback(null, deleted)
-             }
-         });
-     },
-     getOne: function(data, callback) {
-         this.findOne({
-             _id: data._id
-         }).exec(function(err, data2) {
-             if (err) {
-                 console.log(err);
-                 callback(err, null)
-             } else {
-                 callback(null, data2);
-             }
-         });
-     },
+                }
+            }
+        });
 
- };
- module.exports = _.assign(module.exports, models);
+
+    },
+    saveData: function(data, callback) {
+        var Model = this;
+        var Const = this(data);
+        if (data._id) {
+            Model.findOneAndUpdate({
+                _id: data._id
+            }, data, callback);
+        } else {
+            Const.save(callback);
+        }
+
+    },
+    getAll: function(data, callback) {
+        var Model = this;
+        var Const = this(data);
+        Model.find({}, {}, {}).exec(callback);
+    },
+    deleteData: function(data, callback) {
+        var Model = this;
+        var Const = this(data);
+        Model.checkRestrictedDelete({
+            _id: data._id
+        }, function(err, value) {
+            if (err) {
+                callback(err, null);
+            } else if (value) {
+                Model.findOne({
+                    _id: data._id
+                }).exec(function(err, data) {
+                    data.remove({}, callback);
+                });
+            } else if (!value) {
+                callback("Can not delete the Object as Restricted Deleted Points are available.", null);
+            }
+        });
+
+
+    },
+    getOne: function(data, callback) {
+        var Model = this;
+        var Const = this(data);
+        Model.findOne({
+            _id: data._id
+        }).exec(callback);
+    },
+
+};
+module.exports = _.assign(module.exports, models);
+sails.Category = module.exports;
