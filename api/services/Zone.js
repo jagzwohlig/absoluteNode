@@ -51,11 +51,11 @@ var models = {
                     callback(err, data2);
                 } else if (data2) {
                     if (data.country != data2.country) {
-                        Config.manageArrayObject(Country, data.country, data._id, "zone", "delete", function(err, md) {
+                        Config.manageArrayObject(Country, data2.country, data._id, "zone", "delete", function(err, md) {
                             if (err) {
                                 callback(err, md);
                             } else {
-                                Config.manageArrayObject(Country, data2.country, data._id, "zone", "create", function(err, md) {
+                                Config.manageArrayObject(Country, data.country, data._id, "zone", "create", function(err, md) {
                                     if (err) {
                                         callback(err, md);
                                     } else {
