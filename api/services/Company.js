@@ -32,16 +32,13 @@ var schema = new Schema({
     tan: String,
     services: String,
     website: String,
-
     status: Boolean,
-
     city: {
         type: Schema.Types.ObjectId,
         ref: "City",
         index: true,
         required: true
     },
-
     phone: String,
     fax: String,
     email: String
