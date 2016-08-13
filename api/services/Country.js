@@ -12,8 +12,7 @@ var schema = new Schema({
     },
     countryCode: {
         type: String,
-        required: true,
-        unique: true
+        default: "",
     },
     ISDCodes: {
         type: String,

@@ -159,7 +159,6 @@ var models = {
             .order(options)
             .populate("district", "name _id")
             .page(options, callback);
-
     }
 
 };
