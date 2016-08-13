@@ -30,10 +30,7 @@ var schema = new Schema({
         index: true,
         restrictedDelete: true
     }
-
 });
-
-
 
 schema.plugin(uniqueValidator);
 schema.plugin(timestamps);

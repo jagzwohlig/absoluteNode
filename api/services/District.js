@@ -64,11 +64,11 @@ var models = {
                     callback(err, data2);
                 } else if (data2) {
                     if (data.state != data2.state) {
-                        Config.manageArrayObject(State, data2.state, data._id, "zone", "delete", function(err, md) {
+                        Config.manageArrayObject(State, data2.state, data._id, "district", "delete", function(err, md) {
                             if (err) {
                                 callback(err, md);
                             } else {
-                                Config.manageArrayObject(State, data.state, data._id, "zone", "create", function(err, md) {
+                                Config.manageArrayObject(State, data.state, data._id, "district", "create", function(err, md) {
                                     if (err) {
                                         callback(err, md);
                                     } else {
@@ -90,7 +90,7 @@ var models = {
                 if (err) {
                     callback(err, data2);
                 } else {
-                    Config.manageArrayObject(State, data2.state, data2._id, "zone", "create", function(err, md) {
+                    Config.manageArrayObject(State, data2.state, data2._id, "district", "create", function(err, md) {
                         callback(err, data2);
                     });
                 }
@@ -119,7 +119,7 @@ var models = {
                     if (err) {
                         callback("Error Occured", null);
                     } else if (data2) {
-                        Config.manageArrayObject(State, data2.state, data2._id, "zone", "delete", function(err, md) {
+                        Config.manageArrayObject(State, data2.state, data2._id, "district", "delete", function(err, md) {
                             if (err) {
                                 callback(err, md);
                             } else {

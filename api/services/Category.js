@@ -42,11 +42,11 @@ var models = {
                     callback(err, data2);
                 } else if (data2) {
                     if (data.industry != data2.industry) {
-                        Config.manageArrayObject(Industry, data2.industry, data._id, "zone", "delete", function(err, md) {
+                        Config.manageArrayObject(Industry, data2.industry, data._id, "category", "delete", function(err, md) {
                             if (err) {
                                 callback(err, md);
                             } else {
-                                Config.manageArrayObject(Industry, data.industry, data._id, "zone", "create", function(err, md) {
+                                Config.manageArrayObject(Industry, data.industry, data._id, "category", "create", function(err, md) {
                                     if (err) {
                                         callback(err, md);
                                     } else {
@@ -68,7 +68,7 @@ var models = {
                 if (err) {
                     callback(err, data2);
                 } else {
-                    Config.manageArrayObject(Industry, data2.industry, data2._id, "zone", "create", function(err, md) {
+                    Config.manageArrayObject(Industry, data2.industry, data2._id, "category", "create", function(err, md) {
                         callback(err, data2);
                     });
                 }
@@ -92,7 +92,7 @@ var models = {
                     if (err) {
                         callback("Error Occured", null);
                     } else if (data2) {
-                        Config.manageArrayObject(Industry, data2.industry, data2._id, "zone", "delete", function(err, md) {
+                        Config.manageArrayObject(Industry, data2.industry, data2._id, "category", "delete", function(err, md) {
                             if (err) {
                                 callback(err, md);
                             } else {
