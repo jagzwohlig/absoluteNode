@@ -53,7 +53,7 @@
          },
          delete: function(req, res) {
              if (req.body) {
-                 if (req.body._id && req.body._id != "") {
+                 if (req.body._id && req.body._id !== "") {
                      //	console.log("not valid");
                      BusinessBranch.deleteData(req.body, function(err, respo) {
                          if (err) {
@@ -83,7 +83,7 @@
          },
          getOne: function(req, res) {
              if (req.body) {
-                 if (req.body._id && req.body._id != "") {
+                 if (req.body._id && req.body._id !== "") {
                      BusinessBranch.getOne(req.body, function(err, respo) {
                          if (err) {
                              res.json({

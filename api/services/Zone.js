@@ -59,16 +59,21 @@ var models = {
     deleteData: function(data, callback) {
         var Model = this;
         var Const = this(data);
-        Config.checkRestrictedDelete(Model,schema, {
+        Config.checkRestrictedDelete(Model, schema, {
             _id: data._id
         }, function(err, value) {
             if (err) {
                 callback(err, null);
             } else if (value) {
+                console.log(value);
                 Model.findOne({
                     _id: data._id
-                }).exec(function(err, data) {
-                    data.remove({}, callback);
+                }).exec(function(err, data2) {
+                    if (err) {
+                        callback("Error Occured", null);
+                    } else if (data2) {
+                        data2.remove({}, callback);
+                    }
                 });
             } else if (!value) {
                 callback("Can not delete the Object as Restricted Deleted Points are available.", null);
@@ -80,7 +85,7 @@ var models = {
         var Const = this(data);
         Model.findOne({
             _id: data._id
-        }).exec(callback);
+        }).populate("country", "name _id").exec(callback);
     },
     search: function(data, callback) {
         var Model = this;
@@ -88,6 +93,9 @@ var models = {
         var maxRow = Config.maxRow;
 
         var page = 1;
+        if (data.page) {
+            page = data.page;
+        }
         var field = data.field;
 
 
@@ -113,6 +121,7 @@ var models = {
             .keyword(options)
             .filter(options)
             .order(options)
+            .populate("country", "name _id")
             .page(options, callback);
 
     }
