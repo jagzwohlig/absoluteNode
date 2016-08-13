@@ -18,6 +18,7 @@ var schema = new Schema({
     country: {
         type: Schema.Types.ObjectId,
         ref: "Country",
+        required: true,
         index: true
     },
     state: {
@@ -43,11 +44,45 @@ var models = {
         var Model = this;
         var Const = this(data);
         if (data._id) {
-            Model.findOneAndUpdate({
+            Model.findOne({
                 _id: data._id
-            }, data, callback);
+            }, function(err, data2) {
+                if (err) {
+                    callback(err, data2);
+                } else if (data2) {
+                    if (data.country != data2.country) {
+                        Config.manageArrayObject(Country, data.country, data._id, "zone", "delete", function(err, md) {
+                            if (err) {
+                                callback(err, md);
+                            } else {
+                                Config.manageArrayObject(Country, data2.country, data._id, "zone", "create", function(err, md) {
+                                    if (err) {
+                                        callback(err, md);
+                                    } else {
+                                        data2.update(data, {
+                                            w: 1
+                                        }, callback);
+                                    }
+                                });
+                            }
+                        });
+                    }
+                } else {
+                    callback("No Data Found", data2);
+                }
+            });
         } else {
-            Const.save(callback);
+
+            Const.save(function(err, data2) {
+                if (err) {
+                    callback(err, data2);
+                } else {
+                    Config.manageArrayObject(Country, data2.country, data2._id, "zone", "create", function(err, md) {
+                        callback(err, data2);
+                    });
+                }
+            });
+
         }
 
     },
@@ -65,14 +100,25 @@ var models = {
             if (err) {
                 callback(err, null);
             } else if (value) {
-                console.log(value);
                 Model.findOne({
                     _id: data._id
                 }).exec(function(err, data2) {
                     if (err) {
                         callback("Error Occured", null);
                     } else if (data2) {
-                        data2.remove({}, callback);
+                        Config.manageArrayObject(Country, data2.country, data2._id, "zone", "delete", function(err, md) {
+                            if (err) {
+                                callback(err, md);
+                            } else {
+                                data2.remove({}, function(err, data3) {
+                                    if (err) {
+                                        callback(err, data3);
+                                    } else {
+                                        callback(err, data3);
+                                    }
+                                });
+                            }
+                        });
                     }
                 });
             } else if (!value) {

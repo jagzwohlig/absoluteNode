@@ -54,7 +54,8 @@ var models = {
         });
     },
     manageArrayObject: function(Model, id, data, key, action, callback) {
-
+        console.log(data);
+        console.log("Checking");
         Model.findOne({
             "_id": id
         }, function(err, data2) {
@@ -71,12 +72,13 @@ var models = {
                     case "delete":
                         {
                             _.remove(data2[key], function(n) {
-                                return n == data;
+                                return (n + "") == (data + "");
                             });
-                            data2.save(callback);
+                            data2.update(data2, {
+                                w: 1
+                            }, callback);
                         }
                         break;
-
                 }
             } else {
                 callback("No Data Found for the ID", null);
