@@ -13,19 +13,28 @@ var schema = new Schema({
         required: true,
         unique: true
     },
-    companyCode: String,
-    NEFT: String,
-    shortName: String,
-    image: String,
+    shortName: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    logo: String,
+
+    accountName: String,
+    accountNumber: String,
+    neftCode: String,
+    bankName: String,
+    branchName: String,
 
     serviceTax: String,
     pan: String,
-    services: String,
     cin: String,
+    tan: String,
+    services: String,
     website: String,
+
     status: Boolean,
 
-    address: String,
     city: {
         type: Schema.Types.ObjectId,
         ref: "City",
@@ -33,12 +42,9 @@ var schema = new Schema({
         required: true
     },
 
-    mobile: String,
-    officeno: String,
-    home: String,
+    phone: String,
     fax: String,
     email: String,
-    extension: String,
 
 });
 
