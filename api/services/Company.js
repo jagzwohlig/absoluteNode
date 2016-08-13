@@ -8,7 +8,11 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var schema = new Schema({
-    name: String,
+    name: {
+        type: String,
+        required: true,
+        unique: true
+    },
     companyCode: String,
     NEFT: String,
     shortName: String,
@@ -22,11 +26,12 @@ var schema = new Schema({
     status: Boolean,
 
     address: String,
-    country: String,
-    state: String,
-    city: String,
-    pincode: String,
-    finalAddress: String,
+    city: {
+        type: Schema.Types.ObjectId,
+        ref: "City",
+        index: true,
+        required: true
+    },
 
     mobile: String,
     officeno: String,

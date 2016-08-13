@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var deepPopulate = require('mongoose-deep-populate')(mongoose);
 var uniqueValidator = require('mongoose-unique-validator');
 var timestamps = require('mongoose-timestamp');
 var Schema = mongoose.Schema;
@@ -13,16 +14,26 @@ var schema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "Category",
         index: true,
-        required:true
+        required: true
     },
     status: {
         type: Boolean,
-        default:true
+        default: true
     },
 });
 
 schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
+schema.plugin(deepPopulate, {
+    populate: {
+        'category': {
+            select: 'name _id industry'
+        },
+        'category.industry': {
+            select: 'name _id'
+        }
+    }
+});
 module.exports = mongoose.model('Product', schema);
 
 var models = {
@@ -148,7 +159,7 @@ var models = {
             .keyword(options)
             .filter(options)
             .order(options)
-            .populate("category", "name _id")
+            .deepPopulate('category.industry')
             .page(options, callback);
 
     }

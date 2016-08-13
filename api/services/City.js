@@ -33,7 +33,7 @@ schema.plugin(deepPopulate, {
 
     populate: {
         'district': {
-            select: 'name _id zone state'
+            select: 'name _id state'
         },
         'district.state': {
             select: 'name _id zone'
