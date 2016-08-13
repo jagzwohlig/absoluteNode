@@ -5,6 +5,7 @@
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
  */
 var mongoose = require('mongoose');
+var deepPopulate = require('mongoose-deep-populate')(mongoose);
 var uniqueValidator = require('mongoose-unique-validator');
 var timestamps = require('mongoose-timestamp');
 var Schema = mongoose.Schema;
@@ -34,6 +35,21 @@ var schema = new Schema({
 
 schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
+schema.plugin(deepPopulate, {
+
+    populate: {
+        'state': {
+            select: 'name _id zone'
+        },
+        'state.zone': {
+            select: 'name _id country'
+        },
+        'zone.country': {
+            select: 'name _id'
+        }
+    }
+
+});
 module.exports = mongoose.model('District', schema);
 
 var models = {
@@ -157,7 +173,7 @@ var models = {
             .keyword(options)
             .filter(options)
             .order(options)
-            .populate("state", "name _id")
+            .deepPopulate('state.zone.country')
             .page(options, callback);
 
     }
