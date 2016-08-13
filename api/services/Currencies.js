@@ -12,7 +12,7 @@ var schema = new Schema({
     },
     symbol: {
         type: String,
-        required: true,
+        default: ""
     },
 
 });
@@ -35,11 +35,6 @@ var models = {
         }
 
     },
-    getAll: function(data, callback) {
-        var Model = this;
-        var Const = this(data);
-        Model.find({}, {}, {}).exec(callback);
-    },
     deleteData: function(data, callback) {
         var Model = this;
         var Const = this(data);
@@ -53,7 +48,11 @@ var models = {
                 Model.findOne({
                     _id: data._id
                 }).exec(function(err, data2) {
-                    data2.remove({}, callback);
+                    if (err) {
+                        callback("Error Occured", null);
+                    } else if (data2) {
+                        data2.remove({}, callback);
+                    }
                 });
             } else if (!value) {
                 callback("Can not delete the Object as Restricted Deleted Points are available.", null);
@@ -67,7 +66,43 @@ var models = {
             _id: data._id
         }).exec(callback);
     },
+    search: function(data, callback) {
+        var Model = this;
+        var Const = this(data);
+        var maxRow = Config.maxRow;
 
+        var page = 1;
+        if (data.page) {
+            page = data.page;
+        }
+        var field = data.field;
+
+
+        var options = {
+            field: data.field,
+            filters: {
+                keyword: {
+                    fields: ['name'],
+                    term: data.keyword
+                },
+                mandatory: {
+                    exact: data.filter
+                }
+            },
+            sort: {
+                asc: 'name'
+            },
+            start: (page - 1) * maxRow,
+            count: maxRow
+        };
+
+        var Search = Model.find()
+            .keyword(options)
+            .filter(options)
+            .order(options)
+            .page(options, callback);
+
+    }
 };
 module.exports = _.assign(module.exports, models);
 sails.Currencies = module.exports;
