@@ -1,11 +1,9 @@
-/**
- * Office.js
- *
- * @description :: TODO: You might write a short summary of how this model works and what it represents here.
- * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
- */
 var mongoose = require('mongoose');
+var uniqueValidator = require('mongoose-unique-validator');
+var timestamps = require('mongoose-timestamp');
+require('mongoose-middleware').initialize(mongoose);
 var Schema = mongoose.Schema;
+
 
 var schema = new Schema({
     name: {
@@ -36,67 +34,97 @@ var schema = new Schema({
     phone: String,
     fax: String,
     email: String,
-    status: Boolean
+    status: {
+        type: Boolean,
+        default:true
+    },
 });
 
+schema.plugin(uniqueValidator);
+schema.plugin(timestamps);
 module.exports = mongoose.model('Office', schema);
-var models = {
 
+var models = {
     saveData: function(data, callback) {
-        var company = this(data);
+        var Model = this;
+        var Const = this(data);
         if (data._id) {
-            this.findOneAndUpdate({
+            Model.findOneAndUpdate({
                 _id: data._id
-            }, data, function(err, data2) {
-                if (err) {
-                    callback(err, null);
-                } else {
-                    callback(null, data2);
-                }
-            });
+            }, data, callback);
         } else {
-            company.save(function(err, data2) {
-                if (err) {
-                    callback(err, null);
-                } else {
-                    callback(null, data2);
-                }
-            });
+            Const.save(callback);
         }
 
     },
-    getAll: function(data, callback) {
-        this.find({}, {}, {}).exec(function(err, deleted) {
-            if (err) {
-                callback(err, null);
-            } else {
-                callback(null, deleted);
-            }
-        });
-    },
     deleteData: function(data, callback) {
-        this.findOneAndRemove({
+        var Model = this;
+        var Const = this(data);
+        Config.checkRestrictedDelete(Model, schema, {
             _id: data._id
-        }, function(err, deleted) {
+        }, function(err, value) {
             if (err) {
                 callback(err, null);
-            } else {
-                callback(null, deleted);
+            } else if (value) {
+                console.log(value);
+                Model.findOne({
+                    _id: data._id
+                }).exec(function(err, data2) {
+                    if (err) {
+                        callback("Error Occured", null);
+                    } else if (data2) {
+                        data2.remove({}, callback);
+                    }
+                });
+            } else if (!value) {
+                callback("Can not delete the Object as Restricted Deleted Points are available.", null);
             }
         });
     },
     getOne: function(data, callback) {
-        this.findOne({
+        var Model = this;
+        var Const = this(data);
+        Model.findOne({
             _id: data._id
-        }).exec(function(err, data2) {
-            if (err) {
-                console.log(err);
-                callback(err, null);
-            } else {
-                callback(null, data2);
-            }
-        });
+        }).exec(callback);
     },
+    search: function(data, callback) {
+        var Model = this;
+        var Const = this(data);
+        var maxRow = Config.maxRow;
 
+        var page = 1;
+        if (data.page) {
+            page = data.page;
+        }
+        var field = data.field;
+
+
+        var options = {
+            field: data.field,
+            filters: {
+                keyword: {
+                    fields: ['name'],
+                    term: data.keyword
+                },
+                mandatory: {
+                    exact: data.filter
+                }
+            },
+            sort: {
+                asc: 'name'
+            },
+            start: (page - 1) * maxRow,
+            count: maxRow
+        };
+
+        var Search = Model.find()
+            .keyword(options)
+            .filter(options)
+            .order(options)
+            .page(options, callback);
+
+    }
 };
 module.exports = _.assign(module.exports, models);
+sails.Office = module.exports;
