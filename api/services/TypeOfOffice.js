@@ -112,4 +112,4 @@ var models = {
     }
 };
 module.exports = _.assign(module.exports, models);
-sails.Typeofoffice = module.exports;
+sails.TypeOfOffice = module.exports;
