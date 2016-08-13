@@ -35,72 +35,49 @@ schema.plugin(timestamps);
 module.exports = mongoose.model('State', schema);
 
 var models = {
-    checkRestrictedDelete: function(data, callback) {
-        var Model = this;
-        var values = schema.tree;
-        var arr = [];
-        var ret = true;
-        _.each(values, function(n, key) {
-            if (n.restrictedDelete) {
-                arr.push(key);
-            }
-        });
-        Model.findOne({
-            "_id": data._id
-        }, function(err, data2) {
-            if (err) {
-                callback(err, null);
-            } else {
-                _.each(arr, function(n) {
-                    console.log(n);
-                    if (data2[n].length !== 0) {
-                        ret = false;
-                    }
-                });
-                callback(null, ret);
-            }
-        });
-    },
-    manageArrayObject: function(id, data, key, action, callback) {
-        var Model = this;
-
-        Model.findOne({
-            "_id": id
-        }, function(err, data2) {
-            if (err) {
-                callback(err, null);
-            } else {
-                switch (action) {
-                    case "create":
-                        {
-                            data2[key].push(data);
-                            data2.save(callback);
-                        }
-                        break;
-                    case "delete":
-                        {
-                            _.remove(data2[key], function(n) {
-                                return n == data;
-                            });
-                            data2.save(callback);
-                        }
-                        break;
-
-                }
-            }
-        });
-
-
-    },
     saveData: function(data, callback) {
         var Model = this;
         var Const = this(data);
         if (data._id) {
-            Model.findOneAndUpdate({
+            Model.findOne({
                 _id: data._id
-            }, data, callback);
+            }, function(err, data2) {
+                if (err) {
+                    callback(err, data2);
+                } else if (data2) {
+                    if (data.zone != data2.zone) {
+                        Config.manageArrayObject(Zone, data2.zone, data._id, "state", "delete", function(err, md) {
+                            if (err) {
+                                callback(err, md);
+                            } else {
+                                Config.manageArrayObject(Zone, data.zone, data._id, "state", "create", function(err, md) {
+                                    if (err) {
+                                        callback(err, md);
+                                    } else {
+                                        data2.update(data, {
+                                            w: 1
+                                        }, callback);
+                                    }
+                                });
+                            }
+                        });
+                    }
+                } else {
+                    callback("No Data Found", data2);
+                }
+            });
         } else {
-            Const.save(callback);
+
+            Const.save(function(err, data2) {
+                if (err) {
+                    callback(err, data2);
+                } else {
+                    Config.manageArrayObject(Zone, data2.zone, data2._id, "state", "create", function(err, md) {
+                        callback(err, data2);
+                    });
+                }
+            });
+
         }
 
     },
@@ -112,7 +89,7 @@ var models = {
     deleteData: function(data, callback) {
         var Model = this;
         var Const = this(data);
-        Config.checkRestrictedDelete(Model,schema, {
+        Config.checkRestrictedDelete(Model, schema, {
             _id: data._id
         }, function(err, value) {
             if (err) {
@@ -120,8 +97,24 @@ var models = {
             } else if (value) {
                 Model.findOne({
                     _id: data._id
-                }).exec(function(err, data) {
-                    data.remove({}, callback);
+                }).exec(function(err, data2) {
+                    if (err) {
+                        callback("Error Occured", null);
+                    } else if (data2) {
+                        Config.manageArrayObject(Zone, data2.zone, data2._id, "state", "delete", function(err, md) {
+                            if (err) {
+                                callback(err, md);
+                            } else {
+                                data2.remove({}, function(err, data3) {
+                                    if (err) {
+                                        callback(err, data3);
+                                    } else {
+                                        callback(err, data3);
+                                    }
+                                });
+                            }
+                        });
+                    }
                 });
             } else if (!value) {
                 callback("Can not delete the Object as Restricted Deleted Points are available.", null);
@@ -133,7 +126,7 @@ var models = {
         var Const = this(data);
         Model.findOne({
             _id: data._id
-        }).exec(callback);
+        }).populate("zone", "name _id").exec(callback);
     },
     search: function(data, callback) {
         var Model = this;
@@ -141,6 +134,9 @@ var models = {
         var maxRow = Config.maxRow;
 
         var page = 1;
+        if (data.page) {
+            page = data.page;
+        }
         var field = data.field;
 
 
@@ -166,10 +162,12 @@ var models = {
             .keyword(options)
             .filter(options)
             .order(options)
+            .populate("zone", "name _id")
             .page(options, callback);
 
     }
 
 };
+
 module.exports = _.assign(module.exports, models);
 sails.State = module.exports;
