@@ -44,7 +44,7 @@ schema.plugin(deepPopulate, {
         'state.zone': {
             select: 'name _id country'
         },
-        'zone.country': {
+        'state.zone.country': {
             select: 'name _id'
         }
     }
