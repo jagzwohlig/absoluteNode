@@ -76,11 +76,6 @@ var models = {
         }
 
     },
-    getAll: function(data, callback) {
-        var Model = this;
-        var Const = this(data);
-        Model.find({}, {}, {}).exec(callback);
-    },
     deleteData: function(data, callback) {
         var Model = this;
         var Const = this(data);

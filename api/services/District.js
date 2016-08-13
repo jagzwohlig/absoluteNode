@@ -123,13 +123,6 @@ var models = {
             }
         });
     },
-    getOne: function(data, callback) {
-        var Model = this;
-        var Const = this(data);
-        Model.findOne({
-            _id: data._id
-        }).populate("state", "name _id").exec(callback);
-    },
     search: function(data, callback) {
         var Model = this;
         var Const = this(data);

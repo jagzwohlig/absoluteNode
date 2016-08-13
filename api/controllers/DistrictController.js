@@ -9,9 +9,6 @@ module.exports = {
     save: function(req, res) {
         req.model.saveData(req.body, res.callback);
     },
-    getAll: function(req, res) {
-        req.model.getAll(req.body, res.callback);
-    },
     delete: function(req, res) {
         if (mongoose.Types.ObjectId.isValid(req.body._id)) {
             req.model.deleteData(req.body, res.callback);

@@ -6,14 +6,8 @@
  */
 var mongoose = require("mongoose");
 module.exports = {
-    check: function(req, res) {
-        Config.manageArrayObject(Country,"57adfe71e7a0a8572341c32e","57aeab887aaf3a61081c73e6", "zone", "delete", res.callback);
-    },
     save: function(req, res) {
         req.model.saveData(req.body, res.callback);
-    },
-    getAll: function(req, res) {
-        req.model.getAll(req.body, res.callback);
     },
     delete: function(req, res) {
         if (mongoose.Types.ObjectId.isValid(req.body._id)) {
