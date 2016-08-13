@@ -44,7 +44,7 @@ var schema = new Schema({
 
     phone: String,
     fax: String,
-    email: String,
+    email: String
 
 });
 
