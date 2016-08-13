@@ -12,9 +12,13 @@ var schema = new Schema({
     industry: {
         type: Schema.Types.ObjectId,
         ref: "Industry",
-        index: true
+        index: true,
+        required:true
     },
-    status: Boolean,
+    status: {
+        type: Boolean,
+        default:true
+    },
     product: {
         type: [{
             type: Schema.Types.ObjectId,

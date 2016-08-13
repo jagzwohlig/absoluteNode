@@ -20,7 +20,8 @@ var schema = new Schema({
     state: {
         type: Schema.Types.ObjectId,
         ref: "State",
-        index: true
+        index: true,
+        required: true
     },
     city: {
         type: [{

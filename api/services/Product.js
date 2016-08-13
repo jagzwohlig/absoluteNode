@@ -12,9 +12,13 @@ var schema = new Schema({
     category: {
         type: Schema.Types.ObjectId,
         ref: "Category",
-        index: true
+        index: true,
+        required:true
     },
-    status: Boolean
+    status: {
+        type: Boolean,
+        default:true
+    },
 });
 
 schema.plugin(uniqueValidator);

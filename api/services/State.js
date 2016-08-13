@@ -20,7 +20,8 @@ var schema = new Schema({
     zone: {
         type: Schema.Types.ObjectId,
         ref: "Zone",
-        index: true
+        index: true,
+        required:true
     },
     district: {
         type: [{

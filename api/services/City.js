@@ -19,7 +19,8 @@ var schema = new Schema({
     district: {
         type: Schema.Types.ObjectId,
         ref: "District",
-        index: true
+        index: true,
+        required:true
     },
     stdCode: Number,
     lat: Number,

@@ -9,7 +9,10 @@ var schema = new Schema({
         required: true,
         unique: true
     },
-    status: Boolean,
+    status: {
+        type: Boolean,
+        default:true
+    },
     zone: {
         type: [{
             type: Schema.Types.ObjectId,

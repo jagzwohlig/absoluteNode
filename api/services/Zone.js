@@ -19,7 +19,7 @@ var schema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "Country",
         required: true,
-        index: true
+        index: true,
     },
     state: {
         type: [{
