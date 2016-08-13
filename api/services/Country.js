@@ -89,6 +89,9 @@ var models = {
         var maxRow = Config.maxRow;
 
         var page = 1;
+        if (data.page) {
+            page = data.page;
+        }
         var field = data.field;
 
 
@@ -96,7 +99,7 @@ var models = {
             field: data.field,
             filters: {
                 keyword: {
-                    fields: ['name', 'countryCode',"ISDCodes"],
+                    fields: ['name', 'countryCode', "ISDCodes"],
                     term: data.keyword
                 },
                 mandatory: {

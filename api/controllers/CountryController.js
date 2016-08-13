@@ -4,6 +4,7 @@
  * @description :: Server-side logic for managing countries
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
+var mongoose = require("mongoose");
 module.exports = {
     save: function(req, res) {
         req.model.saveData(req.body, res.callback);
