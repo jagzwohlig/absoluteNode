@@ -42,7 +42,15 @@ var schema = new Schema({
     },
     phone: String,
     fax: String,
-    email: String
+    email: String,
+    office: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: "Office",
+        }],
+        index: true,
+        restrictedDelete: true
+    }
 
 });
 

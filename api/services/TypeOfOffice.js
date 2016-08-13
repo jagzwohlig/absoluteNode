@@ -15,6 +15,14 @@ var schema = new Schema({
         type: Boolean,
         default: true
     },
+    office: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: "Office",
+        }],
+        index: true,
+        restrictedDelete: true
+    }
 });
 
 schema.plugin(uniqueValidator);

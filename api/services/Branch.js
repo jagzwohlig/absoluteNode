@@ -27,12 +27,6 @@ var schema = new Schema({
         required: true,
         unique: true
     },
-    companyName: {
-        type: Schema.Types.ObjectId,
-        ref: "Company",
-        required: true,
-        unique: true
-    },
 
     isBillable: String,
 

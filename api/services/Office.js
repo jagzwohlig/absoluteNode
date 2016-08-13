@@ -11,13 +11,13 @@ var schema = new Schema({
         required: true,
         unique: true
     },
-    officeType: {
+    typeOfOffice: {
         type: Schema.Types.ObjectId,
         ref: "TypeOfOffice",
         required: true,
         unique: true
     },
-    companyName: {
+    company: {
         type: Schema.Types.ObjectId,
         ref: "Company",
         required: true,
@@ -30,13 +30,20 @@ var schema = new Schema({
         index: true,
         required: true
     },
-
+    branch: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: "Branch",
+        }],
+        index: true,
+        restrictedDelete: true
+    },
     phone: String,
     fax: String,
     email: String,
     status: {
         type: Boolean,
-        default:true
+        default: true
     },
 });
 

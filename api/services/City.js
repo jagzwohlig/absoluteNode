@@ -20,7 +20,23 @@ var schema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "District",
         index: true,
-        required:true
+        required: true
+    },
+    company: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: "Company",
+        }],
+        index: true,
+        restrictedDelete: true
+    },
+    office: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: "Office",
+        }],
+        index: true,
+        restrictedDelete: true
     },
     stdCode: Number,
     lat: Number,

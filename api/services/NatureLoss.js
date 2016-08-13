@@ -14,9 +14,9 @@
     // department: String,
     // causeLoss: String,
     status: Boolean,
-  })
+  });
 
-  module.exports = mongoose.model('NatureLoss', schema)
+  module.exports = mongoose.model('NatureLoss', schema);
 
   var models = {
 
