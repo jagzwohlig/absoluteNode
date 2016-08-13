@@ -26,6 +26,7 @@
     "lwip": "0.0.9",
     "md5": "^2.1.0",
     "mongoose": "^4.5.4",
+    "mongoose-deep-populate": "^3.0.0",
     "mongoose-middleware": "^0.2.19",
     "mongoose-populate-virtuals": "^1.0.3",
     "mongoose-timestamp": "^0.6.0",
