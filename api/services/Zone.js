@@ -136,7 +136,7 @@ var models = {
         }
         var field = data.field;
 
-
+        console.log(data.filter);
         var options = {
             field: data.field,
             filters: {
@@ -155,9 +155,8 @@ var models = {
             count: maxRow
         };
 
-        var Search = Model.find()
+        var Search = Model.find(data.filter)
             .keyword(options)
-            .filter(options)
             .order(options)
             .populate("country", "name _id")
             .page(options, callback);
