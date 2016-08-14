@@ -45,6 +45,12 @@ var schema = new Schema({
         type: Boolean,
         default: true
     },
+    lat: {
+        type: Number,
+    },
+    lng: {
+        type: Number,
+    },
 });
 
 schema.plugin(deepPopulate, {

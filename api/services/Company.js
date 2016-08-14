@@ -68,6 +68,12 @@ var schema = new Schema({
     journalVoucher: {
         type: Number,
     },
+    lat: {
+        type: Number,
+    },
+    lng: {
+        type: Number,
+    },
 });
 
 schema.plugin(deepPopulate, {
