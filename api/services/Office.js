@@ -87,62 +87,45 @@ var models = {
                     if (data.typeOfOffice != data2.typeOfOffice || data.company != data2.company || data.city != data2.city) {
                         async.parallel([
                             function(callback) {
+                              console.log("Demo");
                                 if (data.typeOfOffice != data2.typeOfOffice) {
                                     Config.manageArrayObject(TypeOfOffice, data2.typeOfOffice, data2._id, "office", "delete", function(err, md) {
                                         if (err) {
                                             callback(err, md);
                                         } else {
-                                            Config.manageArrayObject(TypeOfOffice, data2.typeOfOffice, data2._id, "office", "create", function(err, md) {
-                                                if (err) {
-                                                    callback(err, md);
-                                                } else {
-
-                                                }
-                                            });
+                                            Config.manageArrayObject(TypeOfOffice, data2.typeOfOffice, data2._id, "office", "create",callback);
                                         }
                                     });
                                 } else {
-                                    callback("null", "no found");
+                                    callback(null, "no found");
                                 }
 
                             },
                             function(callback) {
-                                if (data.typeOfOffice != data2.typeOfOffice) {
+                                if (data.company != data2.company) {
                                     Config.manageArrayObject(Company, data2.company, data2._id, "office", "delete", function(err, md) {
                                         if (err) {
                                             callback(err, md);
                                         } else {
-                                            Config.manageArrayObject(Company, data2.company, data2._id, "office", "create", function(err, md) {
-                                                if (err) {
-                                                    callback(err, md);
-                                                } else {
-
-                                                }
-                                            });
+                                            Config.manageArrayObject(Company, data2.company, data2._id, "office", "create",callback);
                                         }
                                     });
                                 } else {
-                                    callback("null", "no found");
+                                    callback(null, "no found");
                                 }
 
                             },
                             function(callback) {
-                                if (data.typeOfOffice != data2.typeOfOffice) {
+                                if (data.city != data2.city) {
                                     Config.manageArrayObject(City, data2.city, data2._id, "office", "delete", function(err, md) {
                                         if (err) {
                                             callback(err, md);
                                         } else {
-                                            Config.manageArrayObject(City, data2.city, data2._id, "office", "office", "create", function(err, md) {
-                                                if (err) {
-                                                    callback(err, md);
-                                                } else {
-
-                                                }
-                                            });
+                                            Config.manageArrayObject(City, data2.city, data2._id, "office", "office", "create",callback);
                                         }
                                     });
                                 } else {
-                                    callback("null", "no found");
+                                    callback(null, "no found");
                                 }
                             }
                         ], function(err, results) {
