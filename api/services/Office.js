@@ -16,15 +16,11 @@ var schema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "TypeOfOffice",
         required: true,
-        unique: true,
-        uniqueCaseInsensitive: true
     },
     company: {
         type: Schema.Types.ObjectId,
         ref: "Company",
         required: true,
-        unique: true,
-        uniqueCaseInsensitive: true
     },
 
     city: {

@@ -46,6 +46,7 @@ var schema = new Schema({
     },
 });
 
+
 schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('Branch', schema);
