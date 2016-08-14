@@ -15,7 +15,8 @@ var schema = new Schema({
     name: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        uniqueCaseInsensitive: true
     },
     zone: {
         type: Schema.Types.ObjectId,

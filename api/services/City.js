@@ -14,7 +14,8 @@ var schema = new Schema({
     name: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        uniqueCaseInsensitive: true
     },
     district: {
         type: Schema.Types.ObjectId,

@@ -8,12 +8,14 @@ var schema = new Schema({
     name: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        uniqueCaseInsensitive: true
     },
     shortName: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        uniqueCaseInsensitive: true
     },
     logo: String,
     accountName: String,
@@ -37,6 +39,8 @@ var schema = new Schema({
         index: true,
         required: true
     },
+    address: String,
+    pincode: String,
     phone: String,
     fax: String,
     email: String,

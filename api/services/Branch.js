@@ -9,23 +9,25 @@ var schema = new Schema({
     name: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        uniqueCaseInsensitive: true
     },
     code: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        uniqueCaseInsensitive: true
     },
     shortName: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        uniqueCaseInsensitive: true
     },
     office: {
         type: Schema.Types.ObjectId,
         ref: "Office",
         required: true,
-        unique: true
     },
 
     isBillable: String,

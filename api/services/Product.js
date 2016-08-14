@@ -8,7 +8,8 @@ var schema = new Schema({
     name: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        uniqueCaseInsensitive: true
     },
     category: {
         type: Schema.Types.ObjectId,

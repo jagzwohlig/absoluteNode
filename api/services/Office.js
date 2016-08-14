@@ -9,19 +9,22 @@ var schema = new Schema({
     name: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        uniqueCaseInsensitive: true
     },
     typeOfOffice: {
         type: Schema.Types.ObjectId,
         ref: "TypeOfOffice",
         required: true,
-        unique: true
+        unique: true,
+        uniqueCaseInsensitive: true
     },
     company: {
         type: Schema.Types.ObjectId,
         ref: "Company",
         required: true,
-        unique: true
+        unique: true,
+        uniqueCaseInsensitive: true
     },
 
     city: {
