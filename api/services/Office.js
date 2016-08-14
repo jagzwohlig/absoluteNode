@@ -36,6 +36,8 @@ var schema = new Schema({
         index: true,
         restrictedDelete: true
     },
+    address: String,
+    pincode: String,
     phone: String,
     fax: String,
     email: String,
