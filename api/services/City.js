@@ -38,7 +38,11 @@ var schema = new Schema({
         index: true,
         restrictedDelete: true
     },
-    stdCode: Number
+    stdCode: Number,
+    timezone: {
+        type: Number,
+        default: 5.5
+    }
 });
 
 schema.plugin(uniqueValidator);
@@ -90,11 +94,10 @@ var models = {
                                 });
                             }
                         });
-                    }
-                    else {
-                      data2.update(data, {
-                          w: 1
-                      }, callback);
+                    } else {
+                        data2.update(data, {
+                            w: 1
+                        }, callback);
                     }
                 } else {
                     callback("No Data Found", data2);

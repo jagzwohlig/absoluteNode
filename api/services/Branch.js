@@ -40,24 +40,63 @@ var schema = new Schema({
 
     status: {
         type: Boolean,
-        default:true
+        default: true
     },
 });
 
 schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('Branch', schema);
-
 var models = {
     saveData: function(data, callback) {
         var Model = this;
         var Const = this(data);
+        console.log(data);
         if (data._id) {
-            Model.findOneAndUpdate({
+            Model.findOne({
                 _id: data._id
-            }, data, callback);
+            }, function(err, data2) {
+                console.log(data2);
+                if (err) {
+                    callback(err, data2);
+                } else if (data2) {
+                    if (data.office != data2.office) {
+                        Config.manageArrayObject(Office, data2.office, data._id, "branch", "delete", function(err, md) {
+                            if (err) {
+                                callback(err, md);
+                            } else {
+                                Config.manageArrayObject(Office, data.office, data._id, "branch", "create", function(err, md) {
+                                    if (err) {
+                                        callback(err, md);
+                                    } else {
+                                        data2.update(data, {
+                                            w: 1
+                                        }, callback);
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        data2.update(data, {
+                            w: 1
+                        }, callback);
+                    }
+                } else {
+                    callback("No Data Found", data2);
+                }
+            });
         } else {
-            Const.save(callback);
+
+            Const.save(function(err, data2) {
+                if (err) {
+                    callback(err, data2);
+                } else {
+                    Config.manageArrayObject(Office, data2.office, data2._id, "branch", "create", function(err, md) {
+                        callback(err, data2);
+                    });
+                }
+            });
+
         }
 
     },
@@ -70,14 +109,25 @@ var models = {
             if (err) {
                 callback(err, null);
             } else if (value) {
-                console.log(value);
                 Model.findOne({
                     _id: data._id
                 }).exec(function(err, data2) {
                     if (err) {
                         callback("Error Occured", null);
                     } else if (data2) {
-                        data2.remove({}, callback);
+                        Config.manageArrayObject(Office, data2.office, data2._id, "branch", "delete", function(err, md) {
+                            if (err) {
+                                callback(err, md);
+                            } else {
+                                data2.remove({}, function(err, data3) {
+                                    if (err) {
+                                        callback(err, data3);
+                                    } else {
+                                        callback(err, data3);
+                                    }
+                                });
+                            }
+                        });
                     }
                 });
             } else if (!value) {
@@ -88,9 +138,10 @@ var models = {
     getOne: function(data, callback) {
         var Model = this;
         var Const = this(data);
+
         Model.findOne({
             _id: data._id
-        }).exec(callback);
+        }).populate('office').exec(callback);
     },
     search: function(data, callback) {
         var Model = this;
@@ -110,9 +161,6 @@ var models = {
                 keyword: {
                     fields: ['name'],
                     term: data.keyword
-                },
-                mandatory: {
-                    exact: data.filter
                 }
             },
             sort: {
@@ -122,13 +170,14 @@ var models = {
             count: maxRow
         };
 
-        var Search = Model.find()
+        var Search = Model.find(data.filter)
             .keyword(options)
-            .filter(options)
             .order(options)
+            .populate("office")
             .page(options, callback);
 
     }
+
 };
 module.exports = _.assign(module.exports, models);
 sails.Branch = module.exports;
