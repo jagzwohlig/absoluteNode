@@ -21,7 +21,7 @@ var schema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "Zone",
         index: true,
-        required:true
+        required: true
     },
     district: {
         type: [{
@@ -38,24 +38,26 @@ schema.plugin(timestamps);
 module.exports = mongoose.model('State', schema);
 schema.plugin(deepPopulate, {
 
-  populate: {
-    'zone': {
-      select: 'name _id country'
-    },
-    'zone.country': {
-      select: 'name _id'
+    populate: {
+        'zone': {
+            select: 'name _id country'
+        },
+        'zone.country': {
+            select: 'name _id'
+        }
     }
-  }
 
 });
 var models = {
     saveData: function(data, callback) {
         var Model = this;
         var Const = this(data);
+        console.log(data);
         if (data._id) {
             Model.findOne({
                 _id: data._id
             }, function(err, data2) {
+              console.log(data2);
                 if (err) {
                     callback(err, data2);
                 } else if (data2) {
@@ -75,6 +77,10 @@ var models = {
                                 });
                             }
                         });
+                    } else {
+                      data2.update(data, {
+                          w: 1
+                      }, callback);
                     }
                 } else {
                     callback("No Data Found", data2);
@@ -133,6 +139,7 @@ var models = {
     getOne: function(data, callback) {
         var Model = this;
         var Const = this(data);
+
         Model.findOne({
             _id: data._id
         }).deepPopulate('zone.country').exec(callback);
@@ -167,7 +174,8 @@ var models = {
         var Search = Model.find(data.filter)
             .keyword(options)
             .order(options)
-            .deepPopulate('zone.country')
+
+        .deepPopulate('zone.country')
             .page(options, callback);
 
     }

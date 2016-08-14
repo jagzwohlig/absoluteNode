@@ -81,6 +81,11 @@ var models = {
                             }
                         });
                     }
+                    else {
+                      data2.update(data, {
+                          w: 1
+                      }, callback);
+                    }
                 } else {
                     callback("No Data Found", data2);
                 }
