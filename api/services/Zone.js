@@ -143,9 +143,6 @@ var models = {
                 keyword: {
                     fields: ['name'],
                     term: data.keyword
-                },
-                mandatory: {
-                    exact: data.filter
                 }
             },
             sort: {

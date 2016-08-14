@@ -96,9 +96,6 @@ var models = {
                     fields: ['name', 'countryCode', "ISDCodes"],
                     term: data.keyword
                 },
-                mandatory: {
-                    exact: data.filter
-                }
             },
             sort: {
                 asc: 'name'
@@ -107,9 +104,8 @@ var models = {
             count: maxRow
         };
 
-        var Search = Model.find()
+        var Search = Model.find(data.filter)
             .keyword(options)
-            .filter(options)
             .order(options)
             .page(options, callback);
 

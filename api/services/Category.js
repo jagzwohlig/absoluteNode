@@ -141,9 +141,6 @@ var models = {
                 keyword: {
                     fields: ['name'],
                     term: data.keyword
-                },
-                mandatory: {
-                    exact: data.filter
                 }
             },
             sort: {
@@ -153,9 +150,8 @@ var models = {
             count: maxRow
         };
 
-        var Search = Model.find()
+        var Search = Model.find(data.filter)
             .keyword(options)
-            .filter(options)
             .order(options)
             .populate("industry", "name _id")
             .page(options, callback);
