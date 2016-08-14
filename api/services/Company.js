@@ -16,13 +16,11 @@ var schema = new Schema({
         unique: true
     },
     logo: String,
-
     accountName: String,
     accountNumber: String,
     neftCode: String,
     bankName: String,
     branchName: String,
-
     serviceTax: String,
     pan: String,
     cin: String,
