@@ -22,7 +22,6 @@ var schema = new Schema({
         ref: "Company",
         required: true,
     },
-
     city: {
         type: Schema.Types.ObjectId,
         ref: "City",
