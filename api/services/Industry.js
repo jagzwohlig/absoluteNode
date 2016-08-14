@@ -13,7 +13,7 @@ var schema = new Schema({
         type: Boolean,
         default:true
     },
-    zone: {
+    category: {
         type: [{
             type: Schema.Types.ObjectId,
             ref: "Category",
