@@ -1,9 +1,9 @@
 var mongoose = require('mongoose');
+var deepPopulate = require('mongoose-deep-populate')(mongoose);
 var uniqueValidator = require('mongoose-unique-validator');
 var timestamps = require('mongoose-timestamp');
 require('mongoose-middleware').initialize(mongoose);
 var Schema = mongoose.Schema;
-
 
 var schema = new Schema({
     name: {
@@ -43,6 +43,28 @@ var schema = new Schema({
         type: Boolean,
         default: true
     },
+});
+
+schema.plugin(deepPopulate, {
+
+    populate: {
+        'city': {
+            select: 'name _id district'
+        },
+        'city.district': {
+            select: 'name _id state'
+        },
+        'city.district.state': {
+            select: 'name _id zone'
+        },
+        'city.district.state.zone': {
+            select: 'name _id country'
+        },
+        'city.district.state.zone.country': {
+            select: 'name _id'
+        }
+    }
+
 });
 
 schema.plugin(uniqueValidator);
@@ -224,7 +246,7 @@ var models = {
         var Const = this(data);
         Model.findOne({
             _id: data._id
-        }).populate("country", "name _id").exec(callback);
+        }).deepPopulate('city.district.state.zone.country').exec(callback);
     },
     search: function(data, callback) {
         var Model = this;
