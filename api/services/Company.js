@@ -29,7 +29,7 @@ var schema = new Schema({
     website: String,
     status: {
         type: Boolean,
-        default:true
+        default: true
     },
     city: {
         type: Schema.Types.ObjectId,
@@ -47,8 +47,22 @@ var schema = new Schema({
         }],
         index: true,
         restrictedDelete: true
-    }
-
+    },
+    fieldOfficeActivity: {
+        type: Number,
+    },
+    backOfficeActivity: {
+        type: Number,
+    },
+    reimbursement: {
+        type: Number,
+    },
+    receipt: {
+        type: Number,
+    },
+    journalVoucher: {
+        type: Number,
+    },
 });
 
 
@@ -82,11 +96,10 @@ var models = {
                                 });
                             }
                         });
-                    }
-                    else {
-                      data2.update(data, {
-                          w: 1
-                      }, callback);
+                    } else {
+                        data2.update(data, {
+                            w: 1
+                        }, callback);
                     }
                 } else {
                     callback("No Data Found", data2);
