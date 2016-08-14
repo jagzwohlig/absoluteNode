@@ -30,7 +30,7 @@ var schema = new Schema({
         required: true,
     },
 
-    isBillable: String,
+    isBillable: Boolean,
 
     seriesFormat: String,
 
