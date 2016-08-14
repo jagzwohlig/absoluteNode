@@ -135,7 +135,7 @@ var models = {
         var Const = this(data);
         Model.findOne({
             _id: data._id
-        }).populate("zone", "name _id").exec(callback);
+        }).deepPopulate('zone.country').exec(callback);
     },
     search: function(data, callback) {
         var Model = this;

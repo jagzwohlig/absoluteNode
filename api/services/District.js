@@ -100,10 +100,12 @@ var models = {
         }
 
     },
-    getAll: function(data, callback) {
+    getOne: function(data, callback) {
         var Model = this;
         var Const = this(data);
-        Model.find({}, {}, {}).exec(callback);
+        Model.findOne({
+            _id: data._id
+        }).deepPopulate('state.zone.country').exec(callback);
     },
     deleteData: function(data, callback) {
         var Model = this;
