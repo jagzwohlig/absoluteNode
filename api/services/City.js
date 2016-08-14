@@ -38,9 +38,7 @@ var schema = new Schema({
         index: true,
         restrictedDelete: true
     },
-    stdCode: Number,
-    lat: Number,
-    long: Number
+    stdCode: Number
 });
 
 schema.plugin(uniqueValidator);
