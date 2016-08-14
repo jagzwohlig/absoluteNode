@@ -62,7 +62,7 @@ var schema = new Schema({
     reimbursement: {
         type: Number,
     },
-    receipt: {
+    reciept: {
         type: Number,
     },
     journalVoucher: {

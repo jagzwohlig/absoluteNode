@@ -1,9 +1,14 @@
+/**
+ * City.js
+ *
+ * @description :: TODO: You might write a short summary of how this model works and what it represents here.
+ * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
+ */
 var mongoose = require('mongoose');
+var deepPopulate = require('mongoose-deep-populate')(mongoose);
 var uniqueValidator = require('mongoose-unique-validator');
 var timestamps = require('mongoose-timestamp');
-require('mongoose-middleware').initialize(mongoose);
 var Schema = mongoose.Schema;
-
 
 var schema = new Schema({
     name: {
@@ -144,7 +149,7 @@ var models = {
 
         Model.findOne({
             _id: data._id
-        }).populate('office').exec(callback);
+        }).populate("office","company _id name").exec(callback);
     },
     search: function(data, callback) {
         var Model = this;
@@ -176,7 +181,7 @@ var models = {
         var Search = Model.find(data.filter)
             .keyword(options)
             .order(options)
-            .populate("office")
+            .populate("office","company _id name")
             .page(options, callback);
 
     }
