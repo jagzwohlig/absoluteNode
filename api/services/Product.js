@@ -128,7 +128,7 @@ var models = {
         var Const = this(data);
         Model.findOne({
             _id: data._id
-        }).populate("category", "name _id").exec(callback);
+        }).deepPopulate('category.industry').exec(callback);
     },
     search: function(data, callback) {
         var Model = this;
