@@ -31,7 +31,7 @@ var schema = new Schema({
     branch: {
         type: [{
             type: Schema.Types.ObjectId,
-            ref: "Branch",
+            ref: "Branch"
         }],
         index: true,
         restrictedDelete: true
@@ -54,7 +54,6 @@ var schema = new Schema({
 });
 
 schema.plugin(deepPopulate, {
-
     populate: {
         'city': {
             select: 'name _id district'
