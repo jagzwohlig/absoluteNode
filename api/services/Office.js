@@ -16,18 +16,20 @@ var schema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "TypeOfOffice",
         required: true,
-
+        key: "office"
     },
     company: {
         type: Schema.Types.ObjectId,
         ref: "Company",
         required: true,
+        key: "office"
     },
     city: {
         type: Schema.Types.ObjectId,
         ref: "City",
         index: true,
-        required: true
+        required: true,
+        key: "office"
     },
     branch: {
         type: [{
@@ -80,9 +82,7 @@ schema.plugin(timestamps);
 module.exports = mongoose.model('Office', schema);
 
 var models = {
-    check: function(callback) {
-      callback(null,schema);
-    },
+    
     saveData: function(data, callback) {
         var Model = this;
         var Const = this(data);

@@ -25,6 +25,19 @@ module.exports = mongoose.model('Config', schema);
 
 var models = {
     maxRow: 10,
+    getWorld: function(schema) {
+        var arr = [];
+        _.each(schema.tree, function(n, name) {
+            if (n.key) {
+                arr.push({
+                    name: name,
+                    ref: n.ref,
+                    key: n.key
+                });
+            }
+        });
+        return arr;
+    },
     checkRestrictedDelete: function(Model, schema, data, callback) {
 
         var values = schema.tree;
