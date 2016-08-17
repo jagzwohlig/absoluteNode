@@ -16,6 +16,7 @@ var schema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "TypeOfOffice",
         required: true,
+
     },
     company: {
         type: Schema.Types.ObjectId,
@@ -79,6 +80,9 @@ schema.plugin(timestamps);
 module.exports = mongoose.model('Office', schema);
 
 var models = {
+    check: function(callback) {
+      callback(null,schema);
+    },
     saveData: function(data, callback) {
         var Model = this;
         var Const = this(data);
@@ -92,19 +96,17 @@ var models = {
                     if (data.typeOfOffice != data2.typeOfOffice || data.company != data2.company || data.city != data2.city) {
                         async.parallel([
                             function(callback) {
-                              console.log("Demo");
                                 if (data.typeOfOffice != data2.typeOfOffice) {
                                     Config.manageArrayObject(TypeOfOffice, data2.typeOfOffice, data2._id, "office", "delete", function(err, md) {
                                         if (err) {
                                             callback(err, md);
                                         } else {
-                                            Config.manageArrayObject(TypeOfOffice, data2.typeOfOffice, data2._id, "office", "create",callback);
+                                            Config.manageArrayObject(TypeOfOffice, data2.typeOfOffice, data2._id, "office", "create", callback);
                                         }
                                     });
                                 } else {
                                     callback(null, "no found");
                                 }
-
                             },
                             function(callback) {
                                 if (data.company != data2.company) {
@@ -112,13 +114,12 @@ var models = {
                                         if (err) {
                                             callback(err, md);
                                         } else {
-                                            Config.manageArrayObject(Company, data2.company, data2._id, "office", "create",callback);
+                                            Config.manageArrayObject(Company, data2.company, data2._id, "office", "create", callback);
                                         }
                                     });
                                 } else {
                                     callback(null, "no found");
                                 }
-
                             },
                             function(callback) {
                                 if (data.city != data2.city) {
@@ -126,7 +127,7 @@ var models = {
                                         if (err) {
                                             callback(err, md);
                                         } else {
-                                            Config.manageArrayObject(City, data2.city, data2._id, "office", "office", "create",callback);
+                                            Config.manageArrayObject(City, data2.city, data2._id, "office", "office", "create", callback);
                                         }
                                     });
                                 } else {

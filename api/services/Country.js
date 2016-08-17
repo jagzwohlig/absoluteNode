@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var uniqueValidator = require('mongoose-unique-validator');
 var timestamps = require('mongoose-timestamp');
+require('mongoose-schematypes-extend')(mongoose);
 require('mongoose-middleware').initialize(mongoose);
 var Schema = mongoose.Schema;
 
@@ -9,7 +10,8 @@ var schema = new Schema({
         type: String,
         required: true,
         unique: true,
-        uniqueCaseInsensitive: true
+        uniqueCaseInsensitive: true,
+        capitalizeAll:true,
     },
     countryCode: {
         type: String,
