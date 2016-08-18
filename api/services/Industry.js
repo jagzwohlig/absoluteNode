@@ -106,4 +106,3 @@ var models = {
     }
 };
 module.exports = _.assign(module.exports, models);
-sails.Industry = module.exports;

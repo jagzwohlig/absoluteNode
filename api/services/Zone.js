@@ -64,11 +64,10 @@ var models = {
                                 });
                             }
                         });
-                    }
-                    else {
-                      data2.update(data, {
-                          w: 1
-                      }, callback);
+                    } else {
+                        data2.update(data, {
+                            w: 1
+                        }, callback);
                     }
                 } else {
                     callback("No Data Found", data2);
@@ -168,4 +167,3 @@ var models = {
 
 };
 module.exports = _.assign(module.exports, models);
-sails.Zone = module.exports;

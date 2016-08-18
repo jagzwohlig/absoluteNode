@@ -197,4 +197,3 @@ var models = {
 
 };
 module.exports = _.assign(module.exports, models);
-sails.City = module.exports;

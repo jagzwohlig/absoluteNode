@@ -5,5 +5,9 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 module.exports = _.cloneDeep(require("sails-wohlig-controller"));
-var controller = {};
-module.exports = _.assign(exports, controller);
+var controller = {
+    check: function(req, res) {
+        Office.check(res.callback);
+    }
+};
+module.exports = _.assign(module.exports, controller);

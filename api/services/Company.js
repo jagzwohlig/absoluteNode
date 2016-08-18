@@ -232,4 +232,3 @@ var models = {
 
 };
 module.exports = _.assign(module.exports, models);
-sails.Company = module.exports;

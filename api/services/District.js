@@ -185,4 +185,3 @@ var models = {
 
 };
 module.exports = _.assign(module.exports, models);
-sails.District = module.exports;

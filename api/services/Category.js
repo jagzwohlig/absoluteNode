@@ -166,4 +166,3 @@ var models = {
 
 };
 module.exports = _.assign(module.exports, models);
-sails.Category = module.exports;

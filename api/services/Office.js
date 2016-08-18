@@ -82,6 +82,13 @@ schema.plugin(timestamps);
 module.exports = mongoose.model('Office', schema);
 
 var models = {
+    check: function(callback) {
+        var arr = [];
+        _.each(sails, function(n, key) {
+            arr.push(key);
+        });
+        callback(null, arr);
+    },
     saveData: function(data, callback) {
         var Model = this;
         var Const = this(data);
