@@ -78,6 +78,7 @@ var models = {
                         {
                             data2[key].push(data);
                             data2[key] = _.unique(data2[key]);
+                            console.log(data2[key]);
                             data2.update(data2, {
                                 w: 1
                             }, callback);

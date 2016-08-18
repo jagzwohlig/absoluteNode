@@ -113,10 +113,6 @@ var models = {
                             callback(null, "no found for ");
                         }
                     }, function(err) {
-                      console.log(data2);
-                      console.log(data);
-
-
                         data2.update(data, {
                             w: 1
                         }, callback);
