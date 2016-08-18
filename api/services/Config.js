@@ -25,6 +25,22 @@ module.exports = mongoose.model('Config', schema);
 
 var models = {
     maxRow: 10,
+    getForeignKeys: function(schema) {
+        var arr = [];
+        _.each(schema.tree, function(n, name) {
+            if (n.key) {
+                arr.push({
+                    name: name,
+                    ref: n.ref,
+                    key: n.key
+                });
+            }
+        });
+
+
+        return arr;
+
+    },
     getWorld: function(schema) {
         var arr = [];
         _.each(schema.tree, function(n, name) {

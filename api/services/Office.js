@@ -82,27 +82,14 @@ schema.plugin(timestamps);
 module.exports = mongoose.model('Office', schema);
 
 var models = {
-    check: function(callback) {
-        var arr = [];
-        _.each(schema.tree, function(n, name) {
-            if (n.key) {
-                arr.push({
-                    name: name,
-                    ref: n.ref,
-                    key: n.key
-                });
-            }
-        });
-        async.each(arr, function(n, callback) {
-            callback();
-        }, function(err, data) {
-            callback(err,arr);
-
-        });
+    check:function() {
+      console.log();
     },
+
     saveData: function(data, callback) {
         var Model = this;
         var Const = this(data);
+        var foreignKeys = Config.getForeignKeys(schema);
         if (data._id) {
             Model.findOne({
                 _id: data._id
@@ -110,59 +97,25 @@ var models = {
                 if (err) {
                     callback(err, data2);
                 } else if (data2) {
-                    if (data.typeOfOffice != data2.typeOfOffice || data.company != data2.company || data.city != data2.city) {
-                        async.parallel([
-                            function(callback) {
-                                if (data.typeOfOffice != data2.typeOfOffice) {
-                                    Config.manageArrayObject(TypeOfOffice, data2.typeOfOffice, data2._id, "office", "delete", function(err, md) {
-                                        if (err) {
-                                            callback(err, md);
-                                        } else {
-                                            Config.manageArrayObject(TypeOfOffice, data2.typeOfOffice, data2._id, "office", "create", callback);
-                                        }
-                                    });
+                    async.each(foreignKeys, function(n, callback) {
+                        if (data[n.name] != data2[n.name]) {
+                            Config.manageArrayObject(sails[n.ref], data2[n.name], data2._id, n.key, "delete", function(err, md) {
+                                if (err) {
+                                    callback(err, md);
                                 } else {
-                                    callback(null, "no found");
+                                    Config.manageArrayObject(sails[n.ref], data2[n.name], data2._id, n.key, "create", callback);
                                 }
-                            },
-                            function(callback) {
-                                if (data.company != data2.company) {
-                                    Config.manageArrayObject(Company, data2.company, data2._id, "office", "delete", function(err, md) {
-                                        if (err) {
-                                            callback(err, md);
-                                        } else {
-                                            Config.manageArrayObject(Company, data2.company, data2._id, "office", "create", callback);
-                                        }
-                                    });
-                                } else {
-                                    callback(null, "no found");
-                                }
-                            },
-                            function(callback) {
-                                if (data.city != data2.city) {
-                                    Config.manageArrayObject(City, data2.city, data2._id, "office", "delete", function(err, md) {
-                                        if (err) {
-                                            callback(err, md);
-                                        } else {
-                                            Config.manageArrayObject(City, data2.city, data2._id, "office", "office", "create", callback);
-                                        }
-                                    });
-                                } else {
-                                    callback(null, "no found");
-                                }
-                            }
-                        ], function(err, results) {
-                            data2.update(data, {
-                                w: 1
-                            }, callback);
-                        });
-
-
-                    } else {
+                            });
+                        } else {
+                            callback(null, "no found for ");
+                        }
+                    }, function(err, data) {
                         data2.update(data, {
                             w: 1
                         }, callback);
-                    }
+                    });
+
+
                 } else {
                     callback("No Data Found", data2);
                 }
@@ -173,25 +126,15 @@ var models = {
                 if (err) {
                     callback(err, data2);
                 } else {
-                    async.parallel([
-                        function(callback) {
-                            Config.manageArrayObject(TypeOfOffice, data2.typeOfOffice, data2._id, "office", "create", function(err, md) {
-                                callback(err, data2);
-                            });
-                        },
-                        function(callback) {
-                            Config.manageArrayObject(Company, data2.company, data2._id, "office", "create", function(err, md) {
-                                callback(err, data2);
-                            });
-                        },
-                        function(callback) {
-                            Config.manageArrayObject(City, data2.city, data2._id, "office", "create", function(err, md) {
-                                callback(err, data2);
-                            });
-                        }
-                    ], function(err, results) {
+
+                    async.each(foreignKeys, function(n, callback) {
+                        Config.manageArrayObject(sails[n.ref], data2[n.name], data2._id, n.key, "create", function(err, md) {
+                            callback(err, data2);
+                        });
+                    }, function(err, data) {
                         callback(err, data2);
                     });
+
                 }
             });
 
@@ -201,6 +144,7 @@ var models = {
     deleteData: function(data, callback) {
         var Model = this;
         var Const = this(data);
+        var foreignKeys = Config.getForeignKeys(schema);
         Config.checkRestrictedDelete(Model, schema, {
             _id: data._id
         }, function(err, value) {
@@ -213,23 +157,11 @@ var models = {
                     if (err) {
                         callback("Error Occured", null);
                     } else if (data2) {
-                        async.parallel([
-                            function(callback) {
-                                Config.manageArrayObject(TypeOfOffice, data2.typeOfOffice, data2._id, "office", "delete", function(err, md) {
-                                    callback(err, data2);
-                                });
-                            },
-                            function(callback) {
-                                Config.manageArrayObject(Company, data2.company, data2._id, "office", "delete", function(err, md) {
-                                    callback(err, data2);
-                                });
-                            },
-                            function(callback) {
-                                Config.manageArrayObject(City, data2.city, data2._id, "office", "delete", function(err, md) {
-                                    callback(err, data2);
-                                });
-                            }
-                        ], function(err, results) {
+                        async.each(foreignKeys, function(n, callback) {
+                            Config.manageArrayObject(sails[n.ref], data2[n.name], data2._id, n.key, "delete", function(err, md) {
+                                callback(err, data2);
+                            });
+                        }, function(err, data) {
                             if (err) {
                                 callback(err, md);
                             } else {
