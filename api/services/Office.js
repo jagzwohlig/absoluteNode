@@ -82,7 +82,24 @@ schema.plugin(timestamps);
 module.exports = mongoose.model('Office', schema);
 
 var models = {
-    
+    check: function(callback) {
+        var arr = [];
+        _.each(schema.tree, function(n, name) {
+            if (n.key) {
+                arr.push({
+                    name: name,
+                    ref: n.ref,
+                    key: n.key
+                });
+            }
+        });
+        async.each(arr, function(n, callback) {
+            callback();
+        }, function(err, data) {
+            callback(err,arr);
+
+        });
+    },
     saveData: function(data, callback) {
         var Model = this;
         var Const = this(data);
