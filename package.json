@@ -38,8 +38,8 @@
     "rc": "1.0.1",
     "sails": "~0.12.3",
     "sails-disk": "~0.10.9",
-    "sails-wohlig-controller": "0.0.1",
-    "sails-wohlig-service": "0.0.3"
+    "sails-wohlig-controller": "~0.0.1",
+    "sails-wohlig-service": "~0.0.4"
   },
   "scripts": {
     "debug": "node debug app.js",
