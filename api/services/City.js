@@ -159,7 +159,7 @@ var models = {
         var Const = this(data);
         Model.findOne({
             _id: data._id
-        }).deepPopulate("district.state.zone.country").exec(callback);
+        }).deepPopulate(data.deep).exec(callback);
     },
     search: function(data, callback) {
         var Model = this;
@@ -191,7 +191,7 @@ var models = {
         var Search = Model.find(data.filter)
             .keyword(options)
             .order(options)
-            .deepPopulate("district.state.zone.country")
+            .deepPopulate(data.deep)
             .page(options, callback);
     }
 
