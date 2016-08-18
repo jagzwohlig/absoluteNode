@@ -36,22 +36,6 @@ var models = {
                 });
             }
         });
-
-
-        return arr;
-
-    },
-    getWorld: function(schema) {
-        var arr = [];
-        _.each(schema.tree, function(n, name) {
-            if (n.key) {
-                arr.push({
-                    name: name,
-                    ref: n.ref,
-                    key: n.key
-                });
-            }
-        });
         return arr;
     },
     checkRestrictedDelete: function(Model, schema, data, callback) {
@@ -83,8 +67,6 @@ var models = {
         });
     },
     manageArrayObject: function(Model, id, data, key, action, callback) {
-        console.log(data);
-        console.log("Checking");
         Model.findOne({
             "_id": id
         }, function(err, data2) {
@@ -95,7 +77,10 @@ var models = {
                     case "create":
                         {
                             data2[key].push(data);
-                            data2.save(callback);
+                            data2[key] = _.unique(data2[key]);
+                            data2.update(data2, {
+                                w: 1
+                            }, callback);
                         }
                         break;
                     case "delete":

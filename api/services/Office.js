@@ -106,13 +106,17 @@ var models = {
                                 if (err) {
                                     callback(err, md);
                                 } else {
-                                    Config.manageArrayObject(mongoose.models[n.ref], data2[n.name], data2._id, n.key, "create", callback);
+                                    Config.manageArrayObject(mongoose.models[n.ref], data[n.name], data2._id, n.key, "create", callback);
                                 }
                             });
                         } else {
                             callback(null, "no found for ");
                         }
-                    }, function(err, data) {
+                    }, function(err) {
+                      console.log(data2);
+                      console.log(data);
+
+
                         data2.update(data, {
                             w: 1
                         }, callback);
@@ -134,7 +138,7 @@ var models = {
                         Config.manageArrayObject(mongoose.models[n.ref], data2[n.name], data2._id, n.key, "create", function(err, md) {
                             callback(err, data2);
                         });
-                    }, function(err, data) {
+                    }, function(err) {
                         callback(err, data2);
                     });
 
@@ -164,7 +168,7 @@ var models = {
                             Config.manageArrayObject(mongoose.models[n.ref], data2[n.name], data2._id, n.key, "delete", function(err, md) {
                                 callback(err, data2);
                             });
-                        }, function(err, data) {
+                        }, function(err) {
                             if (err) {
                                 callback(err, md);
                             } else {

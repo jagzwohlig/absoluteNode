@@ -59,12 +59,10 @@ var models = {
     saveData: function(data, callback) {
         var Model = this;
         var Const = this(data);
-        console.log(data);
         if (data._id) {
             Model.findOne({
                 _id: data._id
             }, function(err, data2) {
-                console.log(data2);
                 if (err) {
                     callback(err, data2);
                 } else if (data2) {
