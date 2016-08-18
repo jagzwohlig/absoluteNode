@@ -8,7 +8,7 @@
  * For more information on configuration, check out:
  * http://sailsjs.org/#!/documentation/reference/sails.config/sails.config.http.html
  */
-
+var mongoose = require('mongoose');
 module.exports.http = {
 
     /****************************************************************************
@@ -56,8 +56,7 @@ module.exports.http = {
 
         myRequestLogger: function(req, res, next) {
             req.models = req.path.split("/");
-            req.model = sails[_.capitalize(req.models[1])];
-
+            req.model = mongoose.models[_.capitalize(req.models[1])];
             res.callback = function(err, data) {
                 if (err) {
                     res.json({

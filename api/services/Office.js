@@ -82,10 +82,6 @@ schema.plugin(timestamps);
 module.exports = mongoose.model('Office', schema);
 
 var models = {
-    check:function() {
-      console.log();
-    },
-
     saveData: function(data, callback) {
         var Model = this;
         var Const = this(data);
@@ -99,11 +95,11 @@ var models = {
                 } else if (data2) {
                     async.each(foreignKeys, function(n, callback) {
                         if (data[n.name] != data2[n.name]) {
-                            Config.manageArrayObject(sails[n.ref], data2[n.name], data2._id, n.key, "delete", function(err, md) {
+                            Config.manageArrayObject(mongoose.models[n.ref], data2[n.name], data2._id, n.key, "delete", function(err, md) {
                                 if (err) {
                                     callback(err, md);
                                 } else {
-                                    Config.manageArrayObject(sails[n.ref], data2[n.name], data2._id, n.key, "create", callback);
+                                    Config.manageArrayObject(mongoose.models[n.ref], data2[n.name], data2._id, n.key, "create", callback);
                                 }
                             });
                         } else {
@@ -128,7 +124,7 @@ var models = {
                 } else {
 
                     async.each(foreignKeys, function(n, callback) {
-                        Config.manageArrayObject(sails[n.ref], data2[n.name], data2._id, n.key, "create", function(err, md) {
+                        Config.manageArrayObject(mongoose.models[n.ref], data2[n.name], data2._id, n.key, "create", function(err, md) {
                             callback(err, data2);
                         });
                     }, function(err, data) {
@@ -158,7 +154,7 @@ var models = {
                         callback("Error Occured", null);
                     } else if (data2) {
                         async.each(foreignKeys, function(n, callback) {
-                            Config.manageArrayObject(sails[n.ref], data2[n.name], data2._id, n.key, "delete", function(err, md) {
+                            Config.manageArrayObject(mongoose.models[n.ref], data2[n.name], data2._id, n.key, "delete", function(err, md) {
                                 callback(err, data2);
                             });
                         }, function(err, data) {
@@ -226,4 +222,3 @@ var models = {
 };
 
 module.exports = _.assign(module.exports, models);
-sails.Office = module.exports;
