@@ -10,11 +10,31 @@ var Schema = mongoose.Schema;
 
 var schema = new Schema({
     name: {
-    type: String,
-    required: true,
-    unique: true,
-    uniqueCaseInsensitive: true
-}
+        type: String,
+        required: true,
+        unique: true,
+        uniqueCaseInsensitive: true
+    },
+    department: {
+        type: Schema.Types.ObjectId,
+        ref: "Department",
+        index: true,
+        required: true,
+        key: "policyName"
+    },
+    status: {
+        type: Boolean,
+        default: true
+    },
+    insurer: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: "CustommerCompany",
+        }],
+        index: true,
+        required: true,
+        key: "CustommerCompany"
+    }
 });
 
 schema.plugin(deepPopulate, {});
