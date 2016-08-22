@@ -14,6 +14,10 @@ var schema = new Schema({
         required: true,
         unique: true,
         uniqueCaseInsensitive: true
+    },
+    yearlyHours: {
+        type: Number,
+        required: true
     }
 });
 

@@ -9,17 +9,26 @@ require('mongoose-middleware').initialize(mongoose);
 var Schema = mongoose.Schema;
 
 var schema = new Schema({
-    name: {
+    firstName: {
         type: String,
         required: true,
         unique: true,
         uniqueCaseInsensitive: true
     },
-    typeOfOffice: {
+    lastName: {
+        type: String,
+        required: true,
+        unique: true,
+        uniqueCaseInsensitive: true
+    },
+    company: {
         type: Schema.Types.ObjectId,
-        ref: "TypeOfOffice",
+        ref: "Company",
         required: true,
         key: "office"
+    },
+    salutation: {
+        type: String
     },
     branch: {
         type: [{
