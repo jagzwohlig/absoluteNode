@@ -1,6 +1,6 @@
 module.exports = {
-    check: function(req, res) {
-        res.view("home", {
+    index: function(req, res) {
+        res.view("homepage", {
             title: "Jagruti"
         });
     }
