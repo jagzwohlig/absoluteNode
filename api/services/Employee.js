@@ -12,14 +12,14 @@ var schema = new Schema({
     firstName: {
         type: String,
         required: true,
-        unique: true,
-        uniqueCaseInsensitive: true
+        // unique: true,
+        // uniqueCaseInsensitive: true
     },
     lastName: {
         type: String,
         required: true,
-        unique: true,
-        uniqueCaseInsensitive: true
+        // unique: true,
+        // uniqueCaseInsensitive: true
     },
     company: {
         type: Schema.Types.ObjectId,
@@ -48,17 +48,123 @@ var schema = new Schema({
         required: true,
         key: "employee"
     },
-    office: {
+    postedAt: {
         type: Schema.Types.ObjectId,
         ref: "Office",
         required: true,
         key: "employee"
     },
-
+    grade: {
+        type: Schema.Types.ObjectId,
+        ref: "Grade",
+        required: true,
+        key: "employee"
+    },
+    houseColor: {
+      type: String
+    },
+    employeeCode: {
+      type: String
+    },
+    photo: {
+      type: String
+    },
+    CTCAmount: {
+      type: Number
+    },
+    CTCFrom: {
+      type: Date
+    },
+    CTCTo: {
+      type: Date
+    },
+    bank: {
+      type: String
+    },
+    accountNumber: {
+      type: String
+    },
+    branchName: {
+      type: String
+    },
+    accountName: {
+      type: String
+    },
+    neftCode: {
+      type: String
+    },
+    city: {
+        type: Schema.Types.ObjectId,
+        ref: "City",
+        index: true,
+        required: true
+    },
+    address: String,
+    pincode: String,
+    lat: {
+        type: Number,
+    },
+    lng: {
+        type: Number,
+    },
+    officeNumber: {
+      type: Number
+    },
+    officeMobile: {
+      type: Number
+    },
+    officeEmail: {
+      type: String
+    },
+    homeNumber: {
+      type: Number
+    },
+    mobile: {
+      type: Number
+    },
+    email: {
+      type: String
+    },
+    extension: {
+      type: Number
+    },
+    birthDate: {
+      type: Date
+    },
+    marriageDate: {
+      type: Date
+    },
+    joiningDate: {
+      type: Date
+    },
+    leavingDate: {
+      type: Date
+    },
+    isSBC: {
+      type: Boolean
+    },
+    isField: {
+      type: Boolean
+    },
+    isSurveyor: {
+      type: Boolean
+    },
+    validUpto:{
+      type: String
+    },
+    licence: {
+      type: String
+    },
+    iiislaDocument: {
+      type: String
+    },
+    EmployeeDocument:{
+      type: String
+    }
 });
 
 schema.plugin(deepPopulate, {});
-schema.plugin(uniqueValidator);
+// schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('Employee', schema);
 

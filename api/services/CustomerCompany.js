@@ -1,78 +1,39 @@
-/**
- * CustomerCompany.js
- *
- * @description :: TODO: You might write a short summary of how this model works and what it represents here.
- * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
- */
- var mongoose = require('mongoose');
- var Schema = mongoose.Schema;
+var mongoose = require('mongoose');
+var deepPopulate = require('mongoose-deep-populate')(mongoose);
+var uniqueValidator = require('mongoose-unique-validator');
+var timestamps = require('mongoose-timestamp');
+var validators = require('mongoose-validators');
+var monguurl = require('monguurl');
+require('mongoose-middleware').initialize(mongoose);
 
- var schema = new Schema({
-  customerType: String,
-  name: String,
-  shortName: String,
+var Schema = mongoose.Schema;
 
+var schema = new Schema({
+    name: {
+        type: String,
+        required: true,
+        unique: true,
+        uniqueCaseInsensitive: true
+    },
+    shortName: {
+        type: String,
+        required: true,
+        unique: true,
+        uniqueCaseInsensitive: true
+    },
+    customerSegment:{
+      type: Schema.Types.ObjectId,
+      ref: "Customersegment",
+      required: true,
+      key: "customercompany"
+    }
+});
 
- });
+schema.plugin(deepPopulate, {});
+schema.plugin(uniqueValidator);
+schema.plugin(timestamps);
+module.exports = mongoose.model('Customercompany', schema);
 
- module.exports = mongoose.model('CustomerCompany', schema);
- var models = {
-
-     saveData: function(data, callback) {
-         var customercompany = this(data);
-         if (data._id) {
-             this.findOneAndUpdate({
-                 _id: data._id
-             }, data, function(err, data2) {
-                 if (err) {
-                     callback(err, null);
-                 } else {
-                     callback(null, data2);
-                 }
-             });
-         } else {
-             customercompany.save(function(err, data2) {
-                 if (err) {
-                     callback(err, null);
-                 } else {
-                     callback(null, data2);
-                 }
-             });
-         }
-
-     },
-     getAll: function(data, callback) {
-         this.find({}, {}, {}).exec(function(err, deleted) {
-             if (err) {
-                 callback(err, null);
-             } else {
-                 callback(null, deleted);
-             }
-         });
-     },
-     deleteData: function(data, callback) {
-         this.findOneAndRemove({
-             _id: data._id
-         }, function(err, deleted) {
-             if (err) {
-                 callback(err, null)
-             } else {
-                 callback(null, deleted)
-             }
-         });
-     },
-     getOne: function(data, callback) {
-         this.findOne({
-             _id: data._id
-         }).exec(function(err, data2) {
-             if (err) {
-                 console.log(err);
-                 callback(err, null)
-             } else {
-                 callback(null, data2);
-             }
-         });
-     },
-
- };
- module.exports = _.assign(module.exports, models);
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
+var model = {};
+module.exports = _.assign(module.exports, exports, model);

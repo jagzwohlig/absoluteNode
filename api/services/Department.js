@@ -19,6 +19,14 @@ var schema = new Schema({
         type: Boolean,
         default: true
     },
+    employee: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: "Employee",
+        }],
+        index: true,
+        restrictedDelete: true
+    },
 });
 
 schema.plugin(deepPopulate, {});

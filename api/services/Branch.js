@@ -32,6 +32,14 @@ var schema = new Schema({
         ref: "Office",
         required: true,
     },
+    employee: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: "Employee",
+        }],
+        index: true,
+        restrictedDelete: true
+    },
 
     isBillable: Boolean,
 
