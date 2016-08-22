@@ -25,18 +25,34 @@ var schema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "Company",
         required: true,
-        key: "office"
+        key: "employee"
     },
     salutation: {
         type: String
     },
     branch: {
-        type: [{
-            type: Schema.Types.ObjectId,
-            ref: "Branch"
-        }],
-        index: true,
-        restrictedDelete: true
+      type: Schema.Types.ObjectId,
+      ref: "Branch",
+      required: true,
+      key: "employee"
+    },
+    department: {
+        type: Schema.Types.ObjectId,
+        ref: "Department",
+        required: true,
+        key: "employee"
+    },
+    func: {
+        type: Schema.Types.ObjectId,
+        ref: "Func",
+        required: true,
+        key: "employee"
+    },
+    office: {
+        type: Schema.Types.ObjectId,
+        ref: "Office",
+        required: true,
+        key: "employee"
     },
 
 });
