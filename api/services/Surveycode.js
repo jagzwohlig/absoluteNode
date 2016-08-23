@@ -15,30 +15,20 @@ var schema = new Schema({
         unique: true,
         uniqueCaseInsensitive: true
     },
-    shortName: {
+    code: {
         type: String,
-        required: true,
-        unique: true,
-        uniqueCaseInsensitive: true
+        required: true
     },
-    customerSegment:{
-      type: Schema.Types.ObjectId,
-      ref: "Customersegment",
-      required: true,
-      key: "customercompany"
+    status: {
+      type: Boolean,
+      default: true
     }
 });
 
-schema.plugin(deepPopulate, {
-  populate: {
-      'Customersegment': {
-          select: 'name _id'
-      }
-  }
-});
+schema.plugin(deepPopulate, {});
 schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
-module.exports = mongoose.model('Customercompany', schema);
+module.exports = mongoose.model('Surveycode', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {};
