@@ -26,7 +26,15 @@ var schema = new Schema({
       ref: "Customersegment",
       required: true,
       key: "customercompany"
-    }
+    },
+    customer: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: "Customer",
+        }],
+        index: true,
+        restrictedDelete: true
+    },
 });
 
 schema.plugin(deepPopulate, {
