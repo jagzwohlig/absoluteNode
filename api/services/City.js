@@ -38,6 +38,14 @@ var schema = new Schema({
         index: true,
         restrictedDelete: true
     },
+    customer: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: "Customer",
+        }],
+        index: true,
+        restrictedDelete: true
+    },
     stdCode: Number,
     timezone: {
         type: Number,

@@ -19,7 +19,7 @@ var schema = new Schema({
       type: Schema.Types.ObjectId,
       ref: "TypeOfOffice",
       required: true,
-      key: "customer"
+      // key: "customer"
   },
   customerCompany: {
       type: Schema.Types.ObjectId,
@@ -34,9 +34,9 @@ var schema = new Schema({
         uniqueCaseInsensitive: true
     },
     issueOffice:{
-      type: Boolean
+      type: String
     },
-    customerName:{
+    customerCode:{
       type: String
     },
     officeCode:{
@@ -73,7 +73,8 @@ var schema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "City",
         index: true,
-        required: true
+        required: true,
+        key: "customer"
     },
     address: {
       type: String
@@ -90,29 +91,40 @@ var schema = new Schema({
     status: {
       type: Boolean,
       default: true
-    }
+    },
+    officers: [{
+      salutation:String,
+      firstName:String,
+      lastName:String,
+      birthDate:Date,
+      designation:String,
+      email:String,
+      password:String,
+      officeNumber:String,
+      mobileNumber:String
+    }]
 
 });
 
 schema.plugin(deepPopulate, {
 
-    populate: {
-        'city': {
-            select: 'name _id district'
-        },
-        'city.district': {
-            select: 'name _id state'
-        },
-        'city.district.state': {
-            select: 'name _id zone'
-        },
-        'city.district.state.zone': {
-            select: 'name _id country'
-        },
-        'city.district.state.zone.country': {
-            select: 'name _id'
-        }
-    }
+  populate: {
+      'city': {
+          select: 'name _id district'
+      },
+      'city.district': {
+          select: 'name _id state'
+      },
+      'city.district.state': {
+          select: 'name _id zone'
+      },
+      'city.district.state.zone': {
+          select: 'name _id country'
+      },
+      'city.district.state.zone.country': {
+          select: 'name _id'
+      }
+  }
 
 });
 
@@ -120,7 +132,7 @@ schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('Customer', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service","city.district.state.zone.country","city.district.state.zone.country")(schema));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema,"city.district.state.zone.country","city.district.state.zone.country"));
 
 var model = {};
 
