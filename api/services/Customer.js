@@ -11,7 +11,7 @@ var Schema = mongoose.Schema;
 var schema = new Schema({
   customerSegment: {
       type: Schema.Types.ObjectId,
-      ref: "Customersegment",
+      ref: "CustomerSegment",
       required: true,
       key: "customer"
   },
@@ -23,7 +23,7 @@ var schema = new Schema({
   },
   customerCompany: {
       type: Schema.Types.ObjectId,
-      ref: "Customercompany",
+      ref: "CustomerCompany",
       required: true,
       key: "customer"
   },

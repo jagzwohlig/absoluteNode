@@ -23,7 +23,7 @@ var schema = new Schema({
     },
     customerSegment:{
       type: Schema.Types.ObjectId,
-      ref: "Customersegment",
+      ref: "CustomerSegment",
       required: true,
       key: "customercompany"
     },
@@ -39,14 +39,14 @@ var schema = new Schema({
 
 schema.plugin(deepPopulate, {
   populate: {
-      'Customersegment': {
+      'CustomerSegment': {
           select: 'name _id'
       }
   }
 });
 schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
-module.exports = mongoose.model('Customercompany', schema);
+module.exports = mongoose.model('CustomerCompany', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema,"customerSegment","customerSegment"));
 var model = {};

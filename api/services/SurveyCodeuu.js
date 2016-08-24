@@ -15,7 +15,7 @@ var schema = new Schema({
         unique: true,
         uniqueCaseInsensitive: true
     },
-    sequence: {
+    code: {
         type: String,
         required: true
     },
@@ -28,7 +28,7 @@ var schema = new Schema({
 schema.plugin(deepPopulate, {});
 schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
-module.exports = mongoose.model('Natureloss', schema);
+module.exports = mongoose.model('SurveyCode', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {};

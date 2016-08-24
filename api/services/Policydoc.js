@@ -22,7 +22,7 @@ var schema = new Schema({
 
 });
 
-module.exports = mongoose.model('Policydoc', schema);
+module.exports = mongoose.model('PolicyDoc', schema);
 var models = {
 
   saveData: function(data, callback) {
