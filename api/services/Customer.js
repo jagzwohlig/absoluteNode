@@ -27,12 +27,6 @@ var schema = new Schema({
       required: true,
       key: "customer"
   },
-    creditLimit: {
-        type: String,
-        required: true,
-        unique: true,
-        uniqueCaseInsensitive: true
-    },
     issueOffice:{
       type: String
     },
@@ -123,6 +117,9 @@ schema.plugin(deepPopulate, {
       },
       'city.district.state.zone.country': {
           select: 'name _id'
+      },
+      'customerSegment':{
+        select: 'name _id'
       }
   }
 
@@ -132,7 +129,7 @@ schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('Customer', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema,"city.district.state.zone.country","city.district.state.zone.country"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema,"city.district.state.zone.country","city.district.state.zone.country customerSegment"));
 
 var model = {};
 
