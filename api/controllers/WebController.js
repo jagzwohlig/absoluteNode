@@ -1,6 +1,6 @@
 module.exports = {
     index: function(req, res) {
-        res.view("homepage", {
+        res.view(sails.config.environment, {
             title: "Abolute Business Manager",
             description: "Abolute Business Manager",
             keywords: "Abolute,Business,Manager",
