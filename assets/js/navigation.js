@@ -1,5 +1,5 @@
-var adminurl = "http://localhost:1337/";
-// var adminurl = "http://104.155.238.145/";
+// var adminurl = "http://localhost:1337/";
+var adminurl = "http://104.155.238.145/";
 var imgurl = adminurl + "upload/";
 
 var imgpath = imgurl + "readFile";
@@ -1568,6 +1568,7 @@ var navigationservice = angular.module('navigationservice', [])
                 "_id": id,
             }).success(callback);
         },
+        
         getLatLng: function(address, i, callback) {
             $http({
                 url: "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=AIzaSyC62zlixVsjaq4zDaL4cefNCubjCgxkte4",
@@ -1577,6 +1578,5 @@ var navigationservice = angular.module('navigationservice', [])
                 callback(data, i);
             });
         }
-
     };
 });

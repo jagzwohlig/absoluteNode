@@ -33,7 +33,10 @@ module.exports.routes = {
      ***************************************************************************/
 
     '/': {
-        view: 'homepage'
+        controller: "WebController",
+        action: "index",
+        skipAssets: true,
+        skipRegex:  /api/i
     },
     // Add other if Possible
 
