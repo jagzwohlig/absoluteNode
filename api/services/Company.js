@@ -113,7 +113,7 @@ schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('Company', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service","city.district.state.zone.country","city.district.state.zone.country")(schema));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country","city.district.state.zone.country"));
 
 var model = {};
 
