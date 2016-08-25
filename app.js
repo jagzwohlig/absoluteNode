@@ -20,6 +20,11 @@
 
 // Ensure we're in the project directory, so relative paths work as expected
 // no matter where we actually lift from.
+
+
+
+
+
 process.chdir(__dirname);
 var mongoose;
 mongoose = require('mongoose');
