@@ -31,10 +31,10 @@ var schema = new Schema({
         type: String
     },
     branch: {
-      type: Schema.Types.ObjectId,
-      ref: "Branch",
-      required: true,
-      key: "employee"
+        type: Schema.Types.ObjectId,
+        ref: "Branch",
+        required: true,
+        key: "employee"
     },
     department: {
         type: Schema.Types.ObjectId,
@@ -61,37 +61,36 @@ var schema = new Schema({
         key: "employee"
     },
     houseColor: {
-      type: String
+        type: String
     },
     employeeCode: {
-      type: String
+        type: String
     },
     photo: {
-      type: String
+        type: String
     },
-    CTCAmount: {
-      type: Number
-    },
-    CTCFrom: {
-      type: Date
-    },
-    CTCTo: {
-      type: Date
-    },
+    CTCDetails: [{
+        CTCAmount: {
+            type: String
+        },
+        CTCFrom: {
+            type: Date
+        },
+        CTCTo: {
+            type: Date
+        }
+    }],
     bank: {
-      type: String
+        type: String
     },
     accountNumber: {
-      type: String
+        type: String
     },
     branchName: {
-      type: String
-    },
-    accountName: {
-      type: String
+        type: String
     },
     neftCode: {
-      type: String
+        type: String
     },
     city: {
         type: Schema.Types.ObjectId,
@@ -108,59 +107,100 @@ var schema = new Schema({
         type: Number,
     },
     officeNumber: {
-      type: Number
+        type: Number
     },
     officeMobile: {
-      type: Number
+        type: Number
     },
     officeEmail: {
-      type: String
+        type: String
     },
     homeNumber: {
-      type: Number
+        type: Number
     },
     mobile: {
-      type: Number
+        type: Number
     },
     email: {
-      type: String
+        type: String
     },
     extension: {
-      type: Number
+        type: Number
     },
     birthDate: {
-      type: Date
+        type: Date
     },
     marriageDate: {
-      type: Date
+        type: Date
     },
     joiningDate: {
-      type: Date
+        type: Date
     },
     leavingDate: {
-      type: Date
+        type: Date
     },
     isSBC: {
-      type: Boolean
+        type: Boolean
     },
     isField: {
-      type: Boolean
+        type: Boolean
     },
     isSurveyor: {
-      type: Boolean
+        type: Boolean
     },
-    validUpto:{
-      type: String
+    validUpto: {
+        type: String
     },
     licence: {
-      type: String
+        type: String
     },
     iiislaDocument: {
+        type: String
+    },
+    personalDocument: [{
+      name: {
+        type: String
+      },
+      image: {
+        type: String
+      }
+    }],
+    licenseNumber: {
       type: String
     },
-    EmployeeDocument:{
-      type: String
-    }
+    licenseDocument: [{
+      image: {
+        type: String
+      },
+      from: {
+        type: Date
+      },
+      to: {
+        type: Date
+      }
+    }],
+    IIISLACertificate: [{
+      image: {
+        type: String
+      },
+      from: {
+        type: Date
+      },
+      to: {
+        type: Date
+      }
+    }],
+    IIISLAReciept: [{
+      image: {
+        type: String
+      },
+      from: {
+        type: Date
+      },
+      to: {
+        type: Date
+      }
+    }],
 });
 
 schema.plugin(deepPopulate, {});
