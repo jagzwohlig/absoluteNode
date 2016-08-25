@@ -1,7 +1,7 @@
 module.exports = {
     index: function(req, res) {
-        res.view("homepage", {
-            title: "Jagruti"
+        res.callback(null, {
+            title: "Demo"
         });
     }
 };

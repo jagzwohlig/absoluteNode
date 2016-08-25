@@ -35,9 +35,12 @@ module.exports.routes = {
     '/': {
         view: 'homepage'
     },
+    // Add other if Possible
+
     'GET /*': {
         controller: "WebController",
-        action: "index"
+        action: "index",
+        skipAssets: true
     }
 
     /***************************************************************************
