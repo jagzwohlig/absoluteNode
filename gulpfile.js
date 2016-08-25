@@ -47,6 +47,35 @@ gulp.task('sass:development', function() {
         .pipe(gulp.dest('./assets/css'));
 });
 
+gulp.task('sass:production', function() {
+    var sass = require('gulp-sass');
+    gulp.src('./sass/*.scss')
+        .pipe(sass({
+            outputStyle: 'compressed'
+        }).on('error', sass.logError))
+        .pipe(gulp.dest('./assets/css'));
+});
+
+
+
+
+
+gulp.task('minify:css', function() {
+    var replace = require('gulp-replace');
+    var minifyCss = require('gulp-minify-css');
+    var concat = require('gulp-concat');
+    return gulp.src('./w/main.css')
+
+        .pipe(minifyCss({
+            keepSpecialComments: 0,
+            rebase: false
+        }))
+        .pipe(rename('w.css'))
+        .pipe(replace('url(../', 'url('))
+        .pipe(replace("url('../", "url('"))
+        .pipe(replace('url("../', 'url("'))
+        .pipe(gulp.dest('./w/'));
+});
 
 gulp.task('concat:js', function() {
     var concat = require('gulp-concat');
