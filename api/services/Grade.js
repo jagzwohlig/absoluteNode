@@ -18,6 +18,7 @@ var schema = new Schema({
     yearlyHours: {
         type: Number,
         required: true
+<<<<<<< HEAD
     },
     employee: {
         type: [{
@@ -27,6 +28,9 @@ var schema = new Schema({
         index: true,
         restrictedDelete: true
     },
+=======
+    }
+>>>>>>> master
 });
 
 schema.plugin(deepPopulate, {});

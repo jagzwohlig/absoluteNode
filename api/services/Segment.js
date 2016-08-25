@@ -8,23 +8,12 @@ require('mongoose-middleware').initialize(mongoose);
 
 var Schema = mongoose.Schema;
 
-<<<<<<< HEAD
-var schema = new Schema({
-    name: {
-        type: String,
-        required: true,
-        unique: true,
-        uniqueCaseInsensitive: true
-    }
-});
-=======
 var schema = new Schema({});
->>>>>>> master
 
 schema.plugin(deepPopulate, {});
 schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
-module.exports = mongoose.model('Expense', schema);
+module.exports = mongoose.model('Segment', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {};

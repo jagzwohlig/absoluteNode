@@ -8,6 +8,7 @@ require('mongoose-middleware').initialize(mongoose);
 
 var Schema = mongoose.Schema;
 
+<<<<<<< HEAD
 var schema = new Schema({
     name: {
         type: String,
@@ -16,6 +17,9 @@ var schema = new Schema({
         uniqueCaseInsensitive: true
     }
 });
+=======
+var schema = new Schema({});
+>>>>>>> master
 
 schema.plugin(deepPopulate, {});
 schema.plugin(uniqueValidator);

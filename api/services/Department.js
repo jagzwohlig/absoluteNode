@@ -14,6 +14,7 @@ var schema = new Schema({
         required: true,
         unique: true,
         uniqueCaseInsensitive: true
+<<<<<<< HEAD
     },
     status: {
         type: Boolean,
@@ -35,6 +36,9 @@ var schema = new Schema({
         index: true,
         restrictedDelete: true
     },
+=======
+    }
+>>>>>>> master
 });
 
 schema.plugin(deepPopulate, {});

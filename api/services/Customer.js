@@ -8,6 +8,7 @@ require('mongoose-middleware').initialize(mongoose);
 
 var Schema = mongoose.Schema;
 
+<<<<<<< HEAD
 var schema = new Schema({
   customerSegment: {
       type: Schema.Types.ObjectId,
@@ -125,12 +126,22 @@ schema.plugin(deepPopulate, {
 
 });
 
+=======
+var schema = new Schema({});
+
+schema.plugin(deepPopulate, {});
+>>>>>>> master
 schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('Customer', schema);
 
+<<<<<<< HEAD
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema,"city.district.state.zone.country","city.district.state.zone.country customerSegment"));
 
 var model = {};
 
+=======
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
+var model = {};
+>>>>>>> master
 module.exports = _.assign(module.exports, exports, model);
