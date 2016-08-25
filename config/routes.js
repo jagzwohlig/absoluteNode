@@ -40,7 +40,8 @@ module.exports.routes = {
     'GET /*': {
         controller: "WebController",
         action: "index",
-        skipAssets: true
+        skipAssets: true,
+        skipRegex:  /api/i
     }
 
     /***************************************************************************
