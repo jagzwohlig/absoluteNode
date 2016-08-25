@@ -15,12 +15,18 @@ var schema = new Schema({
         unique: true,
         uniqueCaseInsensitive: true
     },
+    department:{
+      type: Schema.Types.ObjectId,
+      ref: "Department",
+      required: true,
+      key: "department"
+    },
 });
 
 schema.plugin(deepPopulate, {});
 schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
-module.exports = mongoose.model('CauseLoss', schema);
+module.exports = mongoose.model('PolicyName', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {};

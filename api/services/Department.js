@@ -27,6 +27,14 @@ var schema = new Schema({
         index: true,
         restrictedDelete: true
     },
+    department: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: "Department",
+        }],
+        index: true,
+        restrictedDelete: true
+    },
 });
 
 schema.plugin(deepPopulate, {});
