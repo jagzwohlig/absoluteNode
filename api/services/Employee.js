@@ -1,124 +1,173 @@
-/**
- * Employee.js
- *
- * @description :: TODO: You might write a short summary of how this model works and what it represents here.
- * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
- */
-
 var mongoose = require('mongoose');
-var md5 = require('md5');
+var deepPopulate = require('mongoose-deep-populate')(mongoose);
+var uniqueValidator = require('mongoose-unique-validator');
+var timestamps = require('mongoose-timestamp');
+var validators = require('mongoose-validators');
+var monguurl = require('monguurl');
+require('mongoose-middleware').initialize(mongoose);
+
 var Schema = mongoose.Schema;
 
 var schema = new Schema({
-  name: String,
-  lastName: String,
-  salutation: String,
-  company: String,
-  division: String,
-  designation: String,
-  other: String,
-  mobile: String,
-  hourlyRateFromDate: String,
-  hourlyRateToDate: String,
-  houseColor: String,
-  PostedAt: String,
-  City: String,
-  EmployeeCode: String,
-  SlabRate: String,
-  EmployeeDocuments: String,
-  status: Boolean,
-  dob: Date,
-  marriageDate: Date,
-  joiningDate: Date,
-  leavingDate: Date,
-  isSBC: Boolean,
-  isField: Boolean,
-  address: {
-    homeaddress: String,
-    country: String,
-    state: String,
-    city: String,
+    firstName: {
+        type: String,
+        required: true,
+        // unique: true,
+        // uniqueCaseInsensitive: true
+    },
+    lastName: {
+        type: String,
+        required: true,
+        // unique: true,
+        // uniqueCaseInsensitive: true
+    },
+    company: {
+        type: Schema.Types.ObjectId,
+        ref: "Company",
+        required: true,
+        key: "employee"
+    },
+    salutation: {
+        type: String
+    },
+    branch: {
+      type: Schema.Types.ObjectId,
+      ref: "Branch",
+      required: true,
+      key: "employee"
+    },
+    department: {
+        type: Schema.Types.ObjectId,
+        ref: "Department",
+        required: true,
+        key: "employee"
+    },
+    func: {
+        type: Schema.Types.ObjectId,
+        ref: "Func",
+        required: true,
+        key: "employee"
+    },
+    postedAt: {
+        type: Schema.Types.ObjectId,
+        ref: "Office",
+        required: true,
+        key: "employee"
+    },
+    grade: {
+        type: Schema.Types.ObjectId,
+        ref: "Grade",
+        required: true,
+        key: "employee"
+    },
+    houseColor: {
+      type: String
+    },
+    employeeCode: {
+      type: String
+    },
+    photo: {
+      type: String
+    },
+    CTCAmount: {
+      type: Number
+    },
+    CTCFrom: {
+      type: Date
+    },
+    CTCTo: {
+      type: Date
+    },
+    bank: {
+      type: String
+    },
+    accountNumber: {
+      type: String
+    },
+    branchName: {
+      type: String
+    },
+    accountName: {
+      type: String
+    },
+    neftCode: {
+      type: String
+    },
+    city: {
+        type: Schema.Types.ObjectId,
+        ref: "City",
+        index: true,
+        required: true
+    },
+    address: String,
     pincode: String,
-    finalAddress: String
-  },
-  contact: {
-    OfficeMobile: String,
-    home: String,
-    mobile: String,
-    extention: String,
-    email: String,
-  },
-  surveyor: {
-    isSurveyou: Boolean,
-    valid_upto: Date,
-    licence: String,
-    docs: String
-  },
-
-
+    lat: {
+        type: Number,
+    },
+    lng: {
+        type: Number,
+    },
+    officeNumber: {
+      type: Number
+    },
+    officeMobile: {
+      type: Number
+    },
+    officeEmail: {
+      type: String
+    },
+    homeNumber: {
+      type: Number
+    },
+    mobile: {
+      type: Number
+    },
+    email: {
+      type: String
+    },
+    extension: {
+      type: Number
+    },
+    birthDate: {
+      type: Date
+    },
+    marriageDate: {
+      type: Date
+    },
+    joiningDate: {
+      type: Date
+    },
+    leavingDate: {
+      type: Date
+    },
+    isSBC: {
+      type: Boolean
+    },
+    isField: {
+      type: Boolean
+    },
+    isSurveyor: {
+      type: Boolean
+    },
+    validUpto:{
+      type: String
+    },
+    licence: {
+      type: String
+    },
+    iiislaDocument: {
+      type: String
+    },
+    EmployeeDocument:{
+      type: String
+    }
 });
 
+schema.plugin(deepPopulate, {});
+// schema.plugin(uniqueValidator);
+schema.plugin(timestamps);
 module.exports = mongoose.model('Employee', schema);
-var models = {
 
-  saveData: function(data, callback) {
-    if (data.password && data.password != "") {
-      data.password = md5(data.password);
-    }
-    var employee = this(data);
-    if (data._id) {
-      this.findOneAndUpdate({
-        _id: data._id
-      }, data, function(err, data2) {
-        if (err) {
-          callback(err, null);
-        } else {
-          callback(null, data2);
-        }
-      });
-    } else {
-      employee.save(function(err, data2) {
-        if (err) {
-          callback(err, null);
-        } else {
-          callback(null, data2);
-        }
-      });
-    }
-
-  },
-  getAll: function(data, callback) {
-    this.find({}, {}, {}).exec(function(err, deleted) {
-      if (err) {
-        callback(err, null);
-      } else {
-        callback(null, deleted);
-      }
-    });
-  },
-  deleteData: function(data, callback) {
-    this.findOneAndRemove({
-      _id: data._id
-    }, function(err, deleted) {
-      if (err) {
-        callback(err, null)
-      } else {
-        callback(null, deleted)
-      }
-    });
-  },
-  getOne: function(data, callback) {
-    this.findOne({
-      _id: data._id
-    }).exec(function(err, data2) {
-      if (err) {
-        console.log(err);
-        callback(err, null)
-      } else {
-        callback(null, data2);
-      }
-    });
-  },
-
-};
-module.exports = _.assign(module.exports, models);
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
+var model = {};
+module.exports = _.assign(module.exports, exports, model);

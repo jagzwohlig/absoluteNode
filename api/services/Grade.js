@@ -18,7 +18,15 @@ var schema = new Schema({
     yearlyHours: {
         type: Number,
         required: true
-    }
+    },
+    employee: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: "Employee",
+        }],
+        index: true,
+        restrictedDelete: true
+    },
 });
 
 schema.plugin(deepPopulate, {});

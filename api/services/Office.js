@@ -34,6 +34,14 @@ var schema = new Schema({
         required: true,
         key: "office"
     },
+    employee: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: "Employee",
+        }],
+        index: true,
+        restrictedDelete: true
+    },
     branch: {
         type: [{
             type: Schema.Types.ObjectId,

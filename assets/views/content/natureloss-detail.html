@@ -1,0 +1,99 @@
+<div class="breadcrumbs">
+    <ul>
+        <li>
+            <a title="Home">Company Setup</a>
+        </li>
+        <li>
+            <a ui-sref="natureloss-list" >{{header.name}}</a>
+        </li>
+    </ul>
+</div>
+
+<div class="heading-sec">
+    <div class="row">
+        <div class="col-md-4 column">
+            <div class="heading-profile">
+                <h2>{{header.name}}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Top Bar Chart -->
+<div class="panel-content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="widget">
+                <div class="form-elements-sec">
+                    <div class="widget-title">
+                        <h3>Nature Loss</h3>
+                    </div>
+                    <form name="NatureLossForm" role="form" class="sec ng-pristine ng-valid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="">Nature Loss*</label>
+                                    <input type="text" name="name" placeholder="Nature Loss" ng-model="formData.name" class="form-control" required>
+                                    <div class="error-msg" ng-show="NatureLossForm.name.$invalid && NatureLossForm.name.$touched">Please Enter Nature Loss.</div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Nature Code*</label>
+                                    <input type="text" name="code" placeholder="Nature Code" ng-model="formData.code" class="form-control" required>
+                                    <div class="error-msg" ng-show="NatureLossForm.code.$invalid && NatureLossForm.code.$touched">Please Enter Nature Code.</div>
+
+                                </div>
+                                <!-- <div class="form-group">
+                                    <label for="">Cause Loss*</label>
+                                    <input type="text" name="causeLoss" placeholder="Cause Loss" ng-model="formData.causeLoss" class="form-control" required>
+                                    <div class="error-msg" ng-show="NatureLossForm.causeLoss.$invalid && NatureLossForm.causeLoss.$touched">Please Enter Cause Loss.</div>
+
+                                </div> -->
+
+
+                                <!-- <div class="form-group">
+                                    <label for="disabledSelect">Cause Loss*</label>
+                                    <select class="form-control" ng-model="formData.causeLoss" value="{{dist.name}}">
+                                        <option ng-selected="true" value="">Select Cause Loss</option>
+                                        <option ng-repeat="cause in allCauseLoss">{{cause.name}}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="disabledSelect">Department*</label>
+                                    <select class="form-control" ng-model="formData.department" value="{{dist.name}}">
+                                        <option ng-selected="true" value="">Select Department</option>
+                                        <option ng-repeat="dept in allDepartments">{{dept.name}}</option>
+                                    </select>
+                                </div> -->
+
+                                <div class="form-group">
+                                    <label for="disabledSelect">Status</label>
+                                    <select class="form-control" ng-model="formData.status" ng-options="str.value as str.name for str in userStatus">
+                                        <!-- <option value="">Select Status </option>
+                                        <option value=true>Active</option>
+                                        <option value=false>Inactive</option> -->
+                                    </select>
+                                </div>
+
+                                <!-- <div class="form-group">
+                                    <label for="">Status*</label>
+                                    <input type="text" name="Status" placeholder="Status" ng-model="formData.status" class="form-control" required>
+                                    <div class="error-msg" ng-show="NatureLossForm.status.$invalid && NatureLossForm.status.$touched">Please Enter Status.</div>
+
+                                </div> -->
+
+                            </div>
+
+                        </div>
+                        <div class="text-center mt20">
+                            <button class="btn btn-default" type="submit" ng-click="saveNatureLoss(formData)" ng-disabled="NatureLossForm.$invalid">Save</button>
+                            <button class="btn btn-default" ui-sref="natureloss-list">Cancel</button>
+                        </div>
+                </div>
+            </div>
+
+
+
+            </form>
+        </div>
+    </div>
+</div>

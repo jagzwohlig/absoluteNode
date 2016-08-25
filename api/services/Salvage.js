@@ -8,7 +8,22 @@ require('mongoose-middleware').initialize(mongoose);
 
 var Schema = mongoose.Schema;
 
-var schema = new Schema({});
+var schema = new Schema({
+    name: {
+        type: String,
+        required: true,
+        unique: true,
+        uniqueCaseInsensitive: true
+    },
+    sequence: {
+        type: String,
+        required: true
+    },
+    status: {
+      type: Boolean,
+      default: true
+    }
+});
 
 schema.plugin(deepPopulate, {});
 schema.plugin(uniqueValidator);

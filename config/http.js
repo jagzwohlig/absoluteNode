@@ -56,25 +56,9 @@ module.exports.http = {
 
         myRequestLogger: function(req, res, next) {
             req.models = req.path.split("/");
-            req.model = mongoose.models[_.capitalize(req.models[1])];
-            res.callback = function(err, data) {
-                if (err) {
-                    res.json({
-                        error: err,
-                        value: false
-                    });
-                } else if (data) {
-                    res.json({
-                        data: data,
-                        value: true
-                    });
-                } else {
-                    res.json({
-                        data: "No Data Found",
-                        value: false
-                    });
-                }
-            };
+            // console.log(req.models);
+            req.model = mongoose.models[_.capitalize(req.models[2])];
+
             next();
         }
 

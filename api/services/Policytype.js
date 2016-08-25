@@ -14,7 +14,7 @@
 
  });
 
- module.exports = mongoose.model('Policytype', schema);
+ module.exports = mongoose.model('PolicyType', schema);
  var models = {
 
      saveData: function(data, callback) {
