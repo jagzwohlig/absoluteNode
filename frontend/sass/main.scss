@@ -1,12 +1,12 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300italic,400italic,600,600italic,700,700italic);
-@import "../lib/bourbon/app/assets/stylesheets/bourbon";
-@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap/mixins";
-@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap-sprockets";
-@import "../lib/flexslider/flexslider.css";
-@import "../lib/font-awesome/css/font-awesome.min.css";
-@import "../lib/fancyBox/source/jquery.fancybox.css";
-@import "../lib/angular-ui-select/dist/select.min.css";
-@import "../lib/angular-toastr/dist/angular-toastr.css";
+@import "../../bower_components//bourbon/app/assets/stylesheets/bourbon";
+@import "../../bower_components//bootstrap-sass/assets/stylesheets/bootstrap/mixins";
+@import "../../bower_components//bootstrap-sass/assets/stylesheets/bootstrap-sprockets";
+@import "../../bower_components//flexslider/flexslider.css";
+@import "../../bower_components//font-awesome/css/font-awesome.min.css";
+@import "../../bower_components//fancyBox/source/jquery.fancybox.css";
+@import "../../bower_components//angular-ui-select/dist/select.min.css";
+@import "../../bower_components//angular-toastr/dist/angular-toastr.css";
 
 
 
@@ -23,7 +23,7 @@ $brand-info: $yellow;
 $brand-warning: $orange;
 $brand-danger: $red;
 $brand-success: $green;
-@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "../../bower_components//bootstrap-sass/assets/stylesheets/bootstrap";
 @import "template/icons";
 @import "template/main";
 @import "template/responsive";
