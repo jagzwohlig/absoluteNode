@@ -8,6 +8,7 @@
     "ejs": "2.3.4",
     "gridfs-stream": "^1.1.1",
     "grunt": "0.4.5",
+    "grunt-concat-css": "^0.3.1",
     "grunt-contrib-clean": "0.6.0",
     "grunt-contrib-coffee": "0.13.0",
     "grunt-contrib-concat": "0.5.1",
@@ -18,6 +19,7 @@
     "grunt-contrib-uglify": "0.7.0",
     "grunt-contrib-watch": "0.5.3",
     "grunt-css-import": "^0.1.8",
+    "grunt-cssjoin": "^0.3.0",
     "grunt-sails-linker": "~0.10.1",
     "grunt-sass": "^1.2.1",
     "grunt-sync": "0.2.4",
@@ -45,7 +47,7 @@
     "rc": "1.0.1",
     "sails": "~0.12.3",
     "sails-disk": "~0.10.9",
-    "sails-wohlig-controller": "~0.0.1",
+    "sails-wohlig-controller": "~0.0.2",
     "sails-wohlig-service": "~0.0.6"
   },
   "scripts": {
