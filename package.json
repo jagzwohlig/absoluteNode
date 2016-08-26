@@ -17,6 +17,7 @@
     "grunt-contrib-less": "1.1.0",
     "grunt-contrib-uglify": "0.7.0",
     "grunt-contrib-watch": "0.5.3",
+    "grunt-css-import": "^0.1.8",
     "grunt-sails-linker": "~0.10.1",
     "grunt-sass": "^1.2.1",
     "grunt-sync": "0.2.4",
