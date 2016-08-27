@@ -83,9 +83,10 @@ var model = {
                     callback(err, company);
                 } else {
 
-                    var company2 = _.filter(company, function(c) {
+                    var company2 = _.slice(_.filter(company, function(c) {
                         return c.customerSegment.name == "Insurer";
-                    });
+                    }), 0, Config.maxRow);
+
 
                     callback(err, company2);
                 }
