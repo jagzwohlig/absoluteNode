@@ -105,8 +105,8 @@ schema.plugin(deepPopulate, {
         'city.district.state.zone.country': {
             select: 'name _id'
         },
-        'bank':{
-          select: 'name _id'
+        'bank': {
+            select: 'name _id'
         }
     }
 
@@ -116,8 +116,10 @@ schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('Company', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country bank","city.district.state.zone.country bank"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country bank", "city.district.state.zone.country bank"));
 
-var model = {};
+var model = {
+    
+};
 
 module.exports = _.assign(module.exports, exports, model);
