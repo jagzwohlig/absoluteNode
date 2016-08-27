@@ -19,10 +19,18 @@ var schema = new Schema({
         type: Boolean,
         default: true
     },
-    department: {
+    // department: {
+    //     type: [{
+    //         type: Schema.Types.ObjectId,
+    //         ref: "Department",
+    //     }],
+    //     index: true,
+    //     restrictedDelete: true
+    // },
+    policytype: {
         type: [{
             type: Schema.Types.ObjectId,
-            ref: "Department",
+            ref: "PolicyType",
         }],
         index: true,
         restrictedDelete: true
