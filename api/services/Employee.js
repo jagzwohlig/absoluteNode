@@ -36,12 +36,6 @@ var schema = new Schema({
         required: true,
         key: "employee"
     },
-    department: {
-        type: Schema.Types.ObjectId,
-        ref: "Department",
-        required: true,
-        key: "employee"
-    },
     func: {
         type: Schema.Types.ObjectId,
         ref: "Func",
@@ -203,11 +197,29 @@ var schema = new Schema({
     }],
 });
 
-schema.plugin(deepPopulate, {});
+schema.plugin(deepPopulate, {
+  populate: {
+      'city': {
+          select: 'name _id district'
+      },
+      'city.district': {
+          select: 'name _id state'
+      },
+      'city.district.state': {
+          select: 'name _id zone'
+      },
+      'city.district.state.zone': {
+          select: 'name _id country'
+      },
+      'city.district.state.zone.country': {
+          select: 'name _id'
+      }
+  }
+});
 // schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('Employee', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema,"city.district.state.zone.country","city.district.state.zone.country"));
 var model = {};
 module.exports = _.assign(module.exports, exports, model);

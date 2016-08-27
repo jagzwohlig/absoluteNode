@@ -22,11 +22,11 @@ var schema = new Schema({
         uniqueCaseInsensitive: true
     },
     logo: String,
-    accountName: String,
-    accountNumber: String,
-    neftCode: String,
-    bankName: String,
-    branchName: String,
+    bank: {
+        type: Schema.Types.ObjectId,
+        ref: "Bank",
+        key: "company"
+    },
     serviceTax: String,
     pan: String,
     cin: String,
@@ -104,6 +104,9 @@ schema.plugin(deepPopulate, {
         },
         'city.district.state.zone.country': {
             select: 'name _id'
+        },
+        'bank':{
+          select: 'name _id'
         }
     }
 
@@ -113,7 +116,7 @@ schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('Company', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country","city.district.state.zone.country"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country bank","city.district.state.zone.country bank"));
 
 var model = {};
 

@@ -19,14 +19,6 @@ var schema = new Schema({
         type: Boolean,
         default: true
     },
-    employee: {
-        type: [{
-            type: Schema.Types.ObjectId,
-            ref: "Employee",
-        }],
-        index: true,
-        restrictedDelete: true
-    },
     department: {
         type: [{
             type: Schema.Types.ObjectId,
