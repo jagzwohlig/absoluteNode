@@ -35,6 +35,22 @@ var schema = new Schema({
         index: true,
         restrictedDelete: true
     },
+    policydoc: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: "PolicyDoc",
+        }],
+        index: true,
+        restrictedDelete: true
+    },
+    causeloss: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: "CauseLoss",
+        }],
+        index: true,
+        restrictedDelete: true
+    },
 });
 
 schema.plugin(deepPopulate, {});
