@@ -27,6 +27,14 @@ var schema = new Schema({
       required: true,
       key: "insurer"
     }],
+    policydoc: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: "PolicyDoc",
+        }],
+        index: true,
+        restrictedDelete: true
+    },
     status:{
       type: Boolean,
       default:true

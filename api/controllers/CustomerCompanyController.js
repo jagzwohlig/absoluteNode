@@ -17,6 +17,17 @@ var controller = {
               data: "Invalid Request"
           });
       }
+  },
+  getInsured: function(req, res) {
+      if (req.body) {
+          req.model.getInsured(req.body, res.callback);
+
+      } else {
+          res.json({
+              value: false,
+              data: "Invalid Request"
+          });
+      }
   }
 };
 module.exports = _.assign(module.exports, controller);

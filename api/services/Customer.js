@@ -96,7 +96,23 @@ var schema = new Schema({
       password:String,
       officeNumber:String,
       mobileNumber:String
-    }]
+    }],
+    policydoc: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: "PolicyDoc",
+        }],
+        index: true,
+        restrictedDelete: true
+    },
+    insureroffice: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: "PolicyDoc",
+        }],
+        index: true,
+        restrictedDelete: true
+    },
 
 });
 
