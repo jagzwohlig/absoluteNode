@@ -61,14 +61,25 @@ var schema = new Schema({
       documentImage: {
         type: String
       }
-    }]
+    }],
+    status:{
+      type:Boolean,
+      default: true
+    }
 });
 
-schema.plugin(deepPopulate, {});
+schema.plugin(deepPopulate, {
+  'insuredCompany':{
+    select: 'name _id'
+  },
+  'insuredOffice':{
+    select: 'name _id'
+  }
+});
 schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('PolicyDoc', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema,"insuredCompany insuredCompany","insuredCompany insuredCompany"));
 var model = {};
 module.exports = _.assign(module.exports, exports, model);

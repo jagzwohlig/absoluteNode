@@ -106,73 +106,59 @@ var model = {
                 if (err) {
                     callback(err, company);
                 } else {
-                    var company2 = _.slice(_.filter(company, function(c) {
+                    var company2 = {};
+                    company2.results = _.slice(_.filter(company, function(c) {
                         return c.customerSegment.name == "Insurer";
                     }), 0, Config.maxRow);
                     callback(err, company2);
                 }
 
-                // company.where("customerSegment.name").equals("Insurer").page(options, callback);
             });
 
-        // var Search = Model.find()
-        //     .order(options)
-        //     .deepPopulate("customerSegment").find({}, function(err, company) {
-        //         company.filter({
-        //             "customerSegment.name": "Insurer"
-        //         }).page(options, callback);
-        //     });
 
     },
     getInsured: function(data, callback) {
-            var Model = this;
-            var Const = this(data);
-            var maxRow = Config.maxRow;
+        var Model = this;
+        var Const = this(data);
+        var maxRow = Config.maxRow;
 
-            var page = 1;
-            if (data.page) {
-                page = data.page;
-            }
-            var field = data.field;
-            var options = {
-                field: data.field,
-                filters: {
-                    keyword: {
-                        fields: ['name'],
-                        term: data.keyword
-                    }
-                },
-                sort: {
-                    asc: 'name'
-                },
-                start: (page - 1) * maxRow,
-                count: maxRow
-            };
+        var page = 1;
+        if (data.page) {
+            page = data.page;
+        }
+        var field = data.field;
+        var options = {
+            field: data.field,
+            filters: {
+                keyword: {
+                    fields: ['name'],
+                    term: data.keyword
+                }
+            },
+            sort: {
+                asc: 'name'
+            },
+            start: (page - 1) * maxRow,
+            count: maxRow
+        };
 
-            var Search = Model.find()
-                .order(options)
-                .keyword(options)
-                .deepPopulate("customerSegment").exec(function(err, company) {
-                    if (err) {
-                        callback(err, company);
-                    } else {
-                        var company2 = _.slice(_.filter(company, function(c) {
-                            return c.customerSegment.name == "Insured";
-                        }), 0, Config.maxRow);
-                        callback(err, company2);
-                    }
+        var Search = Model.find()
+            .order(options)
+            .keyword(options)
+            .deepPopulate("customerSegment").exec(function(err, company) {
+                if (err) {
+                    callback(err, company);
+                } else {
+                    var company2 = {};
+                    company2.results = _.slice(_.filter(company, function(c) {
+                        return c.customerSegment.name == "Insured";
+                    }), 0, Config.maxRow);
+                    callback(err, company2);
+                }
 
-                    // company.where("customerSegment.name").equals("Insurer").page(options, callback);
-                });
+            });
 
-            // var Search = Model.find()
-            //     .order(options)
-            //     .deepPopulate("customerSegment").find({}, function(err, company) {
-            //         company.filter({
-            //             "customerSegment.name": "Insurer"
-            //         }).page(options, callback);
-            //     });
 
-        },
+    },
 };
 module.exports = _.assign(module.exports, exports, model);
