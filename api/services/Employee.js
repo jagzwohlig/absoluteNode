@@ -64,14 +64,17 @@ var schema = new Schema({
         type: String
     },
     CTCDetails: [{
-        CTCAmount: {
+        amount: {
             type: String
         },
-        CTCFrom: {
+        from: {
             type: Date
         },
-        CTCTo: {
+        to: {
             type: Date
+        },
+        image: {
+          type: String
         }
     }],
     bank: {

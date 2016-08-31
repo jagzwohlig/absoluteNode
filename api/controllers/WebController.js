@@ -6,5 +6,8 @@ module.exports = {
             keywords: "Abolute,Business,Manager",
             image: "http://www.wohlig.com/img/logo.png",
         });
+    },
+    download: function(req,res) {
+
     }
 };
