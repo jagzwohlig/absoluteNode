@@ -75,7 +75,13 @@ var schema = new Schema({
         },
         image: {
           type: String
-        }
+        },
+        grade: {
+            type: Schema.Types.ObjectId,
+            ref: "Grade",
+            required: true,
+            key: "employee"
+        },
     }],
     bank: {
         type: String
@@ -165,6 +171,12 @@ var schema = new Schema({
     licenseNumber: {
       type: String
     },
+    department: [{
+      type: Schema.Types.ObjectId,
+      ref: "Department",
+      required: true,
+      key: "employee"
+    }],
     licenseDocument: [{
       image: {
         type: String
@@ -183,9 +195,12 @@ var schema = new Schema({
       from: {
         type: Date
       },
-      to: {
-        type: Date
-      }
+      department: {
+          type: Schema.Types.ObjectId,
+          ref: "Department",
+          required: true,
+          key: "employee"
+      },
     }],
     IIISLAReciept: [{
       image: {
@@ -197,6 +212,7 @@ var schema = new Schema({
       to: {
         type: Date
       }
+
     }],
 });
 
@@ -226,12 +242,18 @@ schema.plugin(deepPopulate, {
       'postedAt': {
           select: 'name _id'
       },
+      'department': {
+          select: 'name _id'
+      },
+      'IIISLACertificate.department':{
+        select: 'name _id'
+      }
   }
 });
 // schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('Employee', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema,"city.district.state.zone.country func grade","city.district.state.zone.country  func grade postedAt"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema,"city.district.state.zone.country func grade department IIISLACertificate.department","city.district.state.zone.country  func grade postedAt"));
 var model = {};
 module.exports = _.assign(module.exports, exports, model);
