@@ -7,7 +7,7 @@ module.exports = {
             image: "http://www.wohlig.com/img/logo.png",
         });
     },
-    download: function(req,res) {
-
+    download: function(req, res) {
+        Config.readUploaded(req.param("filename"), null, null, null, res);
     }
 };

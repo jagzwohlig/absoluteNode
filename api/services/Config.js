@@ -209,6 +209,40 @@ var models = {
             fs.unlink(filename);
         });
     },
+    generateExcel: function(name, found, res) {
+        name = _.kebabCase(name);
+        var excelData = [];
+        _.each(found, function(singleData) {
+            var singleExcel = {};
+            _.each(singleData, function(n, key) {
+                if (key != "__v" && key != "createdAt" && key != "updatedAt") {
+                    singleExcel[_.capitalize(key)] = n;
+                }
+            });
+            excelData.push(singleExcel);
+        });
+        var xls = sails.json2xls(excelData);
+        var folder = "./.tmp/";
+        var path = name + "-" + moment().format("MMM-DD-YYYY-hh-mm-ss-a") + ".xlsx";
+        var finalPath = folder + path;
+        sails.fs.writeFile(finalPath, xls, 'binary', function(err) {
+            if (err) {
+                res.callback(err, null);
+            } else {
+                fs.readFile(finalPath, function(err, excel) {
+                    if (err) {
+                        res.callback(err, null);
+                    } else {
+                        res.set('Content-Type', "application/octet-stream");
+                        res.set('Content-Disposition', "attachment;filename=" + path);
+                        res.send(excel);
+                        sails.fs.unlink(finalPath);
+                    }
+                });
+            }
+        });
+
+    },
     readUploaded: function(filename, width, height, style, res) {
         res.set('Content-Disposition', "filename=" + filename);
         var readstream = gfs.createReadStream({
