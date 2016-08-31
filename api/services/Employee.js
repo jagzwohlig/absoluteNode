@@ -213,13 +213,22 @@ schema.plugin(deepPopulate, {
       },
       'city.district.state.zone.country': {
           select: 'name _id'
-      }
+      },
+      'func': {
+          select: 'name _id'
+      },
+      'grade': {
+          select: 'name _id'
+      },
+      'postedAt': {
+          select: 'name _id'
+      },
   }
 });
 // schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('Employee', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema,"city.district.state.zone.country","city.district.state.zone.country"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema,"city.district.state.zone.country func grade","city.district.state.zone.country  func grade postedAt"));
 var model = {};
 module.exports = _.assign(module.exports, exports, model);
