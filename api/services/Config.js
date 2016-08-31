@@ -210,6 +210,7 @@ var models = {
         });
     },
     readUploaded: function(filename, width, height, style, res) {
+        res.set('Content-Disposition', "filename=" + filename);
         var readstream = gfs.createReadStream({
             filename: filename
         });
