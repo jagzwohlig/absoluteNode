@@ -36,7 +36,7 @@ module.exports.routes = {
         controller: "WebController",
         action: "index",
         skipAssets: true,
-        skipRegex:  /api/i
+        skipRegex: /api/i
     },
     // Add other if Possible
 
@@ -44,7 +44,11 @@ module.exports.routes = {
         controller: "WebController",
         action: "index",
         skipAssets: true,
-        skipRegex:  /api/i
+        skipRegex: /api/i
+    },
+    "GET /api/download/:filename": {
+      controller: "WebController",
+      action: "download"
     }
 
     /***************************************************************************
