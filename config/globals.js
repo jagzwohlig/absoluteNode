@@ -68,4 +68,11 @@ module.exports.globals = {
 
 };
 
-global['lo'] = require("lodash");
+global['mongoose'] = require('mongoose');
+global['deepPopulate'] = require('mongoose-deep-populate')(mongoose);
+global['uniqueValidator'] = require('mongoose-unique-validator');
+global['timestamps'] = require('mongoose-timestamp');
+global['validators'] = require('mongoose-validators');
+global['monguurl'] = require('monguurl');
+require('mongoose-middleware').initialize(mongoose);
+global['Schema'] = mongoose.Schema;
