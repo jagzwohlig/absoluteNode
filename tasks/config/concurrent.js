@@ -22,7 +22,7 @@
 module.exports = function(grunt) {
 
     grunt.config.set('concurrent', {
-        watch: ['watch:sass'],
+        watch: ['watch:sass','watch:copy','watch:js'],
     });
 
     grunt.loadNpmTasks('grunt-concurrent');
