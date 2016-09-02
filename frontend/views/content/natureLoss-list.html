@@ -4,10 +4,10 @@
 <div class="breadcrumbs">
     <ul>
         <li>
-            <a title="Home">Insurance</a>
+            <a title="Home">Company Setup</a>
         </li>
         <li>
-            <a ui-sref="policydoc-list" >Policy Doc List</a>
+            <a ui-sref="natureLoss-list" >Nature Loss List</a>
         </li>
     </ul>
 </div>
@@ -16,7 +16,7 @@
     <div class="row">
         <div class="col-md-4 column">
             <div class="heading-profile">
-                <h2>Policy Doc List</h2>
+                <h2>Nature Loss List</h2>
             </div>
         </div>
     </div>
@@ -27,45 +27,44 @@
         <div class="col-md-12">
             <div class="widget">
                 <div class="table-area">
-
                     <div class="widget-title">
                         <div class="pull-right">
                             <form class="search-form mr-form">
-                                <input type="text" placeholder="Search Here..."/>
+                              <input type="text" ng-change="showAll(true)" placeholder="Search Here..." ng-model="search.keyword"/>
                                 <button type="submit">
                                     <i class="fa fa-search"></i>
                                 </button>
                             </form>
-                            <a class="btn btn-primary" ui-sref="createpolicydoc">Add New</a>
+                            <a class="btn btn-primary" ui-sref="createnatureloss">Add New</a>
                         </div>
-                        <h3>List of Policy Docs
-                          <span class="tableTotal">(Total :
-                              {{totalItems}})
-                          </span>
+                        <h3>List of Nature of Loss
+                            <span class="tableTotal">(Total :
+                                {{totalItems}})
+                            </span>
                         </h3>
                     </div>
                     <div class="table-responsive">
-                        <table class="table">
+                        <table class="table" ng-show="totalItems>0">
                             <thead>
                                 <tr>
-                                    <th>Policy Document Name</th>
-                                    <th>Policy Name</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
+                                  <th>Nature Loss</th>
+                                  <th>Nature Code</th>
+                                  <th>Status</th>
+                                  <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody ng-show="totalItems>0">
-                                <tr ng-repeat="data in allPolicyDocs">
+                                <tr ng-repeat="data in allNatureLoss">
                                     <td>{{data.name}}</td>
-                                    <td>{{data.PolicyType}}</td>
+                                    <td>{{data.code}}</td>
                                     <td>
-                                        <toggle-switch ng-model="data.status" class="switch-mini switch-success"></toggle-switch>
+                                      <toggle-switch ng-model="data.status" class="switch-mini switch-success" ng-change="changeStatus(data)"></toggle-switch>
                                     </td>
                                     <td>
-                                        <a class="btn btn-primary" ui-sref="editpolicydoc({id:policydoc._id})">
+                                        <a class="btn btn-primary" ui-sref="editNatureloss({id:data._id})">
                                             <i class="fa fa-pencil"></i>
                                         </a>
-                                        <a class="btn btn-danger" ng-click="deletePolicyDoc(policydoc._id)">
+                                        <a class="btn btn-danger" ng-click="deleteNatureLoss(data._id)">
                                             <i class="fa fa-trash"></i>
                                         </a>
                                     </td>
@@ -80,7 +79,6 @@
                         <h5>Loading Data</h5>
                     </div>
                     <ul ng-if="totalItems" ng-change="changePage(currentPage);" uib-pagination total-items="totalItems" items-per-page="maxRow" ng-model="currentPage" max-size="template.pageMax" class="pagination-sm" boundary-links="true" force-ellipses="true"></ul>
-
                 </div>
             </div>
         </div>

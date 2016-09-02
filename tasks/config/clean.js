@@ -13,8 +13,8 @@
 module.exports = function(grunt) {
 
   grunt.config.set('clean', {
-    dev: ['.tmp/public/**'],
-    build: ['www']
+    development: ['.tmp/public/frontend/css','.tmp/public/frontend/js','.tmp/public/frontend/fonts','.tmp/public/frontend/views','.tmp/public/frontend/img'],
+    production: ['.tmp/public/frontend']
   });
 
   grunt.loadNpmTasks('grunt-contrib-clean');

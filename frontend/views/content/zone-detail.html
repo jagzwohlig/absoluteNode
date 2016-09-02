@@ -40,7 +40,7 @@
                                     <input type="tel" name="name" ng-model="formData.name" class="form-control" required>
                                     <div class="error-msg" ng-show="zoneform.name.$invalid && zoneform.name.$touched">Please Enter Zone</div>
                                 </div>
-                                <div class="text-center mt20">
+                                <div class="text-center mt20 odd-even-button">
                                     <button class="btn btn-default" type="submit" ng-click="saveZone(formData)" ng-disabled="zoneform.$invalid">Save</button>
                                     <button class="btn btn-default" ui-sref="zone-list">Cancel</button>
                                 </div>

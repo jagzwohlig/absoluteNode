@@ -4,7 +4,7 @@
             <a title="Home">Company Setup</a>
         </li>
         <li>
-            <a ui-sref="contacttype-list" title="List">Contact Type List</a>
+            <a ui-sref="uniqueType-list" >{{header.name}}</a>
         </li>
     </ul>
 </div>
@@ -25,20 +25,24 @@
             <div class="widget">
                 <div class="form-elements-sec">
                     <div class="widget-title">
-                        <h3>Contact Type</h3>
+                        <h3>Unique Type</h3>
                     </div>
-                    <form class="sec">
+                    <form name="uniqueTypeForm" role="form" class="sec ng-pristine ng-valid">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label>Name*</label>
-                                    <input type="text" class="form-control" placeholder="Name">
+                                    <label for="">Unique Type*</label>
+                                    <input type="text" name="name" placeholder="Unique Type" ng-model="formData.name" class="form-control" required>
+                                    <div class="error-msg" ng-show="uniqueTypeForm.name.$invalid && uniqueTypeForm.name.$touched">Please Enter Unique Type.</div>
+
                                 </div>
 
+                            </div>
+
                         </div>
-                        <div class="text-center mt20">
-                            <button class="btn btn-default" type="submit">Save</button>
-                            <button class="btn btn-default" ui-sref="typeOfOffice-list">Cancel</button>
+                        <div class="text-center mt20 odd-even-button">
+                            <button class="btn btn-default" type="submit" ng-click="saveUniqueType(formData)" ng-disabled="uniqueTypeForm.$invalid">Save</button>
+                            <button class="btn btn-default" ui-sref="uniqueType-list">Cancel</button>
                         </div>
                 </div>
             </div>

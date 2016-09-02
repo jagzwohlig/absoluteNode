@@ -27,7 +27,7 @@
                     <div class="widget-title">
                         <h3>Activity Type</h3>
                     </div>
-                    <form name="cityform" class="sec ng-pristine ng-valid">
+                    <form name="cityform" class="sec ng-pristine ng-valid" ng-submit=saveModel(formData)>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -37,8 +37,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="text-center mt20">
-                            <button class="btn btn-default" type="submit" ng-click="" ng-disabled="cityform.$invalid">Save</button>
+                        <div class="text-center mt20 odd-even-button">
+                            <button class="btn btn-default" type="submit" ng-disabled="cityform.$invalid">Save</button>
                             <button class="btn btn-default" ui-sref="activityType-list">Cancel</button>
                         </div>
                     </div>

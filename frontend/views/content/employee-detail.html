@@ -37,68 +37,86 @@
                                         <multiple-select name="company" required ng-model="formData.company" ng-name="name.company" api="searchCompany" ng-create="companySave"></multiple-select>
                                         <div class="error-msg" ng-show="formName.company.$invalid">Please Select Company Name</div>
                                     </div>
-                                    <div class="form-group">
-                                        <label>First Name*</label>
-                                        <input type="text" name="name" class="form-control" ng-model="formData.firstName" required>
-                                        <div class="error-msg" ng-show="formName.name.$invalid && formName.name.$touched">Please Enter First Name</div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Department*</label>
-                                        <multiple-select name="department" required ng-model="formData.department" ng-name="name.department" api="searchDepartment" ng-create="departmentSave"></multiple-select>
-                                        <div class="error-msg" ng-show="formName.department.$invalid">Please Select Department</div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Posted At*</label>
-                                        <multiple-select name="postedAt" required ng-model="formData.postedAt" filter='{"company":"{{formData.company}}"}' ng-name="name.postedAt" api="searchOffice"></multiple-select>
-                                        <div class="error-msg" ng-show="formName.postedAt.$invalid">Please Select Current Posting</div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Grade*</label>
-                                        <multiple-select name="grade" required ng-model="formData.grade" ng-name="name.grade" api="searchGrade" ng-create="gradeSave"></multiple-select>
-                                        <div class="error-msg" ng-show="formName.grade.$invalid">Please Select Grade</div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>House Color*</label>
-                                        <select type="text" name="houseColor" class="form-control" ng-model="formData.houseColor" required ng-options="houseColor for houseColor in houseColors"></select>
-                                        <div class="error-msg" ng-show="formName.houseColor.$invalid && formName.houseColor.$touched">Please Select House Color</div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Upload Photo</label>
-                                        <upload-image ng-model="formData.photo"></upload-image>
-                                    </div>
                                 </div>
+
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Salutation*</label>
                                         <select name="salutation" class="form-control" ng-model="formData.salutation" required ng-options="salutation for salutation in salutations"></select>
                                         <div class="error-msg" ng-show="formName.salutation.$invalid && formName.salutation.$touched">Please Select Salutation</div>
                                     </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>First Name*</label>
+                                        <input type="text" name="name" class="form-control" ng-model="formData.firstName" required>
+                                        <div class="error-msg" ng-show="formName.name.$invalid && formName.name.$touched">Please Enter First Name</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Last Name*</label>
                                         <input type="text" name="lastName" class="form-control" ng-model="formData.lastName" required>
                                         <div class="error-msg" ng-show="formName.lastName.$invalid && formName.lastName.$touched">Please Enter Last Name</div>
                                     </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Posted at*</label>
+                                        <multiple-select name="postedAt" required ng-model="formData.postedAt" filter='{"company":"{{formData.company}}"}' ng-name="name.postedAt" api="searchOffice"></multiple-select>
+                                        <div class="error-msg" ng-show="formName.postedAt.$invalid">Please Select Current Posting</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Function*</label>
                                         <multiple-select name="func" required ng-model="formData.func" ng-name="name.func" api="searchFunc" ng-create="funcSave"></multiple-select>
                                         <div class="error-msg" ng-show="formName.func.$invalid">Please Select Function</div>
                                     </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Grade*</label>
+                                        <multiple-select name="grade" required ng-model="formData.grade" ng-name="name.grade" api="searchGrade" ng-create="gradeSave" readonly></multiple-select>
+                                        <div class="error-msg" ng-show="formName.grade.$invalid">Please Select Grade</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6"></div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>House Color*</label>
+                                        <select type="text" name="houseColor" class="form-control" ng-model="formData.houseColor" required ng-options="houseColor for houseColor in houseColors"></select>
+                                        <div class="error-msg" ng-show="formName.houseColor.$invalid && formName.houseColor.$touched">Please Select House Color</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Branch*</label>
                                         <multiple-select name="branch" required ng-model="formData.branch" filter='{"office":"{{formData.postedAt}}"}' ng-name="name.branch" api="searchBranch" ng-create="branchSave"></multiple-select>
                                         <div class="error-msg" ng-show="formName.branch.$invalid">Please Select Branch</div>
                                     </div>
-                                    <!-- <div class="form-group">
-                                        <label>Access*</label>
-                                        <multiple-select name="access" required ng-model="formData.access" filter='{"access":"{{formData.access}}"}' ng-name="name.access" api="searchAccess" ng-create="accessSave"></multiple-select>
-                                        <div class="error-msg" ng-show="formName.city.$invalid">Please Select Access</div>
-                                    </div> -->
+                                </div>
+
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Employee Code*</label>
                                         <input type="text" name="employeeCode" class="form-control" ng-model="formData.employeeCode" required>
                                         <div class="error-msg" ng-show="formName.employeeCode.$invalid && formName.employeeCode.$touched">Please Enter Employee Code</div>
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Upload Photo</label>
+                                        <upload-image ng-model="formData.photo"></upload-image>
+                                    </div>
+                                </div>
+                                <!-- <div class="col-md-6">
+                                  <div class="form-group">
+                                      <label>Access*</label>
+                                      <multiple-select name="access" required ng-model="formData.access" filter='{"access":"{{formData.access}}"}' ng-name="name.access" api="searchAccess" ng-create="accessSave"></multiple-select>
+                                      <div class="error-msg" ng-show="formName.city.$invalid">Please Select Access</div>
+                                  </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -112,40 +130,37 @@
                     <div class="form-elements-sec">
                         <div class="widget-title">
                             <h3>CTC Details</h3>
+                            <a class="btn btn-success pull-right" ng-click="addModal('modal-file','','CTCDetails','',formData.CTCDetails)">Create</a>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label>CTC Amount</label>
-                                    <input type="text" name="amount" class="form-control" ng-model="formData.CTCAmount">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>From</label>
-                                    <div class="input-group">
-                                        <input type="text" name="from" class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.CTCFrom" is-open="popup.from" datepicker-options="dateOptions" readonly/>
-                                        <span class="input-group-btn">
-                                            <button type="button" class="btn btn-default" ng-click="popup.from = true">
-                                                <i class="fa fa-calendar"></i>
-                                            </button>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>To</label>
-                                    <div class="input-group">
-                                        <input type="text" name="to" class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.CTCTo" is-open="popup.to" datepicker-options="dateOptions" readonly/>
-                                        <span class="input-group-btn">
-                                            <button type="button" class="btn btn-default" ng-click="popup.to = true">
-                                                <i class="fa fa-calendar"></i>
-                                            </button>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="table-responsive" ng-if="formData.CTCDetails.length>0">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>CTC Amount</th>
+                                        <th>CTC From</th>
+                                        <th>CTC To</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="data in formData.CTCDetails track by $index">
+                                        <td>{{data.amount}}</td>
+                                        <td>{{data.from | date:'dd MMM yyyy'}}</td>
+                                        <td>{{data.to | date:'dd MMM yyyy'}}</td>
+                                        <td>
+                                            <a class="btn btn-blue" ng-click="addModal('modal-file',$index,'CTCDetails',data)">
+                                                <i class="fa fa-pencil"></i>
+                                            </a>
+                                            <a class="btn btn-primary" download="CTCDocyment" ng-href="{{data.image|downloadImage}}">
+                                                <i class="fa fa-download"></i>
+                                            </a>
+                                            <a class="btn btn-danger" ng-click="deleteElements($index, 'CTCDetails')">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -163,10 +178,8 @@
                             <label>Bank Name</label>
                             <input type="text" class="form-control" ng-model="formData.bank">
                         </div>
-                        <div class="form-group">
-                            <label>Account Number</label>
-                            <input type="text" class="form-control" ng-model="formData.accountNumber">
-                        </div>
+                    </div>
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Branch Name</label>
                             <input type="text" class="form-control" ng-model="formData.branchName">
@@ -174,9 +187,11 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Account Name</label>
-                            <input type="text" class="form-control" ng-model="formData.accountName">
+                            <label>Account Number</label>
+                            <input type="text" class="form-control" ng-model="formData.accountNumber">
                         </div>
+                    </div>
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>NEFT Code</label>
                             <input type="text" class="form-control" ng-model="formData.neftCode">
@@ -194,42 +209,6 @@
                             <h3>Address</h3>
                         </div>
                         <address-form ng-valid="companyForm" ng-model="formData"></address-form>
-                    </div>
-                </div>
-                <div class="widget">
-                    <div class="form-elements-sec">
-                        <div class="form-group">
-                            <div class="form-group">
-                                <div class="widget-title">
-                                    <h3>Surveyor</h3>
-                                </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" ng-model="formData.isSurveyor">
-                                        Is Surveyor
-                                    </label>
-                                </div>
-                                <div class="form-group">
-                                    <label>Valid Upto*</label>
-                                    <input type="text" name="validUpto" class="form-control" ng-model="formData.validUpto" required>
-                                    <div class="error-msg" ng-show="formName.validUpto.$invalid && formName.validUpto.$touched">Please Enter Valid Upto</div>
-                                </div>
-                                <div class="form-group">
-                                    <label>License Number*</label>
-                                    <input type="text" name="licenseNumber" class="form-control" ng-model="formData.licence" required>
-                                    <div class="error-msg" ng-show="formName.licenseNumber.$invalid && formName.licenseNumber.$touched">Please Select License Number</div>
-                                </div>
-                                <div class="form-group">
-                                    <label>Upload IIISLA Document Receipt</label>
-                                    <upload-image ng-model="formData.iiislaDocument" no-view></upload-image>
-                                </div>
-                                <div class="form-group">
-                                    <label>Upload Document*</label>
-                                    <upload-image ng-model="formData.EmployeeDocument" no-view></upload-image>
-                                    <div class="error-msg" ng-show="formName.EmployeeDocument.$invalid && formName.EmployeeDocument.$touched">Please Select Document</div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -269,15 +248,21 @@
                         </div>
                     </div>
                 </div>
-                <div class="widget">
-                    <div class="form-elements-sec">
-                        <div class="widget-title">
-                            <h3>Other</h3>
-                        </div>
+
+            </div>
+        </div>
+
+        <div class="widget">
+            <div class="form-elements-sec">
+                <div class="widget-title">
+                    <h3>Other</h3>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Date of Birth*</label>
                             <div class="input-group">
-                                <input type="text" name="birthDate" class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.birthDate" is-open="popup.birthDate" datepicker-options="dateOptions" readonly/>
+                                <input type="text" name="birthDate" class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.birthDate" is-open="popup.birthDate" ng-change="chageDOB(formData.birthDate)" datepicker-options="dateOptions" readonly/>
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-default" ng-click="popup.birthDate = true">
                                         <i class="fa fa-calendar"></i>
@@ -286,17 +271,8 @@
                             </div>
                             <div class="error-msg" ng-show="formName.birthDate.$invalid && formName.birthDate.$touched">Please enter Date of Birth</div>
                         </div>
-                        <div class="form-group">
-                            <label>Marriage Date</label>
-                            <div class="input-group">
-                                <input type="text" name="marriageDate" class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.marriageDate" is-open="popup.marriageDate" datepicker-options="dateOptions" readonly/>
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default" ng-click="popup.marriageDate = true">
-                                        <i class="fa fa-calendar"></i>
-                                    </button>
-                                </span>
-                            </div>
-                        </div>
+                    </div>
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Joining Date*</label>
                             <div class="input-group">
@@ -309,6 +285,22 @@
                             </div>
                             <div class="error-msg" ng-show="formName.joiningDate.$invalid && formName.joiningDate.$touched">Please enter Date of Birth</div>
                         </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Marriage Date</label>
+                            <div class="input-group">
+                                <input type="text" name="marriageDate" class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.marriageDate" is-open="popup.marriageDate" datepicker-options="dateOptions" readonly/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="popup.marriageDate = true">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Leaving Date</label>
                             <div class="input-group">
@@ -320,27 +312,200 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" ng-model="formData.isSBC">
-                                Is SBC
-                            </label>
-                            <span>(service branch cell)</span>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Is SBC (service branch cell)</label>
+                            <br>
+                            <toggle-switch on-label="Yes" off-label="No" ng-model="formData.isSBC" class="switch-mini switch-success"></toggle-switch>
                         </div>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" ng-model="formData.isField">
-                                Is Field
-                            </label>
-                            <span>(on field employee)</span>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Is Field (on field employee)</label>
+                            <br>
+                            <toggle-switch on-label="Yes" off-label="No" ng-model="formData.isField" class="switch-mini switch-success"></toggle-switch>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
 
-        <div class="text-center mt20">
+        <div class="widget">
+            <div class="form-elements-sec">
+                <div class="widget-title">
+                    <a class="btn btn-success pull-right" ng-click="addModal('modal-document','','personalDocument','',formData.personalDocument)">Upload Document</a>
+                    <h3>Personal Documents</h3>
+                </div>
+                <div class="clearfix"></div>
+                <div class="table-responsive" ng-if="formData.personalDocument.length>0">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>File Name</th>
+                                <th width="100">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="data in formData.personalDocument track by $index">
+                                <td>{{data.name}}</td>
+                                <td>
+                                    <a class="btn btn-blue" ng-click="addModal('modal-document',$index,'personalDocument',data)">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                    <a class="btn btn-primary" ng-href="{{data.image|downloadImage}}" download="{{data.name}}.jpg">
+                                        <i class="fa fa-download"></i>
+                                    </a>
+                                    <a class="btn btn-danger" ng-click="deleteElements($index, 'personalDocument')">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="widget">
+            <div class="form-elements-sec">
+                <div class="widget-title">
+                    <h3>Surveyor</h3>
+                    <toggle-switch on-label="Yes" off-label="No" ng-model="formData.isSurveyor" class="switch-mini switch-success"></toggle-switch>
+                    <a class="btn btn-success pull-right" ng-if="formData.isSurveyor" ng-click="addModal('modal-file','','licenseDocument','',formData.licenseDocument)">Upload Now</a>
+                </div>
+                <div class="clearfix"></div>
+                <div ng-if="formData.isSurveyor">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>License Number*</label>
+                                <input type="text" name="licenseNumber" class="form-control" ng-model="formData.licence" required>
+                                <div class="error-msg" ng-show="formName.licenseNumber.$invalid && formName.licenseNumber.$touched">Please Select License Number</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Department*</label>
+                                <ui-select multiple ng-model="formData.department" theme="bootstrap">
+                                    <ui-select-match>{{$item.name}}</ui-select-match>
+                                    <ui-select-choices repeat="department in departments | filter:$select.search" ui-disable-choice="departments.length==0">{{department.name}}</ui-select-choices>
+                                </ui-select>
+                                <div class="error-msg" ng-show="formName.licenseNumber.$invalid && formName.licenseNumber.$touched">Please Select License Number</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive" ng-if="formData.licenseDocument.length>0">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>From</th>
+                                    <th>To</th>
+                                    <th width="100">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="data in formData.licenseDocument track by $index">
+                                    <td>{{data.from | date:'dd MMM yyyy'}}</td>
+                                    <td>{{data.to | date:'dd MMM yyyy'}}</td>
+                                    <td>
+                                        <a class="btn btn-blue" ng-click="addModal('modal-file',$index,'licenseDocument',data)">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                        <a class="btn btn-primary" download="license" ng-href="{{data.image|downloadImage}}">
+                                            <i class="fa fa-download"></i>
+                                        </a>
+                                        <a class="btn btn-danger" ng-click="deleteElements($index, 'licenseDocument')">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="widget" ng-if="formData.isSurveyor">
+            <div class="form-elements-sec">
+                <div class="widget-title">
+                    <a class="btn btn-success pull-right" ng-click="addModal('modal-file','','IIISLACertificate','',formData.IIISLACertificate)">Upload Now</a>
+                    <h3>IIISLA Certificate</h3>
+                </div>
+
+                <div class="table-responsive" ng-if="formData.IIISLACertificate.length>0">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>From</th>
+                                <th>Department</th>
+                                <th width="100">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="data in formData.IIISLACertificate track by $index">
+                                <td>{{data.from | date:'dd MMM yyyy'}}</td>
+                                <td>{{data.department.name || "-"}}</td>
+                                <td>
+                                    <a class="btn btn-blue" ng-click="addModal('modal-file',$index,'IIISLACertificate',data)">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                    <a class="btn btn-primary" download="IIISLA_Certificate" ng-href="{{data.image|downloadImage}}">
+                                        <i class="fa fa-download"></i>
+                                    </a>
+                                    <a class="btn btn-danger" ng-click="deleteElements($index, 'IIISLACertificate')">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="widget" ng-if="formData.isSurveyor">
+            <div class="form-elements-sec">
+                <div class="widget-title">
+                    <a class="btn btn-success pull-right" ng-click="addModal('modal-file','','IIISLAReciept','',formData.IIISLAReciept)">Upload Now</a>
+                    <h3>IIISLA Reciept</h3>
+                </div>
+                <div class="table-responsive" ng-if="formData.IIISLAReciept.length>0">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>From</th>
+                                <th>To</th>
+                                <th width="100">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="data in formData.IIISLAReciept track by $index">
+                                <td>{{data.from | date:'dd MMM yyyy'}}</td>
+                                <td>{{data.to | date:'dd MMM yyyy'}}</td>
+                                <td>
+                                    <a class="btn btn-blue" ng-click="addModal('modal-file',$index,'IIISLAReciept',data)">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                    <a class="btn btn-primary" download="IIISLA_Reciept.pdf" ng-href="{{data.image|downloadImage}}">
+                                        <i class="fa fa-download"></i>
+                                    </a>
+                                    <a class="btn btn-danger" ng-click="deleteElements($index, 'IIISLAReciept')">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+        <div class="text-center mt20 odd-even-button">
             <button class="btn btn-default" type="submit" ng-disabled="formName.$invalid">Save</button>
             <a class="btn btn-default" ui-sref="employee-list">Cancel</a>
         </div>

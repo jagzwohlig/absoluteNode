@@ -1,5 +1,5 @@
-// var adminurl = "http://localhost:1337/";
-var adminurl = "http://104.155.238.145/";
+// var adminurl = "http://localhost:1337/api/";
+var adminurl = "http://104.155.238.145/api/";
 var imgurl = adminurl + "upload/";
 
 var imgpath = imgurl + "readFile";
@@ -99,7 +99,7 @@ var navigationservice = angular.module('navigationservice', [])
         }, {
             name: "Banks",
             classis: "active",
-            anchor: "bankmaster-list",
+            anchor: "bankMaster-list",
             icon: "building"
         }, {
             name: "Activity Type",
@@ -120,23 +120,18 @@ var navigationservice = angular.module('navigationservice', [])
         subnav: [{
             name: "Segment",
             classis: "active",
-            anchor: "customersegment-list",
+            anchor: "customerSegment-list",
             icon: "user"
         }, {
             name: "Company",
             classis: "active",
-            anchor: "customercompany-list",
+            anchor: "customerCompany-list",
             icon: "building"
         }, {
             name: "Customer",
             classis: "active",
             anchor: "customer-list",
             icon: "user"
-        }, {
-            name: "Transfer Office",
-            classis: "active",
-            anchor: "transferoffice-list",
-            icon: "building-o"
         }]
     }, {
         name: "Employee",
@@ -170,19 +165,24 @@ var navigationservice = angular.module('navigationservice', [])
             anchor: "department-list",
             icon: "user"
         }, {
-            name: "Policy Name",
+            name: "Policy Type",
             classis: "active",
-            anchor: "policyname-list",
+            anchor: "policyType-list",
             icon: "link"
         }, {
             name: "Policy Document",
             classis: "active",
-            anchor: "policydoc-list",
+            anchor: "policyDoc-list",
             icon: "file-pdf-o"
         }, {
             name: "Cause of Loss",
             classis: "active",
-            anchor: "causeloss-list",
+            anchor: "causeLoss-list",
+            icon: "money"
+        }, {
+            name: "Nature of Loss",
+            classis: "active",
+            anchor: "natureLoss-list",
             icon: "money"
         }, {
             name: "Salvage",
@@ -192,7 +192,7 @@ var navigationservice = angular.module('navigationservice', [])
         }, {
             name: "Nature of Survey Code",
             classis: "active",
-            anchor: "survey-code-list",
+            anchor: "surveyCode-list",
             icon: "retweet"
         }]
     }, {
@@ -222,8 +222,44 @@ var navigationservice = angular.module('navigationservice', [])
             }
             return menuname;
         },
+        getInsurer: function(callback) {
+            $http.post(adminurl + 'customerCompany/getInsurer', {}).success(callback);
+        },
+        getNature: function(callback) {
+            $http.post(adminurl + 'Nature/search', {}).success(callback);
+        },
+        saveNature: function(data, callback) {
+            $http.post(adminurl + 'Nature/save', data).success(callback);
+        },
         searchModel: function(model, formData, i, callback) {
             $http.post(adminurl + model + '/search', formData).success(function(data) {
+                callback(data, i);
+            });
+        },
+        getDepartment: function(callback) {
+            $http.post(adminurl + 'Department/search', {}).success(callback);
+        },
+        searchCustomer: function(formData, i, callback) {
+            $http.post(adminurl + 'Customer/search', formData).success(function(data) {
+              console.log(data);
+                _.each(data.data.results, function(n) {
+                    n.name = n.officeCode;
+                });
+                callback(data, i);
+            });
+        },
+        searchInsured: function(formData, i, callback) {
+            $http.post(adminurl + 'CustomerCompany/getInsured', formData).success(function(data) {
+                callback(data, i);
+            });
+        },
+        searchInsurer: function(formData, i, callback) {
+            $http.post(adminurl + 'CustomerCompany/getInsurer', formData).success(function(data) {
+                callback(data, i);
+            });
+        },
+        searchPolicyType: function(formData, i, callback) {
+            $http.post(adminurl + 'PolicyType/search', formData).success(function(data) {
                 callback(data, i);
             });
         },
@@ -233,12 +269,12 @@ var navigationservice = angular.module('navigationservice', [])
             });
         },
         searchCustomerSegment: function(formData, i, callback) {
-            $http.post(adminurl + 'Customersegment/search', formData).success(function(data) {
+            $http.post(adminurl + 'CustomerSegment/search', formData).success(function(data) {
                 callback(data, i);
             });
         },
         searchCustomerCompany: function(formData, i, callback) {
-            $http.post(adminurl + 'Customercompany/search', formData).success(function(data) {
+            $http.post(adminurl + 'CustomerCompany/search', formData).success(function(data) {
                 callback(data, i);
             });
         },
@@ -317,7 +353,7 @@ var navigationservice = angular.module('navigationservice', [])
             $http.post(adminurl + 'branch/save', formData).success(callback);
         },
         customerSegmentSave: function(formData, callback) {
-            $http.post(adminurl + 'Customersegment/save', formData).success(callback);
+            $http.post(adminurl + 'CustomerSegment/save', formData).success(callback);
         },
         getAllCountries: function(callback) {
             $http.post(adminurl + 'country/getAll', {}).success(callback);
@@ -963,10 +999,10 @@ var navigationservice = angular.module('navigationservice', [])
             }).success(callback);
         },
         funcSave: function(formData, callback) {
-            $http.post(adminurl + 'func/save',formData).success(callback);
+            $http.post(adminurl + 'func/save', formData).success(callback);
         },
         gradeSave: function(formData, callback) {
-            $http.post(adminurl + 'grade/save',formData).success(callback);
+            $http.post(adminurl + 'grade/save', formData).success(callback);
         },
         getOneFunc: function(id, callback) {
             // console.log('form data: ', formData);
@@ -1568,7 +1604,6 @@ var navigationservice = angular.module('navigationservice', [])
                 "_id": id,
             }).success(callback);
         },
-        
         getLatLng: function(address, i, callback) {
             $http({
                 url: "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=AIzaSyC62zlixVsjaq4zDaL4cefNCubjCgxkte4",
@@ -1578,5 +1613,6 @@ var navigationservice = angular.module('navigationservice', [])
                 callback(data, i);
             });
         }
+
     };
 });

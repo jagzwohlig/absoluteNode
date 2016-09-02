@@ -9,6 +9,7 @@
     "gridfs-stream": "^1.1.1",
     "grunt": "0.4.5",
     "grunt-concat-css": "^0.3.1",
+    "grunt-concurrent": "^2.3.1",
     "grunt-contrib-clean": "0.6.0",
     "grunt-contrib-coffee": "0.13.0",
     "grunt-contrib-concat": "0.5.1",
@@ -60,5 +61,8 @@
     "url": "git://github.com/wohlig/absoluteNode.git"
   },
   "author": "wohlig",
-  "license": ""
+  "license": "",
+  "devDependencies": {
+    "grunt-browser-sync": "^2.2.0"
+  }
 }

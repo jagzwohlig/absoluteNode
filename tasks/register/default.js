@@ -17,5 +17,5 @@
  *
  */
 module.exports = function (grunt) {
-  grunt.registerTask('default', ['sass','concat']);
+  grunt.registerTask('default', ['clean:development','sass:development','concat:development','copy:development','browserSync','concurrent:watch']);
 };

@@ -4,12 +4,12 @@
             <a title="Home">Insurance</a>
         </li>
         <li>
-            <a ui-sref="causeloss-list" >{{header.name}}</a>
+            <a ui-sref="causeLoss-list" >{{header.name}}</a>
         </li>
     </ul>
 </div>
 
-<form name="formName" ng-submit="saveCauseLoss(formData)">
+<form name="formName" ng-submit="saveModel(formData)">
     <div class="heading-sec">
         <div class="row">
             <div class="col-md-12 column">
@@ -30,20 +30,25 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Cause of Loss*</label>
-                                        <input type="text" name="name" ng-model="formData.name" class="form-control" required>
-                                        <div class="error-msg" ng-show="formName.name.$invalid && formName.name.$touched">Please Enter Cause of Loss</div>
+                                        <label>Department*</label>
+                                        <multiple-select name="department" required ng-model="formData.department" ng-name="name.zone" api="searchDepartment" ng-create="departmentSave"></multiple-select>
+                                        <div class="error-msg" ng-show="formName.department.$invalid">Please Enter Department</div>
                                     </div>
                                     <div class="form-group">
-                                        <label>Department*</label>
-                                        <multiple-select name="department" required ng-model="formData.department" filter='{"department":"{{formData.department}}"}' ng-name="name.zone" api="searchDepartment" ng-create="departmentSave"></multiple-select>
-                                        <div class="error-msg" ng-show="formName.department.$invalid">Please Enter Department</div>
+                                        <label>Nature of Loss</label>
+                                        <ui-select multiple tagging="tagTransform" tagging-label="(press enter to add new)" on-select="clicked($select.selected)" ng-model="formData.natureOfLoss" theme="bootstrap">
+                                            <ui-select-match>{{$item.name}}</ui-select-match>
+                                            <ui-select-choices repeat="natureOfLoss in natureOfLosses | filter:$select.search" refresh-delay="0" refresh="refreshNature()">{{natureOfLoss.name}}</ui-select-choices>
+                                        </ui-select>
+                                    </ui-select>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                         <div class="clearfix"></div>
-                        <div class="widget-title">
+                        <!-- <div class="widget-title">
                           <a class="btn btn-primary normal pull-right" ng-click="addNatureOfLoss()">Add New</a>
                             <h3>Nature of Loss</h3>
                         </div>
@@ -73,11 +78,11 @@
                                 </tr>
                               </tbody>
                             </table>
-                        </div>
+                        </div> -->
 
-                        <div class="text-center mt20">
+                        <div class="text-center mt20 odd-even-button">
                             <button class="btn btn-default" type="submit" ng-disabled="formName.$invalid">Save</button>
-                            <a class="btn btn-default" ui-sref="causeloss-list">Cancel</a>
+                            <a class="btn btn-default" ui-sref="causeLoss-list">Cancel</a>
                         </div>
                     </div>
                 </div>

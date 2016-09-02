@@ -4,7 +4,7 @@
             <a title="Home">Company Setup</a>
         </li>
         <li>
-            <a ui-sref="businessbranch-list" >{{header.name}}</a>
+            <a ui-sref="businessBranch-list" >{{header.name}}</a>
         </li>
     </ul>
 </div>
@@ -45,9 +45,9 @@
                             </div>
 
                         </div>
-                        <div class="text-center mt20">
+                        <div class="text-center mt20 odd-even-button">
                             <button class="btn btn-default" type="submit" ng-click="saveBusinessBranch(formData)" ng-disabled="businessBranchForm.$invalid">Save</button>
-                            <button class="btn btn-default" ui-sref="businessbranch-list">Cancel</button>
+                            <button class="btn btn-default" ui-sref="businessBranch-list">Cancel</button>
                         </div>
                 </div>
             </div>

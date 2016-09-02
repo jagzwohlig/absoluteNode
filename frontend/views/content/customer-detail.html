@@ -28,51 +28,51 @@
                     <div class="widget">
                         <div class="form-elements-sec">
                             <div class="widget-title">
-                                <h3>Customer</h3>{{formData}}
+                                <h3>Customer</h3>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                  <div class="form-group">
-                                      <label>Customer Segment*</label>
-                                      <multiple-select name="customerSegment" required ng-model="formData.customerSegment" ng-name="name.customerSegment" api="searchCustomerSegment" ng-create="customerSegmentSave"></multiple-select>
-                                      <div class="error-msg" ng-show="formName.customerSegment.$invalid">Please Select Customer Segment</div>
-                                  </div>
+                                    <div class="form-group">
+                                        <label>Customer Segment*</label>
+                                        <multiple-select name="customerSegment" required ng-model="formData.customerSegment" ng-name="name.customerSegment" api="searchCustomerSegment" ng-create="customerSegmentSave"></multiple-select>
+                                        <div class="error-msg" ng-show="formName.customerSegment.$invalid">Please Select Customer Segment</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Customer Company*</label>
+                                        <multiple-select name="customerCompany" required ng-model="formData.customerCompany" filter='{"customerSegment":"{{formData.customerSegment}}"}' ng-name="name.customerCompany" api="searchCustomerCompany"></multiple-select>
+                                        <div class="error-msg" ng-show="formName.customerCompany.$invalid">Please Select Customer Company</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Type of Office*</label>
                                         <multiple-select name="typeOfOffice" required ng-model="formData.typeOfOffice" ng-name="name.typeOfOffice" api="searchTypeOfOffice" ng-create="typeofofficeSave"></multiple-select>
                                         <div class="error-msg" ng-show="formName.typeOfOffice.$invalid">Please Select Type of Office</div>
                                     </div>
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Credit Limit*</label>
-                                        <input type="text" name="creditLimit" class="form-control" ng-model="formData.creditLimit" required>
-                                        <div class="error-msg" ng-show="formName.creditLimit.$invalid && formName.creditLimit.$touched">Please Enter Credit Limit</div>
+                                        <label>Customer Short Name*</label>
+                                        <input type="text" name="customerCode" class="form-control" ng-model="formData.customerCode" readonly>
                                     </div>
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Policy Issuing Office*</label>
                                         <br>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="issuingOffice" value=true ng-model="formData.issueOffice">Yes
-                                        </label>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="issuingOffice" value=false ng-model="formData.issueOffice">No
-                                        </label>
+                                        <toggle-switch on-label="Yes" off-label="No" ng-model="formData.issueOffice" class="switch-mini switch-success"></toggle-switch>
                                         <div class="error-msg" ng-show="formName.issueOffice.$invalid && formName.issueOffice.$touched">Please Select Policy Issuing Office</div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                  <div class="form-group">
-                                      <label>Customer Company*</label>
-                                      <multiple-select name="customerCompany" required ng-model="formData.customerCompany" filter='{"customerSegment":"{{formData.customerSegment}}"}' ng-name="name.customerCompany" api="searchCustomerCompany" ng-create="customerCompanySave"></multiple-select>
-                                      <div class="error-msg" ng-show="formName.customerCompany.$invalid">Please Select Customer Company</div>
-                                  </div>
-                                    <div class="form-group">
-                                        <label>Customer Name*</label>
-                                        <input type="text" name="customerName" class="form-control" ng-model="formData.customerName" required>
-                                    </div>
                                     <div class="form-group">
                                         <label>Office Code</label>
                                         <input type="text" name="officeCode" class="form-control" ng-model="formData.officeCode">
                                     </div>
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Category*</label>
                                         <br>
@@ -84,7 +84,6 @@
                                         </label>
                                         <div class="error-msg" ng-show="formName.category.$invalid && formName.category.$touched">Please Select Category</div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -101,11 +100,11 @@
                             </div>
                             <div class="form-group">
                                 <label>Credit Limit exhausted</label>
-                                <input class="form-control" name="creditLimitExhausted" ng-model="formData.creditLimitExhausted">
+                                <input class="form-control" name="creditLimitExhausted" ng-model="formData.creditLimitExhausted = 0" readonly>
                             </div>
                             <div class="form-group">
                                 <label>Credit Limit Pending</label>
-                                <input class="form-control" name="creditLimitPending" ng-model="formData.creditLimitPending">
+                                <input class="form-control" name="creditLimitPending" ng-model="formData.creditLimitPending = 0" readonly>
                             </div>
                         </div>
                     </div>
@@ -141,10 +140,6 @@
                                         <input type="text" class="form-control" ng-model="formData.phone2">
                                     </div>
                                     <div class="form-group">
-                                        <label>Phone Number 3</label>
-                                        <input type="text" class="form-control" ng-model="formData.phone3">
-                                    </div>
-                                    <div class="form-group">
                                         <label>Email Id</label>
                                         <input type="email" class="form-control" ng-model="formData.email">
                                     </div>
@@ -156,36 +151,43 @@
                     </div>
 
                     <div class="widget">
-                      <div class="form-elements-sec">
-                        <div class="widget-title">
-                          <div class="pull-right">
-                            <a class="btn btn-primary" ng-click="addOfficer()">Add New</a>
-                          </div>
-                            <h3>Officer</h3>
+                        <div class="form-elements-sec">
+                            <div class="widget-title">
+                                <div class="pull-right">
+                                    <a class="btn btn-primary" ng-click="openCreateOfficer()">Add New</a>
+                                </div>
+                                <h3>List of Officers</h3>
+                            </div>
+                            <div class="table-responsive" ng-if="formData.officers != ''">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="data in formData.officers">
+                                            <td>{{data.firstName}}</td>
+                                            <td>
+                                                <a class="btn btn-primary" ng-click="openEditOfficer($index)">
+                                                    <i class="fa fa-pencil"></i>
+                                                </a>
+                                                <a class="btn btn-danger" ng-click="deleteOfficer($index)">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                                <a class="btn btn-warning" ng-click="transferOfficer()">
+                                                    <i class="fa fa-refresh"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                        <div class="table-responsive">
-                          <!-- <table class="table">
-                            <thead>
-                              <tr>
-                                <th>Name</th>
-                                <th>Action</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>Name</td>
-                                <td>
-                                  <a class="btn btn-primary" ui-sref="editOfficer(officer._id)"><i class="fa fa-pencil"></i></a>
-                                  <a class="btn btn-danger" ng-click="deleteOfficerofficer._id)"><i class="fa fa-trash"></i></a>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table> -->
-                        </div>
-                      </div>
                     </div>
-<div class="clearfix"></div>
-                    <div class="text-center mt20">
+                    <div class="clearfix"></div>
+                    <div class="text-center mt20 odd-even-button">
                         <button class="btn btn-default" type="submit" ng-disabled="formName.$invalid">Save</button>
                         <button class="btn btn-default" type="submit" ui-sref="customer-list">Cancel</button>
                     </div>

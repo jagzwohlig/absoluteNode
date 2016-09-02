@@ -22,15 +22,15 @@
 module.exports = function(grunt) {
 
   grunt.config.set('copy', {
-    dev: {
+    development: {
       files: [{
         expand: true,
-        cwd: './assets',
-        src: ['**/*.!(coffee|less)'],
-        dest: '.tmp/public'
+        cwd: './frontend',
+        src: ['fonts/**','img/**','views/**'],
+        dest: '.tmp/public/frontend'
       }]
     },
-    build: {
+    production: {
       files: [{
         expand: true,
         cwd: '.tmp/public',

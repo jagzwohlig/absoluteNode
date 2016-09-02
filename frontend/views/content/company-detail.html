@@ -43,9 +43,9 @@
                             </div>
                             <div class="form-group">
                                 <label>Bank Name</label>
-                                <multiple-select name="bank" required ng-model="formData.bank" filter='{"bank":"{{formData.bank}}"}' ng-name="name.bank" api="searchBankName" ng-create="bankSave"></multiple-select>
+                                <multiple-select name="bank" required ng-model="formData.bank" ng-name="name.bank" api="searchBank" ng-create="bankSave"></multiple-select>
                             </div>
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label>Account Name</label>
                                 <input type="text" class="form-control" ng-model="formData.accountName" readonly>
                             </div>
@@ -60,7 +60,7 @@
                             <div class="form-group">
                                 <label>Branch Name</label>
                                 <input type="text" class="form-control" ng-model="formData.branchName" readonly>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
 
@@ -163,31 +163,31 @@
                                     <tr>
                                         <td>Field Office Activity</td>
                                         <td>
-                                            <input type="text" class="form-control" ng-model="formData.fieldOfficeActivity">
+                                            <input type="text" class="form-control" only-digits ng-model="formData.fieldOfficeActivity">
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Back Office Activity</td>
                                         <td>
-                                            <input type="text" class="form-control" ng-model="formData.backOfficeActivity">
+                                            <input type="text" class="form-control" only-digits ng-model="formData.backOfficeActivity">
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Reimbursement</td>
                                         <td>
-                                            <input type="text" class="form-control" ng-model="formData.reimbursement">
+                                            <input type="text" class="form-control" only-digits ng-model="formData.reimbursement">
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Receipt</td>
                                         <td>
-                                            <input type="text" class="form-control" ng-model="formData.reciept">
+                                            <input type="text" class="form-control" only-digits ng-model="formData.reciept">
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Journal Voucher</td>
                                         <td>
-                                            <input type="text" class="form-control" ng-model="formData.journalVoucher">
+                                            <input type="text" class="form-control" only-digits ng-model="formData.journalVoucher">
                                         </td>
                                     </tr>
                                 </tbody>
@@ -196,7 +196,7 @@
                     </div>
                 </div>
             </div>
-            <div class="text-center mt20">
+            <div class="text-center mt20 odd-even-button">
                 <button class="btn btn-default" type="submit" ng-disabled="companyForm.$invalid">Save</button>
                 <button class="btn btn-default" ui-sref="company-list">Cancel</button>
             </div>

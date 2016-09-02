@@ -38,14 +38,14 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Yearly Hours*</label>
-                                        <input type="text" name="yearlyHours" class="form-control" ng-model="formData.yearlyHours" required>
-                                        <div class="error-msg" ng-show="formName.yearlyHours.$invalid && formName.yearlyHours.$touched">Please Enter Yearly Hours</div>
+                                        <input type="number" name="yearlyHours" max="2400" class="form-control" ng-model="formData.yearlyHours" required>
+                                        <div class="error-msg" ng-show="formName.yearlyHours.$invalid && formName.yearlyHours.$touched">Yearly Hours should be less than or equal to 2400</div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="text-center mt20">
+                            <div class="text-center mt20 odd-even-button">
                                 <button class="btn btn-default" type="submit" ng-click="saveModel(formData)" ng-disabled="formName.$invalid">Save</button>
-                                <button class="btn btn-default" ui-sref="bankmaster-list">Cancel</button>
+                                <button class="btn btn-default" ui-sref="grade-list">Cancel</button>
                             </div>
                         </div>
                     </div>

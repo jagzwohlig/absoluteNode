@@ -7,7 +7,7 @@
             <a title="Home">Company Setup</a>
         </li>
         <li>
-            <a ui-sref="customercompany-list">Customer Company List</a>
+            <a ui-sref="customerCompany-list">Customer Company List</a>
         </li>
     </ul>
 </div>
@@ -36,7 +36,7 @@
                                     <i class="fa fa-search"></i>
                                 </button>
                             </form>
-                            <a class="btn btn-primary" ui-sref="createcustomercompany">Add New</a>
+                            <a class="btn btn-primary" ui-sref="createcustomerCompany">Add New</a>
                         </div>
 
                         <h3>List of Customer Companies
@@ -46,7 +46,7 @@
                         </h3>
                     </div>
                     <div class="table-responsive">
-                        <table class="table">
+                        <table class="table" ng-show="totalItems>0">
                             <thead>
                                 <tr>
                                     <th>Name</th>
@@ -58,10 +58,10 @@
                             <tbody ng-show="totalItems>0">
                                 <tr ng-repeat="data in modelList">
                                     <td>{{data.name}}</td>
-                                    <td>{{data.segment}}</td>
+                                    <td>{{data.customerSegment.name}}</td>
                                     <td>{{data.shortName}}</td>
                                     <td>
-                                        <a class="btn btn-blue" ui-sref="editcustomercompany({id:data._id})">
+                                        <a class="btn btn-blue" ui-sref="editcustomerCompany({id:data._id})">
                                             <i class="fa fa-pencil"></i>
                                         </a>
                                         <a class="btn btn-red" ng-click="deleteModel(data._id)">
