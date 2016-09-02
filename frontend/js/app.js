@@ -1037,7 +1037,7 @@ firstapp.config(function($stateProvider, $urlRouterProvider, $httpProvider, $loc
     })
 
     ;
-    $urlRouterProvider.otherwise("/login");
+    $urlRouterProvider.otherwise("/timeline");
     $locationProvider.html5Mode(isproduction);
 
 });
