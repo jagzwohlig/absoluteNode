@@ -24,7 +24,7 @@ module.exports = function(grunt) {
     },
     copy: {
       // Assets to watch:
-      files: ['frontend/views/**'],
+      files: ['frontend/views/**','frontend/img/**','frontend/fonts/**'],
       tasks: ['copy:development']
     },
     js: {
