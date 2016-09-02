@@ -1,15 +1,11 @@
 var schema = new Schema({
     firstName: {
         type: String,
-        required: true,
-        // unique: true,
-        // uniqueCaseInsensitive: true
+        required: true
     },
     lastName: {
         type: String,
-        required: true,
-        // unique: true,
-        // uniqueCaseInsensitive: true
+        required: true
     },
     company: {
         type: Schema.Types.ObjectId,

@@ -9,7 +9,7 @@ var schema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "TypeOfOffice",
         required: true,
-        // key: "customer"
+        key: "customer"
     },
     customerCompany: {
         type: Schema.Types.ObjectId,
@@ -127,6 +127,12 @@ schema.plugin(deepPopulate, {
         'customerSegment': {
             select: 'name _id'
         },
+        'customerCompany': {
+          select: 'name _id'
+        },
+        'typeOfOffice': {
+          select: 'name _id'
+        }
     }
 
 });
@@ -135,7 +141,7 @@ schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('Customer', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country customerSegment", "city.district.state.zone.country customerSegment"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country customerSegment customerCompany typeOfOffice", "city.district.state.zone.country customerSegment customerCompany typeOfOffice"));
 
 var model = {
 

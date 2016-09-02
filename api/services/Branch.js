@@ -3,19 +3,22 @@ var schema = new Schema({
         type: String,
         required: true,
         unique: true,
-        uniqueCaseInsensitive: true
+        uniqueCaseInsensitive: true,
+        capitalizeAll: true,
     },
     code: {
         type: String,
         required: true,
         unique: true,
-        uniqueCaseInsensitive: true
+        uniqueCaseInsensitive: true,
+        capitalizeAll: true,
     },
     shortName: {
         type: String,
         required: true,
         unique: true,
-        uniqueCaseInsensitive: true
+        uniqueCaseInsensitive: true,
+        capitalizeAll: true,
     },
     office: {
         type: Schema.Types.ObjectId,
