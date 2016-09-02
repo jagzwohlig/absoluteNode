@@ -17,5 +17,5 @@
  *
  */
 module.exports = function (grunt) {
-  grunt.registerTask('default', ['sass',"css_import",'compileAssets', 'linkAssets',  'watch']);
+  grunt.registerTask('default', ['sass','concat']);
 };
