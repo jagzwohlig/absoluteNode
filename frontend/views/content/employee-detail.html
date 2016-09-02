@@ -387,11 +387,11 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Department*</label>
-                                <ui-select multiple ng-model="formData.department" theme="bootstrap">
+                                <ui-select multiple name="department" ng-model="formData.department" theme="bootstrap">
                                     <ui-select-match>{{$item.name}}</ui-select-match>
                                     <ui-select-choices repeat="department in departments | filter:$select.search" ui-disable-choice="departments.length==0">{{department.name}}</ui-select-choices>
                                 </ui-select>
-                                <div class="error-msg" ng-show="formName.licenseNumber.$invalid && formName.licenseNumber.$touched">Please Select License Number</div>
+                                <div class="error-msg" ng-show="formName.department.$invalid && formName.department.$touched">Please Select Department</div>
                             </div>
                         </div>
                     </div>

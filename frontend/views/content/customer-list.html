@@ -45,7 +45,7 @@
                             <thead>
                                 <tr>
                                     <th>Segment</th>
-                                    <th>Customer Name</th>
+                                    <th>Customer Code</th>
                                     <th>City</th>
                                     <th>Phone No.</th>
                                     <th>Status</th>
@@ -54,10 +54,10 @@
                             </thead>
                             <tbody ng-show="totalItems>0">
                                 <tr ng-repeat="data in modelList">
-                                    <td>{{data.segment}}</td>
-                                    <td>{{data.shortName}}</td>
-                                    <td>{{data.city}}</td>
-                                    <td>{{data.phone1}}</td>
+                                    <td>{{data.customerSegment.name || "-"}}</td>
+                                    <td>{{data.customerCode || "-"}}</td>
+                                    <td>{{data.city.name || "-"}}</td>
+                                    <td>{{data.phone1 || "-"}}</td>
                                     <td>
                                       <toggle-switch ng-model="data.status" class="switch-mini switch-success" ng-change="changeStatus(data)"></toggle-switch>
                                     </td>

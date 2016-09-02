@@ -40,7 +40,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Customer Company*</label>
+                                        <label>Customer Company*</label>{{name.customerCompany}}
                                         <multiple-select name="customerCompany" required ng-model="formData.customerCompany" filter='{"customerSegment":"{{formData.customerSegment}}"}' ng-name="name.customerCompany" api="searchCustomerCompany"></multiple-select>
                                         <div class="error-msg" ng-show="formName.customerCompany.$invalid">Please Select Customer Company</div>
                                     </div>
@@ -55,7 +55,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Customer Short Name*</label>
-                                        <input type="text" name="customerCode" class="form-control" ng-model="formData.customerCode" readonly>
+                                        <input type="text" name="customerCode" class="form-control" ng-model="formData.customerCode" ng-value="formData.customerCode=name.customerCompany+'-'+name.typeOfOffice+'-'+formData.officeCode+'-'+formData.city1" readonly>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -100,15 +100,14 @@
                             </div>
                             <div class="form-group">
                                 <label>Credit Limit exhausted</label>
-                                <input class="form-control" name="creditLimitExhausted" ng-model="formData.creditLimitExhausted = 0" readonly>
+                                <input class="form-control" name="creditLimitExhausted" ng-model="formData.creditLimitExhausted" ng-init="formData.creditLimitExhausted = 0" readonly>
                             </div>
                             <div class="form-group">
                                 <label>Credit Limit Pending</label>
-                                <input class="form-control" name="creditLimitPending" ng-model="formData.creditLimitPending = 0" readonly>
+                                <input class="form-control" name="creditLimitPending" ng-model="formData.creditLimitPending" ng-init="formData.creditLimitPending = 0" readonly>
                             </div>
                         </div>
                     </div>
-
                     <div class="row">
                         <div class="col-md-6">
                             <div class="widget">
@@ -116,7 +115,7 @@
                                     <div class="widget-title">
                                         <h3>Address</h3>
                                     </div>
-                                    <address-form ng-valid="formName" ng-model="formData"></address-form>
+                                    <address-form ng-name="name" ng-valid="formName" ng-model="formData"></address-form>
                                 </div>
                             </div>
                         </div>

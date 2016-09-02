@@ -22,9 +22,9 @@
                                     <i class="fa fa-search"></i>
                                 </button>
                             </form>
-                            <a class="btn btn-primary" ui-sref="createbankmaster">Add New</a>
+                            <a class="btn btn-primary" ui-sref="createassignment">Add New</a>
                         </div>
-                        <h3>List of Banks
+                        <h3>List of Assignment
                             <span class="tableTotal">(Total :
                                 {{totalItems}})
                             </span>
@@ -37,7 +37,7 @@
                                     <th>
                                         #
                                     </th>
-                                    <th>Name</th>
+                                    <th>MR Number</th>
                                     <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
@@ -47,7 +47,7 @@
                                     <td>
                                         {{($index + 1)+((currentPage-1)*maxRow)}}
                                     </td>
-                                    <td>{{data.name}}</td>
+                                    <td>{{data.mrnumber}}</td>
                                     <td>
                                         <toggle-switch ng-model="data.status" class="switch-mini switch-success" ng-change="changeStatus(data)"></toggle-switch>
                                     </td>

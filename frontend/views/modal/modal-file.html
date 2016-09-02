@@ -1,5 +1,5 @@
-<form name="modalForm1" ng-submit="addElements(modalData);$dismiss()" ng-hide="holdObject == 'CTCDetails'">
-    <div class="modal-header blue-bg min-hit">
+<form name="modalForm1" ng-submit="addElements(modalData);$dismiss()" ng-hide="holdObject == 'CTCDetails'" class=" min-hit">
+    <div class="modal-header blue-bg">
         <div class="pull-right">
             <a class="btn btn-clear" ng-click="$dismiss()">
                 <i class="ln-cross"></i>
@@ -45,11 +45,14 @@
               </div>
               <div class="form-group" ng-if="holdObject == 'IIISLACertificate'">
                   <label>Department</label>
-                  <div class="input-group">
-                    <multiple-select name="department" required ng-model="modalData.department" ng-name="name.zone" api="searchDepartment" ng-create="departmentSave"></multiple-select>
-
-                    <div class="error-msg" ng-show="modalForm.to.$invalid && modalForm.to.$touched">Please Enter Grade Based On CTC</div>
-                  </div>
+                  <multiple-select name="department" required ng-model="modalData.department" ng-name="name.zone" api="searchDepartment" ng-create="departmentSave"></multiple-select>
+                  <div class="error-msg" ng-show="modalForm.to.$invalid && modalForm.to.$touched">Please Select Department</div>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="form-group" ng-if="holdObject == 'IIISLACertificate'">
+                  <label>Eligible for</label>
+                  <input type="text" class="form-control" name="eligibleFor" ng-model="modalData.eligibleFor" readonly>
               </div>
           </div>
       </div>

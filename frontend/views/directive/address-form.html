@@ -20,7 +20,7 @@
 </div>
 <div class="form-group">
     <label>City*</label>
-    <multiple-select  name="city" required ng-model="formData.city" filter='{"district":"{{formData.district}}"}' ng-name = "name.city" api="searchCity" ng-create="citySave"></multiple-select>
+    <multiple-select  name="city" required ng-model="formData.city" filter='{"district":"{{formData.district}}"}' ng-name = "formData.city1" api="searchCity" ng-create="citySave"></multiple-select>
     <div class="error-msg" ng-show="demoForm.city.$invalid">Please Enter city</div>
 </div>
 <div class="form-group">
@@ -50,7 +50,7 @@
     <label>Final Address</label>
     <div>
       {{formData.address }},</br>
-      {{name.city}} {{formData.pincode}},</br>
+      {{formData.city1}} {{formData.pincode}},</br>
       {{name.district}}, {{name.state}}, {{name.country}}
     </div>
 </div>

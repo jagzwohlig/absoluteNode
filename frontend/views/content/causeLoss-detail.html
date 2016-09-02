@@ -40,7 +40,6 @@
                                             <ui-select-match>{{$item.name}}</ui-select-match>
                                             <ui-select-choices repeat="natureOfLoss in natureOfLosses | filter:$select.search" refresh-delay="0" refresh="refreshNature()">{{natureOfLoss.name}}</ui-select-choices>
                                         </ui-select>
-                                    </ui-select>
 
                                     </div>
                                 </div>
@@ -48,37 +47,6 @@
                         </div>
 
                         <div class="clearfix"></div>
-                        <!-- <div class="widget-title">
-                          <a class="btn btn-primary normal pull-right" ng-click="addNatureOfLoss()">Add New</a>
-                            <h3>Nature of Loss</h3>
-                        </div>
-                        <div class="table-responsive">
-                            <table class="table table-input">
-                              <thead>
-                                <tr>
-                                  <th>Name</th>
-                                  <th width="150px">Actions
-                                  </th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr>
-                                  <td><input type="text" class="form-control" ng-readonly></td>
-                                  <td>
-                                      <a class="btn btn-primary" ng-click="editNatureOfLoss()">
-                                          <i class="fa fa-pencil"></i>
-                                      </a>
-                                      <a class="btn btn-success" ui-sref="saveNatureOfLoss({id:loss._id})">
-                                          <i class="fa fa-floppy-o"></i>
-                                      </a>
-                                      <a class="btn btn-danger" ng-click="deleteNatureOfLoss()">
-                                          <i class="fa fa-trash"></i>
-                                      </a>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                        </div> -->
 
                         <div class="text-center mt20 odd-even-button">
                             <button class="btn btn-default" type="submit" ng-disabled="formName.$invalid">Save</button>
