@@ -6,7 +6,6 @@ module.exports = [
   'bower_components/peity/jquery.peity.min.js',
   'bower_components/jquery-slimscroll/jquery.slimscroll.min.js',
   'bower_components/tinymce-dist/tinymce.js',
-
   'bower_components/angular/angular.min.js',
   'bower_components/angular-animate/angular-animate.min.js',
   'bower_components/angular-flexslider/angular-flexslider.js',
@@ -28,7 +27,6 @@ module.exports = [
   "bower_components/angular-toastr/dist/angular-toastr.tpls.js",
   "bower_components/angular-hotkeys/build/hotkeys.js",
   "bower_components/moment/min/moment.min.js",
-
   "frontend/js/app.js",
   "frontend/js/controllers.js",
   "frontend/js/language.js",
