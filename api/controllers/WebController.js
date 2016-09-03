@@ -1,6 +1,6 @@
 module.exports = {
     index: function(req, res) {
-        var jsFiles = require("./frontend/files.js");
+        var jsFiles = require("../../frontend/files.js");
         res.view(sails.config.environment, {
             jsFiles: jsFiles,
             title: "Abolute Business Manager",
