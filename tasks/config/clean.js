@@ -12,10 +12,11 @@
  */
 module.exports = function(grunt) {
 
-  grunt.config.set('clean', {
-    development: ['.tmp/public/frontend/css','.tmp/public/frontend/js','.tmp/public/frontend/fonts','.tmp/public/frontend/views','.tmp/public/frontend/img'],
-    production: ['.tmp/public/frontend']
-  });
+    grunt.config.set('clean', {
+        development: ['.tmp/public/frontend/css', '.tmp/public/frontend/js', '.tmp/public/frontend/fonts', '.tmp/public/frontend/views', '.tmp/public/frontend/img'],
+        production: ['.tmp/public/frontend'],
+        productionFiles: ['.tmp/public/frontend/css/main.css', '.tmp/public/frontend/js/main.js']
+    });
 
-  grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-clean');
 };
