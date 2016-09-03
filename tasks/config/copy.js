@@ -40,9 +40,9 @@ module.exports = function(grunt) {
         production: {
             files: [{
                 expand: true,
-                cwd: '.tmp/public',
-                src: ['**/*'],
-                dest: 'www'
+                cwd: './frontend',
+                src: ['fonts/**', 'img/**'],
+                dest: '.tmp/public/frontend'
             }]
         }
     });
