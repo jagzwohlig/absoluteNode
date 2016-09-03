@@ -66,11 +66,11 @@ module.exports = mongoose.model('CustomerCompany', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "customerSegment", "customerSegment"));
 var model = {
-    getInsurer: function(data, callback) {
+    getSegmented: function(data, callback) {
         var Model = this;
         var Const = this(data);
         var maxRow = Config.maxRow;
-
+        console.log(data.segment);
         var page = 1;
         if (data.page) {
             page = data.page;
@@ -100,7 +100,7 @@ var model = {
                 } else {
                     var company2 = {};
                     company2.results = _.slice(_.filter(company, function(c) {
-                        return c.customerSegment.name == "Insurer";
+                        return c.customerSegment.name == data.segment;
                     }), 0, Config.maxRow);
                     callback(err, company2);
                 }
