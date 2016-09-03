@@ -30,7 +30,7 @@ module.exports = function(grunt) {
     js: {
       // Assets to watch:
       files: ['frontend/js/**'],
-      tasks: ['concat:development']
+      tasks: ['copy:jsDevelopment']
     }
   });
 
