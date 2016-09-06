@@ -30,6 +30,14 @@ var schema = new Schema({
         index: true,
         restrictedDelete: true
     },
+    natureloss: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: "NatureLoss",
+        }],
+        index: true,
+        restrictedDelete: true
+    },
 });
 
 schema.plugin(deepPopulate, {

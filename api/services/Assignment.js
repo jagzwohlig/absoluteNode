@@ -98,10 +98,42 @@ var schema = new Schema({
         required: true,
         key: "assignment"
       },
+      name:{
+        type: String
+      },
       item: {
         type: String
       }
-    }]
+    }],
+    invoice: [{
+      invoiceNumber: {
+        type: String
+      },
+      invoiceNumberDate: {
+        type: Date
+      }
+    }],
+    LRs: [{
+      lrNumber: {
+        type: String
+      },
+      lrNumberDate: {
+        type: Date
+      }
+    }],
+    vehicleNumber: [{
+      vehicleNumber: {
+        type: String
+      }
+    }],
+    others: [{
+      locationID: {
+        type: String
+      },
+      productID: {
+        type: Date
+      }
+    }],
 });
 
 schema.plugin(deepPopulate, {});

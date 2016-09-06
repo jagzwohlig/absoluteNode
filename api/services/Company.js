@@ -56,6 +56,14 @@ var schema = new Schema({
         index: true,
         restrictedDelete: true
     },
+    branch: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: "Branch",
+        }],
+        index: true,
+        restrictedDelete: true
+    },
     fieldOfficeActivity: {
         type: Number,
     },

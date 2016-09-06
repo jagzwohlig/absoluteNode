@@ -20,6 +20,12 @@ var schema = new Schema({
         uniqueCaseInsensitive: true,
         capitalizeAll: true,
     },
+    company:{
+      type: Schema.Types.ObjectId,
+      ref: "Company",
+      required: true,
+      key: "branch"
+    },
     office: {
         type: Schema.Types.ObjectId,
         ref: "Office",

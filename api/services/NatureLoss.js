@@ -6,9 +6,15 @@ var schema = new Schema({
         uniqueCaseInsensitive: true,
         capitalizeAll: true,
     },
-    sequence: {
+    code: {
         type: String,
         required: true
+    },
+    causeLoss: {
+        type: Schema.Types.ObjectId,
+        ref: "CauseLoss",
+        required: true,
+        key: "natureloss"
     },
     status: {
       type: Boolean,
