@@ -269,6 +269,11 @@ var navigationservice = angular.module('navigationservice', [])
                 callback(data, i);
             });
         },
+        searchEmployee: function(formData, i, callback) {
+            $http.post(adminurl + 'Employee/search', formData).success(function(data) {
+                callback(data, i);
+            });
+        },
         searchPolicyType: function(formData, i, callback) {
             $http.post(adminurl + 'PolicyType/search', formData).success(function(data) {
                 callback(data, i);

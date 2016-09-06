@@ -1,12 +1,12 @@
 var schema = new Schema({
     name: {
       type: Schema.Types.ObjectId,
-      ref: "City",
+      ref: "Customer",
       index: true,
       required: true,
-      key: "customer"
+      key: "assignment"
     },
-    claim: {
+    typeOfClaim: {
         type: Schema.Types.ObjectId,
         ref: "Claims",
         index: true,
@@ -65,6 +65,13 @@ var schema = new Schema({
       required: true,
       key: "assignment"
     },
+    natureOfLoss: [{
+      type: Schema.Types.ObjectId,
+      ref: "NatureLoss",
+      index: true,
+      required: true,
+      key: "assignment"
+    }],
     //Nature of loss
     brokerOffice: {
       type: Schema.Types.ObjectId,
@@ -131,17 +138,24 @@ var schema = new Schema({
         type: String
       },
       productID: {
-        type: Date
+        type: String
       }
     }],
 });
 
-schema.plugin(deepPopulate, {});
+schema.plugin(deepPopulate, {
+  'natureOfLoss': {
+      select: 'name _id'
+  },
+  'shareWith': {
+      select: 'name _id'
+  },
+});
 schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('Assignment', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema,"natureOfLoss shareWith","natureOfLoss shareWith"));
 
 var model = {};
 

@@ -20,7 +20,7 @@ var schema = new Schema({
     issueOffice: {
         type: String
     },
-    customerCode: {
+    name: {
         type: String
     },
     officeCode: {

@@ -52,7 +52,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Branch Office*</label>
-                                        <multiple-select name="branchOffice" required ng-model="formData.office" filter='{"company":"{{formData.company}}"}' ng-name="name.office" api="searchOffice"></multiple-select>
+                                        <multiple-select name="branchOffice" required ng-model="formData.branch" filter='{"company":"{{formData.company}}"}' ng-name="name.branch" api="searchOffice"></multiple-select>
                                         <div class="error-msg" ng-show="formName.branchOffice.$invalid">Please Select Branch Office</div>
                                     </div>
                                 </div>
@@ -90,7 +90,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Appointed by*</label>
-                                        <multiple-select name="appointedBy" required ng-model="formData.office" filter='{"company":"{{formData.company}}"}' ng-name="name.office" api="searchOffice"></multiple-select>
+                                        <multiple-select name="appointedBy" required ng-model="formData.office" filter='{"branch":"{{formData.branch}}"}' ng-name="name.office" api="searchEmployee"></multiple-select>
                                         <div class="error-msg" ng-show="formName.appointedBy.$invalid">Please Select Appointed By</div>
                                     </div>
                                 </div>
