@@ -8,7 +8,6 @@ module.exports = _.cloneDeep(require("sails-wohlig-controller"));
 var controller = {
   getSegmented: function(req, res) {
       if (req.body) {
-        console.log(req.body);
           req.model.getSegmented(req.body, res.callback);
 
       } else {
