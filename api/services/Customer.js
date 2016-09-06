@@ -103,6 +103,14 @@ var schema = new Schema({
         index: true,
         restrictedDelete: true
     },
+    assignment: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: "Assignment",
+        }],
+        index: true,
+        restrictedDelete: true
+    },
 
 });
 
@@ -177,7 +185,50 @@ var model = {
         .keyword(options)
         .page(options, callback);
 
-    }
+    },
+    getSegmented: function(data, callback) {
+        var Model = this;
+        var Const = this(data);
+        var maxRow = Config.maxRow;
+        console.log(data.segment);
+        var page = 1;
+        if (data.page) {
+            page = data.page;
+        }
+        var field = data.field;
+        var options = {
+            field: data.field,
+            filters: {
+                keyword: {
+                    fields: ['name'],
+                    term: data.keyword
+                }
+            },
+            sort: {
+                asc: 'name'
+            },
+            start: (page - 1) * maxRow,
+            count: maxRow
+        };
+
+        var Search = Model.find()
+            .order(options)
+            .keyword(options)
+            .deepPopulate("customerSegment").exec(function(err, company) {
+                if (err) {
+                    callback(err, company);
+                } else {
+                    var company2 = {};
+                    company2.results = _.slice(_.filter(company, function(c) {
+                        return c.customerSegment.name == data.segment;
+                    }), 0, Config.maxRow);
+                    callback(err, company2);
+                }
+
+            });
+
+
+    },
 
 
 };

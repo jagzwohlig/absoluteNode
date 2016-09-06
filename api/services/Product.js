@@ -16,6 +16,14 @@ var schema = new Schema({
         type: Boolean,
         default: true
     },
+    assignment: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: "Assignment",
+        }],
+        index: true,
+        restrictedDelete: true
+    },
 });
 
 schema.plugin(uniqueValidator);

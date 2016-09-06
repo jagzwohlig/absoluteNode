@@ -29,7 +29,15 @@ var schema = new Schema({
     status:{
       type: Boolean,
       default:true
-    }
+    },
+    assignment: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: "Assignment",
+        }],
+        index: true,
+        restrictedDelete: true
+    },
 });
 
 schema.plugin(deepPopulate, {

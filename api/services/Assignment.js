@@ -49,7 +49,59 @@ var schema = new Schema({
       index: true,
       required: true,
       key: "assignment"
-    }
+    },
+    insuredOffice: {
+      type: Schema.Types.ObjectId,
+      ref: "Customer",
+      index: true,
+      required: true,
+      key: "assignment"
+    },
+    //insured officers
+    causeOfLoss: {
+      type: Schema.Types.ObjectId,
+      ref: "CauseLoss",
+      index: true,
+      required: true,
+      key: "assignment"
+    },
+    //Nature of loss
+    brokerOffice: {
+      type: Schema.Types.ObjectId,
+      ref: "Customer",
+      index: true,
+      required: true,
+      key: "assignment"
+    },
+    insurancePolicy: {
+      type: Schema.Types.ObjectId,
+      ref: "PolicyType",
+      index: true,
+      required: true,
+      key: "assignment"
+    },
+    siteContact: {
+      type: String
+    },
+    shareWith: [{
+      type: Schema.Types.ObjectId,
+      ref: "Employee",
+      index: true,
+      required: true,
+      key: "assignment"
+    }],
+    products: [{
+      product: {
+        type: Schema.Types.ObjectId,
+        ref: "Product",
+        index: true,
+        required: true,
+        key: "assignment"
+      },
+      item: {
+        type: String
+      }
+    }]
 });
 
 schema.plugin(deepPopulate, {});
