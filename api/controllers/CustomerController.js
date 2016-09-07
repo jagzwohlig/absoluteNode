@@ -6,7 +6,7 @@
  */
 module.exports = _.cloneDeep(require("sails-wohlig-controller"));
 var controller = {
-    getOfficer: function(data, callback) {
+    getOfficer: function(req, res) {
         if (req.body) {
             req.model.getOfficer(req.body, res.callback);
 

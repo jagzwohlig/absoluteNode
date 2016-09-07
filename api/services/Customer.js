@@ -160,6 +160,7 @@ var model = {
             } else if (_.isEmpty(data2)) {
                 callback(err, data2);
             } else {
+              console.log(data2);
                 data2 = data.officers;
                 _.each(data2, function(n) {
                     data.name = data.firstName + data.lastName;
