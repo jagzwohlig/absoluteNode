@@ -115,7 +115,7 @@ npm-debug.log
 
 *~
 *#
-.DS_STORE
+*.DS_STORE
 .netbeans
 nbproject
 .idea
