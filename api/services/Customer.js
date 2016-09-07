@@ -136,10 +136,10 @@ schema.plugin(deepPopulate, {
             select: 'name _id'
         },
         'customerCompany': {
-          select: 'name _id'
+            select: 'name _id'
         },
         'typeOfOffice': {
-          select: 'name _id'
+            select: 'name _id'
         }
     }
 
@@ -152,8 +152,19 @@ module.exports = mongoose.model('Customer', schema);
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country customerSegment customerCompany typeOfOffice", "city.district.state.zone.country customerSegment customerCompany typeOfOffice"));
 
 var model = {
-
-    search: function(data,callback) {
+    getOfficer: function(data, callback) {
+        var Model = this;
+        var Search = Model.findOne(data.filter).lean().exec(function(err, data2) {
+            if (err) {
+                callback(err, data2);
+            } else if (_.isEmpty(data2)) {
+                callback(err, data2);
+            } else {
+                data2 = data.officers;
+            }
+        });
+    },
+    search: function(data, callback) {
         var Model = this;
         var Const = this(data);
         var maxRow = Config.maxRow;
@@ -181,9 +192,9 @@ var model = {
         var Search = Model.find(data.filter)
 
         .order(options)
-        .deepPopulate("city.district.state.zone.country customerSegment")
-        .keyword(options)
-        .page(options, callback);
+            .deepPopulate("city.district.state.zone.country customerSegment")
+            .keyword(options)
+            .page(options, callback);
 
     },
     getSegmented: function(data, callback) {
