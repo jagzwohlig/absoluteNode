@@ -161,11 +161,11 @@ var model = {
                 callback(err, data2);
             } else {
               console.log(data2);
-                data2 = data.officers;
-                _.each(data2, function(n) {
-                    data.name = data.firstName + data.lastName;
+                data3 = data2.officers;
+                _.each(data3, function(n) {
+                    n.name = n.firstName + n.lastName;
                 });
-                callback(err, data2);
+                callback(err, data3);
             }
         });
     },
