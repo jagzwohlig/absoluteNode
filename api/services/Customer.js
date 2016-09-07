@@ -161,7 +161,8 @@ var model = {
                 callback(err, data2);
             } else {
               console.log(data2);
-                data3 = data2.officers;
+              var data3 = {};
+                data3.results = data2.officers;
                 _.each(data3, function(n) {
                     n.name = n.firstName + n.lastName;
                 });
