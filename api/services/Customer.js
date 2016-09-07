@@ -161,6 +161,10 @@ var model = {
                 callback(err, data2);
             } else {
                 data2 = data.officers;
+                _.each(data2, function(n) {
+                    data.name = data.firstName + data.lastName;
+                });
+                callback(err, data2);
             }
         });
     },
