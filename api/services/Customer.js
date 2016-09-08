@@ -77,15 +77,11 @@ var schema = new Schema({
         default: true
     },
     officers: [{
-        salutation: String,
-        firstName: String,
-        lastName: String,
-        birthDate: Date,
-        designation: String,
-        email: String,
-        password: String,
-        officeNumber: String,
-        mobileNumber: String
+        type: Schema.Types.ObjectId,
+        ref: "Officer",
+        index: true,
+        required: true,
+        key: "customer"
     }],
     policydoc: {
         type: [{
@@ -140,6 +136,9 @@ schema.plugin(deepPopulate, {
         },
         'typeOfOffice': {
             select: 'name _id'
+        },
+        'officers': {
+          select: 'name _id salutation firstName lastName birthDate designation email password officeNumber mobileNumber'
         }
     }
 
@@ -149,12 +148,12 @@ schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('Customer', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country customerSegment customerCompany typeOfOffice", "city.district.state.zone.country customerSegment customerCompany typeOfOffice"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country customerSegment customerCompany typeOfOffice officers", "city.district.state.zone.country customerSegment customerCompany typeOfOffice officers"));
 
 var model = {
     getOfficer: function(data, callback) {
         var Model = this;
-        var Search = Model.findOne(data.filter).lean().exec(function(err, data2) {
+        var Search = Model.findOne(data.filter).lean().populate('officers').exec(function(err, data2) {
             if (err) {
                 callback(err, data2);
             } else if (_.isEmpty(data2)) {
