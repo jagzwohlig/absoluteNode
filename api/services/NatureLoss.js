@@ -6,28 +6,18 @@ var schema = new Schema({
         uniqueCaseInsensitive: true,
         capitalizeAll: true,
     },
-    code: {
-        type: String,
-        required: true
-    },
-    causeLoss: {
-        type: Schema.Types.ObjectId,
-        ref: "CauseLoss",
-        required: true,
-        key: "natureloss"
-    },
-    status: {
-      type: Boolean,
-      default: true
-    },
-    assignment: {
+    causeloss: {
         type: [{
             type: Schema.Types.ObjectId,
-            ref: "Assignment",
+            ref: "CauseLoss",
         }],
         index: true,
         restrictedDelete: true
     },
+    status: {
+      type: Boolean,
+      default: true
+    }
 });
 
 schema.plugin(deepPopulate, {});

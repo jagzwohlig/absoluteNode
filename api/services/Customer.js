@@ -23,6 +23,12 @@ var schema = new Schema({
     name: {
         type: String
     },
+    TOFShortName: {
+        type: String
+    },
+    companyShortName: {
+        type: String
+    },
     officeCode: {
         type: String
     },

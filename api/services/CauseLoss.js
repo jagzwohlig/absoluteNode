@@ -14,29 +14,13 @@ var schema = new Schema({
     },
     natureOfLoss:[{
       type: Schema.Types.ObjectId,
-      ref: "Nature",
+      ref: "NatureLoss",
       required: true,
-      key: "natureofloss"
+      key: "causeloss"
     }],
     status: {
       type: Boolean,
       default: true
-    },
-    assignment: {
-        type: [{
-            type: Schema.Types.ObjectId,
-            ref: "Assignment",
-        }],
-        index: true,
-        restrictedDelete: true
-    },
-    natureloss: {
-        type: [{
-            type: Schema.Types.ObjectId,
-            ref: "NatureLoss",
-        }],
-        index: true,
-        restrictedDelete: true
     },
 });
 

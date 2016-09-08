@@ -191,6 +191,12 @@ var schema = new Schema({
           required: true,
           key: "employee"
       },
+      membership: {
+          type: Schema.Types.ObjectId,
+          ref: "Membership",
+          required: true,
+          key: "employee"
+      },
     }],
     IIISLAReciept: [{
       image: {
