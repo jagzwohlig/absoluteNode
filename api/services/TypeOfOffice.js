@@ -6,6 +6,12 @@ var schema = new Schema({
         uniqueCaseInsensitive: true,
         capitalizeAll: true,
     },
+    shortCode: {
+        type: String,
+        required: true,
+        unique: true,
+        uniqueCaseInsensitive: true,
+    },
     status: {
         type: Boolean,
         default: true
