@@ -85,7 +85,7 @@ var schema = new Schema({
       required: true,
       key: "assignment"
     },
-    insurancePolicy: {
+    policyType: {
       type: Schema.Types.ObjectId,
       ref: "PolicyType",
       index: true,

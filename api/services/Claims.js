@@ -6,6 +6,10 @@ var schema = new Schema({
         uniqueCaseInsensitive: true,
         capitalizeAll: true,
     },
+    isInsured: {
+        type: Boolean,
+        default: true
+    },
     assignment: {
         type: [{
             type: Schema.Types.ObjectId,
