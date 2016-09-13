@@ -67,6 +67,7 @@ var models = {
         });
     },
     manageArrayObject: function(Model, id, data, key, action, callback) {
+
         Model.findOne({
             "_id": id
         }, function(err, data2) {

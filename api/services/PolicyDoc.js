@@ -97,7 +97,9 @@ var model = {
             _.each(data2, function(n) {
                 data3.push(n.listOfDocuments);
             });
-            callback(err, data3);
+            var resultdoc = {};
+            resultdoc.results = data3;
+            callback(err, resultdoc);
         });
     },
 };

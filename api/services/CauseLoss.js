@@ -18,6 +18,14 @@ var schema = new Schema({
       required: true,
       key: "causeloss"
     }],
+    assignment: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: "Assignment"
+        }],
+        index: true,
+        restrictedDelete: true
+    },
     status: {
       type: Boolean,
       default: true

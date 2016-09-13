@@ -1,7 +1,10 @@
 var schema = new Schema({
     name: {
+      type: String
+    },
+    company: {
       type: Schema.Types.ObjectId,
-      ref: "Customer",
+      ref: "Company",
       index: true,
       required: true,
       key: "assignment"
@@ -9,6 +12,13 @@ var schema = new Schema({
     typeOfClaim: {
         type: Schema.Types.ObjectId,
         ref: "Claims",
+        index: true,
+        required: true,
+        key: "assignment"
+    },
+    department: {
+        type: Schema.Types.ObjectId,
+        ref: "Department",
         index: true,
         required: true,
         key: "assignment"
@@ -30,22 +40,32 @@ var schema = new Schema({
     appointment: {
       type: String
     },
+    dateOfAppointment: {
+      type: Date
+    },
     dateOfIntimation: {
       type: Date
     },
     intimatedLoss: {
       type: String
     },
-    appointedBy: {
+    owner: {
       type: Schema.Types.ObjectId,
       ref: "Employee",
       index: true,
       required: true,
       key: "assignment"
     },
-    owner: {
+    customer: {
       type: Schema.Types.ObjectId,
-      ref: "Employee",
+      ref: "Customer",
+      index: true,
+      required: true,
+      key: "assignment"
+    },
+    segment: {
+      type: Schema.Types.ObjectId,
+      ref: "CustomerSegment",
       index: true,
       required: true,
       key: "assignment"
@@ -78,7 +98,14 @@ var schema = new Schema({
       required: true,
       key: "assignment"
     }],
-    brokerOffice: {
+    broker: {
+      type: Schema.Types.ObjectId,
+      ref: "Customer",
+      index: true,
+      required: true,
+      key: "assignment"
+    },
+    insurer: {
       type: Schema.Types.ObjectId,
       ref: "Customer",
       index: true,
@@ -92,16 +119,58 @@ var schema = new Schema({
       required: true,
       key: "assignment"
     },
-    siteContact: {
+    policyDoc: {
+      type: Schema.Types.ObjectId,
+      index: true,
+    },
+    city: {
+        type: Schema.Types.ObjectId,
+        ref: "City",
+        index: true,
+        required: true
+    },
+    address: String,
+    pincode: String,
+    lat: {
+        type: Number,
+    },
+    lng: {
+        type: Number,
+    },
+    siteNumber: {
+      type: String
+    },
+    siteMobile: {
+      type: String
+    },
+    siteEmail: {
       type: String
     },
     shareWith: [{
-      type: Schema.Types.ObjectId,
-      ref: "Employee",
-      index: true,
-      required: true,
-      key: "assignment"
+      name: {
+        type: String
+      },
+      office: {
+        type: Schema.Types.ObjectId,
+        ref: "Office",
+        index: true,
+        required: true,
+        key: "assignment"
+      },
+      persons: [{
+        type: Schema.Types.ObjectId,
+        ref: "Employee",
+        index: true,
+        required: true,
+        key: "assignment"
+      }]
     }],
+    isInsured: {
+      type: Boolean
+    },
+    postLoss: {
+      type: Boolean
+    },
     products: [{
       product: {
         type: Schema.Types.ObjectId,
@@ -109,9 +178,6 @@ var schema = new Schema({
         index: true,
         required: true,
         key: "assignment"
-      },
-      name:{
-        type: String
       },
       item: {
         type: String
@@ -149,21 +215,48 @@ var schema = new Schema({
 });
 
 schema.plugin(deepPopulate, {
-  'natureOfLoss': {
-      select: 'name _id'
-  },
-  'shareWith': {
-      select: 'name _id'
-  },
-  'insuredOfficer': {
-    select: 'name _id'
-  }
+
+      populate: {
+          'city': {
+              select: 'name _id district'
+          },
+          'city.district': {
+              select: 'name _id state'
+          },
+          'city.district.state': {
+              select: 'name _id zone'
+          },
+          'city.district.state.zone': {
+              select: 'name _id country'
+          },
+          'city.district.state.zone.country': {
+              select: 'name _id'
+          },
+          'bank': {
+              select: 'name _id'
+          },
+          'natureOfLoss': {
+              select: 'name _id'
+          },
+          'shareWith.persons': {
+              select: 'name _id'
+          },
+          'insuredOfficer': {
+            select: 'name _id'
+          },
+          'products.industry': {
+              select: 'name _id'
+          },
+          'products.category': {
+              select: 'name _id'
+          }
+      }
 });
 schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('Assignment', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema,"natureOfLoss shareWith insuredOfficer","natureOfLoss shareWith insuredOfficer"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema,"city.district.state.zone.country products.industry products.category shareWith.persons natureOfLoss insuredOfficer","city.district.state.zone.country products.industry products.category shareWith.persons natureOfLoss insuredOfficer"));
 
 var model = {};
 

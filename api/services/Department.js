@@ -50,6 +50,14 @@ var schema = new Schema({
         index: true,
         restrictedDelete: true
     },
+    assignment: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: "Assignment",
+        }],
+        index: true,
+        restrictedDelete: true
+    },
 });
 
 schema.plugin(deepPopulate, {});
