@@ -12,5 +12,6 @@
  *
  */
 module.exports = function(grunt) {
-    grunt.registerTask('prod', ['clean:development', 'copy:production', 'sass:production', 'concat:production', 'htmlmin', 'uglify:production', 'cssmin:production', 'clean:productionFiles']);
+    grunt.registerTask('prod', []);
+    // grunt.registerTask('prod', ['clean:development', 'copy:production', 'sass:production', 'concat:production', 'htmlmin', 'uglify:production', 'cssmin:production', 'clean:productionFiles']);
 };
