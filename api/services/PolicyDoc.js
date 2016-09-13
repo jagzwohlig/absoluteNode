@@ -74,25 +74,43 @@ var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "insuredCompan
 var model = {
     getPolicyDoc: function(data, callback) {
         var Model = this;
-        if (!data.filter || !data.filter._id) {
-            callback("no ID found for Policy Type", null);
+        var aggText = [];
+        var searchText = new RegExp(data.keyword, "i");
+        if (data.filter && data.filter._id && mongoose.Types.ObjectId.isValid(data.filter._id)) {
+            aggText = [{
+                "$unwind": "$listOfDocuments"
+            }, {
+                "$match": {
+                    "listOfDocuments._id": mongoose.Types.ObjectId(data.filter._id),
+                    "listOfDocuments.name": {
+                        $regex: searchText
+                    }
+                }
+            }, {
+                "$limit": 10
+            }];
+        } else if (data.filter && data.filter.policyType && mongoose.Types.ObjectId.isValid(data.filter.policyType)) {
+            aggText = [{
+                "$unwind": "$listOfDocuments"
+            }, {
+                "$match": {
+                    "listOfDocuments.policyType": mongoose.Types.ObjectId(data.filter.policyType),
+                    "listOfDocuments.name": {
+                        $regex: searchText
+                    }
+                }
+            }, {
+                "$limit": 10
+            }];
+        } else {
+            callback("Data not Formatted", null);
+            return false;
         }
         if (!data.keyword) {
             data.keyword = "";
         }
-        var searchText = new RegExp(data.keyword, "i");
-        Model.aggregate([{
-            "$unwind": "$listOfDocuments"
-        }, {
-            "$match": {
-                "listOfDocuments.policyType": mongoose.Types.ObjectId(data.filter._id),
-                "listOfDocuments.name": {
-                    $regex: searchText
-                }
-            }
-        }, {
-            "$limit": 10
-        }]).exec(function(err, data2) {
+
+        Model.aggregate(aggText).exec(function(err, data2) {
             var data3 = [];
             _.each(data2, function(n) {
                 data3.push(n.listOfDocuments);

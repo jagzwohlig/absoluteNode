@@ -244,10 +244,13 @@ schema.plugin(deepPopulate, {
           'insuredOfficer': {
             select: 'name _id'
           },
-          'products.industry': {
-              select: 'name _id'
+          'products.product': {
+              select: 'name _id category'
           },
-          'products.category': {
+          'products.product.category': {
+              select: 'name _id industry'
+          },
+          'products.product.category.industry': {
               select: 'name _id'
           }
       }
@@ -256,7 +259,7 @@ schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('Assignment', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema,"city.district.state.zone.country products.industry products.category shareWith.persons natureOfLoss insuredOfficer","city.district.state.zone.country products.industry products.category shareWith.persons natureOfLoss insuredOfficer"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema,"city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer","city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer"));
 
 var model = {};
 
