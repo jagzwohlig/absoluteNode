@@ -20,11 +20,15 @@ var schema = new Schema({
     }
 });
 
-schema.plugin(deepPopulate, {});
+schema.plugin(deepPopulate, {
+  'causeloss': {
+      select: 'name _id'
+  },
+});
 schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('NatureLoss', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "causeloss", "causeloss"));
 var model = {};
 module.exports = _.assign(module.exports, exports, model);
