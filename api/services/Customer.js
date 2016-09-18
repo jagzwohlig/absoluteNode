@@ -82,13 +82,14 @@ var schema = new Schema({
         type: Boolean,
         default: true
     },
-    officers: [{
-        type: Schema.Types.ObjectId,
-        ref: "Officer",
+    officers: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: "Officer",
+        }],
         index: true,
-        required: true,
-        key: "customer"
-    }],
+        restrictedDelete: true
+    },
     policydoc: {
         type: [{
             type: Schema.Types.ObjectId,
@@ -144,7 +145,7 @@ schema.plugin(deepPopulate, {
             select: 'name _id'
         },
         'officers': {
-          select: 'name _id salutation firstName lastName birthDate designation email password officeNumber mobileNumber'
+            select: 'name _id salutation firstName lastName birthDate designation email password officeNumber mobileNumber'
         }
     }
 
@@ -165,8 +166,8 @@ var model = {
             } else if (_.isEmpty(data2)) {
                 callback(err, data2);
             } else {
-              console.log(data2);
-              var data3 = {};
+                console.log(data2);
+                var data3 = {};
                 data3.results = data2.officers;
                 _.each(data3, function(n) {
                     n.name = n.firstName + n.lastName;
