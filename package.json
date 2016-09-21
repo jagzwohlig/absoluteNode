@@ -31,6 +31,7 @@
     "gulp-util": "^3.0.7",
     "include-all": "~0.1.6",
     "install": "^0.8.1",
+    "jimp": "^0.2.27",
     "lackey-mongoose-ref-validator": "0.0.3",
     "lodash": "^4.14.2",
     "lwip": "0.0.9",
