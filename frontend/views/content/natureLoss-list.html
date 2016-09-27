@@ -35,7 +35,7 @@
                                     <i class="fa fa-search"></i>
                                 </button>
                             </form>
-                            <a class="btn btn-primary" ui-sref="createnatureloss">Add New</a>
+                            <a class="btn btn-primary" ui-sref="createnatureLoss">Add New</a>
                         </div>
                         <h3>List of Nature of Loss
                             <span class="tableTotal">(Total :
@@ -48,23 +48,21 @@
                             <thead>
                                 <tr>
                                   <th>Nature Loss</th>
-                                  <th>Nature Code</th>
                                   <th>Status</th>
                                   <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody ng-show="totalItems>0">
-                                <tr ng-repeat="data in allNatureLoss">
+                                <tr ng-repeat="data in modelList">
                                     <td>{{data.name}}</td>
-                                    <td>{{data.code}}</td>
                                     <td>
                                       <toggle-switch ng-model="data.status" class="switch-mini switch-success" ng-change="changeStatus(data)"></toggle-switch>
                                     </td>
                                     <td>
-                                        <a class="btn btn-primary" ui-sref="editNatureloss({id:data._id})">
+                                        <a class="btn btn-primary" ui-sref="editnatureLoss({id:data._id})">
                                             <i class="fa fa-pencil"></i>
                                         </a>
-                                        <a class="btn btn-danger" ng-click="deleteNatureLoss(data._id)">
+                                        <a class="btn btn-danger" ng-click="deleteModel(data._id)">
                                             <i class="fa fa-trash"></i>
                                         </a>
                                     </td>

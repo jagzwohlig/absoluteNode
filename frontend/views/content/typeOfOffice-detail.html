@@ -36,6 +36,13 @@
                                     <div class="error-msg" ng-show="cityform.name.$invalid && cityform.name.$touched">Please Enter Office Type</div>
                                 </div>
                             </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="">Short Code*</label>
+                                    <input type="text" name="shortCode" ng-model="formData.shortCode" class="form-control" required>
+                                    <div class="error-msg" ng-show="cityform.shortCode.$invalid && cityform.shortCode.$touched">Please Enter Office Type</div>
+                                </div>
+                            </div>
                         </div>
                         <div class="text-center mt20 odd-even-button">
                             <button class="btn btn-default" type="submit" ng-click="savetypeOfOffice(formData)" ng-disabled="cityform.$invalid">Save</button>

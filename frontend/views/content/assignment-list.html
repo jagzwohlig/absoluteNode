@@ -43,7 +43,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="data in allBank">
+                                <tr ng-repeat="data in modelList">
                                     <td>
                                         {{($index + 1)+((currentPage-1)*maxRow)}}
                                     </td>
@@ -52,7 +52,7 @@
                                         <toggle-switch ng-model="data.status" class="switch-mini switch-success" ng-change="changeStatus(data)"></toggle-switch>
                                     </td>
                                     <td>
-                                        <a class="btn btn-primary" ui-sref="editbankmaster({id:data._id})">
+                                        <a class="btn btn-primary" ui-sref="editassignment({id:data._id})">
                                             <i class="fa fa-pencil"></i>
                                         </a>
                                         <a class="btn btn-danger" ng-click="deleteBank(data._id)">

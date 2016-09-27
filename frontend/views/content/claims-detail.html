@@ -4,7 +4,7 @@
             <a title="Home">Insurance</a>
         </li>
         <li>
-            <a ui-sref="salvage-list" >Salvage List</a>
+            <a ui-sref="salvage-list" >Claim List</a>
         </li>
     </ul>
 </div>
@@ -13,7 +13,7 @@
         <div class="row">
             <div class="col-md-12 column">
                 <div class="heading-profile">
-                    <toggle-switch ng-model="formData.status" class="switch-small switch-success pull-right"></toggle-switch>
+                    <!-- <toggle-switch ng-model="formData.status" class="switch-small switch-success pull-right"></toggle-switch> -->
                     <h2>{{header.name}}</h2>
                 </div>
             </div>
@@ -27,18 +27,18 @@
                     <div class="form-elements-sec">
                         <div class="sec">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Salvage*</label>
+                                        <label>Name*</label>
                                         <input type="text" name="name" class="form-control" ng-model="formData.name" required>
-                                        <div class="error-msg" ng-show="formName.name.$invalid && formName.name.$touched">Please Enter Salvage</div>
+                                        <div class="error-msg" ng-show="formName.name.$invalid && formName.name.$touched">Please Enter Name</div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Sequence*</label>
-                                        <input type="text" name="sequence" class="form-control" ng-model="formData.sequence" required>
-                                        <div class="error-msg" ng-show="formName.sequence.$invalid && formName.sequence.$touched">Please Enter Sequence</div>
+                                        <label>Is Insured*</label>
+                                        <toggle-switch ng-model="formData.isInsured" class="switch-small switch-success"></toggle-switch>
+                                        <!-- <div class="error-msg" ng-show="formName.name.$invalid && formName.name.$touched">Please Enter Name</div> -->
                                     </div>
                                 </div>
                             </div>

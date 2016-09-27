@@ -14,7 +14,7 @@
               <div class="col-md-6">
                   <div class="form-group">
                       <label>Policy Name*</label>
-                      <input type="text" name="name" ng-model="modelData.policyName" class="form-control" required>
+                      <input type="text" name="name" ng-model="modelData.name" class="form-control" required>
                       <div class="error-msg" ng-show="formName.name.$invalid && formName.name.$touched">Please Enter Policy Name</div>
                   </div>
                   <div class="form-group">
@@ -42,7 +42,7 @@
               <div class="col-md-6">
                   <div class="form-group">
                       <label>Insurer Company*</label>
-                      <multiple-select name="company" required ng-model="modelData.insurerCompany" ng-name="name.zone" api="searchInsurer"></multiple-select>
+                      <multiple-select name="company" required ng-model="modelData.insurerCompany" ng-name="name.zone" api="searchInsurerCustomerCompany"></multiple-select>
                       <div class="error-msg" ng-show="formName.company.$invalid">Please Select Company</div>
                   </div>
               </div>
@@ -87,13 +87,13 @@
           </div>
           <div class="form-group">
               <label>Upload Document</label>
-              <upload-image ng-model="modelData.documentImage"></upload-image>
+              <upload-image ng-model="modelData.documentImage" no-view></upload-image>
           </div>
       </div>
 
 
         <div class="text-center">
-            <button class="btn btn-primary btn-save" type="submit" ng-disabled="modalForm.$invalid">Save</button>
+            <button class="btn btn-primary btn-save" type="submit" ng-disabled="modalForm.$invalid" >Save</button>
         </div>
     </div>
 </form>

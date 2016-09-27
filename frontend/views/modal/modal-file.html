@@ -11,7 +11,7 @@
       <div class="row">
           <div class="col-md-4">
               <div class="form-group">
-                  <label>Upload License Document</label>
+                  <label>Upload {{holdObject}}</label>
                   <upload-image ng-model="modalData.image" no-view required></upload-image>
                   <div class="error-msg" ng-show="modalForm1.image.$invalid && modalForm1.image.$touched">Please Upload Document</div>
               </div>
@@ -51,8 +51,9 @@
           </div>
           <div class="col-md-4">
               <div class="form-group" ng-if="holdObject == 'IIISLACertificate'">
-                  <label>Eligible for</label>
-                  <input type="text" class="form-control" name="eligibleFor" ng-model="modalData.eligibleFor" readonly>
+                  <label>Membership Level</label>
+                  <multiple-select name="membership" required ng-model="modalData.membership" ng-name="name.membership" api="getMembership"></multiple-select>
+
               </div>
           </div>
       </div>

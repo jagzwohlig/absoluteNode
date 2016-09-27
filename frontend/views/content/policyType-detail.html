@@ -45,7 +45,7 @@
                                         <label>Insurer</label>
                                         <ui-select multiple ng-model="formData.insurer" theme="bootstrap">
                                             <ui-select-match>{{$item.name}}</ui-select-match>
-                                            <ui-select-choices repeat="insurer in insurers | filter:$select.search" ui-disable-choice="insurers.length==0">{{insurer.name}}</ui-select-choices>
+                                            <ui-select-choices repeat="insurer in insurers | filter:$select.search" refresh="refreshInsurer($select.search)" ui-disable-choice="insurers.length==0">{{insurer.name}}</ui-select-choices>
                                         </ui-select>
                                     </div>
                                 </div>

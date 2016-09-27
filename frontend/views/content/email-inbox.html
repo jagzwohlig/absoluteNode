@@ -1,0 +1,50 @@
+<div class="panel-content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="inbox-sec">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="inbox-navigation" ng-style="{height:emailheight}">
+                            <div class="inbox-panel-head">
+                                <button class="btn btn-danger btn-block" ng-click="newEmail();">Compose</button>
+                            </div>
+                            <!-- Inbox Panel Head -->
+                            <ul>
+                                <li class="active"><a>Inbox</a><span>4</span></li>
+                                <li><a>Draft</a></li>
+                                <li><a>Outbox</a><span>6</span></li>
+                                <li><a>Sent</a></li>
+                                <li><a>Trash</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="inbox-lists">
+                            <div class="inbox-action">
+                                <ul>
+                                    <li><label><input type="checkbox" name="select-all" id="select_all" /> Select all</label></li>
+                                    <li><a class="delete-email"><i class="fa fa-trash-o"></i> Delete</a></li>
+                                    <li><a><i class="fa fa-refresh"></i> Refresh</a></li>
+                                    <li>
+                                        <input type="search" class="form-control" placeholder="Search in mail...">
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="mesages-lists">
+                                <ul class="message-list" ng-style="{height:emailheight-62}">
+                                    <li ng-class="{'unread': !read}" ng-repeat="mail in mails">
+                                        <input class="select-message" type="checkbox" />
+                                        <h3 class="sender-name pointer" ng-bind="mail.sender" ui-sref="email-single"></h3>
+                                        <a ng-if="mail.attachment"><i class="fa fa-paperclip"></i></a>
+                                        <p><span class="subject" ng-bind="mail.subject"></span> - <span ng-bind="mail.email"></span></p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Inbox lists -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -40,7 +40,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Customer Company*</label>{{name.customerCompany}}
+                                        <label>Customer Company*</label>
                                         <multiple-select name="customerCompany" required ng-model="formData.customerCompany" filter='{"customerSegment":"{{formData.customerSegment}}"}' ng-name="name.customerCompany" api="searchCustomerCompany"></multiple-select>
                                         <div class="error-msg" ng-show="formName.customerCompany.$invalid">Please Select Customer Company</div>
                                     </div>
@@ -48,14 +48,14 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Type of Office*</label>
-                                        <multiple-select name="typeOfOffice" required ng-model="formData.typeOfOffice" ng-name="name.typeOfOffice" api="searchTypeOfOffice" ng-create="typeofofficeSave"></multiple-select>
+                                        <multiple-select name="typeOfOffice" required ng-model="formData.typeOfOffice" ng-name="formData.TOFShortName" api="searchTypeOfOffice" ng-create="typeofofficeSave"></multiple-select>
                                         <div class="error-msg" ng-show="formName.typeOfOffice.$invalid">Please Select Type of Office</div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Customer Short Name*</label>
-                                        <input type="text" name="customerCode" class="form-control" ng-model="formData.customerCode" ng-value="formData.customerCode=name.customerCompany+'-'+name.typeOfOffice+'-'+formData.officeCode+'-'+formData.city1" readonly>
+                                        <input type="text" name="name" class="form-control" ng-model="formData.name" ng-value="formData.name" readonly>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -77,10 +77,10 @@
                                         <label>Category*</label>
                                         <br>
                                         <label class="radio-inline">
-                                            <input type="radio" name="category" value="Active" ng-model="formData.category">Active
+                                            <input type="radio" name="category" value="Active" required ng-model="formData.category">Active
                                         </label>
                                         <label class="radio-inline">
-                                            <input type="radio" name="category" value="Prospective" ng-model="formData.category">Prospective
+                                            <input type="radio" name="category" value="Prospective" required ng-model="formData.category">Prospective
                                         </label>
                                         <div class="error-msg" ng-show="formName.category.$invalid && formName.category.$touched">Please Select Category</div>
                                     </div>
@@ -149,7 +149,7 @@
 
                     </div>
 
-                    <div class="widget">
+                    <div class="widget" ng-if="custId">
                         <div class="form-elements-sec">
                             <div class="widget-title">
                                 <div class="pull-right">
