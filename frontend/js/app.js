@@ -13,7 +13,7 @@ var firstapp = angular.module('firstapp', [
 
 ]);
 
-firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider) {
+firstapp.config(function($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider) {
     // for http request with session
     $httpProvider.defaults.withCredentials = true;
     $stateProvider
@@ -1157,8 +1157,8 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
 });
 
 
-firstapp.filter('uploadpath', function () {
-    return function (input, width, height, style) {
+firstapp.filter('uploadpath', function() {
+    return function(input, width, height, style) {
         var other = "";
         if (width && width !== "") {
             other += "&width=" + width;
@@ -1178,11 +1178,11 @@ firstapp.filter('uploadpath', function () {
         }
     };
 });
-firstapp.directive('imageonload', function () {
+firstapp.directive('imageonload', function() {
     return {
         restrict: 'A',
-        link: function (scope, element, attrs) {
-            element.bind('load', function () {
+        link: function(scope, element, attrs) {
+            element.bind('load', function() {
                 scope.$apply(attrs.imageonload);
             });
         }
@@ -1190,16 +1190,16 @@ firstapp.directive('imageonload', function () {
 });
 
 
-firstapp.directive('uploadImage', function ($http, $filter) {
+firstapp.directive('uploadImage', function($http, $filter) {
     return {
-        templateUrl: 'views/directive/uploadFile.html',
+        templateUrl: '/frontend/views/directive/uploadFile.html',
         scope: {
             model: '=ngModel',
             callback: "=ngCallback"
         },
-        link: function ($scope, element, attrs) {
+        link: function($scope, element, attrs) {
 
-            $scope.showImage = function () {
+            $scope.showImage = function() {
                 console.log($scope.image);
             };
 
@@ -1214,7 +1214,7 @@ firstapp.directive('uploadImage', function ($http, $filter) {
                 $scope.noShow = true;
             }
 
-            $scope.$watch("image", function (newVal, oldVal) {
+            $scope.$watch("image", function(newVal, oldVal) {
                 if (newVal && newVal.file) {
                     $scope.uploadNow(newVal);
                 }
@@ -1223,7 +1223,7 @@ firstapp.directive('uploadImage', function ($http, $filter) {
             if ($scope.model) {
                 if (_.isArray($scope.model)) {
                     $scope.image = [];
-                    _.each($scope.model, function (n) {
+                    _.each($scope.model, function(n) {
                         $scope.image.push({
                             url: n
                         });
@@ -1234,10 +1234,10 @@ firstapp.directive('uploadImage', function ($http, $filter) {
             if (attrs.inobj || attrs.inobj === "") {
                 $scope.inObject = true;
             }
-            $scope.clearOld = function () {
+            $scope.clearOld = function() {
                 $scope.model = [];
             };
-            $scope.uploadNow = function (image) {
+            $scope.uploadNow = function(image) {
                 $scope.uploadStatus = "uploading";
 
                 var Template = this;
@@ -1249,7 +1249,7 @@ firstapp.directive('uploadImage', function ($http, $filter) {
                         'Content-Type': undefined
                     },
                     transformRequest: angular.identity
-                }).success(function (data) {
+                }).success(function(data) {
                     if ($scope.callback) {
                         $scope.callback(data);
                     } else {
@@ -1273,11 +1273,11 @@ firstapp.directive('uploadImage', function ($http, $filter) {
 });
 
 
-firstapp.directive('onlyDigits', function () {
+firstapp.directive('onlyDigits', function() {
     return {
         require: 'ngModel',
         restrict: 'A',
-        link: function (scope, element, attr, ctrl) {
+        link: function(scope, element, attr, ctrl) {
             var digits;
 
             function inputValue(val) {
@@ -1302,12 +1302,12 @@ firstapp.directive('onlyDigits', function () {
     };
 });
 
-firstapp.filter('propsFilter', function () {
-    return function (items, props) {
+firstapp.filter('propsFilter', function() {
+    return function(items, props) {
         var out = [];
 
         if (angular.isArray(items)) {
-            items.forEach(function (item) {
+            items.forEach(function(item) {
                 var itemMatches = false;
 
                 var keys = Object.keys(props);
@@ -1333,16 +1333,16 @@ firstapp.filter('propsFilter', function () {
     };
 });
 
-firstapp.directive('img', function ($compile, $parse) {
+firstapp.directive('img', function($compile, $parse) {
     return {
         restrict: 'E',
         replace: false,
-        link: function ($scope, element, attrs) {
+        link: function($scope, element, attrs) {
             var $element = $(element);
             if (!attrs.noloading) {
                 $element.after("<img src='frontend/img/loading.gif' class='loading' />");
                 var $loading = $element.next(".loading");
-                $element.load(function () {
+                $element.load(function() {
                     $loading.remove();
                     $(this).addClass("doneLoading");
                 });
@@ -1353,11 +1353,11 @@ firstapp.directive('img', function ($compile, $parse) {
     };
 });
 
-firstapp.directive('fancyboxBox', function ($document) {
+firstapp.directive('fancyboxBox', function($document) {
     return {
         restrict: 'EA',
         replace: false,
-        link: function (scope, element, attr) {
+        link: function(scope, element, attr) {
             var $element = $(element);
             var target;
             if (attr.rel) {
@@ -1378,13 +1378,13 @@ firstapp.directive('fancyboxBox', function ($document) {
     };
 });
 
-firstapp.directive('menuOptions', function ($document) {
+firstapp.directive('menuOptions', function($document) {
     return {
         restrict: 'C',
         replace: false,
-        link: function (scope, element, attr) {
+        link: function(scope, element, attr) {
             var $element = $(element);
-            $(element).on("click", function () {
+            $(element).on("click", function() {
                 $(".side-header.opened-menu").toggleClass('slide-menu');
                 $(".main-content").toggleClass('wide-content');
                 $("footer").toggleClass('wide-footer');
@@ -1396,8 +1396,8 @@ firstapp.directive('menuOptions', function ($document) {
 });
 
 
-firstapp.filter('serverimage', function () {
-    return function (input, width, height, style) {
+firstapp.filter('serverimage', function() {
+    return function(input, width, height, style) {
         if (input) {
             if (input.substr(0, 4) == "http") {
                 return input;
@@ -1423,8 +1423,8 @@ firstapp.filter('serverimage', function () {
 
 
 
-firstapp.filter('base64url', function (base64) {
-    return function (input) {
+firstapp.filter('base64url', function(base64) {
+    return function(input) {
         if (input) {
             return base64.urldecode(input);
         } else {
@@ -1434,14 +1434,14 @@ firstapp.filter('base64url', function (base64) {
     };
 });
 
-firstapp.filter('convDate', function () {
-    return function (input) {
+firstapp.filter('convDate', function() {
+    return function(input) {
         return new Date(input);
     };
 });
 
-firstapp.filter('downloadImage', function () {
-    return function (input) {
+firstapp.filter('downloadImage', function() {
+    return function(input) {
         if (input) {
             return adminurl + "download/" + input;
         } else {
@@ -1450,13 +1450,13 @@ firstapp.filter('downloadImage', function () {
     };
 });
 
-firstapp.directive('oI', function ($document) {
+firstapp.directive('oI', function($document) {
     return {
         restrict: 'C',
         replace: false,
-        link: function (scope, element, attr) {
+        link: function(scope, element, attr) {
             var $element = $(element);
-            $element.click(function () {
+            $element.click(function() {
                 $element.parent().siblings().children("ul").slideUp();
                 $element.parent().siblings().removeClass("active");
                 $element.parent().children("ul").slideToggle();
@@ -1467,11 +1467,11 @@ firstapp.directive('oI', function ($document) {
         }
     };
 });
-firstapp.directive('slimscroll', function ($document) {
+firstapp.directive('slimscroll', function($document) {
     return {
         restrict: 'EA',
         replace: false,
-        link: function (scope, element, attr) {
+        link: function(scope, element, attr) {
             var $element = $(element);
             $element.slimScroll({
                 height: '400px',
@@ -1482,20 +1482,20 @@ firstapp.directive('slimscroll', function ($document) {
     };
 });
 
-firstapp.directive('addressForm', function ($document) {
+firstapp.directive('addressForm', function($document) {
     return {
-        templateUrl: 'views/directive/address-form.html',
+        templateUrl: '/frontend/views/directive/address-form.html',
         scope: {
             formData: "=ngModel",
             demoForm: "=ngValid"
         },
         restrict: 'EA',
         replace: false,
-        controller: function ($scope, NgMap, NavigationService) {
+        controller: function($scope, NgMap, NavigationService) {
 
             $scope.map = {};
-            $scope.change = function () {
-                NgMap.getMap().then(function (map) {
+            $scope.change = function() {
+                NgMap.getMap().then(function(map) {
                     var latLng = {
                         lat: map.markers[0].position.lat(),
                         lng: map.markers[0].position.lng()
@@ -1504,9 +1504,9 @@ firstapp.directive('addressForm', function ($document) {
                 });
             };
             var LatLongi = 0;
-            $scope.getLatLng = function (address) {
+            $scope.getLatLng = function(address) {
 
-                NavigationService.getLatLng(address, ++LatLongi, function (data, i) {
+                NavigationService.getLatLng(address, ++LatLongi, function(data, i) {
 
                     if (i == LatLongi) {
                         $scope.formData = _.assign($scope.formData, data.results[0].geometry.location);
@@ -1533,9 +1533,9 @@ firstapp.directive('addressForm', function ($document) {
     };
 });
 var aa = {};
-firstapp.directive('multipleSelect', function ($document, $timeout) {
+firstapp.directive('multipleSelect', function($document, $timeout) {
     return {
-        templateUrl: 'views/directive/multiple-select.html',
+        templateUrl: '/frontend/views/directive/multiple-select.html',
         scope: {
             model: '=ngModel',
             api: "@api",
@@ -1549,7 +1549,7 @@ firstapp.directive('multipleSelect', function ($document, $timeout) {
         restrict: 'EA',
         replace: false,
         controller: 'MultipleSelectCtrl',
-        link: function (scope, element, attr, NavigationService) {
+        link: function(scope, element, attr, NavigationService) {
             var $element = $(element);
             scope.activeKey = 0;
             scope.isRequired = true;
@@ -1561,9 +1561,9 @@ firstapp.directive('multipleSelect', function ($document, $timeout) {
             aa = $element;
             var maxItemLength = 40;
             var maxBoxLength = 200;
-            $timeout(function () {
+            $timeout(function() {
 
-                $element.find(".typeText").keyup(function (event) {
+                $element.find(".typeText").keyup(function(event) {
                     var scrollTop = $element.find("ul.allOptions").scrollTop();
                     var optionLength = $element.find("ul.allOptions li").length;
                     if (event.keyCode == 40) {
@@ -1602,36 +1602,36 @@ firstapp.directive('multipleSelect', function ($document, $timeout) {
     };
 });
 
-firstapp.filter('ageFilter', function () {
+firstapp.filter('ageFilter', function() {
     function calculateAge(birthday) { // birthday is a date
         var ageDifMs = Date.now() - birthday.getTime();
         var ageDate = new Date(ageDifMs); // miliseconds from epoch
         return Math.abs(ageDate.getUTCFullYear() - 1970);
     }
 
-    return function (birthdate) {
+    return function(birthdate) {
         return calculateAge(birthdate);
     };
 });
-firstapp.filter('capitalize', function () {
-    return function (input, all) {
+firstapp.filter('capitalize', function() {
+    return function(input, all) {
         var reg = (all) ? /([^\W_]+[^\s-]*) */g : /([^\W_]+[^\s-]*)/;
-        return (!!input) ? input.replace(reg, function (txt) {
+        return (!!input) ? input.replace(reg, function(txt) {
             return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
         }) : '';
     };
 });
 
-firstapp.config(function ($translateProvider) {
+firstapp.config(function($translateProvider) {
     $translateProvider.translations('en', LanguageEnglish);
     $translateProvider.translations('hi', LanguageHindi);
     $translateProvider.preferredLanguage('en');
 });
 
-firstapp.directive('alphaNumeric', function () {
+firstapp.directive('alphaNumeric', function() {
     return {
         require: 'ngModel',
-        link: function (scope, element, attr, ngModelCtrl) {
+        link: function(scope, element, attr, ngModelCtrl) {
             function fromUser(text) {
                 var transformedInput = text.replace(/[^0-9a-zA-Z]/g, '');
                 if (transformedInput !== text) {
