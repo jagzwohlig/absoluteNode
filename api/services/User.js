@@ -101,10 +101,14 @@ var model = {
       }
     });
   },
-  profile: function (data, callback) {
+  profile: function (data, callback, getGoogle) {
+    var str = "name email photo mobile accessLevel";
+    if (getGoogle) {
+      str += " googleAccessToken";
+    }
     User.findOne({
       accessToken: data.accessToken
-    }, 'name email photo mobile accessLevel').exec(function (err, data) {
+    }, str).exec(function (err, data) {
       if (err) {
         callback(err);
       } else if (data) {

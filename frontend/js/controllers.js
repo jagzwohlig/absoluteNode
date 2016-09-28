@@ -1,12 +1,26 @@
 var globalfunction = {};
 angular.module('phonecatControllers', ['templateservicemod', 'navigationservice', 'ui.bootstrap', 'ui.select', 'ngAnimate', 'toastr', 'ngSanitize', 'angular-flexslider', 'ui.tinymce', 'imageupload', 'ngMap', 'toggle-switch', 'cfp.hotkeys', 'ui.sortable'])
 
-.controller('DashboardCtrl', function ($scope, TemplateService, NavigationService, $timeout) {
+.controller('DashboardCtrl', function ($scope, TemplateService, NavigationService, $timeout, base64) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("dashboard");
     $scope.menutitle = NavigationService.makeactive("Dashboard");
     TemplateService.title = $scope.menutitle;
     $scope.navigation = NavigationService.getnav();
+    NavigationService.gmailCall({
+        url: "messages",
+        method: "GET"
+    }, function (data) {
+        console.log(data);
+        NavigationService.gmailCall({
+            url: "messages/1576f999f985b796",
+            method: "GET"
+        }, function (data) {
+            console.log(data.data.payload);
+            $scope.emailText = data.data.payload.body.data;
+            console.log(data);
+        });
+    });
 })
 
 .controller('AccessController', function ($scope, TemplateService, NavigationService, $timeout, $state) {
@@ -5803,24 +5817,25 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 
 .controller('EmailSingleCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
-        //Used to name the .html file
-        $scope.template = TemplateService.changecontent("email-single");
-        $scope.menutitle = NavigationService.makeactive("Single Mail");
-        TemplateService.title = $scope.menutitle;
-        $scope.navigation = NavigationService.getnav();
+    //Used to name the .html file
+    $scope.template = TemplateService.changecontent("email-single");
+    $scope.menutitle = NavigationService.makeactive("Single Mail");
+    TemplateService.title = $scope.menutitle;
+    $scope.navigation = NavigationService.getnav();
 
-        $scope.header = {
-            "name": "Single Mail"
-        };
+    $scope.header = {
+        "name": "Single Mail"
+    };
 
-        $scope.emailSnippet = '<div dir="ltr">Dear Chintan,<div><br></div><div>Seen the links. What next?</div></div><div data-smartmail="gmail_signature"><div><br></div><div>Warm Regards,</div><div><br></div><div><b>Arun Arora</b></div><div><font color="#666666">M: +91 81080 99789</font></div><div>______________________________<wbr>____________________</div><div><br></div><div><b><font color="#000099">Absolute Insurance Surveyors &amp; Loss Assessors Pvt Ltd</font></b></div><div><font color="#666666">501/502, Ideal Trade Centre, Sector 11,&nbsp;CBD Belapur, Navi Mumbai 400 614</font></div><div><font color="#666666">T: +91 22 2756 2983 | F: +91 22 2756 2984</font></div></div>';
+    $scope.emailSnippet = '<div dir="ltr">Dear Chintan,<div><br></div><div>Seen the links. What next?</div></div><div data-smartmail="gmail_signature"><div><br></div><div>Warm Regards,</div><div><br></div><div><b>Arun Arora</b></div><div><font color="#666666">M: +91 81080 99789</font></div><div>______________________________<wbr>____________________</div><div><br></div><div><b><font color="#000099">Absolute Insurance Surveyors &amp; Loss Assessors Pvt Ltd</font></b></div><div><font color="#666666">501/502, Ideal Trade Centre, Sector 11,&nbsp;CBD Belapur, Navi Mumbai 400 614</font></div><div><font color="#666666">T: +91 22 2756 2983 | F: +91 22 2756 2984</font></div></div>';
 
-    })
-    .controller('ForbiddenCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
-        //Used to name the .html file
-        $scope.template = TemplateService.changecontent("forbidden");
-        $scope.menutitle = NavigationService.makeactive("Access Forbidden");
-        TemplateService.title = $scope.menutitle;
-        $scope.navigation = NavigationService.getnav();
+})
 
-    });
+.controller('ForbiddenCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+    //Used to name the .html file
+    $scope.template = TemplateService.changecontent("forbidden");
+    $scope.menutitle = NavigationService.makeactive("Access Forbidden");
+    TemplateService.title = $scope.menutitle;
+    $scope.navigation = NavigationService.getnav();
+
+});

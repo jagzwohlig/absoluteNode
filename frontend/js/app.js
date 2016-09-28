@@ -8,7 +8,8 @@ var firstapp = angular.module('firstapp', [
     'angulartics',
     'angulartics.google.analytics',
     'imageupload',
-    "ngMap"
+    "ngMap",
+    'ab-base64'
 
 ]);
 
@@ -1417,6 +1418,19 @@ firstapp.filter('serverimage', function () {
         } else {
             return "img/logo.png";
         }
+    };
+});
+
+
+
+firstapp.filter('base64url', function (base64) {
+    return function (input) {
+        if (input) {
+            return base64.urldecode(input);
+        } else {
+            return "";
+        }
+
     };
 });
 

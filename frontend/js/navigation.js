@@ -273,6 +273,10 @@ var navigationservice = angular.module('navigationservice', [])
         removeAccessToken: function (data, callback) {
             $.jStorage.flush();
         },
+        gmailCall: function (data, callback) {
+            data.accessToken = $.jStorage.get("accessToken");
+            $http.post(adminurl + 'user/gmailCall', data).success(callback);
+        },
         profile: function (callback, errorCallback) {
             var data = {
                 accessToken: $.jStorage.get("accessToken")

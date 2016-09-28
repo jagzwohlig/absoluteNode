@@ -54,12 +54,27 @@ module.exports.http = {
          *                                                                           *
          ****************************************************************************/
 
-        myRequestLogger: function(req, res, next) {
+        myRequestLogger: function (req, res, next) {
             req.models = req.path.split("/");
             // console.log(req.models);
             req.model = mongoose.models[_.capitalize(req.models[2])];
 
-            next();
+            if (req.body && req.body.accessToken) {
+                User.profile(req.body, function (err, data) {
+                    if (err) {
+                        res.callback("Error getting User Details");
+                    } else if (data) {
+                        req.user = data;
+                        next();
+                    } else {
+                        res.callback("Incorrect Access Token");
+                    }
+                }, "Get Google");
+            } else {
+                next();
+            }
+
+
         }
 
         /***************************************************************************
