@@ -28,8 +28,6 @@ var controller = {
 
 
     gmailCall: function (req, res, next) {
-        console.log('https://www.googleapis.com/gmail/v1/users/' + req.user.email + "/" + req.body.url + "?key=" + GoogleKey);
-        console.log(req.user);
         curl.request({
             url: 'https://www.googleapis.com/gmail/v1/users/' + req.user.email + "/" + req.body.url + "?key=" + GoogleKey,
             method: req.body.method,
@@ -37,8 +35,6 @@ var controller = {
                 "Authorization": "Bearer " + req.user.googleAccessToken
             }
         }, function (err, data) {
-            console.log(err);
-            console.log(data);
             res.callback(err, JSON.parse(data));
         });
     }
