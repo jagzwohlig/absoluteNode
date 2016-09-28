@@ -26,15 +26,13 @@
 
     <link rel="stylesheet" type="text/css" href="frontend/css/main.css" />
 
-    <script>
-        var isproduction = false;
+   <script>
+        var adminurl = "<%= ((typeof adminurl) == "undefined") ? "" : adminurl  %>";
+        var isproduction = true;
     </script>
-    <%
-  _.each(jsFiles,function(file) {
-
-      %>
-                <script src="frontend/js/<%= file %>"></script>
-    <% }); %>
+    <% _.each(jsFiles,function(file) {  %>
+        <script src="frontend/js/<%= file %>"></script>
+        <% }); %>
 
 
 </body>

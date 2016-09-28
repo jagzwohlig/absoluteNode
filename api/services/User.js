@@ -1,93 +1,116 @@
-/**
- * User.js
- *
- * @description :: TODO: You might write a short summary of how this model works and what it represents here.
- * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
- */
-var mongoose = require('mongoose');
-var md5 = require('md5');
-var Schema = mongoose.Schema;
-
 var schema = new Schema({
-  title: String,
-  name: String,
-  email: String,
-  password: String,
-  userType: String,
-  empType: String,
-  access: String,
-  rollName: String,
-  menu: String,
-  description: String,
-  backDays: String,
-  isServeyor: Boolean,
-  department: String,
-  branch: String,
-  status: Boolean,
-  moduleRight: String,
+  name: {
+    type: String,
+    required: true
+  },
+  email: {
+    type: String,
+    validate: validators.isEmail()
+  },
+  photo: {
+    type: String,
+    default: ""
+  },
+  password: {
+    type: String,
+    default: ""
+  },
+  forgotPassword: {
+    type: String,
+    default: ""
+  },
+  mobile: {
+    type: String,
+    default: ""
+  },
+  otp: {
+    type: String,
+    default: ""
+  },
+  accessToken: {
+    type: [String],
+    index: true
+  },
+  oauthLogin: {
+    type: [{
+      socialId: String,
+      socialProvider: String
+    }],
+    index: true
+  },
+  accessLevel: {
+    type: String,
+    default: "User",
+    enum: ['User', 'Admin']
+  }
 });
 
+schema.plugin(deepPopulate, {});
+schema.plugin(uniqueValidator);
+schema.plugin(timestamps);
+
 module.exports = mongoose.model('User', schema);
-var models = {
 
-  saveData: function(data, callback) {
-    if (data.password && data.password != "") {
-      data.password = md5(data.password);
-    }
-    var user = this(data);
-    if (data._id) {
-      this.findOneAndUpdate({
-        _id: data._id
-      }, data, function(err, data2) {
-        if (err) {
-          callback(err, null);
-        } else {
-          callback(null, data2);
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
+var model = {
+  existsSocial: function (user, callback) {
+    var Model = this;
+    Model.findOne({
+      "oauthLogin.socialId": user.id,
+      "oauthLogin.socialProvider": user.provider,
+    }).lean().exec(function (err, data) {
+      if (err) {
+        callback(err, data);
+      } else if (_.isEmpty(data)) {
+        var modelUser = {
+          name: user.displayName,
+          accessToken: [uid(16)],
+          oauthLogin: [{
+            socialId: user.id,
+            socialProvider: user.provider,
+          }]
+        };
+        if (user.emails && user.emails.length > 0) {
+          modelUser.email = user.emails[0].value;
         }
-      });
-    } else {
-      user.save(function(err, data2) {
-        if (err) {
-          callback(err, null);
-        } else {
-          callback(null, data2);
+        if (user.photos && user.photos.length > 0) {
+          modelUser.photo = user.photos[0].value;
         }
-      });
-    }
-
-  },
-  getAll: function(data, callback) {
-    this.find({}, {}, {}).exec(function(err, deleted) {
-      if (err) {
-        callback(err, null);
+        Model.saveData(modelUser, function (err, data2) {
+          if (err) {
+            callback(err, data2);
+          } else {
+            data3 = data2.toObject();
+            console.log(data3);
+            delete data3.oauthLogin;
+            delete data3.password;
+            delete data3.forgotPassword;
+            delete data3.otp;
+            callback(err, data3);
+          }
+        });
       } else {
-        callback(null, deleted);
+        delete data.oauthLogin;
+        delete data.password;
+        delete data.forgotPassword;
+        delete data.otp;
+        callback(err, data);
       }
     });
   },
-  deleteData: function(data, callback) {
-    this.findOneAndRemove({
-      _id: data._id
-    }, function(err, deleted) {
+  profile: function (data, callback) {
+    User.findOne({
+      accessToken: data.accessToken
+    }, 'name email photo mobile accessLevel').exec(function (err, data) {
       if (err) {
-        callback(err, null)
+        callback(err);
+      } else if (data) {
+        callback(null, data)
       } else {
-        callback(null, deleted)
+        callback("No Data Found", data);
       }
     });
-  },
-  getOne: function(data, callback) {
-    this.findOne({
-      _id: data._id
-    }).exec(function(err, data2) {
-      if (err) {
-        console.log(err);
-        callback(err, null)
-      } else {
-        callback(null, data2);
-      }
-    });
-  },
+  }
 
 };
-module.exports = _.assign(module.exports, models);
+module.exports = _.assign(module.exports, exports, model);

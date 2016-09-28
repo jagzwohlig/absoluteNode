@@ -20,8 +20,10 @@
     <div class="repeated-item" ui-view></div>
     <link rel="stylesheet" type="text/css" href="frontend/css/main.min.css" />
     <script>
+        var adminurl = "<%= ((typeof adminurl) == "undefined") ? "" : adminurl  %>";
         var isproduction = true;
     </script>
+
     <script src="frontend/js/main.min.js"></script>
 </body>
 
