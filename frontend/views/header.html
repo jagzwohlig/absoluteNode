@@ -18,9 +18,9 @@
 <!-- Top Bar -->
 <header class="side-header light-skin opened-menu">
     <div class="admin-details">
-        <span><img src="frontend/img/varun-khali.png" alt="" /></span>
-        <h3>Arun Arora</h3>
-        <i>CEO</i>
+        <span><img ng-src="{{template.profile.photo|serverimage}}" alt="" /></span>
+        <h3 ng-bind="template.profile.name"></h3>
+        <i ng-bind="template.profile.accessLevel"></i>
     </div>
     <div class="menu-scroll">
         <div class="side-menus">

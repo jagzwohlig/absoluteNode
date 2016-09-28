@@ -1394,16 +1394,31 @@ firstapp.directive('menuOptions', function ($document) {
     };
 });
 
+
 firstapp.filter('serverimage', function () {
-    return function (input) {
+    return function (input, width, height, style) {
         if (input) {
-            return imgpath + input;
+            if (input.substr(0, 4) == "http") {
+                return input;
+            } else {
+                image = imgpath + "?file=" + input;
+                if (width) {
+                    image += "&width=" + width;
+                }
+                if (height) {
+                    image += "&height=" + height;
+                }
+                if (style) {
+                    image += "&style=" + style;
+                }
+                return image;
+            }
+
         } else {
-            return "frontend/img/logo.png";
+            return "img/logo.png";
         }
     };
 });
-
 
 firstapp.filter('convDate', function () {
     return function (input) {

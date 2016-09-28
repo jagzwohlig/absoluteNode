@@ -16,6 +16,6 @@
  *   http://sailsjs.org/documentation/anatomy/my-app/tasks/register/default-js
  *
  */
-module.exports = function(grunt) {
-    grunt.registerTask('default', ['clean:development', 'sass:development', 'copy:jsDevelopment', 'copy:development', 'browserSync', 'concurrent:watch']);
+module.exports = function (grunt) {
+    grunt.registerTask('default', ['sass:development', 'copy:jsDevelopment', 'copy:development', 'browserSync', 'concurrent:watch']);
 };
