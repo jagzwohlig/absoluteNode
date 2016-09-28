@@ -1416,7 +1416,7 @@ firstapp.filter('serverimage', function () {
             }
 
         } else {
-            return "img/logo.png";
+            return "frontend/img/logo.png";
         }
     };
 });

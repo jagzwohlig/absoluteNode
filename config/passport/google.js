@@ -6,15 +6,8 @@ passport.use(new GoogleStrategy({
         accessType: "offline"
     },
     function (accessToken, refreshToken, profile, cb) {
-        console.log(refreshToken);
         profile.googleAccessToken = accessToken;
+        profile.googleRefreshToken = refreshToken;
         return cb(profile);
     }
 ));
-
-
-
-// var gmail = google.gmail('v1');
-// var OAuth2 = google.auth.OAuth2;
-
-// var oauth2Client = new OAuth2(googleCredentials.clientID, googleCredentials.clientSecret, googleCredentials.callbackURL);

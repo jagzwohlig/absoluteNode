@@ -62,12 +62,18 @@ module.exports.http = {
             if (req.body && req.body.accessToken) {
                 User.profile(req.body, function (err, data) {
                     if (err) {
-                        res.callback("Error getting User Details");
+                        res.json({
+                            error: err,
+                            value: false
+                        });
                     } else if (data) {
                         req.user = data;
                         next();
                     } else {
-                        res.callback("Incorrect Access Token");
+                        res.json({
+                            error: "Invalid AccessToken",
+                            value: false
+                        });
                     }
                 }, "Get Google");
             } else {

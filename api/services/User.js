@@ -32,6 +32,7 @@ var schema = new Schema({
     index: true
   },
   googleAccessToken: String,
+  googleRefreshToken: String,
   oauthLogin: {
     type: [{
       socialId: String,
@@ -60,7 +61,7 @@ var model = {
     Model.findOne({
       "oauthLogin.socialId": user.id,
       "oauthLogin.socialProvider": user.provider,
-    }).lean().exec(function (err, data) {
+    }).exec(function (err, data) {
       if (err) {
         callback(err, data);
       } else if (_.isEmpty(data)) {
@@ -76,15 +77,15 @@ var model = {
           modelUser.email = user.emails[0].value;
         }
         modelUser.googleAccessToken = user.googleAccessToken;
-        if (user.photos && user.photos.length > 0) {
-          modelUser.photo = user.photos[0].value;
+        modelUser.googleRefreshToken = user.googleRefreshToken;
+        if (user.image && user.image.url) {
+          modelUser.photo = user.image.url;
         }
         Model.saveData(modelUser, function (err, data2) {
           if (err) {
             callback(err, data2);
           } else {
             data3 = data2.toObject();
-            console.log(data3);
             delete data3.oauthLogin;
             delete data3.password;
             delete data3.forgotPassword;
@@ -97,6 +98,8 @@ var model = {
         delete data.password;
         delete data.forgotPassword;
         delete data.otp;
+        data.googleAccessToken = user.googleAccessToken;
+        data.save(function () {});
         callback(err, data);
       }
     });
@@ -104,7 +107,7 @@ var model = {
   profile: function (data, callback, getGoogle) {
     var str = "name email photo mobile accessLevel";
     if (getGoogle) {
-      str += " googleAccessToken";
+      str += " googleAccessToken googleRefreshToken";
     }
     User.findOne({
       accessToken: data.accessToken
