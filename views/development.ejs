@@ -28,7 +28,7 @@
 
    <script>
         var adminurl = "<%= ((typeof adminurl) == "undefined") ? "" : adminurl  %>";
-        var isproduction = true;
+        var isproduction = false;
     </script>
     <% _.each(jsFiles,function(file) {  %>
         <script src="frontend/js/<%= file %>"></script>
