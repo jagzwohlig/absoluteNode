@@ -105,7 +105,7 @@ var model = {
       if (err) {
         callback(err);
       } else if (data) {
-        callback(null, data)
+        callback(null, data);
       } else {
         callback("No Data Found", data);
       }

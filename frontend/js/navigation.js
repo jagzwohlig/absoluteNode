@@ -278,7 +278,7 @@ var navigationservice = angular.module('navigationservice', [])
                 accessToken: $.jStorage.get("accessToken")
             };
             $http.post(adminurl + 'user/profile', data).success(function (data) {
-                if (data.value == true) {
+                if (data.value === true) {
                     $.jStorage.set("profile", data.data);
                     callback();
                 } else {
