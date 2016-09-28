@@ -84,7 +84,7 @@ global["exec"] = require('child_process').exec;
 global["_"] = require('lodash');
 global["chalk"] = require('chalk');
 global["uid"] = require('rand-token').uid;
-global["curl"] = require('curlrequest');
+global["request"] = require('request');
 
 // passport Globals
 global["passport"] = require('passport');

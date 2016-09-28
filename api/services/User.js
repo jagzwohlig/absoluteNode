@@ -120,6 +120,14 @@ var model = {
         callback("No Data Found", data);
       }
     });
+  },
+  updateAccessToken: function (id, accessToken) {
+    User.findOne({
+      "_id": id
+    }).exec(function (err, data) {
+      data.googleAccessToken = accessToken;
+      data.save(function () {});
+    });
   }
 
 };
