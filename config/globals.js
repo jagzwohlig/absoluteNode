@@ -20,7 +20,7 @@ module.exports.globals = {
      *                                                                           *
      ****************************************************************************/
 
-    // _: true,
+    _: false,
 
     /****************************************************************************
      *                                                                           *
@@ -68,11 +68,43 @@ module.exports.globals = {
 
 };
 
-global['mongoose'] = require('mongoose');
-global['deepPopulate'] = require('mongoose-deep-populate')(mongoose);
-global['uniqueValidator'] = require('mongoose-unique-validator');
-global['timestamps'] = require('mongoose-timestamp');
-global['validators'] = require('mongoose-validators');
-global['monguurl'] = require('monguurl');
+// Mongoose Globals
+global["mongoose"] = require('mongoose');
+global["deepPopulate"] = require('mongoose-deep-populate')(mongoose);
+global["uniqueValidator"] = require('mongoose-unique-validator');
+global["timestamps"] = require('mongoose-timestamp');
+global["validators"] = require('mongoose-validators');
+global["monguurl"] = require('monguurl');
 require('mongoose-middleware').initialize(mongoose);
-global['Schema'] = mongoose.Schema;
+global["Schema"] = mongoose.Schema;
+
+// Util Globals
+global["moment"] = require("moment");
+global["exec"] = require('child_process').exec;
+global["_"] = require('lodash');
+global["chalk"] = require('chalk');
+global["uid"] = require('rand-token').uid;
+
+// passport Globals
+global["passport"] = require('passport');
+global["LocalStrategy"] = require('passport-local').Strategy;
+global["FacebookStrategy"] = require('passport-facebook').Strategy;
+global["TwitterStrategy"] = require('passport-twitter').Strategy;
+global["GoogleStrategy"] = require('passport-google-oauth20').Strategy;
+
+// Files to Import
+global["jsFiles"] = require("../frontend/files.js");
+
+//colored console
+global["blue"] = function (data) {
+    console.log(chalk.blue(data));
+};
+global["red"] = function (data) {
+    console.log(chalk.red(data));
+};
+global["green"] = function (data) {
+    console.log(chalk.green(data));
+};
+global["log"] = function (data) {
+    console.log(data);
+};
