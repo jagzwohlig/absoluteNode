@@ -39,7 +39,7 @@ var controller = {
                     "Authorization": "Bearer " + req.user.googleAccessToken
                 }
             }, function (err, httpResponse, body) {
-                console.log(noTry);
+
                 if (err) {
                     if (noTry === 0) {
                         refreshToken();
@@ -79,7 +79,6 @@ var controller = {
                 }
             });
         }
-        console.log("Chi");
         makeGmailCall();
     }
 };
