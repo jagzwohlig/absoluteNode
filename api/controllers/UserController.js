@@ -24,6 +24,11 @@ var controller = {
         } else {
             res.callback("Please provide Valid AccessToken", null);
         }
+    },
+
+
+    gmailCall: function (req, res, next) {
+        var Curl = require('node-libcurl').Curl;
     }
 };
 module.exports = _.assign(module.exports, controller);

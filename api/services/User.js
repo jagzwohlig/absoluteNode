@@ -31,6 +31,7 @@ var schema = new Schema({
     type: [String],
     index: true
   },
+  googleAccessToken: String,
   oauthLogin: {
     type: [{
       socialId: String,
@@ -53,6 +54,7 @@ module.exports = mongoose.model('User', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {
+
   existsSocial: function (user, callback) {
     var Model = this;
     Model.findOne({
@@ -73,6 +75,7 @@ var model = {
         if (user.emails && user.emails.length > 0) {
           modelUser.email = user.emails[0].value;
         }
+        modelUser.googleAccessToken = user.googleAccessToken;
         if (user.photos && user.photos.length > 0) {
           modelUser.photo = user.photos[0].value;
         }
