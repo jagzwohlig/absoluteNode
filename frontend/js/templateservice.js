@@ -13,6 +13,7 @@ templateservicemod.service('TemplateService', function () {
     this.menu = "frontend/views/menu.html";
     this.content = "frontend/views/content/content.html";
     this.footer = "frontend/views/footer.html";
+    this.profile = $.jStorage.get("profile");
   };
 
   this.changecontent = function (page) {
