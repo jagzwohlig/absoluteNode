@@ -269,6 +269,71 @@ module.exports = mongoose.model('Assignment', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer", "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer"));
 
-var model = {};
+var model = {
+  saveData: function (data, callback) {
+    var Model = this;
+    var Const = this(data);
+    var foreignKeys = Config.getForeignKeys(schema);
+    if (data._id) {
+      Model.findOne({
+        _id: data._id
+      }, function (err, data2) {
+        if (err) {
+          callback(err, data2);
+        } else if (data2) {
+          async.each(foreignKeys, function (n, callback) {
+            if (data[n.name] != data2[n.name]) {
+              Config.manageArrayObject(mongoose.models[n.ref], data2[n.name], data2._id, n.key, "delete", function (err, md) {
+                if (err) {
+                  callback(err, md);
+                } else {
+                  Config.manageArrayObject(mongoose.models[n.ref], data[n.name], data2._id, n.key, "create", callback);
+                }
+              });
+            } else {
+              callback(null, "no found for ");
+            }
+          }, function (err) {
+            data2.update(data, {
+              w: 1
+            }, callback);
+          });
+        } else {
+          callback("No Data Found", data2);
+        }
+      });
+    } else {
+      Const.save(function (err, data2) {
+        if (err) {
+          callback(err, data2);
+        } else {
+          async.each(foreignKeys, function (n, callback) {
+            Config.manageArrayObject(mongoose.models[n.ref], data2[n.name], data2._id, n.key, "create", function (err, md) {
+              callback(err, data2);
+            });
+          }, function (err) {
+            if (err) {
+              callback(err, data2);
+            } else {
+              Model.generateAssignmentNumber(data2, callback);
+            }
+          });
+        }
+      });
+    }
+  },
+  generateAssignmentNumber: function (data, callback) {
+    var Model = this;
+    Model.find({
+      _id: data._id
+    }).populate("Company").exec(function (err, data2) {
+      if (err) {
+        callback(err);
+      } else {
+        callback(data2);
+      }
+    });
+  }
+};
 
 module.exports = _.assign(module.exports, exports, model);
