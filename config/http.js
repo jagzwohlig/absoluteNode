@@ -54,13 +54,13 @@ module.exports.http = {
          *                                                                           *
          ****************************************************************************/
 
-        myRequestLogger: function (req, res, next) {
+        myRequestLogger: function(req, res, next) {
             req.models = req.path.split("/");
-            // console.log(req.models);
-            req.model = mongoose.models[_.capitalize(req.models[2])];
+
+            req.model = mongoose.models[_.upperFirst(req.models[2])];
 
             if (req.body && req.body.accessToken) {
-                User.profile(req.body, function (err, data) {
+                User.profile(req.body, function(err, data) {
                     if (err) {
                         res.json({
                             error: err,
