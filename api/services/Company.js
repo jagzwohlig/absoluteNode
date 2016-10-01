@@ -36,6 +36,10 @@ var schema = new Schema({
         type: Boolean,
         default: true
     },
+    assignmentGeneration: {
+        type: String,
+        enum: ["Monthly", "Yearly"]
+    },
     city: {
         type: Schema.Types.ObjectId,
         ref: "City",
