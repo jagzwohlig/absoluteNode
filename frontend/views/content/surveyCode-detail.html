@@ -4,7 +4,7 @@
             <a title="Home">Insurance</a>
         </li>
         <li>
-            <a ui-sref="surveyCode-list" >Survey Code List</a>
+            <a ui-sref="surveyCode-list">Survey Code List</a>
         </li>
     </ul>
 </div>
@@ -37,7 +37,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Code*</label>
-                                        <input type="text" name="code" class="form-control" ng-model="formData.code" maxlength="2" required>
+                                        <input type="text" name="code" maxlength="2" class="form-control" ng-model="formData.code" maxlength="2" required>
                                         <div class="error-msg" ng-show="formName.code.$invalid && formName.code.$touched">Please Enter Code</div>
                                     </div>
                                 </div>

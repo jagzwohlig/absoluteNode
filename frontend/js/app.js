@@ -1178,6 +1178,19 @@ firstapp.filter('uploadpath', function() {
         }
     };
 });
+
+firstapp.filter("mrnumber", function(NavigationService, $timeout) {
+
+    return function(input) {
+        var MRNumber = "";
+        NavigationService.getOneCity(input.city, function(data) {
+            // console.log(data);
+            MRNumber = data.data.district.state.zone.country.countryCode;
+            return data;
+        });
+    };
+});
+
 firstapp.directive('imageonload', function() {
     return {
         restrict: 'A',
@@ -1189,6 +1202,20 @@ firstapp.directive('imageonload', function() {
     };
 });
 
+firstapp.filter('numberFixedLen', function() {
+    return function(n, len) {
+        var num = parseInt(n, 10);
+        len = parseInt(len, 10);
+        if (isNaN(num) || isNaN(len)) {
+            return n;
+        }
+        num = '' + num;
+        while (num.length < len) {
+            num = '0' + num;
+        }
+        return num;
+    };
+});
 
 firstapp.directive('uploadImage', function($http, $filter) {
     return {
@@ -1272,18 +1299,27 @@ firstapp.directive('uploadImage', function($http, $filter) {
     };
 });
 
-
+// firstappdirective("limitTo", [function() {
+//     return {
+//         restrict: "A",
+//         link: function(scope, elem, attrs) {
+//             var limit = parseInt(attrs.limitTo);
+//             angular.element(elem).on("keypress", function(e) {
+//                 if (this.value.length == limit) e.preventDefault();
+//             });
+//         }
+//     }
+// }]);
 firstapp.directive('onlyDigits', function() {
     return {
         require: 'ngModel',
         restrict: 'A',
         link: function(scope, element, attr, ctrl) {
-            var digits;
-
             function inputValue(val) {
+                var digits;
                 if (val) {
                     if (attr.type == "text") {
-                        digits = val.replace(/[^0-9\-\\]/g, '');
+                        digits = val.replace(/[^0-9\+\\]/g, '');
                     } else {
                         digits = val.replace(/[^0-9\-\\]/g, '');
                     }
@@ -1301,6 +1337,7 @@ firstapp.directive('onlyDigits', function() {
         }
     };
 });
+
 
 firstapp.filter('propsFilter', function() {
     return function(items, props) {

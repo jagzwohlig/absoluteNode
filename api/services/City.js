@@ -11,7 +11,7 @@ var schema = new Schema({
         ref: "District",
         index: true,
         required: true,
-        key:"city"
+        key: "city"
     },
     company: {
         type: [{
@@ -59,14 +59,14 @@ schema.plugin(deepPopulate, {
             select: 'name _id country'
         },
         'district.state.zone.country': {
-            select: 'name _id'
+            select: 'name countryCode _id'
         }
     }
 
 });
 module.exports = mongoose.model("City", schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema,"district.state.zone.country","district.state.zone.country"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "district.state.zone.country", "district.state.zone.country"));
 
 var model = {};
 

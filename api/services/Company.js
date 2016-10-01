@@ -13,6 +13,13 @@ var schema = new Schema({
         uniqueCaseInsensitive: true,
         capitalizeAll: true,
     },
+    companyCode: {
+        type: String,
+        required: true,
+        unique: true,
+        uniqueCaseInsensitive: true,
+        capitalizeAll: true,
+    },
     logo: String,
     bank: {
         type: Schema.Types.ObjectId,

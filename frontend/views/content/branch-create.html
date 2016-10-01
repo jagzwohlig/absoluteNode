@@ -61,11 +61,11 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
-                                      <div class="form-group">
-                                          <label>Branch Code*</label>
-                                          <input type="text" name="code" class="form-control" ng-model="formData.code" required>
-                                          <div class="error-msg" ng-show="formName.code.$invalid && formName.code.$touched">Please Enter Branch Code</div>
-                                      </div>
+                                        <div class="form-group">
+                                            <label>Branch Code*</label>
+                                            <input type="text" name="code" maxlength="2" class="form-control" ng-model="formData.code" required>
+                                            <div class="error-msg" ng-show="formName.code.$invalid && formName.code.$touched">Please Enter Branch Code</div>
+                                        </div>
                                         <div class="form-group">
                                             <label>Short Name*</label>
                                             <input type="text" name="shortName" class="form-control" ng-model="formData.shortName" required>
@@ -131,4 +131,4 @@
                 </div>
             </div>
         </div>
-    </form>
+</form>

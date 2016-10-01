@@ -1,3 +1,5 @@
+var autoIncrement = require('mongoose-auto-increment');
+
 var schema = new Schema({
   name: {
     type: String
@@ -88,7 +90,7 @@ var schema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "CauseLoss",
     index: true,
-    required: true,
+    // required: true,
     key: "assignment"
   },
   natureOfLoss: [{
@@ -102,21 +104,21 @@ var schema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Customer",
     index: true,
-    required: true,
+    // required: true,
     key: "assignment"
   },
   insurer: {
     type: Schema.Types.ObjectId,
     ref: "Customer",
     index: true,
-    required: true,
+    // required: true,
     key: "assignment"
   },
   policyType: {
     type: Schema.Types.ObjectId,
     ref: "PolicyType",
     index: true,
-    required: true,
+    // required: true,
     key: "assignment"
   },
   policyDoc: {
@@ -255,8 +257,14 @@ schema.plugin(deepPopulate, {
     }
   }
 });
+autoIncrement.initialize(mongoose.connection);
 schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
+schema.plugin(autoIncrement.plugin, {
+  model: 'Assignment',
+  field: 'serialNumber',
+  startAt: 1
+});
 module.exports = mongoose.model('Assignment', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer", "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer"));

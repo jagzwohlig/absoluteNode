@@ -82,6 +82,11 @@
                                 <div class="error-msg" ng-show="companyForm.shortName.$invalid && companyForm.shortName.$touched">Please Enter Short Name</div>
                             </div>
                             <div class="form-group">
+                                <label>Company Code*</label>
+                                <input type="text" class="form-control" maxlength="1" name="companyCode" ng-model="formData.companyCode" required>
+                                <div class="error-msg" ng-show="companyForm.companyCode.$invalid && companyForm.companyCode.$touched">Please Enter Company Code</div>
+                            </div>
+                            <div class="form-group">
                                 <label>Upload Logo</label>
                                 <upload-image ng-model="companyForm.logo"></upload-image>
                             </div>

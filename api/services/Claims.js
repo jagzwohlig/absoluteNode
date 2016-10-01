@@ -10,6 +10,9 @@ var schema = new Schema({
         type: Boolean,
         default: true
     },
+    claimNumber: {
+        type: String
+    },
     assignment: {
         type: [{
             type: Schema.Types.ObjectId,

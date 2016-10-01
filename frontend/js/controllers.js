@@ -464,7 +464,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.holdObject = holdobj;
             var modalInstance = $uibModal.open({
                 scope: $scope,
-                templateUrl: 'views/modal/' + filename + '.html',
+                templateUrl: '/frontend/views/modal/' + filename + '.html',
                 size: 'lg'
             });
         };
@@ -526,19 +526,22 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
         $scope.submit = function(formData) {
             console.log($scope.formData);
-
-            // NavigationService.assignmentSave($scope.formData, function (data) {
-            //     if (data.value === true) {
-            //         $state.go('assignment-list');
-            //         toastr.success("Assignment " + formData.name + " created successfully.", "Assignment Created");
-            //     } else {
-            //         toastr.error("Assignment creation failed.", "Assignment creation error");
-            //     }
-            // });
+            TemplateService.mrnumber($scope.formData, function(data) {
+                console.log(data);
+                $scope.formData.name = data;
+                NavigationService.assignmentSave($scope.formData, function(data) {
+                    if (data.value === true) {
+                        $state.go('assignment-list');
+                        toastr.success("Assignment " + formData.name + " created successfully.", "Assignment Created");
+                    } else {
+                        toastr.error("Assignment creation failed.", "Assignment creation error");
+                    }
+                });
+            });
         };
 
     })
-    .controller('EditAssignmentCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, toastr, $stateParams, $uibModal) {
+    .controller('EditAssignmentCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, toastr, $stateParams, $uibModal, $filter) {
         //Used to name the .html file
 
         $scope.template = TemplateService.changecontent("assignment-detail");
@@ -549,6 +552,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.header = {
             "name": "Edit Assignment"
         };
+        $scope.MRnumber = "";
         $scope.formData = {};
         $scope.formData.status = true;
         $scope.formData.invoice = [];
@@ -566,6 +570,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
         NavigationService.getOneModel("Assignment", $stateParams.id, function(data) {
             $scope.formData = data.data;
+            $scope.MRnumber = data.data.city.district.state.zone.country.countryCode;
             $scope.formData.dateOfIntimation = new Date(data.data.dateOfIntimation);
             $scope.formData.dateOfAppointment = new Date(data.data.dateOfAppointment);
             $scope.formData.country = data.data.city.district.state.zone.country._id;
@@ -574,8 +579,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.formData.district = data.data.city.district._id;
             $scope.formData.city = data.data.city._id;
             $scope.formData.insuredOfficer = data.data.insuredOfficer._id;
-            console.log($scope.formData.policyDoc);
-            console.log($scope.formData);
         });
 
 
@@ -675,14 +678,19 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
         $scope.submit = function(formData) {
             console.log($scope.formData);
-            NavigationService.assignmentSave($scope.formData, function(data) {
-                if (data.value === true) {
-                    $state.go('assignment-list');
-                    toastr.success("Assignment " + formData.name + " created successfully.", "Assignment Created");
-                } else {
-                    toastr.error("Assignment creation failed.", "Assignment creation error");
-                }
+            TemplateService.mrnumber($scope.formData, function(data) {
+                console.log(data);
+                $scope.formData.name = data;
+                NavigationService.assignmentSave($scope.formData, function(data) {
+                    if (data.value === true) {
+                        $state.go('assignment-list');
+                        toastr.success("Assignment " + formData.name + " created successfully.", "Assignment Created");
+                    } else {
+                        toastr.error("Assignment creation failed.", "Assignment creation error");
+                    }
+                });
             });
+
         };
 
     })
