@@ -4,7 +4,7 @@
             <div class="col-md-12 column">
                 <div class="heading-profile">
                     <toggle-switch ng-model="formData.status" class="switch-small switch-success pull-right"></toggle-switch>
-                    <h2>Create Assignment</h2>
+                    <h2>{{header.name}}</h2>
                 </div>
             </div>
         </div>
@@ -17,7 +17,7 @@
                 <div class="widget">
                     <div class="form-elements-sec">
                         <div class="sec">
-                            <div class="row">
+                            <div class="row">{{}}
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Company*</label>
@@ -280,242 +280,242 @@
                 <div class="widget" ng-if="formData.isInsured && !formData.postLoss">
                     <div class="form-elements-sec">
                         <div class="sec">
-                          <div class="row">
-                              <div class="col-md-6">
-                                  <div class="form-group">
-                                      <label>Appointment Mail*</label>
-                                      <upload-image ng-model="formData.appointment" no-view></upload-image>
-                                  </div>
-                              </div>
-                              <div class="col-md-6">
-                                  <div class="form-group">
-                                      <label>Intimated Loss*</label>
-                                      <input type="text" name="intimatedLoss" ng-model="formData.intimatedLoss" class="form-control" required>
-                                      <div class="error-msg" ng-show="formName.intimatedLoss.$invalid && formName.intimatedLoss.$touched">Please Enter Intimated Loss</div>
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="row">
-                              <div class="col-md-6">
-                                  <div class="form-group">
-                                      <label>Date Of Appointment</label>
-                                      <div class="input-group">
-                                          <input type="text" name="dateOfAppointment" required class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.dateOfAppointment" is-open="popup.dateOfAppointment" ng-change="chageDOB(formData.birthDate)" datepicker-options="dateOptions"
-                                              readonly/>
-                                          <span class="input-group-btn">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Appointment Mail*</label>
+                                        <upload-image ng-model="formData.appointment" no-view></upload-image>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Intimated Loss*</label>
+                                        <input type="text" name="intimatedLoss" ng-model="formData.intimatedLoss" class="form-control" required>
+                                        <div class="error-msg" ng-show="formName.intimatedLoss.$invalid && formName.intimatedLoss.$touched">Please Enter Intimated Loss</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Date Of Appointment</label>
+                                        <div class="input-group">
+                                            <input type="text" name="dateOfAppointment" required class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.dateOfAppointment" is-open="popup.dateOfAppointment" ng-change="chageDOB(formData.birthDate)" datepicker-options="dateOptions"
+                                                readonly/>
+                                            <span class="input-group-btn">
                                             <button type="button" class="btn btn-default" ng-click="popup.dateOfAppointment = true">
                                                 <i class="fa fa-calendar"></i>
                                             </button>
                                         </span>
-                                      </div>
-                                      <div class="error-msg" ng-show="formName.dateOfAppointment.$invalid && formName.dateOfAppointment.$touched">Please Enter Date of Intimation</div>
-                                  </div>
-                              </div>
-                              <div class="col-md-6">
-                                  <div class="form-group">
-                                      <label>Date Of Intemation</label>
-                                      <div class="input-group">
-                                          <input type="text" name="dateOfIntimation" required class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.dateOfIntimation" is-open="popup.dateOfIntimation" ng-change="chageDOB(formData.birthDate)" datepicker-options="dateOptions"
-                                              readonly/>
-                                          <span class="input-group-btn">
+                                        </div>
+                                        <div class="error-msg" ng-show="formName.dateOfAppointment.$invalid && formName.dateOfAppointment.$touched">Please Enter Date of Intimation</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Date Of Intemation</label>
+                                        <div class="input-group">
+                                            <input type="text" name="dateOfIntimation" required class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.dateOfIntimation" is-open="popup.dateOfIntimation" ng-change="chageDOB(formData.birthDate)" datepicker-options="dateOptions"
+                                                readonly/>
+                                            <span class="input-group-btn">
                                             <button type="button" class="btn btn-default" ng-click="popup.dateOfIntimation = true">
                                                 <i class="fa fa-calendar"></i>
                                             </button>
                                         </span>
-                                      </div>
-                                      <div class="error-msg" ng-show="formName.dateOfIntimation.$invalid && formName.dateOfIntimation.$touched">Please Enter Date of Intimation</div>
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="row">
-                              <div class="col-md-6">
-                                  <div class="form-group">
-                                      <label>Insured's Office</label>
-                                      <multiple-select name="insuredOffice" filter='{"company":"{{formData.company}}"}' required ng-model="formData.insuredOffice" ng-name="name.office" api="searchInsuredOffice"></multiple-select>
-                                      <div class="error-msg" ng-show="formName.insuredOffice.$invalid">Please Select Insured's Office</div>
-                                  </div>
-                              </div>
-                              <div class="col-md-6">
-                                  <div class="form-group">
-                                      <label>Insured's Officer</label>
-                                      <multiple-select name="insuredOfficer" required ng-model="formData.insuredOfficer" filter='{"_id":"{{formData.insuredOffice}}"}' ng-name="name.office" api="searchGetOfficer"></multiple-select>
-                                      <div class="error-msg" ng-show="formName.insuredOfficer.$invalid">Please Select Insured Officer</div>
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="row">
-                              <div class="col-md-6">
-                                  <div class="form-group">
-                                      <label>Insurer</label>
-                                      <multiple-select name="insurer" required ng-model="formData.insurer" filter='{"company":"{{formData.company}}"}' ng-name="name.insurer" api="searchInsurerOffice"></multiple-select>
-                                      <div class="error-msg" ng-show="formName.insurer.$invalid">Please Select Insurer</div>
-                                  </div>
-                              </div>
-                              <div class="col-md-6">
-                                  <div class="form-group">
-                                      <label>Broker</label>
-                                      <multiple-select name="broker" required ng-model="formData.broker" filter='{"company":"{{formData.company}}"}' ng-name="name.broker" api="searchBroker"></multiple-select>
-                                      <div class="error-msg" ng-show="formName.broker.$invalid">Please Select Broker</div>
-                                  </div>
-                              </div>
-                          </div>
+                                        </div>
+                                        <div class="error-msg" ng-show="formName.dateOfIntimation.$invalid && formName.dateOfIntimation.$touched">Please Enter Date of Intimation</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Insured's Office</label>
+                                        <multiple-select name="insuredOffice" filter='{"company":"{{formData.company}}"}' required ng-model="formData.insuredOffice" ng-name="name.office" api="searchInsuredOffice"></multiple-select>
+                                        <div class="error-msg" ng-show="formName.insuredOffice.$invalid">Please Select Insured's Office</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Insured's Officer</label>
+                                        <multiple-select name="insuredOfficer" required ng-model="formData.insuredOfficer" filter='{"_id":"{{formData.insuredOffice}}"}' ng-name="name.office" api="searchGetOfficer"></multiple-select>
+                                        <div class="error-msg" ng-show="formName.insuredOfficer.$invalid">Please Select Insured Officer</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Insurer</label>
+                                        <multiple-select name="insurer" required ng-model="formData.insurer" filter='{"company":"{{formData.company}}"}' ng-name="name.insurer" api="searchInsurerOffice"></multiple-select>
+                                        <div class="error-msg" ng-show="formName.insurer.$invalid">Please Select Insurer</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Broker</label>
+                                        <multiple-select name="broker" required ng-model="formData.broker" filter='{"company":"{{formData.company}}"}' ng-name="name.broker" api="searchBroker"></multiple-select>
+                                        <div class="error-msg" ng-show="formName.broker.$invalid">Please Select Broker</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="widget" ng-if="!formData.isInsured && formData.postLoss">
                     <div class="form-elements-sec">
                         <div class="sec">
-                          <div class="row">
-                              <div class="col-md-6">
-                                  <div class="form-group">
-                                      <label>Appointment Mail*</label>
-                                      <upload-image ng-model="formData.appointment"></upload-image>
-                                  </div>
-                              </div>
-                              <div class="col-md-6">
-                                  <div class="form-group">
-                                      <label>Intimated Loss*</label>
-                                      <input type="text" name="intimatedLoss" ng-model="formData.intimatedLoss" class="form-control" required>
-                                      <div class="error-msg" ng-show="formName.intimatedLoss.$invalid && formName.intimatedLoss.$touched">Please Enter Intimated Loss</div>
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="row">
-                              <div class="col-md-6">
-                                  <div class="form-group">
-                                      <label>Date Of Appointment</label>
-                                      <div class="input-group">
-                                          <input type="text" name="dateOfAppointment" required class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.dateOfAppointment" is-open="popup.dateOfAppointment" ng-change="chageDOB(formData.birthDate)" datepicker-options="dateOptions"
-                                              readonly/>
-                                          <span class="input-group-btn">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Appointment Mail*</label>
+                                        <upload-image ng-model="formData.appointment"></upload-image>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Intimated Loss*</label>
+                                        <input type="text" name="intimatedLoss" ng-model="formData.intimatedLoss" class="form-control" required>
+                                        <div class="error-msg" ng-show="formName.intimatedLoss.$invalid && formName.intimatedLoss.$touched">Please Enter Intimated Loss</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Date Of Appointment</label>
+                                        <div class="input-group">
+                                            <input type="text" name="dateOfAppointment" required class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.dateOfAppointment" is-open="popup.dateOfAppointment" ng-change="chageDOB(formData.birthDate)" datepicker-options="dateOptions"
+                                                readonly/>
+                                            <span class="input-group-btn">
                                             <button type="button" class="btn btn-default" ng-click="popup.dateOfAppointment = true">
                                                 <i class="fa fa-calendar"></i>
                                             </button>
                                         </span>
-                                      </div>
-                                      <div class="error-msg" ng-show="formName.dateOfAppointment.$invalid && formName.dateOfAppointment.$touched">Please Enter Date of Intimation</div>
-                                  </div>
-                              </div>
-                              <div class="col-md-6">
-                                  <div class="form-group">
-                                      <label>Date Of Intemation</label>
-                                      <div class="input-group">
-                                          <input type="text" name="dateOfIntimation" required class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.dateOfIntimation" is-open="popup.dateOfIntimation" ng-change="chageDOB(formData.birthDate)" datepicker-options="dateOptions"
-                                              readonly/>
-                                          <span class="input-group-btn">
+                                        </div>
+                                        <div class="error-msg" ng-show="formName.dateOfAppointment.$invalid && formName.dateOfAppointment.$touched">Please Enter Date of Intimation</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Date Of Intemation</label>
+                                        <div class="input-group">
+                                            <input type="text" name="dateOfIntimation" required class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.dateOfIntimation" is-open="popup.dateOfIntimation" ng-change="chageDOB(formData.birthDate)" datepicker-options="dateOptions"
+                                                readonly/>
+                                            <span class="input-group-btn">
                                             <button type="button" class="btn btn-default" ng-click="popup.dateOfIntimation = true">
                                                 <i class="fa fa-calendar"></i>
                                             </button>
                                         </span>
-                                      </div>
-                                      <div class="error-msg" ng-show="formName.dateOfIntimation.$invalid && formName.dateOfIntimation.$touched">Please Enter Date of Intimation</div>
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="row">
-                              <div class="col-md-6">
-                                  <div class="form-group">
-                                      <label>Insured's Office</label>
-                                      <multiple-select name="insuredOffice" filter='{"company":"{{formData.company}}"}' required ng-model="formData.insuredOffice" ng-name="name.office" api="searchInsuredOffice"></multiple-select>
-                                      <div class="error-msg" ng-show="formName.insuredOffice.$invalid">Please Select Insured's Office</div>
-                                  </div>
-                              </div>
-                              <div class="col-md-6">
-                                  <div class="form-group">
-                                      <label>Insured's Officer</label>
-                                      <multiple-select name="insuredOfficer" required ng-model="formData.insuredOfficer" filter='{"_id":"{{formData.insuredOffice}}"}' ng-name="name.office" api="searchGetOfficer"></multiple-select>
-                                      <div class="error-msg" ng-show="formName.insuredOfficer.$invalid">Please Select Insured Officer</div>
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="row">
-                              <div class="col-md-6">
-                                  <div class="form-group">
-                                      <label>Cause Of Loss</label>
-                                      <multiple-select name="causeOfLoss" required ng-model="formData.causeOfLoss" filter='{"department":"{{formData.department}}"}' ng-name="name.causeOfLoss" api="searchCauseLoss"></multiple-select>
-                                      <div class="error-msg" ng-show="formName.causeOfLoss.$invalid">Please Select Cause Of Loss</div>
-                                  </div>
-                              </div>
-                              <div class="col-md-6">
-                                  <div class="form-group">
-                                      <label>Nature Of Loss</label>
-                                      <ui-select multiple tagging="tagTransform" tagging-label="(press enter to add new)" on-select="clicked($select.selected)" name="natureOfLoss" ng-model="formData.natureOfLoss" theme="bootstrap" required>
-                                          <ui-select-match>{{$item.name}}</ui-select-match>
-                                          <ui-select-choices repeat="natureOfLoss in natureLoss | filter:$select.search" refresh-delay="0" refresh="refreshNature($select.search, formData.causeOfLoss)">{{natureOfLoss.name}}</ui-select-choices>
-                                      </ui-select>
-                                      <div class="error-msg" ng-show="formName.natureOfLoss.$invalid && formName.natureOfLoss.$touched">Please Enter Nature Of Loss</div>
-                                  </div>
-                              </div>
-                          </div>
+                                        </div>
+                                        <div class="error-msg" ng-show="formName.dateOfIntimation.$invalid && formName.dateOfIntimation.$touched">Please Enter Date of Intimation</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Insured's Office</label>
+                                        <multiple-select name="insuredOffice" filter='{"company":"{{formData.company}}"}' required ng-model="formData.insuredOffice" ng-name="name.office" api="searchInsuredOffice"></multiple-select>
+                                        <div class="error-msg" ng-show="formName.insuredOffice.$invalid">Please Select Insured's Office</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Insured's Officer</label>
+                                        <multiple-select name="insuredOfficer" required ng-model="formData.insuredOfficer" filter='{"_id":"{{formData.insuredOffice}}"}' ng-name="name.office" api="searchGetOfficer"></multiple-select>
+                                        <div class="error-msg" ng-show="formName.insuredOfficer.$invalid">Please Select Insured Officer</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Cause Of Loss</label>
+                                        <multiple-select name="causeOfLoss" required ng-model="formData.causeOfLoss" filter='{"department":"{{formData.department}}"}' ng-name="name.causeOfLoss" api="searchCauseLoss"></multiple-select>
+                                        <div class="error-msg" ng-show="formName.causeOfLoss.$invalid">Please Select Cause Of Loss</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Nature Of Loss</label>
+                                        <ui-select multiple tagging="tagTransform" tagging-label="(press enter to add new)" on-select="clicked($select.selected)" name="natureOfLoss" ng-model="formData.natureOfLoss" theme="bootstrap" required>
+                                            <ui-select-match>{{$item.name}}</ui-select-match>
+                                            <ui-select-choices repeat="natureOfLoss in natureLoss | filter:$select.search" refresh-delay="0" refresh="refreshNature($select.search, formData.causeOfLoss)">{{natureOfLoss.name}}</ui-select-choices>
+                                        </ui-select>
+                                        <div class="error-msg" ng-show="formName.natureOfLoss.$invalid && formName.natureOfLoss.$touched">Please Enter Nature Of Loss</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="widget" ng-if="!formData.isInsured && !formData.postLoss">
                     <div class="form-elements-sec">
                         <div class="sec">
-                          <div class="row">
-                              <div class="col-md-6">
-                                  <div class="form-group">
-                                      <label>Appointment Mail*</label>
-                                      <upload-image ng-model="formData.appointment"></upload-image>
-                                  </div>
-                              </div>
-                              <div class="col-md-6">
-                                  <div class="form-group">
-                                      <label>Intimated Loss*</label>
-                                      <input type="text" name="intimatedLoss" ng-model="formData.intimatedLoss" class="form-control" required>
-                                      <div class="error-msg" ng-show="formName.intimatedLoss.$invalid && formName.intimatedLoss.$touched">Please Enter Intimated Loss</div>
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="row">
-                              <div class="col-md-6">
-                                  <div class="form-group">
-                                      <label>Date Of Appointment</label>
-                                      <div class="input-group">
-                                          <input type="text" name="dateOfAppointment" required class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.dateOfAppointment" is-open="popup.dateOfAppointment" ng-change="chageDOB(formData.birthDate)" datepicker-options="dateOptions"
-                                              readonly/>
-                                          <span class="input-group-btn">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Appointment Mail*</label>
+                                        <upload-image ng-model="formData.appointment"></upload-image>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Intimated Loss*</label>
+                                        <input type="text" name="intimatedLoss" ng-model="formData.intimatedLoss" class="form-control" required>
+                                        <div class="error-msg" ng-show="formName.intimatedLoss.$invalid && formName.intimatedLoss.$touched">Please Enter Intimated Loss</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Date Of Appointment</label>
+                                        <div class="input-group">
+                                            <input type="text" name="dateOfAppointment" required class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.dateOfAppointment" is-open="popup.dateOfAppointment" ng-change="chageDOB(formData.birthDate)" datepicker-options="dateOptions"
+                                                readonly/>
+                                            <span class="input-group-btn">
                                             <button type="button" class="btn btn-default" ng-click="popup.dateOfAppointment = true">
                                                 <i class="fa fa-calendar"></i>
                                             </button>
                                         </span>
-                                      </div>
-                                      <div class="error-msg" ng-show="formName.dateOfAppointment.$invalid && formName.dateOfAppointment.$touched">Please Enter Date of Intimation</div>
-                                  </div>
-                              </div>
-                              <div class="col-md-6">
-                                  <div class="form-group">
-                                      <label>Date Of Intemation</label>
-                                      <div class="input-group">
-                                          <input type="text" name="dateOfIntimation" required class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.dateOfIntimation" is-open="popup.dateOfIntimation" ng-change="chageDOB(formData.birthDate)" datepicker-options="dateOptions"
-                                              readonly/>
-                                          <span class="input-group-btn">
+                                        </div>
+                                        <div class="error-msg" ng-show="formName.dateOfAppointment.$invalid && formName.dateOfAppointment.$touched">Please Enter Date of Intimation</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Date Of Intemation</label>
+                                        <div class="input-group">
+                                            <input type="text" name="dateOfIntimation" required class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.dateOfIntimation" is-open="popup.dateOfIntimation" ng-change="chageDOB(formData.birthDate)" datepicker-options="dateOptions"
+                                                readonly/>
+                                            <span class="input-group-btn">
                                             <button type="button" class="btn btn-default" ng-click="popup.dateOfIntimation = true">
                                                 <i class="fa fa-calendar"></i>
                                             </button>
                                         </span>
-                                      </div>
-                                      <div class="error-msg" ng-show="formName.dateOfIntimation.$invalid && formName.dateOfIntimation.$touched">Please Enter Date of Intimation</div>
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="row">
-                              <div class="col-md-6">
-                                  <div class="form-group">
-                                      <label>Insured's Office</label>
-                                      <multiple-select name="insuredOffice" filter='{"company":"{{formData.company}}"}' required ng-model="formData.insuredOffice" ng-name="name.office" api="searchInsuredOffice"></multiple-select>
-                                      <div class="error-msg" ng-show="formName.insuredOffice.$invalid">Please Select Insured's Office</div>
-                                  </div>
-                              </div>
-                              <div class="col-md-6">
-                                  <div class="form-group">
-                                      <label>Insured's Officer</label>
-                                      <multiple-select name="insuredOfficer" required ng-model="formData.insuredOfficer" filter='{"_id":"{{formData.insuredOffice}}"}' ng-name="name.office" api="searchGetOfficer"></multiple-select>
-                                      <div class="error-msg" ng-show="formName.insuredOfficer.$invalid">Please Select Insured Officer</div>
-                                  </div>
-                              </div>
-                          </div>
+                                        </div>
+                                        <div class="error-msg" ng-show="formName.dateOfIntimation.$invalid && formName.dateOfIntimation.$touched">Please Enter Date of Intimation</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Insured's Office</label>
+                                        <multiple-select name="insuredOffice" filter='{"company":"{{formData.company}}"}' required ng-model="formData.insuredOffice" ng-name="name.office" api="searchInsuredOffice"></multiple-select>
+                                        <div class="error-msg" ng-show="formName.insuredOffice.$invalid">Please Select Insured's Office</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Insured's Officer</label>
+                                        <multiple-select name="insuredOfficer" required ng-model="formData.insuredOfficer" filter='{"_id":"{{formData.insuredOffice}}"}' ng-name="name.office" api="searchGetOfficer"></multiple-select>
+                                        <div class="error-msg" ng-show="formName.insuredOfficer.$invalid">Please Select Insured Officer</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
