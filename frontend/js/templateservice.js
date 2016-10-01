@@ -44,7 +44,7 @@ templateservicemod.service('TemplateService', function(NavigationService, $filte
 
     });
 
-  }
+  };
 
   this.changecontent = function(page) {
     this.init();

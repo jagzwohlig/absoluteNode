@@ -11,6 +11,10 @@ var schema = new Schema({
     required: true,
     key: "assignment"
   },
+  assignmentNumber: {
+    type: Number,
+    default: 0
+  },
   typeOfClaim: {
     type: Schema.Types.ObjectId,
     ref: "Claims",
@@ -260,30 +264,26 @@ schema.plugin(deepPopulate, {
 autoIncrement.initialize(mongoose.connection);
 schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
-schema.plugin(autoIncrement.plugin, {
-  model: 'Assignment',
-  field: 'serialNumber',
-  startAt: 1
-});
+
 module.exports = mongoose.model('Assignment', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer", "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer"));
 
 var model = {
-  saveData: function (data, callback) {
+  saveData: function(data, callback) {
     var Model = this;
     var Const = this(data);
     var foreignKeys = Config.getForeignKeys(schema);
     if (data._id) {
       Model.findOne({
         _id: data._id
-      }, function (err, data2) {
+      }, function(err, data2) {
         if (err) {
           callback(err, data2);
         } else if (data2) {
-          async.each(foreignKeys, function (n, callback) {
+          async.each(foreignKeys, function(n, callback) {
             if (data[n.name] != data2[n.name]) {
-              Config.manageArrayObject(mongoose.models[n.ref], data2[n.name], data2._id, n.key, "delete", function (err, md) {
+              Config.manageArrayObject(mongoose.models[n.ref], data2[n.name], data2._id, n.key, "delete", function(err, md) {
                 if (err) {
                   callback(err, md);
                 } else {
@@ -293,7 +293,7 @@ var model = {
             } else {
               callback(null, "no found for ");
             }
-          }, function (err) {
+          }, function(err) {
             data2.update(data, {
               w: 1
             }, callback);
@@ -303,15 +303,15 @@ var model = {
         }
       });
     } else {
-      Const.save(function (err, data2) {
+      Const.save(function(err, data2) {
         if (err) {
           callback(err, data2);
         } else {
-          async.each(foreignKeys, function (n, callback) {
-            Config.manageArrayObject(mongoose.models[n.ref], data2[n.name], data2._id, n.key, "create", function (err, md) {
+          async.each(foreignKeys, function(n, callback) {
+            Config.manageArrayObject(mongoose.models[n.ref], data2[n.name], data2._id, n.key, "create", function(err, md) {
               callback(err, data2);
             });
-          }, function (err) {
+          }, function(err) {
             if (err) {
               callback(err, data2);
             } else {
@@ -322,15 +322,43 @@ var model = {
       });
     }
   },
-  generateAssignmentNumber: function (data, callback) {
+  generateAssignmentNumber: function(data, callback) {
     var Model = this;
-    Model.find({
+    var newNumber = 1;
+    console.log(data);
+    Model.findOne({
       _id: data._id
-    }).populate("Company").exec(function (err, data2) {
+    }).populate("company", "_id assignmentGeneration").exec(function(err, data2) {
       if (err) {
         callback(err);
       } else {
-        callback(data2);
+
+        Model.findOne({
+          company: data2.company._id,
+          _id: {
+            $ne: data._id
+          }
+        }).sort({
+          _id: -1
+        }).exec(function(err, data3) {
+          if (err) {
+            callback(err);
+          } else {
+            if (data3 && moment(data3.createdAt).month() == moment(data2.createdAt).month() && moment(data3.createdAt).year() == moment(data2.createdAt).year() && data2.company.assignmentGeneration == "Monthly") {
+              newNumber = data3.assignmentNumber + 1;
+              console.log("This");
+            } else if (data3 && moment(data3.createdAt).year() == moment(data2.createdAt).year() && data2.company.assignmentGeneration == "Yearly") {
+              newNumber = data3.assignmentNumber + 1;
+              console.log("This 2");
+            }
+            console.log("This OK");
+            data2.assignmentNumber = newNumber;
+            data2.save(function(err, data) {
+              callback(err, data);
+            });
+          }
+        });
+
       }
     });
   }
