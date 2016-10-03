@@ -362,7 +362,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.addOfficer = function() {
         var modalInstance = $uibModal.open({
             scope: $scope,
-            templateUrl: 'views/modal/modal-officer.html',
+            templateUrl: '/frontend/views/modal/modal-officer.html',
             size: 'lg'
         });
     };
@@ -616,7 +616,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.holdObject = holdobj;
             var modalInstance = $uibModal.open({
                 scope: $scope,
-                templateUrl: 'views/modal/' + filename + '.html',
+                templateUrl: '/frontend/views/modal/' + filename + '.html',
                 size: 'lg'
             });
         };
@@ -1379,7 +1379,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             console.log($scope.holdObject);
             var modalInstance = $uibModal.open({
                 scope: $scope,
-                templateUrl: 'views/modal/' + filename + '.html',
+                templateUrl: '/frontend/views/modal/' + filename + '.html',
                 size: 'lg'
             });
         };
@@ -1549,7 +1549,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.holdObject = holdobj;
             var modalInstance = $uibModal.open({
                 scope: $scope,
-                templateUrl: 'views/modal/' + filename + '.html',
+                templateUrl: '/frontend/views/modal/' + filename + '.html',
                 size: 'lg'
             });
         };
@@ -3032,7 +3032,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.addDocument = function() {
             var modalInstance = $uibModal.open({
                 scope: $scope,
-                templateUrl: 'views/modal/modal-policydoc.html',
+                templateUrl: '/frontend/views/modal/modal-policydoc.html',
                 size: 'lg'
             });
         };
@@ -3118,7 +3118,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.addDocument = function() {
             var modalInstance = $uibModal.open({
                 scope: $scope,
-                templateUrl: 'views/modal/modal-policydoc.html',
+                templateUrl: '/frontend/views/modal/modal-policydoc.html',
                 size: 'lg'
             });
         };
@@ -4258,7 +4258,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
-            templateUrl: 'views/modal/conf-delete.html',
+            templateUrl: '/frontend/views/modal/conf-delete.html',
             size: 'sm',
             scope: $scope
         });
@@ -4475,7 +4475,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.addOfficer = function() {
             var modalInstance = $uibModal.open({
                 scope: $scope,
-                templateUrl: 'views/modal/modal-officer.html',
+                templateUrl: '/frontend/views/modal/modal-officer.html',
                 size: 'lg'
             });
         };
@@ -4483,7 +4483,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.transferOfficer = function() {
             var modalInstance = $uibModal.open({
                 scope: $scope,
-                templateUrl: 'views/modal/modal-transfer-officer.html',
+                templateUrl: '/frontend/views/modal/modal-transfer-officer.html',
                 size: 'lg'
             });
         };
@@ -4569,14 +4569,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.addOfficer = function() {
             var modalInstance = $uibModal.open({
                 scope: $scope,
-                templateUrl: 'views/modal/modal-officer.html',
+                templateUrl: '/frontend/views/modal/modal-officer.html',
                 size: 'lg'
             });
         };
         $scope.transferOfficer = function() {
             var modalInstance = $uibModal.open({
                 scope: $scope,
-                templateUrl: 'views/modal/modal-transfer-officer.html',
+                templateUrl: '/frontend/views/modal/modal-transfer-officer.html',
                 size: 'lg'
             });
         };
@@ -5595,7 +5595,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.assignSurveyor = function() {
         var modalInstance = $uibModal.open({
             scope: $scope,
-            templateUrl: 'views/modal/modal-assign-surveyor.html',
+            templateUrl: '/frontend/views/modal/modal-assign-surveyor.html',
             size: 'md'
         });
     };
@@ -5603,7 +5603,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.newEmail = function() {
         var modalInstance = $uibModal.open({
             scope: $scope,
-            templateUrl: 'views/modal/modal-email.html',
+            templateUrl: '/frontend/views/modal/modal-email.html',
             size: 'lg'
         });
     };
@@ -5611,7 +5611,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.newMessage = function() {
         var modalInstance = $uibModal.open({
             scope: $scope,
-            templateUrl: 'views/modal/modal-message.html',
+            templateUrl: '/frontend/views/modal/modal-message.html',
             size: 'lg'
         });
     };
@@ -5619,7 +5619,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.viewJIR = function() {
         var modalInstance = $uibModal.open({
             scope: $scope,
-            templateUrl: 'views/modal/modal-files.html',
+            templateUrl: '/frontend/views/modal/modal-files.html',
             size: 'md'
         });
     };
@@ -5757,7 +5757,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.newEmail = function() {
         var modalInstance = $uibModal.open({
             scope: $scope,
-            templateUrl: 'views/modal/modal-email.html',
+            templateUrl: '/frontend/views/modal/modal-email.html',
             size: 'lg'
         });
     };
