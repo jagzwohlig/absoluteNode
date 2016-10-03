@@ -528,7 +528,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             console.log($scope.formData);
             TemplateService.mrnumber($scope.formData, function(data) {
                 console.log(data);
-                $scope.formData.name = data;
+                // $scope.formData.name = data;
                 NavigationService.assignmentSave($scope.formData, function(data) {
                     if (data.value === true) {
                         $state.go('assignment-list');
@@ -680,7 +680,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             console.log($scope.formData);
             TemplateService.mrnumber($scope.formData, function(data) {
                 console.log(data);
-                $scope.formData.name = data;
+                // $scope.formData.name = data;
                 NavigationService.assignmentSave($scope.formData, function(data) {
                     if (data.value === true) {
                         $state.go('assignment-list');
@@ -4719,12 +4719,12 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                             // }
                         } else {
                             console.log("Making this happen");
-                            $scope.sendData("", "");
+                            $scope.sendData(null, null);
                         }
                     }
                 } else {
                     console.log("Making this happen2");
-                    $scope.sendData("", "");
+                    $scope.sendData(null, null);
                 }
 
 

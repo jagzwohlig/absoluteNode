@@ -121,13 +121,10 @@ var schema = new Schema({
   policyType: {
     type: Schema.Types.ObjectId,
     ref: "PolicyType",
-    index: true,
-    // required: true,
     key: "assignment"
   },
   policyDoc: {
     type: Schema.Types.ObjectId,
-    index: true,
   },
   city: {
     type: Schema.Types.ObjectId,
@@ -325,10 +322,9 @@ var model = {
   generateAssignmentNumber: function(data, callback) {
     var Model = this;
     var newNumber = 1;
-    console.log(data);
     Model.findOne({
       _id: data._id
-    }).populate("company", "_id assignmentGeneration").exec(function(err, data2) {
+    }).deepPopulate("company branch city.district.state.zone.country typeOfClaim natureOfSurvey", "_id assignmentGeneration").exec(function(err, data2) {
       if (err) {
         callback(err);
       } else {
@@ -346,16 +342,16 @@ var model = {
           } else {
             if (data3 && moment(data3.createdAt).month() == moment(data2.createdAt).month() && moment(data3.createdAt).year() == moment(data2.createdAt).year() && data2.company.assignmentGeneration == "Monthly") {
               newNumber = data3.assignmentNumber + 1;
-              console.log("This");
             } else if (data3 && moment(data3.createdAt).year() == moment(data2.createdAt).year() && data2.company.assignmentGeneration == "Yearly") {
               newNumber = data3.assignmentNumber + 1;
-              console.log("This 2");
             }
-            console.log("This OK");
             data2.assignmentNumber = newNumber;
+            data2.name = data2.city.district.state.zone.country.countryCode + data2.company.companyCode + data2.typeOfClaim.claimNumber + "-" + data2.natureOfSurvey.code + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).format("YY") + moment(new Date(data2.dateOfAppointment)).format("MM");
+            //add this here
             data2.save(function(err, data) {
               callback(err, data);
             });
+
           }
         });
 

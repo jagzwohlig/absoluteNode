@@ -67,39 +67,44 @@ var models = {
         });
     },
     manageArrayObject: function(Model, id, data, key, action, callback) {
+        if (id) {
+            Model.findOne({
+                "_id": id
+            }, function(err, data2) {
+                if (err) {
+                    callback(err, null);
+                } else if (data2) {
+                    switch (action) {
+                        case "create":
+                            {
+                                data2[key].push(data);
+                                // data2[key] = _.unique(data2[key]);
+                                console.log(data2[key]);
+                                data2.update(data2, {
+                                    w: 1
+                                }, callback);
+                            }
+                            break;
+                        case "delete":
+                            {
+                                _.remove(data2[key], function(n) {
+                                    return (n + "") == (data + "");
+                                });
+                                data2.update(data2, {
+                                    w: 1
+                                }, callback);
+                            }
+                            break;
+                    }
+                } else {
 
-        Model.findOne({
-            "_id": id
-        }, function(err, data2) {
-            if (err) {
-                callback(err, null);
-            } else if (data2) {
-                switch (action) {
-                    case "create":
-                        {
-                            data2[key].push(data);
-                            // data2[key] = _.unique(data2[key]);
-                            console.log(data2[key]);
-                            data2.update(data2, {
-                                w: 1
-                            }, callback);
-                        }
-                        break;
-                    case "delete":
-                        {
-                            _.remove(data2[key], function(n) {
-                                return (n + "") == (data + "");
-                            });
-                            data2.update(data2, {
-                                w: 1
-                            }, callback);
-                        }
-                        break;
+                    callback("No Data Found for the ID" + " " + id + " " + data + " " + key + " " + action, null);
                 }
-            } else {
-                callback("No Data Found for the ID", null);
-            }
-        });
+            });
+        } else {
+            callback(null, "Done");
+        }
+
 
 
     },

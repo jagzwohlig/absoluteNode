@@ -21,6 +21,7 @@ templateservicemod.service('TemplateService', function(NavigationService, $filte
     var objectData = data;
     console.log(objectData);
     NavigationService.getOneCity(objectData.city, function(data) {
+
       MRNumber += data.data.district.state.zone.country.countryCode;
       NavigationService.getOneCompany(objectData.company, function(company) {
         MRNumber += company.data.companyCode;
