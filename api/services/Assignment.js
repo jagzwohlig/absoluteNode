@@ -346,7 +346,16 @@ var model = {
               newNumber = data3.assignmentNumber + 1;
             }
             data2.assignmentNumber = newNumber;
-            data2.name = data2.city.district.state.zone.country.countryCode + data2.company.companyCode + data2.typeOfClaim.claimNumber + "-" + data2.natureOfSurvey.code + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).format("YY") + moment(new Date(data2.dateOfAppointment)).format("MM");
+            var num = parseInt(newNumber, 10);
+            len = parseInt(4, 10);
+            if (isNaN(num) || isNaN(len)) {
+              return n;
+            }
+            num = '' + num;
+            while (num.length < len) {
+              num = '0' + num;
+            }
+            data2.name = data2.city.district.state.zone.country.countryCode + data2.company.companyCode + data2.typeOfClaim.claimNumber + "-" + data2.natureOfSurvey.code + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).format("YY") + moment(new Date(data2.dateOfAppointment)).format("MM") + "-" + num;
             //add this here
             data2.save(function(err, data) {
               callback(err, data);
