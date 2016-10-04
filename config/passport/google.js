@@ -1,6 +1,6 @@
-global["GoogleKey"] = "AIzaSyDMgwXi6D38isibUfShc9C2mJyaHZZ2LpE";
-global["GoogleclientId"] = "529279279497-hdm2ul03erq4kitk7qlqbf41h6pl8f7p.apps.googleusercontent.com";
-global["GoogleclientSecret"] = "nNZiqXW5U2364QI9--sVIR8B";
+global["GoogleKey"] = "AIzaSyC62zlixVsjaq4zDaL4cefNCubjCgxkte4";
+global["GoogleclientId"] = "312627343761-olnlv3n4ined2cn449q2dec3b2rvhd2d.apps.googleusercontent.com";
+global["GoogleclientSecret"] = "xNXKiKG9mHMq08LBb2EKTKfP";
 
 console.log(global["env"]);
 
