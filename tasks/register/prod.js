@@ -11,7 +11,7 @@
  *   http://sailsjs.org/documentation/anatomy/my-app/tasks/register/prod-js
  *
  */
-module.exports = function(grunt) {
-    grunt.registerTask('prod', []);
-    // grunt.registerTask('prod', ['clean:development', 'copy:production', 'sass:production', 'concat:production', 'htmlmin', 'uglify:production', 'cssmin:production', 'clean:productionFiles']);
+module.exports = function (grunt) {
+    // grunt.registerTask('prod', []);
+    grunt.registerTask('prod', ['copy:production', 'sass:production', 'concat:production', 'htmlmin', 'uglify:production', 'cssmin:production', 'clean:productionFiles']);
 };

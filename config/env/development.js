@@ -22,6 +22,5 @@ module.exports = {
   // }
 
   port: 80,
-  // realHost: "http://wohlig.io",
-  realHost: "http://104.155.238.145",
+  realHost: "http://wohlig.io",
 };
