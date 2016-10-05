@@ -27,15 +27,47 @@ var controller = {
     },
     listEmail: function (req, res) {
         console.log(req.user);
-        obj = {
+        var obj = {
             body: {
                 url: "messages",
                 other: "",
-                method: ""
+                method: "GET"
             },
             user: req.user
         };
         User.gmailCall(obj, function (err, data) {
+            if (err) {
+                res.callback(err);
+            } else {
+                console.log("LENGTH" + data.messages.length);
+                async.each(data.messages, function (n, callback) {
+                    var obj = {
+                        body: {
+                            url: "messages/" + n.id,
+                            other: "&format=metadata",
+                            method: "GET"
+                        },
+                        user: req.user
+                    };
+                    User.gmailCall(obj, function (err, data2) {
+                        if (err) {
+                            callback(err);
+                        } else {
+                            n.detail = data2;
+                            callback();
+                        }
+                    });
+                }, function (err) {
+                    console.log("LAG GAI");
+                    console.log(err);
+                    console.log(data.messages);
+                    if (err) {
+                        res.callback(err);
+                    } else {
+                        res.callback(err, data.messages);
+                    }
+                });
+            }
 
         });
     }
