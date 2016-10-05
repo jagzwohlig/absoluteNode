@@ -56,12 +56,12 @@ module.exports = mongoose.model('User', schema);
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {
 
-  existsSocial: function(user, callback) {
+  existsSocial: function (user, callback) {
     var Model = this;
     Model.findOne({
       "oauthLogin.socialId": user.id,
       "oauthLogin.socialProvider": user.provider,
-    }).exec(function(err, data) {
+    }).exec(function (err, data) {
       if (err) {
         callback(err, data);
       } else if (_.isEmpty(data)) {
@@ -81,7 +81,7 @@ var model = {
         if (user.image && user.image.url) {
           modelUser.photo = user.image.url;
         }
-        Model.saveData(modelUser, function(err, data2) {
+        Model.saveData(modelUser, function (err, data2) {
           if (err) {
             callback(err, data2);
           } else {
@@ -99,19 +99,19 @@ var model = {
         delete data.forgotPassword;
         delete data.otp;
         data.googleAccessToken = user.googleAccessToken;
-        data.save(function() {});
+        data.save(function () {});
         callback(err, data);
       }
     });
   },
-  profile: function(data, callback, getGoogle) {
+  profile: function (data, callback, getGoogle) {
     var str = "name email photo mobile accessLevel";
     if (getGoogle) {
       str += " googleAccessToken googleRefreshToken";
     }
     User.findOne({
       accessToken: data.accessToken
-    }, str).exec(function(err, data) {
+    }, str).exec(function (err, data) {
       if (err) {
         callback(err);
       } else if (data) {
@@ -121,13 +121,75 @@ var model = {
       }
     });
   },
-  updateAccessToken: function(id, accessToken) {
+  updateAccessToken: function (id, accessToken) {
     User.findOne({
       "_id": id
-    }).exec(function(err, data) {
+    }).exec(function (err, data) {
       data.googleAccessToken = accessToken;
-      data.save(function() {});
+      data.save(function () {});
     });
+  },
+  gmailCall: function (req, callback) {
+    var noTry = 0;
+
+    function makeGmailCall() {
+      if (!req.body.other) {
+        req.body.other = "";
+      }
+      console.log({
+        url: 'https://www.googleapis.com/gmail/v1/users/' + req.user.email + "/" + req.body.url + "?key=" + GoogleKey + req.body.other,
+        method: req.body.method,
+        headers: {
+          "Authorization": "Bearer " + req.user.googleAccessToken
+        }
+      });
+      request({
+        url: 'https://www.googleapis.com/gmail/v1/users/' + req.user.email + "/" + req.body.url + "?key=" + GoogleKey + req.body.other,
+        method: req.body.method,
+        headers: {
+          "Authorization": "Bearer " + req.user.googleAccessToken
+        }
+      }, function (err, httpResponse, body) {
+        if (err) {
+          if (noTry === 0) {
+            refreshToken();
+          } else {
+            callback(err);
+          }
+        } else if (body) {
+          console.log(body);
+          callback(err, JSON.parse(body));
+        } else {
+          callback(err, body);
+        }
+      });
+    }
+
+    function refreshToken() {
+      request.post({
+        url: 'https://www.googleapis.com/oauth2/v4/token',
+        form: {
+          refresh_token: req.user.googleRefreshToken,
+          client_id: GoogleclientId,
+          client_secret: GoogleclientSecret,
+          grant_type: 'refresh_token',
+        }
+      }, function (err, httpResponse, body) {
+        if (err) {
+          callback(err);
+        } else if (body) {
+
+          body = JSON.parse(body);
+          req.user.googleAccessToken = body.access_token;
+          User.updateAccessToken(req.user.id, body.access_token);
+          noTry = 1;
+          makeGmailCall();
+        } else {
+          callback(err);
+        }
+      });
+    }
+    makeGmailCall();
   }
 
 };

@@ -25,61 +25,19 @@ var controller = {
             res.callback("Please provide Valid AccessToken", null);
         }
     },
+    listEmail: function (req, res) {
+        console.log(req.user);
+        obj = {
+            body: {
+                url: "messages",
+                other: "",
+                method: ""
+            },
+            user: req.user
+        };
+        User.gmailCall(obj, function (err, data) {
 
-
-    gmailCall: function (req, res, next) {
-
-        var noTry = 0;
-
-        function makeGmailCall() {
-            request({
-                url: 'https://www.googleapis.com/gmail/v1/users/' + req.user.email + "/" + req.body.url + "?key=" + GoogleKey,
-                method: req.body.method,
-                headers: {
-                    "Authorization": "Bearer " + req.user.googleAccessToken
-                }
-            }, function (err, httpResponse, body) {
-
-                if (err) {
-                    if (noTry === 0) {
-                        refreshToken();
-                    } else {
-                        res.callback(err);
-                    }
-                } else if (body) {
-                    res.callback(err, JSON.parse(body));
-                } else {
-                    res.callback(err, body);
-                }
-
-            });
-        }
-
-        function refreshToken() {
-            request.post({
-                url: 'https://www.googleapis.com/oauth2/v4/token',
-                form: {
-                    refresh_token: req.user.googleRefreshToken,
-                    client_id: GoogleclientId,
-                    client_secret: GoogleclientSecret,
-                    grant_type: 'refresh_token',
-                }
-            }, function (err, httpResponse, body) {
-                if (err) {
-                    res.callback(err);
-                } else if (body) {
-
-                    body = JSON.parse(body);
-                    req.user.googleAccessToken = body.access_token;
-                    User.updateAccessToken(req.user.id, body.access_token);
-                    noTry = 1;
-                    makeGmailCall();
-                } else {
-                    res.callback(err);
-                }
-            });
-        }
-        makeGmailCall();
+        });
     }
 };
 module.exports = _.assign(module.exports, controller);
