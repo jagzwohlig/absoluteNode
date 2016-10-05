@@ -79,7 +79,7 @@ var model = {
         modelUser.googleAccessToken = user.googleAccessToken;
         modelUser.googleRefreshToken = user.googleRefreshToken;
         if (user.image && user.image.url) {
-          modelUser.photo = user.image.url;
+          modelUser.photo = user.image.url + "0";
         }
         Model.saveData(modelUser, function (err, data2) {
           if (err) {
