@@ -5861,6 +5861,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
                     });
                 }
+                break;
             case "text/html":
                 {
                     $scope.email.body = $scope.email.payload.body.data;
