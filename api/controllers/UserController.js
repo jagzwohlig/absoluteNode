@@ -30,7 +30,7 @@ var controller = {
         var obj = {
             body: {
                 url: "messages",
-                other: "",
+                other: "&maxResults=10",
                 method: "GET"
             },
             user: req.user
