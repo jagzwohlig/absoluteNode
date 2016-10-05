@@ -18,11 +18,12 @@
                             <button class="btn btn-default" tooltip-placement="top" uib-tooltip="Reply to All" type="button"><i class="fa fa-reply-all"></i></button>
                             <button class="btn btn-default" tooltip-placement="top" uib-tooltip="Forward" type="button"><i class="fa fa-share"></i></button>
                         </div>
-                        <h3>Arun Arora</h3>
-                        <p>To Chintan Shah, Chirag Shah at 10:43 AM</p>
+                        <h3>{{email.payload.headers | from:"From"}}</h3>
+                        <p>To {{email.payload.headers | from:"To"}}</p>
                     </div>
                     <div class="clearfix"></div>
-                    <div class="sec email-sec" ng-bind-html="emailText[0].body.data|base64url"></div>
+                    <div class="sec email-sec" ng-bind-html="email.body|base64url"></div>
+                    <!--<div class="sec email-sec" ng-bind-html="email.detail.snippet"></div>-->
                 </div>
             </div>
         </div>

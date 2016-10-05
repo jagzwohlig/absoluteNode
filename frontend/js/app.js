@@ -1139,7 +1139,7 @@ firstapp.config(function($stateProvider, $urlRouterProvider, $httpProvider, $loc
     })
 
     .state('email-single', {
-        url: "/email-single",
+        url: "/email-single/:id",
         templateUrl: "frontend/views/template.html",
         controller: 'EmailSingleCtrl'
     })
@@ -1483,6 +1483,23 @@ firstapp.filter('downloadImage', function() {
             return adminurl + "download/" + input;
         } else {
             return "frontend/img/logo.png";
+        }
+    };
+});
+
+firstapp.filter('from', function() {
+    return function(input, data) {
+        var returnString = "Unknown";
+        if (input) {
+            _.each(input, function(n) {
+                if (n.name == data) {
+                    returnString = n.value;
+                }
+            });
+            return returnString;
+
+        } else {
+            return "Unknown";
         }
     };
 });
