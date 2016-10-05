@@ -27,6 +27,10 @@ var controller = {
     },
     listEmail: function (req, res) {
         console.log(req.user);
+        var pageToken = "";
+        if (req.body.pageToken) {
+            pageToken = "&pageToken=" + req.body.pageToken;
+        }
         var obj = {
             body: {
                 url: "messages",
@@ -70,6 +74,17 @@ var controller = {
             }
 
         });
+    },
+    detailEmail: function (req, res) {
+        console.log(req.user);
+        var obj = {
+            body: {
+                url: "messages/" + req.body.messageId,
+                method: "GET"
+            },
+            user: req.user
+        };
+        User.gmailCall(obj, res.callback);
     }
 };
 module.exports = _.assign(module.exports, controller);
