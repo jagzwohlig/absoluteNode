@@ -150,6 +150,8 @@ var model = {
           "Authorization": "Bearer " + req.user.googleAccessToken
         }
       }, function (err, httpResponse, body) {
+        console.log(err);
+        console.log("Watch this");
         if (err) {
           if (noTry === 0) {
             refreshToken();
