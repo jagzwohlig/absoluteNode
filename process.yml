@@ -1,0 +1,5 @@
+apps:
+  - script: "app.js"
+    name: "Absolute ABM 3"
+    watch: true
+    args: "--prod"
