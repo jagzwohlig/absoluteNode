@@ -43,7 +43,6 @@ var controller = {
             if (err) {
                 res.callback(err);
             } else {
-                console.log("LENGTH" + data.messages.length);
                 async.each(data.messages, function (n, callback) {
                     var obj = {
                         body: {
