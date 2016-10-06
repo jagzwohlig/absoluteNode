@@ -29,7 +29,7 @@ var controller = {
         console.log(req.user);
         var pageToken = "";
         if (req.body.pageToken) {
-            pageToken = "&pageToken=" + req.body.pageToken;
+            pageToken = "&nextPageToken=" + req.body.pageToken;
         }
         var obj = {
             body: {
