@@ -156,9 +156,13 @@ var model = {
         if (err) {
           callback(err);
         } else if (body) {
+
+          console.log("WHERE IS IT GOING");
           if (noTry === 0 && body.errorccc) {
+            console.log("GOING INSIDE");
             refreshToken();
           } else {
+            console.log("GOING INSIDE 2");
             callback(err, JSON.parse(body));
           }
         } else {
