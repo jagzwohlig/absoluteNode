@@ -28,14 +28,14 @@ var controller = {
     listEmail: function (req, res) {
         console.log(req.user);
         var pageToken = "";
-        if (req.body.pageToken) {
-            pageToken = "&nextPageToken=" + req.body.pageToken;
+        if (req.body.nextPageToken) {
+            pageToken = "&pageToken=" + req.body.pageToken;
         }
 
         var obj = {
             body: {
                 url: "messages",
-                other: "&maxResults=10",
+                other: "&maxResults=10" + pageToken,
                 method: "GET"
             },
             user: req.user
