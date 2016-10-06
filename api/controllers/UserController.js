@@ -31,6 +31,7 @@ var controller = {
         if (req.body.pageToken) {
             pageToken = "&nextPageToken=" + req.body.pageToken;
         }
+
         var obj = {
             body: {
                 url: "messages",
