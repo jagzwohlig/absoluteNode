@@ -5691,35 +5691,22 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         "name": "Email Inbox"
     };
     // GMAIL CALL
-    NavigationService.gmailCall({
-        url: "messages",
-        method: "GET"
-    }, function(data) {
-        console.log(data);
-    });
-
-    $scope.mails = [{
-        sender: 'Chintan Shah',
-        subject: 'Absolute Links',
-        email: 'http://wohlig.co.in/absolute/',
-        read: false
-    }, {
-        sender: 'Chintan Shah',
-        subject: 'Absolute Changes',
-        email: 'LOR Template: http://wohlig.co.in/absolute/#/template-lor-create',
-        read: false
-    }, {
-        sender: 'Chintan Shah',
-        subject: 'Absolute Live',
-        email: 'Live Link: http://bms.absolutesurveyors.com/',
-        read: true
-    }, {
-        sender: 'Chintan Shah',
-        subject: 'Absolute IP',
-        email: '182.31.23.4 Please use this IP',
-        read: false
-    }];
-
+    $scope.reloadGmail = function() {
+        NavigationService.gmailCall({
+            url: "messages",
+            method: "GET"
+        }, function(data) {
+            console.log(data);
+            $scope.mails = data.data;
+        });
+    }
+    $scope.reloadGmail();
+    $scope.showSingle = function(data) {
+        $.jStorage.set("oneEmail", data);
+        $state.go("email-single", {
+            id: data.threadId
+        });
+    };
 
     function getHeight() {
         $scope.emailheight = $window.innerHeight - 130;
@@ -5735,6 +5722,22 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.tinymceOptions = {
         plugins: 'link image code',
         toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
+    };
+
+    $scope.emailToDelete = [];
+    $scope.addEmailToDelete = function(data) {
+        var a = _.findIndex($scope.emailToDelete, function(o) {
+            return o == data.id;
+        });
+        console.log(a);
+        if (a == -1) {
+            $scope.emailToDelete.push(data.id);
+        } else {
+            // var ind =
+            $scope.emailToDelete.splice(1, a);
+        }
+
+        console.log($scope.emailToDelete);
     };
 
     $scope.email = {
@@ -5829,6 +5832,45 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.header = {
         "name": "Single Mail"
     };
+    NavigationService.detailEmail({
+        "messageId": $stateParams.id
+    }, function(data) {
+        $scope.email = data.data;
+        switch ($scope.email.payload.mimeType) {
+            case "multipart/mixed":
+                {
+                    _.each($scope.email.payload.parts, function(data) {
+                        if (data.mimeType == "multipart/alternative") {
+                            _.each(data.parts, function(data2) {
+                                if (data2.mimeType == "text/html") {
+                                    $scope.email.body = data2.body.data;
+                                }
+                            })
+
+                        }
+                    });
+                }
+                break;
+            case "multipart/alternative":
+                {
+                    _.each($scope.email.payload.parts, function(data) {
+
+                        if (data.mimeType == "text/html") {
+                            $scope.email.body = data.body.data;
+                        }
+
+                    });
+                }
+                break;
+            case "text/html":
+                {
+                    $scope.email.body = $scope.email.payload.body.data;
+                }
+                break;
+        }
+
+    });
+
 
     $scope.emailSnippet = '<div dir="ltr">Dear Chintan,<div><br></div><div>Seen the links. What next?</div></div><div data-smartmail="gmail_signature"><div><br></div><div>Warm Regards,</div><div><br></div><div><b>Arun Arora</b></div><div><font color="#666666">M: +91 81080 99789</font></div><div>______________________________<wbr>____________________</div><div><br></div><div><b><font color="#000099">Absolute Insurance Surveyors &amp; Loss Assessors Pvt Ltd</font></b></div><div><font color="#666666">501/502, Ideal Trade Centre, Sector 11,&nbsp;CBD Belapur, Navi Mumbai 400 614</font></div><div><font color="#666666">T: +91 22 2756 2983 | F: +91 22 2756 2984</font></div></div>';
 

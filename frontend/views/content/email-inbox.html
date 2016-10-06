@@ -24,7 +24,7 @@
                                 <ul>
                                     <li><label><input type="checkbox" name="select-all" id="select_all" /> Select all</label></li>
                                     <li><a class="delete-email"><i class="fa fa-trash-o"></i> Delete</a></li>
-                                    <li><a><i class="fa fa-refresh"></i> Refresh</a></li>
+                                    <li><a ng-click="reloadGmail()"><i class="fa fa-refresh"></i> Refresh</a></li>
                                     <li>
                                         <input type="search" class="form-control" placeholder="Search in mail...">
                                     </li>
@@ -33,14 +33,23 @@
                             <div class="mesages-lists">
                                 <ul class="message-list" ng-style="{height:emailheight-62}">
                                     <li ng-class="{'unread': !read}" ng-repeat="mail in mails">
-                                        <input class="select-message" type="checkbox" />
-                                        <h3 class="sender-name pointer" ng-bind="mail.sender" ui-sref="email-single"></h3>
+                                        <input class="select-message" type="checkbox" ng-click="addEmailToDelete(mail)" />
+                                        <h3 class="sender-name pointer" ng-click="showSingle(mail)">{{mail.detail.payload.headers | from:"From"}}</h3>
                                         <a ng-if="mail.attachment"><i class="fa fa-paperclip"></i></a>
-                                        <p><span class="subject" ng-bind="mail.subject"></span> - <span ng-bind="mail.email"></span></p>
+                                        <p><span class="subject">{{mail.detail.payload.headers | from:"Subject"}}</span> - <span>{{mail.detail.payload.headers | from:"To"}}</span></p>
                                     </li>
+                                    <div class="tableData" ng-show="mails.length == 0">
+                                        <h5>No data found</h5>
+                                    </div>
+                                    <div class="tableData" ng-show="mails == undefined">
+                                        <h5>Loading Data</h5>
+                                    </div>
                                 </ul>
+
                             </div>
+
                         </div>
+
                         <!-- Inbox lists -->
                     </div>
                 </div>

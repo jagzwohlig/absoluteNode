@@ -275,7 +275,11 @@ var navigationservice = angular.module('navigationservice', [])
         },
         gmailCall: function(data, callback) {
             data.accessToken = $.jStorage.get("accessToken");
-            $http.post(adminurl + 'user/gmailCall', data).success(callback);
+            $http.post(adminurl + 'user/listEmail', data).success(callback);
+        },
+        detailEmail: function(data, callback) {
+            data.accessToken = $.jStorage.get("accessToken");
+            $http.post(adminurl + 'user/detailEmail', data).success(callback);
         },
         profile: function(callback, errorCallback) {
             var data = {
