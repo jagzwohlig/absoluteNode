@@ -61,9 +61,6 @@ var controller = {
                         }
                     });
                 }, function (err) {
-                    console.log("LAG GAI");
-                    console.log(err);
-                    console.log(data.messages);
                     if (err) {
                         res.callback(err);
                     } else {
