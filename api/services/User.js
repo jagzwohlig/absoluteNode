@@ -150,20 +150,13 @@ var model = {
           "Authorization": "Bearer " + req.user.googleAccessToken
         }
       }, function (err, httpResponse, body) {
-        console.log(err);
-        console.log(body);
-        console.log("Watch this");
         if (err) {
           callback(err);
         } else if (body) {
-
-          console.log("WHERE IS IT GOING");
           body = JSON.parse(body);
           if (noTry === 0 && body.error) {
-            console.log("GOING INSIDE");
             refreshToken();
           } else {
-            console.log("GOING INSIDE 2");
             callback(err, body);
           }
         } else {
@@ -173,6 +166,15 @@ var model = {
     }
 
     function refreshToken() {
+      console.log({
+        url: 'https://www.googleapis.com/oauth2/v4/token',
+        form: {
+          refresh_token: req.user.googleRefreshToken,
+          client_id: GoogleclientId,
+          client_secret: GoogleclientSecret,
+          grant_type: 'refresh_token',
+        }
+      });
       request.post({
         url: 'https://www.googleapis.com/oauth2/v4/token',
         form: {
@@ -182,6 +184,8 @@ var model = {
           grant_type: 'refresh_token',
         }
       }, function (err, httpResponse, body) {
+        console.log(err);
+        console.log(body);
         if (err) {
           callback(err);
         } else if (body) {
