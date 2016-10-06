@@ -158,7 +158,7 @@ var model = {
         } else if (body) {
 
           console.log("WHERE IS IT GOING");
-          if (noTry === 0 && body.errorccc) {
+          if (noTry === 0 && body.error) {
             console.log("GOING INSIDE");
             refreshToken();
           } else {
