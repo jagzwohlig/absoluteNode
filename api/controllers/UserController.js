@@ -64,7 +64,7 @@ var controller = {
                     if (err) {
                         res.callback(err);
                     } else {
-                        res.callback(err, data.messages);
+                        res.callback(err, data);
                     }
                 });
             }
