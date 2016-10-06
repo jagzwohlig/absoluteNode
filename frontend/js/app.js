@@ -1486,6 +1486,21 @@ firstapp.filter('downloadImage', function() {
         }
     };
 });
+firstapp.filter('readUnread', function() {
+    return function(input) {
+        var check = false;
+        if (input) {
+            _.each(input, function(n) {
+                if (n == "UNREAD") {
+                    check = true;
+                }
+            });
+            return check;
+        } else {
+            return check;
+        }
+    };
+});
 
 firstapp.filter('from', function() {
     return function(input, data) {

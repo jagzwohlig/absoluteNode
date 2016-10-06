@@ -1,12 +1,12 @@
 module.exports = _.cloneDeep(require("sails-wohlig-controller"));
 var controller = {
-    loginFacebook: function (req, res) {
+    loginFacebook: function(req, res) {
         passport.authenticate('facebook', {
             scope: ['public_profile', 'user_friends', 'email'],
             failureRedirect: '/'
         }, res.socialLogin)(req, res);
     },
-    loginGoogle: function (req, res) {
+    loginGoogle: function(req, res) {
         if (req.query.returnUrl) {
             req.session.returnUrl = req.query.returnUrl;
         } else {
@@ -18,33 +18,37 @@ var controller = {
             failureRedirect: '/'
         }, res.socialLogin)(req, res);
     },
-    profile: function (req, res) {
+    profile: function(req, res) {
         if (req.body && req.body.accessToken) {
             User.profile(req.body, res.callback);
         } else {
             res.callback("Please provide Valid AccessToken", null);
         }
     },
-    listEmail: function (req, res) {
+    listEmail: function(req, res) {
         console.log(req.user);
         var pageToken = "";
         if (req.body.nextPageToken) {
-            pageToken = "&pageToken=" + req.body.pageToken;
+            pageToken = "&pageToken=" + req.body.nextPageToken;
+        }
+        var search = "";
+        if (req.body.search) {
+            search = "&q=" + req.body.search;
         }
 
         var obj = {
             body: {
                 url: "messages",
-                other: "&maxResults=10" + pageToken,
+                other: "&maxResults=10" + pageToken + search,
                 method: "GET"
             },
             user: req.user
         };
-        User.gmailCall(obj, function (err, data) {
+        User.gmailCall(obj, function(err, data) {
             if (err) {
                 res.callback(err);
             } else {
-                async.each(data.messages, function (n, callback) {
+                async.each(data.messages, function(n, callback) {
                     var obj = {
                         body: {
                             url: "messages/" + n.id,
@@ -53,7 +57,7 @@ var controller = {
                         },
                         user: req.user
                     };
-                    User.gmailCall(obj, function (err, data2) {
+                    User.gmailCall(obj, function(err, data2) {
                         if (err) {
                             callback(err);
                         } else {
@@ -61,7 +65,7 @@ var controller = {
                             callback();
                         }
                     });
-                }, function (err) {
+                }, function(err) {
                     if (err) {
                         res.callback(err);
                     } else {
@@ -72,7 +76,7 @@ var controller = {
 
         });
     },
-    detailEmail: function (req, res) {
+    detailEmail: function(req, res) {
         console.log(req.user);
         var obj = {
             body: {

@@ -5690,17 +5690,28 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.header = {
         "name": "Email Inbox"
     };
+    $scope.allSelect = false;
+    $scope.mails = [];
     // GMAIL CALL
-    $scope.reloadGmail = function() {
+    $scope.reloadGmail = function(nextPageToken) {
         NavigationService.gmailCall({
             url: "messages",
-            method: "GET"
+            method: "GET",
+            nextPageToken: nextPageToken
         }, function(data) {
             console.log(data);
-            $scope.mails = data.data;
+            if (nextPageToken == "") {
+                $scope.mails = data.data.messages;
+            } else {
+                _.each(data.data.messages, function(n) {
+                    $scope.mails.push(n);
+                });
+            }
+            $scope.nextPage = data.data.nextPageToken;
+
         });
     }
-    $scope.reloadGmail();
+    $scope.reloadGmail("");
     $scope.showSingle = function(data) {
         $.jStorage.set("oneEmail", data);
         $state.go("email-single", {
@@ -5725,6 +5736,21 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     };
 
     $scope.emailToDelete = [];
+    $scope.selectAll = function(check) {
+        console.log(check);
+        if (check) {
+            _.each($scope.mails, function(n) {
+                n.checked = true;
+                $scope.emailToDelete.push(n.threadId);
+            });
+        } else {
+            $scope.emailToDelete = [];
+            _.each($scope.mails, function(n) {
+                n.checked = false;
+
+            });
+        }
+    };
     $scope.addEmailToDelete = function(data) {
         var a = _.findIndex($scope.emailToDelete, function(o) {
             return o == data.id;
@@ -5734,7 +5760,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.emailToDelete.push(data.id);
         } else {
             // var ind =
-            $scope.emailToDelete.splice(1, a);
+            $scope.emailToDelete.splice(a, 1);
         }
 
         console.log($scope.emailToDelete);
@@ -5847,6 +5873,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                                 }
                             })
 
+                        } else if (data.mimeType == "image/png") {
+                            $scope.email.attachment = data.body.attachmentId;
                         }
                     });
                 }
