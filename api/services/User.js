@@ -151,16 +151,16 @@ var model = {
         }
       }, function (err, httpResponse, body) {
         console.log(err);
+        console.log(body);
         console.log("Watch this");
         if (err) {
-          if (noTry === 0) {
+          callback(err);
+        } else if (body) {
+          if (noTry === 0 && body.error && body.code == 401) {
             refreshToken();
           } else {
-            callback(err);
+            callback(err, JSON.parse(body));
           }
-        } else if (body) {
-          console.log(body);
-          callback(err, JSON.parse(body));
         } else {
           callback(err, body);
         }
