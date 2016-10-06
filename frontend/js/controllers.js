@@ -5692,15 +5692,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     };
     $scope.allSelect = false;
     $scope.mails = [];
+    $scope.emailForm = {};
     // GMAIL CALL
     $scope.reloadGmail = function(nextPageToken) {
         NavigationService.gmailCall({
             url: "messages",
             method: "GET",
-            nextPageToken: nextPageToken
+            nextPageToken: nextPageToken,
+            search: $scope.emailForm.search
         }, function(data) {
             console.log(data);
-            if (nextPageToken == "") {
+            if (!nextPageToken) {
                 $scope.mails = data.data.messages;
             } else {
                 _.each(data.data.messages, function(n) {
@@ -5710,8 +5712,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.nextPage = data.data.nextPageToken;
 
         });
-    }
-    $scope.reloadGmail("");
+    };
+    $scope.reloadGmail();
     $scope.showSingle = function(data) {
         $.jStorage.set("oneEmail", data);
         $state.go("email-single", {
@@ -5871,7 +5873,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                                 if (data2.mimeType == "text/html") {
                                     $scope.email.body = data2.body.data;
                                 }
-                            })
+                            });
 
                         } else if (data.mimeType == "image/png") {
                             $scope.email.attachment = data.body.attachmentId;
