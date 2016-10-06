@@ -156,7 +156,7 @@ var model = {
         if (err) {
           callback(err);
         } else if (body) {
-          if (noTry === 0 && body.error) {
+          if (noTry === 0 && body.errorccc) {
             refreshToken();
           } else {
             callback(err, JSON.parse(body));
