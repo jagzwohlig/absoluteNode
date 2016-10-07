@@ -5693,13 +5693,19 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.allSelect = false;
     $scope.mails = [];
     $scope.emailForm = {};
+    $scope.labelIds = "INBOX";
     // GMAIL CALL
+    $scope.tabSelected = function(label) {
+        $scope.labelIds = label;
+        $scope.reloadGmail();
+    };
     $scope.reloadGmail = function(nextPageToken) {
         NavigationService.gmailCall({
             url: "messages",
             method: "GET",
             nextPageToken: nextPageToken,
-            search: $scope.emailForm.search
+            search: $scope.emailForm.search,
+            labelIds: $scope.labelIds
         }, function(data) {
             console.log(data);
             if (!nextPageToken) {
@@ -5792,6 +5798,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             size: 'lg'
         });
     };
+    $scope.sendEmail = function() {
+        NavigationService.sendEmail(function(data) {
+            console.log(data)
+        });
+    }
     $scope.files = [{
         type: "JIR",
         count: 2,

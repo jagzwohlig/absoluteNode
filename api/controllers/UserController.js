@@ -35,11 +35,16 @@ var controller = {
         if (req.body.search) {
             search = "&q=" + req.body.search;
         }
+        var labelIds = "";
+        if (req.body.labelIds) {
+            labelIds = "&labelIds=" + req.body.labelIds;
+        }
 
         var obj = {
             body: {
                 url: "messages",
                 other: "&maxResults=10" + pageToken + search,
+                labelIds: labelIds,
                 method: "GET"
             },
             user: req.user
@@ -53,6 +58,7 @@ var controller = {
                         body: {
                             url: "messages/" + n.id,
                             other: "&format=metadata",
+                            labelIds: labelIds,
                             method: "GET"
                         },
                         user: req.user
@@ -86,6 +92,18 @@ var controller = {
             user: req.user
         };
         User.gmailCall(obj, res.callback);
+    },
+    sendEmail: function(req, res) {
+        console.log(req.user);
+        var obj = {
+            body: {
+                url: "messages/send",
+                method: "POST"
+            },
+            user: req.user
+        };
+
+        User.sendEmail(obj, res.callback);
     }
 };
 module.exports = _.assign(module.exports, controller);
