@@ -5704,8 +5704,33 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.mails = [];
     $scope.emailForm = {};
     $scope.labelIds = "INBOX";
-    // GMAIL CALL
-    $scope.tabSelected = function(label) {
+    $scope.tabMenue = [{
+            title: "Inbox",
+            label: "INBOX",
+            class: "active"
+        }, {
+            title: "Draft",
+            label: "DRAFT",
+            class: ""
+        }, {
+            title: "Important",
+            label: "IMPORTANT",
+            class: ""
+        }, {
+            title: "Sent",
+            label: "SENT",
+            class: ""
+        }, {
+            title: "Trash",
+            label: "TRASH",
+            class: ""
+        }]
+        // GMAIL CALL
+    $scope.tabSelected = function(label, tab) {
+        _.each($scope.tabMenue, function(n) {
+            n.class = "";
+        });
+        tab.class = "active";
         $scope.labelIds = label;
         $scope.reloadGmail();
     };
