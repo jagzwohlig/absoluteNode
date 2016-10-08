@@ -429,6 +429,16 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         // NavigationService.searchNatureLoss(function(data) {
         //     $scope.natureLoss = data.data.results;
         // });
+        console.log($stateParams);
+        if ($stateParams.emailId) {
+
+            NavigationService.detailEmail({
+                "messageId": $stateParams.emailId
+            }, function(data) {
+                var doa = moment(parseInt(data.data.internalDate));
+                $scope.formData.dateOfAppointment = new Date(doa);
+            })
+        };
 
         $scope.refreshShareWith = function(data, office) {
             var formdata = {};
@@ -5870,6 +5880,24 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     $scope.header = {
         "name": "Single Mail"
+    };
+    $scope.createAssignment = function() {
+        // html2canvas(document.getElementById('myCanvas'), {
+        //     onrendered: function(canvas) {
+        //         var data = canvas.toDataURL();
+        //         var docDefinition = {
+        //             content: [{
+        //                 image: data,
+        //                 width: 500,
+        //             }]
+        //         };
+        //         pdfMake.createPdf(docDefinition).download("Score_Details.pdf");
+        //     }
+        // });
+        $state.go("createassignmentemail", {
+            'emailId': $scope.email.id,
+            'model': "assignment"
+        });
     };
     NavigationService.detailEmail({
         "messageId": $stateParams.id

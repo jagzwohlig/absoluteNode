@@ -30,6 +30,8 @@ module.exports = [
   "bower_components/moment/min/moment.min.js",
   "bower_components/angular-ui-sortable/sortable.js",
   "bower_components/angular-utf8-base64/angular-utf8-base64.min.js",
+  "bower_components/html2canvas/build/html2canvas.min.js",
+  "bower_components/pdfMake/build/pdfMake.min.js",
   "frontend/js/app.js",
   "frontend/js/controllers.js",
   "frontend/js/language.js",
