@@ -44,7 +44,8 @@
     "angular-utf8-base64": "^0.0.5",
     "international-phone-number": "^0.0.16",
     "html2canvas": "^0.4.1",
-    "pdfmake": "^0.1.20"
+    "pdfmake": "^0.1.20",
+    "ngInfiniteScroll": "1.0.0"
   },
   "devDependencies": {
     "angular-translate": "^2.11.0"

@@ -1,5 +1,5 @@
 var globalfunction = {};
-angular.module('phonecatControllers', ['templateservicemod', 'navigationservice', 'ui.bootstrap', 'ui.select', 'ngAnimate', 'toastr', 'ngSanitize', 'angular-flexslider', 'ui.tinymce', 'imageupload', 'ngMap', 'toggle-switch', 'cfp.hotkeys', 'ui.sortable'])
+angular.module('phonecatControllers', ['templateservicemod', 'navigationservice', 'ui.bootstrap', 'ui.select', 'ngAnimate', 'toastr', 'ngSanitize', 'angular-flexslider', 'ui.tinymce', 'imageupload', 'ngMap', 'toggle-switch', 'cfp.hotkeys', 'ui.sortable', 'infinite-scroll'])
 
 .controller('DashboardCtrl', function($scope, TemplateService, NavigationService, $timeout, base64) {
     //Used to name the .html file
@@ -437,8 +437,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             }, function(data) {
                 var doa = moment(parseInt(data.data.internalDate));
                 $scope.formData.dateOfAppointment = new Date(doa);
-            })
-        };
+            });
+        }
 
         $scope.refreshShareWith = function(data, office) {
             var formdata = {};
@@ -5700,37 +5700,42 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.header = {
         "name": "Email Inbox"
     };
+    $scope.msg = "Loading...";
     $scope.allSelect = false;
     $scope.mails = [];
     $scope.emailForm = {};
     $scope.labelIds = "INBOX";
     $scope.tabMenue = [{
-            title: "Inbox",
-            label: "INBOX",
-            class: "active"
-        }, {
-            title: "Draft",
-            label: "DRAFT",
-            class: ""
-        }, {
-            title: "Important",
-            label: "IMPORTANT",
-            class: ""
-        }, {
-            title: "Sent",
-            label: "SENT",
-            class: ""
-        }, {
-            title: "Trash",
-            label: "TRASH",
-            class: ""
-        }]
-        // GMAIL CALL
+        title: "Inbox",
+        label: "INBOX",
+        class: "active"
+    }, {
+        title: "Draft",
+        label: "DRAFT",
+        class: ""
+    }, {
+        title: "Important",
+        label: "IMPORTANT",
+        class: ""
+    }, {
+        title: "Sent",
+        label: "SENT",
+        class: ""
+    }, {
+        title: "Trash",
+        label: "TRASH",
+        class: ""
+    }];
+    $scope.scrollDisable = false;
+    // GMAIL CALL
     $scope.tabSelected = function(label, tab) {
         _.each($scope.tabMenue, function(n) {
             n.class = "";
         });
         tab.class = "active";
+        $scope.msg = "Loading...";
+        $scope.emailForm.search = "";
+        $scope.mails = [];
         $scope.labelIds = label;
         $scope.reloadGmail();
     };
@@ -5743,6 +5748,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             labelIds: $scope.labelIds
         }, function(data) {
             console.log(data);
+            if (data.data.resultSizeEstimate === 0) {
+                $scope.msg = "You don't have any e-mails.";
+            } else {
+                $scope.msg = "";
+            }
             if (!nextPageToken) {
                 $scope.mails = data.data.messages;
             } else {
@@ -5835,9 +5845,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     };
     $scope.sendEmail = function() {
         NavigationService.sendEmail(function(data) {
-            console.log(data)
+            console.log(data);
         });
-    }
+    };
     $scope.files = [{
         type: "JIR",
         count: 2,

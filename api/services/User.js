@@ -164,8 +164,6 @@ var model = {
   gmailCall: function(req, callback) {
     var noTry = 0;
     var labelIds = "";
-    console.log("************************")
-    console.log(req.body);
 
     function makeGmailCall() {
       if (!req.body.other) {

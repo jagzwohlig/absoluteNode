@@ -32,6 +32,7 @@ module.exports = [
   "bower_components/angular-utf8-base64/angular-utf8-base64.min.js",
   "bower_components/html2canvas/build/html2canvas.min.js",
   "bower_components/pdfMake/build/pdfMake.min.js",
+  "bower_components/ngInfiniteScroll/build/ng-infinite-scroll.min.js",
   "frontend/js/app.js",
   "frontend/js/controllers.js",
   "frontend/js/language.js",
