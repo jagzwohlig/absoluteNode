@@ -171,6 +171,9 @@ var model = {
       if (!req.body.other) {
         req.body.other = "";
       }
+      if (!req.body.labelIds) {
+        req.body.labelIds = "";
+      }
 
       console.log({
         url: 'https://www.googleapis.com/gmail/v1/users/' + req.user.email + "/" + req.body.url + "?key=" + GoogleKey + req.body.other + req.body.labelIds,
