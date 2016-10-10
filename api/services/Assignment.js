@@ -215,6 +215,10 @@ var schema = new Schema({
       type: String
     }
   }],
+  status: {
+    type: Boolean,
+    default: true
+  }
 });
 
 schema.plugin(deepPopulate, {
@@ -328,7 +332,6 @@ var model = {
       if (err) {
         callback(err);
       } else {
-        console.log(data2);
         Model.findOne({
           company: data2.company._id,
           _id: {
