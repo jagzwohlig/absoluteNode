@@ -177,7 +177,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             }
         });
 
-
         $scope.modelCap = _.capitalize($stateParams.model);
         $scope.modelLow = _.lowerCase($stateParams.model);
 
@@ -3026,17 +3025,21 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.formData = {};
         $scope.formData.status = true;
         $scope.formData.listOfDocuments = [];
+        $scope.check = true;
         $scope.modelData = {};
         $scope.saveModel = function(formData) {
-            console.log(formData);
-            NavigationService.modelSave("PolicyDoc", $scope.formData, function(data) {
-                if (data.value === true) {
-                    $state.go('policyDoc-list');
-                    toastr.success("Policy Document" + " " + formData.name + " created successfully.", "Policy Document" + " Created");
-                } else {
-                    toastr.error("Policy Document" + " creation failed.", "Policy Document" + " creation error");
-                }
-            });
+            if ($scope.check) {
+                console.log(formData);
+                NavigationService.modelSave("PolicyDoc", $scope.formData, function(data) {
+                    $scope.check = false;
+                    if (data.value === true) {
+                        $state.go('policyDoc-list');
+                        toastr.success("Policy Document" + " " + formData.name + " created successfully.", "Policy Document" + " Created");
+                    } else {
+                        toastr.error("Policy Document" + " creation failed.", "Policy Document" + " creation error");
+                    }
+                });
+            }
         };
 
         $scope.addDocument = function() {
