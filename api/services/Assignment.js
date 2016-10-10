@@ -87,7 +87,6 @@ var schema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Officer",
     index: true,
-    required: true,
     key: "assignment"
   },
   causeOfLoss: {

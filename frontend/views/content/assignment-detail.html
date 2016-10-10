@@ -338,7 +338,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Insured's Officer</label>
-                                        <multiple-select name="insuredOfficer" required ng-model="formData.insuredOfficer" filter='{"_id":"{{formData.insuredOffice}}"}' ng-name="name.office" api="searchGetOfficer"></multiple-select>
+                                        <multiple-select name="insuredOfficer" ng-model="formData.insuredOfficer" filter='{"_id":"{{formData.insuredOffice}}"}' ng-name="name.office" api="searchGetOfficer"></multiple-select>
                                         <div class="error-msg" ng-show="formName.insuredOfficer.$invalid">Please Select Insured Officer</div>
                                     </div>
                                 </div>

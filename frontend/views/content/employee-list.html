@@ -30,7 +30,7 @@
                     <div class="widget-title">
                         <div class="pull-right">
                             <form class="search-form mr-form">
-                              <input type="text" ng-change="showAll(true)" placeholder="Search Here..." ng-model="search.keyword"/>
+                                <input type="text" ng-change="showAll(true)" placeholder="Search Here..." ng-model="search.keyword" />
                                 <button type="submit">
                                     <i class="fa fa-search"></i>
                                 </button>
@@ -38,7 +38,7 @@
                             <a class="btn btn-primary" ui-sref="createemployee">Add New</a>
                         </div>
                         <h3>List of Employee
-                          <span class="tableTotal">(Total :
+                            <span class="tableTotal">(Total :
                               {{totalItems}})
                           </span>
                         </h3>
@@ -60,8 +60,8 @@
                                 <tr ng-repeat="data in modelList">
                                     <!-- <td>$index</td> -->
                                     <td>{{data.firstName + " " + data.lastName || "-"}}</td>
-                                    <td>{{data.mobile || "-"}}</td>
-                                    <td>{{data.email || "-"}}</td>
+                                    <td>{{data.officeMobile || "-"}}</td>
+                                    <td>{{data.officeEmail || "-"}}</td>
                                     <td>{{data.grade.name + " " + data.func.name || "-"}}</td>
                                     <td>{{data.postedAt.name || "-"}}</td>
                                     <td>
