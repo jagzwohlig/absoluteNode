@@ -5707,6 +5707,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         "name": "Email Inbox"
     };
     $scope.msg = "Loading...";
+    $scope.msgSend = "";
     $scope.allSelect = false;
     $scope.mails = [];
     $scope.emailForm = {};
@@ -5829,6 +5830,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         message: ""
     };
     $scope.emailtos = [{
+        name: 'Jagruti',
+        email: 'jagruti@wohlig.com'
+    }, {
         name: 'Tushar',
         email: 'tushar@wohlig.com'
     }, {
@@ -5841,15 +5845,18 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         name: 'Raj',
         email: 'raj@wohlig.com'
     }];
-
+    var modalInstance = function() {};
     $scope.newEmail = function() {
-        var modalInstance = $uibModal.open({
+        $scope.msgSend = "";
+        modalInstance = $uibModal.open({
             scope: $scope,
             templateUrl: '/frontend/views/modal/modal-email.html',
             size: 'lg'
         });
     };
-    $scope.sendEmail = function() {
+    $scope.sendEmail = function(modalForm) {
+
+        $scope.msgSend = "Sending..";
         $scope.newTo = angular.copy($scope.email);
         $scope.newTo.to = [];
         _.each($scope.email.to, function(n) {
@@ -5869,6 +5876,15 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         console.log($scope.newTo);
         NavigationService.sendEmail($scope.newTo, function(data) {
             console.log(data);
+            if (data.value) {
+                toastr.success("Your message has been send.", "Send email.");
+                $timeout(function() {
+                    modalInstance.close();
+                }, 1000);
+            } else {
+                // $scope.msgSend = "Error in sending email";
+                toastr.success("Error in sending email.", "Send email.");
+            }
         });
     };
     $scope.files = [{
