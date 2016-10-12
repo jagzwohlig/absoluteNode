@@ -4700,6 +4700,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 filter: filter,
                 page: 1
             };
+            if (dataSend.keyword === null || dataSend.keyword === undefined) {
+                dataSend.keyword = "";
+            }
             NavigationService[$scope.api](dataSend, ++i, function (data) {
                 if (data.value) {
                     $scope.list = data.data.results;
