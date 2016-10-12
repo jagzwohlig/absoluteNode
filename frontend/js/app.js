@@ -1481,6 +1481,7 @@ firstapp.filter('serverimage', function() {
 firstapp.filter('base64url', function(base64) {
     return function(input) {
         if (input) {
+            console.log(base64.urldecode(input));
             return base64.urldecode(input);
         } else {
             return "";

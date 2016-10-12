@@ -45,7 +45,8 @@
     "international-phone-number": "^0.0.16",
     "html2canvas": "^0.4.1",
     "pdfmake": "^0.1.20",
-    "ngInfiniteScroll": "1.0.0"
+    "ngInfiniteScroll": "1.0.0",
+    "tinymce": "4.3.12"
   },
   "devDependencies": {
     "angular-translate": "^2.11.0"

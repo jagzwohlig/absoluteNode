@@ -87,7 +87,8 @@ var controller = {
         var obj = {
             body: {
                 url: "messages/" + req.body.messageId,
-                method: "GET"
+                method: "GET",
+                // other: "&format=raw"
             },
             user: req.user
         };
@@ -102,8 +103,19 @@ var controller = {
             },
             user: req.user
         };
-
-        User.sendEmail(obj, res.callback);
+        var rawData = "From: " + req.user.email + "\r\n" +
+            "To: " + req.body.to + "\r\n" +
+            "Subject: " + req.body.subject + "\r\n" +
+            "Content-Type: text/html; charset=UTF-8\r\n" +
+            "Content-Transfer-Encoding: QUOTED-PRINTABLE\r\n" +
+            "Content-Disposition: inline\r\n\r\n" +
+            "" + req.body.message + "";
+        var rawDataProcessed = btoa(rawData).replace(/\+/g, '-').replace(/\//g, '_');
+        console.log(req.body);
+        obj.form = {
+            raw: rawDataProcessed
+        };
+        User.gmailCall(obj, res.callback);
     }
 };
 module.exports = _.assign(module.exports, controller);

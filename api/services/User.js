@@ -173,20 +173,22 @@ var model = {
         req.body.labelIds = "";
       }
 
-      console.log({
+      var callAPI = {
         url: 'https://www.googleapis.com/gmail/v1/users/' + req.user.email + "/" + req.body.url + "?key=" + GoogleKey + req.body.other + req.body.labelIds,
         method: req.body.method,
         headers: {
           "Authorization": "Bearer " + req.user.googleAccessToken
         }
-      });
-      request({
-        url: 'https://www.googleapis.com/gmail/v1/users/' + req.user.email + "/" + req.body.url + "?key=" + GoogleKey + req.body.other + req.body.labelIds,
-        method: req.body.method,
-        headers: {
-          "Authorization": "Bearer " + req.user.googleAccessToken
-        }
-      }, function(err, httpResponse, body) {
+      };
+      if (req.form) {
+        callAPI.multipart = [{
+          "content-type": "application/json",
+          body: JSON.stringify(req.form)
+        }];
+      }
+
+      console.log(callAPI);
+      request(callAPI, function(err, httpResponse, body) {
         if (err) {
           callback(err);
         } else if (body) {
