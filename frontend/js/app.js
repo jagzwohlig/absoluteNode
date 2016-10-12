@@ -1239,7 +1239,7 @@ firstapp.directive('uploadImage', function($http, $filter) {
                 console.log($scope.image);
             };
 
-
+            $scope.type = "img";
             $scope.isMultiple = false;
             $scope.inObject = false;
             if (attrs.multiple || attrs.multiple === "") {
@@ -1264,6 +1264,10 @@ firstapp.directive('uploadImage', function($http, $filter) {
                             url: n
                         });
                     });
+                } else {
+                    if (_.endsWith($scope.model, ".pdf")) {
+                        $scope.type = "pdf";
+                    }
                 }
 
             }
@@ -1299,6 +1303,11 @@ firstapp.directive('uploadImage', function($http, $filter) {
                                 $scope.model.push(data.data[0]);
                             }
                         } else {
+                            if (_.endsWith(data.data[0], ".pdf")) {
+                                $scope.type = "pdf";
+                            } else {
+                                $scope.type = "img";
+                            }
                             $scope.model = data.data[0];
                         }
                     }
