@@ -5826,7 +5826,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     };
 
     $scope.email = {
-        message: "Change"
+        message: ""
     };
     $scope.emailtos = [{
         name: 'Tushar',
@@ -5850,7 +5850,24 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
     };
     $scope.sendEmail = function() {
-        NavigationService.sendEmail(function(data) {
+        $scope.newTo = angular.copy($scope.email);
+        $scope.newTo.to = [];
+        _.each($scope.email.to, function(n) {
+            $scope.newTo.to.push(n.email);
+        });
+        $scope.newTo.cc = [];
+        _.each($scope.email.cc, function(n) {
+            $scope.newTo.cc.push(n.email);
+        });
+        $scope.newTo.bcc = [];
+        _.each($scope.email.bcc, function(n) {
+            $scope.newTo.bcc.push(n.email);
+        });
+        $scope.newTo.to = $scope.newTo.to.join();
+        $scope.newTo.cc = $scope.newTo.cc.join();
+        $scope.newTo.bcc = $scope.newTo.bcc.join();
+        console.log($scope.newTo);
+        NavigationService.sendEmail($scope.newTo, function(data) {
             console.log(data);
         });
     };

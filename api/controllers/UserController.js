@@ -105,6 +105,8 @@ var controller = {
         };
         var rawData = "From: " + req.user.email + "\r\n" +
             "To: " + req.body.to + "\r\n" +
+            "Cc: " + req.body.cc + "\r\n" +
+            "Bcc: " + req.body.bcc + "\r\n" +
             "Subject: " + req.body.subject + "\r\n" +
             "Content-Type: text/html; charset=UTF-8\r\n" +
             "Content-Transfer-Encoding: QUOTED-PRINTABLE\r\n" +
