@@ -46,7 +46,8 @@
     "html2canvas": "^0.4.1",
     "pdfmake": "^0.1.20",
     "ngInfiniteScroll": "1.0.0",
-    "tinymce": "4.3.12"
+    "tinymce": "4.3.12",
+    "angular-hotkeys": "https://github.com/chieffancypants/angular-hotkeys.git#^1.7.0"
   },
   "devDependencies": {
     "angular-translate": "^2.11.0"
