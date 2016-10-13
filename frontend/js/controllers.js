@@ -424,10 +424,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.addModels = function(dataArray, data) {
             dataArray.push(data);
         };
+        $scope.formData.isInsured = true;
+        $scope.formData.typeOfClaim = true;
 
         // NavigationService.searchNatureLoss(function(data) {
         //     $scope.natureLoss = data.data.results;
         // });
+        NavigationService.searchCompany({}, 1, function(data) {
+            // if (data.data.results.length() != 0) {
+            $scope.formData.company = data.data.results[0]._id;
+            // }
+        });
         console.log($stateParams);
         if ($stateParams.emailId) {
 

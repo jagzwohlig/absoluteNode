@@ -13,14 +13,6 @@ var schema = new Schema({
     claimNumber: {
         type: String
     },
-    assignment: {
-        type: [{
-            type: Schema.Types.ObjectId,
-            ref: "Assignment",
-        }],
-        index: true,
-        restrictedDelete: true
-    },
 
 });
 

@@ -16,22 +16,12 @@ var schema = new Schema({
     default: 0
   },
   typeOfClaim: {
-    type: Schema.Types.ObjectId,
-    ref: "Claims",
-    index: true,
+    type: String,
     required: true,
-    key: "assignment"
   },
   department: {
     type: Schema.Types.ObjectId,
     ref: "Department",
-    index: true,
-    required: true,
-    key: "assignment"
-  },
-  natureOfSurvey: {
-    type: Schema.Types.ObjectId,
-    ref: "SurveyCode",
     index: true,
     required: true,
     key: "assignment"
@@ -327,7 +317,7 @@ var model = {
     var newNumber = 1;
     Model.findOne({
       _id: data._id
-    }).deepPopulate("company branch city.district.state.zone.country typeOfClaim natureOfSurvey", "_id assignmentGeneration").exec(function(err, data2) {
+    }).deepPopulate("company branch city.district.state.zone.country department typeOfClaim natureOfSurvey", "_id assignmentGeneration").exec(function(err, data2) {
       if (err) {
         callback(err);
       } else {
@@ -357,7 +347,62 @@ var model = {
             while (num.length < len) {
               num = '0' + num;
             }
-            data2.name = data2.city.district.state.zone.country.countryCode + data2.company.companyCode + data2.typeOfClaim.claimNumber + "-" + data2.natureOfSurvey.code + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).format("YY") + moment(new Date(data2.dateOfAppointment)).format("MM") + "-" + num;
+            var nos = "";
+            console.log(data2);
+            switch (data2.typeOfClaim + "-" + data2.department.name) {
+              case "false-Engineering":
+                {
+                  nos = 40;
+                  break;
+                }
+              case "false-Motor":
+                {
+                  nos = 30;
+                  break;
+                }
+              case "false-Pre Dispatch":
+                {
+                  nos = 20;
+                  break;
+                }
+              case "false-Pre Acceptance - Fire":
+                {
+                  nos = 10;
+                  break;
+                }
+              case "true-Engineering":
+                {
+                  nos = 44;
+                  break;
+                }
+              case "true-Fire":
+                {
+                  nos = 11;
+                  break;
+                }
+              case "true-Marine Cargo":
+                {
+                  nos = 21;
+                  break;
+                }
+              case "true-Misc":
+                {
+                  nos = 48;
+                  break;
+                }
+              case "true-Motor":
+                {
+                  nos = 31;
+                  break;
+                }
+              default:
+                {
+                  nos = 00;
+                  break;
+                }
+            }
+
+            data2.name = data2.city.district.state.zone.country.countryCode + data2.company.companyCode + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).format("YY") + moment(new Date(data2.dateOfAppointment)).format("MM") + "-" + num;
             //add this here
             data2.save(function(err, data) {
               callback(err, data);
