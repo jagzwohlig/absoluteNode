@@ -86,6 +86,7 @@ global["chalk"] = require('chalk');
 global["uid"] = require('rand-token').uid;
 global["request"] = require('request');
 global["btoa"] = require('btoa');
+global["atob"] = require('atob');
 
 // passport Globals
 global["passport"] = require('passport');
@@ -98,16 +99,16 @@ global["GoogleStrategy"] = require('passport-google-auth').Strategy;
 global["jsFiles"] = require("../frontend/files.js");
 
 //colored console
-global["blue"] = function(data) {
+global["blue"] = function (data) {
     console.log(chalk.blue(data));
 };
-global["red"] = function(data) {
+global["red"] = function (data) {
     console.log(chalk.red(data));
 };
-global["green"] = function(data) {
+global["green"] = function (data) {
     console.log(chalk.green(data));
 };
-global["log"] = function(data) {
+global["log"] = function (data) {
     console.log(data);
 };
 

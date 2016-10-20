@@ -129,7 +129,7 @@ var controller = {
             } else {
                 res.setHeader('Content-disposition', 'attachment; filename=' + req.query.fileName);
                 res.setHeader('Content-type', "application/octet-stream");
-                res.send(data.data);
+                res.send(atob(data.data));
             }
         });
 
