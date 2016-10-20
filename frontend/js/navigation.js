@@ -6,7 +6,7 @@ var uploadurl = imgurl;
 
 var navigationservice = angular.module('navigationservice', [])
 
-.factory('NavigationService', function($http) {
+.factory('NavigationService', function ($http) {
     var navigation = [{
         name: "Email",
         classis: "active",
@@ -261,35 +261,35 @@ var navigationservice = angular.module('navigationservice', [])
     }];
 
     return {
-        getnav: function() {
+        getnav: function () {
             return navigation;
         },
-        parseAccessToken: function(data, callback) {
+        parseAccessToken: function (data, callback) {
             if (data) {
                 $.jStorage.set("accessToken", data);
                 callback();
             }
         },
-        removeAccessToken: function(data, callback) {
+        removeAccessToken: function (data, callback) {
             $.jStorage.flush();
         },
-        gmailCall: function(data, callback) {
+        gmailCall: function (data, callback) {
             data.accessToken = $.jStorage.get("accessToken");
             $http.post(adminurl + 'user/listEmail', data).success(callback);
         },
-        detailEmail: function(data, callback) {
+        detailEmail: function (data, callback) {
             data.accessToken = $.jStorage.get("accessToken");
             $http.post(adminurl + 'user/detailEmail', data).success(callback);
         },
-        sendEmail: function(data, callback) {
+        sendEmail: function (data, callback) {
             data.accessToken = $.jStorage.get("accessToken");
             $http.post(adminurl + 'user/sendEmail', data).success(callback);
         },
-        profile: function(callback, errorCallback) {
+        profile: function (callback, errorCallback) {
             var data = {
                 accessToken: $.jStorage.get("accessToken")
             };
-            $http.post(adminurl + 'user/profile', data).success(function(data) {
+            $http.post(adminurl + 'user/profile', data).success(function (data) {
                 if (data.value === true) {
                     $.jStorage.set("profile", data.data);
                     callback();
@@ -298,7 +298,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }
             });
         },
-        makeactive: function(menuname) {
+        makeactive: function (menuname) {
             for (var i = 0; i < navigation.length; i++) {
                 if (navigation[i].name == menuname) {
                     navigation[i].classis = "active";
@@ -308,367 +308,373 @@ var navigationservice = angular.module('navigationservice', [])
             }
             return menuname;
         },
-        getInsurer: function(callback) {
+        getInsurer: function (callback) {
             $http.post(adminurl + 'customerCompany/getInsurer', {}).success(callback);
         },
-        searchEmployee: function(formData, i, callback) {
-            $http.post(adminurl + 'Employee/search', formData).success(function(data) {
+        searchEmployee: function (formData, i, callback) {
+            $http.post(adminurl + 'Employee/search', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        searchNatureLoss: function(formData, i, callback) {
-            $http.post(adminurl + 'NatureLoss/search', formData).success(function(data) {
+        searchNatureLoss: function (formData, i, callback) {
+            $http.post(adminurl + 'NatureLoss/search', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        getMembership: function(formData, i, callback) {
-            $http.post(adminurl + 'Membership/search', formData).success(function(data) {
+        getMembership: function (formData, i, callback) {
+            $http.post(adminurl + 'Membership/search', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        searchInsuredOffice: function(formData, i, callback) {
+        searchInsuredOffice: function (formData, i, callback) {
             formData.segment = "Insured";
-            $http.post(adminurl + 'Customer/getSegmented', formData).success(function(data) {
+            $http.post(adminurl + 'Customer/getSegmented', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        searchInsurerOffice: function(formData, i, callback) {
+        searchInsurerOffice: function (formData, i, callback) {
             formData.segment = "Insurer";
-            $http.post(adminurl + 'Customer/getSegmented', formData).success(function(data) {
+            $http.post(adminurl + 'Customer/getSegmented', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        searchBroker: function(formData, i, callback) {
+        searchBroker: function (formData, i, callback) {
             formData.segment = "Broker";
-            $http.post(adminurl + 'Customer/getSegmented', formData).success(function(data) {
+            $http.post(adminurl + 'Customer/getSegmented', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        getNature: function(formData, i, callback) {
-            $http.post(adminurl + 'NatureLoss/search', formData).success(function(data) {
+        getNature: function (formData, i, callback) {
+            $http.post(adminurl + 'NatureLoss/search', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        saveNature: function(data, callback) {
+        saveNature: function (data, callback) {
             $http.post(adminurl + 'NatureLoss/save', data).success(callback);
         },
-        saveOfficer: function(data, callback) {
+        saveOfficer: function (data, callback) {
             $http.post(adminurl + 'Officer/save', data).success(callback);
         },
-        saveTemplate: function(data, callback) {
+        saveTemplate: function (data, callback) {
             $http.post(adminurl + 'Template/save', data).success(callback);
         },
-        assignmentSave: function(data, callback) {
+        assignmentSave: function (data, callback) {
             $http.post(adminurl + 'Assignment/save', data).success(callback);
         },
-        searchModel: function(model, formData, i, callback) {
-            $http.post(adminurl + model + '/search', formData).success(function(data) {
+        searchModel: function (model, formData, i, callback) {
+            $http.post(adminurl + model + '/search', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        getDepartment: function(callback) {
+        getDepartment: function (callback) {
             $http.post(adminurl + 'Department/search', {}).success(callback);
         },
-        searchCustomer: function(formData, i, callback) {
-            $http.post(adminurl + 'Customer/search', formData).success(function(data) {
+        searchCustomer: function (formData, i, callback) {
+            $http.post(adminurl + 'Customer/search', formData).success(function (data) {
                 // _.each(data.data.results, function(n) {
                 //     n.name = n.officeCode;
                 // });
                 callback(data, i);
             });
         },
-        searchSegment: function(formData, i, callback) {
-            $http.post(adminurl + 'Segment/search', formData).success(function(data) {
+        searchSegment: function (formData, i, callback) {
+            $http.post(adminurl + 'Segment/search', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        searchInsured: function(formData, i, callback) {
-            $http.post(adminurl + 'CustomerCompany/getInsured', formData).success(function(data) {
+        searchInsured: function (formData, i, callback) {
+            $http.post(adminurl + 'CustomerCompany/getInsured', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        searchInsurer: function(formData, i, callback) {
-            $http.post(adminurl + 'CustomerCompany/getInsurer', formData).success(function(data) {
+        searchInsurer: function (formData, i, callback) {
+            $http.post(adminurl + 'CustomerCompany/getInsurer', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        searchInsurerCustomerCompany: function(formData, i, callback) {
+        searchInsurerCustomerCompany: function (formData, i, callback) {
             formData.segment = "Insurer";
-            $http.post(adminurl + 'CustomerCompany/getSegmented', formData).success(function(data) {
+            $http.post(adminurl + 'CustomerCompany/getSegmented', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        searchPolicyType: function(formData, i, callback) {
-            $http.post(adminurl + 'PolicyType/search', formData).success(function(data) {
+        searchPolicyType: function (formData, i, callback) {
+            $http.post(adminurl + 'PolicyType/search', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        searchCountry: function(formData, i, callback) {
-            $http.post(adminurl + 'country/search', formData).success(function(data) {
+        searchCountry: function (formData, i, callback) {
+            $http.post(adminurl + 'country/search', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        searchCustomerSegment: function(formData, i, callback) {
-            $http.post(adminurl + 'CustomerSegment/search', formData).success(function(data) {
+        searchCustomerSegment: function (formData, i, callback) {
+            $http.post(adminurl + 'CustomerSegment/search', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        searchCustomerCompany: function(formData, i, callback) {
-            $http.post(adminurl + 'CustomerCompany/search', formData).success(function(data) {
+        searchCustomerCompany: function (formData, i, callback) {
+            $http.post(adminurl + 'CustomerCompany/search', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        searchOffice: function(formData, i, callback) {
-            $http.post(adminurl + 'office/search', formData).success(function(data) {
+        searchOffice: function (formData, i, callback) {
+            $http.post(adminurl + 'office/search', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        searchOfficer: function(formData, i, callback) {
-            $http.post(adminurl + 'officer/search', formData).success(function(data) {
+        searchOfficer: function (formData, i, callback) {
+            $http.post(adminurl + 'officer/search', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        searchGetOfficer: function(formData, i, callback) {
-            $http.post(adminurl + 'Customer/getOfficer', formData).success(function(data) {
+        searchGetOfficer: function (formData, i, callback) {
+            $http.post(adminurl + 'Customer/getOfficer', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        getNatureLoss: function(formData, i, callback) {
-            $http.post(adminurl + 'CauseLoss/getNatureLoss', formData).success(function(data) {
+        getNatureLoss: function (formData, i, callback) {
+            $http.post(adminurl + 'CauseLoss/getNatureLoss', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        getPolicyDoc: function(formData, i, callback) {
+        getPolicyDoc: function (formData, i, callback) {
 
-            $http.post(adminurl + 'PolicyDoc/getPolicyDoc', formData).success(function(data) {
+            $http.post(adminurl + 'PolicyDoc/getPolicyDoc', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        searchProduct: function(formData, i, callback) {
-            $http.post(adminurl + 'Product/search', formData).success(function(data) {
+        searchProduct: function (formData, i, callback) {
+            $http.post(adminurl + 'Product/search', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        searchBranch: function(formData, i, callback) {
-            $http.post(adminurl + 'branch/search', formData).success(function(data) {
+        searchBranch: function (formData, i, callback) {
+            $http.post(adminurl + 'branch/search', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        searchAppointedBy: function(formData, i, callback) {
-            $http.post(adminurl + 'Employee/search', formData).success(function(data) {
+        searchAppointedBy: function (formData, i, callback) {
+            $http.post(adminurl + 'Employee/search', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        searchTypeOfOffice: function(formData, i, callback) {
-            $http.post(adminurl + 'typeOfOffice/search', formData).success(function(data) {
+        searchTypeOfOffice: function (formData, i, callback) {
+            $http.post(adminurl + 'typeOfOffice/search', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        searchCompany: function(formData, i, callback) {
-            $http.post(adminurl + 'company/search', formData).success(function(data) {
+        searchCompany: function (formData, i, callback) {
+            $http.post(adminurl + 'company/search', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        searchCauseLoss: function(formData, i, callback) {
-            $http.post(adminurl + 'CauseLoss/search', formData).success(function(data) {
+        getAttachment: function (formData, callback) {
+            formData.accessToken = $.jStorage.get("accessToken");
+            $http.post(adminurl + 'user/getAttachment', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        searchTypeOfClaim: function(formData, i, callback) {
-            $http.post(adminurl + 'Claims/search', formData).success(function(data) {
+        searchCauseLoss: function (formData, i, callback) {
+            $http.post(adminurl + 'CauseLoss/search', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        searchNatureOfSurvey: function(formData, i, callback) {
-            $http.post(adminurl + 'SurveyCode/search', formData).success(function(data) {
+        searchTypeOfClaim: function (formData, i, callback) {
+            $http.post(adminurl + 'Claims/search', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        searchDepartment: function(formData, i, callback) {
-            $http.post(adminurl + 'department/search', formData).success(function(data) {
+        searchNatureOfSurvey: function (formData, i, callback) {
+            $http.post(adminurl + 'SurveyCode/search', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        searchGrade: function(formData, i, callback) {
-            $http.post(adminurl + 'grade/search', formData).success(function(data) {
+        searchDepartment: function (formData, i, callback) {
+            $http.post(adminurl + 'department/search', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        searchFunc: function(formData, i, callback) {
-            $http.post(adminurl + 'func/search', formData).success(function(data) {
+        searchGrade: function (formData, i, callback) {
+            $http.post(adminurl + 'grade/search', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        searchCategory: function(formData, i, callback) {
-            $http.post(adminurl + 'category/search', formData).success(function(data) {
+        searchFunc: function (formData, i, callback) {
+            $http.post(adminurl + 'func/search', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        searchIndustry: function(formData, i, callback) {
-            $http.post(adminurl + 'industry/search', formData).success(function(data) {
+        searchCategory: function (formData, i, callback) {
+            $http.post(adminurl + 'category/search', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        searchBank: function(formData, i, callback) {
-            $http.post(adminurl + 'bank/search', formData).success(function(data) {
+        searchIndustry: function (formData, i, callback) {
+            $http.post(adminurl + 'industry/search', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        searchCurrency: function(formData, i, callback) {
-            $http.post(adminurl + 'currencies/search', formData).success(function(data) {
+        searchBank: function (formData, i, callback) {
+            $http.post(adminurl + 'bank/search', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        allSearch: function(api, formData, callback) {
-            $http.post(adminurl + api, formData).success(function(data) {
+        searchCurrency: function (formData, i, callback) {
+            $http.post(adminurl + 'currencies/search', formData).success(function (data) {
+                callback(data, i);
+            });
+        },
+        allSearch: function (api, formData, callback) {
+            $http.post(adminurl + api, formData).success(function (data) {
                 callback(data);
             });
         },
-        countrySave: function(formData, callback) {
+        countrySave: function (formData, callback) {
             $http.post(adminurl + 'country/save', formData).success(callback);
         },
-        claimSave: function(formData, callback) {
+        claimSave: function (formData, callback) {
             $http.post(adminurl + 'Claims/save', formData).success(callback);
         },
-        modelSave: function(modal, formData, callback) {
+        modelSave: function (modal, formData, callback) {
             $http.post(adminurl + modal + '/save', formData).success(callback);
         },
-        branchSave: function(formData, callback) {
+        branchSave: function (formData, callback) {
             $http.post(adminurl + 'branch/save', formData).success(callback);
         },
-        customerSegmentSave: function(formData, callback) {
+        customerSegmentSave: function (formData, callback) {
             $http.post(adminurl + 'CustomerSegment/save', formData).success(callback);
         },
-        getAllCountries: function(callback) {
+        getAllCountries: function (callback) {
             $http.post(adminurl + 'country/getAll', {}).success(callback);
         },
-        getOneCountry: function(id, callback) {
+        getOneCountry: function (id, callback) {
             $http.post(adminurl + 'country/getOne', {
                 _id: id
             }).success(callback);
         },
-        getOneClaim: function(id, callback) {
+        getOneClaim: function (id, callback) {
             $http.post(adminurl + 'Claims/getOne', {
                 _id: id
             }).success(callback);
         },
-        getOneTypeOfOffice: function(id, callback) {
+        getOneTypeOfOffice: function (id, callback) {
             $http.post(adminurl + 'TypeOfOffice/getOne', {
                 _id: id
             }).success(callback);
         },
-        getOneModel: function(model, id, callback) {
+        getOneModel: function (model, id, callback) {
             $http.post(adminurl + model + '/getOne', {
                 _id: id
             }).success(callback);
         },
-        getOneBranch: function(id, callback) {
+        getOneBranch: function (id, callback) {
             $http.post(adminurl + 'branch/getOne', {
                 _id: id
             }).success(callback);
         },
-        getOneNatureOfServey: function(id, callback) {
+        getOneNatureOfServey: function (id, callback) {
             $http.post(adminurl + 'SurveyCode/getOne', {
                 _id: id
             }).success(callback);
         },
-        countryEditSave: function(formData, callback) {
+        countryEditSave: function (formData, callback) {
             $http.post(adminurl + 'country/save', formData).success(callback);
         },
-        deleteCountry: function(id, callback) {
+        deleteCountry: function (id, callback) {
             $http.post(adminurl + 'country/delete', {
                 _id: id
             }).success(callback);
 
         },
-        deleteBranch: function(id, callback) {
+        deleteBranch: function (id, callback) {
             $http.post(adminurl + 'branch/delete', {
                 _id: id
             }).success(callback);
 
         },
-        deleteOffice: function(id, callback) {
+        deleteOffice: function (id, callback) {
             $http.post(adminurl + 'office/delete', {
                 _id: id
             }).success(callback);
 
         },
-        searchZone: function(formData, i, callback) {
-            $http.post(adminurl + 'zone/search', formData).success(function(data) {
+        searchZone: function (formData, i, callback) {
+            $http.post(adminurl + 'zone/search', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        searchState: function(formData, i, callback) {
-            $http.post(adminurl + 'state/search', formData).success(function(data) {
+        searchState: function (formData, i, callback) {
+            $http.post(adminurl + 'state/search', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        searchDistrict: function(formData, i, callback) {
-            $http.post(adminurl + 'district/search', formData).success(function(data) {
+        searchDistrict: function (formData, i, callback) {
+            $http.post(adminurl + 'district/search', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        searchCity: function(formData, i, callback) {
-            $http.post(adminurl + 'city/search', formData).success(function(data) {
+        searchCity: function (formData, i, callback) {
+            $http.post(adminurl + 'city/search', formData).success(function (data) {
                 callback(data, i);
             });
         },
-        zoneSave: function(formData, callback) {
+        zoneSave: function (formData, callback) {
 
             $http.post(adminurl + 'zone/save', formData).success(callback);
         },
-        getOneZone: function(id, callback) {
+        getOneZone: function (id, callback) {
             $http.post(adminurl + 'zone/getOne', {
                 "_id": id
             }).success(callback);
         },
-        zoneEditSave: function(id, callback) {
+        zoneEditSave: function (id, callback) {
             $http.post(adminurl + 'zone/saveData', {
                 _id: id
             }).success(callback);
         },
-        deleteZone: function(id, callback) {
+        deleteZone: function (id, callback) {
             $http.post(adminurl + 'zone/delete', {
                 "_id": id,
             }).success(callback);
         },
 
 
-        getAllStates: function(callback) {
+        getAllStates: function (callback) {
             $http.post(adminurl + 'state/getAll', {}).success(callback);
         },
-        stateSave: function(formData, callback) {
+        stateSave: function (formData, callback) {
             $http.post(adminurl + 'state/save', formData).success(callback);
         },
-        getOneState: function(id, callback) {
+        getOneState: function (id, callback) {
             $http.post(adminurl + 'state/getOne', {
                 "_id": id
             }).success(callback);
         },
-        stateEditSave: function(formData, callback) {
+        stateEditSave: function (formData, callback) {
             $http.post(adminurl + 'state/saveData', formData).success(callback);
         },
-        deleteState: function(id, callback) {
+        deleteState: function (id, callback) {
             $http.post(adminurl + 'state/delete', {
                 "_id": id,
             }).success(callback);
         },
-        getAllDistricts: function(callback) {
+        getAllDistricts: function (callback) {
             $http({
                 url: adminurl + 'district/getAll',
                 method: 'POST',
                 withCredentials: true
             }).success(callback);
         },
-        districtSave: function(formData, callback) {
+        districtSave: function (formData, callback) {
             $http.post(adminurl + 'district/save', formData).success(callback);
         },
-        getOneDistrict: function(id, callback) {
+        getOneDistrict: function (id, callback) {
             $http.post(adminurl + 'district/getOne', {
                 "_id": id
             }).success(callback);
         },
-        districtEditSave: function(id, callback) {
+        districtEditSave: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'district/saveData',
@@ -677,12 +683,12 @@ var navigationservice = angular.module('navigationservice', [])
                 data: id
             }).success(callback);
         },
-        deleteDistrict: function(id, callback) {
+        deleteDistrict: function (id, callback) {
             $http.post(adminurl + 'district/delete', {
                 "_id": id,
             }).success(callback);
         },
-        getAllCurrencies: function(callback) {
+        getAllCurrencies: function (callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'currencies/getAll',
@@ -690,10 +696,10 @@ var navigationservice = angular.module('navigationservice', [])
                 withCredentials: true
             }).success(callback);
         },
-        currencySave: function(formData, callback) {
+        currencySave: function (formData, callback) {
             $http.post(adminurl + 'currencies/save', formData).success(callback);
         },
-        getOneCurrency: function(id, callback) {
+        getOneCurrency: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'currencies/getOne',
@@ -704,7 +710,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }
             }).success(callback);
         },
-        currencyEditSave: function(id, callback) {
+        currencyEditSave: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'currencies/saveData',
@@ -713,13 +719,13 @@ var navigationservice = angular.module('navigationservice', [])
                 data: id
             }).success(callback);
         },
-        deleteCurrency: function(id, callback) {
+        deleteCurrency: function (id, callback) {
             $http.post(adminurl + 'currencies/delete', {
                 "_id": id,
             }).success(callback);
         },
 
-        getAllCities: function(callback) {
+        getAllCities: function (callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'city/getAll',
@@ -727,10 +733,10 @@ var navigationservice = angular.module('navigationservice', [])
                 withCredentials: true
             }).success(callback);
         },
-        citySave: function(formData, callback) {
+        citySave: function (formData, callback) {
             $http.post(adminurl + 'city/save', formData).success(callback);
         },
-        getOneCity: function(id, callback) {
+        getOneCity: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'city/getOne',
@@ -741,7 +747,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }
             }).success(callback);
         },
-        cityEditSave: function(id, callback) {
+        cityEditSave: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'city/saveData',
@@ -750,7 +756,7 @@ var navigationservice = angular.module('navigationservice', [])
                 data: id
             }).success(callback);
         },
-        deleteCity: function(id, callback) {
+        deleteCity: function (id, callback) {
             $http.post(adminurl + 'city/delete', {
                 _id: id
             }).success(callback);
@@ -758,7 +764,7 @@ var navigationservice = angular.module('navigationservice', [])
 
 
 
-        getAllOffices: function(callback) {
+        getAllOffices: function (callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'office/getAll',
@@ -766,10 +772,10 @@ var navigationservice = angular.module('navigationservice', [])
                 withCredentials: true
             }).success(callback);
         },
-        typeofofficeSave: function(formData, callback) {
+        typeofofficeSave: function (formData, callback) {
             $http.post(adminurl + 'typeOfOffice/save', formData).success(callback);
         },
-        getOneOffice: function(id, callback) {
+        getOneOffice: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'office/getOne',
@@ -780,7 +786,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }
             }).success(callback);
         },
-        officeEditSave: function(id, callback) {
+        officeEditSave: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'office/saveData',
@@ -789,12 +795,12 @@ var navigationservice = angular.module('navigationservice', [])
                 data: id
             }).success(callback);
         },
-        deleteTypeOfOffice: function(id, callback) {
+        deleteTypeOfOffice: function (id, callback) {
             $http.post(adminurl + 'typeOfOffice/delete', {
                 "_id": id,
             }).success(callback);
         },
-        getAllTypeOfOffices: function(callback) {
+        getAllTypeOfOffices: function (callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'TypeOfOffice/getAll',
@@ -802,11 +808,11 @@ var navigationservice = angular.module('navigationservice', [])
                 withCredentials: true
             }).success(callback);
         },
-        officeSave: function(formData, callback) {
+        officeSave: function (formData, callback) {
             $http.post(adminurl + 'office/save', formData).success(callback);
         },
 
-        typeOfOfficeEditSave: function(id, callback) {
+        typeOfOfficeEditSave: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'TypeOfOffice/saveData',
@@ -815,7 +821,7 @@ var navigationservice = angular.module('navigationservice', [])
                 data: id
             }).success(callback);
         },
-        getAllDepartments: function(callback) {
+        getAllDepartments: function (callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'department/getAll',
@@ -823,7 +829,7 @@ var navigationservice = angular.module('navigationservice', [])
                 withCredentials: true
             }).success(callback);
         },
-        departmentSave: function(formData, callback) {
+        departmentSave: function (formData, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'department/saveData',
@@ -832,7 +838,7 @@ var navigationservice = angular.module('navigationservice', [])
                 data: formData
             }).success(callback);
         },
-        getOneDepartment: function(id, callback) {
+        getOneDepartment: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'department/getOne',
@@ -843,7 +849,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }
             }).success(callback);
         },
-        departmentEditSave: function(id, callback) {
+        departmentEditSave: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'department/saveData',
@@ -852,7 +858,7 @@ var navigationservice = angular.module('navigationservice', [])
                 data: id
             }).success(callback);
         },
-        deleteDepartment: function(id, callback) {
+        deleteDepartment: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'department/delete',
@@ -864,7 +870,7 @@ var navigationservice = angular.module('navigationservice', [])
             }).success(callback);
         },
 
-        getAllUniqueTypes: function(callback) {
+        getAllUniqueTypes: function (callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'UniqueTypes/getAll',
@@ -872,7 +878,7 @@ var navigationservice = angular.module('navigationservice', [])
                 withCredentials: true
             }).success(callback);
         },
-        uniquetypeSave: function(formData, callback) {
+        uniquetypeSave: function (formData, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'UniqueTypes/saveData',
@@ -881,7 +887,7 @@ var navigationservice = angular.module('navigationservice', [])
                 data: formData
             }).success(callback);
         },
-        getOneUniqueType: function(id, callback) {
+        getOneUniqueType: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'UniqueTypes/getOne',
@@ -892,7 +898,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }
             }).success(callback);
         },
-        UniqueTypeEditSave: function(id, callback) {
+        UniqueTypeEditSave: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'UniqueTypes/saveData',
@@ -901,7 +907,7 @@ var navigationservice = angular.module('navigationservice', [])
                 data: id
             }).success(callback);
         },
-        deleteUniqueType: function(id, callback) {
+        deleteUniqueType: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'UniqueTypes/delete',
@@ -912,7 +918,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }
             }).success(callback);
         },
-        getAllCustomerSegments: function(callback) {
+        getAllCustomerSegments: function (callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'CustomerSegment/getAll',
@@ -920,7 +926,7 @@ var navigationservice = angular.module('navigationservice', [])
                 withCredentials: true
             }).success(callback);
         },
-        customersegmentSave: function(formData, callback) {
+        customersegmentSave: function (formData, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'CustomerSegment/saveData',
@@ -929,7 +935,7 @@ var navigationservice = angular.module('navigationservice', [])
                 data: formData
             }).success(callback);
         },
-        getOneCustomerSegment: function(id, callback) {
+        getOneCustomerSegment: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'CustomerSegment/getOne',
@@ -940,7 +946,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }
             }).success(callback);
         },
-        CustomerSegmentEditSave: function(id, callback) {
+        CustomerSegmentEditSave: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'CustomerSegment/saveData',
@@ -949,7 +955,7 @@ var navigationservice = angular.module('navigationservice', [])
                 data: id
             }).success(callback);
         },
-        deleteCustomerSegment: function(id, callback) {
+        deleteCustomerSegment: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'CustomerSegment/delete',
@@ -961,7 +967,7 @@ var navigationservice = angular.module('navigationservice', [])
             }).success(callback);
         },
 
-        getAllPolicyTypes: function(callback) {
+        getAllPolicyTypes: function (callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'policyname/getAll',
@@ -969,7 +975,7 @@ var navigationservice = angular.module('navigationservice', [])
                 withCredentials: true
             }).success(callback);
         },
-        policynameSave: function(formData, callback) {
+        policynameSave: function (formData, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'policyname/saveData',
@@ -978,7 +984,7 @@ var navigationservice = angular.module('navigationservice', [])
                 data: formData
             }).success(callback);
         },
-        getOnePolicyType: function(id, callback) {
+        getOnePolicyType: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'policyname/getOne',
@@ -989,7 +995,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }
             }).success(callback);
         },
-        PolicyTypeEditSave: function(id, callback) {
+        PolicyTypeEditSave: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'policyname/saveData',
@@ -998,7 +1004,7 @@ var navigationservice = angular.module('navigationservice', [])
                 data: id
             }).success(callback);
         },
-        deletePolicyType: function(id, callback) {
+        deletePolicyType: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'policyname/delete',
@@ -1010,7 +1016,7 @@ var navigationservice = angular.module('navigationservice', [])
             }).success(callback);
         },
 
-        getAllPolicies: function(callback) {
+        getAllPolicies: function (callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'policy/getAll',
@@ -1018,7 +1024,7 @@ var navigationservice = angular.module('navigationservice', [])
                 withCredentials: true
             }).success(callback);
         },
-        policySave: function(formData, callback) {
+        policySave: function (formData, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'policy/saveData',
@@ -1027,7 +1033,7 @@ var navigationservice = angular.module('navigationservice', [])
                 data: formData
             }).success(callback);
         },
-        getOnePolicy: function(id, callback) {
+        getOnePolicy: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'policy/getOne',
@@ -1038,7 +1044,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }
             }).success(callback);
         },
-        PolicyEditSave: function(id, callback) {
+        PolicyEditSave: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'policy/saveData',
@@ -1047,7 +1053,7 @@ var navigationservice = angular.module('navigationservice', [])
                 data: id
             }).success(callback);
         },
-        deletePolicy: function(id, callback) {
+        deletePolicy: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'policy/delete',
@@ -1058,7 +1064,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }
             }).success(callback);
         },
-        getAllPolicyDocs: function(callback) {
+        getAllPolicyDocs: function (callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'policydoc/getAll',
@@ -1066,7 +1072,7 @@ var navigationservice = angular.module('navigationservice', [])
                 withCredentials: true
             }).success(callback);
         },
-        policydocSave: function(formData, callback) {
+        policydocSave: function (formData, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'policydoc/saveData',
@@ -1075,7 +1081,7 @@ var navigationservice = angular.module('navigationservice', [])
                 data: formData
             }).success(callback);
         },
-        getOnePolicyDoc: function(id, callback) {
+        getOnePolicyDoc: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'policydoc/getOne',
@@ -1086,7 +1092,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }
             }).success(callback);
         },
-        PolicyDocEditSave: function(id, callback) {
+        PolicyDocEditSave: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'policydoc/saveData',
@@ -1095,7 +1101,7 @@ var navigationservice = angular.module('navigationservice', [])
                 data: id
             }).success(callback);
         },
-        deletePolicyDoc: function(id, callback) {
+        deletePolicyDoc: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'policydoc/delete',
@@ -1106,7 +1112,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }
             }).success(callback);
         },
-        getAllIndustries: function(callback) {
+        getAllIndustries: function (callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'industry/getAll',
@@ -1114,10 +1120,10 @@ var navigationservice = angular.module('navigationservice', [])
                 withCredentials: true
             }).success(callback);
         },
-        industrySave: function(formData, callback) {
+        industrySave: function (formData, callback) {
             $http.post(adminurl + 'industry/save', formData).success(callback);
         },
-        getOneIndustry: function(id, callback) {
+        getOneIndustry: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'industry/getOne',
@@ -1128,7 +1134,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }
             }).success(callback);
         },
-        IndustryEditSave: function(id, callback) {
+        IndustryEditSave: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'industry/save',
@@ -1137,12 +1143,12 @@ var navigationservice = angular.module('navigationservice', [])
                 data: id
             }).success(callback);
         },
-        deleteIndustry: function(id, callback) {
+        deleteIndustry: function (id, callback) {
             $http.post(adminurl + 'industry/delete', {
                 _id: id
             }).success(callback);
         },
-        getAllCategories: function(callback) {
+        getAllCategories: function (callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'category/getAll',
@@ -1150,10 +1156,10 @@ var navigationservice = angular.module('navigationservice', [])
                 withCredentials: true
             }).success(callback);
         },
-        categorySave: function(formData, callback) {
+        categorySave: function (formData, callback) {
             $http.post(adminurl + 'category/save', formData).success(callback);
         },
-        getOneCategory: function(id, callback) {
+        getOneCategory: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'category/getOne',
@@ -1164,7 +1170,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }
             }).success(callback);
         },
-        CategoryEditSave: function(id, callback) {
+        CategoryEditSave: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'category/saveData',
@@ -1173,12 +1179,12 @@ var navigationservice = angular.module('navigationservice', [])
                 data: id
             }).success(callback);
         },
-        deleteCategory: function(id, callback) {
+        deleteCategory: function (id, callback) {
             $http.post(adminurl + 'category/delete', {
                 "_id": id,
             }).success(callback);
         },
-        getAllFunc: function(callback) {
+        getAllFunc: function (callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'func/getAll',
@@ -1186,13 +1192,13 @@ var navigationservice = angular.module('navigationservice', [])
                 withCredentials: true
             }).success(callback);
         },
-        funcSave: function(formData, callback) {
+        funcSave: function (formData, callback) {
             $http.post(adminurl + 'func/save', formData).success(callback);
         },
-        gradeSave: function(formData, callback) {
+        gradeSave: function (formData, callback) {
             $http.post(adminurl + 'grade/save', formData).success(callback);
         },
-        getOneFunc: function(id, callback) {
+        getOneFunc: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'func/getOne',
@@ -1203,7 +1209,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }
             }).success(callback);
         },
-        FuncEditSave: function(id, callback) {
+        FuncEditSave: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'func/saveData',
@@ -1212,7 +1218,7 @@ var navigationservice = angular.module('navigationservice', [])
                 data: id
             }).success(callback);
         },
-        deleteFunc: function(id, callback) {
+        deleteFunc: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'func/delete',
@@ -1223,7 +1229,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }
             }).success(callback);
         },
-        getAllCauseLoss: function(callback) {
+        getAllCauseLoss: function (callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'causeloss/getAll',
@@ -1231,7 +1237,7 @@ var navigationservice = angular.module('navigationservice', [])
                 withCredentials: true
             }).success(callback);
         },
-        causelossSave: function(formData, callback) {
+        causelossSave: function (formData, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'causeloss/saveData',
@@ -1240,7 +1246,7 @@ var navigationservice = angular.module('navigationservice', [])
                 data: formData
             }).success(callback);
         },
-        getOneCauseLoss: function(id, callback) {
+        getOneCauseLoss: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'causeloss/getOne',
@@ -1251,7 +1257,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }
             }).success(callback);
         },
-        CauseLossEditSave: function(id, callback) {
+        CauseLossEditSave: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'causeloss/saveData',
@@ -1260,7 +1266,7 @@ var navigationservice = angular.module('navigationservice', [])
                 data: id
             }).success(callback);
         },
-        deleteCauseLoss: function(id, callback) {
+        deleteCauseLoss: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'causeloss/delete',
@@ -1271,7 +1277,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }
             }).success(callback);
         },
-        getAllNatureLoss: function(callback) {
+        getAllNatureLoss: function (callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'natureloss/getAll',
@@ -1279,7 +1285,7 @@ var navigationservice = angular.module('navigationservice', [])
                 withCredentials: true
             }).success(callback);
         },
-        naturelossSave: function(formData, callback) {
+        naturelossSave: function (formData, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'natureloss/saveData',
@@ -1288,7 +1294,7 @@ var navigationservice = angular.module('navigationservice', [])
                 data: formData
             }).success(callback);
         },
-        getOneNatureLoss: function(id, callback) {
+        getOneNatureLoss: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'natureloss/getOne',
@@ -1299,7 +1305,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }
             }).success(callback);
         },
-        NatureLossEditSave: function(id, callback) {
+        NatureLossEditSave: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'natureloss/saveData',
@@ -1308,7 +1314,7 @@ var navigationservice = angular.module('navigationservice', [])
                 data: id
             }).success(callback);
         },
-        deleteNatureLoss: function(id, callback) {
+        deleteNatureLoss: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'natureloss/delete',
@@ -1320,7 +1326,7 @@ var navigationservice = angular.module('navigationservice', [])
             }).success(callback);
         },
 
-        getAllBusinessBranch: function(callback) {
+        getAllBusinessBranch: function (callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'businessbranch/getAll',
@@ -1328,7 +1334,7 @@ var navigationservice = angular.module('navigationservice', [])
                 withCredentials: true
             }).success(callback);
         },
-        businessbranchSave: function(formData, callback) {
+        businessbranchSave: function (formData, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'businessbranch/saveData',
@@ -1337,7 +1343,7 @@ var navigationservice = angular.module('navigationservice', [])
                 data: formData
             }).success(callback);
         },
-        getOneBusinessBranch: function(id, callback) {
+        getOneBusinessBranch: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'businessbranch/getOne',
@@ -1348,7 +1354,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }
             }).success(callback);
         },
-        BusinessBranchEditSave: function(id, callback) {
+        BusinessBranchEditSave: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'businessbranch/saveData',
@@ -1357,7 +1363,7 @@ var navigationservice = angular.module('navigationservice', [])
                 data: id
             }).success(callback);
         },
-        deleteBusinessBranch: function(id, callback) {
+        deleteBusinessBranch: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'businessbranch/delete',
@@ -1368,7 +1374,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }
             }).success(callback);
         },
-        getAllMenus: function(callback) {
+        getAllMenus: function (callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'menu/getAll',
@@ -1376,7 +1382,7 @@ var navigationservice = angular.module('navigationservice', [])
                 withCredentials: true
             }).success(callback);
         },
-        menuSave: function(formData, callback) {
+        menuSave: function (formData, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'menu/saveData',
@@ -1385,7 +1391,7 @@ var navigationservice = angular.module('navigationservice', [])
                 data: formData
             }).success(callback);
         },
-        getOneMenu: function(id, callback) {
+        getOneMenu: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'menu/getOne',
@@ -1396,7 +1402,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }
             }).success(callback);
         },
-        menuEditSave: function(id, callback) {
+        menuEditSave: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'menu/saveData',
@@ -1405,7 +1411,7 @@ var navigationservice = angular.module('navigationservice', [])
                 data: id
             }).success(callback);
         },
-        deleteMenu: function(id, callback) {
+        deleteMenu: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'menu/delete',
@@ -1416,7 +1422,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }
             }).success(callback);
         },
-        getAllRoles: function(callback) {
+        getAllRoles: function (callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'role/getAll',
@@ -1424,7 +1430,7 @@ var navigationservice = angular.module('navigationservice', [])
                 withCredentials: true
             }).success(callback);
         },
-        roleSave: function(formData, callback) {
+        roleSave: function (formData, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'role/saveData',
@@ -1433,7 +1439,7 @@ var navigationservice = angular.module('navigationservice', [])
                 data: formData
             }).success(callback);
         },
-        getOneRole: function(id, callback) {
+        getOneRole: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'role/getOne',
@@ -1444,7 +1450,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }
             }).success(callback);
         },
-        roleEditSave: function(id, callback) {
+        roleEditSave: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'role/saveData',
@@ -1453,7 +1459,7 @@ var navigationservice = angular.module('navigationservice', [])
                 data: id
             }).success(callback);
         },
-        deleteRole: function(id, callback) {
+        deleteRole: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'role/delete',
@@ -1464,12 +1470,12 @@ var navigationservice = angular.module('navigationservice', [])
                 }
             }).success(callback);
         },
-        deleteModel: function(model, id, callback) {
+        deleteModel: function (model, id, callback) {
             $http.post(adminurl + model + '/delete', {
                 "_id": id,
             }).success(callback);
         },
-        getAllUsers: function(callback) {
+        getAllUsers: function (callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'user/getAll',
@@ -1477,7 +1483,7 @@ var navigationservice = angular.module('navigationservice', [])
                 withCredentials: true
             }).success(callback);
         },
-        userSave: function(formData, callback) {
+        userSave: function (formData, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'user/saveData',
@@ -1486,7 +1492,7 @@ var navigationservice = angular.module('navigationservice', [])
                 data: formData
             }).success(callback);
         },
-        getOneUser: function(id, callback) {
+        getOneUser: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'user/getOne',
@@ -1497,7 +1503,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }
             }).success(callback);
         },
-        userEditSave: function(id, callback) {
+        userEditSave: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'user/saveData',
@@ -1506,7 +1512,7 @@ var navigationservice = angular.module('navigationservice', [])
                 data: id
             }).success(callback);
         },
-        deleteUser: function(id, callback) {
+        deleteUser: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'user/delete',
@@ -1517,7 +1523,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }
             }).success(callback);
         },
-        getAllCustomerCompanies: function(callback) {
+        getAllCustomerCompanies: function (callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'customerCompany/getAll',
@@ -1525,7 +1531,7 @@ var navigationservice = angular.module('navigationservice', [])
                 withCredentials: true
             }).success(callback);
         },
-        customerCompanySave: function(formData, callback) {
+        customerCompanySave: function (formData, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'customerCompany/saveData',
@@ -1534,10 +1540,10 @@ var navigationservice = angular.module('navigationservice', [])
                 data: formData
             }).success(callback);
         },
-        companySave: function(formData, callback) {
+        companySave: function (formData, callback) {
             $http.post(adminurl + 'company/save', formData).success(callback);
         },
-        getOneCustomerCompany: function(id, callback) {
+        getOneCustomerCompany: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'customerCompany/getOne',
@@ -1548,7 +1554,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }
             }).success(callback);
         },
-        customerCompanyEditSave: function(id, callback) {
+        customerCompanyEditSave: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'customerCompany/saveData',
@@ -1557,7 +1563,7 @@ var navigationservice = angular.module('navigationservice', [])
                 data: id
             }).success(callback);
         },
-        deleteCustomerCompany: function(id, callback) {
+        deleteCustomerCompany: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'customerCompany/delete',
@@ -1570,7 +1576,7 @@ var navigationservice = angular.module('navigationservice', [])
         },
 
 
-        getAllCompanies: function(callback) {
+        getAllCompanies: function (callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'company/getAll',
@@ -1578,7 +1584,7 @@ var navigationservice = angular.module('navigationservice', [])
                 withCredentials: true
             }).success(callback);
         },
-        customerSave: function(formData, callback) {
+        customerSave: function (formData, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'company/saveData',
@@ -1587,12 +1593,12 @@ var navigationservice = angular.module('navigationservice', [])
                 data: formData
             }).success(callback);
         },
-        getOneCompany: function(id, callback) {
+        getOneCompany: function (id, callback) {
             $http.post(adminurl + 'company/getOne', {
                 "_id": id
             }).success(callback);
         },
-        companyEditSave: function(id, callback) {
+        companyEditSave: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'company/saveData',
@@ -1601,13 +1607,13 @@ var navigationservice = angular.module('navigationservice', [])
                 data: id
             }).success(callback);
         },
-        deleteCompany: function(id, callback) {
+        deleteCompany: function (id, callback) {
             $http.post(adminurl + 'company/delete', {
                 "_id": id,
             }).success(callback);
         },
 
-        getAllCustomers: function(callback) {
+        getAllCustomers: function (callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'customer/getAll',
@@ -1616,7 +1622,7 @@ var navigationservice = angular.module('navigationservice', [])
             }).success(callback);
         },
 
-        getOneCustomer: function(id, callback) {
+        getOneCustomer: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'customer/getOne',
@@ -1627,7 +1633,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }
             }).success(callback);
         },
-        customerEditSave: function(id, callback) {
+        customerEditSave: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'customer/saveData',
@@ -1636,7 +1642,7 @@ var navigationservice = angular.module('navigationservice', [])
                 data: id
             }).success(callback);
         },
-        deleteCustomer: function(id, callback) {
+        deleteCustomer: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'customer/delete',
@@ -1647,7 +1653,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }
             }).success(callback);
         },
-        getAllEmployees: function(callback) {
+        getAllEmployees: function (callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'employee/getAll',
@@ -1655,7 +1661,7 @@ var navigationservice = angular.module('navigationservice', [])
                 withCredentials: true
             }).success(callback);
         },
-        employeeSave: function(formData, callback) {
+        employeeSave: function (formData, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'employee/saveData',
@@ -1664,7 +1670,7 @@ var navigationservice = angular.module('navigationservice', [])
                 data: formData
             }).success(callback);
         },
-        getOneEmployee: function(id, callback) {
+        getOneEmployee: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'employee/getOne',
@@ -1675,7 +1681,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }
             }).success(callback);
         },
-        employeeEditSave: function(id, callback) {
+        employeeEditSave: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'employee/saveData',
@@ -1684,7 +1690,7 @@ var navigationservice = angular.module('navigationservice', [])
                 data: id
             }).success(callback);
         },
-        deleteEmployee: function(id, callback) {
+        deleteEmployee: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'employee/delete',
@@ -1695,7 +1701,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }
             }).success(callback);
         },
-        getAllSalvage: function(callback) {
+        getAllSalvage: function (callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'salvage/getAll',
@@ -1703,7 +1709,7 @@ var navigationservice = angular.module('navigationservice', [])
                 withCredentials: true
             }).success(callback);
         },
-        salvageSave: function(formData, callback) {
+        salvageSave: function (formData, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'salvage/saveData',
@@ -1712,7 +1718,7 @@ var navigationservice = angular.module('navigationservice', [])
                 data: formData
             }).success(callback);
         },
-        getOneSalvage: function(id, callback) {
+        getOneSalvage: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'salvage/getOne',
@@ -1723,7 +1729,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }
             }).success(callback);
         },
-        salvageEditSave: function(id, callback) {
+        salvageEditSave: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'salvage/saveData',
@@ -1732,7 +1738,7 @@ var navigationservice = angular.module('navigationservice', [])
                 data: id
             }).success(callback);
         },
-        deleteSalvage: function(id, callback) {
+        deleteSalvage: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'salvage/delete',
@@ -1743,7 +1749,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }
             }).success(callback);
         },
-        getAllProduct: function(callback) {
+        getAllProduct: function (callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'product/getAll',
@@ -1751,10 +1757,10 @@ var navigationservice = angular.module('navigationservice', [])
                 withCredentials: true
             }).success(callback);
         },
-        productSave: function(formData, callback) {
+        productSave: function (formData, callback) {
             $http.post(adminurl + 'product/save', formData).success(callback);
         },
-        getOneProduct: function(id, callback) {
+        getOneProduct: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'product/getOne',
@@ -1765,7 +1771,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }
             }).success(callback);
         },
-        productEditSave: function(id, callback) {
+        productEditSave: function (id, callback) {
             // console.log('form data: ', formData);
             $http({
                 url: adminurl + 'product/saveData',
@@ -1774,30 +1780,30 @@ var navigationservice = angular.module('navigationservice', [])
                 data: id
             }).success(callback);
         },
-        deleteProduct: function(id, callback) {
+        deleteProduct: function (id, callback) {
             $http.post(adminurl + 'product/delete', {
                 "_id": id,
             }).success(callback);
         },
-        getOneBank: function(id, callback) {
+        getOneBank: function (id, callback) {
             $http.post(adminurl + 'bank/getOne', {
                 "_id": id
             }).success(callback);
         },
-        bankSave: function(formData, callback) {
+        bankSave: function (formData, callback) {
             $http.post(adminurl + 'bank/save', formData).success(callback);
         },
-        deleteBank: function(id, callback) {
+        deleteBank: function (id, callback) {
             $http.post(adminurl + 'bank/delete', {
                 "_id": id,
             }).success(callback);
         },
-        getLatLng: function(address, i, callback) {
+        getLatLng: function (address, i, callback) {
             $http({
                 url: "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=AIzaSyC62zlixVsjaq4zDaL4cefNCubjCgxkte4",
                 method: 'GET',
                 withCredentials: false,
-            }).success(function(data) {
+            }).success(function (data) {
                 callback(data, i);
             });
         }

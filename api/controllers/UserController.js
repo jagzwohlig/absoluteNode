@@ -116,16 +116,16 @@ var controller = {
         User.gmailCall(obj, res.callback);
     },
     getAttachment: function (req, res) {
-        console.log(res.body.fileName);
+        console.log(req.body);
         var obj = {
             body: {
-                url: "messages/" + req.body.messageId + "/attachments/" + attachmentId,
+                url: "messages/" + req.body.messageId + "/attachments/" + req.body.attachmentId,
                 method: "GET"
             },
             user: req.user
         };
         User.gmailCall(obj, res.callback);
-        console.log(res.callback);
+
     }
 };
 module.exports = _.assign(module.exports, controller);
