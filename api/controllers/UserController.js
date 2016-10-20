@@ -1,12 +1,12 @@
 module.exports = _.cloneDeep(require("sails-wohlig-controller"));
 var controller = {
-    loginFacebook: function(req, res) {
+    loginFacebook: function (req, res) {
         passport.authenticate('facebook', {
             scope: ['public_profile', 'user_friends', 'email'],
             failureRedirect: '/'
         }, res.socialLogin)(req, res);
     },
-    loginGoogle: function(req, res) {
+    loginGoogle: function (req, res) {
         if (req.query.returnUrl) {
             req.session.returnUrl = req.query.returnUrl;
         } else {
@@ -18,15 +18,14 @@ var controller = {
             failureRedirect: '/'
         }, res.socialLogin)(req, res);
     },
-    profile: function(req, res) {
+    profile: function (req, res) {
         if (req.body && req.body.accessToken) {
             User.profile(req.body, res.callback);
         } else {
             res.callback("Please provide Valid AccessToken", null);
         }
     },
-    listEmail: function(req, res) {
-        console.log(req.user);
+    listEmail: function (req, res) {
         var pageToken = "";
         if (req.body.nextPageToken) {
             pageToken = "&pageToken=" + req.body.nextPageToken;
@@ -49,11 +48,11 @@ var controller = {
             },
             user: req.user
         };
-        User.gmailCall(obj, function(err, data) {
+        User.gmailCall(obj, function (err, data) {
             if (err) {
                 res.callback(err);
             } else {
-                async.each(data.messages, function(n, callback) {
+                async.each(data.messages, function (n, callback) {
                     var obj = {
                         body: {
                             url: "messages/" + n.id,
@@ -63,7 +62,7 @@ var controller = {
                         },
                         user: req.user
                     };
-                    User.gmailCall(obj, function(err, data2) {
+                    User.gmailCall(obj, function (err, data2) {
                         if (err) {
                             callback(err);
                         } else {
@@ -71,7 +70,7 @@ var controller = {
                             callback();
                         }
                     });
-                }, function(err) {
+                }, function (err) {
                     if (err) {
                         res.callback(err);
                     } else {
@@ -82,8 +81,7 @@ var controller = {
 
         });
     },
-    detailEmail: function(req, res) {
-        console.log(req.user);
+    detailEmail: function (req, res) {
         var obj = {
             body: {
                 url: "messages/" + req.body.messageId,
@@ -94,8 +92,7 @@ var controller = {
         };
         User.gmailCall(obj, res.callback);
     },
-    sendEmail: function(req, res) {
-        console.log(req.user);
+    sendEmail: function (req, res) {
         var obj = {
             body: {
                 url: "messages/send",
@@ -113,9 +110,18 @@ var controller = {
             "Content-Disposition: inline\r\n\r\n" +
             "" + req.body.message + "";
         var rawDataProcessed = btoa(rawData).replace(/\+/g, '-').replace(/\//g, '_');
-        console.log(req.body);
         obj.form = {
             raw: rawDataProcessed
+        };
+        User.gmailCall(obj, res.callback);
+    },
+    getAttachment: function (req, res) {
+        var obj = {
+            body: {
+                url: "messages/" + messageId + "/attachments/" + attachmentId,
+                method: "GET"
+            },
+            user: req.user
         };
         User.gmailCall(obj, res.callback);
     }
