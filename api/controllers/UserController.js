@@ -127,9 +127,9 @@ var controller = {
             if (err) {
                 res.callback(err, data);
             } else {
-                res.setHeader('Content-disposition', 'attachment; filename=' + req.query.fileName);
-                res.setHeader('Content-type', "application/octet-stream");
-                res.send(atob(data.data));
+                res.setHeader('Content-Disposition', 'attachment; filename=' + req.query.fileName);
+                res.setHeader('Content-Type', 'application/octet-stream; name=' + req.query.fileName);
+                res.send(base64url.toBuffer(data.data));
             }
         });
 

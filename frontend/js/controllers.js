@@ -5999,7 +5999,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                             });
 
                         }
-                        if (data.mimeType == "image/jpeg") {
+                        if (data.filename !== "") {
                             console.log("in attach");
                             $scope.email.attachment.push(data);
                             console.log($scope.email.attachment);

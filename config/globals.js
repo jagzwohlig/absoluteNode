@@ -87,6 +87,8 @@ global["uid"] = require('rand-token').uid;
 global["request"] = require('request');
 global["btoa"] = require('btoa');
 global["atob"] = require('atob');
+global["base64url"] = require('base64url');
+global["utf8"] = require('utf8');
 
 // passport Globals
 global["passport"] = require('passport');
