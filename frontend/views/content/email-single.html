@@ -25,10 +25,12 @@
                     <div class="clearfix"></div>
                     <div class="sec email-sec" ng-bind-html="email.body|base64url"></div>
                     <div class="col-md-2 mter" ng-repeat="f in email.attachment" ng-click="openAttachment(f)">
-                        <div class="filebx">
-                            <i class="ln-document"></i>
-                            <p>{{f.filename}}</p>
-                        </div>
+                        <a download ng-href="">
+                            <div class="filebx">
+                                <i class="ln-document"></i>
+                                <p>{{f.filename}}</p>
+                            </div>
+                        </a>
                     </div>
                     <!--<div class="sec email-sec" ng-bind-html="email.detail.snippet"></div>-->
                 </div>

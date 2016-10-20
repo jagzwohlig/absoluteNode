@@ -116,10 +116,9 @@ var controller = {
         User.gmailCall(obj, res.callback);
     },
     getAttachment: function (req, res) {
-        console.log(req.body);
         var obj = {
             body: {
-                url: "messages/" + req.body.messageId + "/attachments/" + req.body.attachmentId,
+                url: "messages/" + req.query.messageId + "/attachments/" + req.query.attachmentId,
                 method: "GET"
             },
             user: req.user
@@ -128,7 +127,7 @@ var controller = {
             if (err) {
                 res.callback(err, data);
             } else {
-                res.setHeader('Content-disposition', 'attachment; filename=' + req.body.fileName);
+                res.setHeader('Content-disposition', 'attachment; filename=' + req.query.fileName);
                 res.setHeader('Content-type', "*");
                 res.send(data.data);
             }
