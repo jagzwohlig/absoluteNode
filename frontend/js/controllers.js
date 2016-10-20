@@ -6033,9 +6033,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "fileName": f.filename,
             "messageId": $stateParams.id
         };
-        NavigationService.getAttachment(a, function (data) {
-            console.log(data);
-        });
+        var win = window.open(adminurl + "user/getAttachment?fileName=" + f.filename + "&attachmentId=" + f.body.attachmentId + "&messageId=" + $stateParams.id, '_blank');
+        // NavigationService.getAttachment(a, function (data) {
+        //     console.log(data);
+        // });
     }
 
 
