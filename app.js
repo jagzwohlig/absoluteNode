@@ -21,22 +21,18 @@
 // Ensure we're in the project directory, so relative paths work as expected
 // no matter where we actually lift from.
 
-
-
-
-
 process.chdir(__dirname);
 var mongoose;
 mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/absolute', function(err, data) {
-    if (err) {
-        console.log(err);
-    } else {
-        console.log("Database Connected to Absolute");
-    }
+mongoose.connect('mongodb://localhost:27017/absolute', function (err, data) {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log("Database Connected to Absolute");
+  }
 });
 // Ensure a "sails" can be located:
-(function() {
+(function () {
   var sails;
   try {
     sails = require('sails');
@@ -62,7 +58,9 @@ mongoose.connect('mongodb://localhost:27017/absolute', function(err, data) {
       console.error('Your `.sailsrc` file(s) will be ignored.');
       console.error('To resolve this, run:');
       console.error('npm install rc --save');
-      rc = function () { return {}; };
+      rc = function () {
+        return {};
+      };
     }
   }
 
