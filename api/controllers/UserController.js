@@ -124,7 +124,15 @@ var controller = {
             },
             user: req.user
         };
-        User.gmailCall(obj, res.callback);
+        User.gmailCall(obj, function (err, data) {
+            if (err) {
+                res.callback(err, data);
+            } else {
+                res.setHeader('Content-disposition', 'attachment; filename=' + req.body.fileName);
+                res.setHeader('Content-type', "*");
+                res.send(data.data);
+            }
+        });
 
     }
 };
