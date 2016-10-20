@@ -116,7 +116,7 @@ var controller = {
         User.gmailCall(obj, res.callback);
     },
     getAttachment: function (req, res) {
-        console.log(res.body.filename);
+        console.log(res.body.fileName);
         var obj = {
             body: {
                 url: "messages/" + req.body.messageId + "/attachments/" + attachmentId,
