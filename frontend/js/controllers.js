@@ -6026,14 +6026,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         }
 
     });
-
+    $scope.accessToken = $.jStorage.get("accessToken");
     $scope.openAttachment = function (f) {
         var a = {
             "attachmentId": f.body.attachmentId,
             "fileName": f.filename,
             "messageId": $stateParams.id
         };
-        var win = window.open(adminurl + "user/getAttachment?fileName=" + f.filename + "&attachmentId=" + f.body.attachmentId + "&messageId=" + $stateParams.id, '_blank');
+        var win = window.open(adminurl + "user/getAttachment?accessToken=" + $scope.accessToken + "&fileName=" + f.filename + "&attachmentId=" + f.body.attachmentId + "&messageId=" + $stateParams.id, '_blank');
         // NavigationService.getAttachment(a, function (data) {
         //     console.log(data);
         // });
