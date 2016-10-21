@@ -5988,7 +5988,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         console.log(a);
         $scope.email.attachment = [];
         switch ($scope.email.payload.mimeType) {
-            case "multipart/mixed":
+            case "multipart/mixed", "multipart/related":
                 {
                     _.each($scope.email.payload.parts, function (data) {
                         if (data.mimeType == "multipart/alternative") {
