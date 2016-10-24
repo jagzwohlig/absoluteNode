@@ -2784,7 +2784,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.showAllPolicyTypes = function () {
             NavigationService.getAllPolicyTypes(function (data) {
                 $scope.allPolicyTypes = data.data;
-
+                
             });
         };
         $scope.showAllPolicyTypes();

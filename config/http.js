@@ -58,6 +58,7 @@ module.exports.http = {
             req.models = req.path.split("/");
 
             req.model = mongoose.models[_.upperFirst(req.models[2])];
+            req.modelName = _.upperFirst(req.models[2]);
 
             if (req.body && req.body.accessToken) {
                 User.profile(req.body, function (err, data) {

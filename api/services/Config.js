@@ -220,11 +220,50 @@ var models = {
     generateExcel: function (name, found, res) {
         name = _.kebabCase(name);
         var excelData = [];
-        _.each(found, function (singleData) {
+        _.each(found, function (singleData, num) {
             var singleExcel = {};
             _.each(singleData, function (n, key) {
+                var ckey = _.capitalize(key);
                 if (key != "__v" && key != "createdAt" && key != "updatedAt") {
-                    singleExcel[_.capitalize(key)] = n;
+                    if (num === 0) {
+                        console.log(typeof n);
+                        if (typeof n == "object") {
+                            console.log(n);
+                        }
+
+                    }
+
+                    if (_.isArray(n)) {
+                        if (num === 0) {
+                            console.log("As Array");
+                        }
+                        _.each(n, function (m, index) {
+                            if (_.isPlainObject(m)) {
+                                _.each(m, function (k, index2) {
+
+                                    singleExcel[ckey + "[" + index + "][" + index2 + "]"] = m;
+                                });
+                            } else {
+                                singleExcel[ckey + "[" + index + "]"] = m;
+                            }
+                        });
+
+                    } else if (_.isPlainObject(n)) {
+                        if (num === 0) {
+                            console.log("As Object");
+                        }
+                        _.each(n, function (m, index) {
+                            singleExcel[ckey + "[" + index + "]"] = m;
+                        });
+                    } else {
+                        if (num === 0) {
+                            console.log("As Other");
+                        }
+                        singleExcel[_.capitalize(key)] = n;
+                    }
+                     if (num === 0) {
+                            console.log("-----------------------");
+                        }
                 }
             });
             excelData.push(singleExcel);

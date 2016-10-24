@@ -43,6 +43,27 @@ module.exports = mongoose.model('Product', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "category.industry", "category.industry"));
 
-var model = {};
+var model = {
+      getIdByName : function(data,callback) {
+        var Model = this;
+        var Const = this(data);
+        Model.findOne({name:data.name},function(err,data2) {
+            if(err) {
+                callback(err);
+            } else if(_.isEmpty(data2)) {
+                Const.save(function(err,data3) {
+                    if(err) {
+                        callback(err);
+                    }
+                    else {
+                        callback(null,data3._id);
+                    }
+                });
+            } else {
+                callback(null,data2._id);
+            }
+        });
+    }
+};
 
 module.exports = _.assign(module.exports, exports, model);
