@@ -143,24 +143,25 @@ var controller = {
                 name: n[0]
             }, function (err, data) {
                 if (err) {
-                    console.log(err);
+                    retVal.push(err);
+                    callback(null, data3);
                 } else {
-                    console.log(data);
                     Category.getIdByName({
                         industry: data,
                         name: n[1]
                     }, function (err, data2) {
                         if (err) {
-                            console.log(err);
+                            retVal.push(err);
+                            callback(null, data3);
                         } else {
-                            console.log(data2);
                             Product.getIdByName({
                                 industry: data,
                                 category: data2,
                                 name: n[2]
                             }, function (err, data3) {
                                 if (err) {
-                                    console.log(err);
+                                    retVal.push(err);
+                                    callback(null, data3);
                                 } else {
                                     retVal.push(data3);
                                     callback(null, data3);
@@ -176,7 +177,7 @@ var controller = {
             if(err) {
                 callback(err,data);
             } else {
-                res.json(retVal);
+                res.json({total:retVal.length,value:retVal});
             }
         });
     }

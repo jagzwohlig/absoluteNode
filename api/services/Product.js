@@ -2,8 +2,8 @@ var schema = new Schema({
     name: {
         type: String,
         required: true,
-        unique: true,
-        uniqueCaseInsensitive: true,
+        // unique: true,
+        // uniqueCaseInsensitive: true,
         capitalizeAll: true,
     },
     category: {
@@ -50,7 +50,7 @@ var model = {
         Model.findOne({name:data.name},function(err,data2) {
             if(err) {
                 callback(err);
-            } else if(_.isEmpty(data2)) {
+            } else  {
                 Const.save(function(err,data3) {
                     if(err) {
                         callback(err);
@@ -59,9 +59,7 @@ var model = {
                         callback(null,data3._id);
                     }
                 });
-            } else {
-                callback(null,data2._id);
-            }
+            } 
         });
     }
 };
