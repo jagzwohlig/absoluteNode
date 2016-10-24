@@ -2784,7 +2784,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.showAllPolicyTypes = function () {
             NavigationService.getAllPolicyTypes(function (data) {
                 $scope.allPolicyTypes = data.data;
-                
+
             });
         };
         $scope.showAllPolicyTypes();
@@ -5985,12 +5985,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     }, function (data) {
         $scope.email = data.data;
         var a = $filter("base64url")(data.data.raw);
-        console.log(a);
+        console.log($scope.email);
         $scope.email.attachment = [];
         switch ($scope.email.payload.mimeType) {
-            case "multipart/mixed", "multipart/related":
+            case "multipart/related":
                 {
                     _.each($scope.email.payload.parts, function (data) {
+                        console.log("in parts");
+                        console.log(data);
                         if (data.mimeType == "multipart/alternative") {
                             _.each(data.parts, function (data2) {
                                 if (data2.mimeType == "text/html") {
@@ -6007,6 +6009,28 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     });
                 }
                 break;
+            case "multipart/mixed":
+                {
+                    _.each($scope.email.payload.parts, function (data) {
+                        console.log("in parts");
+                        console.log(data);
+                        if (data.mimeType == "multipart/alternative") {
+                            _.each(data.parts, function (data2) {
+                                if (data2.mimeType == "text/html") {
+                                    $scope.email.body = data2.body.data;
+                                }
+                            });
+
+                        }
+                        if (data.filename !== "") {
+                            console.log("in attach");
+                            $scope.email.attachment.push(data);
+                            console.log($scope.email.attachment);
+                        }
+                    });
+                }
+                break;
+
             case "multipart/alternative":
                 {
                     _.each($scope.email.payload.parts, function (data) {
