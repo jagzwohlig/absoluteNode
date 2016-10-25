@@ -51,6 +51,14 @@ var schema = new Schema({
         index: true,
         restrictedDelete: true
     },
+    assignment: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: "Assignment",
+        }],
+        index: true,
+        restrictedDelete: true
+    },
 });
 
 schema.plugin(deepPopulate, {
@@ -66,7 +74,7 @@ module.exports = mongoose.model('CustomerCompany', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "customerSegment", "customerSegment"));
 var model = {
-    getSegmented: function(data, callback) {
+    getSegmented: function (data, callback) {
         var Model = this;
         var Const = this(data);
         var maxRow = Config.maxRow;
@@ -94,12 +102,12 @@ var model = {
         var Search = Model.find()
             .order(options)
             .keyword(options)
-            .deepPopulate("customerSegment").exec(function(err, company) {
+            .deepPopulate("customerSegment").exec(function (err, company) {
                 if (err) {
                     callback(err, company);
                 } else {
                     var company2 = {};
-                    company2.results = _.slice(_.filter(company, function(c) {
+                    company2.results = _.slice(_.filter(company, function (c) {
                         return c.customerSegment.name == data.segment;
                     }), 0, Config.maxRow);
                     callback(err, company2);
@@ -109,7 +117,7 @@ var model = {
 
 
     },
-    getInsured: function(data, callback) {
+    getInsured: function (data, callback) {
         var Model = this;
         var Const = this(data);
         var maxRow = Config.maxRow;
@@ -137,12 +145,12 @@ var model = {
         var Search = Model.find()
             .order(options)
             .keyword(options)
-            .deepPopulate("customerSegment").exec(function(err, company) {
+            .deepPopulate("customerSegment").exec(function (err, company) {
                 if (err) {
                     callback(err, company);
                 } else {
                     var company2 = {};
-                    company2.results = _.slice(_.filter(company, function(c) {
+                    company2.results = _.slice(_.filter(company, function (c) {
                         return c.customerSegment.name == "Insured";
                     }), 0, Config.maxRow);
                     callback(err, company2);

@@ -26,6 +26,13 @@ var schema = new Schema({
     required: true,
     key: "assignment"
   },
+  policyDepartment: {
+    type: Schema.Types.ObjectId,
+    ref: "Department",
+    index: true,
+    required: true,
+    key: "assignment"
+  },
   branch: {
     type: Schema.Types.ObjectId,
     ref: "Branch",
@@ -73,9 +80,9 @@ var schema = new Schema({
     required: true,
     key: "assignment"
   },
-  insuredOfficer: {
+  insured: {
     type: Schema.Types.ObjectId,
-    ref: "Officer",
+    ref: "CustomerCompany",
     index: true,
     key: "assignment"
   },
@@ -95,14 +102,14 @@ var schema = new Schema({
   }],
   broker: {
     type: Schema.Types.ObjectId,
-    ref: "Customer",
+    ref: "CustomerCompany",
     index: true,
     // required: true,
     key: "assignment"
   },
   insurer: {
     type: Schema.Types.ObjectId,
-    ref: "Customer",
+    ref: "CustomerCompany",
     index: true,
     // required: true,
     key: "assignment"
@@ -260,20 +267,20 @@ module.exports = mongoose.model('Assignment', schema);
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer", "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer"));
 
 var model = {
-  saveData: function(data, callback) {
+  saveData: function (data, callback) {
     var Model = this;
     var Const = this(data);
     var foreignKeys = Config.getForeignKeys(schema);
     if (data._id) {
       Model.findOne({
         _id: data._id
-      }, function(err, data2) {
+      }, function (err, data2) {
         if (err) {
           callback(err, data2);
         } else if (data2) {
-          async.each(foreignKeys, function(n, callback) {
+          async.each(foreignKeys, function (n, callback) {
             if (data[n.name] != data2[n.name]) {
-              Config.manageArrayObject(mongoose.models[n.ref], data2[n.name], data2._id, n.key, "delete", function(err, md) {
+              Config.manageArrayObject(mongoose.models[n.ref], data2[n.name], data2._id, n.key, "delete", function (err, md) {
                 if (err) {
                   callback(err, md);
                 } else {
@@ -283,7 +290,7 @@ var model = {
             } else {
               callback(null, "no found for ");
             }
-          }, function(err) {
+          }, function (err) {
             data2.update(data, {
               w: 1
             }, callback);
@@ -293,15 +300,15 @@ var model = {
         }
       });
     } else {
-      Const.save(function(err, data2) {
+      Const.save(function (err, data2) {
         if (err) {
           callback(err, data2);
         } else {
-          async.each(foreignKeys, function(n, callback) {
-            Config.manageArrayObject(mongoose.models[n.ref], data2[n.name], data2._id, n.key, "create", function(err, md) {
+          async.each(foreignKeys, function (n, callback) {
+            Config.manageArrayObject(mongoose.models[n.ref], data2[n.name], data2._id, n.key, "create", function (err, md) {
               callback(err, data2);
             });
-          }, function(err) {
+          }, function (err) {
             if (err) {
               callback(err, data2);
             } else {
@@ -312,12 +319,12 @@ var model = {
       });
     }
   },
-  generateAssignmentNumber: function(data, callback) {
+  generateAssignmentNumber: function (data, callback) {
     var Model = this;
     var newNumber = 1;
     Model.findOne({
       _id: data._id
-    }).deepPopulate("company branch city.district.state.zone.country department typeOfClaim natureOfSurvey", "_id assignmentGeneration").exec(function(err, data2) {
+    }).deepPopulate("company branch city.district.state.zone.country department typeOfClaim natureOfSurvey", "_id assignmentGeneration").exec(function (err, data2) {
       if (err) {
         callback(err);
       } else {
@@ -328,7 +335,7 @@ var model = {
           }
         }).sort({
           _id: -1
-        }).exec(function(err, data3) {
+        }).exec(function (err, data3) {
           if (err) {
             callback(err);
           } else {
@@ -404,7 +411,7 @@ var model = {
 
             data2.name = data2.city.district.state.zone.country.countryCode + data2.company.companyCode + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).format("YY") + moment(new Date(data2.dateOfAppointment)).format("MM") + "-" + num;
             //add this here
-            data2.save(function(err, data) {
+            data2.save(function (err, data) {
               callback(err, data);
             });
 
