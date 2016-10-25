@@ -398,6 +398,12 @@ var navigationservice = angular.module('navigationservice', [])
                 callback(data, i);
             });
         },
+        searchInsurerdCustomerCompany: function (formData, i, callback) {
+            formData.segment = "Insured";
+            $http.post(adminurl + 'CustomerCompany/getSegmented', formData).success(function (data) {
+                callback(data, i);
+            });
+        },
         searchBrokerCustomerCompany: function (formData, i, callback) {
             formData.segment = "Broker";
             $http.post(adminurl + 'CustomerCompany/getSegmented', formData).success(function (data) {
@@ -405,7 +411,7 @@ var navigationservice = angular.module('navigationservice', [])
             });
         },
         searchInsuredCustomerCompany: function (formData, i, callback) {
-            formData.segment = "Insurer";
+            formData.segment = "Insured";
             $http.post(adminurl + 'CustomerCompany/getSegmented', formData).success(function (data) {
                 callback(data, i);
             });
