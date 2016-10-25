@@ -70,9 +70,9 @@ schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('PolicyDoc', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "insuredCompany insuredCompany", "insuredCompany insuredCompany"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "insuredCompany insuredOffice", "insuredCompany insuredOffice"));
 var model = {
-    getPolicyDoc: function(data, callback) {
+    getPolicyDoc: function (data, callback) {
         var Model = this;
         var aggText = [];
         var searchText = new RegExp(data.keyword, "i");
@@ -110,9 +110,9 @@ var model = {
             data.keyword = "";
         }
 
-        Model.aggregate(aggText).exec(function(err, data2) {
+        Model.aggregate(aggText).exec(function (err, data2) {
             var data3 = [];
-            _.each(data2, function(n) {
+            _.each(data2, function (n) {
                 data3.push(n.listOfDocuments);
             });
             var resultdoc = {};

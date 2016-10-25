@@ -8,7 +8,6 @@
         </li>
     </ul>
 </div>
-
 <form name="formName" role="form" ng-submit="saveModel(formData)">
     <div class="heading-sec">
         <div class="row">
@@ -22,7 +21,6 @@
     </div>
     <!-- Top Bar Chart -->
     <div class="panel-content">
-
         <div class="widget">
             <div class="form-elements-sec">
                 <div class="widget-title">
@@ -33,14 +31,15 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Insured Company*</label>
-                                <multiple-select name="company" required ng-model="formData.insuredCompany" ng-name="name.zone" api="searchInsured"></multiple-select>
-                                <div class="error-msg" ng-show="formName.company.$invalid">Please Select Company</div>
+                                <multiple-select name="insuredCompany" required ng-model="formData.insuredCompany" ng-name="name.zone" api="searchInsured"></multiple-select>
+                                <div class="error-msg" ng-show="formName.insuredCompany.$invalid">Please Select Company</div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Insured Office*</label>
-                                <multiple-select name="insuredOffice" required ng-model="formData.insuredOffice" filter='{"customerCompany":"{{formData.insuredCompany}}"}' ng-name="name.zone" api="searchCustomer"></multiple-select>
+                                <multiple-select name="insuredOffice" required ng-model="formData.insuredOffice" filter='{"customerCompany":"{{formData.insuredCompany}}"}'
+                                    ng-name="name.zone" api="searchCustomer"></multiple-select>
                                 <div class="error-msg" ng-show="formName.insuredOffice.$invalid">Please Select Insured Office</div>
                             </div>
                         </div>
@@ -48,7 +47,6 @@
                 </div>
             </div>
         </div>
-
         <div class="widget">
             <div class="form-elements-sec">
                 <div class="widget-title">
@@ -84,7 +82,6 @@
                 </div>
             </div>
         </div>
-
         <div class="clearfix"></div>
         <div class="text-center mt20 odd-even-button">
             <button class="btn btn-default" type="submit" ng-disabled="formName.$invalid">Save</button>

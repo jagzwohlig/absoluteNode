@@ -30,7 +30,6 @@ var schema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Department",
     index: true,
-    required: true,
     key: "assignment"
   },
   branch: {
