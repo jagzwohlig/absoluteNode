@@ -879,7 +879,7 @@ img.uploadingImage {
 }
 
 .modal-body {
-    max-height: 450px;
+    height: 450px;
     overflow-y: auto;
 }
 
@@ -1124,7 +1124,12 @@ img.uploadingImage {
     padding: 40px 0;
 }
 
-
+.mt15{
+  margin-top: 15px;
+}
+.unread-mail{
+  background: $border-color;
+}
 /* Start writing sass here */
 
 @import "fancybox-override";
