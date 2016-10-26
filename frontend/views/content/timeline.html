@@ -8,8 +8,8 @@
                             <button class="btn btn-green btn-round" ng-click="newMessage();"><i class="ln-comments"></i> Send Message</button>
                         </div>
                         <div class="compny">
-                            <h3>Music Broadcast Ltd <span class="dif">(Nagpur)</span></h3>
-                            <p>7441-5105-0724-4234</p>
+                            <h3>{{assignment.company.shortName}} <span class="dif">({{assignment.company.city.name}})</span></h3>
+                            <p>{{assignment.name}}</p>
                             <p>Break Down - Damages</p>
                         </div>
                     </div>
@@ -41,8 +41,8 @@
                         </div>
                         <div class="pull-right">
                             <div class="compny text-right">
-                                <h3>Varun Dhawan</h3>
-                                <p>Surveyor</p>
+                                <h3>{{assignment.owner.name}}</h3>
+                                <p>{{assignment.owner.func.name}}</p>
                                 <div class="pointer" uib-dropdown>
                                     <span class="greenbg" uib-dropdown-toggle>Invoicing</span>
                                     <ul class="dropdown-menu info-dropdown" uib-dropdown-menu role="menu">
@@ -54,10 +54,10 @@
                         </div>
                     </div>
                     <div class="info-pic">
-                        <span><img src="frontend/img/varun-khali.png" alt="Varun Dhawan" class="dp" /></span>
-                        <img src="frontend/img/house/house-red.png" alt="Red House" class="info-house" />
+                        <span><img ng-src="{{assignment.owner.photo|uploadpath:300:300}}" alt="Varun Dhawan" class="dp" /></span>
+                        <img src="frontend/img/house/house-{{assignment.owner.houseColor}}.png" alt="{{assignment.owner.houseColor}} House" class="info-house"
+                        />
                     </div>
-
                 </div>
                 <div class="profile-all">
                     <div class="row">
@@ -111,7 +111,8 @@
                                                     </div>
                                                     <div class="e-message">
                                                         <p>Hello Varun, <br> I am sending you all the required documents. <br><br>                                                            PFA. <br> Thank you. <br> <br> With Regards, <br> Music Broadcast
-                                                            Ltd</p>
+                                                            Ltd
+                                                        </p>
                                                     </div>
                                                     <div class="e-attachments">
                                                         <div class="row">

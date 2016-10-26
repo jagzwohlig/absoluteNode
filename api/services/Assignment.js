@@ -222,6 +222,12 @@ schema.plugin(deepPopulate, {
     'city': {
       select: 'name _id district'
     },
+    'owner': {
+      select: 'name _id func houseColor photo'
+    },
+    'owner.func': {
+      select: 'name'
+    },
     'city.district': {
       select: 'name _id state'
     },
@@ -233,6 +239,12 @@ schema.plugin(deepPopulate, {
     },
     'city.district.state.zone.country': {
       select: 'name countryCode _id'
+    },
+    'company': {
+      select: 'shortName _id city'
+    },
+    'company.city': {
+      select: 'name'
     },
     'bank': {
       select: 'name _id'
@@ -263,7 +275,7 @@ schema.plugin(timestamps);
 
 module.exports = mongoose.model('Assignment', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer", "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer owner owner.func company company.city", "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer"));
 
 var model = {
   saveData: function (data, callback) {

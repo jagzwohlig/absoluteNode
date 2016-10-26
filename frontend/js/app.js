@@ -1084,9 +1084,12 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
         })
 
     .state('timeline', {
-        url: "/timeline",
+        url: "/timeline/{id:.*}",
         templateUrl: "frontend/views/template.html",
-        controller: 'TimelineCtrl'
+        controller: 'TimelineCtrl',
+        params: {
+            id: ""
+        }
     })
 
     .state('template-list', {

@@ -5585,7 +5585,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 })
 
-.controller('TimelineCtrl', function ($scope, TemplateService, NavigationService, $timeout, $uibModal) {
+.controller('TimelineCtrl', function ($scope, TemplateService, NavigationService, $timeout, $uibModal, $stateParams) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("timeline");
     $scope.menutitle = NavigationService.makeactive("Timeline");
@@ -5700,6 +5700,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             selection: true
         }]
     }];
+
+
+    //  INTEGRATION STARTS
+    $scope.assignment = {};
+    NavigationService.getOneModel("Assignment/getOne", $stateParams.id, function (data) {
+        $scope.assignment = data.data;
+    });
+
 
 })
 
