@@ -4,10 +4,9 @@
             <div class="profile-sec">
                 <div class="info-holder">
                     <div class="first-half pull-right">
-
                         <!-- <div class="clearfix"></div> -->
                         <div class="fl-right mt-5">
-                          <span uib-dropdown class="pull-right">
+                            <span uib-dropdown class="pull-right">
                             <button class="btn-setting" id="new-tasks" uib-dropdown-toggle><i class="ln-gear"></i> </button>
                             <ul class="dropdown-menu info-dropdown" uib-dropdown-menu role="menu" aria-labelledby="new-tasks">
                             <li role="menuitem"><a ng-click="markActivity();">Mark Activity</a></li>
@@ -16,7 +15,6 @@
                             <div class="clearfix"></div>
                             <button class="btn btn-green btn-round pull-right" ng-click="newMessage();"><i class="ln-comments"></i> Send Message</button>
                         </div>
-
                         <div class="compny">
                             <h3>{{assignment.company.shortName}} <span class="dif">({{assignment.company.city.name}})</span></h3>
                             <p>{{assignment.name}}</p>
@@ -27,6 +25,7 @@
                         <div class="info-btn inline">
                             <span uib-dropdown class="inline">
                 <button class="btn btn-green btn-round" id="new-tasks" uib-dropdown-toggle><i class="ln-circle-plus"></i> New Tasks</button>
+
                 <ul class="dropdown-menu info-dropdown" uib-dropdown-menu role="menu" aria-labelledby="new-tasks">
                   <li role="menuitem"><a ng-click="assignSurveyor();">Assign Surveyor</a></li>
                   <li role="menuitem"><a href="">New JIR</a></li>
@@ -65,7 +64,8 @@
                     </div>
                     <div class="info-pic">
                         <span><img ng-src="{{assignment.owner.photo|uploadpath:300:300}}" alt="Varun Dhawan" class="dp" /></span>
-                        <img src="frontend/img/house/house-{{assignment.owner.houseColor}}.png" alt="{{assignment.owner.houseColor}} House" class="info-house" />
+                        <img src="frontend/img/house/house-{{assignment.owner.houseColor}}.png" alt="{{assignment.owner.houseColor}} House" class="info-house"
+                        />
                     </div>
                 </div>
                 <div class="profile-all">
