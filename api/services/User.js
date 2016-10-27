@@ -53,15 +53,27 @@ var schema = new Schema({
     index: true,
     restrictedDelete: true
   },
+  employee: {
+    type: Schema.Types.ObjectId,
+    ref: "Employee",
+    index: true,
+    key: "user"
+  },
 });
 
-schema.plugin(deepPopulate, {});
+schema.plugin(deepPopulate, {
+  populate: {
+    'employee': {
+      select: ''
+    }
+  }
+});
 schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 
 module.exports = mongoose.model('User', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "employee", "employee"));
 var model = {
 
   existsSocial: function (user, callback) {

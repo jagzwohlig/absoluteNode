@@ -64,7 +64,7 @@ var schema = new Schema({
             type: Date
         },
         image: {
-          type: String
+            type: String
         },
         grade: {
             type: Schema.Types.ObjectId,
@@ -151,63 +151,63 @@ var schema = new Schema({
         type: String
     },
     personalDocument: [{
-      name: {
-        type: String
-      },
-      image: {
-        type: String
-      }
+        name: {
+            type: String
+        },
+        image: {
+            type: String
+        }
     }],
     licenseNumber: {
-      type: String
+        type: String
     },
     department: [{
-      type: Schema.Types.ObjectId,
-      ref: "Department",
-      required: true,
-      key: "employee"
+        type: Schema.Types.ObjectId,
+        ref: "Department",
+        required: true,
+        key: "employee"
     }],
     licenseDocument: [{
-      image: {
-        type: String
-      },
-      from: {
-        type: Date
-      },
-      to: {
-        type: Date
-      }
+        image: {
+            type: String
+        },
+        from: {
+            type: Date
+        },
+        to: {
+            type: Date
+        }
     }],
     IIISLACertificate: [{
-      image: {
-        type: String
-      },
-      from: {
-        type: Date
-      },
-      department: {
-          type: Schema.Types.ObjectId,
-          ref: "Department",
-          required: true,
-          key: "employee"
-      },
-      membership: {
-          type: Schema.Types.ObjectId,
-          ref: "Membership",
-          required: true,
-          key: "employee"
-      },
+        image: {
+            type: String
+        },
+        from: {
+            type: Date
+        },
+        department: {
+            type: Schema.Types.ObjectId,
+            ref: "Department",
+            required: true,
+            key: "employee"
+        },
+        membership: {
+            type: Schema.Types.ObjectId,
+            ref: "Membership",
+            required: true,
+            key: "employee"
+        },
     }],
     IIISLAReciept: [{
-      image: {
-        type: String
-      },
-      from: {
-        type: Date
-      },
-      to: {
-        type: Date
-      }
+        image: {
+            type: String
+        },
+        from: {
+            type: Date
+        },
+        to: {
+            type: Date
+        }
 
     }],
     assignment: {
@@ -218,47 +218,54 @@ var schema = new Schema({
         index: true,
         restrictedDelete: true
     },
-
+    user: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: "User",
+        }],
+        index: true,
+        restrictedDelete: true
+    }
 });
 
 schema.plugin(deepPopulate, {
-  populate: {
-      'city': {
-          select: 'name _id district'
-      },
-      'city.district': {
-          select: 'name _id state'
-      },
-      'city.district.state': {
-          select: 'name _id zone'
-      },
-      'city.district.state.zone': {
-          select: 'name _id country'
-      },
-      'city.district.state.zone.country': {
-          select: 'name _id'
-      },
-      'func': {
-          select: 'name _id'
-      },
-      'grade': {
-          select: 'name _id'
-      },
-      'postedAt': {
-          select: 'name _id'
-      },
-      'department': {
-          select: 'name _id'
-      },
-      'IIISLACertificate.department':{
-        select: 'name _id'
-      }
-  }
+    populate: {
+        'city': {
+            select: 'name _id district'
+        },
+        'city.district': {
+            select: 'name _id state'
+        },
+        'city.district.state': {
+            select: 'name _id zone'
+        },
+        'city.district.state.zone': {
+            select: 'name _id country'
+        },
+        'city.district.state.zone.country': {
+            select: 'name _id'
+        },
+        'func': {
+            select: 'name _id'
+        },
+        'grade': {
+            select: 'name _id'
+        },
+        'postedAt': {
+            select: 'name _id'
+        },
+        'department': {
+            select: 'name _id'
+        },
+        'IIISLACertificate.department': {
+            select: 'name _id'
+        }
+    }
 });
 // schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('Employee', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema,"city.district.state.zone.country func grade department IIISLACertificate.department","city.district.state.zone.country  func grade postedAt"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country func grade department IIISLACertificate.department", "city.district.state.zone.country  func grade postedAt"));
 var model = {};
 module.exports = _.assign(module.exports, exports, model);
