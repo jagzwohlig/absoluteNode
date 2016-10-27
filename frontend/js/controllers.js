@@ -5622,6 +5622,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             size: 'md'
         });
     };
+    $scope.markActivity = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/mark-activity.html',
+            size: 'lg'
+        });
+    };
 
     $scope.newEmail = function () {
         var modalInstance = $uibModal.open({

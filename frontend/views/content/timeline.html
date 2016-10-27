@@ -4,7 +4,14 @@
             <div class="profile-sec">
                 <div class="info-holder">
                     <div class="first-half pull-right">
-                        <div class="pull-right mt-18">
+                      <span uib-dropdown class="pull-right">
+                        <button class="btn-setting" id="new-tasks" uib-dropdown-toggle><i class="ln-gear"></i> </button>
+                        <ul class="dropdown-menu info-dropdown" uib-dropdown-menu role="menu" aria-labelledby="new-tasks">
+                        <li role="menuitem"><a ng-click="markActivity();">Mark Activity</a></li>
+                         </ul>
+                      </span>
+                        <div class="clearfix"></div>
+                        <div class="pull-right mt-5">
                             <button class="btn btn-green btn-round" ng-click="newMessage();"><i class="ln-comments"></i> Send Message</button>
                         </div>
                         <div class="compny">
@@ -55,8 +62,7 @@
                     </div>
                     <div class="info-pic">
                         <span><img ng-src="{{assignment.owner.photo|uploadpath:300:300}}" alt="Varun Dhawan" class="dp" /></span>
-                        <img src="frontend/img/house/house-{{assignment.owner.houseColor}}.png" alt="{{assignment.owner.houseColor}} House" class="info-house"
-                        />
+                        <img src="frontend/img/house/house-{{assignment.owner.houseColor}}.png" alt="{{assignment.owner.houseColor}} House" class="info-house" />
                     </div>
                 </div>
                 <div class="profile-all">
@@ -110,8 +116,14 @@
                                                         <p class="strong">Sending all the required documents.</p>
                                                     </div>
                                                     <div class="e-message">
-                                                        <p>Hello Varun, <br> I am sending you all the required documents. <br><br>                                                            PFA. <br> Thank you. <br> <br> With Regards, <br> Music Broadcast
-                                                            Ltd
+                                                        <p>Hello Varun,
+                                                            <br> I am sending you all the required documents.
+                                                            <br>
+                                                            <br> PFA.
+                                                            <br> Thank you.
+                                                            <br>
+                                                            <br> With Regards,
+                                                            <br> Music Broadcast Ltd
                                                         </p>
                                                     </div>
                                                     <div class="e-attachments">
