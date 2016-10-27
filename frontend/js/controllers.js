@@ -5713,6 +5713,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.assignment = {};
     NavigationService.getOneModel("Assignment/getOne", $stateParams.id, function (data) {
         $scope.assignment = data.data;
+        if (data.data.timeline) {
+
+        }
     });
 
 

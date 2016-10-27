@@ -213,7 +213,15 @@ var schema = new Schema({
   status: {
     type: Boolean,
     default: true
-  }
+  },
+  timeline: {
+    type: [{
+      type: Schema.Types.ObjectId,
+      ref: "Timeline",
+    }],
+    index: true,
+    restrictedDelete: true
+  },
 });
 
 schema.plugin(deepPopulate, {
