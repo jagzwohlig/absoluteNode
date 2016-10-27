@@ -5711,10 +5711,16 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     //  INTEGRATION STARTS
     $scope.assignment = {};
+    $scope.timeline = {};
+    $scope.getTimeline = function () {
+        NavigationService.getOneModel("Timeline/getOne", $scope.timelineID, function (data) {
+            $scope.timeline = data.data;
+        });
+    };
     NavigationService.getOneModel("Assignment/getOne", $stateParams.id, function (data) {
         $scope.assignment = data.data;
-        if (data.data.timeline) {
-
+        if (data.data.timeline || data.data.timeline.count != 0) {
+            // Navi
         }
     });
 

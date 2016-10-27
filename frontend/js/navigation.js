@@ -352,6 +352,16 @@ var navigationservice = angular.module('navigationservice', [])
         saveNature: function (data, callback) {
             $http.post(adminurl + 'NatureLoss/save', data).success(callback);
         },
+        saveChat: function (data, callback) {
+            data.employee = $.jStorage.get("accessToken");
+            $http.post(adminurl + 'Timeline/save', data).success(callback);
+        },
+        createTimeline: function (data, callback) {
+            var timeline = {};
+            timeline.assignment = data;
+            timeline.chat = [];
+            $http.post(adminurl + 'Timeline/save', data).success(callback);
+        },
         saveOfficer: function (data, callback) {
             $http.post(adminurl + 'Officer/save', data).success(callback);
         },
