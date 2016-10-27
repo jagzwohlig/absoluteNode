@@ -5619,7 +5619,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         var modalInstance = $uibModal.open({
             scope: $scope,
             templateUrl: '/frontend/views/modal/modal-assign-surveyor.html',
-            size: 'md'
+            size: 'lg'
         });
     };
     $scope.markActivity = function () {
@@ -5627,6 +5627,20 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             scope: $scope,
             templateUrl: '/frontend/views/modal/mark-activity.html',
             size: 'lg'
+        });
+    };
+    $scope.newAssessment = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/new-assessment.html',
+            size: 'md'
+        });
+    };
+    $scope.allAssessment = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/assessment.html',
+            size: 'md'
         });
     };
 
