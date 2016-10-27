@@ -1003,6 +1003,10 @@ img.uploadingImage {
     font-size: 20px;
     color:#555555;
 }
+.fl-right{
+  display: block;
+float: right;
+}
 /* Start writing sass here */
 @import "fancybox-override";
 @import "other/mobile";

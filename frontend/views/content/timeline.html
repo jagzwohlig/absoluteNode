@@ -4,16 +4,19 @@
             <div class="profile-sec">
                 <div class="info-holder">
                     <div class="first-half pull-right">
-                      <span uib-dropdown class="pull-right">
-                        <button class="btn-setting" id="new-tasks" uib-dropdown-toggle><i class="ln-gear"></i> </button>
-                        <ul class="dropdown-menu info-dropdown" uib-dropdown-menu role="menu" aria-labelledby="new-tasks">
-                        <li role="menuitem"><a ng-click="markActivity();">Mark Activity</a></li>
-                         </ul>
-                      </span>
-                        <div class="clearfix"></div>
-                        <div class="pull-right mt-5">
-                            <button class="btn btn-green btn-round" ng-click="newMessage();"><i class="ln-comments"></i> Send Message</button>
+
+                        <!-- <div class="clearfix"></div> -->
+                        <div class="fl-right mt-5">
+                          <span uib-dropdown class="pull-right">
+                            <button class="btn-setting" id="new-tasks" uib-dropdown-toggle><i class="ln-gear"></i> </button>
+                            <ul class="dropdown-menu info-dropdown" uib-dropdown-menu role="menu" aria-labelledby="new-tasks">
+                            <li role="menuitem"><a ng-click="markActivity();">Mark Activity</a></li>
+                             </ul>
+                          </span>
+                            <div class="clearfix"></div>
+                            <button class="btn btn-green btn-round pull-right" ng-click="newMessage();"><i class="ln-comments"></i> Send Message</button>
                         </div>
+
                         <div class="compny">
                             <h3>{{assignment.company.shortName}} <span class="dif">({{assignment.company.city.name}})</span></h3>
                             <p>{{assignment.name}}</p>
