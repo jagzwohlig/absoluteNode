@@ -478,6 +478,10 @@ $trans-black: rgba( black, .15);
         margin-top: 10px;
     }
 }
+.scroll-x-max{
+  @extend .scroll-x;
+  max-height: inherit;
+}
 .ui-select-bootstrap .ui-select-choices-row.active > a {
     background-color: $blue;
 }
@@ -1006,6 +1010,9 @@ img.uploadingImage {
 .fl-right{
   display: block;
 float: right;
+}
+.color-green{
+  color:$green;
 }
 /* Start writing sass here */
 @import "fancybox-override";
