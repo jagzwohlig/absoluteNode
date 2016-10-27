@@ -5713,14 +5713,24 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.assignment = {};
     $scope.timeline = {};
     $scope.getTimeline = function () {
-        NavigationService.getOneModel("Timeline/getOne", $scope.timelineID, function (data) {
+        NavigationService.getOneModel("Timeline", $scope.timelineID, function (data) {
             $scope.timeline = data.data;
         });
     };
-    NavigationService.getOneModel("Assignment/getOne", $stateParams.id, function (data) {
+    NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
         $scope.assignment = data.data;
-        if (data.data.timeline || data.data.timeline.count != 0) {
-            // Navi
+        if (data.data.timeline && data.data.timeline[0]) {
+            console.log("in if");
+            $scope.timelineID = data.data.timeline[0];
+            $scope.getTimeline();
+        } else {
+            console.log("in else");
+            NavigationService.createTimeline(data.data._id, function (data) {
+                NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
+                    $scope.timelineID = data.data.timeline[0];
+                    $scope.getTimeline();
+                });
+            });
         }
     });
 
