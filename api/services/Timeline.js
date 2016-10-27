@@ -23,8 +23,19 @@ var schema = new Schema({
             index: true,
             key: "timeline"
         },
-        message: {
+        title: {
+            type: String
+        },
+        time: {
+            type: Date,
+            default: Date.now
+        },
+        type: {
             type: String,
+            enum: ["Email", "Normal"]
+        },
+        message: {
+            type: String
         },
         attachment: [{
             type: String
@@ -32,11 +43,23 @@ var schema = new Schema({
     }]
 });
 
-schema.plugin(deepPopulate, {});
+schema.plugin(deepPopulate, {
+    populate: {
+        'chat.employee': {
+            select: "name employee _id"
+        },
+        'chat.employee.employee': {
+            select: ""
+        },
+        'chat.employee.employee.func': {
+            select: "name"
+        }
+    }
+});
 schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('Timeline', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "chat.employee chat.employee.employee chat.employee.employee.func", "chat.employee"));
 var model = {};
 module.exports = _.assign(module.exports, exports, model);

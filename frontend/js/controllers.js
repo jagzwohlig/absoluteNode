@@ -5725,10 +5725,21 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     //  INTEGRATION STARTS
     $scope.assignment = {};
+    $scope.message = {};
+    $scope.message.employee = $.jStorage.get("profile")._id;
     $scope.timeline = {};
+    $scope.message.title = "Sent a new message";
     $scope.getTimeline = function () {
         NavigationService.getOneModel("Timeline", $scope.timelineID, function (data) {
             $scope.timeline = data.data;
+        });
+    };
+    $scope.sendMessage = function () {
+        $scope.message.type = "Normal";
+        $scope.timeline.chat.push($scope.message);
+        NavigationService.saveChat($scope.timeline, function (data) {
+            console.log(data);
+            $scope.getTimeline();
         });
     };
     NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {

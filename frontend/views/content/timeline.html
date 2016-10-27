@@ -74,70 +74,60 @@
                             <div class="widget no-color">
                                 <div class="activity-feed">
                                     <ul class="activity-timeline">
-                                        <li>
-                                            <span class="user-device"></span>
-                                            <div class="user-activity">
-                                                <div class="who-post-this">
-                                                    <span><img src="frontend/img/varun-khali.png" alt="Varun Dhawan" /><img src="frontend/img/house/house-red.png" alt="Red House" class="house"></span>
-                                                    <div class="who-post-detail">
-                                                        <h3>Varun Dhawan <span class="vsmall">Surveyor</span></h3>
-                                                        <span>Created a new <a href="">JIR #1106-1605-0246</a></span>
-                                                        <i>23JUN2016, Thrusday, 18:23</i>
+                                        <li ng-repeat="chat in timeline.chat">
+                                            <div ng-if="chat.type=='Normal'">
+                                                <span class="user-device"></span>
+                                                <div class="user-activity">
+                                                    <div class="who-post-this">
+                                                        <span><img ng-src="{{chat.employee.employee.photo|uploadpath:300:300}}" alt="{{chat.employee.employee.name}}" />
+                                                        <img ng-src="frontend/img/house/house-{{chat.employee.employee.houseColor}}.png" alt="{{chat.employee.employee.houseColor}} House" class="house"></span>
+                                                        <div class="who-post-detail">
+                                                            <h3>{{chat.employee.employee.name}} <span class="vsmall">{{chat.employee.employee.func.name}}</span></h3>
+                                                            <span>{{chat.title}}</span>
+                                                            <i>23JUN2016, Thrusday, 18:24</i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="post-content">
+                                                        <p ng-bind-html="chat.message"></p>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </li>
-                                        <li>
-                                            <span class="user-device"></span>
-                                            <div class="user-activity">
-                                                <div class="who-post-this">
-                                                    <span><img src="frontend/img/varun-khali.png" alt="Varun Dhawan" /><img src="frontend/img/house/house-red.png" alt="Red House" class="house"></span>
-                                                    <div class="who-post-detail">
-                                                        <h3>Varun Dhawan <span class="vsmall">Surveyor</span></h3>
-                                                        <span>Sent a new message</span>
-                                                        <i>23JUN2016, Thrusday, 18:24</i>
+                                            <div ng-if="chat.type=='Email'">
+                                                <span class="user-device"></span>
+                                                <div class="user-activity emailed">
+                                                    <div class="who-post-this">
+                                                        <span><img src="frontend/img/img-ph.png" alt="Music Broadcast Ltd" /></span>
+                                                        <div class="who-post-detail">
+                                                            <h3>Music Broadcast Ltd <span class="vsmall">Insured</span></h3>
+                                                            <span>Sent an email</span>
+                                                            <i>23JUN2016, Thrusday, 19:54</i>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="post-content">
-                                                    <p>Hi! Survey was awesome.</p>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <span class="user-device"></span>
-                                            <div class="user-activity emailed">
-                                                <div class="who-post-this">
-                                                    <span><img src="frontend/img/img-ph.png" alt="Music Broadcast Ltd" /></span>
-                                                    <div class="who-post-detail">
-                                                        <h3>Music Broadcast Ltd <span class="vsmall">Insured</span></h3>
-                                                        <span>Sent an email</span>
-                                                        <i>23JUN2016, Thrusday, 19:54</i>
-                                                    </div>
-                                                </div>
-                                                <div class="post-content">
-                                                    <div class="e-subject">
-                                                        <p class="strong">Sending all the required documents.</p>
-                                                    </div>
-                                                    <div class="e-message">
-                                                        <p>Hello Varun,
-                                                            <br> I am sending you all the required documents.
-                                                            <br>
-                                                            <br> PFA.
-                                                            <br> Thank you.
-                                                            <br>
-                                                            <br> With Regards,
-                                                            <br> Music Broadcast Ltd
-                                                        </p>
-                                                    </div>
-                                                    <div class="e-attachments">
-                                                        <div class="row">
-                                                            <div class="col-xs-6 col-md-3">
-                                                                <div class="filebx">
-                                                                    <div class="dl-bx">
-                                                                        <i class="ln-download"></i>
+                                                    <div class="post-content">
+                                                        <div class="e-subject">
+                                                            <p class="strong">Sending all the required documents.</p>
+                                                        </div>
+                                                        <div class="e-message">
+                                                            <p>Hello Varun,
+                                                                <br> I am sending you all the required documents.
+                                                                <br>
+                                                                <br> PFA.
+                                                                <br> Thank you.
+                                                                <br>
+                                                                <br> With Regards,
+                                                                <br> Music Broadcast Ltd
+                                                            </p>
+                                                        </div>
+                                                        <div class="e-attachments">
+                                                            <div class="row">
+                                                                <div class="col-xs-6 col-md-3">
+                                                                    <div class="filebx">
+                                                                        <div class="dl-bx">
+                                                                            <i class="ln-download"></i>
+                                                                        </div>
+                                                                        <i class="ln-document"></i>
+                                                                        <p>Vehicle Doc.docx</p>
                                                                     </div>
-                                                                    <i class="ln-document"></i>
-                                                                    <p>Vehicle Doc.docx</p>
                                                                 </div>
                                                             </div>
                                                         </div>

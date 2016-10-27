@@ -4,25 +4,25 @@
       <i class="ln-cross"></i>
     </button>
   </div>
-    <h5 class="modal-title">Send a message</h5>
+  <h5 class="modal-title">Send a message</h5>
 </div>
-<div class="modal-body">
-  <div class="billing-sec no-float">
-    <div class="row">
-      <div class="col-md-12 field">
-        <label>Message <span>*</span></label>
-          <textarea name="message" ui-tinymce="tinymceOptions" ng-model="email.message" required></textarea>
-              <div class="error-msg" ng-show="modalForm.message.$invalid && modalForm.message.$touched">Please enter email message</div>
-      </div>
-      <div class="col-md-12 field">
-        <label>Attachments</label>
-
-        <div class="custom-tabs">
-           <uib-tabset>
-             <uib-tab ng-repeat="file in files">
-               <uib-tab-heading>
-                 {{file.type}} <span ng-if="file.count!=0">({{file.count}})</span>
-               </uib-tab-heading>
+<form name="modalForm" ng-submit="sendMessage();$dismiss()">
+  <div class="modal-body">
+    <div class="billing-sec no-float">
+      <div class="row">
+        <div class="col-md-12 field">
+          <label>Message <span>*</span></label>
+          <textarea name="message" ui-tinymce="tinymceOptions" ng-model="message.message" required></textarea>
+          <div class="error-msg" ng-show="modalForm.message.$invalid && modalForm.message.$touched">Please enter email message</div>
+        </div>
+        <div class="col-md-12 field">
+          <label>Attachments</label>
+          <div class="custom-tabs">
+            <uib-tabset>
+              <uib-tab ng-repeat="file in files">
+                <uib-tab-heading>
+                  {{file.type}} <span ng-if="file.count!=0">({{file.count}})</span>
+                </uib-tab-heading>
                 <div class="file-selector">
                   <div class="text-right">Select All <span class="check-bx"><input type="checkbox"><i class="ln-checkmark aired"></i></span></div>
                   <div class="text-center" ng-if="file.files.length==0">No files found.</div>
@@ -37,17 +37,18 @@
                           <i class="ln-document"></i>
                           <p>{{f.name}}</p>
                         </div>
-                    </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-             </uib-tab>
-           </uib-tabset>
+              </uib-tab>
+            </uib-tabset>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<div class="modal-footer">
-    <button class="btn btn-green btn-round" type="submit">Send</button>
-</div>
+  <div class="modal-footer">
+    <button class="btn btn-green btn-round" type="submit" ng-disabled="modalForm.$invalid">Send</button>
+  </div>
+</form>
