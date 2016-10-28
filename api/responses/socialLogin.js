@@ -16,7 +16,7 @@ module.exports = function (profile) {
                 } else if (_.isEmpty(data5)) {
                     res.callback("No Such Employee Registered", profile);
                 } else {
-                    user.employee = data5._id;
+                    profile.employee = data5._id;
                     console.log("Hello Jagz");
                     console.log(req.session);
                     if (req.session.returnUrl) {
