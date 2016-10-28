@@ -5596,6 +5596,12 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         message: ""
     };
     $scope.emailtos = [{
+        name: 'Mahesh',
+        email: 'mahesh@wohlig.com'
+    }, {
+        name: 'Jagruti',
+        email: 'jagruti@wohlig.com'
+    }, {
         name: 'Tushar',
         email: 'tushar@wohlig.com'
     }, {
