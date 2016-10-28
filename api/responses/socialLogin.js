@@ -6,17 +6,19 @@ module.exports = function (profile) {
         res.callback("Error fetching profile in Social Login", profile);
     } else {
 
-        if (user.emails && user.emails.length > 0) {
-            var email = user.emails[0];
+        if (profile.emails && profile.emails.length > 0) {
+            var email = profile.emails[0].value;
             Employee.findOne({
                 officeEmail: email
             }).exec(function (err, data5) {
                 if (err) {
                     res.callback(err);
                 } else if (_.isEmpty(data5)) {
-                    User.existsSocial(profile, res.callback);
+                    res.callback("No Such Employee Registered", profile);
                 } else {
                     user.employee = data5._id;
+                    console.log("Hello Jagz");
+                    console.log(req.session);
                     if (req.session.returnUrl) {
                         User.existsSocial(profile, function (err, data) {
                             if (err || !data) {

@@ -8,7 +8,9 @@ var controller = {
     },
     loginGoogle: function (req, res) {
         if (req.query.returnUrl) {
+            console.log(req.query);
             req.session.returnUrl = req.query.returnUrl;
+            console.log(req.session);
         } else {
 
         }
@@ -173,11 +175,14 @@ var controller = {
 
                 }
             });
-        }, function (err,data) {
-            if(err) {
-                callback(err,data);
+        }, function (err, data) {
+            if (err) {
+                callback(err, data);
             } else {
-                res.json({total:retVal.length,value:retVal});
+                res.json({
+                    total: retVal.length,
+                    value: retVal
+                });
             }
         });
     }
