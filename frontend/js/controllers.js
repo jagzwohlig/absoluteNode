@@ -5642,6 +5642,35 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             size: 'md'
         });
     };
+    $scope.viewPhotos = function () {
+       var modalInstance = $uibModal.open({
+           scope: $scope,
+           templateUrl: '/frontend/views/modal/new-photos.html',
+           size: 'md'
+       });
+   };
+$scope.viewILA = function () {
+       var modalInstance = $uibModal.open({
+           scope: $scope,
+           templateUrl: '/frontend/views/modal/new-ila.html',
+           size: 'md'
+       });
+   };
+   $scope.viewILR = function () {
+       var modalInstance = $uibModal.open({
+           scope: $scope,
+           templateUrl: '/frontend/views/modal/new-ilr.html',
+           size: 'md'
+       });
+   };
+   $scope.viewLOR = function () {
+       var modalInstance = $uibModal.open({
+           scope: $scope,
+           templateUrl: '/frontend/views/modal/new-lor.html',
+           size: 'md'
+       });
+   };
+
     $scope.allAssessment = function () {
         var modalInstance = $uibModal.open({
             scope: $scope,

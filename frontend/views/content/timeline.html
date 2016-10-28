@@ -5,15 +5,15 @@
                 <div class="info-holder">
                     <div class="first-half pull-right">
                         <!-- <div class="clearfix"></div> -->
-                        <div class="fl-right mt-5">
+                        <div class="fl-right ">
                             <span uib-dropdown class="pull-right">
-                            <button class="btn-setting" id="new-tasks" uib-dropdown-toggle><i class="ln-gear"></i> </button>
+                           <button class="btn btn-blue btn-round" id="new-tasks" uib-dropdown-toggle><i class="ln-gear"></i> Setting</button>
                             <ul class="dropdown-menu info-dropdown" uib-dropdown-menu role="menu" aria-labelledby="new-tasks">
                             <li role="menuitem"><a ng-click="markActivity();">Mark Activity</a></li>
                              </ul>
                           </span>
                             <div class="clearfix"></div>
-                            <button class="btn btn-green btn-round pull-right" ng-click="newMessage();"><i class="ln-comments"></i> Send Message</button>
+                            <button class="btn btn-green btn-round pull-right mt-5" ng-click="newMessage();"><i class="ln-comments"></i> Send Message</button>
                         </div>
                         <div class="compny">
                             <h3>{{assignment.company.shortName}} <span class="dif">({{assignment.company.city.name}})</span></h3>
@@ -140,15 +140,15 @@
                                     <div class="col-xs-4 pointer" ng-click="viewJIR();"><img src="frontend/img/folder.png">
                                         <h6>JIR</h6>
                                     </div>
-                                    <div class="col-xs-4 pointer"><img src="frontend/img/folder.png">
+                                    <div class="col-xs-4 pointer" ng-click="viewILA();"><img src="frontend/img/folder.png">
                                         <h6>ILA</h6>
                                     </div>
-                                    <div class="col-xs-4 pointer"><img src="frontend/img/folder.png">
+                                    <div class="col-xs-4 pointer" ng-click="viewILR();"><img src="frontend/img/folder.png">
                                         <h6>ILR</h6>
                                     </div>
                                 </div>
                                 <div class="row mt20">
-                                    <div class="col-xs-4 pointer"><img src="frontend/img/folder.png">
+                                    <div class="col-xs-4 pointer" ng-click="viewLOR();"><img src="frontend/img/folder.png">
                                         <h6>LOR</h6>
                                     </div>
                                     <div class="col-xs-4 pointer" ng-click="allAssessment();"><img src="frontend/img/folder.png">
@@ -162,7 +162,7 @@
                                     <div class="col-xs-4 pointer"><img src="frontend/img/folder.png">
                                         <h6>Others</h6>
                                     </div>
-                                    <div class="col-xs-4 pointer"><img src="frontend/img/folder.png">
+                                    <div class="col-xs-4 pointer" ng-click="viewPhotos();"><img src="frontend/img/folder.png">
                                         <h6>Photos</h6>
                                     </div>
                                     <div class="col-xs-4 pointer"><img src="frontend/img/folder.png">
