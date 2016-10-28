@@ -5593,7 +5593,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.navigation = NavigationService.getnav();
 
     $scope.email = {
-        message: "Change"
+        message: ""
     };
     $scope.emailtos = [{
         name: 'Tushar',
@@ -5734,8 +5734,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.timeline = data.data;
         });
     };
-    $scope.sendMessage = function () {
-        $scope.message.type = "Normal";
+    $scope.sendMessage = function (type) {
+        $scope.message.type = type;
         $scope.timeline.chat.push($scope.message);
         NavigationService.saveChat($scope.timeline, function (data) {
             console.log(data);
@@ -5759,6 +5759,42 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         }
     });
 
+    //  send email
+    $scope.sendEmail = function (modalForm) {
+
+        $scope.msgSend = "Sending..";
+        $scope.newTo = angular.copy($scope.email);
+        $scope.newTo.to = [];
+        _.each($scope.email.to, function (n) {
+            $scope.newTo.to.push(n.email);
+        });
+        $scope.newTo.cc = [];
+        _.each($scope.email.cc, function (n) {
+            $scope.newTo.cc.push(n.email);
+        });
+        $scope.newTo.bcc = [];
+        _.each($scope.email.bcc, function (n) {
+            $scope.newTo.bcc.push(n.email);
+        });
+        $scope.newTo.to = $scope.newTo.to.join();
+        $scope.newTo.cc = $scope.newTo.cc.join();
+        $scope.newTo.bcc = $scope.newTo.bcc.join();
+        console.log($scope.newTo);
+        NavigationService.sendEmail($scope.newTo, function (data) {
+            console.log(data);
+            if (data.value) {
+                $scope.message.email = $scope.newTo;
+                $scope.sendMessage("Email");
+                toastr.success("Your message has been send.", "Send email.");
+                $timeout(function () {
+                    modalInstance.close();
+                }, 1000);
+            } else {
+                // $scope.msgSend = "Error in sending email";
+                toastr.success("Error in sending email.", "Send email.");
+            }
+        });
+    };
 
 })
 

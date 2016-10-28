@@ -37,6 +37,9 @@ var schema = new Schema({
         message: {
             type: String
         },
+        email: {
+            type: {}
+        },
         attachment: [{
             type: String
         }]
