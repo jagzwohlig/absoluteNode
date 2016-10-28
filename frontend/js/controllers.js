@@ -1,7 +1,7 @@
 var globalfunction = {};
 angular.module('phonecatControllers', ['templateservicemod', 'navigationservice', 'ui.bootstrap', 'ui.select', 'ngAnimate', 'toastr', 'ngSanitize', 'angular-flexslider', 'ui.tinymce', 'imageupload', 'ngMap', 'toggle-switch', 'cfp.hotkeys', 'ui.sortable', 'infinite-scroll'])
 
-.controller('DashboardCtrl', function($scope, TemplateService, NavigationService, $timeout, base64) {
+.controller('DashboardCtrl', function ($scope, TemplateService, NavigationService, $timeout, base64) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("dashboard");
     $scope.menutitle = NavigationService.makeactive("Dashboard");
@@ -10,7 +10,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 })
 
-.controller('AccessController', function($scope, TemplateService, NavigationService, $timeout, $state) {
+.controller('AccessController', function ($scope, TemplateService, NavigationService, $timeout, $state) {
     if ($.jStorage.get("accessToken")) {
 
     } else {
@@ -18,17 +18,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     }
 })
 
-.controller('LoginCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state) {
+.controller('LoginCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state) {
     //Used to name the .html file
 
     $scope.menutitle = NavigationService.makeactive("Login");
     TemplateService.title = $scope.menutitle;
     $scope.currentHost = window.location.origin;
     if ($stateParams.id) {
-        NavigationService.parseAccessToken($stateParams.id, function() {
-            NavigationService.profile(function() {
+        NavigationService.parseAccessToken($stateParams.id, function () {
+            NavigationService.profile(function () {
                 $state.go("dashboard");
-            }, function() {
+            }, function () {
                 $state.go("login");
             });
         });
@@ -39,7 +39,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 })
 
 
-.controller('BranchListCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+.controller('BranchListCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("branch-list");
     $scope.menutitle = NavigationService.makeactive("Branch List");
@@ -53,7 +53,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     if ($stateParams.keyword) {
         $scope.search.keyword = $stateParams.keyword;
     }
-    $scope.showAllCountries = function(keywordChange) {
+    $scope.showAllCountries = function (keywordChange) {
         $scope.totalItems = undefined;
         if (keywordChange) {
             $scope.currentPage = 1;
@@ -61,7 +61,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         NavigationService.searchBranch({
             page: $scope.currentPage,
             keyword: $scope.search.keyword
-        }, ++i, function(data, ini) {
+        }, ++i, function (data, ini) {
             if (ini == i) {
                 $scope.allBranch = data.data.results;
                 $scope.totalItems = data.data.total;
@@ -70,7 +70,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
     };
 
-    $scope.changePage = function(page) {
+    $scope.changePage = function (page) {
         var goTo = "branch-list";
         if ($scope.search.keyword) {
             goTo = "branch-list";
@@ -81,11 +81,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
     };
     $scope.showAllCountries();
-    $scope.deleteBranch = function(id) {
-        globalfunction.confDel(function(value) {
+    $scope.deleteBranch = function (id) {
+        globalfunction.confDel(function (value) {
             console.log(value);
             if (value) {
-                NavigationService.deleteBranch(id, function(data) {
+                NavigationService.deleteBranch(id, function (data) {
                     if (data.value) {
                         $scope.showAllCountries();
                         toastr.success("Branch deleted successfully.", "Branch deleted");
@@ -100,7 +100,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     };
 })
 
-.controller('CountryCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
+.controller('CountryCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("country-list");
         $scope.menutitle = NavigationService.makeactive("Country List");
@@ -114,7 +114,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         if ($stateParams.keyword) {
             $scope.search.keyword = $stateParams.keyword;
         }
-        $scope.showAllCountries = function(keywordChange) {
+        $scope.showAllCountries = function (keywordChange) {
             $scope.totalItems = undefined;
             if (keywordChange) {
                 $scope.currentPage = 1;
@@ -122,7 +122,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             NavigationService.searchCountry({
                 page: $scope.currentPage,
                 keyword: $scope.search.keyword
-            }, ++i, function(data, ini) {
+            }, ++i, function (data, ini) {
                 if (ini == i) {
                     $scope.countries = data.data.results;
                     $scope.totalItems = data.data.total;
@@ -131,7 +131,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
-        $scope.changePage = function(page) {
+        $scope.changePage = function (page) {
             var goTo = "country-list";
             if ($scope.search.keyword) {
                 goTo = "country-list";
@@ -142,11 +142,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
         $scope.showAllCountries();
-        $scope.deleteCountry = function(id) {
-            globalfunction.confDel(function(value) {
+        $scope.deleteCountry = function (id) {
+            globalfunction.confDel(function (value) {
                 console.log(value);
                 if (value) {
-                    NavigationService.deleteCountry(id, function(data) {
+                    NavigationService.deleteCountry(id, function (data) {
                         if (data.value) {
                             $scope.showAllCountries();
                             toastr.success("Country deleted successfully.", "Country deleted");
@@ -160,19 +160,19 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
     })
-    .controller('ModelViewCtrl', function($scope, hotkeys, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
+    .controller('ModelViewCtrl', function ($scope, hotkeys, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
         //Used to name the .html file
         $scope.modelCamel = _.camelCase($stateParams.model);
         var a = _.startCase($scope.modelCamel).split(" ");
         $scope.ModelApi = "";
-        _.each(a, function(n) {
+        _.each(a, function (n) {
             $scope.ModelApi = $scope.ModelApi + n;
         });
 
         hotkeys.bindTo($scope).add({
             combo: 'enter',
             description: 'This one goes to 11',
-            callback: function() {
+            callback: function () {
                 $state.go("create" + $scope.modelCamel);
             }
         });
@@ -192,7 +192,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         if ($stateParams.keyword) {
             $scope.search.keyword = $stateParams.keyword;
         }
-        $scope.showAll = function(keywordChange) {
+        $scope.showAll = function (keywordChange) {
             $scope.totalItems = undefined;
             if (keywordChange) {
                 $scope.currentPage = 1;
@@ -200,7 +200,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             NavigationService.searchModel($scope.ModelApi, {
                 page: $scope.currentPage,
                 keyword: $scope.search.keyword
-            }, ++i, function(data, ini) {
+            }, ++i, function (data, ini) {
                 if (ini == i) {
                     $scope.modelList = data.data.results;
                     $scope.totalItems = data.data.total;
@@ -209,7 +209,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
-        $scope.changePage = function(page) {
+        $scope.changePage = function (page) {
             var goTo = $scope.modelCamel + "-list";
             if ($scope.search.keyword) {
                 goTo = $scope.modelCamel + "-list";
@@ -220,10 +220,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
         $scope.showAll();
-        $scope.deleteModel = function(id) {
-            globalfunction.confDel(function(value) {
+        $scope.deleteModel = function (id) {
+            globalfunction.confDel(function (value) {
                 if (value) {
-                    NavigationService.deleteModel($scope.ModelApi, id, function(data) {
+                    NavigationService.deleteModel($scope.ModelApi, id, function (data) {
                         if (data.value) {
                             $scope.showAll();
                             toastr.success($scope.modelCap + " deleted successfully.", $scope.modelCap + " deleted");
@@ -237,19 +237,19 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
-        $scope.changeStatus = function(ind) {
-            NavigationService.modelSave($scope.ModelApi, ind, function(data) {
+        $scope.changeStatus = function (ind) {
+            NavigationService.modelSave($scope.ModelApi, ind, function (data) {
                 if (data.value === true) {}
             });
         };
     })
 
-.controller('CreateModelCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, toastr, $stateParams) {
+.controller('CreateModelCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr, $stateParams) {
     //Used to name the .html file
     $scope.modelCamel = _.camelCase($stateParams.model);
     var a = _.startCase($scope.modelCamel).split(" ");
     $scope.ModelApi = "";
-    _.each(a, function(n) {
+    _.each(a, function (n) {
         $scope.ModelApi = $scope.ModelApi + n;
     });
 
@@ -300,8 +300,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     $scope.formData = {};
     $scope.formData.status = true;
-    $scope.saveModel = function(formData) {
-        NavigationService.modelSave($scope.ModelApi, $scope.formData, function(data) {
+    $scope.saveModel = function (formData) {
+        NavigationService.modelSave($scope.ModelApi, $scope.formData, function (data) {
             if (data.value === true) {
                 $state.go($scope.modelCamel + '-list');
                 toastr.success($scope.modelCap + " " + formData.name + " created successfully.", $scope.modelCap + " Created");
@@ -313,11 +313,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 })
 
-.controller('EditModelCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $uibModal) {
+.controller('EditModelCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $uibModal) {
     $scope.modelCamel = _.camelCase($stateParams.model);
     var a = _.startCase($scope.modelCamel).split(" ");
     $scope.ModelApi = "";
-    _.each(a, function(n) {
+    _.each(a, function (n) {
         $scope.ModelApi = $scope.ModelApi + n;
     });
     $scope.modelCap = _.capitalize($stateParams.model);
@@ -333,7 +333,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.salutations = ["Mr.", "Mrs.", "Ms.", "Dr."];
 
 
-    NavigationService.getOneModel($scope.ModelApi, $stateParams.id, function(data) {
+    NavigationService.getOneModel($scope.ModelApi, $stateParams.id, function (data) {
         $scope.formData = data.data;
         if (data.data.city) {
             $scope.formData.country = data.data.city.district.state.zone.country._id;
@@ -344,8 +344,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         }
     });
 
-    $scope.saveModel = function(formValid) {
-        NavigationService.modelSave($scope.ModelApi, $scope.formData, function(data) {
+    $scope.saveModel = function (formValid) {
+        NavigationService.modelSave($scope.ModelApi, $scope.formData, function (data) {
             if (data.value === true) {
                 $state.go($scope.modelCamel + '-list');
                 toastr.success($scope.modelCap + $scope.formData.name + " edited successfully.", $scope.modelCap + " Edited");
@@ -358,14 +358,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     //  FOR LIST OF ARRAY STARTS
     $scope.formData.officers = [];
-    $scope.addOfficer = function() {
+    $scope.addOfficer = function () {
         var modalInstance = $uibModal.open({
             scope: $scope,
             templateUrl: '/frontend/views/modal/modal-officer.html',
             size: 'lg'
         });
     };
-    $scope.createOfficer = function(modelData) {
+    $scope.createOfficer = function (modelData) {
         $scope.formData.officers.push(modelData);
         console.log($scope.formData);
     };
@@ -374,7 +374,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 })
 
 
-.controller('CreateCountryCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, toastr) {
+.controller('CreateCountryCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr) {
         //Used to name the .html file
 
         $scope.template = TemplateService.changecontent("country-detail");
@@ -386,9 +386,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Create Country"
         };
         $scope.formData = {};
-        $scope.saveCountry = function(formData) {
+        $scope.saveCountry = function (formData) {
             console.log($scope.formData);
-            NavigationService.countrySave($scope.formData, function(data) {
+            NavigationService.countrySave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('country-list');
                     toastr.success("Country " + formData.name + " created successfully.", "Country Created");
@@ -399,7 +399,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('CreateAssignmentCtrl', function($scope, TemplateService, NavigationService, $filter, $timeout, $state, toastr, $stateParams, $uibModal) {
+    .controller('CreateAssignmentCtrl', function ($scope, TemplateService, NavigationService, $filter, $timeout, $state, toastr, $stateParams, $uibModal) {
         //Used to name the .html file
 
         $scope.template = TemplateService.changecontent("assignment-detail");
@@ -421,7 +421,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.modalData = {};
         $scope.modalIndex = "";
         $scope.wholeObj = [];
-        $scope.addModels = function(dataArray, data) {
+        $scope.addModels = function (dataArray, data) {
             dataArray.push(data);
         };
         $scope.formData.isInsured = true;
@@ -430,7 +430,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         // NavigationService.searchNatureLoss(function(data) {
         //     $scope.natureLoss = data.data.results;
         // });
-        NavigationService.searchCompany({}, 1, function(data) {
+        NavigationService.searchCompany({}, 1, function (data) {
             // if (data.data.results.length() != 0) {
             $scope.formData.company = data.data.results[0]._id;
             // }
@@ -440,34 +440,34 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
             NavigationService.detailEmail({
                 "messageId": $stateParams.emailId
-            }, function(data) {
+            }, function (data) {
                 var doa = moment(parseInt(data.data.internalDate));
                 $scope.formData.dateOfAppointment = new Date(doa);
             });
         }
 
-        $scope.refreshShareWith = function(data, office) {
+        $scope.refreshShareWith = function (data, office) {
             var formdata = {};
             formdata.search = data;
             formdata.filter = {
                 "postedAt": office
             };
-            NavigationService.searchEmployee(formdata, 1, function(data) {
+            NavigationService.searchEmployee(formdata, 1, function (data) {
                 $scope.shareWith = data.data.results;
             });
         };
-        $scope.refreshNature = function(data, causeloss) {
+        $scope.refreshNature = function (data, causeloss) {
             var formdata = {};
             formdata.search = data;
             formdata.filter = {
                 "_id": causeloss
             };
-            NavigationService.getNatureLoss(formdata, 1, function(data) {
+            NavigationService.getNatureLoss(formdata, 1, function (data) {
                 $scope.natureLoss = data.data.results;
             });
         };
 
-        $scope.addModal = function(filename, index, holdobj, data, current, wholeObj) {
+        $scope.addModal = function (filename, index, holdobj, data, current, wholeObj) {
             if (index !== "") {
                 $scope.modalData = data;
                 $scope.modalIndex = index;
@@ -485,7 +485,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
-        $scope.addElements = function(moddata) {
+        $scope.addElements = function (moddata) {
             if ($scope.modalIndex !== "") {
                 $scope.wholeObj[$scope.modalIndex] = moddata;
             } else {
@@ -495,7 +495,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     case "invoice":
                         {
                             var newmod = a.invoiceNumber.split(',');
-                            _.each(newmod, function(n) {
+                            _.each(newmod, function (n) {
                                 $scope.newjson.invoiceNumber = n;
                                 $scope.wholeObj.push($scope.newjson);
                             });
@@ -504,7 +504,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     case "products":
                         {
                             var newmod1 = a.item.split(',');
-                            _.each(newmod1, function(n) {
+                            _.each(newmod1, function (n) {
                                 $scope.newjson.item = n;
                                 $scope.wholeObj.push($scope.newjson);
                             });
@@ -512,14 +512,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         break;
                     case "LRs":
                         var newmod2 = a.lrNumber.split(',');
-                        _.each(newmod2, function(n) {
+                        _.each(newmod2, function (n) {
                             $scope.newjson.lrNumber = n;
                             $scope.wholeObj.push($scope.newjson);
                         });
                         break;
                     case "Vehicle":
                         var newmod3 = a.vehicleNumber.split(',');
-                        _.each(newmod3, function(n) {
+                        _.each(newmod3, function (n) {
                             $scope.newjson.vehicleNumber = n;
                             $scope.wholeObj.push($scope.newjson);
                         });
@@ -535,17 +535,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             }
         };
 
-        $scope.deleteElements = function(index, data) {
+        $scope.deleteElements = function (index, data) {
             data.splice(index, 1);
         };
 
 
-        $scope.submit = function(formData) {
+        $scope.submit = function (formData) {
             console.log($scope.formData);
-            TemplateService.mrnumber($scope.formData, function(data) {
+            TemplateService.mrnumber($scope.formData, function (data) {
                 console.log(data);
                 // $scope.formData.name = data;
-                NavigationService.assignmentSave($scope.formData, function(data) {
+                NavigationService.assignmentSave($scope.formData, function (data) {
                     if (data.value === true) {
                         $state.go('assignment-list');
                         toastr.success("Assignment " + formData.name + " created successfully.", "Assignment Created");
@@ -557,7 +557,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('EditAssignmentCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, toastr, $stateParams, $uibModal, $filter) {
+    .controller('EditAssignmentCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr, $stateParams, $uibModal, $filter) {
         //Used to name the .html file
 
         $scope.template = TemplateService.changecontent("assignment-detail");
@@ -580,11 +580,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.modalData = {};
         $scope.modalIndex = "";
         $scope.wholeObj = [];
-        $scope.addModels = function(dataArray, data) {
+        $scope.addModels = function (dataArray, data) {
             dataArray.push(data);
         };
 
-        NavigationService.getOneModel("Assignment", $stateParams.id, function(data) {
+        NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
             $scope.formData = data.data;
             $scope.MRnumber = data.data.city.district.state.zone.country.countryCode;
             $scope.formData.dateOfIntimation = new Date(data.data.dateOfIntimation);
@@ -598,28 +598,28 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
 
 
-        $scope.refreshShareWith = function(data, office) {
+        $scope.refreshShareWith = function (data, office) {
             var formdata = {};
             formdata.search = data;
             formdata.filter = {
                 "postedAt": office
             };
-            NavigationService.searchEmployee(formdata, 1, function(data) {
+            NavigationService.searchEmployee(formdata, 1, function (data) {
                 $scope.shareWith = data.data.results;
             });
         };
-        $scope.refreshNature = function(data, causeloss) {
+        $scope.refreshNature = function (data, causeloss) {
             var formdata = {};
             formdata.search = data;
             formdata.filter = {
                 "_id": causeloss
             };
-            NavigationService.getNatureLoss(formdata, 1, function(data) {
+            NavigationService.getNatureLoss(formdata, 1, function (data) {
                 $scope.natureLoss = data.data.results;
             });
         };
 
-        $scope.addModal = function(filename, index, holdobj, data, current, wholeObj) {
+        $scope.addModal = function (filename, index, holdobj, data, current, wholeObj) {
             if (index !== "") {
                 $scope.modalData = data;
                 $scope.modalIndex = index;
@@ -637,7 +637,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
-        $scope.addElements = function(moddata) {
+        $scope.addElements = function (moddata) {
             if ($scope.modalIndex !== "") {
                 $scope.wholeObj[$scope.modalIndex] = moddata;
             } else {
@@ -647,7 +647,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     case "invoice":
                         {
                             var newmod = a.invoiceNumber.split(',');
-                            _.each(newmod, function(n) {
+                            _.each(newmod, function (n) {
                                 $scope.newjson.invoiceNumber = n;
                                 $scope.wholeObj.push($scope.newjson);
                             });
@@ -656,7 +656,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     case "products":
                         {
                             var newmod1 = a.item.split(',');
-                            _.each(newmod1, function(n) {
+                            _.each(newmod1, function (n) {
                                 $scope.newjson.item = n;
                                 $scope.wholeObj.push($scope.newjson);
                             });
@@ -664,14 +664,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         break;
                     case "LRs":
                         var newmod2 = a.lrNumber.split(',');
-                        _.each(newmod2, function(n) {
+                        _.each(newmod2, function (n) {
                             $scope.newjson.lrNumber = n;
                             $scope.wholeObj.push($scope.newjson);
                         });
                         break;
                     case "Vehicle":
                         var newmod3 = a.vehicleNumber.split(',');
-                        _.each(newmod3, function(n) {
+                        _.each(newmod3, function (n) {
                             $scope.newjson.vehicleNumber = n;
                             $scope.wholeObj.push($scope.newjson);
                         });
@@ -687,17 +687,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             }
         };
 
-        $scope.deleteElements = function(index, data) {
+        $scope.deleteElements = function (index, data) {
             data.splice(index, 1);
         };
 
 
-        $scope.submit = function(formData) {
+        $scope.submit = function (formData) {
             console.log($scope.formData);
-            TemplateService.mrnumber($scope.formData, function(data) {
+            TemplateService.mrnumber($scope.formData, function (data) {
                 console.log(data);
                 // $scope.formData.name = data;
-                NavigationService.assignmentSave($scope.formData, function(data) {
+                NavigationService.assignmentSave($scope.formData, function (data) {
                     if (data.value === true) {
                         $state.go('assignment-list');
                         toastr.success("Assignment " + formData.name + " created successfully.", "Assignment Created");
@@ -711,7 +711,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     })
 
-.controller('EditCountryCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+.controller('EditCountryCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
     //Used to name the .html file
 
     $scope.template = TemplateService.changecontent("country-detail");
@@ -723,14 +723,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         "name": "Edit Country"
     };
 
-    NavigationService.getOneCountry($stateParams.id, function(data) {
+    NavigationService.getOneCountry($stateParams.id, function (data) {
         $scope.formData = data.data;
         console.log('$scope.oneCountry', $scope.oneCountry);
 
     });
 
-    $scope.saveCountry = function(formValid) {
-        NavigationService.countryEditSave($scope.formData, function(data) {
+    $scope.saveCountry = function (formValid) {
+        NavigationService.countryEditSave($scope.formData, function (data) {
             if (data.value === true) {
                 $state.go('country-list');
                 console.log("Check this one");
@@ -745,7 +745,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 
 
-.controller('OfficeCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+.controller('OfficeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("office-list");
         $scope.menutitle = NavigationService.makeactive("Office List");
@@ -759,7 +759,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         if ($stateParams.keyword) {
             $scope.search.keyword = $stateParams.keyword;
         }
-        $scope.showAllCountries = function(keywordChange) {
+        $scope.showAllCountries = function (keywordChange) {
             $scope.totalItems = undefined;
             if (keywordChange) {
                 $scope.currentPage = 1;
@@ -767,7 +767,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             NavigationService.searchOffice({
                 page: $scope.currentPage,
                 keyword: $scope.search.keyword
-            }, ++i, function(data, ini) {
+            }, ++i, function (data, ini) {
                 console.log(data.data);
 
                 if (ini == i) {
@@ -779,7 +779,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
-        $scope.changePage = function(page) {
+        $scope.changePage = function (page) {
             var goTo = "bankmaster-list";
             if ($scope.search.keyword) {
                 goTo = "bankmaster-list";
@@ -791,10 +791,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         $scope.showAllCountries();
 
-        $scope.deleteOffice = function(id) {
-            globalfunction.confDel(function(value) {
+        $scope.deleteOffice = function (id) {
+            globalfunction.confDel(function (value) {
                 if (value) {
-                    NavigationService.deleteOffice(id, function(data) {
+                    NavigationService.deleteOffice(id, function (data) {
                         if (data.value) {
                             $scope.showAllCountries();
                             toastr.success("Office deleted successfully.", "Office deleted");
@@ -808,13 +808,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
-        $scope.changeStatus = function(ind) {
-            NavigationService.officeSave(ind, function(data) {
+        $scope.changeStatus = function (ind) {
+            NavigationService.officeSave(ind, function (data) {
                 if (data.value === true) {}
             });
         };
     })
-    .controller('CreateOfficeCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, toastr) {
+    .controller('CreateOfficeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("office-detail");
         $scope.menutitle = NavigationService.makeactive("Office");
@@ -825,9 +825,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Create Office"
         };
         $scope.formData = {};
-        $scope.saveOffice = function(formData) {
+        $scope.saveOffice = function (formData) {
 
-            NavigationService.officeSave($scope.formData, function(data) {
+            NavigationService.officeSave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('office-list');
                     toastr.success("Office " + formData.name + " created successfully.", "Office Created");
@@ -838,7 +838,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('EditOfficeCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+    .controller('EditOfficeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("office-detail");
         $scope.menutitle = NavigationService.makeactive("Office");
@@ -848,7 +848,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.header = {
             "name": "Edit Office"
         };
-        NavigationService.getOneOffice($stateParams.id, function(data) {
+        NavigationService.getOneOffice($stateParams.id, function (data) {
             $scope.formData = data.data;
             $scope.formData.country = data.data.city.district.state.zone.country._id;
             $scope.formData.zone = data.data.city.district.state.zone._id;
@@ -857,8 +857,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.formData.city = data.data.city._id;
         });
 
-        $scope.saveOffice = function(formValid) {
-            NavigationService.officeSave($scope.formData, function(data) {
+        $scope.saveOffice = function (formValid) {
+            NavigationService.officeSave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('office-list');
                     toastr.success("Office " + $scope.formData.name + " edited successfully.", "Office Edited");
@@ -869,7 +869,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('TypeOfOfficeCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+    .controller('TypeOfOfficeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("typeOfOffice-list");
         $scope.menutitle = NavigationService.makeactive("Type Of Office List");
@@ -883,7 +883,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         if ($stateParams.keyword) {
             $scope.search.keyword = $stateParams.keyword;
         }
-        $scope.showAllCountries = function(keywordChange) {
+        $scope.showAllCountries = function (keywordChange) {
             $scope.totalItems = undefined;
             if (keywordChange) {
                 $scope.currentPage = 1;
@@ -891,7 +891,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             NavigationService.searchTypeOfOffice({
                 page: $scope.currentPage,
                 keyword: $scope.search.keyword
-            }, ++i, function(data, ini) {
+            }, ++i, function (data, ini) {
                 if (ini == i) {
                     $scope.allTypeOfOffices = data.data.results;
                     $scope.totalItems = data.data.total;
@@ -900,7 +900,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
-        $scope.changePage = function(page) {
+        $scope.changePage = function (page) {
             var goTo = "typeOfOffice-list";
             if ($scope.search.keyword) {
                 goTo = "typeOfOffice-list";
@@ -911,11 +911,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
         $scope.showAllCountries();
-        $scope.deleteTypeOfOffice = function(id) {
-            globalfunction.confDel(function(value) {
+        $scope.deleteTypeOfOffice = function (id) {
+            globalfunction.confDel(function (value) {
                 console.log(value);
                 if (value) {
-                    NavigationService.deleteTypeOfOffice(id, function(data) {
+                    NavigationService.deleteTypeOfOffice(id, function (data) {
                         if (data.value) {
                             $scope.showAllCountries();
                             toastr.success("Office deleted successfully.", "Office deleted");
@@ -927,7 +927,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
     })
-    .controller('CreateTypeOfOfficeCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, toastr) {
+    .controller('CreateTypeOfOfficeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("typeOfOffice-detail");
         $scope.menutitle = NavigationService.makeactive("Type Of Office");
@@ -938,17 +938,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Create Type Of Office"
         };
         $scope.formData = {};
-        $scope.savetypeOfOffice = function(formData) {
+        $scope.savetypeOfOffice = function (formData) {
             $scope.errormsg = "";
 
-            NavigationService.typeofofficeSave($scope.formData, function(data) {
+            NavigationService.typeofofficeSave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('typeOfOffice-list');
                     toastr.success("Type Of Office " + $scope.formData.name + " created successfully.", "Type Of Office Created");
                 } else {
                     if (data.error.errors) {
                         var i = 0;
-                        _.each(data.error.errors, function(data) {
+                        _.each(data.error.errors, function (data) {
                             $scope.errormsg += data.message + "\n\n";
                         });
 
@@ -959,7 +959,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('EditTypeOfOfficeCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+    .controller('EditTypeOfOfficeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("typeOfOffice-detail");
         $scope.menutitle = NavigationService.makeactive("Type Of Office");
@@ -970,23 +970,23 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Edit Type Of Office"
         };
 
-        NavigationService.getOneTypeOfOffice($stateParams.id, function(data) {
+        NavigationService.getOneTypeOfOffice($stateParams.id, function (data) {
             $scope.formData = data.data;
         });
 
-        $scope.savetypeOfOffice = function(formValid) {
+        $scope.savetypeOfOffice = function (formValid) {
             $scope.errormsg = "";
 
             //  if (formValid.$valid) {
             //  $scope.formComplete = true;
-            NavigationService.typeofofficeSave($scope.formData, function(data) {
+            NavigationService.typeofofficeSave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('typeOfOffice-list');
                     toastr.success("Type Of Office " + $scope.formData.name + " Updated successfully.", "Type Of Office Updated");
                 } else {
                     if (data.error.errors) {
                         var i = 0;
-                        _.each(data.error.errors, function(data) {
+                        _.each(data.error.errors, function (data) {
                             $scope.errormsg += data.message;
                         });
 
@@ -998,7 +998,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('ZoneCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, toastr, $state) {
+    .controller('ZoneCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, toastr, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("zone-list");
         $scope.menutitle = NavigationService.makeactive("Zone List");
@@ -1012,7 +1012,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         if ($stateParams.keyword) {
             $scope.search.keyword = $stateParams.keyword;
         }
-        $scope.showAllCountries = function(keywordChange) {
+        $scope.showAllCountries = function (keywordChange) {
             $scope.totalItems = undefined;
             if (keywordChange) {
                 $scope.currentPage = 1;
@@ -1020,7 +1020,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             NavigationService.searchZone({
                 page: $scope.currentPage,
                 keyword: $scope.search.keyword
-            }, ++i, function(data, ini) {
+            }, ++i, function (data, ini) {
                 console.log(data.data);
 
                 if (ini == i) {
@@ -1033,7 +1033,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
-        $scope.changePage = function(page) {
+        $scope.changePage = function (page) {
             var goTo = "zone-list";
             if ($scope.search.keyword) {
                 goTo = "zone-list";
@@ -1045,11 +1045,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         $scope.showAllCountries();
 
-        $scope.deleteZone = function(id) {
-            globalfunction.confDel(function(value) {
+        $scope.deleteZone = function (id) {
+            globalfunction.confDel(function (value) {
                 console.log(value);
                 if (value) {
-                    NavigationService.deleteZone(id, function(data) {
+                    NavigationService.deleteZone(id, function (data) {
                         if (data.value) {
                             $scope.showAllCountries();
                             toastr.success("Country deleted successfully.", "Country deleted");
@@ -1063,7 +1063,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
     })
-    .controller('CreateZoneCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, toastr) {
+    .controller('CreateZoneCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("zone-detail");
         $scope.menutitle = NavigationService.makeactive("Zone");
@@ -1073,8 +1073,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.header = {
             "name": "Create Zone"
         };
-        $scope.saveZone = function(formData) {
-            NavigationService.zoneSave(formData, function(data) {
+        $scope.saveZone = function (formData) {
+            NavigationService.zoneSave(formData, function (data) {
                 if (data.value === true) {
                     $state.go('zone-list');
                     toastr.success("Zone " + formData.name + " created successfully.", "Zone Created");
@@ -1084,7 +1084,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
     })
-    .controller('EditZoneCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+    .controller('EditZoneCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("zone-detail");
         $scope.menutitle = NavigationService.makeactive("Zone");
@@ -1095,13 +1095,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Edit Zone"
         };
 
-        NavigationService.getOneZone($stateParams.id, function(data) {
+        NavigationService.getOneZone($stateParams.id, function (data) {
             $scope.formData = data.data;
             $scope.formData.country = data.data.country._id;
         });
 
-        $scope.saveZone = function(formValid) {
-            NavigationService.zoneSave($scope.formData, function(data) {
+        $scope.saveZone = function (formValid) {
+            NavigationService.zoneSave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('zone-list');
                     toastr.success("Zone " + $scope.formData.name + " edited successfully.", "Zone Edited");
@@ -1111,7 +1111,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
     })
-    .controller('StateCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, toastr, $state) {
+    .controller('StateCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, toastr, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("state-list");
         $scope.menutitle = NavigationService.makeactive("State List");
@@ -1125,7 +1125,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         if ($stateParams.keyword) {
             $scope.search.keyword = $stateParams.keyword;
         }
-        $scope.showAllCountries = function(keywordChange) {
+        $scope.showAllCountries = function (keywordChange) {
             $scope.totalItems = undefined;
             if (keywordChange) {
                 $scope.currentPage = 1;
@@ -1133,7 +1133,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             NavigationService.searchState({
                 page: $scope.currentPage,
                 keyword: $scope.search.keyword
-            }, ++i, function(data, ini) {
+            }, ++i, function (data, ini) {
                 console.log(data.data);
 
                 if (ini == i) {
@@ -1146,7 +1146,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
-        $scope.changePage = function(page) {
+        $scope.changePage = function (page) {
             var goTo = "state-list";
             if ($scope.search.keyword) {
                 goTo = "state-list";
@@ -1158,10 +1158,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         $scope.showAllCountries();
 
-        $scope.deleteState = function(id) {
-            globalfunction.confDel(function(value) {
+        $scope.deleteState = function (id) {
+            globalfunction.confDel(function (value) {
                 if (value) {
-                    NavigationService.deleteState(id, function(data) {
+                    NavigationService.deleteState(id, function (data) {
                         if (data.value) {
                             $scope.showAllCountries();
                             toastr.success("State deleted successfully.", "State deleted");
@@ -1177,7 +1177,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     })
 
-.controller('CreateStateCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, toastr) {
+.controller('CreateStateCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("state-detail");
         $scope.menutitle = NavigationService.makeactive("State");
@@ -1188,9 +1188,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Create State"
         };
         $scope.formData = {};
-        $scope.saveState = function(formData) {
+        $scope.saveState = function (formData) {
 
-            NavigationService.stateSave($scope.formData, function(data) {
+            NavigationService.stateSave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('state-list');
                     toastr.success("State " + formData.name + " created successfully.", "State Created");
@@ -1201,7 +1201,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('EditStateCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+    .controller('EditStateCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("state-detail");
         $scope.menutitle = NavigationService.makeactive("State");
@@ -1212,14 +1212,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Edit State"
         };
 
-        NavigationService.getOneState($stateParams.id, function(data) {
+        NavigationService.getOneState($stateParams.id, function (data) {
             $scope.formData = data.data;
             $scope.formData.country = data.data.zone.country._id;
             $scope.formData.zone = data.data.zone._id;
         });
 
-        $scope.saveState = function(formValid) {
-            NavigationService.stateSave($scope.formData, function(data) {
+        $scope.saveState = function (formValid) {
+            NavigationService.stateSave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('state-list');
                     toastr.success("State " + $scope.formData.name + " edited successfully.", "State Edited");
@@ -1229,7 +1229,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
     })
-    .controller('DistrictCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, toastr, $state) {
+    .controller('DistrictCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, toastr, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("district-list");
         $scope.menutitle = NavigationService.makeactive("district List");
@@ -1244,7 +1244,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         if ($stateParams.keyword) {
             $scope.search.keyword = $stateParams.keyword;
         }
-        $scope.showAllCountries = function(keywordChange) {
+        $scope.showAllCountries = function (keywordChange) {
             $scope.totalItems = undefined;
             if (keywordChange) {
                 $scope.currentPage = 1;
@@ -1252,7 +1252,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             NavigationService.searchDistrict({
                 page: $scope.currentPage,
                 keyword: $scope.search.keyword
-            }, ++i, function(data, ini) {
+            }, ++i, function (data, ini) {
                 console.log(data.data);
 
                 if (ini == i) {
@@ -1265,7 +1265,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
-        $scope.changePage = function(page) {
+        $scope.changePage = function (page) {
             var goTo = "district-list";
             if ($scope.search.keyword) {
                 goTo = "district-list";
@@ -1277,11 +1277,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         $scope.showAllCountries();
 
-        $scope.deleteDistrict = function(id) {
-            globalfunction.confDel(function(value) {
+        $scope.deleteDistrict = function (id) {
+            globalfunction.confDel(function (value) {
                 console.log(value);
                 if (value) {
-                    NavigationService.deleteDistrict(id, function(data) {
+                    NavigationService.deleteDistrict(id, function (data) {
                         if (data.value) {
                             $scope.showAllCountries();
                             toastr.success("District deleted successfully.", "District deleted");
@@ -1297,15 +1297,15 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 
     })
-    .controller('EmployeeCtrl', function($scope, TemplateService, NavigationService, $timeout, $state) {
+    .controller('EmployeeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("employee-list");
         $scope.menutitle = NavigationService.makeactive("Employee");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
 
-        $scope.showAllEmployees = function() {
-            NavigationService.getAllEmployees(function(data) {
+        $scope.showAllEmployees = function () {
+            NavigationService.getAllEmployees(function (data) {
                 $scope.allEmployees = data.data;
                 console.log('$scope.allEmployees', $scope.allEmployees);
 
@@ -1313,18 +1313,18 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         $scope.showAllEmployees();
 
-        $scope.deleteEmployee = function(id) {
+        $scope.deleteEmployee = function (id) {
 
             NavigationService.deleteEmployee({
                 id: id
-            }, function(data) {
+            }, function (data) {
                 $scope.showAllEmployees();
 
             });
         };
 
     })
-    .controller('CreateEmployeeCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter) {
+    .controller('CreateEmployeeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("employee-detail");
         $scope.menutitle = NavigationService.makeactive("Employee");
@@ -1373,11 +1373,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.holdObject = '';
         $scope.modalIndex = 0;
 
-        $scope.changeDOB = function(date) {
+        $scope.changeDOB = function (date) {
             console.log($filter('ageFilter')(date));
         };
         $scope.minDate = new Date();
-        $scope.addModal = function(filename, index, holdobj, data, current) {
+        $scope.addModal = function (filename, index, holdobj, data, current) {
             if (index !== "") {
                 $scope.modalData = data;
                 $scope.modalIndex = index;
@@ -1399,7 +1399,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 size: 'lg'
             });
         };
-        $scope.addElements = function(data) {
+        $scope.addElements = function (data) {
             console.log(data);
             console.log($scope.holdObject);
             switch ($scope.holdObject) {
@@ -1444,10 +1444,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
             }
         };
-        $scope.editElements = function(elemObject, data) {
+        $scope.editElements = function (elemObject, data) {
 
         };
-        $scope.deleteElements = function(index, name) {
+        $scope.deleteElements = function (index, name) {
             switch (name) {
                 case 'personalDocument':
                     $scope.formData.personalDocument.splice(index, 1);
@@ -1470,11 +1470,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
 
-        $scope.saveModel = function(formData) {
+        $scope.saveModel = function (formData) {
             console.log(formData);
             $scope.formData.name = $scope.formData.firstName + " " + $scope.formData.lastName;
 
-            NavigationService.modelSave("Employee", $scope.formData, function(data) {
+            NavigationService.modelSave("Employee", $scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('employee-list');
                     toastr.success("Employee" + " " + formData.name + " created successfully.", "Employee" + " Created");
@@ -1484,7 +1484,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
     })
-    .controller('EditEmployeeCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, $filter, $uibModal, toastr) {
+    .controller('EditEmployeeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, $filter, $uibModal, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("employee-detail");
         $scope.menutitle = NavigationService.makeactive("Employee");
@@ -1538,13 +1538,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.holdObject = '';
         $scope.modalIndex = 0;
 
-        $scope.changeDOB = function(date) {
+        $scope.changeDOB = function (date) {
             console.log($filter('ageFilter')(date));
         };
 
 
 
-        $scope.addModal = function(filename, index, holdobj, data, current) {
+        $scope.addModal = function (filename, index, holdobj, data, current) {
 
             if (index !== "") {
                 $scope.modalData = data;
@@ -1570,7 +1570,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
-        $scope.addElements = function(data) {
+        $scope.addElements = function (data) {
             switch ($scope.holdObject) {
                 case 'personalDocument':
                     if ($scope.modalIndex !== "") {
@@ -1614,10 +1614,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
             }
         };
-        $scope.editElements = function(elemObject, data) {
+        $scope.editElements = function (elemObject, data) {
 
         };
-        $scope.deleteElements = function(index, name) {
+        $scope.deleteElements = function (index, name) {
             switch (name) {
                 case 'personalDocument':
                     $scope.formData.personalDocument.splice(index, 1);
@@ -1640,7 +1640,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
 
-        NavigationService.getOneModel("Employee", $stateParams.id, function(data) {
+        NavigationService.getOneModel("Employee", $stateParams.id, function (data) {
             $scope.formData = data.data;
             if (data.data.city) {
                 $scope.formData.country = data.data.city.district.state.zone.country._id;
@@ -1649,7 +1649,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.formData.district = data.data.city.district._id;
                 $scope.formData.city = data.data.city._id;
             }
-            NavigationService.getDepartment(function(data1) {
+            NavigationService.getDepartment(function (data1) {
                 $scope.departments = data1.data.results;
 
                 // $scope.departments = _.flatten(_.map(data1.data.results, function(item) {
@@ -1671,11 +1671,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             }
         });
 
-        $scope.saveModel = function(formValid) {
+        $scope.saveModel = function (formValid) {
             $scope.formData.name = $scope.formData.firstName + " " + $scope.formData.lastName;
 
             console.log($scope.formData);
-            NavigationService.modelSave("Employee", $scope.formData, function(data) {
+            NavigationService.modelSave("Employee", $scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('employee-list');
                     toastr.success("Employee" + $scope.formData.name + " edited successfully.", "Employee" + " Edited");
@@ -1686,7 +1686,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
     })
 
-.controller('ProductCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
+.controller('ProductCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("product-list");
         $scope.menutitle = NavigationService.makeactive("Product");
@@ -1700,7 +1700,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         if ($stateParams.keyword) {
             $scope.search.keyword = $stateParams.keyword;
         }
-        $scope.showAllCountries = function(keywordChange) {
+        $scope.showAllCountries = function (keywordChange) {
             $scope.totalItems = undefined;
             if (keywordChange) {
                 $scope.currentPage = 1;
@@ -1708,7 +1708,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             NavigationService.searchProduct({
                 page: $scope.currentPage,
                 keyword: $scope.search.keyword
-            }, ++i, function(data, ini) {
+            }, ++i, function (data, ini) {
                 if (ini == i) {
                     $scope.allProduct = data.data.results;
                     $scope.totalItems = data.data.total;
@@ -1717,7 +1717,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
-        $scope.changePage = function(page) {
+        $scope.changePage = function (page) {
             var goTo = "product-list";
             if ($scope.search.keyword) {
                 goTo = "product-list";
@@ -1728,11 +1728,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
         $scope.showAllCountries();
-        $scope.deleteProduct = function(id) {
-            globalfunction.confDel(function(value) {
+        $scope.deleteProduct = function (id) {
+            globalfunction.confDel(function (value) {
                 console.log(value);
                 if (value) {
-                    NavigationService.deleteProduct(id, function(data) {
+                    NavigationService.deleteProduct(id, function (data) {
                         if (data.value) {
                             $scope.showAllCountries();
                             toastr.success("Product deleted successfully.", "Product deleted");
@@ -1744,7 +1744,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
     })
-    .controller('CreateProductCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, toastr) {
+    .controller('CreateProductCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("product-detail");
         $scope.menutitle = NavigationService.makeactive("Product");
@@ -1762,9 +1762,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         }];
         $scope.formData = {};
 
-        $scope.saveProduct = function(formData) {
+        $scope.saveProduct = function (formData) {
 
-            NavigationService.productSave($scope.formData, function(data) {
+            NavigationService.productSave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('product-list');
                     toastr.success("Product " + formData.name + " created successfully.", "Product Created");
@@ -1775,7 +1775,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('EditProductCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
+    .controller('EditProductCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("product-detail");
         $scope.menutitle = NavigationService.makeactive("Product");
@@ -1791,15 +1791,15 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Inactive",
             "value": false
         }];
-        NavigationService.getOneProduct($stateParams.id, function(data) {
+        NavigationService.getOneProduct($stateParams.id, function (data) {
             $scope.formData = data.data;
             $scope.formData.industry = data.data.category.industry._id;
             $scope.formData.category = data.data.category._id;
 
         });
 
-        $scope.saveProduct = function(formValid) {
-            NavigationService.productSave($scope.formData, function(data) {
+        $scope.saveProduct = function (formValid) {
+            NavigationService.productSave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('product-list');
                     toastr.success("Product " + $scope.formData.name + " edited successfully.", "Product Edited");
@@ -1809,7 +1809,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
     })
-    .controller('SalvageCtrl', function($scope, TemplateService, NavigationService, $timeout, $state) {
+    .controller('SalvageCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("salvage-list");
         $scope.menutitle = NavigationService.makeactive("Salvage");
@@ -1817,8 +1817,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
         $scope.navigation = NavigationService.getnav();
 
-        $scope.showAllSalvage = function() {
-            NavigationService.getAllSalvage(function(data) {
+        $scope.showAllSalvage = function () {
+            NavigationService.getAllSalvage(function (data) {
                 $scope.allSalvage = data.data;
                 console.log('$scope.allSalvage', $scope.allSalvage);
 
@@ -1826,17 +1826,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         $scope.showAllSalvage();
 
-        $scope.deleteSalvage = function(id) {
+        $scope.deleteSalvage = function (id) {
 
             NavigationService.deleteSalvage({
                 id: id
-            }, function(data) {
+            }, function (data) {
                 $scope.showAllSalvage();
 
             });
         };
     })
-    .controller('CreateSalvageCtrl', function($scope, TemplateService, NavigationService, $timeout, $state) {
+    .controller('CreateSalvageCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("salvage-detail");
         $scope.menutitle = NavigationService.makeactive("Salvage");
@@ -1853,9 +1853,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "value": false
         }];
         $scope.formData = {};
-        $scope.saveSalvage = function(formData) {
+        $scope.saveSalvage = function (formData) {
 
-            NavigationService.salvageSave($scope.formData, function(data) {
+            NavigationService.salvageSave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('salvage-list');
                 }
@@ -1863,7 +1863,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
     })
-    .controller('EditSalvageCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, $stateParams) {
+    .controller('EditSalvageCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("salvage-detail");
         $scope.menutitle = NavigationService.makeactive("Salvage");
@@ -1877,21 +1877,21 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "value": false
         }];
 
-        NavigationService.getOneSalvage($stateParams.id, function(data) {
+        NavigationService.getOneSalvage($stateParams.id, function (data) {
             $scope.formData = data.data;
             console.log(data.data);
 
         });
 
-        $scope.saveSalvage = function(formValid) {
-            NavigationService.salvageEditSave($scope.formData, function(data) {
+        $scope.saveSalvage = function (formValid) {
+            NavigationService.salvageEditSave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('salvage-list');
                 }
             });
         };
     })
-    .controller('BankMasterCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
+    .controller('BankMasterCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("bankMaster-list");
         $scope.menutitle = NavigationService.makeactive("Bank List");
@@ -1905,7 +1905,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         if ($stateParams.keyword) {
             $scope.search.keyword = $stateParams.keyword;
         }
-        $scope.showAllCountries = function(keywordChange) {
+        $scope.showAllCountries = function (keywordChange) {
             $scope.totalItems = undefined;
             if (keywordChange) {
                 $scope.currentPage = 1;
@@ -1913,7 +1913,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             NavigationService.searchBank({
                 page: $scope.currentPage,
                 keyword: $scope.search.keyword
-            }, ++i, function(data, ini) {
+            }, ++i, function (data, ini) {
                 console.log(data.data);
 
                 if (ini == i) {
@@ -1925,7 +1925,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
-        $scope.changePage = function(page) {
+        $scope.changePage = function (page) {
             var goTo = "bankMaster-list";
             if ($scope.search.keyword) {
                 goTo = "bankMaster-list";
@@ -1937,10 +1937,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         $scope.showAllCountries();
 
-        $scope.deleteBank = function(id) {
-            globalfunction.confDel(function(value) {
+        $scope.deleteBank = function (id) {
+            globalfunction.confDel(function (value) {
                 if (value) {
-                    NavigationService.deleteBank(id, function(data) {
+                    NavigationService.deleteBank(id, function (data) {
                         if (data.value) {
                             $scope.showAllCountries();
                             toastr.success("Bank deleted successfully.", "Bank deleted");
@@ -1953,13 +1953,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 }
             });
         };
-        $scope.changeStatus = function(ind) {
-            NavigationService.bankSave(ind, function(data) {
+        $scope.changeStatus = function (ind) {
+            NavigationService.bankSave(ind, function (data) {
                 if (data.value === true) {}
             });
         };
     })
-    .controller('CreateBankmasterCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, toastr) {
+    .controller('CreateBankmasterCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("bankMaster-detail");
         $scope.menutitle = NavigationService.makeactive("Create Bank");
@@ -1976,9 +1976,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.header = {
             "name": "Create Bank Master"
         };
-        $scope.saveBank = function(formData) {
+        $scope.saveBank = function (formData) {
 
-            NavigationService.bankSave($scope.formData, function(data) {
+            NavigationService.bankSave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('bankMaster-list');
                     toastr.success("Bank " + $scope.formData.name + " created successfully.", "Bank Created");
@@ -1988,7 +1988,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
     })
-    .controller('EditBankmasterCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
+    .controller('EditBankmasterCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("bankMaster-detail");
         $scope.menutitle = NavigationService.makeactive("Edit Bank");
@@ -2004,14 +2004,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.header = {
             "name": "Edit Bank Master"
         };
-        NavigationService.getOneBank($stateParams.id, function(data) {
+        NavigationService.getOneBank($stateParams.id, function (data) {
             $scope.formData = data.data;
             console.log(data.data);
 
         });
 
-        $scope.saveBank = function(formValid) {
-            NavigationService.bankSave($scope.formData, function(data) {
+        $scope.saveBank = function (formValid) {
+            NavigationService.bankSave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('bankMaster-list');
                     toastr.success("Bank " + $scope.formData.name + " created successfully.", "Bank Created");
@@ -2021,49 +2021,49 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
     })
-    .controller('CreateContactManagementCtrl', function($scope, TemplateService, NavigationService, $timeout, $state) {
+    .controller('CreateContactManagementCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("contactManagement-detail");
         $scope.menutitle = NavigationService.makeactive("Contact Management");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
     })
-    .controller('ContactManagementCtrl', function($scope, TemplateService, NavigationService, $timeout, $state) {
+    .controller('ContactManagementCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("contactManagement-list");
         $scope.menutitle = NavigationService.makeactive("Contact Management List");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
     })
-    .controller('CreateContactTypeCtrl', function($scope, TemplateService, NavigationService, $timeout, $state) {
+    .controller('CreateContactTypeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("contactType-detail");
         $scope.menutitle = NavigationService.makeactive("Contact Type");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
     })
-    .controller('ContactTypeCtrl', function($scope, TemplateService, NavigationService, $timeout, $state) {
+    .controller('ContactTypeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("contactType-list");
         $scope.menutitle = NavigationService.makeactive("Contact Type List");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
     })
-    .controller('CreateContactTypeOfficeCtrl', function($scope, TemplateService, NavigationService, $timeout, $state) {
+    .controller('CreateContactTypeOfficeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("contactTypeOffice-detail");
         $scope.menutitle = NavigationService.makeactive("Contact Type of Office Type");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
     })
-    .controller('ContactTypeOfficeCtrl', function($scope, TemplateService, NavigationService, $timeout, $state) {
+    .controller('ContactTypeOfficeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("contactTypeOffice-list");
         $scope.menutitle = NavigationService.makeactive("Contact Type of Office List");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
     })
-    .controller('CompanyCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
+    .controller('CompanyCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("company-list");
         $scope.menutitle = NavigationService.makeactive("List of Companies");
@@ -2077,7 +2077,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         if ($stateParams.keyword) {
             $scope.search.keyword = $stateParams.keyword;
         }
-        $scope.showAllCountries = function(keywordChange) {
+        $scope.showAllCountries = function (keywordChange) {
             $scope.totalItems = undefined;
             if (keywordChange) {
                 $scope.currentPage = 1;
@@ -2085,7 +2085,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             NavigationService.searchCompany({
                 page: $scope.currentPage,
                 keyword: $scope.search.keyword
-            }, ++i, function(data, ini) {
+            }, ++i, function (data, ini) {
                 console.log(data.data);
 
                 if (ini == i) {
@@ -2098,7 +2098,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
-        $scope.changePage = function(page) {
+        $scope.changePage = function (page) {
             var goTo = "state-list";
             if ($scope.search.keyword) {
                 goTo = "state-list";
@@ -2110,10 +2110,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         $scope.showAllCountries();
 
-        $scope.deleteCompany = function(id) {
-            globalfunction.confDel(function(value) {
+        $scope.deleteCompany = function (id) {
+            globalfunction.confDel(function (value) {
                 if (value) {
-                    NavigationService.deleteCompany(id, function(data) {
+                    NavigationService.deleteCompany(id, function (data) {
                         if (data.value) {
                             $scope.showAllCountries();
                             toastr.success("Company deleted successfully.", "Company deleted");
@@ -2128,7 +2128,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('CreateCompanyCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, toastr) {
+    .controller('CreateCompanyCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("company-detail");
         $scope.menutitle = NavigationService.makeactive("Create Company");
@@ -2147,8 +2147,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Create Company"
         };
         $scope.formData = {};
-        $scope.saveCompany = function(formData) {
-            NavigationService.companySave(formData, function(data) {
+        $scope.saveCompany = function (formData) {
+            NavigationService.companySave(formData, function (data) {
                 if (data.value === true) {
                     $state.go('company-list');
                     toastr.success("company " + formData.name + " created successfully.", "company Created");
@@ -2158,7 +2158,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
     })
-    .controller('EditCompanyCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
+    .controller('EditCompanyCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("company-detail");
         $scope.menutitle = NavigationService.makeactive("Edit Company");
@@ -2177,7 +2177,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         $scope.formData = {};
 
-        NavigationService.getOneCompany($stateParams.id, function(data) {
+        NavigationService.getOneCompany($stateParams.id, function (data) {
             $scope.formData = data.data;
             // $scope.formData.country = data.data.
             console.log($scope.formData);
@@ -2187,8 +2187,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.formData.district = data.data.city.district._id;
             $scope.formData.city = data.data.city._id;
         });
-        $scope.saveCompany = function(formValid) {
-            NavigationService.companySave($scope.formData, function(data) {
+        $scope.saveCompany = function (formValid) {
+            NavigationService.companySave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('company-list');
                     toastr.success("Company " + $scope.formData.name + " edited successfully.", "Company Edited");
@@ -2199,7 +2199,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('CreateDistrictCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
+    .controller('CreateDistrictCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("district-detail");
         $scope.menutitle = NavigationService.makeactive("District");
@@ -2209,8 +2209,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.header = {
             "name": "Create District"
         };
-        $scope.saveDistrict = function(formData) {
-            NavigationService.districtSave($scope.formData, function(data) {
+        $scope.saveDistrict = function (formData) {
+            NavigationService.districtSave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('district-list');
                     toastr.success("District " + formData.name + " created successfully.", "District Created");
@@ -2220,7 +2220,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
     })
-    .controller('EditDistrictCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+    .controller('EditDistrictCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("district-detail");
         $scope.menutitle = NavigationService.makeactive("District");
@@ -2231,15 +2231,15 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Edit District"
         };
 
-        NavigationService.getOneDistrict($stateParams.id, function(data) {
+        NavigationService.getOneDistrict($stateParams.id, function (data) {
             $scope.formData = data.data;
             $scope.formData.country = data.data.state.zone.country._id;
             $scope.formData.zone = data.data.state.zone._id;
             $scope.formData.state = data.data.state._id;
         });
 
-        $scope.saveDistrict = function(formValid) {
-            NavigationService.districtSave($scope.formData, function(data) {
+        $scope.saveDistrict = function (formValid) {
+            NavigationService.districtSave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('district-list');
                     toastr.success("District " + $scope.formData.name + " edited successfully.", "District Edited");
@@ -2249,7 +2249,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
     })
-    .controller('CurrencyCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+    .controller('CurrencyCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("currency-list");
         $scope.menutitle = NavigationService.makeactive("Currency List");
@@ -2263,7 +2263,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         if ($stateParams.keyword) {
             $scope.search.keyword = $stateParams.keyword;
         }
-        $scope.showAllCountries = function(keywordChange) {
+        $scope.showAllCountries = function (keywordChange) {
             $scope.totalItems = undefined;
             if (keywordChange) {
                 $scope.currentPage = 1;
@@ -2271,7 +2271,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             NavigationService.searchCurrency({
                 page: $scope.currentPage,
                 keyword: $scope.search.keyword
-            }, ++i, function(data, ini) {
+            }, ++i, function (data, ini) {
                 console.log(data.data);
 
                 if (ini == i) {
@@ -2284,7 +2284,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
-        $scope.changePage = function(page) {
+        $scope.changePage = function (page) {
             var goTo = "zone-list";
             if ($scope.search.keyword) {
                 goTo = "zone-list";
@@ -2296,11 +2296,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         $scope.showAllCountries();
 
-        $scope.deleteCurrency = function(id) {
-            globalfunction.confDel(function(value) {
+        $scope.deleteCurrency = function (id) {
+            globalfunction.confDel(function (value) {
                 console.log(value);
                 if (value) {
-                    NavigationService.deleteCurrency(id, function(data) {
+                    NavigationService.deleteCurrency(id, function (data) {
                         if (data.value) {
                             $scope.showAllCountries();
                             toastr.success("Currency deleted successfully.", "Currency deleted");
@@ -2314,7 +2314,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
     })
-    .controller('CreateCurrencyCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, toastr) {
+    .controller('CreateCurrencyCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("currency-detail");
         $scope.menutitle = NavigationService.makeactive("Currency");
@@ -2325,9 +2325,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Create Currency"
         };
         $scope.formData = {};
-        $scope.saveCurrency = function(formData) {
+        $scope.saveCurrency = function (formData) {
 
-            NavigationService.currencySave($scope.formData, function(data) {
+            NavigationService.currencySave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('currency-list');
                     toastr.success("Currency " + $scope.formData.name + " created successfully.", "Currency Created");
@@ -2338,7 +2338,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('EditCurrencyCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+    .controller('EditCurrencyCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("currency-detail");
         $scope.menutitle = NavigationService.makeactive("Currency");
@@ -2349,13 +2349,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Edit Currency"
         };
 
-        NavigationService.getOneCurrency($stateParams.id, function(data) {
+        NavigationService.getOneCurrency($stateParams.id, function (data) {
             $scope.formData = data.data;
         });
 
-        $scope.saveCurrency = function(formValid) {
+        $scope.saveCurrency = function (formValid) {
 
-            NavigationService.currencySave($scope.formData, function(data) {
+            NavigationService.currencySave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('currency-list');
                     toastr.success("Currency " + $scope.formData.name + " created successfully.", "Currency Created");
@@ -2366,7 +2366,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('CityCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+    .controller('CityCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("city-list");
         $scope.menutitle = NavigationService.makeactive("City Lists");
@@ -2380,7 +2380,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         if ($stateParams.keyword) {
             $scope.search.keyword = $stateParams.keyword;
         }
-        $scope.showAllCountries = function(keywordChange) {
+        $scope.showAllCountries = function (keywordChange) {
             $scope.totalItems = undefined;
             if (keywordChange) {
                 $scope.currentPage = 1;
@@ -2388,7 +2388,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             NavigationService.searchCity({
                 page: $scope.currentPage,
                 keyword: $scope.search.keyword
-            }, ++i, function(data, ini) {
+            }, ++i, function (data, ini) {
                 console.log(data.data);
 
                 if (ini == i) {
@@ -2401,7 +2401,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
-        $scope.changePage = function(page) {
+        $scope.changePage = function (page) {
             var goTo = "city-list";
             if ($scope.search.keyword) {
                 goTo = "city-list";
@@ -2413,11 +2413,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         $scope.showAllCountries();
 
-        $scope.deleteCity = function(id) {
-            globalfunction.confDel(function(value) {
+        $scope.deleteCity = function (id) {
+            globalfunction.confDel(function (value) {
                 console.log(value);
                 if (value) {
-                    NavigationService.deleteCity(id, function(data) {
+                    NavigationService.deleteCity(id, function (data) {
                         if (data.value) {
                             $scope.showAllCountries();
                             toastr.success("City deleted successfully.", "City deleted");
@@ -2429,7 +2429,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
     })
-    .controller('CreateCityCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
+    .controller('CreateCityCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("city-detail");
         $scope.menutitle = NavigationService.makeactive("Create City");
@@ -2442,8 +2442,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Create City"
         };
         $scope.formData = {};
-        $scope.saveCity = function(formData) {
-            NavigationService.citySave($scope.formData, function(data) {
+        $scope.saveCity = function (formData) {
+            NavigationService.citySave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('city-list');
                     toastr.success("City " + formData.name + " created successfully.", "City Created");
@@ -2453,7 +2453,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
     })
-    .controller('EditCityCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+    .controller('EditCityCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("city-detail");
         $scope.menutitle = NavigationService.makeactive("Edit City");
@@ -2463,7 +2463,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.header = {
             "name": "Edit City"
         };
-        NavigationService.getOneCity($stateParams.id, function(data) {
+        NavigationService.getOneCity($stateParams.id, function (data) {
             $scope.formData = data.data;
             $scope.formData.country = data.data.district.state.zone.country._id;
             $scope.formData.zone = data.data.district.state.zone._id;
@@ -2471,9 +2471,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.formData.district = data.data.district._id;
         });
 
-        $scope.saveCity = function(formValid) {
+        $scope.saveCity = function (formValid) {
 
-            NavigationService.citySave($scope.formData, function(data) {
+            NavigationService.citySave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('city-list');
                     toastr.success("City " + $scope.formData.name + " edited successfully.", "City Edited");
@@ -2483,33 +2483,33 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
     })
-    .controller('DepartmentCtrl', function($scope, TemplateService, NavigationService, $timeout) {
+    .controller('DepartmentCtrl', function ($scope, TemplateService, NavigationService, $timeout) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("department-list");
         $scope.menutitle = NavigationService.makeactive("Department List");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
 
-        $scope.showAllDepartments = function() {
-            NavigationService.getAllDepartments(function(data) {
+        $scope.showAllDepartments = function () {
+            NavigationService.getAllDepartments(function (data) {
                 $scope.allDepartments = data.data;
 
             });
         };
         $scope.showAllDepartments();
 
-        $scope.deleteDepartment = function(id) {
+        $scope.deleteDepartment = function (id) {
 
             NavigationService.deleteDepartment({
                 id: id
-            }, function(data) {
+            }, function (data) {
                 $scope.showAllDepartments();
 
             });
         };
 
     })
-    .controller('CreateDepartmentCtrl', function($scope, TemplateService, NavigationService, $timeout, $state) {
+    .controller('CreateDepartmentCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("department-detail");
         $scope.menutitle = NavigationService.makeactive("Department");
@@ -2526,9 +2526,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Create Department"
         };
         $scope.formData = {};
-        $scope.saveDepartment = function(formData) {
+        $scope.saveDepartment = function (formData) {
 
-            NavigationService.departmentSave($scope.formData, function(data) {
+            NavigationService.departmentSave($scope.formData, function (data) {
                 console.log(data);
                 if (data.value === true) {
                     $state.go('department-list');
@@ -2538,14 +2538,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
-        NavigationService.getAllUniqueTypes(function(data) {
+        NavigationService.getAllUniqueTypes(function (data) {
             $scope.allUniqueTypes = data.data;
             console.log('$scope.allUniqueTypes', $scope.allUniqueTypes);
 
         });
 
     })
-    .controller('EditDepartmentCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state) {
+    .controller('EditDepartmentCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("department-detail");
         $scope.menutitle = NavigationService.makeactive("Department");
@@ -2562,57 +2562,57 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Edit Department"
         };
 
-        NavigationService.getOneDepartment($stateParams.id, function(data) {
+        NavigationService.getOneDepartment($stateParams.id, function (data) {
             $scope.formData = data.data;
             console.log('$scope.formData', $scope.formData);
 
         });
 
-        $scope.saveDepartment = function(formValid) {
+        $scope.saveDepartment = function (formValid) {
 
             //  if (formValid.$valid) {
             //  $scope.formComplete = true;
-            NavigationService.departmentEditSave($scope.formData, function(data) {
+            NavigationService.departmentEditSave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('department-list');
                 }
             });
             //  }
         };
-        NavigationService.getAllUniqueTypes(function(data) {
+        NavigationService.getAllUniqueTypes(function (data) {
             $scope.allUniqueTypes = data.data;
             console.log('$scope.allUniqueTypes', $scope.allUniqueTypes);
 
         });
 
     })
-    .controller('UniqueTypetCtrl', function($scope, TemplateService, NavigationService, $timeout) {
+    .controller('UniqueTypetCtrl', function ($scope, TemplateService, NavigationService, $timeout) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("uniqueType-list");
         $scope.menutitle = NavigationService.makeactive("Unique Type List");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
 
-        $scope.showAllUniqueTypes = function() {
-            NavigationService.getAllUniqueTypes(function(data) {
+        $scope.showAllUniqueTypes = function () {
+            NavigationService.getAllUniqueTypes(function (data) {
                 $scope.allUniqueTypes = data.data;
 
             });
         };
         $scope.showAllUniqueTypes();
 
-        $scope.deleteUniqueType = function(id) {
+        $scope.deleteUniqueType = function (id) {
 
             NavigationService.deleteUniqueType({
                 id: id
-            }, function(data) {
+            }, function (data) {
                 $scope.showAllUniqueTypes();
 
             });
         };
 
     })
-    .controller('CreateUniqueTypeCtrl', function($scope, TemplateService, NavigationService, $timeout, $state) {
+    .controller('CreateUniqueTypeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("uniqueType-detail");
         $scope.menutitle = NavigationService.makeactive("Unique Type");
@@ -2623,9 +2623,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Create Unique Type"
         };
         $scope.formData = {};
-        $scope.saveUniqueType = function(formData) {
+        $scope.saveUniqueType = function (formData) {
 
-            NavigationService.uniquetypeSave($scope.formData, function(data) {
+            NavigationService.uniquetypeSave($scope.formData, function (data) {
                 console.log(data);
                 if (data.value === true) {
                     $state.go('uniquetype-list');
@@ -2642,7 +2642,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         // });
 
     })
-    .controller('EditUniqueTypeCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state) {
+    .controller('EditUniqueTypeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("uniqueType-detail");
         $scope.menutitle = NavigationService.makeactive("Unique Type");
@@ -2653,17 +2653,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Edit Unique Type"
         };
 
-        NavigationService.getOneUniqueType($stateParams.id, function(data) {
+        NavigationService.getOneUniqueType($stateParams.id, function (data) {
             $scope.formData = data.data;
             console.log('$scope.formData', $scope.formData);
 
         });
 
-        $scope.saveUniqueType = function(formValid) {
+        $scope.saveUniqueType = function (formValid) {
 
             //  if (formValid.$valid) {
             //  $scope.formComplete = true;
-            NavigationService.UniqueTypeEditSave($scope.formData, function(data) {
+            NavigationService.UniqueTypeEditSave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('uniquetype-list');
                 }
@@ -2680,33 +2680,33 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     })
 
 
-.controller('CustomerSegmentCtrl', function($scope, TemplateService, NavigationService, $timeout) {
+.controller('CustomerSegmentCtrl', function ($scope, TemplateService, NavigationService, $timeout) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("customerSegment-list");
         $scope.menutitle = NavigationService.makeactive("Customer Segment List");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
 
-        $scope.showAllCustomerSegments = function() {
-            NavigationService.getAllCustomerSegments(function(data) {
+        $scope.showAllCustomerSegments = function () {
+            NavigationService.getAllCustomerSegments(function (data) {
                 $scope.allCustomerSegments = data.data;
 
             });
         };
         $scope.showAllCustomerSegments();
 
-        $scope.deleteCustomerSegment = function(id) {
+        $scope.deleteCustomerSegment = function (id) {
 
             NavigationService.deleteCustomerSegment({
                 id: id
-            }, function(data) {
+            }, function (data) {
                 $scope.showAllCustomerSegments();
 
             });
         };
 
     })
-    .controller('CreateCustomerSegmentCtrl', function($scope, TemplateService, NavigationService, $timeout, $state) {
+    .controller('CreateCustomerSegmentCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("customerSegment-detail");
         $scope.menutitle = NavigationService.makeactive("Customer Segment");
@@ -2717,9 +2717,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Create Customer Segment"
         };
         $scope.formData = {};
-        $scope.saveCustomerSegment = function(formData) {
+        $scope.saveCustomerSegment = function (formData) {
 
-            NavigationService.customersegmentSave($scope.formData, function(data) {
+            NavigationService.customersegmentSave($scope.formData, function (data) {
                 console.log(data);
                 if (data.value === true) {
                     $state.go('customerSegment-list');
@@ -2736,7 +2736,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         // });
 
     })
-    .controller('EditCustomerSegmentCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state) {
+    .controller('EditCustomerSegmentCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("customerSegment-detail");
         $scope.menutitle = NavigationService.makeactive("Customer Segment");
@@ -2747,17 +2747,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Edit Customer Segment"
         };
 
-        NavigationService.getOneCustomerSegment($stateParams.id, function(data) {
+        NavigationService.getOneCustomerSegment($stateParams.id, function (data) {
             $scope.formData = data.data;
             console.log('$scope.formData', $scope.formData);
 
         });
 
-        $scope.saveCustomerSegment = function(formValid) {
+        $scope.saveCustomerSegment = function (formValid) {
 
             //  if (formValid.$valid) {
             //  $scope.formComplete = true;
-            NavigationService.CustomerSegmentEditSave($scope.formData, function(data) {
+            NavigationService.CustomerSegmentEditSave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('customerSegment-list');
                 }
@@ -2774,33 +2774,33 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     })
 
 
-.controller('PolicyTypeCtrl', function($scope, TemplateService, NavigationService, $timeout) {
+.controller('PolicyTypeCtrl', function ($scope, TemplateService, NavigationService, $timeout) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("policyName-list");
         $scope.menutitle = NavigationService.makeactive("Policy Name List");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
 
-        $scope.showAllPolicyTypes = function() {
-            NavigationService.getAllPolicyTypes(function(data) {
+        $scope.showAllPolicyTypes = function () {
+            NavigationService.getAllPolicyTypes(function (data) {
                 $scope.allPolicyTypes = data.data;
 
             });
         };
         $scope.showAllPolicyTypes();
 
-        $scope.deletePolicyType = function(id) {
+        $scope.deletePolicyType = function (id) {
 
             NavigationService.deletePolicyType({
                 id: id
-            }, function(data) {
+            }, function (data) {
                 $scope.showAllPolicyTypes();
 
             });
         };
 
     })
-    .controller('CreatePolicyTypeCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
+    .controller('CreatePolicyTypeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("policyType-detail");
         $scope.menutitle = NavigationService.makeactive("Policy Type");
@@ -2819,15 +2819,15 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.formData = {};
         $scope.insurers = [];
 
-        $scope.refreshInsurer = function(data) {
+        $scope.refreshInsurer = function (data) {
             var formdata = {};
             formdata.search = data;
-            NavigationService.searchInsurerOffice(formdata, 1, function(data) {
+            NavigationService.searchInsurerOffice(formdata, 1, function (data) {
                 $scope.insurers = data.data.results;
             });
         };
 
-        $scope.democlick = function(new_value) {
+        $scope.democlick = function (new_value) {
             var new_object = {};
             new_object.name = new_value;
             console.log(new_object);
@@ -2835,13 +2835,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
 
-        $scope.saveModel = function(formData) {
+        $scope.saveModel = function (formData) {
             console.log("hihihihih");
-            _.each(formData.insurer, function(n) {
+            _.each(formData.insurer, function (n) {
                 n = n._id;
             });
             console.log($scope.formData);
-            NavigationService.modelSave("PolicyType", $scope.formData, function(data) {
+            NavigationService.modelSave("PolicyType", $scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('policyType-list');
                     toastr.success("PolicyType" + " " + formData.name + " created successfully.", "PolicyType" + " Created");
@@ -2853,7 +2853,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 
     })
-    .controller('EditPolicyTypeCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+    .controller('EditPolicyTypeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("policyType-detail");
         $scope.menutitle = NavigationService.makeactive("Policy Type");
@@ -2870,23 +2870,23 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Edit Policy Type"
         };
         $scope.insurers = [];
-        $scope.refreshInsurer = function(data) {
+        $scope.refreshInsurer = function (data) {
             var formdata = {};
             formdata.search = data;
-            NavigationService.searchInsurerOffice(formdata, 1, function(data) {
+            NavigationService.searchInsurerOffice(formdata, 1, function (data) {
                 $scope.insurers = data.data.results;
             });
         };
 
-        NavigationService.getOneModel("PolicyType", $stateParams.id, function(data) {
+        NavigationService.getOneModel("PolicyType", $stateParams.id, function (data) {
             $scope.formData = data.data;
         });
 
-        $scope.saveModel = function(formData) {
-            _.each(formData.insurer, function(n) {
+        $scope.saveModel = function (formData) {
+            _.each(formData.insurer, function (n) {
                 n = n._id;
             });
-            NavigationService.modelSave("PolicyType", $scope.formData, function(data) {
+            NavigationService.modelSave("PolicyType", $scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('policyType-list');
                     toastr.success("PolicyType" + $scope.formData.name + " edited successfully.", "PolicyType" + " Edited");
@@ -2897,33 +2897,33 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('PolicyCtrl', function($scope, TemplateService, NavigationService, $timeout) {
+    .controller('PolicyCtrl', function ($scope, TemplateService, NavigationService, $timeout) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("policy-list");
         $scope.menutitle = NavigationService.makeactive("Policy List");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
 
-        $scope.showAllPolicies = function() {
-            NavigationService.getAllPolicies(function(data) {
+        $scope.showAllPolicies = function () {
+            NavigationService.getAllPolicies(function (data) {
                 $scope.allPolicies = data.data;
 
             });
         };
         $scope.showAllPolicies();
 
-        $scope.deletePolicy = function(id) {
+        $scope.deletePolicy = function (id) {
 
             NavigationService.deletePolicy({
                 id: id
-            }, function(data) {
+            }, function (data) {
                 $scope.showAllPolicies();
 
             });
         };
 
     })
-    .controller('CreatePolicyCtrl', function($scope, TemplateService, NavigationService, $timeout, $state) {
+    .controller('CreatePolicyCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("policy-detail");
         $scope.menutitle = NavigationService.makeactive("Policy");
@@ -2934,9 +2934,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Create Policy"
         };
         $scope.formData = {};
-        $scope.savePolicy = function(formData) {
+        $scope.savePolicy = function (formData) {
 
-            NavigationService.policySave($scope.formData, function(data) {
+            NavigationService.policySave($scope.formData, function (data) {
                 console.log(data);
                 if (data.value === true) {
                     $state.go('policy-list');
@@ -2945,13 +2945,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
             });
         };
-        NavigationService.getAllPolicyTypes(function(data) {
+        NavigationService.getAllPolicyTypes(function (data) {
             $scope.allPolicyTypes = data.data;
 
         });
 
     })
-    .controller('EditPolicyCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state) {
+    .controller('EditPolicyCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("policy-detail");
         $scope.menutitle = NavigationService.makeactive("Policy");
@@ -2962,17 +2962,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Edit Policy"
         };
 
-        NavigationService.getOnePolicy($stateParams.id, function(data) {
+        NavigationService.getOnePolicy($stateParams.id, function (data) {
             $scope.formData = data.data;
             console.log('$scope.formData', $scope.formData);
 
         });
 
-        $scope.savePolicy = function(formValid) {
+        $scope.savePolicy = function (formValid) {
 
             //  if (formValid.$valid) {
             //  $scope.formComplete = true;
-            NavigationService.PolicyEditSave($scope.formData, function(data) {
+            NavigationService.PolicyEditSave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('policy-list');
                 }
@@ -2980,40 +2980,40 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             //  }
         };
 
-        NavigationService.getAllPolicyTypes(function(data) {
+        NavigationService.getAllPolicyTypes(function (data) {
             $scope.allPolicyTypes = data.data;
 
         });
 
     })
 
-.controller('PolicyDocCtrl', function($scope, TemplateService, NavigationService, $timeout) {
+.controller('PolicyDocCtrl', function ($scope, TemplateService, NavigationService, $timeout) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("policyDoc-list");
         $scope.menutitle = NavigationService.makeactive("Policy Document List");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
 
-        $scope.showAllPolicyDocs = function() {
-            NavigationService.getAllPolicyDocs(function(data) {
+        $scope.showAllPolicyDocs = function () {
+            NavigationService.getAllPolicyDocs(function (data) {
                 $scope.allPolicyDocs = data.data;
 
             });
         };
         $scope.showAllPolicyDocs();
 
-        $scope.deletePolicyDoc = function(id) {
+        $scope.deletePolicyDoc = function (id) {
 
             NavigationService.deletePolicyDoc({
                 id: id
-            }, function(data) {
+            }, function (data) {
                 $scope.showAllPolicyDocs();
 
             });
         };
 
     })
-    .controller('CreatePolicyDocCtrl', function($scope, $uibModal, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
+    .controller('CreatePolicyDocCtrl', function ($scope, $uibModal, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("policyDoc-detail");
         $scope.menutitle = NavigationService.makeactive("Policy Document");
@@ -3034,10 +3034,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.formData.listOfDocuments = [];
         $scope.check = true;
         $scope.modelData = {};
-        $scope.saveModel = function(formData) {
+        $scope.saveModel = function (formData) {
             if ($scope.check) {
                 console.log(formData);
-                NavigationService.modelSave("PolicyDoc", $scope.formData, function(data) {
+                NavigationService.modelSave("PolicyDoc", $scope.formData, function (data) {
                     $scope.check = false;
                     if (data.value === true) {
                         $state.go('policyDoc-list');
@@ -3049,7 +3049,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             }
         };
 
-        $scope.addDocument = function() {
+        $scope.addDocument = function () {
             var modalInstance = $uibModal.open({
                 scope: $scope,
                 templateUrl: '/frontend/views/modal/modal-policydoc.html',
@@ -3057,25 +3057,25 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
-        $scope.createOfficer = function(modelData) {
+        $scope.createOfficer = function (modelData) {
             if ($scope.buttonValue === "Save") {
                 $scope.formData.listOfDocuments.push(modelData);
             } else {
                 $scope.formData.listOfDocuments[$scope.formIndex] = modelData;
             }
         };
-        $scope.openCreateOfficer = function() {
+        $scope.openCreateOfficer = function () {
             $scope.buttonValue = "Save";
             $scope.modelData = {};
             $scope.addDocument();
         };
-        $scope.openEditOfficer = function(index) {
+        $scope.openEditOfficer = function (index) {
             $scope.formIndex = index;
             $scope.buttonValue = "Edit";
             $scope.modelData = $scope.formData.listOfDocuments[index];
             $scope.addDocument();
         };
-        $scope.deleteOfficer = function(index) {
+        $scope.deleteOfficer = function (index) {
             $scope.formData.listOfDocuments.splice(index, 1);
         };
 
@@ -3090,17 +3090,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             opened: false
         };
 
-        $scope.dateFrom = function() {
+        $scope.dateFrom = function () {
             $scope.popup1.opened = true;
         };
-        $scope.dateTo = function() {
+        $scope.dateTo = function () {
             $scope.popup2.opened = true;
         };
 
         $scope.format = 'dd-MMMM-yyyy';
 
     })
-    .controller('EditPolicyDocCtrl', function($scope, TemplateService, NavigationService, $timeout, $uibModal, $stateParams, $state, toastr) {
+    .controller('EditPolicyDocCtrl', function ($scope, TemplateService, NavigationService, $timeout, $uibModal, $stateParams, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("policyDoc-detail");
         $scope.menutitle = NavigationService.makeactive("Policy Document");
@@ -3119,13 +3119,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.formData = {};
         $scope.formData.listOfDocuments = [];
         $scope.modelData = {};
-        NavigationService.getOneModel("PolicyDoc", $stateParams.id, function(data) {
+        NavigationService.getOneModel("PolicyDoc", $stateParams.id, function (data) {
             $scope.formData = data.data;
 
         });
-        $scope.saveModel = function(formData) {
+        $scope.saveModel = function (formData) {
             console.log(formData);
-            NavigationService.modelSave("PolicyDoc", $scope.formData, function(data) {
+            NavigationService.modelSave("PolicyDoc", $scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('policyDoc-list');
                     toastr.success("Policy Document" + " " + formData.name + " created successfully.", "Policy Document" + " Created");
@@ -3135,7 +3135,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
-        $scope.addDocument = function() {
+        $scope.addDocument = function () {
             var modalInstance = $uibModal.open({
                 scope: $scope,
                 templateUrl: '/frontend/views/modal/modal-policydoc.html',
@@ -3143,19 +3143,19 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
-        $scope.createOfficer = function(modelData) {
+        $scope.createOfficer = function (modelData) {
             if ($scope.buttonValue === "Save") {
                 $scope.formData.listOfDocuments.push(modelData);
             } else {
                 $scope.formData.listOfDocuments[$scope.formIndex] = modelData;
             }
         };
-        $scope.openCreateOfficer = function() {
+        $scope.openCreateOfficer = function () {
             $scope.buttonValue = "Save";
             $scope.modelData = {};
             $scope.addDocument();
         };
-        $scope.openEditOfficer = function(index) {
+        $scope.openEditOfficer = function (index) {
             $scope.formIndex = index;
             $scope.buttonValue = "Edit";
             $scope.modelData = $scope.formData.listOfDocuments[index];
@@ -3163,7 +3163,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.modelData.to = new Date($scope.formData.listOfDocuments[index].to);
             $scope.addDocument();
         };
-        $scope.deleteOfficer = function(index) {
+        $scope.deleteOfficer = function (index) {
             $scope.formData.listOfDocuments.splice(index, 1);
         };
 
@@ -3178,17 +3178,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             opened: false
         };
 
-        $scope.dateFrom = function() {
+        $scope.dateFrom = function () {
             $scope.popup1.opened = true;
         };
-        $scope.dateTo = function() {
+        $scope.dateTo = function () {
             $scope.popup2.opened = true;
         };
 
         $scope.format = 'dd-MMMM-yyyy';
     })
 
-.controller('IndustryCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+.controller('IndustryCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("industry-list");
         $scope.menutitle = NavigationService.makeactive("Industry List");
@@ -3202,7 +3202,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         if ($stateParams.keyword) {
             $scope.search.keyword = $stateParams.keyword;
         }
-        $scope.showAllCountries = function(keywordChange) {
+        $scope.showAllCountries = function (keywordChange) {
             $scope.totalItems = undefined;
             if (keywordChange) {
                 $scope.currentPage = 1;
@@ -3210,7 +3210,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             NavigationService.searchIndustry({
                 page: $scope.currentPage,
                 keyword: $scope.search.keyword
-            }, ++i, function(data, ini) {
+            }, ++i, function (data, ini) {
                 console.log(data.data);
 
                 if (ini == i) {
@@ -3223,7 +3223,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
-        $scope.changePage = function(page) {
+        $scope.changePage = function (page) {
             var goTo = "industry-list";
             if ($scope.search.keyword) {
                 goTo = "industry-list";
@@ -3235,11 +3235,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         $scope.showAllCountries();
 
-        $scope.deleteIndustry = function(id) {
-            globalfunction.confDel(function(value) {
+        $scope.deleteIndustry = function (id) {
+            globalfunction.confDel(function (value) {
                 console.log(value);
                 if (value) {
-                    NavigationService.deleteIndustry(id, function(data) {
+                    NavigationService.deleteIndustry(id, function (data) {
                         if (data.value) {
                             $scope.showAllCountries();
                             toastr.success("Industry deleted successfully.", "Industry deleted");
@@ -3252,8 +3252,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 }
             });
         };
-        $scope.changeStatus = function(ind) {
-            NavigationService.industrySave(ind, function(data) {
+        $scope.changeStatus = function (ind) {
+            NavigationService.industrySave(ind, function (data) {
                 if (data.value === true) {
                     $state.go('industry-list');
                 }
@@ -3261,7 +3261,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('CreateIndustryCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, toastr) {
+    .controller('CreateIndustryCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("industry-detail");
         $scope.menutitle = NavigationService.makeactive("Industry");
@@ -3278,9 +3278,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Create Industry"
         };
         $scope.formData = {};
-        $scope.saveIndustry = function(formData) {
+        $scope.saveIndustry = function (formData) {
 
-            NavigationService.industrySave($scope.formData, function(data) {
+            NavigationService.industrySave($scope.formData, function (data) {
 
                 if (data.value === true) {
                     $state.go('industry-list');
@@ -3292,7 +3292,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('EditIndustryCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+    .controller('EditIndustryCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("industry-detail");
         $scope.menutitle = NavigationService.makeactive("Industry");
@@ -3309,13 +3309,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Edit Industry"
         };
 
-        NavigationService.getOneIndustry($stateParams.id, function(data) {
+        NavigationService.getOneIndustry($stateParams.id, function (data) {
             $scope.formData = data.data;
         });
 
-        $scope.saveIndustry = function(formValid) {
+        $scope.saveIndustry = function (formValid) {
 
-            NavigationService.industrySave($scope.formData, function(data) {
+            NavigationService.industrySave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('industry-list');
                     toastr.success("Industry " + $scope.formData.name + " created successfully.", "Industry Created");
@@ -3326,7 +3326,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('CategoryCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+    .controller('CategoryCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("category-list");
         $scope.menutitle = NavigationService.makeactive("Category List");
@@ -3340,7 +3340,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         if ($stateParams.keyword) {
             $scope.search.keyword = $stateParams.keyword;
         }
-        $scope.showAllCountries = function(keywordChange) {
+        $scope.showAllCountries = function (keywordChange) {
             $scope.totalItems = undefined;
             if (keywordChange) {
                 $scope.currentPage = 1;
@@ -3348,7 +3348,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             NavigationService.searchCategory({
                 page: $scope.currentPage,
                 keyword: $scope.search.keyword
-            }, ++i, function(data, ini) {
+            }, ++i, function (data, ini) {
                 console.log(data.data);
 
                 if (ini == i) {
@@ -3361,7 +3361,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
-        $scope.changePage = function(page) {
+        $scope.changePage = function (page) {
             var goTo = "category-list";
             if ($scope.search.keyword) {
                 goTo = "category-list";
@@ -3373,10 +3373,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         $scope.showAllCountries();
 
-        $scope.deleteCategory = function(id) {
-            globalfunction.confDel(function(value) {
+        $scope.deleteCategory = function (id) {
+            globalfunction.confDel(function (value) {
                 if (value) {
-                    NavigationService.deleteCategory(id, function(data) {
+                    NavigationService.deleteCategory(id, function (data) {
                         if (data.value) {
                             $scope.showAllCountries();
                             toastr.success("Category deleted successfully.", "Category deleted");
@@ -3389,13 +3389,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 }
             });
         };
-        $scope.changeStatus = function(ind) {
-            NavigationService.categorySave(ind, function(data) {
+        $scope.changeStatus = function (ind) {
+            NavigationService.categorySave(ind, function (data) {
                 if (data.value === true) {}
             });
         };
     })
-    .controller('CreateCategoryCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, toastr) {
+    .controller('CreateCategoryCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("category-detail");
         $scope.menutitle = NavigationService.makeactive("Category");
@@ -3412,8 +3412,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Create Category"
         };
         $scope.formData = {};
-        $scope.saveCategory = function(formData) {
-            NavigationService.categorySave($scope.formData, function(data) {
+        $scope.saveCategory = function (formData) {
+            NavigationService.categorySave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('category-list');
                     toastr.success("Category " + formData.name + " created successfully.", "Category Created");
@@ -3423,7 +3423,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
     })
-    .controller('EditCategoryCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+    .controller('EditCategoryCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("category-detail");
         $scope.menutitle = NavigationService.makeactive("Category");
@@ -3440,14 +3440,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Edit Category"
         };
 
-        NavigationService.getOneCategory($stateParams.id, function(data) {
+        NavigationService.getOneCategory($stateParams.id, function (data) {
             $scope.formData = data.data;
             console.log('$scope.formData', $scope.formData);
 
         });
 
-        $scope.saveCategory = function(formValid) {
-            NavigationService.categorySave($scope.formData, function(data) {
+        $scope.saveCategory = function (formValid) {
+            NavigationService.categorySave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('category-list');
                     toastr.success("Category " + $scope.formData.name + " edited successfully.", "Category Edited");
@@ -3458,33 +3458,33 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
     })
 
-.controller('FuncCtrl', function($scope, TemplateService, NavigationService, $timeout) {
+.controller('FuncCtrl', function ($scope, TemplateService, NavigationService, $timeout) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("func-list");
         $scope.menutitle = NavigationService.makeactive("Function List");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
 
-        $scope.showAllFunc = function() {
-            NavigationService.getAllFunc(function(data) {
+        $scope.showAllFunc = function () {
+            NavigationService.getAllFunc(function (data) {
                 $scope.allFunc = data.data;
 
             });
         };
         $scope.showAllFunc();
 
-        $scope.deleteFunc = function(id) {
+        $scope.deleteFunc = function (id) {
 
             NavigationService.deleteFunc({
                 id: id
-            }, function(data) {
+            }, function (data) {
                 $scope.showAllFunc();
 
             });
         };
 
     })
-    .controller('CreateFuncCtrl', function($scope, TemplateService, NavigationService, $timeout, $state) {
+    .controller('CreateFuncCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("func-detail");
         $scope.menutitle = NavigationService.makeactive("Function");
@@ -3495,9 +3495,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Create Function"
         };
         $scope.formData = {};
-        $scope.saveFunc = function(formData) {
+        $scope.saveFunc = function (formData) {
 
-            NavigationService.funcSave($scope.formData, function(data) {
+            NavigationService.funcSave($scope.formData, function (data) {
                 console.log(data);
                 if (data.value === true) {
                     $state.go('func-list');
@@ -3508,7 +3508,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('EditFuncCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state) {
+    .controller('EditFuncCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("func-detail");
         $scope.menutitle = NavigationService.makeactive("Function");
@@ -3519,17 +3519,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Edit Function"
         };
 
-        NavigationService.getOneFunc($stateParams.id, function(data) {
+        NavigationService.getOneFunc($stateParams.id, function (data) {
             $scope.formData = data.data;
             console.log('$scope.formData', $scope.formData);
 
         });
 
-        $scope.saveFunc = function(formValid) {
+        $scope.saveFunc = function (formValid) {
 
             //  if (formValid.$valid) {
             //  $scope.formComplete = true;
-            NavigationService.FuncEditSave($scope.formData, function(data) {
+            NavigationService.FuncEditSave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('func-list');
                 }
@@ -3537,33 +3537,33 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('CauseLossCtrl', function($scope, TemplateService, NavigationService, $timeout) {
+    .controller('CauseLossCtrl', function ($scope, TemplateService, NavigationService, $timeout) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("causeLoss-list");
         $scope.menutitle = NavigationService.makeactive("Cause of Loss List");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
 
-        $scope.showAllCauseLoss = function() {
-            NavigationService.getAllCauseLoss(function(data) {
+        $scope.showAllCauseLoss = function () {
+            NavigationService.getAllCauseLoss(function (data) {
                 $scope.allCauseLoss = data.data;
 
             });
         };
         $scope.showAllCauseLoss();
 
-        $scope.deleteCauseLoss = function(id) {
+        $scope.deleteCauseLoss = function (id) {
 
             NavigationService.deleteCauseLoss({
                 id: id
-            }, function(data) {
+            }, function (data) {
                 $scope.showAllCauseLoss();
 
             });
         };
 
     })
-    .controller('CreateCauseLossCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
+    .controller('CreateCauseLossCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("causeLoss-detail");
         $scope.menutitle = NavigationService.makeactive("Cause of Loss");
@@ -3581,32 +3581,32 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         $scope.natureOfLosses = ['Fire', 'Theft', 'Burglary'];
         $scope.formData = {};
-        $scope.tagTransform = function(newTag) {
+        $scope.tagTransform = function (newTag) {
             var item = {
                 name: newTag
             };
             return item;
         };
 
-        $scope.refreshNature = function(data) {
+        $scope.refreshNature = function (data) {
             var formdata = {};
             formdata.search = data;
-            NavigationService.getNature(formdata, 1, function(data) {
+            NavigationService.getNature(formdata, 1, function (data) {
                 $scope.natureOfLosses = data.data.results;
             });
         };
         $scope.refreshNature();
-        $scope.clicked = function(select) {
+        $scope.clicked = function (select) {
             console.log("fsdfasd");
             console.log(select[select.length - 1].name);
             NavigationService.saveNature({
                 'name': select[select.length - 1].name
-            }, function(data) {
+            }, function (data) {
                 $scope.formData.natureOfLoss[$scope.formData.natureOfLoss.length - 1] = data.data;
             });
         };
-        $scope.saveModel = function(formData) {
-            NavigationService.modelSave("CauseLoss", $scope.formData, function(data) {
+        $scope.saveModel = function (formData) {
+            NavigationService.modelSave("CauseLoss", $scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('causeLoss' + '-list');
                     toastr.success("Customer" + " " + formData.name + " created successfully.", "Customer" + " Created");
@@ -3617,7 +3617,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('EditCauseLossCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+    .controller('EditCauseLossCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("causeLoss-detail");
         $scope.menutitle = NavigationService.makeactive("Cause of Loss");
@@ -3635,33 +3635,33 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         $scope.natureOfLosses = ['Fire', 'Theft', 'Burglary'];
 
-        $scope.tagTransform = function(newTag) {
+        $scope.tagTransform = function (newTag) {
             var item = {
                 name: newTag
             };
             return item;
         };
-        $scope.refreshNature = function(data) {
+        $scope.refreshNature = function (data) {
             var formdata = {};
             formdata.search = data;
-            NavigationService.getNature(formdata, 1, function(data) {
+            NavigationService.getNature(formdata, 1, function (data) {
                 $scope.natureOfLosses = data.data.results;
             });
         };
         $scope.refreshNature();
-        $scope.clicked = function(select) {
+        $scope.clicked = function (select) {
             NavigationService.saveNature({
                 'name': select[select.length - 1].name
-            }, function(data) {
+            }, function (data) {
                 $scope.formData.natureOfLoss[$scope.formData.natureOfLoss.length - 1] = data.data;
             });
         };
 
-        NavigationService.getOneModel("CauseLoss", $stateParams.id, function(data) {
+        NavigationService.getOneModel("CauseLoss", $stateParams.id, function (data) {
             $scope.formData = data.data;
         });
-        $scope.saveModel = function(formValid) {
-            NavigationService.modelSave("CauseLoss", $scope.formData, function(data) {
+        $scope.saveModel = function (formValid) {
+            NavigationService.modelSave("CauseLoss", $scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('causeLoss-list');
                     toastr.success("Cause Of Loss" + $scope.formData.name + " edited successfully.", "Cause Of Loss" + " Edited");
@@ -3672,33 +3672,33 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('NatureLossCtrl', function($scope, TemplateService, NavigationService, $timeout) {
+    .controller('NatureLossCtrl', function ($scope, TemplateService, NavigationService, $timeout) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("natureLoss-list");
         $scope.menutitle = NavigationService.makeactive("Nature of Loss List");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
 
-        $scope.showAllNatureLoss = function() {
-            NavigationService.getAllNatureLoss(function(data) {
+        $scope.showAllNatureLoss = function () {
+            NavigationService.getAllNatureLoss(function (data) {
                 $scope.allNatureLoss = data.data;
 
             });
         };
         $scope.showAllNatureLoss();
 
-        $scope.deleteNatureLoss = function(id) {
+        $scope.deleteNatureLoss = function (id) {
 
             NavigationService.deleteNatureLoss({
                 id: id
-            }, function(data) {
+            }, function (data) {
                 $scope.showAllNatureLoss();
 
             });
         };
 
     })
-    .controller('CreateNatureLossCtrl', function($scope, TemplateService, NavigationService, $timeout, $state) {
+    .controller('CreateNatureLossCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("natureLoss-detail");
         $scope.menutitle = NavigationService.makeactive("Nature of Loss");
@@ -3715,9 +3715,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Create Nature Loss"
         };
         $scope.formData = {};
-        $scope.saveNatureLoss = function(formData) {
+        $scope.saveNatureLoss = function (formData) {
 
-            NavigationService.naturelossSave($scope.formData, function(data) {
+            NavigationService.naturelossSave($scope.formData, function (data) {
                 console.log(data);
                 if (data.value === true) {
                     $state.go('natureloss-list');
@@ -3726,17 +3726,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
             });
         };
-        NavigationService.getAllDepartments(function(data) {
+        NavigationService.getAllDepartments(function (data) {
             $scope.allDepartments = data.data;
 
         });
-        NavigationService.getAllCauseLoss(function(data) {
+        NavigationService.getAllCauseLoss(function (data) {
             $scope.allCauseLoss = data.data;
 
         });
 
     })
-    .controller('EditNatureLossCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state) {
+    .controller('EditNatureLossCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("natureLoss-detail");
         $scope.menutitle = NavigationService.makeactive("Nature of Loss");
@@ -3753,58 +3753,58 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Edit Nature Loss"
         };
 
-        NavigationService.getOneNatureLoss($stateParams.id, function(data) {
+        NavigationService.getOneNatureLoss($stateParams.id, function (data) {
             $scope.formData = data.data;
             console.log('$scope.formData', $scope.formData);
 
         });
 
-        $scope.saveNatureLoss = function(formValid) {
+        $scope.saveNatureLoss = function (formValid) {
 
             //  if (formValid.$valid) {
             //  $scope.formComplete = true;
-            NavigationService.NatureLossEditSave($scope.formData, function(data) {
+            NavigationService.NatureLossEditSave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('natureloss-list');
                 }
             });
         };
-        NavigationService.getAllDepartments(function(data) {
+        NavigationService.getAllDepartments(function (data) {
             $scope.allDepartments = data.data;
 
         });
-        NavigationService.getAllCauseLoss(function(data) {
+        NavigationService.getAllCauseLoss(function (data) {
             $scope.allCauseLoss = data.data;
 
         });
     })
-    .controller('BusinessBranchCtrl', function($scope, TemplateService, NavigationService, $timeout) {
+    .controller('BusinessBranchCtrl', function ($scope, TemplateService, NavigationService, $timeout) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("businessBranch-list");
         $scope.menutitle = NavigationService.makeactive("Business Branch List");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
 
-        $scope.showAllBusinessBranch = function() {
-            NavigationService.getAllBusinessBranch(function(data) {
+        $scope.showAllBusinessBranch = function () {
+            NavigationService.getAllBusinessBranch(function (data) {
                 $scope.allBusinessBranch = data.data;
 
             });
         };
         $scope.showAllBusinessBranch();
 
-        $scope.deleteBusinessBranch = function(id) {
+        $scope.deleteBusinessBranch = function (id) {
 
             NavigationService.deleteBusinessBranch({
                 id: id
-            }, function(data) {
+            }, function (data) {
                 $scope.showAllBusinessBranch();
 
             });
         };
 
     })
-    .controller('CreateBusinessBranchCtrl', function($scope, TemplateService, NavigationService, $timeout, $state) {
+    .controller('CreateBusinessBranchCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("businessBranch-detail");
         $scope.menutitle = NavigationService.makeactive("Business Branch");
@@ -3815,9 +3815,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Create Business Branch"
         };
         $scope.formData = {};
-        $scope.saveBusinessBranch = function(formData) {
+        $scope.saveBusinessBranch = function (formData) {
 
-            NavigationService.businessbranchSave($scope.formData, function(data) {
+            NavigationService.businessbranchSave($scope.formData, function (data) {
                 console.log(data);
                 if (data.value === true) {
                     $state.go('businessbranch-list');
@@ -3828,7 +3828,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('EditBusinessBranchCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state) {
+    .controller('EditBusinessBranchCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("businessBranch-detail");
         $scope.menutitle = NavigationService.makeactive("Business Branch");
@@ -3839,17 +3839,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Edit Business Branch"
         };
 
-        NavigationService.getOneBusinessBranch($stateParams.id, function(data) {
+        NavigationService.getOneBusinessBranch($stateParams.id, function (data) {
             $scope.formData = data.data;
             console.log('$scope.formData', $scope.formData);
 
         });
 
-        $scope.saveBusinessBranch = function(formValid) {
+        $scope.saveBusinessBranch = function (formValid) {
 
             //  if (formValid.$valid) {
             //  $scope.formComplete = true;
-            NavigationService.BusinessBranchEditSave($scope.formData, function(data) {
+            NavigationService.BusinessBranchEditSave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('businessbranch-list');
                 }
@@ -3865,14 +3865,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 
 
-.controller('MenuCtrl', function($scope, TemplateService, NavigationService, $timeout) {
+.controller('MenuCtrl', function ($scope, TemplateService, NavigationService, $timeout) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("menu-list");
         $scope.menutitle = NavigationService.makeactive("Menu List");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
-        $scope.showAllMenus = function() {
-            NavigationService.getAllMenus(function(data) {
+        $scope.showAllMenus = function () {
+            NavigationService.getAllMenus(function (data) {
                 $scope.allMenus = data.data;
                 console.log('$scope.allMenus', $scope.allZones);
             });
@@ -3881,11 +3881,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.showAllMenus();
 
 
-        $scope.deleteMenu = function(id) {
+        $scope.deleteMenu = function (id) {
 
             NavigationService.deleteMenu({
                 id: id
-            }, function(data) {
+            }, function (data) {
                 $scope.showAllMenus();
 
             });
@@ -3893,7 +3893,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 
     })
-    .controller('CreateMenuCtrl', function($scope, TemplateService, NavigationService, $timeout, $state) {
+    .controller('CreateMenuCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("menu-detail");
         $scope.menutitle = NavigationService.makeactive("Menu");
@@ -3910,9 +3910,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Create Menu"
         };
         $scope.formData = {};
-        $scope.saveMenu = function(formData) {
+        $scope.saveMenu = function (formData) {
 
-            NavigationService.menuSave($scope.formData, function(data) {
+            NavigationService.menuSave($scope.formData, function (data) {
                 console.log(data);
                 if (data.value === true) {
                     $state.go('menu-list');
@@ -3929,7 +3929,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         // });
 
     })
-    .controller('EditMenuCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state) {
+    .controller('EditMenuCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("menu-detail");
         $scope.menutitle = NavigationService.makeactive("Menu");
@@ -3946,17 +3946,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Edit Menu"
         };
 
-        NavigationService.getOneMenu($stateParams.id, function(data) {
+        NavigationService.getOneMenu($stateParams.id, function (data) {
             $scope.formData = data.data;
             // console.log('$scope.oneCountry', $scope.oneCountry);
 
         });
 
-        $scope.saveMenu = function(formValid) {
+        $scope.saveMenu = function (formValid) {
 
             //  if (formValid.$valid) {
             //  $scope.formComplete = true;
-            NavigationService.menuEditSave($scope.formData, function(data) {
+            NavigationService.menuEditSave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('menu-list');
                 }
@@ -3980,14 +3980,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 
 
-.controller('RoleCtrl', function($scope, TemplateService, NavigationService, $timeout) {
+.controller('RoleCtrl', function ($scope, TemplateService, NavigationService, $timeout) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("role-list");
         $scope.menutitle = NavigationService.makeactive("Role List");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
-        $scope.showAllRoles = function() {
-            NavigationService.getAllRoles(function(data) {
+        $scope.showAllRoles = function () {
+            NavigationService.getAllRoles(function (data) {
                 $scope.allRoles = data.data;
                 console.log('$scope.allRoles', $scope.allZones);
             });
@@ -3996,11 +3996,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.showAllRoles();
 
 
-        $scope.deleteRole = function(id) {
+        $scope.deleteRole = function (id) {
 
             NavigationService.deleteRole({
                 id: id
-            }, function(data) {
+            }, function (data) {
                 $scope.showAllRoles();
 
             });
@@ -4008,7 +4008,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 
     })
-    .controller('CreateRoleCtrl', function($scope, TemplateService, NavigationService, $timeout, $state) {
+    .controller('CreateRoleCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("role-detail");
         $scope.menutitle = NavigationService.makeactive("Role");
@@ -4020,9 +4020,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         $scope.formData = {};
         $scope.UserType = ['internal', 'external'];
-        $scope.saveRole = function(formData) {
+        $scope.saveRole = function (formData) {
 
-            NavigationService.roleSave($scope.formData, function(data) {
+            NavigationService.roleSave($scope.formData, function (data) {
                 console.log(data);
                 if (data.value === true) {
                     $state.go('role-list');
@@ -4032,13 +4032,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
-        NavigationService.getAllMenus(function(data) {
+        NavigationService.getAllMenus(function (data) {
             $scope.allMenus = data.data;
             console.log('$scope.allMenus', $scope.allZones);
         });
 
     })
-    .controller('EditRoleCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state) {
+    .controller('EditRoleCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("role-detail");
         $scope.menutitle = NavigationService.makeactive("Role");
@@ -4049,17 +4049,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Edit Role"
         };
         $scope.UserType = ['internal', 'external'];
-        NavigationService.getOneRole($stateParams.id, function(data) {
+        NavigationService.getOneRole($stateParams.id, function (data) {
             $scope.formData = data.data;
             // console.log('$scope.oneCountry', $scope.oneCountry);
 
         });
 
-        $scope.saveRole = function(formValid) {
+        $scope.saveRole = function (formValid) {
 
             //  if (formValid.$valid) {
             //  $scope.formComplete = true;
-            NavigationService.roleEditSave($scope.formData, function(data) {
+            NavigationService.roleEditSave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('role-list');
                 }
@@ -4067,7 +4067,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             //  }
         };
 
-        NavigationService.getAllMenus(function(data) {
+        NavigationService.getAllMenus(function (data) {
             $scope.allMenus = data.data;
             console.log('$scope.allMenus', $scope.allZones);
         });
@@ -4082,15 +4082,15 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 
 
-.controller('UserCtrl', function($scope, TemplateService, NavigationService, $timeout) {
+.controller('UserCtrl', function ($scope, TemplateService, NavigationService, $timeout) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("user-list");
         $scope.menutitle = NavigationService.makeactive("User List");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
         $scope.UserType = ['internal', 'external'];
-        $scope.showAllUsers = function() {
-            NavigationService.getAllUsers(function(data) {
+        $scope.showAllUsers = function () {
+            NavigationService.getAllUsers(function (data) {
                 $scope.allUsers = data.data;
                 console.log('$scope.allUsers', $scope.allZones);
             });
@@ -4099,11 +4099,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.showAllUsers();
 
 
-        $scope.deleteUser = function(id) {
+        $scope.deleteUser = function (id) {
 
             NavigationService.deleteUser({
                 id: id
-            }, function(data) {
+            }, function (data) {
                 $scope.showAllUsers();
 
             });
@@ -4111,7 +4111,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 
     })
-    .controller('CreateUserCtrl', function($scope, TemplateService, NavigationService, $timeout, $state) {
+    .controller('CreateUserCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("user-detail");
         $scope.menutitle = NavigationService.makeactive("User");
@@ -4131,9 +4131,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         }];
         $scope.formData = {};
         $scope.UserType = ['internal', 'external'];
-        $scope.saveUser = function(formData) {
+        $scope.saveUser = function (formData) {
 
-            NavigationService.userSave($scope.formData, function(data) {
+            NavigationService.userSave($scope.formData, function (data) {
                 console.log(data);
                 if (data.value === true) {
                     $state.go('user-list');
@@ -4143,21 +4143,21 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
-        NavigationService.getAllMenus(function(data) {
+        NavigationService.getAllMenus(function (data) {
             $scope.allMenus = data.data;
             console.log('$scope.allMenus', $scope.allZones);
         });
-        NavigationService.getAllRoles(function(data) {
+        NavigationService.getAllRoles(function (data) {
             $scope.allRoles = data.data;
             console.log('$scope.allRoles', $scope.allZones);
         });
-        NavigationService.getAllDepartments(function(data) {
+        NavigationService.getAllDepartments(function (data) {
             $scope.allDepartments = data.data;
 
         });
 
     })
-    .controller('EditUserCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state) {
+    .controller('EditUserCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("user-detail");
         $scope.menutitle = NavigationService.makeactive("User");
@@ -4185,7 +4185,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "value": false
         }];
         $scope.UserType = ['internal', 'external'];
-        NavigationService.getOneUser($stateParams.id, function(data) {
+        NavigationService.getOneUser($stateParams.id, function (data) {
             $scope.UserRole = data.data.role;
             console.log('inside', $scope.UserRole);
             $scope.formData = data.data;
@@ -4193,11 +4193,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
         });
 
-        $scope.saveUser = function(formValid) {
+        $scope.saveUser = function (formValid) {
 
             //  if (formValid.$valid) {
             //  $scope.formComplete = true;
-            NavigationService.userEditSave($scope.formData, function(data) {
+            NavigationService.userEditSave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('user-list');
                 }
@@ -4205,22 +4205,22 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             //  }
         };
 
-        NavigationService.getAllMenus(function(data) {
+        NavigationService.getAllMenus(function (data) {
             $scope.allMenus = data.data;
             console.log('$scope.allMenus', $scope.allZones);
         });
-        NavigationService.getAllRoles(function(data) {
+        NavigationService.getAllRoles(function (data) {
             $scope.allRoles = data.data;
             console.log('$scope.allRoles', $scope.allZones);
         });
-        NavigationService.getAllDepartments(function(data) {
+        NavigationService.getAllDepartments(function (data) {
             $scope.allDepartments = data.data;
 
         });
 
     })
 
-.controller('BranchCreateCtrl', function($scope, TemplateService, NavigationService, $timeout, toastr, $state) {
+.controller('BranchCreateCtrl', function ($scope, TemplateService, NavigationService, $timeout, toastr, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("branch-create");
         $scope.menutitle = NavigationService.makeactive("Create Branch");
@@ -4230,8 +4230,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.header = {
             "name": "Create Branch Master"
         };
-        $scope.submit = function(formData) {
-            NavigationService.branchSave($scope.formData, function(data) {
+        $scope.submit = function (formData) {
+            NavigationService.branchSave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('branch-list');
                     toastr.success("Branch " + $scope.formData.name + " created successfully.", "Branch Created");
@@ -4241,7 +4241,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
     })
-    .controller('BranchEditCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+    .controller('BranchEditCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("branch-create");
         $scope.menutitle = NavigationService.makeactive("Edit Branch");
@@ -4251,14 +4251,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.header = {
             "name": "Edit Branch"
         };
-        NavigationService.getOneBranch($stateParams.id, function(data) {
+        NavigationService.getOneBranch($stateParams.id, function (data) {
             $scope.formData = data.data;
             $scope.formData.company = data.data.office.company;
 
         });
 
-        $scope.submit = function(formValid) {
-            NavigationService.branchSave($scope.formData, function(data) {
+        $scope.submit = function (formValid) {
+            NavigationService.branchSave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('branch-list');
                     toastr.success("Branch " + $scope.formData.name + " edited successfully.", "Branch Edited");
@@ -4269,12 +4269,12 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
     })
 
-.controller('headerctrl', function($scope, TemplateService, $uibModal) {
+.controller('headerctrl', function ($scope, TemplateService, $uibModal) {
     $scope.template = TemplateService;
-    $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+    $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
         $(window).scrollTop(0);
     });
-    globalfunction.confDel = function(callback) {
+    globalfunction.confDel = function (callback) {
 
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
@@ -4282,16 +4282,16 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             size: 'sm',
             scope: $scope
         });
-        $scope.close = function(value) {
+        $scope.close = function (value) {
             callback(value);
             modalInstance.close("cancel");
         };
     };
 })
 
-.controller('languageCtrl', function($scope, TemplateService, $translate, $rootScope) {
+.controller('languageCtrl', function ($scope, TemplateService, $translate, $rootScope) {
 
-    $scope.changeLanguage = function() {
+    $scope.changeLanguage = function () {
         console.log("Language CLicked");
 
         if (!$.jStorage.get("language")) {
@@ -4311,31 +4311,31 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 })
 
 
-.controller('CustomerCompanyCtrl', function($scope, TemplateService, NavigationService, $timeout) {
+.controller('CustomerCompanyCtrl', function ($scope, TemplateService, NavigationService, $timeout) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("customerCompany-list");
         $scope.menutitle = NavigationService.makeactive("Customer Company List");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
-        $scope.showAllCustomerCompanies = function() {
-            NavigationService.getAllCustomerCompanies(function(data) {
+        $scope.showAllCustomerCompanies = function () {
+            NavigationService.getAllCustomerCompanies(function (data) {
                 $scope.allCustomerCompanies = data.data;
                 console.log('$scope.allCustomerCompanies', $scope.allCustomerCompanies);
 
             });
         };
         $scope.showAllCustomerCompanies();
-        $scope.deleteCustomerCompany = function(id) {
+        $scope.deleteCustomerCompany = function (id) {
 
             NavigationService.deleteCustomerCompany({
                 id: id
-            }, function(data) {
+            }, function (data) {
                 $scope.showAllCustomerCompanies();
 
             });
         };
     })
-    .controller('CreateCustomerCompanyCtrl', function($scope, TemplateService, NavigationService, $timeout, $state) {
+    .controller('CreateCustomerCompanyCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("customerCompany-detail");
         $scope.menutitle = NavigationService.makeactive("Customer Company");
@@ -4346,9 +4346,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Create Customer Company"
         };
         $scope.formData = {};
-        $scope.saveCustomerCompany = function(formData) {
+        $scope.saveCustomerCompany = function (formData) {
 
-            NavigationService.customerCompanySave($scope.formData, function(data) {
+            NavigationService.customerCompanySave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('customerCompany-list');
                 }
@@ -4357,7 +4357,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('EditCustomerCompanyCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state) {
+    .controller('EditCustomerCompanyCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("customerCompany-detail");
         $scope.menutitle = NavigationService.makeactive("Customer Company");
@@ -4368,15 +4368,15 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Edit Customer Company"
         };
 
-        NavigationService.getOneCustomerCompany($stateParams.id, function(data) {
+        NavigationService.getOneCustomerCompany($stateParams.id, function (data) {
             $scope.formData = data.data;
         });
 
-        $scope.saveCustomerCompany = function(formValid) {
+        $scope.saveCustomerCompany = function (formValid) {
 
             //  if (formValid.$valid) {
             //  $scope.formComplete = true;
-            NavigationService.customerCompanyEditSave($scope.formData, function(data) {
+            NavigationService.customerCompanyEditSave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('customerCompany-list');
                 }
@@ -4386,15 +4386,15 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     })
 
-.controller('CustomerCtrl', function($scope, TemplateService, NavigationService, $timeout, $state) {
+.controller('CustomerCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("customer-list");
     $scope.menutitle = NavigationService.makeactive("Customer");
     TemplateService.title = $scope.menutitle;
     $scope.navigation = NavigationService.getnav();
 
-    $scope.showAllCustomers = function() {
-        NavigationService.getAllCustomers(function(data) {
+    $scope.showAllCustomers = function () {
+        NavigationService.getAllCustomers(function (data) {
             $scope.allCustomers = data.data;
             console.log('$scope.allCustomers', $scope.allCustomers);
 
@@ -4402,18 +4402,18 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     };
     $scope.showAllCustomers();
 
-    $scope.deleteCustomer = function(id) {
+    $scope.deleteCustomer = function (id) {
 
         NavigationService.deleteCustomer({
             id: id
-        }, function(data) {
+        }, function (data) {
             $scope.showAllCustomers();
 
         });
     };
 })
 
-.controller('CreateCustomerCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter) {
+.controller('CreateCustomerCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("customer-detail");
         $scope.menutitle = NavigationService.makeactive("Create Customer");
@@ -4445,7 +4445,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         $scope.showing = false;
         $scope.passType = 'password';
-        $scope.showPass = function() {
+        $scope.showPass = function () {
             $scope.showing = !$scope.showing;
             if ($scope.showing === false) {
                 $scope.passType = 'password';
@@ -4453,10 +4453,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.passType = 'text';
             }
         };
-        $scope.$watch('formData.typeOfOffice', function() {
+        $scope.$watch('formData.typeOfOffice', function () {
             console.log($scope.formData.typeOfOffice);
             if ($scope.formData.typeOfOffice) {
-                NavigationService.getOneModel('TypeOfOffice', $scope.formData.typeOfOffice, function(data) {
+                NavigationService.getOneModel('TypeOfOffice', $scope.formData.typeOfOffice, function (data) {
                     $scope.formData.TOFShortName = data.data.shortCode;
                     if ($scope.formData.officeCode === "") {
                         $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.city1;
@@ -4466,9 +4466,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 });
             }
         });
-        $scope.$watch('formData.customerCompany', function() {
+        $scope.$watch('formData.customerCompany', function () {
             if ($scope.formData.customerCompany) {
-                NavigationService.getOneModel('CustomerCompany', $scope.formData.customerCompany, function(data) {
+                NavigationService.getOneModel('CustomerCompany', $scope.formData.customerCompany, function (data) {
                     $scope.formData.companyShortName = data.data.shortName;
                     if ($scope.formData.officeCode === "") {
                         $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.city1;
@@ -4478,21 +4478,21 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 });
             }
         });
-        $scope.$watch('formData.officeCode', function() {
+        $scope.$watch('formData.officeCode', function () {
             if ($scope.formData.officeCode === "") {
                 $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.city1;
             } else {
                 $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.officeCode + ' ' + $scope.formData.city1;
             }
         });
-        $scope.$watch('formData.city1', function() {
+        $scope.$watch('formData.city1', function () {
             if ($scope.formData.officeCode === "") {
                 $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.city1;
             } else {
                 $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.officeCode + ' ' + $scope.formData.city1;
             }
         });
-        $scope.addOfficer = function() {
+        $scope.addOfficer = function () {
             var modalInstance = $uibModal.open({
                 scope: $scope,
                 templateUrl: '/frontend/views/modal/modal-officer.html',
@@ -4500,15 +4500,15 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
-        $scope.transferOfficer = function() {
+        $scope.transferOfficer = function () {
             var modalInstance = $uibModal.open({
                 scope: $scope,
                 templateUrl: '/frontend/views/modal/modal-transfer-officer.html',
                 size: 'lg'
             });
         };
-        $scope.saveModel = function(formData) {
-            NavigationService.modelSave("Customer", $scope.formData, function(data) {
+        $scope.saveModel = function (formData) {
+            NavigationService.modelSave("Customer", $scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('customer' + '-list');
                     toastr.success("Customer" + " " + formData.name + " created successfully.", "Customer" + " Created");
@@ -4517,9 +4517,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 }
             });
         };
-        $scope.createOfficer = function(modelData) {
+        $scope.createOfficer = function (modelData) {
             modelData.name = modelData.firstName + " " + modelData.lastName;
-            NavigationService.saveOfficer(modelData, function(data) {
+            NavigationService.saveOfficer(modelData, function (data) {
                 if (data.value) {
                     if ($scope.buttonValue === "Save") {
                         $scope.formData.officers.push(data.data);
@@ -4529,24 +4529,24 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 }
             });
         };
-        $scope.openCreateOfficer = function() {
+        $scope.openCreateOfficer = function () {
             $scope.buttonValue = "Save";
             $scope.modalData = {};
             $scope.addOfficer();
         };
-        $scope.openEditOfficer = function(index) {
+        $scope.openEditOfficer = function (index) {
             $scope.formIndex = index;
             $scope.buttonValue = "Edit";
             $scope.modalData = $scope.formData.officers[index];
             $scope.addOfficer();
         };
-        $scope.deleteOfficer = function(index) {
-            NavigationService.deleteModel("Officer", $scope.formData.officers[index]._id, function(data) {
+        $scope.deleteOfficer = function (index) {
+            NavigationService.deleteModel("Officer", $scope.formData.officers[index]._id, function (data) {
                 $scope.formData.officers.splice(index, 1);
             });
         };
     })
-    .controller('EditCustomerCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, $uibModal, toastr) {
+    .controller('EditCustomerCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, $uibModal, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("customer-detail");
         $scope.menutitle = NavigationService.makeactive("Edit Customer");
@@ -4578,7 +4578,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         $scope.showing = false;
         $scope.passType = 'password';
-        $scope.showPass = function() {
+        $scope.showPass = function () {
             $scope.showing = !$scope.showing;
             if ($scope.showing === false) {
                 $scope.passType = 'password';
@@ -4586,24 +4586,24 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.passType = 'text';
             }
         };
-        $scope.addOfficer = function() {
+        $scope.addOfficer = function () {
             var modalInstance = $uibModal.open({
                 scope: $scope,
                 templateUrl: '/frontend/views/modal/modal-officer.html',
                 size: 'lg'
             });
         };
-        $scope.transferOfficer = function() {
+        $scope.transferOfficer = function () {
             var modalInstance = $uibModal.open({
                 scope: $scope,
                 templateUrl: '/frontend/views/modal/modal-transfer-officer.html',
                 size: 'lg'
             });
         };
-        $scope.$watch('formData.typeOfOffice', function() {
+        $scope.$watch('formData.typeOfOffice', function () {
             console.log($scope.formData.typeOfOffice);
             if ($scope.formData.typeOfOffice) {
-                NavigationService.getOneModel('TypeOfOffice', $scope.formData.typeOfOffice, function(data) {
+                NavigationService.getOneModel('TypeOfOffice', $scope.formData.typeOfOffice, function (data) {
                     $scope.formData.TOFShortName = data.data.shortCode;
                     if ($scope.formData.officeCode === "") {
                         $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.city1;
@@ -4613,9 +4613,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 });
             }
         });
-        $scope.$watch('formData.customerCompany', function() {
+        $scope.$watch('formData.customerCompany', function () {
             if ($scope.formData.customerCompany) {
-                NavigationService.getOneModel('CustomerCompany', $scope.formData.customerCompany, function(data) {
+                NavigationService.getOneModel('CustomerCompany', $scope.formData.customerCompany, function (data) {
                     $scope.formData.companyShortName = data.data.shortName;
                     if ($scope.formData.officeCode === "") {
                         $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.city1;
@@ -4625,14 +4625,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 });
             }
         });
-        $scope.$watch('formData.officeCode', function() {
+        $scope.$watch('formData.officeCode', function () {
             if ($scope.formData.officeCode === "") {
                 $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.city1;
             } else {
                 $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.officeCode + ' ' + $scope.formData.city1;
             }
         });
-        $scope.$watch('formData.city1', function() {
+        $scope.$watch('formData.city1', function () {
             if ($scope.formData.officeCode === "") {
                 $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.city1;
             } else {
@@ -4640,7 +4640,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             }
         });
 
-        NavigationService.getOneModel("Customer", $stateParams.id, function(data) {
+        NavigationService.getOneModel("Customer", $stateParams.id, function (data) {
             $scope.formData = data.data;
 
             if (data.data.city) {
@@ -4654,8 +4654,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
         });
 
-        $scope.saveModel = function(formValid) {
-            NavigationService.modelSave("Customer", $scope.formData, function(data) {
+        $scope.saveModel = function (formValid) {
+            NavigationService.modelSave("Customer", $scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go("customer" + '-list');
                     toastr.success("Customer" + $scope.formData.name + " edited successfully.", "Customer" + " Edited");
@@ -4667,10 +4667,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
         $scope.custId = $stateParams.id;
 
-        $scope.createOfficer = function(modelData) {
+        $scope.createOfficer = function (modelData) {
             modelData.customer = $stateParams.id;
             modelData.name = modelData.firstName + " " + modelData.lastName;
-            NavigationService.saveOfficer(modelData, function(data) {
+            NavigationService.saveOfficer(modelData, function (data) {
                 if (data.value) {
                     if ($scope.buttonValue === "Save") {
                         $scope.formData.officers.push(data.data);
@@ -4680,28 +4680,28 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 }
             });
         };
-        $scope.openCreateOfficer = function() {
+        $scope.openCreateOfficer = function () {
             $scope.buttonValue = "Save";
             $scope.modalData = {};
             $scope.addOfficer();
         };
-        $scope.openEditOfficer = function(index) {
+        $scope.openEditOfficer = function (index) {
             $scope.formIndex = index;
             $scope.buttonValue = "Edit";
             $scope.modalData = $scope.formData.officers[index];
             $scope.modalData.birthDate = new Date($scope.formData.officers[index].birthDate);
             $scope.addOfficer();
         };
-        $scope.deleteOfficer = function(index) {
-            NavigationService.deleteModel("Officer", $scope.formData.officers[index]._id, function(data) {
+        $scope.deleteOfficer = function (index) {
+            NavigationService.deleteModel("Officer", $scope.formData.officers[index]._id, function (data) {
                 $scope.formData.officers.splice(index, 1);
             });
         };
     })
 
-.controller('MultipleSelectCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, $filter, toastr) {
+.controller('MultipleSelectCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, $filter, toastr) {
         var i = 0;
-        $scope.getValues = function(filter, insertFirst) {
+        $scope.getValues = function (filter, insertFirst) {
             var dataSend = {
                 keyword: $scope.search.modelData,
                 filter: filter,
@@ -4710,12 +4710,12 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             if (dataSend.keyword === null || dataSend.keyword === undefined) {
                 dataSend.keyword = "";
             }
-            NavigationService[$scope.api](dataSend, ++i, function(data) {
+            NavigationService[$scope.api](dataSend, ++i, function (data) {
                 if (data.value) {
                     $scope.list = data.data.results;
                     if ($scope.search.modelData) {
                         $scope.showCreate = true;
-                        _.each($scope.list, function(n) {
+                        _.each($scope.list, function (n) {
                             // if (n.name) {
                             if (_.lowerCase(n.name) == _.lowerCase($scope.search.modelData)) {
                                 $scope.showCreate = false;
@@ -4754,7 +4754,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
-        $scope.$watch('model', function(newVal, oldVal) {
+        $scope.$watch('model', function (newVal, oldVal) {
             if (newVal && oldVal === undefined) {
                 $scope.getValues({
                     _id: $scope.model
@@ -4763,7 +4763,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
 
 
-        $scope.$watch('filter', function(newVal, oldVal) {
+        $scope.$watch('filter', function (newVal, oldVal) {
             var filter = {};
             if ($scope.filter) {
                 filter = JSON.parse($scope.filter);
@@ -4774,7 +4774,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 page: 1
             };
 
-            NavigationService[$scope.api](dataSend, ++i, function(data) {
+            NavigationService[$scope.api](dataSend, ++i, function (data) {
                 if (data.value) {
                     $scope.list = data.data.results;
                     $scope.showCreate = false;
@@ -4802,19 +4802,19 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.listview = false;
         $scope.showCreate = false;
         $scope.typeselect = "";
-        $scope.showList = function() {
+        $scope.showList = function () {
             $scope.listview = true;
             $scope.searchNew(true);
         };
-        $scope.closeList = function() {
+        $scope.closeList = function () {
             $scope.listview = false;
         };
-        $scope.closeListSlow = function() {
-            $timeout(function() {
+        $scope.closeListSlow = function () {
+            $timeout(function () {
                 $scope.closeList();
             }, 500);
         };
-        $scope.searchNew = function(dontFlush) {
+        $scope.searchNew = function (dontFlush) {
             if (!dontFlush) {
                 $scope.model = "";
             }
@@ -4824,7 +4824,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             }
             $scope.getValues(filter);
         };
-        $scope.createNew = function(create) {
+        $scope.createNew = function (create) {
             var newCreate = $filter("capitalize")(create);
             var data = {
                 name: newCreate
@@ -4833,7 +4833,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 data = _.assign(data, JSON.parse($scope.filter));
             }
             console.log(data);
-            NavigationService[$scope.create](data, function(data) {
+            NavigationService[$scope.create](data, function (data) {
                 if (data.value) {
                     toastr.success($scope.name + " Created Successfully", "Creation Success");
                     $scope.model = data.data._id;
@@ -4844,77 +4844,77 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
             $scope.listview = false;
         };
-        $scope.sendData = function(val, name) {
+        $scope.sendData = function (val, name) {
             $scope.search.modelData = name;
             $scope.ngName = name;
             $scope.model = val;
             $scope.listview = false;
         };
     })
-    .controller('EditGradeCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, $stateParams) {
+    .controller('EditGradeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("grade-detail");
         $scope.menutitle = NavigationService.makeactive("Grade");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
     })
-    .controller('CreateGradeCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, $stateParams) {
+    .controller('CreateGradeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("grade-detail");
         $scope.menutitle = NavigationService.makeactive("Grade");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
     })
-    .controller('GradeCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, $stateParams) {
+    .controller('GradeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("grade-list");
         $scope.menutitle = NavigationService.makeactive("Grade List");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
     })
-    .controller('EditSurveyCodeCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, $stateParams) {
+    .controller('EditSurveyCodeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("surveyCode-detail");
         $scope.menutitle = NavigationService.makeactive("Survey Code");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
     })
-    .controller('CreateSurveyCodeCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, $stateParams) {
+    .controller('CreateSurveyCodeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("surveyCode-detail");
         $scope.menutitle = NavigationService.makeactive("Survey Code");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
     })
-    .controller('SurveyCodeCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, $stateParams) {
+    .controller('SurveyCodeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("surveyCode-list");
         $scope.menutitle = NavigationService.makeactive("Survey Code List");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
     })
-    .controller('TransferOfficeCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, $stateParams) {
+    .controller('TransferOfficeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("transferOffice-detail");
         $scope.menutitle = NavigationService.makeactive("Transfer Office");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
     })
-    .controller('CreateTransferOfficeCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, $stateParams) {
+    .controller('CreateTransferOfficeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("transferOffice-detail");
         $scope.menutitle = NavigationService.makeactive("Transfer Office");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
     })
-    .controller('TransferOfficeCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, $stateParams) {
+    .controller('TransferOfficeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("transferOffice-list");
         $scope.menutitle = NavigationService.makeactive("Transfer Office List");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
     })
-    .controller('ActivityTypeCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+    .controller('ActivityTypeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("activityType-list");
         $scope.menutitle = NavigationService.makeactive("Activity Type List");
@@ -4928,7 +4928,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         if ($stateParams.keyword) {
             $scope.search.keyword = $stateParams.keyword;
         }
-        $scope.showAllCountries = function(keywordChange) {
+        $scope.showAllCountries = function (keywordChange) {
             $scope.totalItems = undefined;
             if (keywordChange) {
                 $scope.currentPage = 1;
@@ -4936,7 +4936,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             NavigationService.searchTypeOfOffice({
                 page: $scope.currentPage,
                 keyword: $scope.search.keyword
-            }, ++i, function(data, ini) {
+            }, ++i, function (data, ini) {
                 if (ini == i) {
                     $scope.allTypeOfOffices = data.data.results;
                     $scope.totalItems = data.data.total;
@@ -4945,7 +4945,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
-        $scope.changePage = function(page) {
+        $scope.changePage = function (page) {
             var goTo = "typeOfOffice-list";
             if ($scope.search.keyword) {
                 goTo = "typeOfOffice-list";
@@ -4956,11 +4956,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
         $scope.showAllCountries();
-        $scope.deleteTypeOfOffice = function(id) {
-            globalfunction.confDel(function(value) {
+        $scope.deleteTypeOfOffice = function (id) {
+            globalfunction.confDel(function (value) {
                 console.log(value);
                 if (value) {
-                    NavigationService.deleteTypeOfOffice(id, function(data) {
+                    NavigationService.deleteTypeOfOffice(id, function (data) {
                         if (data.value) {
                             $scope.showAllCountries();
                             toastr.success("Office deleted successfully.", "Office deleted");
@@ -4972,7 +4972,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
     })
-    .controller('CreateActivityTypeCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, toastr) {
+    .controller('CreateActivityTypeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("activityType-detail");
         $scope.menutitle = NavigationService.makeactive("Activity Type");
@@ -4983,9 +4983,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Create Activity Type"
         };
         $scope.formData = {};
-        $scope.savetypeOfOffice = function(formData) {
+        $scope.savetypeOfOffice = function (formData) {
 
-            NavigationService.typeofofficeSave($scope.formData, function(data) {
+            NavigationService.typeofofficeSave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('typeOfOffice-list');
                     toastr.success("Type Of Office " + $scope.formData.name + " created successfully.", "Type Of Office Created");
@@ -4996,7 +4996,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('EditActivityTypeCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+    .controller('EditActivityTypeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("activityType-detail");
         $scope.menutitle = NavigationService.makeactive("Activity Type");
@@ -5007,15 +5007,15 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Edit Activity Type"
         };
 
-        NavigationService.getOneTypeOfOffice($stateParams.id, function(data) {
+        NavigationService.getOneTypeOfOffice($stateParams.id, function (data) {
             $scope.formData = data.data;
         });
 
-        $scope.savetypeOfOffice = function(formValid) {
+        $scope.savetypeOfOffice = function (formValid) {
 
             //  if (formValid.$valid) {
             //  $scope.formComplete = true;
-            NavigationService.typeofofficeSave($scope.formData, function(data) {
+            NavigationService.typeofofficeSave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('typeOfOffice-list');
                     toastr.success("Type Of Office " + $scope.formData.name + " created successfully.", "Type Of Office Created");
@@ -5027,7 +5027,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('ExpenseCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+    .controller('ExpenseCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("expense-list");
         $scope.menutitle = NavigationService.makeactive("Expense List");
@@ -5041,7 +5041,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         if ($stateParams.keyword) {
             $scope.search.keyword = $stateParams.keyword;
         }
-        $scope.showAllCountries = function(keywordChange) {
+        $scope.showAllCountries = function (keywordChange) {
             $scope.totalItems = undefined;
             if (keywordChange) {
                 $scope.currentPage = 1;
@@ -5049,7 +5049,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             NavigationService.searchTypeOfOffice({
                 page: $scope.currentPage,
                 keyword: $scope.search.keyword
-            }, ++i, function(data, ini) {
+            }, ++i, function (data, ini) {
                 if (ini == i) {
                     $scope.allTypeOfOffices = data.data.results;
                     $scope.totalItems = data.data.total;
@@ -5058,7 +5058,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
-        $scope.changePage = function(page) {
+        $scope.changePage = function (page) {
             var goTo = "typeOfOffice-list";
             if ($scope.search.keyword) {
                 goTo = "typeOfOffice-list";
@@ -5069,11 +5069,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
         $scope.showAllCountries();
-        $scope.deleteTypeOfOffice = function(id) {
-            globalfunction.confDel(function(value) {
+        $scope.deleteTypeOfOffice = function (id) {
+            globalfunction.confDel(function (value) {
                 console.log(value);
                 if (value) {
-                    NavigationService.deleteTypeOfOffice(id, function(data) {
+                    NavigationService.deleteTypeOfOffice(id, function (data) {
                         if (data.value) {
                             $scope.showAllCountries();
                             toastr.success("Office deleted successfully.", "Office deleted");
@@ -5085,7 +5085,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
     })
-    .controller('CreateExpenseCtrl', function($scope, TemplateService, NavigationService, $timeout, $state, toastr) {
+    .controller('CreateExpenseCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("expense-detail");
         $scope.menutitle = NavigationService.makeactive("Expense");
@@ -5096,9 +5096,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Create Expense"
         };
         $scope.formData = {};
-        $scope.savetypeOfOffice = function(formData) {
+        $scope.savetypeOfOffice = function (formData) {
 
-            NavigationService.typeofofficeSave($scope.formData, function(data) {
+            NavigationService.typeofofficeSave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('typeOfOffice-list');
                     toastr.success("Type Of Office " + $scope.formData.name + " created successfully.", "Type Of Office Created");
@@ -5109,7 +5109,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('EditExpenseCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+    .controller('EditExpenseCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("expense-detail");
         $scope.menutitle = NavigationService.makeactive("Expense");
@@ -5120,15 +5120,15 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Edit Expense"
         };
 
-        NavigationService.getOnetypeOfOffice($stateParams.id, function(data) {
+        NavigationService.getOnetypeOfOffice($stateParams.id, function (data) {
             $scope.formData = data.data;
         });
 
-        $scope.savetypeOfOffice = function(formValid) {
+        $scope.savetypeOfOffice = function (formValid) {
 
             //  if (formValid.$valid) {
             //  $scope.formComplete = true;
-            NavigationService.typeofofficeSave($scope.formData, function(data) {
+            NavigationService.typeofofficeSave($scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('typeOfOffice-list');
                     toastr.success("Type Of Office " + $scope.formData.name + " created successfully.", "Type Of Office Created");
@@ -5141,7 +5141,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     })
 
-.controller('EditTemplateCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+.controller('EditTemplateCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("template-detail");
     $scope.menutitle = NavigationService.makeactive("Edit Template");
@@ -5154,7 +5154,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.formData = {};
     // $scope.formData.status = true;
 
-    NavigationService.getOneModel("Template", $stateParams.id, function(data) {
+    NavigationService.getOneModel("Template", $stateParams.id, function (data) {
         $scope.formData = data.data;
     });
 
@@ -5187,13 +5187,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     }];
 
 
-    $scope.addHead = function() {
+    $scope.addHead = function () {
         $scope.formData.forms.push({
             head: $scope.formData.forms.length + 1,
             items: [{}]
         });
     };
-    $scope.removeHead = function(index) {
+    $scope.removeHead = function (index) {
         if ($scope.formData.forms.length > 1) {
             $scope.formData.forms.splice(index, 1);
         } else {
@@ -5204,12 +5204,12 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         }
     };
 
-    $scope.addItem = function(obj) {
+    $scope.addItem = function (obj) {
         var index = $scope.formData.forms.indexOf(obj);
         $scope.formData.forms[index].items.push({});
     };
 
-    $scope.removeItem = function(obj, indexItem) {
+    $scope.removeItem = function (obj, indexItem) {
         var indexHead = $scope.formData.forms.indexOf(obj);
         if ($scope.formData.forms[indexHead].items.length > 1) {
             $scope.formData.forms[indexHead].items.splice(indexItem, 1);
@@ -5222,15 +5222,15 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         handle: ' .handleBar',
         axis: 'y',
         'ui-floating': true,
-        start: function(e, ui) {
+        start: function (e, ui) {
             $('#sortable-ul-selector-id').sortable("refreshPositions");
             $('#sortable-ul-selector-id').sortable("refresh");
         }
     };
 
-    $scope.saveModel = function(data) {
-        $scope.saveModel = function(formData) {
-            NavigationService.modelSave("Template", $scope.formData, function(data) {
+    $scope.saveModel = function (data) {
+        $scope.saveModel = function (formData) {
+            NavigationService.modelSave("Template", $scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('template-list');
                     toastr.success("Template " + formData.name + " edited successfully.", "Template Edited");
@@ -5242,7 +5242,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     };
 })
 
-.controller('CreateTemplateCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+.controller('CreateTemplateCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("template-detail");
     $scope.menutitle = NavigationService.makeactive("Create Template");
@@ -5289,13 +5289,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         items: [{}, {}]
     }];
 
-    $scope.addHead = function() {
+    $scope.addHead = function () {
         $scope.formData.forms.push({
             head: $scope.formData.forms.length + 1,
             items: [{}]
         });
     };
-    $scope.removeHead = function(index) {
+    $scope.removeHead = function (index) {
         if ($scope.formData.forms.length > 1) {
             $scope.formData.forms.splice(index, 1);
         } else {
@@ -5306,12 +5306,12 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         }
     };
 
-    $scope.addItem = function(obj) {
+    $scope.addItem = function (obj) {
         var index = $scope.formData.forms.indexOf(obj);
         $scope.formData.forms[index].items.push({});
     };
 
-    $scope.removeItem = function(obj, indexItem) {
+    $scope.removeItem = function (obj, indexItem) {
         var indexHead = $scope.formData.forms.indexOf(obj);
         if ($scope.formData.forms[indexHead].items.length > 1) {
             $scope.formData.forms[indexHead].items.splice(indexItem, 1);
@@ -5324,15 +5324,15 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         handle: ' .handleBar',
         axis: 'y',
         'ui-floating': true,
-        start: function(e, ui) {
+        start: function (e, ui) {
             $('#sortable-ul-selector-id').sortable("refreshPositions");
             $('#sortable-ul-selector-id').sortable("refresh");
         }
     };
 
-    $scope.saveModel = function(data) {
-        $scope.saveModel = function(formData) {
-            NavigationService.modelSave("Template", $scope.formData, function(data) {
+    $scope.saveModel = function (data) {
+        $scope.saveModel = function (formData) {
+            NavigationService.modelSave("Template", $scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('template-list');
                     toastr.success("Template " + formData.name + " created successfully.", "Template Created");
@@ -5346,7 +5346,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 })
 
-.controller('TemplateCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+.controller('TemplateCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("template-list");
     $scope.menutitle = NavigationService.makeactive("Templates");
@@ -5358,7 +5358,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     };
 })
 
-.controller('EditTemplateLORCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+.controller('EditTemplateLORCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("templateLor-detail");
     $scope.menutitle = NavigationService.makeactive("Edit LOR Template");
@@ -5370,7 +5370,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     };
 
     $scope.formData = {};
-    NavigationService.getOneModel("TemplateLor", $stateParams.id, function(data) {
+    NavigationService.getOneModel("TemplateLor", $stateParams.id, function (data) {
         $scope.formData = data.data;
     });
     $scope.itemTypes = [{
@@ -5394,13 +5394,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     $scope.required = true;
 
-    $scope.addHead = function() {
+    $scope.addHead = function () {
         $scope.formData.forms.push({
             head: $scope.formData.forms.length + 1,
             items: [{}]
         });
     };
-    $scope.removeHead = function(index) {
+    $scope.removeHead = function (index) {
         if ($scope.formData.forms.length > 1) {
             $scope.formData.forms.splice(index, 1);
         } else {
@@ -5411,12 +5411,12 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         }
     };
 
-    $scope.addItem = function(obj) {
+    $scope.addItem = function (obj) {
         var index = $scope.formData.forms.indexOf(obj);
         $scope.formData.forms[index].items.push({});
     };
 
-    $scope.removeItem = function(obj, indexItem) {
+    $scope.removeItem = function (obj, indexItem) {
         var indexHead = $scope.formData.forms.indexOf(obj);
         if ($scope.formData.forms[indexHead].items.length > 1) {
             $scope.formData.forms[indexHead].items.splice(indexItem, 1);
@@ -5429,15 +5429,15 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         handle: ' .handleBar',
         axis: 'y',
         'ui-floating': true,
-        start: function(e, ui) {
+        start: function (e, ui) {
             $('#sortable-ul-selector-id').sortable("refreshPositions");
             $('#sortable-ul-selector-id').sortable("refresh");
         }
     };
 
-    $scope.saveModel = function(data) {
-        $scope.saveModel = function(formData) {
-            NavigationService.modelSave("TemplateLor", $scope.formData, function(data) {
+    $scope.saveModel = function (data) {
+        $scope.saveModel = function (formData) {
+            NavigationService.modelSave("TemplateLor", $scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('templateLor-list');
                     toastr.success("LOR Template " + formData.name + " edited successfully.", "LOR Template Edited");
@@ -5449,7 +5449,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     };
 })
 
-.controller('CreateTemplateLORCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+.controller('CreateTemplateLORCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("templateLor-detail");
     $scope.menutitle = NavigationService.makeactive("Create LOR Template");
@@ -5483,13 +5483,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     $scope.required = true;
 
-    $scope.addHead = function() {
+    $scope.addHead = function () {
         $scope.formData.forms.push({
             head: $scope.formData.forms.length + 1,
             items: [{}]
         });
     };
-    $scope.removeHead = function(index) {
+    $scope.removeHead = function (index) {
         if ($scope.formData.forms.length > 1) {
             $scope.formData.forms.splice(index, 1);
         } else {
@@ -5500,12 +5500,12 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         }
     };
 
-    $scope.addItem = function(obj) {
+    $scope.addItem = function (obj) {
         var index = $scope.formData.forms.indexOf(obj);
         $scope.formData.forms[index].items.push({});
     };
 
-    $scope.removeItem = function(obj, indexItem) {
+    $scope.removeItem = function (obj, indexItem) {
         var indexHead = $scope.formData.forms.indexOf(obj);
         if ($scope.formData.forms[indexHead].items.length > 1) {
             $scope.formData.forms[indexHead].items.splice(indexItem, 1);
@@ -5518,15 +5518,15 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         handle: ' .handleBar',
         axis: 'y',
         'ui-floating': true,
-        start: function(e, ui) {
+        start: function (e, ui) {
             $('#sortable-ul-selector-id').sortable("refreshPositions");
             $('#sortable-ul-selector-id').sortable("refresh");
         }
     };
 
-    $scope.saveModel = function(data) {
-        $scope.saveModel = function(formData) {
-            NavigationService.modelSave("TemplateLor", $scope.formData, function(data) {
+    $scope.saveModel = function (data) {
+        $scope.saveModel = function (formData) {
+            NavigationService.modelSave("TemplateLor", $scope.formData, function (data) {
                 if (data.value === true) {
                     $state.go('templateLor-list');
                     toastr.success("LOR Template " + formData.name + " created successfully.", "LOR Template Created");
@@ -5539,7 +5539,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 })
 
-.controller('TemplateLORCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+.controller('TemplateLORCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("template-lor-list");
     $scope.menutitle = NavigationService.makeactive("LOR Templates");
@@ -5551,7 +5551,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     };
 })
 
-.controller('TemplateViewCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+.controller('TemplateViewCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("template-view");
     $scope.menutitle = NavigationService.makeactive("Form Name");
@@ -5585,7 +5585,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 })
 
-.controller('TimelineCtrl', function($scope, TemplateService, NavigationService, $timeout, $uibModal, $stateParams) {
+.controller('TimelineCtrl', function ($scope, TemplateService, NavigationService, $timeout, $uibModal, $stateParams) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("timeline");
     $scope.menutitle = NavigationService.makeactive("Timeline");
@@ -5621,63 +5621,63 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
     };
     $scope.repeat = _.times(20, Number);
-    $scope.assignSurveyor = function() {
+    $scope.assignSurveyor = function () {
         var modalInstance = $uibModal.open({
             scope: $scope,
             templateUrl: '/frontend/views/modal/modal-assign-surveyor.html',
             size: 'lg'
         });
     };
-    $scope.markActivity = function() {
+    $scope.markActivity = function () {
         var modalInstance = $uibModal.open({
             scope: $scope,
             templateUrl: '/frontend/views/modal/mark-activity.html',
             size: 'lg'
         });
     };
-    $scope.newAssessment = function() {
+    $scope.newAssessment = function () {
         var modalInstance = $uibModal.open({
             scope: $scope,
             templateUrl: '/frontend/views/modal/new-assessment.html',
             size: 'md'
         });
     };
-    $scope.viewPhotos = function() {
+    $scope.viewPhotos = function () {
         var modalInstance = $uibModal.open({
             scope: $scope,
             templateUrl: '/frontend/views/modal/new-photos.html',
             size: 'md'
         });
     };
-    $scope.viewILA = function() {
+    $scope.viewILA = function () {
         var modalInstance = $uibModal.open({
             scope: $scope,
             templateUrl: '/frontend/views/modal/new-ila.html',
             size: 'md'
         });
     };
-    $scope.viewFSR = function() {
+    $scope.viewFSR = function () {
         var modalInstance = $uibModal.open({
             scope: $scope,
             templateUrl: '/frontend/views/modal/new-fsr.html',
             size: 'md'
         });
     };
-    $scope.viewFiles = function() {
+    $scope.viewFiles = function () {
         var modalInstance = $uibModal.open({
             scope: $scope,
             templateUrl: '/frontend/views/modal/other-file.html',
             size: 'md'
         });
     };
-    $scope.viewILR = function() {
+    $scope.viewILR = function () {
         var modalInstance = $uibModal.open({
             scope: $scope,
             templateUrl: '/frontend/views/modal/new-ilr.html',
             size: 'md'
         });
     };
-    $scope.viewLOR = function() {
+    $scope.viewLOR = function () {
         var modalInstance = $uibModal.open({
             scope: $scope,
             templateUrl: '/frontend/views/modal/new-lor.html',
@@ -5685,7 +5685,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
     };
 
-    $scope.allAssessment = function() {
+    $scope.allAssessment = function () {
         var modalInstance = $uibModal.open({
             scope: $scope,
             templateUrl: '/frontend/views/modal/assessment.html',
@@ -5693,7 +5693,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
     };
 
-    $scope.newEmail = function() {
+    $scope.newEmail = function () {
         var modalInstance = $uibModal.open({
             scope: $scope,
             templateUrl: '/frontend/views/modal/modal-email.html',
@@ -5701,7 +5701,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
     };
 
-    $scope.newMessage = function() {
+    $scope.newMessage = function () {
         var modalInstance = $uibModal.open({
             scope: $scope,
             templateUrl: '/frontend/views/modal/modal-message.html',
@@ -5709,7 +5709,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
     };
 
-    $scope.viewJIR = function() {
+    $scope.viewJIR = function () {
         var modalInstance = $uibModal.open({
             scope: $scope,
             templateUrl: '/frontend/views/modal/modal-files.html',
@@ -5778,20 +5778,20 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.message.employee = $.jStorage.get("profile")._id;
     $scope.timeline = {};
     $scope.message.title = "Sent a new message";
-    $scope.getTimeline = function() {
-        NavigationService.getOneModel("Timeline", $scope.timelineID, function(data) {
+    $scope.getTimeline = function () {
+        NavigationService.getOneModel("Timeline", $scope.timelineID, function (data) {
             $scope.timeline = data.data;
         });
     };
-    $scope.sendMessage = function(type) {
+    $scope.sendMessage = function (type) {
         $scope.message.type = type;
         $scope.timeline.chat.push($scope.message);
-        NavigationService.saveChat($scope.timeline, function(data) {
+        NavigationService.saveChat($scope.timeline, function (data) {
             console.log(data);
             $scope.getTimeline();
         });
     };
-    NavigationService.getOneModel("Assignment", $stateParams.id, function(data) {
+    NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
         $scope.assignment = data.data;
         if (data.data.timeline && data.data.timeline[0]) {
             console.log("in if");
@@ -5799,8 +5799,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.getTimeline();
         } else {
             console.log("in else");
-            NavigationService.createTimeline(data.data._id, function(data) {
-                NavigationService.getOneModel("Assignment", $stateParams.id, function(data) {
+            NavigationService.createTimeline(data.data._id, function (data) {
+                NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
                     $scope.timelineID = data.data.timeline[0];
                     $scope.getTimeline();
                 });
@@ -5809,45 +5809,52 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     });
 
     //  send email
-    $scope.sendEmail = function(modalForm) {
+    $scope.sendEmail = function (modalForm) {
 
         $scope.msgSend = "Sending..";
         $scope.newTo = angular.copy($scope.email);
         $scope.newTo.to = [];
-        _.each($scope.email.to, function(n) {
+        _.each($scope.email.to, function (n) {
             $scope.newTo.to.push(n.email);
         });
         $scope.newTo.cc = [];
-        _.each($scope.email.cc, function(n) {
+        _.each($scope.email.cc, function (n) {
             $scope.newTo.cc.push(n.email);
         });
         $scope.newTo.bcc = [];
-        _.each($scope.email.bcc, function(n) {
+        _.each($scope.email.bcc, function (n) {
             $scope.newTo.bcc.push(n.email);
         });
         $scope.newTo.to = $scope.newTo.to.join();
         $scope.newTo.cc = $scope.newTo.cc.join();
         $scope.newTo.bcc = $scope.newTo.bcc.join();
         console.log($scope.newTo);
-        NavigationService.sendEmail($scope.newTo, function(data) {
+        NavigationService.sendEmail($scope.newTo, function (data) {
             console.log(data);
             if (data.value) {
-                $scope.message.email = $scope.newTo;
-                $scope.sendMessage("Email");
-                toastr.success("Your message has been send.", "Send email.");
-                $timeout(function() {
-                    modalInstance.close();
-                }, 1000);
+                if (data.data.error) {
+
+                    toastr.error(data.data.error.code + " Code " + data.data.error.message, "Send email.");
+                } else {
+                    $scope.message.email = $scope.newTo;
+                    $scope.message.email.response = data;
+                    $scope.sendMessage("Email");
+                    toastr.success("Your message has been send.", "Send email.");
+                    $timeout(function () {
+                        modalInstance.close();
+                    }, 1000);
+                }
+
             } else {
                 // $scope.msgSend = "Error in sending email";
-                toastr.success("Error in sending email.", "Send email.");
+                toastr.error("Error in sending email.", "Send email.");
             }
         });
     };
 
 })
 
-.controller('EmailInboxCtrl', function($scope, $uibModal, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, base64) {
+.controller('EmailInboxCtrl', function ($scope, $uibModal, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, base64) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("email-inbox");
     $scope.menutitle = NavigationService.makeactive("Email Inbox");
@@ -5886,8 +5893,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     }];
     $scope.scrollDisable = false;
     // GMAIL CALL
-    $scope.tabSelected = function(label, tab) {
-        _.each($scope.tabMenue, function(n) {
+    $scope.tabSelected = function (label, tab) {
+        _.each($scope.tabMenue, function (n) {
             n.class = "";
         });
         tab.class = "active";
@@ -5897,14 +5904,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.labelIds = label;
         $scope.reloadGmail();
     };
-    $scope.reloadGmail = function(nextPageToken) {
+    $scope.reloadGmail = function (nextPageToken) {
         NavigationService.gmailCall({
             url: "messages",
             method: "GET",
             nextPageToken: nextPageToken,
             search: $scope.emailForm.search,
             labelIds: $scope.labelIds
-        }, function(data) {
+        }, function (data) {
             console.log(data);
             if (data.data.resultSizeEstimate === 0) {
                 $scope.msg = "You don't have any e-mails.";
@@ -5914,7 +5921,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             if (!nextPageToken) {
                 $scope.mails = data.data.messages;
             } else {
-                _.each(data.data.messages, function(n) {
+                _.each(data.data.messages, function (n) {
                     $scope.mails.push(n);
                 });
             }
@@ -5923,7 +5930,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
     };
     $scope.reloadGmail();
-    $scope.showSingle = function(data) {
+    $scope.showSingle = function (data) {
         $.jStorage.set("oneEmail", data);
         $state.go("email-single", {
             id: data.threadId
@@ -5935,7 +5942,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     }
     getHeight();
 
-    angular.element($window).bind('resize', function() {
+    angular.element($window).bind('resize', function () {
         getHeight();
         $scope.$apply();
     });
@@ -5947,23 +5954,23 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     };
 
     $scope.emailToDelete = [];
-    $scope.selectAll = function(check) {
+    $scope.selectAll = function (check) {
         console.log(check);
         if (check) {
-            _.each($scope.mails, function(n) {
+            _.each($scope.mails, function (n) {
                 n.checked = true;
                 $scope.emailToDelete.push(n.threadId);
             });
         } else {
             $scope.emailToDelete = [];
-            _.each($scope.mails, function(n) {
+            _.each($scope.mails, function (n) {
                 n.checked = false;
 
             });
         }
     };
-    $scope.addEmailToDelete = function(data) {
-        var a = _.findIndex($scope.emailToDelete, function(o) {
+    $scope.addEmailToDelete = function (data) {
+        var a = _.findIndex($scope.emailToDelete, function (o) {
             return o == data.id;
         });
         console.log(a);
@@ -5996,8 +6003,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         name: 'Raj',
         email: 'raj@wohlig.com'
     }];
-    var modalInstance = function() {};
-    $scope.newEmail = function() {
+    var modalInstance = function () {};
+    $scope.newEmail = function () {
         $scope.msgSend = "";
         modalInstance = $uibModal.open({
             scope: $scope,
@@ -6005,31 +6012,31 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             size: 'lg'
         });
     };
-    $scope.sendEmail = function(modalForm) {
+    $scope.sendEmail = function (modalForm) {
 
         $scope.msgSend = "Sending..";
         $scope.newTo = angular.copy($scope.email);
         $scope.newTo.to = [];
-        _.each($scope.email.to, function(n) {
+        _.each($scope.email.to, function (n) {
             $scope.newTo.to.push(n.email);
         });
         $scope.newTo.cc = [];
-        _.each($scope.email.cc, function(n) {
+        _.each($scope.email.cc, function (n) {
             $scope.newTo.cc.push(n.email);
         });
         $scope.newTo.bcc = [];
-        _.each($scope.email.bcc, function(n) {
+        _.each($scope.email.bcc, function (n) {
             $scope.newTo.bcc.push(n.email);
         });
         $scope.newTo.to = $scope.newTo.to.join();
         $scope.newTo.cc = $scope.newTo.cc.join();
         $scope.newTo.bcc = $scope.newTo.bcc.join();
         console.log($scope.newTo);
-        NavigationService.sendEmail($scope.newTo, function(data) {
+        NavigationService.sendEmail($scope.newTo, function (data) {
             console.log(data);
             if (data.value) {
                 toastr.success("Your message has been send.", "Send email.");
-                $timeout(function() {
+                $timeout(function () {
                     modalInstance.close();
                 }, 1000);
             } else {
@@ -6096,7 +6103,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 })
 
 
-.controller('EmailSingleCtrl', function($scope, $filter, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+.controller('EmailSingleCtrl', function ($scope, $filter, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("email-single");
     $scope.menutitle = NavigationService.makeactive("Single Mail");
@@ -6106,7 +6113,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.header = {
         "name": "Single Mail"
     };
-    $scope.createAssignment = function() {
+    $scope.createAssignment = function () {
         // html2canvas(document.getElementById('myCanvas'), {
         //     onrendered: function(canvas) {
         //         var data = canvas.toDataURL();
@@ -6126,7 +6133,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     };
     NavigationService.detailEmail({
         "messageId": $stateParams.id
-    }, function(data) {
+    }, function (data) {
         $scope.email = data.data;
         var a = $filter("base64url")(data.data.raw);
         console.log($scope.email);
@@ -6134,11 +6141,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         switch ($scope.email.payload.mimeType) {
             case "multipart/related":
                 {
-                    _.each($scope.email.payload.parts, function(data) {
+                    _.each($scope.email.payload.parts, function (data) {
                         console.log("in parts");
                         console.log(data);
                         if (data.mimeType == "multipart/alternative") {
-                            _.each(data.parts, function(data2) {
+                            _.each(data.parts, function (data2) {
                                 if (data2.mimeType == "text/html") {
                                     $scope.email.body = data2.body.data;
                                 }
@@ -6155,11 +6162,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 break;
             case "multipart/mixed":
                 {
-                    _.each($scope.email.payload.parts, function(data) {
+                    _.each($scope.email.payload.parts, function (data) {
                         console.log("in parts");
                         console.log(data);
                         if (data.mimeType == "multipart/alternative") {
-                            _.each(data.parts, function(data2) {
+                            _.each(data.parts, function (data2) {
                                 if (data2.mimeType == "text/html") {
                                     $scope.email.body = data2.body.data;
                                 }
@@ -6177,7 +6184,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
             case "multipart/alternative":
                 {
-                    _.each($scope.email.payload.parts, function(data) {
+                    _.each($scope.email.payload.parts, function (data) {
 
                         if (data.mimeType == "text/html") {
                             $scope.email.body = data.body.data;
@@ -6195,7 +6202,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     });
     $scope.accessToken = $.jStorage.get("accessToken");
-    $scope.openAttachment = function(f) {
+    $scope.openAttachment = function (f) {
         var a = {
             "attachmentId": f.body.attachmentId,
             "fileName": f.filename,
@@ -6212,7 +6219,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 })
 
-.controller('ForbiddenCtrl', function($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+.controller('ForbiddenCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("forbidden");
     $scope.menutitle = NavigationService.makeactive("Access Forbidden");
