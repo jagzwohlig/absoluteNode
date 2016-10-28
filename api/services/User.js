@@ -98,6 +98,9 @@ var model = {
         }
         modelUser.googleAccessToken = user.googleAccessToken;
         modelUser.googleRefreshToken = user.googleRefreshToken;
+
+        modelUser.employee = user.employee;
+
         if (user.image && user.image.url) {
           modelUser.photo = user.image.url + "0";
         }
