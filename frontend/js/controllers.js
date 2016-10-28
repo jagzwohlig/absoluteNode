@@ -5670,6 +5670,20 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             size: 'md'
         });
     };
+    $scope.viewImages = function() {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/upload-image.html',
+            size: 'md'
+        });
+    };
+    $scope.viewDocs = function() {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/upload-document.html',
+            size: 'md'
+        });
+    };
     $scope.viewILR = function() {
         var modalInstance = $uibModal.open({
             scope: $scope,

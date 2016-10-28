@@ -40,8 +40,8 @@
                             <span uib-dropdown class="inline">
                   <button class="btn btn-blue btn-round" id="upload-files" uib-dropdown-toggle><i class="ln-cloud-upload"></i> Upload Files</button>
                   <ul class="dropdown-menu info-dropdown" uib-dropdown-menu role="menu" aria-labelledby="upload-files">
-                    <li role="menuitem"><a href="">Upload Images</a></li>
-                    <li role="menuitem"><a href="">Upload Documents</a></li>
+                    <li role="menuitem"><a ng-click="viewImages();">Upload Images</a></li>
+                    <li role="menuitem"><a ng-click="viewDocs();">Upload Documents</a></li>
                   </ul>
                 </span>
                             <div class="padder"></div>
@@ -100,7 +100,9 @@
                                                         <span><img ng-src="{{chat.employee.employee.photo|uploadpath:300:300}}" alt="{{chat.employee.employee.name}}" /></span>
                                                         <div class="who-post-detail">
                                                             <h3>{{chat.email.to}}<span class="vsmall">Insured</span></h3>
-                                                        <span>Sent an email</span>
+                                                        <span><span class="sp-cl">Sent an email To :</span> Me, Jhon, Sohan</span>
+                                                        <span><span class="sp-cl">Cc :</span> Me, Jhon, Sohan</span>
+                                                        <span><span class="sp-cl">Bcc :</span> Me, Jhon, Sohan</span>
                                                         <i>{{chat.time|date:"ddMMMyyyy, EEEE, hh:mm"}}</i>
                                                     </div>
                                                 </div>
@@ -160,7 +162,7 @@
                                 </div>
                                 <div class="row mt20">
                                     <div class="col-xs-4 pointer" ng-click="viewFiles();"><img src="frontend/img/folder.png">
-                                        <h6>Others</h6>
+                                        <h6>Documents</h6>
                                     </div>
                                     <div class="col-xs-4 pointer" ng-click="viewPhotos();"><img src="frontend/img/folder.png">
                                         <h6>Photos</h6>

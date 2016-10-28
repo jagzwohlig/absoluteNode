@@ -1019,6 +1019,13 @@ float: right;
 .color-green{
   color:$green;
 }
+.sp-cl{
+  color: $blue;
+font-weight: 600;
+}
+.color-blue{
+  color:$blue;
+}
 /* Start writing sass here */
 @import "fancybox-override";
 @import "other/mobile";
