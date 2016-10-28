@@ -222,6 +222,42 @@ var schema = new Schema({
     index: true,
     restrictedDelete: true
   },
+  assesment: [{
+    file: {
+      type: String
+    },
+    employees: {
+      type: Schema.Types.ObjectId,
+      ref: "Employee",
+      index: true,
+      required: true,
+      key: "assignment"
+    }
+  }],
+  photos: [{
+    file: {
+      type: String
+    },
+    employee: {
+      type: Schema.Types.ObjectId,
+      ref: "Employee",
+      index: true,
+      required: true,
+      key: "assignment"
+    }
+  }],
+  docs: [{
+    file: {
+      type: String
+    },
+    employee: {
+      type: Schema.Types.ObjectId,
+      ref: "Employee",
+      index: true,
+      required: true,
+      key: "assignment"
+    }
+  }]
 });
 
 schema.plugin(deepPopulate, {

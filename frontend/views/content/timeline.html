@@ -99,20 +99,13 @@
                                                     <div class="who-post-this">
                                                         <span><img ng-src="{{chat.employee.employee.photo|uploadpath:300:300}}" alt="{{chat.employee.employee.name}}" /></span>
                                                         <div class="who-post-detail">
-                                                            <h3>{{chat.email.to}}<span class="vsmall">Insured</span></h3>
-                                                        <span><span class="sp-cl">Sent an email To :</span> Me, Jhon, Sohan</span>
-                                                        <span><span class="sp-cl">Cc :</span> Me, Jhon, Sohan</span>
-                                                        <span><span class="sp-cl">Bcc :</span> Me, Jhon, Sohan</span>
-                                                        <i>{{chat.time|date:"ddMMMyyyy, EEEE, hh:mm"}}</i>
-                                                    </div>
-                                                </div>
-                                                <div class="post-content">
-                                                    <div class="e-subject">
-                                                        <p class="strong">{{chat.email.subject}}</p>
-                                                    </div>
-                                                    <div class="e-message">
-                                                        <p ng-bind-html="chat.email.message">
-                                                        </p>
+                                                            <h3>{{chat.employee.employee.name}} <span class="vsmall">{{chat.employee.employee.func.name}}</span></h3>
+                                                            <span ng-if="chat.email.to!=''"><span class="sp-cl">Sent an email To : </span>{{chat.email.to}}
+                                                            </span>
+                                                            <span ng-if="chat.email.cc!=''"><span class="sp-cl">Cc : </span>{{chat.email.cc}}</span>
+                                                            <span ng-if="chat.email.bcc!=''"><span class="sp-cl">Bcc : </span>{{chat.email.bcc}}</span>
+                                                            <i>{{chat.time|date:"ddMMMyyyy, EEEE, hh:mm"}}</i>
+                                                        </div>
                                                     </div>
                                                     <div class="post-content">
                                                         <div class="e-subject">
@@ -122,7 +115,8 @@
                                                             <p ng-bind-html="chat.email.message">
                                                             </p>
                                                         </div>
-                                                        <!--<div class="e-attachments">
+                                                        <div class="post-content">
+                                                            <!--<div class="e-attachments">
                                                         <div class="row">
                                                             <div class="col-xs-6 col-md-3">
                                                                 <div class="filebx">
@@ -135,57 +129,55 @@
                                                             </div>
                                                         </div>
                                                     </div>-->
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
                                         </li>
                                     </ul>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-
-                    <div class="col-md-4">
-                        <div class="widget">
-                            <div class="padding-border folder">
-                                <div class="row">
-                                    <div class="col-xs-4 pointer" ng-click="viewJIR();"><img src="frontend/img/folder.png">
-                                        <h6>JIR</h6>
-                                    </div>
-                                    <div class="col-xs-4 pointer" ng-click="viewILA();"><img src="frontend/img/folder.png">
-                                        <h6>ILA</h6>
-                                    </div>
-                                    <div class="col-xs-4 pointer" ng-click="viewILR();"><img src="frontend/img/folder.png">
-                                        <h6>ILR</h6>
-                                    </div>
-                                </div>
-                                <div class="row mt20">
-                                    <div class="col-xs-4 pointer" ng-click="viewLOR();"><img src="frontend/img/folder.png">
-                                        <h6>LOR</h6>
-                                    </div>
-                                    <div class="col-xs-4 pointer" ng-click="allAssessment();"><img src="frontend/img/folder.png">
-                                        <h6>Assesments</h6>
-                                    </div>
-                                    <div class="col-xs-4 pointer" ng-click="viewFSR();"><img src="frontend/img/folder.png">
-                                        <h6>FSR</h6>
-                                    </div>
-                                </div>
-                                <div class="row mt20">
-                                    <div class="col-xs-4 pointer" ng-click="viewFiles();"><img src="frontend/img/folder.png">
-                                        <h6>Others</h6>
-                                    </div>
-                                    <div class="col-xs-4 pointer" ng-click="viewPhotos();"><img src="frontend/img/folder.png">
-                                        <h6>Photos</h6>
-                                    </div>
-                                    <div class="col-xs-4 pointer"><img src="frontend/img/folder.png">
-                                        <h6>Invoices</h6>
+                            <div class="col-md-4">
+                                <div class="widget">
+                                    <div class="padding-border folder">
+                                        <div class="row">
+                                            <div class="col-xs-4 pointer" ng-click="viewJIR();"><img src="frontend/img/folder.png">
+                                                <h6>JIR</h6>
+                                            </div>
+                                            <div class="col-xs-4 pointer" ng-click="viewILA();"><img src="frontend/img/folder.png">
+                                                <h6>ILA</h6>
+                                            </div>
+                                            <div class="col-xs-4 pointer" ng-click="viewILR();"><img src="frontend/img/folder.png">
+                                                <h6>ILR</h6>
+                                            </div>
+                                        </div>
+                                        <div class="row mt20">
+                                            <div class="col-xs-4 pointer" ng-click="viewLOR();"><img src="frontend/img/folder.png">
+                                                <h6>LOR</h6>
+                                            </div>
+                                            <div class="col-xs-4 pointer" ng-click="allAssessment();"><img src="frontend/img/folder.png">
+                                                <h6>Assesments</h6>
+                                            </div>
+                                            <div class="col-xs-4 pointer" ng-click="viewFSR();"><img src="frontend/img/folder.png">
+                                                <h6>FSR</h6>
+                                            </div>
+                                        </div>
+                                        <div class="row mt20">
+                                            <div class="col-xs-4 pointer" ng-click="viewFiles();"><img src="frontend/img/folder.png">
+                                                <h6>Others</h6>
+                                            </div>
+                                            <div class="col-xs-4 pointer" ng-click="viewPhotos();"><img src="frontend/img/folder.png">
+                                                <h6>Photos</h6>
+                                            </div>
+                                            <div class="col-xs-4 pointer"><img src="frontend/img/folder.png">
+                                                <h6>Invoices</h6>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
-    </div>
-</div>
