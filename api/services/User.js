@@ -97,8 +97,9 @@ var model = {
           modelUser.email = user.emails[0].value;
         }
         modelUser.googleAccessToken = user.googleAccessToken;
-        modelUser.googleRefreshToken = user.googleRefreshToken;
-
+        if (user.googleRefreshToken) {
+          modelUser.googleRefreshToken = user.googleRefreshToken;
+        }
         modelUser.employee = user.employee;
 
         if (user.image && user.image.url) {
@@ -122,6 +123,7 @@ var model = {
         delete data.forgotPassword;
         delete data.otp;
         data.googleAccessToken = user.googleAccessToken;
+        data.employee = user.employee;
         data.save(function () {});
         callback(err, data);
       }
