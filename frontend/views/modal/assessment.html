@@ -7,6 +7,12 @@
     <h5 class="modal-title">All Assessment</h5>
 </div>
 <div class="modal-body">
+  <form name="companyForm" ng-submit="saveCompany(formData)">
+      <div class="form-group">
+          <label>Upload Assessment</label>
+          <upload-image ng-model="companyForm.logo"></upload-image>
+      </div>
+  </form>
     <div class="field">
         <div class="custom-tabs">
             <div>

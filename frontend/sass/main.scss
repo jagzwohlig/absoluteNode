@@ -329,6 +329,11 @@ $trans-black: rgba( black, .15);
         white-space: nowrap;
     }
 }
+.photosbx{
+  @extend .filebx;
+  background-color:transparent;
+  border: 1px solid #ebf1f2;
+}
 .dl-bx {
     width: 24px;
     height: 24px;
@@ -480,7 +485,7 @@ $trans-black: rgba( black, .15);
 }
 .scroll-x-max{
   @extend .scroll-x;
-  max-height: inherit;
+max-height: 280px;
 }
 .ui-select-bootstrap .ui-select-choices-row.active > a {
     background-color: $blue;
