@@ -84,7 +84,8 @@
                                                         <div class="who-post-detail">
                                                             <h3>{{chat.employee.employee.name}} <span class="vsmall">{{chat.employee.employee.func.name}}</span></h3>
                                                             <span>{{chat.title}}</span>
-                                                            <i>23JUN2016, Thrusday, 18:24</i>
+                                                            <!--<i>23JUN2016, Thrusday, 18:24</i>-->
+                                                            <i>{{chat.time|date:"ddMMMyyyy, EEEE, hh:mm"}}</i>
                                                         </div>
                                                     </div>
                                                     <div class="post-content">
