@@ -33,7 +33,7 @@
                                 <ul class="message-list" ng-style="{height:emailheight-62}">
                                     <li ng-class="{'unread'}" ng-repeat="mail in mails" class="unread-mail">
                                         <input class="select-message" type="checkbox" ng-model="mail.checked" ng-click="addEmailToDelete(mail)" />
-                                        <h3 class="sender-name pointer" ng-click="showSingle(mail)">{{mail.detail.payload.headers | from:"From"}}</h3>
+                                        <h3 class="sender-name pointer" ng-click="showSingle(mail)"><i class="ln-paperclip"></i>{{mail.detail.payload.headers | from:"From"}}</h3>
                                         <span class="pull-right" ng-if="mail.detail.labelIds|readUnread">(Unread)</span>
                                         <a ng-if="mail.attachment"><i class="fa fa-paperclip"></i></a>
                                         <p><span class="subject">{{mail.detail.payload.headers | from:"Subject"}}</span> - <span>{{mail.detail.payload.headers | from:"To"}}</span></p>
