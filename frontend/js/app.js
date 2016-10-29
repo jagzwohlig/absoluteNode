@@ -1518,7 +1518,7 @@ firstapp.filter('readUnread', function () {
         if (input) {
             _.each(input, function (n) {
                 if (n == "UNREAD") {
-                    check = true;
+                    check = "unread-mail";
                 }
             });
             return check;
