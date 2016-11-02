@@ -99,12 +99,10 @@
                                                     <div class="who-post-this">
                                                         <span><img ng-src="{{chat.employee.employee.photo|uploadpath:300:300}}" alt="{{chat.employee.employee.name}}" /></span>
                                                         <div class="who-post-detail">
-                                                            <h3>{{chat.email.to}}
-                                                                <!--<span class="vsmall"> Insured</span>-->
-                                                            </h3>
-                                                            <span><span class="sp-cl">Sent an email To :</span> Me, Jhon, Sohan</span>
-                                                        <span><span class="sp-cl">Cc :</span> Me, Jhon, Sohan</span>
-                                                        <span><span class="sp-cl">Bcc :</span> Me, Jhon, Sohan</span>
+                                                            <h3>{{chat.employee.employee.name}} <span class="vsmall">{{chat.employee.employee.func.name}}</span></h3>
+                                                            <span><span class="sp-cl">Sent an email To :</span> {{chat.email.to}}</span>
+                                                            <span ng-if="chat.email.cc != ''"><span class="sp-cl">Cc : </span>                                                            {{chat.email.cc}}</span>
+                                                            <span ng-if="chat.email.bcc != ''"><span class="sp-cl">Bcc : </span>{{chat.email.bcc}}</span>
                                                             <i>{{chat.time|date:"ddMMMyyyy, EEEE, hh:mm"}}</i>
                                                         </div>
                                                     </div>

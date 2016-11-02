@@ -5877,14 +5877,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.onFileUploadCallback = function (data) {
         console.log("in file upload callback");
         console.log(data);
-
         if (data.file) {
             $scope.assessment.file = data.file;
             $scope.assignment.assessment = $scope.assessment;
         }
-
     };
-
 })
 
 .controller('EmailInboxCtrl', function ($scope, $uibModal, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, base64) {
