@@ -24,7 +24,7 @@
                             <div class="col-md-3 mter" ng-repeat="photo in assignment.photos track by $index">
                                 <div class="photosbx">
                                     <img ng-src="{{photo.file|uploadpath}}" alt="" class="img-responsive">
-                                    <p>{{photo.fileName}}</p>
+                                    <p>{{photo.fileName | date:'ddMMMyy, hh:mm'}}</p>
                                 </div>
                             </div>
                         </div>

@@ -1,14 +1,14 @@
 <div class="modal-header green-bg with-button">
     <div class="pull-right">
-        <button class="btn btn-darker btn-round btn-nopad">Create new</button>
-        <button class="btn btn-clear" ng-click="$dismiss()">
+        <button class="btn btn-darker btn-round btn-nopad" ng-click="showCreate = true">Create new</button>
+        <button class="btn btn-clear" ng-click="$dismiss();showCreate=false">
             <i class="ln-cross"></i>
         </button>
     </div>
     <h5 class="modal-title">All Assessment</h5>
 </div>
 <div class="modal-body">
-    <form name="companyForm" ng-submit="saveCompany(formData)">
+    <form name="companyForm" ng-submit="saveCompany(formData)" ng-if="showCreate">
         <div class="form-group">
             <label>Upload Assessment</label>
             <upload-image ng-model="assessment.file" ng-callback="onFileUploadCallback(assessment)" no-view></upload-image>
@@ -28,7 +28,7 @@
                                 </tr>
                             </thead>
                             <tbody class="vert-mid">
-                                <tr ng-repeat="assessment in assignment.assessment | orderBy: '-assessment.fileName' track by $index">
+                                <tr ng-repeat="assessment in assignment.assessment | orderBy: '-fileName' track by $index">
                                     <td>
                                         <div class="user-img">
                                             <img ng-src="{{assessment.employee.photo|uploadpath}}" alt="" class="user-mini">

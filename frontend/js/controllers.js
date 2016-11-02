@@ -5699,7 +5699,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
     };
 
-    $scope.allAssessment = function () {
+    $scope.allAssessment = function (check) {
+        $scope.showCreate = check;
         var modalInstance = $uibModal.open({
             scope: $scope,
             templateUrl: '/frontend/views/modal/assessment.html',
@@ -5801,9 +5802,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     console.log(new Date());
     $scope.message.title = "Sent a new message";
     $scope.assessment = {};
+    $scope.doc = {};
+    $scope.photo = {};
+    $scope.showCreate = false;
     NavigationService.getOneModel("User", $.jStorage.get("profile")._id, function (data) {
         $scope.employee = data.data;
         $scope.assessment.employee = $scope.employee.employee;
+        $scope.photo.employee = $scope.employee.employee;
+        $scope.doc.employee = $scope.employee.employee;
     });
 
 
@@ -5913,6 +5919,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             data.fileName = Date.now();
             $scope.assignment.photos.push(data);
             $scope.saveAssignment("Photo");
+        }
+    };
+
+    $scope.onDocsUploadCallback = function (data) {
+        if (data.file) {
+            if (!$scope.assignment.docs) {
+                $scope.assignment.docs = [];
+            }
+            data.fileName = Date.now();
+            $scope.assignment.docs.push(data);
+            $scope.saveAssignment("Docs");
         }
     };
 })

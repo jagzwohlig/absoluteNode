@@ -32,7 +32,7 @@
                   <li role="menuitem"><a href="">New ILA</a></li>
                   <li role="menuitem"><a href="">New ILR</a></li>
                   <li role="menuitem"><a href="">New LOR</a></li>
-                  <li role="menuitem"><a ng-click="allAssessment();">New Assessment</a></li>
+                  <li role="menuitem"><a ng-click="allAssessment(true);">New Assessment</a></li>
                   <li role="menuitem"><a href="">New FSR</a></li>
                   <li role="menuitem"><a href="">New Invoice</a></li>
                 </ul>
@@ -70,7 +70,8 @@
                     </div>
                     <div class="info-pic">
                         <span><img ng-src="{{assignment.owner.photo|uploadpath:300:300}}" alt="Varun Dhawan" class="dp" /></span>
-                        <img src="frontend/img/house/house-{{assignment.owner.houseColor}}.png" alt="{{assignment.owner.houseColor}} House" class="info-house" />
+                        <img src="frontend/img/house/house-{{assignment.owner.houseColor}}.png" alt="{{assignment.owner.houseColor}} House" class="info-house"
+                        />
                     </div>
                 </div>
                 <div class="profile-all">
@@ -105,9 +106,8 @@
                                                         <span><img ng-src="{{chat.employee.employee.photo|uploadpath:300:300}}" alt="{{chat.employee.employee.name}}" /></span>
                                                         <div class="who-post-detail">
                                                             <h3>{{chat.employee.employee.name}} <span class="vsmall">{{chat.employee.employee.func.name}}</span></h3>
-
                                                             <span><span class="sp-cl">Sent an email To :</span> {{chat.email.to}}</span>
-                                                            <span ng-if="chat.email.cc != ''"><span class="sp-cl">Cc : </span> {{chat.email.cc}}</span>
+                                                            <span ng-if="chat.email.cc != ''"><span class="sp-cl">Cc : </span>                                                            {{chat.email.cc}}</span>
                                                             <span ng-if="chat.email.bcc != ''"><span class="sp-cl">Bcc : </span>{{chat.email.bcc}}</span>
                                                             <i>{{chat.time|date:"ddMMMyyyy, EEEE, hh:mm"}}</i>
                                                         </div>
@@ -139,10 +139,11 @@
                                                     <div class="who-post-this">
                                                         <span><img ng-src="{{chat.employee.employee.photo|uploadpath:300:300}}" alt="{{chat.employee.employee.name}}" /></span>
                                                         <div class="who-post-detail">
-                                                            <h3>{{chat.employee.employee.name}} <span class="vsmall">{{chat.employee.employee.func.name}}</span><span class="pull-right vsmall">(Client)</span></h3>
-
+                                                            <h3>{{chat.employee.employee.name}} <span class="vsmall">{{chat.employee.employee.func.name}}</span>
+                                                                <span class="pull-right vsmall">(Client)</span>
+                                                            </h3>
                                                             <span><span class="sp-cl">Sent an email To :</span> {{chat.email.to}}</span>
-                                                            <span ng-if="chat.email.cc != ''"><span class="sp-cl">Cc : </span> {{chat.email.cc}}</span>
+                                                            <span ng-if="chat.email.cc != ''"><span class="sp-cl">Cc : </span>                                                            {{chat.email.cc}}</span>
                                                             <span ng-if="chat.email.bcc != ''"><span class="sp-cl">Bcc : </span>{{chat.email.bcc}}</span>
                                                             <i>{{chat.time|date:"ddMMMyyyy, EEEE, hh:mm"}}</i>
                                                         </div>
@@ -155,11 +156,9 @@
                                                             <p ng-bind-html="chat.email.message">
                                                             </p>
                                                         </div>
-
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </li>
                                     </ul>
                                 </div>
@@ -183,7 +182,7 @@
                                         <div class="col-xs-4 pointer" ng-click="viewLOR();"><img src="frontend/img/folder.png">
                                             <h6>LOR</h6>
                                         </div>
-                                        <div class="col-xs-4 pointer" ng-click="allAssessment();"><img src="frontend/img/folder.png">
+                                        <div class="col-xs-4 pointer" ng-click="allAssessment(false);"><img src="frontend/img/folder.png">
                                             <h6>Assessments</h6>
                                         </div>
                                         <div class="col-xs-4 pointer" ng-click="viewFSR();"><img src="frontend/img/folder.png">

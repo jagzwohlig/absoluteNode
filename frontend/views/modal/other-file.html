@@ -7,48 +7,40 @@
     <h5 class="modal-title">Others</h5>
 </div>
 <div class="modal-body">
-    <form name="companyForm" ng-submit="saveCompany(formData)">
+    <form name="companyForm">
         <div class="form-group">
             <label>Upload Files</label>
-            <upload-image ng-model="companyForm.logo"></upload-image>
+            <upload-image ng-model="doc.file" ng-callback="onDocsUploadCallback(doc)" no-view></upload-image>
         </div>
     </form>
     <div class="field">
         <div class="custom-tabs">
             <div>
-                Others Document <span class="color-green">(1)</span>
-                <div class="scroll-x-max">
+                Others Document <span class="color-green">({{assignment.docs.length}})</span>
+                <div class="scroll-x-max" ng-if="assignment.doccs.length !== 0">
                     <table class="file-list table">
                         <thead>
                             <tr>
-                                <th>#</th>
                                 <th>User</th>
                                 <th>Date</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody class="vert-mid">
-                            <tr>
-                                <td>1</td>
+                            <tr ng-repeat="doc in assignment.docs | orderBy: '-fileName' track by $index">
                                 <td>
                                     <div class="user-img">
-                                        <img src="frontend/img/varun-khali.png" alt="" class="user-mini">
-                                        <span>Mahesh Maurya</span>
+                                        <img ng-src="{{doc.employee.photo|uploadpath}}" alt="" class="user-mini">
+                                        <span>{{doc.employee.name}}</span>
                                     </div>
                                 </td>
-                                <td>28Oct2016</td>
-
-                                <td>
-                                    <button class="btn btn-clear"><i class="ln-trash2"></i></button>
-                                    <button class="btn btn-clear"><i class="ln-download"></i></button>
-                                </td>
+                                <td>{{doc.fileName | date:'ddMMMyy, hh:mm'}}</td>
+                                <td><button class="btn btn-clear"><i class="ln-trash2"></i></button><button class="btn btn-clear"><i class="ln-download"></i></button></td>
                             </tr>
                         </tbody>
                     </table>
-
                 </div>
             </div>
-
         </div>
     </div>
 </div>
