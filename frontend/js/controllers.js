@@ -5714,6 +5714,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             size: 'lg'
         });
     };
+    $scope.newInvoice = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/invoice.html',
+            size: 'md'
+        });
+    };
 
     $scope.newMessage = function () {
         var modalInstance = $uibModal.open({
