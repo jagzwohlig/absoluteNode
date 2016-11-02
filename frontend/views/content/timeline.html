@@ -47,6 +47,12 @@
                             <div class="padder"></div>
                             <button class="btn btn-orange btn-round"><i class="ln-register"></i> Start Survey</button>
                             <button class="btn btn-red btn-round" ng-click="newEmail();"><i class="ln-envelope"></i> Send Email</button>
+                            <div class="only-email">
+                                <div class="form-group">
+                                    <label class="ml-4">Only email</label>
+                                    <toggle-switch on-label="Yes" off-label="No" ng-model="formName.broker" class="switch-mini switch-success"></toggle-switch>
+                                </div>
+                            </div>
                         </div>
                         <div class="pull-right">
                             <div class="compny text-right">
