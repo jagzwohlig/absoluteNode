@@ -1083,6 +1083,15 @@ font-weight: 600;
     }
   }
 }
+.cl-right{
+  float: right;
+display: inline-block;
+text-align: right;
+}
+.custom-box{
+  margin-top: 10px;
+background-color: #f1f1f1;
+}
 /* Start writing sass here */
 @import "fancybox-override";
 @import "other/mobile";
