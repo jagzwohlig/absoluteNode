@@ -5585,7 +5585,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 })
 
-.controller('TimelineCtrl', function ($scope, TemplateService, NavigationService, $timeout, $uibModal, $stateParams, toastr) {
+.controller('TimelineCtrl', function ($scope, TemplateService, NavigationService, $timeout, $uibModal, $stateParams, toastr, $filter) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("timeline");
     $scope.menutitle = NavigationService.makeactive("Timeline");
@@ -5873,13 +5873,31 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             }
         });
     };
-    var state = true;
+
+    $scope.saveAssignment = function (otherInfo) {
+        NavigationService.assignmentSave($scope.assignment, function (data) {
+            if (data.value === true) {
+                $scope.message.title = otherInfo + " Uploaded.";
+                $scope.sendMessage("Normal");
+                toastr.success($scope.assignment.name + " Updated", "Assignment " + $scope.assignment.name);
+            } else {
+                toastr.error("Error in updating " + $scope.assignment.name + ".", "Assignment " + $scope.assignment.name);
+            }
+        });
+    };
+
     $scope.onFileUploadCallback = function (data) {
         console.log("in file upload callback");
         console.log(data);
+        console.log(data.file);
         if (data.file) {
-            $scope.assessment.file = data.file;
-            $scope.assignment.assessment = $scope.assessment;
+            console.log($scope.assignment.assessment);
+            if (!$scope.assignment.assessment) {
+                $scope.assignment.assessment = [];
+            }
+            data.fileName = $filter("date")(new Date(), "ddMMMyy, hh:mm");
+            $scope.assignment.assessment.push(data);
+            $scope.saveAssignment("Assessment");
         }
     };
 })

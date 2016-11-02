@@ -15,15 +15,16 @@
     </form>
     <div class="field">
         <div class="custom-tabs">
-            <div>Assessment <span class="color-green">({{assignment.assessment.count}})</span>
+            <div>Assessment <span class="color-green">({{assignment.assessment.length}})</span>
                 <div class="file-selector">
                     <!-- <div class="text-center" ng-if="file.files.length==0">No files found.</div> -->
                     <div class="scroll-x-max">
-                        <div class="row">{{assignment.assessment}}
-                            <div class="col-md-3 mter" ng-repeat="assessment in assignment.assessment">
+                        <div class="row">
+                            <div class="col-md-3 mter" ng-repeat="assessment in assignment.assessment track by $index">
                                 <div class="filebx">
                                     <i class="ln-document"></i>
-                                    <p>{{assessment}}</p>
+                                    <!--<p>{{assessment}}</p>-->
+                                    <p>{{assessment.fileName}}</p>
                                 </div>
                             </div>
                         </div>

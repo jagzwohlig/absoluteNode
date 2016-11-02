@@ -1229,19 +1229,19 @@ firstapp.filter('numberFixedLen', function () {
     };
 });
 
-firstapp.directive('uploadImage', function ($http, $filter) {
+firstapp.directive('uploadImage', function ($http, $filter, $timeout) {
     return {
         templateUrl: '/frontend/views/directive/uploadFile.html',
         scope: {
             model: '=ngModel',
-            callback: "=ngCallback"
+            callback: "&ngCallback"
         },
         link: function ($scope, element, attrs) {
 
             $scope.showImage = function () {
                 console.log($scope.image);
             };
-
+            $scope.check = true;
             $scope.type = "img";
             $scope.isMultiple = false;
             $scope.inObject = false;
@@ -1260,6 +1260,7 @@ firstapp.directive('uploadImage', function ($http, $filter) {
 
             $scope.$watch("image", function (newVal, oldVal) {
                 if (newVal && newVal.file) {
+
                     $scope.uploadNow(newVal);
                 }
             });
@@ -1298,27 +1299,29 @@ firstapp.directive('uploadImage', function ($http, $filter) {
                     },
                     transformRequest: angular.identity
                 }).success(function (data) {
-                    if ($scope.callback) {
-                        $scope.callback(data);
-                    } else {
-                        $scope.uploadStatus = "uploaded";
-                        if ($scope.isMultiple) {
-                            if ($scope.inObject) {
-                                $scope.model.push({
-                                    "image": data.data[0]
-                                });
-                            } else {
-                                $scope.model.push(data.data[0]);
-                            }
+
+                    $scope.uploadStatus = "uploaded";
+                    if ($scope.isMultiple) {
+                        if ($scope.inObject) {
+                            $scope.model.push({
+                                "image": data.data[0]
+                            });
                         } else {
-                            if (_.endsWith(data.data[0], ".pdf")) {
-                                $scope.type = "pdf";
-                            } else {
-                                $scope.type = "img";
-                            }
-                            $scope.model = data.data[0];
+                            $scope.model.push(data.data[0]);
                         }
+                    } else {
+                        if (_.endsWith(data.data[0], ".pdf")) {
+                            $scope.type = "pdf";
+                        } else {
+                            $scope.type = "img";
+                        }
+                        $scope.model = data.data[0];
+
                     }
+                    $timeout(function () {
+                        $scope.callback();
+                    }, 100);
+
                 });
             };
         }

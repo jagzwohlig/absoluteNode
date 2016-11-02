@@ -222,11 +222,14 @@ var schema = new Schema({
     index: true,
     restrictedDelete: true
   },
-  assesment: [{
+  assessment: [{
     file: {
       type: String
     },
-    employees: {
+    fileName: {
+      type: String
+    },
+    employee: {
       type: Schema.Types.ObjectId,
       ref: "Employee",
       index: true,
@@ -236,6 +239,9 @@ var schema = new Schema({
   }],
   photos: [{
     file: {
+      type: String
+    },
+    fileName: {
       type: String
     },
     employee: {
