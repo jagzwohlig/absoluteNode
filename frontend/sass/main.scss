@@ -1317,7 +1317,6 @@ img.uploadingImage {
 }
 
 .custom-box {
-    margin-top: 10px;
     background-color: #f1f1f1;
 }
 
@@ -1357,7 +1356,9 @@ img.uploadingImage {
         font-size: 10px;
     }
 }
-
+.mt-10{
+      margin-top: 10px;
+}
 .ps-left {
     left: -165px;
 }
