@@ -540,9 +540,9 @@ $trans-black: rgba( black, .15);
     border: 0;
 
     > li.active {
-         > a:focus,
+         > a,
          > a:hover,
-        > a {
+        > a:focus {
             color: $red;
             border: 0;
             border-bottom: 5px solid $red;
@@ -1220,8 +1220,8 @@ img.uploadingImage {
 .inbox-action > ul {
     padding: 14px 15px;
 
-     > li > a,
-    > li > label {
+     > li > label,
+    > li > a {
         padding-top: 7px;
     }
 
@@ -1365,10 +1365,13 @@ img.uploadingImage {
 .only-email {
     display: inline-block;
     vertical-align: top;
-    margin: 8px 0 0 20px;
+    margin: 8px 0 0;
 }
-.ml-4{
-      margin: 0px 2px;
+
+.ml-4 {
+    margin: 0 2px;
+    font-size: 11px;
+    font-weight: 400;
 }
 /* Start writing sass here */
 @import "fancybox-override";
