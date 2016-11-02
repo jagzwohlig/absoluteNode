@@ -1,5 +1,6 @@
 <div class="modal-header green-bg with-button">
     <div class="pull-right">
+        <button class="btn btn-darker btn-round btn-nopad">Create new</button>
         <button class="btn btn-clear" ng-click="$dismiss()">
             <i class="ln-cross"></i>
         </button>
@@ -16,18 +17,43 @@
     <div class="field">
         <div class="custom-tabs">
             <div>Assessment <span class="color-green">({{assignment.assessment.length}})</span>
-                <div class="file-selector">
+                <div class="file-border">
                     <!-- <div class="text-center" ng-if="file.files.length==0">No files found.</div> -->
                     <div class="scroll-x-max">
-                        <div class="row">
-                            <div class="col-md-3 mter" ng-repeat="assessment in assignment.assessment track by $index">
+
+                            <!-- <div class="col-md-3 mter" ng-repeat="assessment in assignment.assessment track by $index">
                                 <div class="filebx">
                                     <i class="ln-document"></i>
-                                    <!--<p>{{assessment}}</p>-->
+
                                     <p>{{assessment.fileName}}</p>
                                 </div>
-                            </div>
-                        </div>
+                            </div> -->
+                            <table class="file-list table">
+                              <thead>
+                                <tr>
+                                  <th>#</th>
+                                  <th>User Name</th>
+                                  <th>File Name</th>
+                                
+                                  <th>Actions</th>
+                                </tr>
+                              </thead>
+                              <tbody class="vert-mid">
+                              <tr>
+                                <td>1</td>
+                                <td>
+                                  <div class="user-img">
+                                    <img src="frontend/img/varun-khali.png" alt="" class="user-mini">
+                                    <span>Mahesh Maurya</span>
+                                  </div>
+                                </td>
+                                <td>28Oct2016, Friday, 01:37</td>
+
+                                <td><button class="btn btn-clear"><i class="ln-trash2"></i></button><button class="btn btn-clear"><i class="ln-download"></i></button></td>
+                              </tr>
+                              </tbody>
+                            </table>
+
                     </div>
                 </div>
             </div>
