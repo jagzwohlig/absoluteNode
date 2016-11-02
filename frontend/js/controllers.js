@@ -5887,17 +5887,24 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     };
 
     $scope.onFileUploadCallback = function (data) {
-        console.log("in file upload callback");
-        console.log(data);
-        console.log(data.file);
         if (data.file) {
-            console.log($scope.assignment.assessment);
             if (!$scope.assignment.assessment) {
                 $scope.assignment.assessment = [];
             }
             data.fileName = $filter("date")(new Date(), "ddMMMyy, hh:mm");
             $scope.assignment.assessment.push(data);
             $scope.saveAssignment("Assessment");
+        }
+    };
+
+    $scope.onPhotoUploadCallback = function (data) {
+        if (data.file) {
+            if (!$scope.assignment.photo) {
+                $scope.assignment.photo = [];
+            }
+            data.fileName = $filter("date")(new Date(), "ddMMMyy, hh:mm");
+            $scope.assignment.photo.push(data);
+            $scope.saveAssignment("Photo");
         }
     };
 })
