@@ -11,49 +11,35 @@
     <form name="companyForm" ng-submit="saveCompany(formData)">
         <div class="form-group">
             <label>Upload Assessment</label>
-            <upload-image ng-model="assessment.file" ng-callback="onFileUploadCallback(assessment)"></upload-image>
+            <upload-image ng-model="assessment.file" ng-callback="onFileUploadCallback(assessment)" no-view></upload-image>
         </div>
     </form>
     <div class="field">
         <div class="custom-tabs">
             <div>Assessment <span class="color-green">({{assignment.assessment.length}})</span>
-                <div class="file-border">
-                    <!-- <div class="text-center" ng-if="file.files.length==0">No files found.</div> -->
+                <div class="file-border" ng-if="assignment.assessment.length !== 0">
                     <div class="scroll-x-max">
-
-                            <!-- <div class="col-md-3 mter" ng-repeat="assessment in assignment.assessment track by $index">
-                                <div class="filebx">
-                                    <i class="ln-document"></i>
-
-                                    <p>{{assessment.fileName}}</p>
-                                </div>
-                            </div> -->
-                            <table class="file-list table">
-                              <thead>
+                        <table class="file-list table">
+                            <thead>
                                 <tr>
-                                  <th>#</th>
-                                  <th>User Name</th>
-                                  <th>File Name</th>
-
-                                  <th>Actions</th>
+                                    <th>User Name</th>
+                                    <th>File Name</th>
+                                    <th>Actions</th>
                                 </tr>
-                              </thead>
-                              <tbody class="vert-mid">
-                              <tr>
-                                <td>1</td>
-                                <td>
-                                  <div class="user-img">
-                                    <img src="frontend/img/varun-khali.png" alt="" class="user-mini">
-                                    <span>Mahesh Maurya</span>
-                                  </div>
-                                </td>
-                                <td>28Oct2016, Friday, 01:37</td>
-
-                                <td><button class="btn btn-clear"><i class="ln-trash2"></i></button><button class="btn btn-clear"><i class="ln-download"></i></button></td>
-                              </tr>
-                              </tbody>
-                            </table>
-
+                            </thead>
+                            <tbody class="vert-mid">
+                                <tr ng-repeat="assessment in assignment.assessment | orderBy: '-assessment.fileName' track by $index">
+                                    <td>
+                                        <div class="user-img">
+                                            <img ng-src="{{assessment.employee.photo|uploadpath}}" alt="" class="user-mini">
+                                            <span>{{assessment.employee.name}}</span>
+                                        </div>
+                                    </td>
+                                    <td>{{assessment.fileName | date:'ddMMMyy, hh:mm'}}</td>
+                                    <td><button class="btn btn-clear"><i class="ln-trash2"></i></button><button class="btn btn-clear"><i class="ln-download"></i></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

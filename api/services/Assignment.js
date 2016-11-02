@@ -256,6 +256,9 @@ var schema = new Schema({
     file: {
       type: String
     },
+    fileName: {
+      type: String
+    },
     employee: {
       type: Schema.Types.ObjectId,
       ref: "Employee",
@@ -316,6 +319,9 @@ schema.plugin(deepPopulate, {
     },
     'products.product.category.industry': {
       select: 'name _id'
+    },
+    'assessment.employee': {
+      select: 'name _id photo'
     }
   }
 });
@@ -325,7 +331,7 @@ schema.plugin(timestamps);
 
 module.exports = mongoose.model('Assignment', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer owner owner.func company company.city", "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer owner owner.func company company.city assessment.employee", "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer"));
 
 var model = {
   saveData: function (data, callback) {

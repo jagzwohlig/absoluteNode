@@ -5798,11 +5798,12 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.message = {};
     $scope.message.employee = $.jStorage.get("profile")._id;
     $scope.timeline = {};
+    console.log(new Date());
     $scope.message.title = "Sent a new message";
     $scope.assessment = {};
     NavigationService.getOneModel("User", $.jStorage.get("profile")._id, function (data) {
         $scope.employee = data.data;
-        $scope.assessment.employee = $scope.employee.employee._id;
+        $scope.assessment.employee = $scope.employee.employee;
     });
 
 
@@ -5898,7 +5899,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             if (!$scope.assignment.assessment) {
                 $scope.assignment.assessment = [];
             }
-            data.fileName = $filter("date")(new Date(), "ddMMMyy, hh:mm");
+            data.fileName = Date.now();
             $scope.assignment.assessment.push(data);
             $scope.saveAssignment("Assessment");
         }
@@ -5906,11 +5907,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     $scope.onPhotoUploadCallback = function (data) {
         if (data.file) {
-            if (!$scope.assignment.photo) {
-                $scope.assignment.photo = [];
+            if (!$scope.assignment.photos) {
+                $scope.assignment.photos = [];
             }
-            data.fileName = $filter("date")(new Date(), "ddMMMyy, hh:mm");
-            $scope.assignment.photo.push(data);
+            data.fileName = Date.now();
+            $scope.assignment.photos.push(data);
             $scope.saveAssignment("Photo");
         }
     };

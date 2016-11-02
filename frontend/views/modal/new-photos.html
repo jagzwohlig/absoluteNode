@@ -10,7 +10,7 @@
     <form name="companyForm" ng-submit="saveCompany(formData)">
         <div class="form-group">
             <label>Upload Photos</label>
-            <upload-image ng-model="photo.file" ng-callback="onPhotoUploadCallback(photo)"></upload-image>
+            <upload-image ng-model="photo.file" ng-callback="onPhotoUploadCallback(photo)" no-view></upload-image>
         </div>
     </form>
     <div class="field">
@@ -23,8 +23,8 @@
                         <div class="row">
                             <div class="col-md-3 mter" ng-repeat="photo in assignment.photos track by $index">
                                 <div class="photosbx">
-                                    <img ng-src="photo.file|uploadpath" alt="" class="img-responsive">
-                                    <p>{{photo.fileName}}]}</p>
+                                    <img ng-src="{{photo.file|uploadpath}}" alt="" class="img-responsive">
+                                    <p>{{photo.fileName}}</p>
                                 </div>
                             </div>
                         </div>
