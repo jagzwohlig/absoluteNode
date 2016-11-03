@@ -429,7 +429,29 @@ var model = {
               num = '0' + num;
             }
             var nos = "";
-            console.log(data2);
+            var fourthDigit = "";
+            switch (data2.typeOfClaim + "-" + data2.isInsured) {
+              case "true-false":
+                {
+                  fourthDigit = "0";
+                  break;
+                }
+              case "true-true":
+                {
+                  fourthDigit = "1";
+                  break;
+                }
+              case "false-false":
+                {
+                  fourthDigit = "2";
+                  break;
+                }
+              case "true-false":
+                {
+                  fourthDigit = "3";
+                  break;
+                }
+            }
             switch (data2.typeOfClaim + "-" + data2.department.name) {
               case "false-Engineering":
                 {
@@ -482,7 +504,8 @@ var model = {
                   break;
                 }
             }
-            data2.name = data2.city.district.state.zone.country.countryCode + data2.company.companyCode + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).format("YY") + moment(new Date(data2.dateOfAppointment)).format("MM") + "-" + num;
+            console.log("in assignment");
+            data2.name = data2.city.district.state.zone.country.countryCode + data2.company.companyCode + fourthDigit + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).format("YY") + moment(new Date(data2.dateOfAppointment)).format("MM") + "-" + num;
             //add this here
             data2.save(function (err, data) {
               callback(err, data);
