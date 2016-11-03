@@ -294,7 +294,7 @@ schema.plugin(deepPopulate, {
       select: 'name countryCode _id'
     },
     'company': {
-      select: 'shortName _id city'
+      select: ''
     },
     'company.city': {
       select: 'name'
@@ -482,7 +482,6 @@ var model = {
                   break;
                 }
             }
-
             data2.name = data2.city.district.state.zone.country.countryCode + data2.company.companyCode + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).format("YY") + moment(new Date(data2.dateOfAppointment)).format("MM") + "-" + num;
             //add this here
             data2.save(function (err, data) {
