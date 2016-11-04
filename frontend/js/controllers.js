@@ -5678,6 +5678,27 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             size: 'md'
         });
     };
+    $scope.viewStaff = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/staff-rating.html',
+            size: 'md'
+        });
+    };
+    $scope.viewSurveyor = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/surveyor-rating.html',
+            size: 'md'
+        });
+    };
+    $scope.viewClient = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/client-rating.html',
+            size: 'md'
+        });
+    };
     $scope.viewPhotos = function () {
         var modalInstance = $uibModal.open({
             scope: $scope,
