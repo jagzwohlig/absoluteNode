@@ -8,7 +8,6 @@
         </li>
     </ul>
 </div>
-
 <form role="form" name="formName" ng-submit="saveModel(formData)">
     <div class="heading-sec">
         <div class="row">
@@ -38,7 +37,6 @@
                                         <div class="error-msg" ng-show="formName.company.$invalid">Please Select Company Name</div>
                                     </div>
                                 </div>
-
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Salutation*</label>
@@ -63,7 +61,8 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Posted at*</label>
-                                        <multiple-select name="postedAt" required ng-model="formData.postedAt" filter='{"company":"{{formData.company}}"}' ng-name="name.postedAt" api="searchOffice"></multiple-select>
+                                        <multiple-select name="postedAt" required ng-model="formData.postedAt" filter='{"company":"{{formData.company}}"}' ng-name="name.postedAt"
+                                            api="searchOffice"></multiple-select>
                                         <div class="error-msg" ng-show="formName.postedAt.$invalid">Please Select Current Posting</div>
                                     </div>
                                 </div>
@@ -77,7 +76,8 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Grade*</label>
-                                        <multiple-select name="grade" required ng-model="formData.grade" ng-name="name.grade" api="searchGrade" ng-create="gradeSave" readonly></multiple-select>
+                                        <multiple-select name="grade" required ng-model="formData.grade" ng-name="name.grade" api="searchGrade" ng-create="gradeSave"
+                                            readonly></multiple-select>
                                         <div class="error-msg" ng-show="formName.grade.$invalid">Please Select Grade</div>
                                     </div>
                                 </div>
@@ -92,11 +92,11 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Branch*</label>
-                                        <multiple-select name="branch" required ng-model="formData.branch" filter='{"office":"{{formData.postedAt}}"}' ng-name="name.branch" api="searchBranch" ng-create="branchSave"></multiple-select>
+                                        <multiple-select name="branch" required ng-model="formData.branch" filter='{"office":"{{formData.postedAt}}"}' ng-name="name.branch"
+                                            api="searchBranch" ng-create="branchSave"></multiple-select>
                                         <div class="error-msg" ng-show="formName.branch.$invalid">Please Select Branch</div>
                                     </div>
                                 </div>
-
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Employee Code*</label>
@@ -123,7 +123,6 @@
                 </div>
             </div>
         </div>
-
         <div class="row">
             <div class="col-md-12">
                 <div class="widget">
@@ -166,7 +165,6 @@
                 </div>
             </div>
         </div>
-
         <div class="widget">
             <div class="form-elements-sec">
                 <div class="widget-title">
@@ -200,7 +198,6 @@
                 </div>
             </div>
         </div>
-
         <div class="row">
             <div class="col-md-6">
                 <div class="widget">
@@ -248,10 +245,8 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
-
         <div class="widget">
             <div class="form-elements-sec">
                 <div class="widget-title">
@@ -261,7 +256,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Gender*</label>
-                            <select type="text" name="houseColor" class="form-control" ng-model="formData.gender" required ng-options="gender for gender in gender"></select>
+                            <select type="text" name="gender" class="form-control" ng-model="formData.gender" required ng-options="gender for gender in ['Female','Male']"></select>
                             <div class="error-msg" ng-show="formName.gender.$invalid && formName.gender.$touched">Please Select Gender</div>
                         </div>
                     </div>
@@ -269,7 +264,9 @@
                         <div class="form-group">
                             <label>Date of Birth*</label>
                             <div class="input-group">
-                                <input type="text" name="birthDate" class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.birthDate" is-open="popup.birthDate" ng-change="chageDOB(formData.birthDate)" datepicker-options="dateOptions" readonly/>
+                                <input type="text" name="birthDate" class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.birthDate"
+                                    is-open="popup.birthDate" ng-change="chageDOB(formData.birthDate)" datepicker-options="dateOptions"
+                                    readonly/>
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-default" ng-click="popup.birthDate = true">
                                         <i class="fa fa-calendar"></i>
@@ -283,7 +280,8 @@
                         <div class="form-group">
                             <label>Joining Date*</label>
                             <div class="input-group">
-                                <input type="text" name="joiningDate" class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.joiningDate" is-open="popup.joiningDate" datepicker-options="dateOptions" readonly/>
+                                <input type="text" name="joiningDate" class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.joiningDate"
+                                    is-open="popup.joiningDate" datepicker-options="dateOptions" readonly/>
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-default" ng-click="popup.joiningDate = true">
                                         <i class="fa fa-calendar"></i>
@@ -297,7 +295,8 @@
                         <div class="form-group">
                             <label>Marriage Date</label>
                             <div class="input-group">
-                                <input type="text" name="marriageDate" class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.marriageDate" is-open="popup.marriageDate" datepicker-options="dateOptions" readonly/>
+                                <input type="text" name="marriageDate" class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.marriageDate"
+                                    is-open="popup.marriageDate" datepicker-options="dateOptions" readonly/>
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-default" ng-click="popup.marriageDate = true">
                                         <i class="fa fa-calendar"></i>
@@ -306,12 +305,12 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>Leaving Date</label>
                             <div class="input-group">
-                                <input type="text" name="leavingDate" class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.leavingDate" is-open="popup.leavingDate" datepicker-options="dateOptions" readonly/>
+                                <input type="text" name="leavingDate" class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.leavingDate"
+                                    is-open="popup.leavingDate" datepicker-options="dateOptions" readonly/>
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-default" ng-click="popup.leavingDate = true">
                                         <i class="fa fa-calendar"></i>
@@ -337,7 +336,6 @@
                 </div>
             </div>
         </div>
-
         <div class="widget">
             <div class="form-elements-sec">
                 <div class="widget-title">
@@ -373,7 +371,6 @@
                 </div>
             </div>
         </div>
-
         <div class="widget">
             <div class="form-elements-sec">
                 <div class="widget-title">
@@ -402,7 +399,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="table-responsive" ng-if="formData.licenseDocument.length>0">
                         <table class="table">
                             <thead>
@@ -432,14 +428,12 @@
                         </table>
                     </div>
                 </div>
-
             </div>
         </div>
         <div class="widget">
             <div class="form-elements-sec">
                 <div class="widget-title">
                     <h3>Leave Management</h3>
-
                 </div>
                 <div class="row">
                     <div class="col-md-6">
@@ -479,7 +473,6 @@
                     <a class="btn btn-success pull-right" ng-click="addModal('modal-file','','IIISLACertificate','',formData.IIISLACertificate)">Upload Now</a>
                     <h3>IIISLA Certificate</h3>
                 </div>
-
                 <div class="table-responsive" ng-if="formData.IIISLACertificate.length>0">
                     <table class="table">
                         <thead>
@@ -510,7 +503,6 @@
                 </div>
             </div>
         </div>
-
         <div class="widget" ng-if="formData.isSurveyor">
             <div class="form-elements-sec">
                 <div class="widget-title">
@@ -547,7 +539,6 @@
                 </div>
             </div>
         </div>
-
         <div class="clearfix"></div>
         <div class="text-center mt20 odd-even-button">
             <button class="btn btn-default" type="submit" ng-disabled="formName.$invalid">Save</button>

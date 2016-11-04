@@ -427,13 +427,30 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.formData.isInsured = true;
         $scope.formData.typeOfClaim = true;
 
-        // NavigationService.searchNatureLoss(function(data) {
-        //     $scope.natureLoss = data.data.results;
-        // });
+        //  CLONE ASSIGNMENT
+        if ($stateParams.assignment) {
+            NavigationService.getOneModel("Assignment", $stateParams.assignment, function (data) {
+                $scope.formData = data.data;
+                delete $scope.formData.appointment;
+                delete $scope.formData.intimatedLoss;
+                delete $scope.formData.city;
+                delete $scope.formData.address;
+                delete $scope.formData.pincode;
+                delete $scope.formData.lat;
+                delete $scope.formData.lng;
+                $scope.formData.products = [];
+                $scope.formData.invoice = [];
+                $scope.formData.LRs = [];
+                $scope.formData.vehicleNumber = [];
+                $scope.formData.others = [];
+                delete $scope.formData.siteNumber;
+                delete $scope.formData.siteMobile;
+                delete $scope.formData.siteEmail;
+            });
+        }
+
         NavigationService.searchCompany({}, 1, function (data) {
-            // if (data.data.results.length() != 0) {
             $scope.formData.company = data.data.results[0]._id;
-            // }
         });
         console.log($stateParams);
         if ($stateParams.emailId) {
@@ -5865,6 +5882,15 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     };
     NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
         $scope.assignment = data.data;
+        if ($scope.assignment.natureOfLoss) {
+            $scope.assignment.natureloss = "";
+            // _.each($scope.assignment.natureOfLoss, function (n,key) {
+            // $scope.assignment.natureloss += n.name;
+            // if(key )
+            // console.log($scope.assignment.natureloss);
+            // });
+
+        }
         if (data.data.timeline && data.data.timeline[0]) {
             console.log("in if");
             $scope.timelineID = data.data.timeline[0];

@@ -2,8 +2,17 @@
     <div class="heading-sec">
         <div class="row">
             <div class="col-md-12 column">
-                <div class="heading-profile">
-                    <toggle-switch ng-model="formData.status" class="switch-small switch-success pull-right"></toggle-switch>
+                <div class="heading-profile ul-clas">
+                    <ul class="">
+                        <li>
+                            <a class="btn btn-danger pull-right clone-red" ui-sref="createassignment({assignment:formData._id})" ng-if="header.name == 'Edit Assignment'">
+                                            Clone
+                                        </a>
+                        </li>
+                        <li>
+                            <toggle-switch ng-model="formData.status" class="switch-small switch-success pull-right"></toggle-switch>
+                        </li>
+                    </ul>
                     <h2>{{header.name}}</h2>
                 </div>
             </div>
