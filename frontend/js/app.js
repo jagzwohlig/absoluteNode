@@ -646,30 +646,30 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
     })
 
     .state('createuser', {
-        url: "/user-create",
-        templateUrl: "frontend/views/template.html",
-        controller: 'CreateUserCtrl'
-    })
-    .state('leave-detail', {
-        url: "/leave-detail",
-        templateUrl: "frontend/views/template.html",
-        controller: 'LeaveDetailCtrl'
-    })
-    .state('leave-list', {
-        url: "/leave-list",
-        templateUrl: "frontend/views/template.html",
-        controller: 'LeaveListCtrl'
-    })
-    .state('reimbursement-list', {
-        url: "/reimbursement-list",
-        templateUrl: "frontend/views/template.html",
-        controller: 'ReimbursementListCtrl'
-    })
-    .state('reimbursement-detail', {
-        url: "/reimbursement-detail",
-        templateUrl: "frontend/views/template.html",
-        controller: 'ReimbursementDetailCtrl'
-    })
+            url: "/user-create",
+            templateUrl: "frontend/views/template.html",
+            controller: 'CreateUserCtrl'
+        })
+        .state('leave-detail', {
+            url: "/leave-detail",
+            templateUrl: "frontend/views/template.html",
+            controller: 'LeaveDetailCtrl'
+        })
+        .state('leave-list', {
+            url: "/leave-list",
+            templateUrl: "frontend/views/template.html",
+            controller: 'LeaveListCtrl'
+        })
+        .state('reimbursement-list', {
+            url: "/reimbursement-list",
+            templateUrl: "frontend/views/template.html",
+            controller: 'ReimbursementListCtrl'
+        })
+        .state('reimbursement-detail', {
+            url: "/reimbursement-detail",
+            templateUrl: "frontend/views/template.html",
+            controller: 'ReimbursementDetailCtrl'
+        })
 
     .state('edituser', {
         url: "/user-edit/:id",
@@ -1066,12 +1066,13 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
     })
 
     .state('createassignment', {
-            url: "/assignment-create/{id:.*}/{model:.*}",
+            url: "/assignment-create/{id:.*}/{model:.*}/{assignment:.*}",
             templateUrl: "frontend/views/template.html",
             controller: 'CreateAssignmentCtrl',
             params: {
                 id: "",
-                model: "assignment"
+                model: "assignment",
+                assignment: ""
             }
         })
         .state('createassignmentemail', {
@@ -1330,12 +1331,12 @@ firstapp.directive('uploadImage', function ($http, $filter, $timeout) {
                             $scope.model.push(data.data[0]);
                         }
                     } else {
-                        if (_.endsWith(data.data[0], ".pdf")) {
+                        if (_.endsWith(data.data, ".pdf")) {
                             $scope.type = "pdf";
                         } else {
                             $scope.type = "img";
                         }
-                        $scope.model = data.data[0];
+                        $scope.model = data.data;
 
                     }
                     $timeout(function () {

@@ -328,6 +328,9 @@ schema.plugin(deepPopulate, {
     },
     'photos.employee': {
       select: 'name _id photo'
+    },
+    'causeOfLoss': {
+      select: 'name _id'
     }
 
   }
@@ -338,7 +341,7 @@ schema.plugin(timestamps);
 
 module.exports = mongoose.model('Assignment', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer owner owner.func company company.city assessment.employee docs.employee photos.employee", "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer owner owner.func company company.city assessment.employee docs.employee photos.employee causeOfLoss", "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer"));
 
 var model = {
   saveData: function (data, callback) {

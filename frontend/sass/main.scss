@@ -27,7 +27,6 @@ $body-color-font: #505050;
 @import "template/main";
 @import "template/responsive";
 @import "custom-switch";
-
 button,
 div,
 input {
@@ -65,18 +64,17 @@ nav li:hover .dropdown-menu {
 a {
     cursor: pointer;
     @include transition(all ease 300ms);
-
     &:focus {
         outline: none !important;
     }
 }
-//bootstrap forms
 
+//bootstrap forms
 .btn,
 .form-control,
-.input-group-lg > .form-control,
-.input-group-lg > .input-group-addon,
-.input-group-lg > .input-group-btn > .btn,
+.input-group-lg>.form-control,
+.input-group-lg>.input-group-addon,
+.input-group-lg>.input-group-btn>.btn,
 .input-lg {
     border-radius: 0;
     @include box-shadow(none);
@@ -105,7 +103,7 @@ a {
     padding: 10px 0 10px 25px;
 }
 
-.account-form > form .feild > .login-w {
+.account-form>form .feild>.login-w {
     background: #125daa none repeat scroll 0 0;
     border: medium none;
     -webkit-border-radius: 25px;
@@ -126,14 +124,12 @@ a {
 }
 
 .who-post-detail {
-    > h3 {
+    >h3 {
         font-size: 16px;
     }
-
-    > span {
+    >span {
         color: #202020;
         font-size: 12px;
-
         a {
             color: $blue;
             font-weight: bold;
@@ -143,15 +139,13 @@ a {
 
 .who-post-this {
     position: relative;
-
     .house {
         position: absolute;
         width: auto;
         bottom: -11px;
         left: 36px;
     }
-
-    > span {
+    >span {
         border: 0 solid #ffffff;
     }
 }
@@ -163,7 +157,7 @@ a {
     color: #777777;
 }
 
-.admin-details > i {
+.admin-details>i {
     color: #777777;
     text-transform: capitalize;
 }
@@ -191,8 +185,8 @@ a {
 .btn-google {
     @include button-variant(white, $google, $google);
 }
-$trans-black: rgba( black, .15);
 
+$trans-black: rgba( black, .15);
 .btn-darker {
     @include button-variant(white, $trans-black, transparent);
 }
@@ -218,7 +212,6 @@ $trans-black: rgba( black, .15);
     .btn-clear {
         color: #505050;
     }
-
     .btn {
         padding: 0 10px;
     }
@@ -232,13 +225,11 @@ $trans-black: rgba( black, .15);
     border: none;
     padding: 0;
     overflow: hidden;
-
     li {
         +li {
             border-top: 1px solid $border-color;
         }
-
-        > a {
+        >a {
             padding: 10px;
         }
     }
@@ -255,7 +246,6 @@ $trans-black: rgba( black, .15);
     border-radius: 5px;
     padding: 10px;
     height: 87px;
-
     .btn {
         font-size: 12px;
         min-width: 110px;
@@ -275,7 +265,6 @@ $trans-black: rgba( black, .15);
         margin: 10px 0 5px;
         font-size: 14px;
     }
-
     p {
         margin: 0;
         line-height: 100%;
@@ -289,15 +278,13 @@ $trans-black: rgba( black, .15);
     left: 50%;
     top: -7px;
     @include transform(translateX(-50%));
-
-    > span {
+    >span {
         display: inline-block;
         -webkit-border-radius: 100%;
         -moz-border-radius: 100%;
         -ms-border-radius: 100%;
         border-radius: 100%;
     }
-
     .dp {
         height: 101px;
         -webkit-border-radius: 100%;
@@ -322,7 +309,6 @@ $trans-black: rgba( black, .15);
 .first-half {
     width: 50%;
     padding-left: 65px;
-
     +.first-half {
         padding-left: 0 !important;
         padding-right: 65px !important;
@@ -340,11 +326,9 @@ $trans-black: rgba( black, .15);
 
 .folder {
     text-align: center;
-
     img {
         max-width: 100%;
     }
-
     h6 {
         margin: 10px 0 0;
     }
@@ -382,11 +366,9 @@ $trans-black: rgba( black, .15);
     text-align: center;
     padding: 6px;
     position: relative;
-
     i {
         font-size: 32px;
     }
-
     p {
         margin: 5px 0 0;
         line-height: 100%;
@@ -413,14 +395,13 @@ $trans-black: rgba( black, .15);
     top: 5px;
     cursor: pointer;
     text-align: center;
-
     i {
         font-size: 14px;
         line-height: 23px;
     }
 }
 
-.activity-timeline > li {
+.activity-timeline>li {
     margin-bottom: 30px;
 }
 
@@ -434,7 +415,7 @@ $trans-black: rgba( black, .15);
 }
 
 .modal-body::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 0 rgba(0,0,0,0.3);
+    -webkit-box-shadow: inset 0 0 0 rgba(0, 0, 0, 0.3);
     border-radius: 10px;
     background-color: #F5F5F5;
 }
@@ -446,12 +427,12 @@ $trans-black: rgba( black, .15);
 
 .modal-body::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 0 rgba(0,0,0,.3);
+    -webkit-box-shadow: inset 0 0 0 rgba(0, 0, 0, .3);
     background-color: $border-color;
 }
 
 .scroll-x-max::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 0 rgba(0,0,0,0.3);
+    -webkit-box-shadow: inset 0 0 0 rgba(0, 0, 0, 0.3);
     border-radius: 10px;
     background-color: #F5F5F5;
 }
@@ -463,30 +444,27 @@ $trans-black: rgba( black, .15);
 
 .scroll-x-max::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 0 rgba(0,0,0,.3);
+    -webkit-box-shadow: inset 0 0 0 rgba(0, 0, 0, .3);
     background-color: $border-color;
 }
 
 .red-bg {
     background-color: $red;
-
-    > * {
+    >* {
         color: white;
     }
 }
 
 .blue-bg {
     background-color: $blue;
-
-    > * {
+    >* {
         color: white;
     }
 }
 
 .green-bg {
     background-color: $green;
-
-    > * {
+    >* {
         color: white;
     }
 }
@@ -508,7 +486,6 @@ $trans-black: rgba( black, .15);
 .billing-sec .field {
     margin-bottom: 15px;
     border-radius: 5px;
-
     input {
         height: 37px;
         border-radius: 4px;
@@ -520,7 +497,6 @@ $trans-black: rgba( black, .15);
 .billing-sec .field input,
 .billing-sec .field textarea {
     border: 1px solid $border-color !important;
-
     &:focus {
         outline: none !important;
     }
@@ -538,22 +514,19 @@ $trans-black: rgba( black, .15);
 
 .nav-tabs {
     border: 0;
-
-    > li.active {
-         > a:focus,
-         > a:hover,
-        > a {
+    >li.active {
+        >a:focus,
+        >a:hover,
+        >a {
             color: $red;
             border: 0;
             border-bottom: 5px solid $red;
         }
     }
-
-    > li > a {
+    >li>a {
         border: 0;
         border-bottom: 5px solid transparent;
         border-radius: 0;
-
         &:focus,
         &:hover {
             background: transparent;
@@ -580,11 +553,9 @@ $trans-black: rgba( black, .15);
     margin: 0;
     position: relative;
     z-index: 9;
-
     +i {
         display: none;
     }
-
     &:checked+i {
         display: block;
     }
@@ -597,7 +568,6 @@ $trans-black: rgba( black, .15);
     width: 24px;
     height: 24px;
     vertical-align: middle;
-
     .aired {
         top: 5px;
     }
@@ -614,7 +584,6 @@ $trans-black: rgba( black, .15);
     overflow-x: auto;
     padding: 0 15px;
     margin: 0 -15px;
-
     .mter {
         margin-top: 10px;
     }
@@ -625,7 +594,7 @@ $trans-black: rgba( black, .15);
     max-height: 280px;
 }
 
-.ui-select-bootstrap .ui-select-choices-row.active > a {
+.ui-select-bootstrap .ui-select-choices-row.active>a {
     background-color: $blue;
 }
 
@@ -634,7 +603,6 @@ $trans-black: rgba( black, .15);
     padding: 5px;
     border-color: #e5e5e5;
     border-radius: 5px;
-
     input {
         border: none !important;
     }
@@ -706,16 +674,13 @@ $trans-black: rgba( black, .15);
     max-height: 200px;
     overflow-x: hidden;
     overflow-y: auto;
-
-    > li {
+    >li {
         padding: 10px;
         cursor: pointer;
-
         &:hover {
             background-color: $brand-primary;
             color: white;
         }
-
         &.arrow-down {
             background-color: lighten($brand-primary, 20%);
             color: white;
@@ -736,13 +701,12 @@ form.mr-form {
 form.search-form {
     border-radius: 0;
     height: 34px;
-
-    > input {
+    >input {
         padding: 7px 26px 8px 10px;
     }
 }
 
-.heading-profile > h2 {
+.heading-profile>h2 {
     width: auto;
 }
 
@@ -756,7 +720,6 @@ form.search-form {
 
 .btn-upload {
     position: relative;
-
     input[type="file"] {
         opacity: 0;
         position: absolute;
@@ -769,7 +732,6 @@ form.search-form {
 
 .form-group {
     position: relative;
-
     .error-msg {
         position: absolute;
         right: 0;
@@ -829,7 +791,6 @@ input[type="email"].form-control {
         height: 22px;
         padding: 0 5px;
     }
-
     .form-control[readonly] {
         background-color: transparent;
         border: none;
@@ -840,7 +801,7 @@ input[type="email"].form-control {
     border-radius: 0;
 }
 
-.ui-select-bootstrap .ui-select-choices-row.active > span {
+.ui-select-bootstrap .ui-select-choices-row.active>span {
     background-color: $brand-primary;
 }
 
@@ -856,12 +817,10 @@ input[type="email"].form-control {
     color: #fff;
     background-color: $brand-success;
     border-color: $brand-success;
-
     &:hover {
         background-color: darken($brand-success, 10%);
         border-color: darken($brand-success, 10%);
     }
-
     &[disabled] {
         background-color: #c2c7cc;
         border-color: #c2c7cc;
@@ -874,22 +833,18 @@ input[type="email"].form-control {
             color: #fff;
             background-color: $brand-success;
             border-color: $brand-success;
-
             &:hover {
                 background-color: darken($brand-success, 10%);
                 border-color: darken($brand-success, 10%);
             }
-
             &[disabled] {
                 background-color: #c2c7cc;
                 border-color: #c2c7cc;
             }
-
             +.btn-default {
                 color: #fff;
                 background-color: $brand-danger;
                 border-color: $brand-danger;
-
                 &:hover {
                     background-color: darken($brand-danger, 10%);
                     border-color: darken($brand-danger, 10%);
@@ -905,7 +860,7 @@ img.uploadingImage {
     margin: 10px 0;
 }
 
-.side-menus nav > ul {
+.side-menus nav>ul {
     padding-bottom: 66px;
 }
 
@@ -913,24 +868,20 @@ img.uploadingImage {
     td {
         vertical-align: middle !important;
     }
-
     tr {
         .btn-show {
             opacity: 0;
             @include transition(all 300ms ease);
         }
-
         &:hover {
             .btn-show {
                 opacity: 1;
             }
-
             td {
                 background-color: #f8f8f8;
             }
         }
     }
-
     .btn {
         padding: 6px;
     }
@@ -943,7 +894,6 @@ img.uploadingImage {
     position: relative;
     border-radius: 40px;
     display: inline;
-
     img {
         border-radius: 100%;
     }
@@ -957,13 +907,11 @@ img.uploadingImage {
     width: 200px;
     display: inline-block;
     margin-right: 10px;
-
     .form-control {
         background: transparent;
         border-color: white;
         border-radius: 10px;
         color: white;
-
         &::-webkit-input-placeholder {
             color: white;
         }
@@ -984,7 +932,6 @@ img.uploadingImage {
 .form-builder {
     border: 1px solid $body-color-font;
     position: relative;
-
     p {
         color: $body-color-font;
         height: 34px;
@@ -993,66 +940,54 @@ img.uploadingImage {
         font-size: 14px;
         margin: 0;
     }
-
     .form-control {
         border: none !important;
         padding: 0 7px;
         text-transform: none;
-
         &::-webkit-input-placeholder {
             color: $body-color-font;
         }
     }
-
     textarea.form-control {
         padding: 5px 7px;
     }
-
     .form-builder-head {
         font-weight: bold;
         position: relative;
         text-transform: uppercase;
-
         &:hover {
             .mark-float {
                 width: 40px;
             }
         }
-
         +.form-builder-hr {
             border-top: 1px solid $body-color-font;
         }
     }
-
     .form-builder-hr {
         border-bottom: 1px solid $body-color-font;
         margin-bottom: -1px;
         // position: relative;
     }
-
     .form-repeater {
         +.form-repeater {
             margin-top: 35px;
             border-top: 1px solid $body-color-font;
         }
     }
-
     .form-builder-item {
         position: relative;
         padding-left: 20px;
-
         .mark-float {
             &.right-float {
                 width: 20px;
             }
         }
-
         &:hover {
             .mark-float {
                 width: 40px;
             }
         }
-
         +.form-builder-item {
             border-top: 1px solid $body-color-font;
         }
@@ -1061,20 +996,16 @@ img.uploadingImage {
 
 .row-item {
     @include display(flex);
-
     .col-item {
         @include flex(1);
         width: 100%;
-
         +.col-item {
             border-left: 1px solid $body-color-font;
         }
-
         &.col-item-25 {
             @include flex(0 0 25%);
             width: 25%;
         }
-
         &.col-item-35 {
             @include flex(0 0 35%);
             width: 35%;
@@ -1092,11 +1023,9 @@ img.uploadingImage {
     line-height: 34px;
     @include transition(all 300ms ease);
     overflow: hidden;
-
     i {
         cursor: pointer;
     }
-
     &.right-float {
         right: auto;
         left: 5px;
@@ -1132,7 +1061,6 @@ img.uploadingImage {
 .btn.btn-icon {
     position: relative;
     padding-left: 42px;
-
     i {
         position: absolute;
         left: -1px;
@@ -1142,42 +1070,37 @@ img.uploadingImage {
         background-color: rgba(0, 0, 0, 0.20);
         @include display(flex);
         @include align-items(center);
-
         &:before {
             margin: 0 auto;
         }
     }
 }
 
-.widget-title > h3 {
+.widget-title>h3 {
     float: none;
     padding-right: 0;
 }
 
-.inbox-navigation > ul > li {
+.inbox-navigation>ul>li {
     padding: 0;
     border-left: 5px solid transparent;
     position: relative;
     background: #fff none repeat scroll 0 0;
     @include transition(all 300ms ease);
-
-    > a {
+    >a {
         padding: 10px 35px;
         float: none;
         display: block;
     }
-
     &.active,
     &:hover {
         border-color: $red;
         font-weight: bold;
-
-        > a {
+        >a {
             color: $red;
         }
     }
-
-    > span {
+    >span {
         background: $red none repeat scroll 0 0;
         position: absolute;
         top: 11px;
@@ -1192,21 +1115,16 @@ img.uploadingImage {
 .message-list {
     padding: 0;
     overflow-y: auto;
-
-    > li {
+    >li {
         padding: 10px 15px;
-
-        > .sender-name {
+        >.sender-name {
             margin-left: 10px;
         }
-
-        > a {
+        >a {
             margin-left: 10px;
         }
-
-        > p {
+        >p {
             font-weight: 300;
-
             .subject {
                 font-weight: 600;
             }
@@ -1218,14 +1136,12 @@ img.uploadingImage {
     overflow-y: auto;
 }
 
-.inbox-action > ul {
+.inbox-action>ul {
     padding: 14px 15px;
-
-     > li > a,
-    > li > label {
+    >li>a,
+    >li>label {
         padding-top: 7px;
     }
-
     .form-control {
         height: 32px;
         border-radius: 100px;
@@ -1326,7 +1242,6 @@ img.uploadingImage {
     border: none;
     font-size: 28px;
     vertical-align: middle;
-
     .badge {
         position: absolute;
         top: 0;
@@ -1351,7 +1266,6 @@ img.uploadingImage {
         margin: 0;
         font-weight: 400;
     }
-
     span {
         color: #ababab;
         font-size: 10px;
@@ -1378,7 +1292,7 @@ img.uploadingImage {
     font-weight: 600;
 }
 
-.quick-links > ul > li {
+.quick-links>ul>li {
     float: left;
     margin-right: 6px;
     position: relative;
@@ -1388,7 +1302,6 @@ img.uploadingImage {
     color: #666 !important;
     border: none !important;
     font-size: 22px !important;
-
     i {
         vertical-align: middle;
     }
@@ -1410,11 +1323,32 @@ img.uploadingImage {
 .info-btn.inline span {
     margin: 0 5px 0 0;
 }
-.unread-msg{
-  font-weight: 400;
-font-family: 'open sans' !important;
-font-size: 13px !important;
+
+.unread-msg {
+    font-weight: 400;
+    font-family: 'open sans' !important;
+    font-size: 13px !important;
 }
+
+.ul-clas {
+    ul {
+        display: block;
+        list-style: none;
+        float: right;
+        li {
+            display: inline-block;
+        }
+    }
+}
+
+.clone-red {
+    font-size: 12px;
+    padding: 3px 6px 3px 6px;
+    margin-right: 6px;
+}
+
+
 /* Start writing sass here */
+
 @import "fancybox-override";
 @import "other/mobile";

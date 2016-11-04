@@ -85,6 +85,11 @@ var schema = new Schema({
     neftCode: {
         type: String
     },
+    gender: {
+        type: "String",
+        enum: ["Female", "Male"],
+        required: true
+    },
     city: {
         type: Schema.Types.ObjectId,
         ref: "City",
