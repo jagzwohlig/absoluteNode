@@ -1324,19 +1324,19 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('LeadListCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state) {
+    .controller('LeaveListCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state) {
         //Used to name the .html file
-        $scope.template = TemplateService.changecontent("lead-list");
-        $scope.menutitle = NavigationService.makeactive("Lead List");
+        $scope.template = TemplateService.changecontent("leave-list");
+        $scope.menutitle = NavigationService.makeactive("Leave List");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
 
 
     })
-    .controller('CreateLeadCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state) {
+    .controller('LeaveDetailCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state) {
         //Used to name the .html file
-        $scope.template = TemplateService.changecontent("create-lead");
-        $scope.menutitle = NavigationService.makeactive("Create Lead");
+        $scope.template = TemplateService.changecontent("leave-detail");
+        $scope.menutitle = NavigationService.makeactive("Leave Detail");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
 

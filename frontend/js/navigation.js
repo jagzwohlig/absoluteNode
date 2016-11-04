@@ -249,14 +249,14 @@ var navigationservice = angular.module('navigationservice', [])
             icon: "file-text"
         }]
     },{
-        name: "Lead Management",
+        name: "Leave Management",
         classis: "active",
         anchor: "timeline",
         icon: "users",
         subnav: [{
-            name: "Employee Lead Detail",
+            name: "Employee Leave Detail",
             classis: "active",
-            anchor: "lead-list",
+            anchor: "leave-list",
             icon: "user"
         }]
     }];

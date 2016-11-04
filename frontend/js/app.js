@@ -650,15 +650,15 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
         templateUrl: "frontend/views/template.html",
         controller: 'CreateUserCtrl'
     })
-    .state('create-lead', {
-        url: "/create-lead",
+    .state('leave-detail', {
+        url: "/leave-detail",
         templateUrl: "frontend/views/template.html",
-        controller: 'CreateLeadCtrl'
+        controller: 'LeaveDetailCtrl'
     })
-    .state('lead-list', {
-        url: "/lead-list",
+    .state('leave-list', {
+        url: "/leave-list",
         templateUrl: "frontend/views/template.html",
-        controller: 'LeadListCtrl'
+        controller: 'LeaveListCtrl'
     })
 
     .state('edituser', {
