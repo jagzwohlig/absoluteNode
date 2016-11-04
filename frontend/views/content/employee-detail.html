@@ -428,7 +428,44 @@
 
             </div>
         </div>
+        <div class="widget">
+            <div class="form-elements-sec">
+                <div class="widget-title">
+                    <h3>Lead Management</h3>
 
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>CL*</label>
+                            <input type="text" class="form-control" ng-model="formData.cl">
+                            <div class="error-msg" ng-show="formName.cl.$invalid && formName.cl.$touched">Please enter CL</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>EL*</label>
+                            <input type="text" class="form-control" ng-model="formData.el">
+                            <div class="error-msg" ng-show="formName.el.$invalid && formName.el.$touched">Please enter EL</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>ML*</label>
+                            <input type="text" class="form-control" ng-model="formData.ml">
+                            <div class="error-msg" ng-show="formName.ml.$invalid && formName.ml.$touched">Please enter ML</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>PL*</label>
+                            <input type="text" class="form-control" ng-model="formData.pl">
+                            <div class="error-msg" ng-show="formName.pl.$invalid && formName.pl.$touched">Please enter PL</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="widget" ng-if="formData.isSurveyor">
             <div class="form-elements-sec">
                 <div class="widget-title">

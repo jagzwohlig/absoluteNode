@@ -248,6 +248,17 @@ var navigationservice = angular.module('navigationservice', [])
             anchor: "templateLor-list",
             icon: "file-text"
         }]
+    },{
+        name: "Lead Management",
+        classis: "active",
+        anchor: "timeline",
+        icon: "users",
+        subnav: [{
+            name: "Employee Lead Detail",
+            classis: "active",
+            anchor: "lead-list",
+            icon: "user"
+        }]
     }];
     var membershipLevel = [{
         name: "Student",

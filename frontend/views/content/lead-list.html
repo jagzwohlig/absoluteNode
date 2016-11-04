@@ -1,13 +1,11 @@
-<!-- <div id="progressBar">
-	<div class="loader"></div>
-</div> -->
+
 <div class="breadcrumbs">
     <ul>
         <li>
-            <a title="Home">Employee</a>
+            <a title="Home">Lead Management</a>
         </li>
         <li>
-            <a ui-sref="employee-list" title="Employee List">Employee List</a>
+            <a ui-sref="employee-list" title="Employee List">Lead List</a>
         </li>
     </ul>
 </div>
@@ -16,7 +14,7 @@
     <div class="row">
         <div class="col-md-4 column">
             <div class="heading-profile">
-                <h2>Employee List</h2>
+                <h2>Employee Lead List</h2>
             </div>
         </div>
     </div>
@@ -35,9 +33,9 @@
                                     <i class="fa fa-search"></i>
                                 </button>
                             </form>
-                            <a class="btn btn-primary" ui-sref="createemployee">Add New</a>
+                            <a class="btn btn-primary" ui-sref="create-lead">Add New</a>
                         </div>
-                        <h3>List of Employee
+                        <h3>List of Leads
                             <span class="tableTotal">(Total :
                               {{totalItems}})
                           </span>
@@ -49,23 +47,21 @@
                                 <tr>
                                     <!-- <th>#</th> -->
                                     <th>Name</th>
-                                    <th>Mobile</th>
-                                    <th>Email</th>
-                                    <th>Designation</th>
-                                    <th>Posted At</th>
+                                    <th>No Of days</th>
+                                    <th>Status</th>
+
                                     <th>Actions</th>
                                 </tr>
                             </thead>
-                            <tbody ng-show="totalItems>0">
-                                <tr ng-repeat="data in modelList">
+                            <tbody >
+                                <tr >
                                     <!-- <td>$index</td> -->
-                                    <td>{{data.firstName + " " + data.lastName || "-"}}</td>
-                                    <td>{{data.officeMobile || "-"}}</td>
-                                    <td>{{data.officeEmail || "-"}}</td>
-                                    <td>{{data.grade.name + " " + data.func.name || "-"}}</td>
-                                    <td>{{data.postedAt.name || "-"}}</td>
+                                    <td>Mahesh Maurya</td>
+                                    <td>3</td>
+                                    <td>Pending</td>
+
                                     <td>
-                                        <a class="btn btn-blue" ui-sref="editemployee({id:data._id})">
+                                        <a class="btn btn-blue" ui-sref="create-lead">
                                             <i class="fa fa-pencil"></i>
                                         </a>
                                         <a class="btn btn-red" ng-click="deleteEmployee(data._id)">
@@ -76,7 +72,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="tableData" ng-show="totalItems == 0">
+                    <div class="tableData">
                         <h5>No data found</h5>
                     </div>
                     <div class="tableData" ng-show="totalItems == undefined">

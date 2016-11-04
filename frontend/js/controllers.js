@@ -1324,6 +1324,24 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
+    .controller('LeadListCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("lead-list");
+        $scope.menutitle = NavigationService.makeactive("Lead List");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+
+
+    })
+    .controller('CreateLeadCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("create-lead");
+        $scope.menutitle = NavigationService.makeactive("Create Lead");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+
+
+    })
     .controller('CreateEmployeeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("employee-detail");
