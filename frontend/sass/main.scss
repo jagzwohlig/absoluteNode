@@ -540,9 +540,9 @@ $trans-black: rgba( black, .15);
     border: 0;
 
     > li.active {
-         > a,
+         > a:focus,
          > a:hover,
-        > a:focus {
+        > a {
             color: $red;
             border: 0;
             border-bottom: 5px solid $red;
@@ -652,6 +652,7 @@ $trans-black: rgba( black, .15);
 
 .table .btn {
     padding: 0 5px;
+    margin: 0 0 0 2px;
 }
 
 .chkbx {
@@ -1220,8 +1221,8 @@ img.uploadingImage {
 .inbox-action > ul {
     padding: 14px 15px;
 
-     > li > label,
-    > li > a {
+     > li > a,
+    > li > label {
         padding-top: 7px;
     }
 
@@ -1317,7 +1318,7 @@ img.uploadingImage {
 }
 
 .custom-box {
-    background-color: #f1f1f1;
+    background-color: #f5f2b9;
 }
 
 .btn-noti {
@@ -1340,8 +1341,8 @@ img.uploadingImage {
     }
 }
 
-.mr-20 {
-    margin-right: 20px;
+.mr-10 {
+    margin-right: 10px;
 }
 
 .msg-notify {
@@ -1356,9 +1357,11 @@ img.uploadingImage {
         font-size: 10px;
     }
 }
-.mt-10{
-      margin-top: 10px;
+
+.mt-10 {
+    margin-top: 10px;
 }
+
 .ps-left {
     left: -165px;
 }
@@ -1371,8 +1374,46 @@ img.uploadingImage {
 
 .ml-4 {
     margin: 0 2px;
-    font-size: 11px;
-    font-weight: 400;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.quick-links > ul > li {
+    float: left;
+    margin-right: 6px;
+    position: relative;
+}
+
+.cal-tag {
+    color: #666 !important;
+    border: none !important;
+    font-size: 22px !important;
+
+    i {
+        vertical-align: middle;
+    }
+}
+
+.cust-widg {
+    width: auto !important;
+    padding: 4px 25px 0;
+}
+
+.cl-pro {
+    background: #c1c1c1;
+    color: #fff;
+    padding: 6px;
+    font-size: 12px;
+    border-radius: 4px;
+}
+
+.info-btn.inline span {
+    margin: 0 5px 0 0;
+}
+.unread-msg{
+  font-weight: 400;
+font-family: 'open sans' !important;
+font-size: 13px !important;
 }
 /* Start writing sass here */
 @import "fancybox-override";
