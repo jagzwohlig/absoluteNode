@@ -660,6 +660,16 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
         templateUrl: "frontend/views/template.html",
         controller: 'LeaveListCtrl'
     })
+    .state('reimbursement-list', {
+        url: "/reimbursement-list",
+        templateUrl: "frontend/views/template.html",
+        controller: 'ReimbursementListCtrl'
+    })
+    .state('reimbursement-detail', {
+        url: "/reimbursement-detail",
+        templateUrl: "frontend/views/template.html",
+        controller: 'ReimbursementDetailCtrl'
+    })
 
     .state('edituser', {
         url: "/user-edit/:id",

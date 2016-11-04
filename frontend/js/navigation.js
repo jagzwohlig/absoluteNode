@@ -259,6 +259,17 @@ var navigationservice = angular.module('navigationservice', [])
             anchor: "leave-list",
             icon: "user"
         }]
+    },{
+        name: "Reimbursement",
+        classis: "active",
+        anchor: "timeline",
+        icon: "money",
+        subnav: [{
+            name: "Reimbursement Detail",
+            classis: "active",
+            anchor: "reimbursement-list",
+            icon: "user"
+        }]
     }];
     var membershipLevel = [{
         name: "Student",
