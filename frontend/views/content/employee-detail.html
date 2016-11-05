@@ -30,35 +30,35 @@
                         </div>
                         <div class="sec">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Company Name*</label>
                                         <multiple-select name="company" required ng-model="formData.company" ng-name="name.company" api="searchCompany" ng-create="companySave"></multiple-select>
                                         <div class="error-msg" ng-show="formName.company.$invalid">Please Select Company Name</div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Salutation*</label>
                                         <select name="salutation" class="form-control" ng-model="formData.salutation" required ng-options="salutation for salutation in salutations"></select>
                                         <div class="error-msg" ng-show="formName.salutation.$invalid && formName.salutation.$touched">Please Select Salutation</div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>First Name*</label>
                                         <input type="text" name="name" class="form-control" ng-model="formData.firstName" required>
                                         <div class="error-msg" ng-show="formName.name.$invalid && formName.name.$touched">Please Enter First Name</div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Last Name*</label>
                                         <input type="text" name="lastName" class="form-control" ng-model="formData.lastName" required>
                                         <div class="error-msg" ng-show="formName.lastName.$invalid && formName.lastName.$touched">Please Enter Last Name</div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Posted at*</label>
                                         <multiple-select name="postedAt" required ng-model="formData.postedAt" filter='{"company":"{{formData.company}}"}' ng-name="name.postedAt"
@@ -66,14 +66,14 @@
                                         <div class="error-msg" ng-show="formName.postedAt.$invalid">Please Select Current Posting</div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Function*</label>
                                         <multiple-select name="func" required ng-model="formData.func" ng-name="name.func" api="searchFunc" ng-create="funcSave"></multiple-select>
                                         <div class="error-msg" ng-show="formName.func.$invalid">Please Select Function</div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Grade*</label>
                                         <multiple-select name="grade" required ng-model="formData.grade" ng-name="name.grade" api="searchGrade" ng-create="gradeSave"
@@ -81,15 +81,15 @@
                                         <div class="error-msg" ng-show="formName.grade.$invalid">Please Select Grade</div>
                                     </div>
                                 </div>
-                                <div class="col-md-6"></div>
-                                <div class="col-md-6">
+                                <div class="col-sm-6"></div>
+                                <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>House Color*</label>
                                         <select type="text" name="houseColor" class="form-control" ng-model="formData.houseColor" required ng-options="houseColor for houseColor in houseColors"></select>
                                         <div class="error-msg" ng-show="formName.houseColor.$invalid && formName.houseColor.$touched">Please Select House Color</div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Branch*</label>
                                         <multiple-select name="branch" required ng-model="formData.branch" filter='{"office":"{{formData.postedAt}}"}' ng-name="name.branch"
@@ -97,20 +97,20 @@
                                         <div class="error-msg" ng-show="formName.branch.$invalid">Please Select Branch</div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Employee Code*</label>
                                         <input type="text" name="employeeCode" class="form-control" ng-model="formData.employeeCode" required>
                                         <div class="error-msg" ng-show="formName.employeeCode.$invalid && formName.employeeCode.$touched">Please Enter Employee Code</div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Upload Photo</label>
                                         <upload-image ng-model="formData.photo"></upload-image>
                                     </div>
                                 </div>
-                                <!-- <div class="col-md-6">
+                                <!-- <div class="col-sm-6">
                                   <div class="form-group">
                                       <label>Access*</label>
                                       <multiple-select name="access" required ng-model="formData.access" filter='{"access":"{{formData.access}}"}' ng-name="name.access" api="searchAccess" ng-create="accessSave"></multiple-select>
@@ -171,25 +171,25 @@
                     <h3>NEFT Details</h3>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-sm-6">
                         <div class="form-group">
                             <label>Bank Name</label>
                             <input type="text" class="form-control" ng-model="formData.bank">
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-sm-6">
                         <div class="form-group">
                             <label>Branch Name</label>
                             <input type="text" class="form-control" ng-model="formData.branchName">
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-sm-6">
                         <div class="form-group">
                             <label>Account Number</label>
                             <input type="text" class="form-control" ng-model="formData.accountNumber">
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-sm-6">
                         <div class="form-group">
                             <label>NEFT Code</label>
                             <input type="text" class="form-control" ng-model="formData.neftCode">
@@ -199,7 +199,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-sm-6">
                 <div class="widget">
                     <div class="form-elements-sec">
                         <div class="widget-title">
@@ -209,7 +209,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-sm-6">
                 <div class="widget">
                     <div class="form-elements-sec">
                         <div class="widget-title">
@@ -253,14 +253,14 @@
                     <h3>Other</h3>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-sm-6">
                         <div class="form-group">
                             <label>Gender*</label>
                             <select type="text" name="gender" class="form-control" ng-model="formData.gender" required ng-options="gender for gender in ['Female','Male']"></select>
                             <div class="error-msg" ng-show="formName.gender.$invalid && formName.gender.$touched">Please Select Gender</div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-sm-6">
                         <div class="form-group">
                             <label>Date of Birth*</label>
                             <div class="input-group">
@@ -276,7 +276,7 @@
                             <div class="error-msg" ng-show="formName.birthDate.$invalid && formName.birthDate.$touched">Please enter Date of Birth</div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-sm-6">
                         <div class="form-group">
                             <label>Joining Date*</label>
                             <div class="input-group">
@@ -291,7 +291,7 @@
                             <div class="error-msg" ng-show="formName.joiningDate.$invalid && formName.joiningDate.$touched">Please enter Date of Birth</div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-sm-6">
                         <div class="form-group">
                             <label>Marriage Date</label>
                             <div class="input-group">
@@ -319,14 +319,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-sm-6">
                         <div class="form-group">
                             <label>Is SBC (service branch cell)</label>
                             <br>
                             <toggle-switch on-label="Yes" off-label="No" ng-model="formData.isSBC" class="switch-mini switch-success"></toggle-switch>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-sm-6">
                         <div class="form-group">
                             <label>Is Field (on field employee)</label>
                             <br>
@@ -436,28 +436,28 @@
                     <h3>Leave Management</h3>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-sm-6">
                         <div class="form-group">
                             <label>CL*</label>
                             <input type="text" class="form-control" ng-model="formData.cl">
                             <div class="error-msg" ng-show="formName.cl.$invalid && formName.cl.$touched">Please enter CL</div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-sm-6">
                         <div class="form-group">
                             <label>EL*</label>
                             <input type="text" class="form-control" ng-model="formData.el">
                             <div class="error-msg" ng-show="formName.el.$invalid && formName.el.$touched">Please enter EL</div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-sm-6">
                         <div class="form-group">
                             <label>ML*</label>
                             <input type="text" class="form-control" ng-model="formData.ml">
                             <div class="error-msg" ng-show="formName.ml.$invalid && formName.ml.$touched">Please enter ML</div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-sm-6">
                         <div class="form-group">
                             <label>PL*</label>
                             <input type="text" class="form-control" ng-model="formData.pl">

@@ -4,7 +4,7 @@
             <a title="Home">Company Setup</a>
         </li>
         <li>
-            <a ui-sref="office-list" >{{header.name}}</a>
+            <a ui-sref="office-list">{{header.name}}</a>
         </li>
     </ul>
 </div>
@@ -22,7 +22,7 @@
     <!-- Top Bar Chart -->
     <div class="panel-content">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-sm-6">
                 <div class="widget">
                     <div class="form-elements-sec">
                         <div class="widget-title">
@@ -36,7 +36,8 @@
                             </div>
                             <div class="form-group">
                                 <label>Type of Office*</label>
-                                <multiple-select  name="officeType" required ng-model="formData.typeOfOffice" ng-name = "name.typeOfOffice" api="searchTypeOfOffice" ng-create="typeofofficeSave"></multiple-select>
+                                <multiple-select name="officeType" required ng-model="formData.typeOfOffice" ng-name="name.typeOfOffice" api="searchTypeOfOffice"
+                                    ng-create="typeofofficeSave"></multiple-select>
                                 <div class="error-msg" ng-show="officeform.officeType.$invalid">Please Enter Type of Office</div>
                             </div>
                             <div class="form-group">
@@ -67,17 +68,16 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-sm-6">
                 <div class="widget">
                     <div class="form-elements-sec">
                         <div class="widget-title">
                             <h3>Address</h3>
                         </div>
                         <div class="sec">
-                          <address-form ng-valid="officeform" ng-model="formData"></address-form>
+                            <address-form ng-valid="officeform" ng-model="formData"></address-form>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

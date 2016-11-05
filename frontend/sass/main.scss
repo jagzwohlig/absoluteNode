@@ -1137,7 +1137,6 @@ img.uploadingImage {
 }
 
 .inbox-action>ul {
-    padding: 14px 15px;
     >li>a,
     >li>label {
         padding-top: 7px;
@@ -1346,12 +1345,20 @@ img.uploadingImage {
     padding: 3px 6px 3px 6px;
     margin-right: 6px;
 }
-.b-top-m{
-  border-bottom: 1px solid #ddd;
-padding-bottom: 10px;
-margin-bottom: 15px;
-padding-top: 10px
+
+.b-top-m {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    padding-top: 10px
 }
+
+.mini-stats>p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 
 /* Start writing sass here */
 

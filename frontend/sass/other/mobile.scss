@@ -1,18 +1,39 @@
+@media (max-width:1200px) {
+  .main-content {
+    padding: 20px;
+  }
+  .logo>a {
+    margin-right: 10px;
+  }
+}
+
+@media (max-width:$screen-sm-max) {
+  .inbox-action>ul>li {
+    margin-right: 10px;
+  }
+  .form-group .error-msg {
+    padding: 2px 10px;
+    bottom: -17px;
+    text-transform: uppercase;
+  }
+}
+
 @media (max-width:$screen-xs-max) {
   .info-holder {
-      height: auto;
+    height: auto;
   }
   .first-half {
-      width: 100%;
-      padding: 0 !important;
-      text-align: center;
-      &.pull-right, .pull-right {
-        float: none !important;
-      }
-      .mt-18 {
-        float: none !important;
-        margin: 0;
-      }
+    width: 100%;
+    padding: 0 !important;
+    text-align: center;
+    &.pull-right,
+    .pull-right {
+      float: none !important;
+    }
+    .mt-18 {
+      float: none !important;
+      margin: 0;
+    }
   }
   .compny {
     text-align: center !important;
@@ -22,14 +43,99 @@
     text-align: center;
     margin-top: 15px;
   }
-  .who-post-detail > h3 {
+  .who-post-detail>h3 {
     font-size: 16px;
     line-height: 120%;
   }
-  .who-post-this > span {
+  .who-post-this>span {
     display: none;
   }
   .info-house {
     right: 28%;
+  }
+  .mini-stats {
+    padding: 15px;
+    span {
+      margin-right: 10px;
+    }
+  }
+  .mmb0 {
+    margin-bottom: 0;
+  }
+  .mpb20 {
+    padding-bottom: 20px;
+  }
+  .inbox-navigation {
+    height: auto !important;
+    .inbox-panel-head {
+      padding: 20px 40px;
+    }
+    ul>li {
+      display: inline-block;
+      float: left;
+      width: 20%;
+      border-left-width: 0;
+      a {
+        padding: 5px;
+        text-align: center;
+      }
+    }
+  }
+  .inbox-sec {
+    margin-top: 0px;
+  }
+  .table-area {
+    padding: 20px;
+  }
+  .widget-title {
+    margin-bottom: 15px;
+    .pull-right {
+      float: none!important;
+      margin-bottom: 10px;
+    }
+  }
+}
+
+@media (max-width:480px) {
+  .revenew-browser>ul>li .browser-detail {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+  .widget-title {
+    margin-bottom: 10px;
+    .pull-right {
+      padding-bottom: 10px;
+    }
+  }
+  form.search-form {
+    width: 142px;
+  }
+  .inbox-navigation {
+    &.mpb20 {
+      padding-bottom: 0px;
+    }
+    ul>li {
+      width: auto;
+      a {
+        padding: 7px;
+        text-align: center;
+      }
+    }
+  }
+  .inbox-action>ul {
+    padding: 10px;
+    li {
+      margin-right: 5px;
+      margin-bottom: 10px;
+      a i {
+        margin: 0 5px 0 8px;
+      }
+    }
+  }
+  .form-group .error-msg {
+    right: 0;
+    padding: 1px 5px;
+    font-size: 10px;
+    bottom: -15px;
   }
 }
