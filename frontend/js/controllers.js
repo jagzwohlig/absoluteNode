@@ -5848,6 +5848,22 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             size: 'md'
         });
     };
+    $scope.allTemplate = "";
+    $scope.ViewTemplates = function (temp, getApi) {
+        $scope.allTemplate = temp;
+        NavigationService.searchModel(getApi, {
+            page: "1",
+            keyword: ""
+        }, "", function (data) {
+            $scope.templateList = data.data.results;
+        });
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/modal-template.html',
+            size: 'md'
+        });
+    };
+
 
     $scope.files = [{
         type: "JIR",
