@@ -285,6 +285,22 @@ var navigationservice = angular.module('navigationservice', [])
             anchor: "reimbursement-list",
             icon: "user"
         }]
+    },{
+        name: "Knowledge Base",
+        classis: "active",
+        anchor: "timeline",
+        icon: "graduation-cap",
+        subnav: [{
+            name: "Knowledge Base List",
+            classis: "active",
+            anchor: "knowledgebase-list",
+            icon: "book"
+        },{
+            name: "Knowledge Base Detail",
+            classis: "active",
+            anchor: "all-document",
+            icon: "book"
+        }]
     }];
     var membershipLevel = [{
         name: "Student",
