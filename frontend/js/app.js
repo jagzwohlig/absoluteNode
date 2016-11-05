@@ -1165,12 +1165,12 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
     .state('templateila-list', {
         url: "/templateila-list",
         templateUrl: "frontend/views/template.html",
-        controller: 'CreateTemplateILACtrl'
+        controller: 'TemplateILACtrl'
     })
     .state('templateilr-list', {
         url: "/templateilr-list",
         templateUrl: "frontend/views/template.html",
-        controller: 'CreateTemplateILRCtrl'
+        controller: 'TemplateILRCtrl'
     })
     .state('templateilr-detail', {
         url: "/templateilr-detail",
