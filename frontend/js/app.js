@@ -1159,35 +1159,68 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
     .state('createtemplateJir', {
         url: "/templateJir-create",
         templateUrl: "frontend/views/template.html",
-        controller: 'CreateTemplateCtrl'
-    })
-
-    .state('templateila-list', {
-        url: "/templateila-list",
-        templateUrl: "frontend/views/template.html",
-        controller: 'TemplateILACtrl'
-    })
-    .state('templateilr-list', {
-        url: "/templateilr-list",
-        templateUrl: "frontend/views/template.html",
-        controller: 'TemplateILRCtrl'
-    })
-    .state('templateilr-detail', {
-        url: "/templateilr-detail",
-        templateUrl: "frontend/views/template.html",
-        controller: 'EditTemplateILRCtrl'
-    })
-    .state('templateila-detail', {
-        url: "/templateila-detail",
-        templateUrl: "frontend/views/template.html",
-        controller: 'EditTemplateILACtrl'
+        controller: 'CreateTemplateJIRCtrl'
     })
 
     .state('edittemplateJir', {
         url: "/templateJir-edit/:id",
         templateUrl: "frontend/views/template.html",
-        controller: 'EditTemplateCtrl'
+        controller: 'EditTemplateJIRCtrl'
     })
+
+    //  jir state
+
+    // ila state
+    .state('templateIla-list', {
+        url: "/templateIla-list/{page:.*}/{keyword:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'ModelViewCtrl',
+        params: {
+            page: "1",
+            keyword: "",
+            model: "template ila"
+        }
+    })
+
+    .state('createtemplateIla', {
+        url: "/templateIla-create",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateTemplateILACtrl'
+    })
+
+    .state('edittemplateIla', {
+        url: "/templateIla-edit/:id",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditTemplateILACtrl'
+    })
+
+    //  ila state
+
+    // ila state
+    .state('templateIsr-list', {
+        url: "/templateIsr-list/{page:.*}/{keyword:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'ModelViewCtrl',
+        params: {
+            page: "1",
+            keyword: "",
+            model: "template isr"
+        }
+    })
+
+    .state('createtemplateIsr', {
+        url: "/templateIsr-create",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateTemplateISRCtrl'
+    })
+
+    .state('edittemplateIsr', {
+        url: "/templateIsr-edit/:id",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditTemplateISRCtrl'
+    })
+
+    //  ila state
 
     //  lor state
     .state('templateLor-list', {
@@ -1212,6 +1245,9 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
         templateUrl: "frontend/views/template.html",
         controller: 'EditTemplateLORCtrl'
     })
+
+    //  lor state
+
 
     .state('template-view', {
         url: "/template-view",

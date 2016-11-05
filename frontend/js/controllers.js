@@ -1379,7 +1379,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     })
     .controller('TemplateILACtrl', function ($scope, TemplateService, NavigationService, $timeout, $state) {
         //Used to name the .html file
-        $scope.template = TemplateService.changecontent("templateila-list");
+        $scope.template = TemplateService.changecontent("templateIla-list");
         $scope.menutitle = NavigationService.makeactive("ILA Template");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
@@ -1388,381 +1388,429 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('TemplateILRCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state) {
-        //Used to name the .html file
-        $scope.template = TemplateService.changecontent("templateilr-list");
-        $scope.menutitle = NavigationService.makeactive("ILR List");
-        TemplateService.title = $scope.menutitle;
-        $scope.navigation = NavigationService.getnav();
+
+.controller('EditTemplateILACtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+    //Used to name the .html file
+    $scope.template = TemplateService.changecontent("templateIla-detail");
+    $scope.menutitle = NavigationService.makeactive("Edit ILA Template");
+    TemplateService.title = $scope.menutitle;
+    $scope.navigation = NavigationService.getnav();
+
+    $scope.header = {
+        "name": "Edit ILA Template"
+    };
+    $scope.formData = {};
+    // $scope.formData.status = true;
+
+    NavigationService.getOneModel("TemplateIla", $stateParams.id, function (data) {
+        $scope.formData = data.data;
+    });
+
+    $scope.itemTypes = [{
+        value: '',
+        name: 'Select type of item'
+    }, {
+        value: 'Custom Input',
+        name: 'Custom Input'
+    }, {
+        value: 'System Fields',
+        name: 'System Fields'
+    }, {
+        value: 'Dropdown',
+        name: 'Dropdown'
+    }];
+
+    $scope.inputTypes = [{
+        value: '',
+        name: 'Select type of input'
+    }, {
+        value: 'Text',
+        name: 'Text'
+    }, {
+        value: 'Date',
+        name: 'Date'
+    }, {
+        value: 'Textarea',
+        name: 'Textarea'
+    }];
 
 
-    })
-    .controller('EditTemplateILACtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
-        //Used to name the .html file
-        $scope.template = TemplateService.changecontent("templateila-detail");
-        $scope.menutitle = NavigationService.makeactive("Edit ILA Template");
-        TemplateService.title = $scope.menutitle;
-        $scope.navigation = NavigationService.getnav();
-
-        $scope.header = {
-            "name": "Edit ILA Template"
-        };
-
-        $scope.formData = {};
-        NavigationService.getOneModel("Templateila", $stateParams.id, function (data) {
-            $scope.formData = data.data;
+    $scope.addHead = function () {
+        $scope.formData.forms.push({
+            head: $scope.formData.forms.length + 1,
+            items: [{}]
         });
-        $scope.itemTypes = [{
-            value: '',
-            name: 'Select Status'
-        }, {
-            value: 'Copy',
-            name: 'Copy'
-        }, {
-            value: 'Original',
-            name: 'Original'
-        }, {
-            value: 'Submitted',
-            name: 'Submitted'
-        }];
+    };
+    $scope.removeHead = function (index) {
+        if ($scope.formData.forms.length > 1) {
+            $scope.formData.forms.splice(index, 1);
+        } else {
+            $scope.formData.forms = [{
+                head: '',
+                items: [{}, {}]
+            }];
+        }
+    };
 
-        $scope.formData.forms = [{
-            head: '',
-            items: [{}, {}]
-        }];
+    $scope.addItem = function (obj) {
+        var index = $scope.formData.forms.indexOf(obj);
+        $scope.formData.forms[index].items.push({});
+    };
 
-        $scope.required = true;
+    $scope.removeItem = function (obj, indexItem) {
+        var indexHead = $scope.formData.forms.indexOf(obj);
+        if ($scope.formData.forms[indexHead].items.length > 1) {
+            $scope.formData.forms[indexHead].items.splice(indexItem, 1);
+        } else {
+            $scope.formData.forms[indexHead].items = [{}];
+        }
+    };
 
-        $scope.addHead = function () {
-            $scope.formData.forms.push({
-                head: $scope.formData.forms.length + 1,
-                items: [{}]
+    $scope.sortableOptions = {
+        handle: ' .handleBar',
+        axis: 'y',
+        'ui-floating': true,
+        start: function (e, ui) {
+            $('#sortable-ul-selector-id').sortable("refreshPositions");
+            $('#sortable-ul-selector-id').sortable("refresh");
+        }
+    };
+
+    $scope.saveModel = function (data) {
+        $scope.saveModel = function (formData) {
+            NavigationService.modelSave("TemplateIla", $scope.formData, function (data) {
+                if (data.value === true) {
+                    $state.go('template-list');
+                    toastr.success("Template ILA " + formData.name + " edited successfully.", "Template ILA Edited");
+                } else {
+                    toastr.error("Template ILA Edition failed.", "Template ILA edition error");
+                }
             });
         };
-        $scope.removeHead = function (index) {
-            if ($scope.formData.forms.length > 1) {
-                $scope.formData.forms.splice(index, 1);
-            } else {
-                $scope.formData.forms = [{
-                    head: '',
-                    items: [{}, {}]
-                }];
-            }
-        };
+    };
+})
 
-        $scope.addItem = function (obj) {
-            var index = $scope.formData.forms.indexOf(obj);
-            $scope.formData.forms[index].items.push({});
-        };
+.controller('CreateTemplateILACtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+    //Used to name the .html file
+    $scope.template = TemplateService.changecontent("templateIla-detail");
+    $scope.menutitle = NavigationService.makeactive("Create ILA Template");
+    TemplateService.title = $scope.menutitle;
+    $scope.navigation = NavigationService.getnav();
 
-        $scope.removeItem = function (obj, indexItem) {
-            var indexHead = $scope.formData.forms.indexOf(obj);
-            if ($scope.formData.forms[indexHead].items.length > 1) {
-                $scope.formData.forms[indexHead].items.splice(indexItem, 1);
-            } else {
-                $scope.formData.forms[indexHead].items = [{}];
-            }
-        };
+    $scope.header = {
+        "name": "Create ILA Template"
+    };
 
-        $scope.sortableOptions = {
-            handle: ' .handleBar',
-            axis: 'y',
-            'ui-floating': true,
-            start: function (e, ui) {
-                $('#sortable-ul-selector-id').sortable("refreshPositions");
-                $('#sortable-ul-selector-id').sortable("refresh");
-            }
-        };
+    $scope.itemTypes = [{
+        value: '',
+        name: 'Select type of item'
+    }, {
+        value: 'Custom Input',
+        name: 'Custom Input'
+    }, {
+        value: 'System Fields',
+        name: 'System Fields'
+    }, {
+        value: 'Dropdown',
+        name: 'Dropdown'
+    }];
 
-        $scope.saveModel = function (data) {
-            $scope.saveModel = function (formData) {
-                NavigationService.modelSave("TemplateIla", $scope.formData, function (data) {
-                    if (data.value === true) {
-                        $state.go('templateila-list');
-                        toastr.success("ILA Template " + formData.name + " edited successfully.", "ILA Template Edited");
-                    } else {
-                        toastr.error("ILA Template edition failed.", "ILA Template edition error");
-                    }
-                });
-            };
-        };
+    $scope.inputTypes = [{
+        value: '',
+        name: 'Select type of input'
+    }, {
+        value: 'Text',
+        name: 'Text'
+    }, {
+        value: 'Date',
+        name: 'Date'
+    }, {
+        value: 'Textarea',
+        name: 'Textarea'
+    }];
 
+    $scope.formData = {};
+    $scope.formData.status = true;
 
-    })
-    .controller('CreateTemplateILACtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
-        //Used to name the .html file
-        $scope.template = TemplateService.changecontent("templateila-detail");
-        $scope.menutitle = NavigationService.makeactive("Create ILA Template");
-        TemplateService.title = $scope.menutitle;
-        $scope.navigation = NavigationService.getnav();
+    $scope.formData.forms = [{
+        head: '',
+        items: [{}, {}]
+    }];
 
-        $scope.header = {
-            "name": "Create ILA Template"
-        };
+    $scope.addHead = function () {
+        $scope.formData.forms.push({
+            head: $scope.formData.forms.length + 1,
+            items: [{}]
+        });
+    };
+    $scope.removeHead = function (index) {
+        if ($scope.formData.forms.length > 1) {
+            $scope.formData.forms.splice(index, 1);
+        } else {
+            $scope.formData.forms = [{
+                head: '',
+                items: [{}, {}]
+            }];
+        }
+    };
 
-        $scope.itemTypes = [{
-            value: '',
-            name: 'Select Status'
-        }, {
-            value: 'Copy',
-            name: 'Copy'
-        }, {
-            value: 'Original',
-            name: 'Original'
-        }, {
-            value: 'Submitted',
-            name: 'Submitted'
-        }];
+    $scope.addItem = function (obj) {
+        var index = $scope.formData.forms.indexOf(obj);
+        $scope.formData.forms[index].items.push({});
+    };
 
-        $scope.formData = {};
-        $scope.formData.status = true;
-        $scope.formData.forms = [{
-            head: '',
-            items: [{}, {}]
-        }];
+    $scope.removeItem = function (obj, indexItem) {
+        var indexHead = $scope.formData.forms.indexOf(obj);
+        if ($scope.formData.forms[indexHead].items.length > 1) {
+            $scope.formData.forms[indexHead].items.splice(indexItem, 1);
+        } else {
+            $scope.formData.forms[indexHead].items = [{}];
+        }
+    };
 
-        $scope.required = true;
+    $scope.sortableOptions = {
+        handle: ' .handleBar',
+        axis: 'y',
+        'ui-floating': true,
+        start: function (e, ui) {
+            $('#sortable-ul-selector-id').sortable("refreshPositions");
+            $('#sortable-ul-selector-id').sortable("refresh");
+        }
+    };
 
-        $scope.addHead = function () {
-            $scope.formData.forms.push({
-                head: $scope.formData.forms.length + 1,
-                items: [{}]
+    $scope.saveModel = function (data) {
+        $scope.saveModel = function (formData) {
+            NavigationService.modelSave("TemplateIla", $scope.formData, function (data) {
+                if (data.value === true) {
+                    $state.go('templateIla-list');
+                    toastr.success("Template ILA " + formData.name + " created successfully.", "Template ILA Created");
+                } else {
+                    toastr.error("Template ILA creation failed.", "Template ILA creation error");
+                }
             });
         };
-        $scope.removeHead = function (index) {
-            if ($scope.formData.forms.length > 1) {
-                $scope.formData.forms.splice(index, 1);
-            } else {
-                $scope.formData.forms = [{
-                    head: '',
-                    items: [{}, {}]
-                }];
-            }
+    };
+
+
+})
+
+.controller('TemplateISRCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state) {
+    //Used to name the .html file
+    $scope.template = TemplateService.changecontent("templateIsr-list");
+    $scope.menutitle = NavigationService.makeactive("ISR List");
+    TemplateService.title = $scope.menutitle;
+    $scope.navigation = NavigationService.getnav();
+
+})
+
+
+.controller('EditTemplateILACtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+    //Used to name the .html file
+    $scope.template = TemplateService.changecontent("templateIsr-detail");
+    $scope.menutitle = NavigationService.makeactive("Edit ISR Template");
+    TemplateService.title = $scope.menutitle;
+    $scope.navigation = NavigationService.getnav();
+
+    $scope.header = {
+        "name": "Edit ISR Template"
+    };
+    $scope.formData = {};
+    // $scope.formData.status = true;
+
+    NavigationService.getOneModel("TemplateIsr", $stateParams.id, function (data) {
+        $scope.formData = data.data;
+    });
+
+    $scope.itemTypes = [{
+        value: '',
+        name: 'Select type of item'
+    }, {
+        value: 'Custom Input',
+        name: 'Custom Input'
+    }, {
+        value: 'System Fields',
+        name: 'System Fields'
+    }, {
+        value: 'Dropdown',
+        name: 'Dropdown'
+    }];
+
+    $scope.inputTypes = [{
+        value: '',
+        name: 'Select type of input'
+    }, {
+        value: 'Text',
+        name: 'Text'
+    }, {
+        value: 'Date',
+        name: 'Date'
+    }, {
+        value: 'Textarea',
+        name: 'Textarea'
+    }];
+
+
+    $scope.addHead = function () {
+        $scope.formData.forms.push({
+            head: $scope.formData.forms.length + 1,
+            items: [{}]
+        });
+    };
+    $scope.removeHead = function (index) {
+        if ($scope.formData.forms.length > 1) {
+            $scope.formData.forms.splice(index, 1);
+        } else {
+            $scope.formData.forms = [{
+                head: '',
+                items: [{}, {}]
+            }];
+        }
+    };
+
+    $scope.addItem = function (obj) {
+        var index = $scope.formData.forms.indexOf(obj);
+        $scope.formData.forms[index].items.push({});
+    };
+
+    $scope.removeItem = function (obj, indexItem) {
+        var indexHead = $scope.formData.forms.indexOf(obj);
+        if ($scope.formData.forms[indexHead].items.length > 1) {
+            $scope.formData.forms[indexHead].items.splice(indexItem, 1);
+        } else {
+            $scope.formData.forms[indexHead].items = [{}];
+        }
+    };
+
+    $scope.sortableOptions = {
+        handle: ' .handleBar',
+        axis: 'y',
+        'ui-floating': true,
+        start: function (e, ui) {
+            $('#sortable-ul-selector-id').sortable("refreshPositions");
+            $('#sortable-ul-selector-id').sortable("refresh");
+        }
+    };
+
+    $scope.saveModel = function (data) {
+        $scope.saveModel = function (formData) {
+            NavigationService.modelSave("TemplateIsr", $scope.formData, function (data) {
+                if (data.value === true) {
+                    $state.go('template-list');
+                    toastr.success("Template ISR " + formData.name + " edited successfully.", "Template ISR Edited");
+                } else {
+                    toastr.error("Template ISR Edition failed.", "Template ISR edition error");
+                }
+            });
         };
+    };
+})
 
-        $scope.addItem = function (obj) {
-            var index = $scope.formData.forms.indexOf(obj);
-            $scope.formData.forms[index].items.push({});
+.controller('CreateTemplateILACtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+    //Used to name the .html file
+    $scope.template = TemplateService.changecontent("templateIsr-detail");
+    $scope.menutitle = NavigationService.makeactive("Create ISR Template");
+    TemplateService.title = $scope.menutitle;
+    $scope.navigation = NavigationService.getnav();
+
+    $scope.header = {
+        "name": "Create ISR Template"
+    };
+
+    $scope.itemTypes = [{
+        value: '',
+        name: 'Select type of item'
+    }, {
+        value: 'Custom Input',
+        name: 'Custom Input'
+    }, {
+        value: 'System Fields',
+        name: 'System Fields'
+    }, {
+        value: 'Dropdown',
+        name: 'Dropdown'
+    }];
+
+    $scope.inputTypes = [{
+        value: '',
+        name: 'Select type of input'
+    }, {
+        value: 'Text',
+        name: 'Text'
+    }, {
+        value: 'Date',
+        name: 'Date'
+    }, {
+        value: 'Textarea',
+        name: 'Textarea'
+    }];
+
+    $scope.formData = {};
+    $scope.formData.status = true;
+
+    $scope.formData.forms = [{
+        head: '',
+        items: [{}, {}]
+    }];
+
+    $scope.addHead = function () {
+        $scope.formData.forms.push({
+            head: $scope.formData.forms.length + 1,
+            items: [{}]
+        });
+    };
+    $scope.removeHead = function (index) {
+        if ($scope.formData.forms.length > 1) {
+            $scope.formData.forms.splice(index, 1);
+        } else {
+            $scope.formData.forms = [{
+                head: '',
+                items: [{}, {}]
+            }];
+        }
+    };
+
+    $scope.addItem = function (obj) {
+        var index = $scope.formData.forms.indexOf(obj);
+        $scope.formData.forms[index].items.push({});
+    };
+
+    $scope.removeItem = function (obj, indexItem) {
+        var indexHead = $scope.formData.forms.indexOf(obj);
+        if ($scope.formData.forms[indexHead].items.length > 1) {
+            $scope.formData.forms[indexHead].items.splice(indexItem, 1);
+        } else {
+            $scope.formData.forms[indexHead].items = [{}];
+        }
+    };
+
+    $scope.sortableOptions = {
+        handle: ' .handleBar',
+        axis: 'y',
+        'ui-floating': true,
+        start: function (e, ui) {
+            $('#sortable-ul-selector-id').sortable("refreshPositions");
+            $('#sortable-ul-selector-id').sortable("refresh");
+        }
+    };
+
+    $scope.saveModel = function (data) {
+        $scope.saveModel = function (formData) {
+            NavigationService.modelSave("TemplateIsr", $scope.formData, function (data) {
+                if (data.value === true) {
+                    $state.go('templateIla-list');
+                    toastr.success("Template ISR " + formData.name + " created successfully.", "Template ISR Created");
+                } else {
+                    toastr.error("Template ISR creation failed.", "Template ISR creation error");
+                }
+            });
         };
-
-        $scope.removeItem = function (obj, indexItem) {
-            var indexHead = $scope.formData.forms.indexOf(obj);
-            if ($scope.formData.forms[indexHead].items.length > 1) {
-                $scope.formData.forms[indexHead].items.splice(indexItem, 1);
-            } else {
-                $scope.formData.forms[indexHead].items = [{}];
-            }
-        };
-
-        $scope.sortableOptions = {
-            handle: ' .handleBar',
-            axis: 'y',
-            'ui-floating': true,
-            start: function (e, ui) {
-                $('#sortable-ul-selector-id').sortable("refreshPositions");
-                $('#sortable-ul-selector-id').sortable("refresh");
-            }
-        };
-
-        $scope.saveModel = function (data) {
-            $scope.saveModel = function (formData) {
-                NavigationService.modelSave("TemplateLor", $scope.formData, function (data) {
-                    if (data.value === true) {
-                        $state.go('templateLor-list');
-                        toastr.success("LOR Template " + formData.name + " created successfully.", "LOR Template Created");
-                    } else {
-                        toastr.error("LOR Template creation failed.", "LOr Template creation error");
-                    }
-                });
-            };
-        };
-
-    })
-    .controller('EditTemplateILRCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
-        //Used to name the .html file
-        $scope.template = TemplateService.changecontent("templateilr-detail");
-        $scope.menutitle = NavigationService.makeactive("Edit ILR Template");
-        TemplateService.title = $scope.menutitle;
-        $scope.navigation = NavigationService.getnav();
+    };
 
 
-                $scope.header = {
-                    "name": "Edit ILR Template"
-                };
-
-                $scope.formData = {};
-                NavigationService.getOneModel("Templateilr", $stateParams.id, function (data) {
-                    $scope.formData = data.data;
-                });
-                $scope.itemTypes = [{
-                    value: '',
-                    name: 'Select Status'
-                }, {
-                    value: 'Copy',
-                    name: 'Copy'
-                }, {
-                    value: 'Original',
-                    name: 'Original'
-                }, {
-                    value: 'Submitted',
-                    name: 'Submitted'
-                }];
-
-                $scope.formData.forms = [{
-                    head: '',
-                    items: [{}, {}]
-                }];
-
-                $scope.required = true;
-
-                $scope.addHead = function () {
-                    $scope.formData.forms.push({
-                        head: $scope.formData.forms.length + 1,
-                        items: [{}]
-                    });
-                };
-                $scope.removeHead = function (index) {
-                    if ($scope.formData.forms.length > 1) {
-                        $scope.formData.forms.splice(index, 1);
-                    } else {
-                        $scope.formData.forms = [{
-                            head: '',
-                            items: [{}, {}]
-                        }];
-                    }
-                };
-
-                $scope.addItem = function (obj) {
-                    var index = $scope.formData.forms.indexOf(obj);
-                    $scope.formData.forms[index].items.push({});
-                };
-
-                $scope.removeItem = function (obj, indexItem) {
-                    var indexHead = $scope.formData.forms.indexOf(obj);
-                    if ($scope.formData.forms[indexHead].items.length > 1) {
-                        $scope.formData.forms[indexHead].items.splice(indexItem, 1);
-                    } else {
-                        $scope.formData.forms[indexHead].items = [{}];
-                    }
-                };
-
-                $scope.sortableOptions = {
-                    handle: ' .handleBar',
-                    axis: 'y',
-                    'ui-floating': true,
-                    start: function (e, ui) {
-                        $('#sortable-ul-selector-id').sortable("refreshPositions");
-                        $('#sortable-ul-selector-id').sortable("refresh");
-                    }
-                };
-
-                $scope.saveModel = function (data) {
-                    $scope.saveModel = function (formData) {
-                        NavigationService.modelSave("Templateilr", $scope.formData, function (data) {
-                            if (data.value === true) {
-                                $state.go('templateilr-list');
-                                toastr.success("ILR Template " + formData.name + " edited successfully.", "ILR Template Edited");
-                            } else {
-                                toastr.error("ILR Template edition failed.", "ILR Template edition error");
-                            }
-                        });
-                    };
-                };
-
-    })
-    .controller('CreateTemplateILRCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
-        //Used to name the .html file
-        $scope.template = TemplateService.changecontent("templateilr-detail");
-        $scope.menutitle = NavigationService.makeactive("Create ILR Template");
-        TemplateService.title = $scope.menutitle;
-        $scope.navigation = NavigationService.getnav();
+})
 
 
-                $scope.header = {
-                    "name": "Edit ILR Template"
-                };
-
-                $scope.formData = {};
-                NavigationService.getOneModel("Templateilr", $stateParams.id, function (data) {
-                    $scope.formData = data.data;
-                });
-                $scope.itemTypes = [{
-                    value: '',
-                    name: 'Select Status'
-                }, {
-                    value: 'Copy',
-                    name: 'Copy'
-                }, {
-                    value: 'Original',
-                    name: 'Original'
-                }, {
-                    value: 'Submitted',
-                    name: 'Submitted'
-                }];
-
-                $scope.formData.forms = [{
-                    head: '',
-                    items: [{}, {}]
-                }];
-
-                $scope.required = true;
-
-                $scope.addHead = function () {
-                    $scope.formData.forms.push({
-                        head: $scope.formData.forms.length + 1,
-                        items: [{}]
-                    });
-                };
-                $scope.removeHead = function (index) {
-                    if ($scope.formData.forms.length > 1) {
-                        $scope.formData.forms.splice(index, 1);
-                    } else {
-                        $scope.formData.forms = [{
-                            head: '',
-                            items: [{}, {}]
-                        }];
-                    }
-                };
-
-                $scope.addItem = function (obj) {
-                    var index = $scope.formData.forms.indexOf(obj);
-                    $scope.formData.forms[index].items.push({});
-                };
-
-                $scope.removeItem = function (obj, indexItem) {
-                    var indexHead = $scope.formData.forms.indexOf(obj);
-                    if ($scope.formData.forms[indexHead].items.length > 1) {
-                        $scope.formData.forms[indexHead].items.splice(indexItem, 1);
-                    } else {
-                        $scope.formData.forms[indexHead].items = [{}];
-                    }
-                };
-
-                $scope.sortableOptions = {
-                    handle: ' .handleBar',
-                    axis: 'y',
-                    'ui-floating': true,
-                    start: function (e, ui) {
-                        $('#sortable-ul-selector-id').sortable("refreshPositions");
-                        $('#sortable-ul-selector-id').sortable("refresh");
-                    }
-                };
-
-                $scope.saveModel = function (data) {
-                    $scope.saveModel = function (formData) {
-                        NavigationService.modelSave("Templateilr", $scope.formData, function (data) {
-                            if (data.value === true) {
-                                $state.go('templateilr-list');
-                                toastr.success("ILR Template " + formData.name + " edited successfully.", "ILR Template Edited");
-                            } else {
-                                toastr.error("ILR Template edition failed.", "ILR Template edition error");
-                            }
-                        });
-                    };
-                };
-
-    })
-    .controller('CreateEmployeeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter) {
+.controller('CreateEmployeeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("employee-detail");
         $scope.menutitle = NavigationService.makeactive("Employee");
