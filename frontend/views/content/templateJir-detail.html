@@ -4,7 +4,7 @@
             <div class="col-md-12 column">
                 <div class="heading-profile">
                     <toggle-switch ng-model="formData.status" class="switch-small switch-success pull-right"></toggle-switch>
-                    <h2>Create JIR Templates</h2>
+                    <h2>{{header.name}}</h2>
                 </div>
             </div>
         </div>
@@ -17,7 +17,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Name*</label>
+                                <label>JIR Name*</label>
                                 <input type="text" name="name" class="form-control" ng-model="formData.name" required>
                                 <div class="error-msg" ng-show="formName.name.$invalid && formName.name.$touched">Please Enter Name</div>
                             </div>

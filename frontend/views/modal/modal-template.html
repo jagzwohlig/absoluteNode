@@ -14,7 +14,7 @@
             <tr ng-repeat="tmp in templateList">
                 <td>{{tmp.name}}</td>
                 <td>{{tmp.updatedAt|date:'dd-mm-yyyy'}}</td>
-                <td><button class="btn btn-clear" ui-sref="template-view"><i class="ln-pencil"></i></button>
+                <td><button class="btn btn-clear" ui-sref="template-view({template:tmp._id, assignment:assignment._id, type:'TemplateJir'})"><i class="ln-pencil"></i></button>
                 </td>
             </tr>
         </tbody>

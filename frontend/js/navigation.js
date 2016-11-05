@@ -252,15 +252,15 @@ var navigationservice = angular.module('navigationservice', [])
             classis: "active",
             anchor: "templateLor-list",
             icon: "file-text"
-        },{
+        }, {
             name: "ILA Templates",
             classis: "active",
-            anchor: "templateila-list",
+            anchor: "templateIla-list",
             icon: "file-text"
-        },{
-            name: "ILR Templates",
+        }, {
+            name: "ISR Templates",
             classis: "active",
-            anchor: "templateilr-list",
+            anchor: "templateIsr-list",
             icon: "file-text"
         }]
     }, {
@@ -285,7 +285,7 @@ var navigationservice = angular.module('navigationservice', [])
             anchor: "reimbursement-list",
             icon: "user"
         }]
-    },{
+    }, {
         name: "Knowledge Base",
         classis: "active",
         anchor: "timeline",
@@ -295,7 +295,7 @@ var navigationservice = angular.module('navigationservice', [])
             classis: "active",
             anchor: "knowledgebase-list",
             icon: "book"
-        },{
+        }, {
             name: "Knowledge Base Detail",
             classis: "active",
             anchor: "all-document",
