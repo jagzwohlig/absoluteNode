@@ -5699,21 +5699,21 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         var modalInstance = $uibModal.open({
             scope: $scope,
             templateUrl: '/frontend/views/modal/staff-rating.html',
-            size: 'md'
+            size: 'lg'
         });
     };
     $scope.viewSurveyor = function () {
         var modalInstance = $uibModal.open({
             scope: $scope,
             templateUrl: '/frontend/views/modal/surveyor-rating.html',
-            size: 'md'
+            size: 'lg'
         });
     };
     $scope.viewClient = function () {
         var modalInstance = $uibModal.open({
             scope: $scope,
             templateUrl: '/frontend/views/modal/client-rating.html',
-            size: 'md'
+            size: 'lg'
         });
     };
     $scope.viewPhotos = function () {
