@@ -646,30 +646,34 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
     })
 
     .state('createuser', {
-            url: "/user-create",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateUserCtrl'
-        })
-        .state('leave-detail', {
-            url: "/leave-detail",
-            templateUrl: "frontend/views/template.html",
-            controller: 'LeaveDetailCtrl'
-        })
-        .state('leave-list', {
-            url: "/leave-list",
-            templateUrl: "frontend/views/template.html",
-            controller: 'LeaveListCtrl'
-        })
-        .state('reimbursement-list', {
-            url: "/reimbursement-list",
-            templateUrl: "frontend/views/template.html",
-            controller: 'ReimbursementListCtrl'
-        })
-        .state('reimbursement-detail', {
-            url: "/reimbursement-detail",
-            templateUrl: "frontend/views/template.html",
-            controller: 'ReimbursementDetailCtrl'
-        })
+        url: "/user-create",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateUserCtrl'
+    })
+
+    .state('leave-detail', {
+        url: "/leave-detail",
+        templateUrl: "frontend/views/template.html",
+        controller: 'LeaveDetailCtrl'
+    })
+
+    .state('leave-list', {
+        url: "/leave-list",
+        templateUrl: "frontend/views/template.html",
+        controller: 'LeaveListCtrl'
+    })
+
+    .state('reimbursement-list', {
+        url: "/reimbursement-list",
+        templateUrl: "frontend/views/template.html",
+        controller: 'ReimbursementListCtrl'
+    })
+
+    .state('reimbursement-detail', {
+        url: "/reimbursement-detail",
+        templateUrl: "frontend/views/template.html",
+        controller: 'ReimbursementDetailCtrl'
+    })
 
     .state('edituser', {
         url: "/user-edit/:id",
@@ -803,15 +807,16 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
     })
 
     .state('createbankmaster', {
-            url: "/bankmaster-detail",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateBankmasterCtrl'
-        })
-        .state('editbankmaster', {
-            url: "/bankmaster-detail/:id",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditBankmasterCtrl'
-        })
+        url: "/bankmaster-detail",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateBankmasterCtrl'
+    })
+
+    .state('editbankmaster', {
+        url: "/bankmaster-detail/:id",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditBankmasterCtrl'
+    })
 
     .state('company-list', {
         url: "/company-list/{page:.*}/{keyword:.*}",
@@ -1066,43 +1071,46 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
     })
 
     .state('createassignment', {
-            url: "/assignment-create/{id:.*}/{model:.*}/{assignment:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateAssignmentCtrl',
-            params: {
-                id: "",
-                model: "assignment",
-                assignment: ""
-            }
-        })
-        .state('createassignmentemail', {
-            url: "/assignmentemail-create/{emailId:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateAssignmentCtrl',
-            params: {
-                emailId: "",
-                model: "assignment"
-            }
-        })
-        .state('editassignment', {
-            url: "/assignment-edit/{id:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditAssignmentCtrl',
-            params: {
-                id: "",
-                model: "assignment"
-            }
-        })
-        .state('assignment-list', {
-            url: "/assignment-list",
-            templateUrl: "frontend/views/template.html",
-            controller: 'ModelViewCtrl',
-            params: {
-                page: "1",
-                keyword: "",
-                model: "assignment"
-            }
-        })
+        url: "/assignment-create/{id:.*}/{model:.*}/{assignment:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateAssignmentCtrl',
+        params: {
+            id: "",
+            model: "assignment",
+            assignment: ""
+        }
+    })
+
+    .state('createassignmentemail', {
+        url: "/assignmentemail-create/{emailId:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateAssignmentCtrl',
+        params: {
+            emailId: "",
+            model: "assignment"
+        }
+    })
+
+    .state('editassignment', {
+        url: "/assignment-edit/{id:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditAssignmentCtrl',
+        params: {
+            id: "",
+            model: "assignment"
+        }
+    })
+
+    .state('assignment-list', {
+        url: "/assignment-list",
+        templateUrl: "frontend/views/template.html",
+        controller: 'ModelViewCtrl',
+        params: {
+            page: "1",
+            keyword: "",
+            model: "assignment"
+        }
+    })
 
     .state('timeline', {
         url: "/timeline/{id:.*}",
@@ -1136,6 +1144,31 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
         controller: 'EditTemplateCtrl'
     })
 
+    // jir state
+    .state('templateJir-list', {
+        url: "/templateJir-list/{page:.*}/{keyword:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'ModelViewCtrl',
+        params: {
+            page: "1",
+            keyword: "",
+            model: "template jir"
+        }
+    })
+
+    .state('createtemplateJir', {
+        url: "/templateJir-create",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateTemplateCtrl'
+    })
+
+    .state('edittemplateJir', {
+        url: "/templateJir-edit/:id",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditTemplateCtrl'
+    })
+
+    //  lor state
     .state('templateLor-list', {
         url: "/templateLor-list/{page:.*}/{keyword:.*}/{model:.*}",
         templateUrl: "frontend/views/template.html",
