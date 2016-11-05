@@ -252,6 +252,16 @@ var navigationservice = angular.module('navigationservice', [])
             classis: "active",
             anchor: "templateLor-list",
             icon: "file-text"
+        },{
+            name: "ILA Templates",
+            classis: "active",
+            anchor: "templateila-list",
+            icon: "file-text"
+        },{
+            name: "ILR Templates",
+            classis: "active",
+            anchor: "templateilr-list",
+            icon: "file-text"
         }]
     }, {
         name: "Leave Management",

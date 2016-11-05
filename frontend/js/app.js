@@ -1162,6 +1162,27 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
         controller: 'CreateTemplateCtrl'
     })
 
+    .state('templateila-list', {
+        url: "/templateila-list",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateTemplateILACtrl'
+    })
+    .state('templateilr-list', {
+        url: "/templateilr-list",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateTemplateILRCtrl'
+    })
+    .state('templateilr-detail', {
+        url: "/templateilr-detail",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditTemplateILRCtrl'
+    })
+    .state('templateila-detail', {
+        url: "/templateila-detail",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditTemplateILACtrl'
+    })
+
     .state('edittemplateJir', {
         url: "/templateJir-edit/:id",
         templateUrl: "frontend/views/template.html",

@@ -39,7 +39,6 @@
     "json2xls": "^0.1.2",
     "lackey-mongoose-ref-validator": "0.0.3",
     "lodash": "^4.16.4",
-    "lwip": "0.0.9",
     "md5": "^2.2.1",
     "moment": "^2.15.2",
     "mongodb": "2.1.7",
