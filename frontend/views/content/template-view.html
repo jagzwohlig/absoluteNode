@@ -17,34 +17,29 @@
                     <div class="form-builder">
                         <div class="form-repeater" ng-repeat="form in forms">
                             <div class="form-builder-head">
-                                <p>{{form.head}}</p>
+                                <p>{{form.name}}</p>
                             </div>
                             <div class="form-builder-hr" id="sortable-ul-selector-id" ui-sortable="sortableOptions" ng-model="form.items">
                                 <div class="form-builder-item no-pad row-item" ng-repeat="item in form.items">
                                     <div class="col-item col-item-35">
                                         <p>{{item.name}}</p>
                                     </div>
-
                                     <!-- TEXT -->
                                     <div class="col-item" ng-if="item.type=='text'">
                                         <input type="text" class="form-control">
                                     </div>
-
                                     <!-- DATE -->
                                     <div class="col-item" ng-if="item.type=='date'">
                                         <input type="date" class="form-control">
                                     </div>
-
                                     <!-- TEXT AREA -->
                                     <div class="col-item" ng-if="item.type=='textarea'">
                                         <textarea class="form-control"></textarea>
                                     </div>
-
                                     <!-- SYSTEM FIELD -->
-                                    <div class="col-item" ng-if="item.type=='system'">
-                                        <multiple-select name="company" required ng-model="formData.company" ng-name="name.company" api="searchCompany" ng-create="companySave"></multiple-select>
+                                    <div class="col-item" ng-if="item.type=='System Fields'">
+                                        {{item.value|toobject}}
                                     </div>
-
                                     <!-- DROPDOWN -->
                                     <div class="col-item" ng-if="item.type=='dropdown'">
                                         <select class="form-control">

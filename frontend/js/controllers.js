@@ -6313,6 +6313,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         }]
     }];
 
+    NavigationService.getOneModel($stateParams.type, $stateParams.template, function (data) {
+        $scope.forms = data.data.forms;
+    });
+
+    NavigationService.getOneModel("Assignment", $stateParams.assignment, function (data) {
+        $scope.assignment = data.data;
+    });
+
 })
 
 .controller('TimelineCtrl', function ($scope, TemplateService, NavigationService, $timeout, $uibModal, $stateParams, toastr, $filter) {
@@ -6492,6 +6500,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.allTemplate = "";
     $scope.ViewTemplates = function (temp, getApi) {
         $scope.allTemplate = temp;
+        $scope.api = getApi;
         NavigationService.searchModel(getApi, {
             page: "1",
             keyword: ""

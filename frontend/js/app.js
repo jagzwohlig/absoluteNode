@@ -1294,6 +1294,12 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
 
 });
 
+firstapp.filter('toobject', function () {
+    return function (input) {
+        console.log(input);
+        return $parse(input);
+    };
+});
 
 firstapp.filter('uploadpath', function () {
     return function (input, width, height, style) {
