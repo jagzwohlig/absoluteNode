@@ -1309,7 +1309,10 @@ firstapp.filter('toobject', function () {
                 var splitVal = _.split(n, ".");
                 obj.value = assignment;
                 _.each(splitVal, function (m) {
-                    obj.value = obj.value[m];
+                    if (obj.value) {
+                        obj.value = obj.value[m];
+                    }
+
                 });
             }
             returnStr = returnStr + obj.value;
