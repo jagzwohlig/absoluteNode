@@ -1295,9 +1295,28 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
 });
 
 firstapp.filter('toobject', function () {
-    return function (input) {
-        console.log(input);
-        return $parse(input);
+    return function (input, assignment) {
+        var sInput = _.split(input, '+');
+        var returnStr = "";
+        sInput = _.map(sInput, function (n) {
+            var obj = {};
+            n = _.trim(n);
+            if (_.startsWith(n, '"')) {
+                obj.type = "String";
+                obj.value = n.substr(1, n.length - 2);
+            } else {
+                obj.type = "Object";
+                var splitVal = _.split(n, ".");
+                obj.value = assignment;
+                _.each(splitVal, function (m) {
+                    obj.value = obj.value[m];
+                });
+            }
+            returnStr = returnStr + obj.value;
+            return obj;
+        });
+        console.log(sInput);
+        return returnStr;
     };
 });
 

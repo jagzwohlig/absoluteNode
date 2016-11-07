@@ -237,32 +237,35 @@ var navigationservice = angular.module('navigationservice', [])
         classis: "active",
         anchor: "timeline",
         icon: "file-text",
-        subnav: [{
-            name: "Default Templates",
-            classis: "active",
-            anchor: "template-list",
-            icon: "file-text"
-        }, {
-            name: "JIR Templates",
-            classis: "active",
-            anchor: "templateJir-list",
-            icon: "file-text"
-        }, {
-            name: "LOR Templates",
-            classis: "active",
-            anchor: "templateLor-list",
-            icon: "file-text"
-        }, {
-            name: "ILA Templates",
-            classis: "active",
-            anchor: "templateIla-list",
-            icon: "file-text"
-        }, {
-            name: "ISR Templates",
-            classis: "active",
-            anchor: "templateIsr-list",
-            icon: "file-text"
-        }]
+        subnav: [
+            //     {
+            //     name: "Default Templates",
+            //     classis: "active",
+            //     anchor: "template-list",
+            //     icon: "file-text"
+            // }, 
+            {
+                name: "JIR Templates",
+                classis: "active",
+                anchor: "templateJir-list",
+                icon: "file-text"
+            }, {
+                name: "LOR Templates",
+                classis: "active",
+                anchor: "templateLor-list",
+                icon: "file-text"
+            }, {
+                name: "ILA Templates",
+                classis: "active",
+                anchor: "templateIla-list",
+                icon: "file-text"
+            }, {
+                name: "ISR Templates",
+                classis: "active",
+                anchor: "templateIsr-list",
+                icon: "file-text"
+            }
+        ]
     }, {
         name: "Leave Management",
         classis: "active",

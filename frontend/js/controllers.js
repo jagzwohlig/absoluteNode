@@ -6313,13 +6313,21 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         }]
     }];
 
+    $scope.tempt = $stateParams.type;
+
     NavigationService.getOneModel($stateParams.type, $stateParams.template, function (data) {
-        $scope.forms = data.data.forms;
+        $scope.forms = data.data;
     });
 
     NavigationService.getOneModel("Assignment", $stateParams.assignment, function (data) {
         $scope.assignment = data.data;
     });
+
+    $scope.saveModel = function (templateObj) {
+        NavigationService.saveModel($stateParams.type, templateObj, function (data) {
+            console.log(data);
+        });
+    };
 
 })
 
@@ -6443,10 +6451,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             size: 'md'
         });
     };
-    $scope.viewILR = function () {
+    $scope.viewISR = function () {
         var modalInstance = $uibModal.open({
             scope: $scope,
-            templateUrl: '/frontend/views/modal/new-ilr.html',
+            templateUrl: '/frontend/views/modal/new-isr.html',
             size: 'md'
         });
     };

@@ -1,9 +1,9 @@
-<form name="formName" ng-submit="saveModel(formData)">
+<form name="formName" ng-submit="saveModel(forms)">
     <div class="heading-sec">
         <div class="row">
             <div class="col-md-12 column">
                 <div class="heading-profile">
-                    <h2>Template Name</h2>
+                    <h2>{{forms.name}}</h2>
                 </div>
             </div>
         </div>
@@ -15,7 +15,7 @@
                 <div class="sec">
                     <div class="clearfix"></div>
                     <div class="form-builder">
-                        <div class="form-repeater" ng-repeat="form in forms">
+                        <div class="form-repeater" ng-repeat="form in forms.forms">
                             <div class="form-builder-head">
                                 <p>{{form.name}}</p>
                             </div>
@@ -25,24 +25,28 @@
                                         <p>{{item.name}}</p>
                                     </div>
                                     <!-- TEXT -->
-                                    <div class="col-item" ng-if="item.type=='text'">
-                                        <input type="text" class="form-control">
+                                    <div class="col-item" ng-if="item.value=='Text'">
+                                        <input type="text" ng-model="item.field" placeholder="Enter {{item.name}}" class="form-control">
                                     </div>
                                     <!-- DATE -->
-                                    <div class="col-item" ng-if="item.type=='date'">
-                                        <input type="date" class="form-control">
+                                    <div class="col-item" ng-if="item.value=='Date'">
+                                        <input type="date" ng-model="item.field" placeholder="Enter {{item.name}}" class="form-control">
                                     </div>
                                     <!-- TEXT AREA -->
-                                    <div class="col-item" ng-if="item.type=='textarea'">
-                                        <textarea class="form-control"></textarea>
+                                    <div class="col-item" ng-if="item.value=='Textarea'">
+                                        <textarea class="form-control" ng-model="item.field" placeholder="Enter {{item.name}}"></textarea>
                                     </div>
                                     <!-- SYSTEM FIELD -->
                                     <div class="col-item" ng-if="item.type=='System Fields'">
-                                        {{item.value|toobject}}
+                                        {{item.value|toobject:assignment}}
+                                    </div>
+                                    <!-- LOR -->
+                                    <div class="col-item" ng-if="item.type=='Copy'||item.type=='Original'||item.type=='Submitted'">
+                                        {{item.type}}
                                     </div>
                                     <!-- DROPDOWN -->
                                     <div class="col-item" ng-if="item.type=='dropdown'">
-                                        <select class="form-control">
+                                        <select class="form-control" ng-model="item.field">
                                             <option value="{{item}}" ng-repeat="item in item.dropdownValues">{{item}}</option>
                                         </select>
                                     </div>
@@ -56,7 +60,7 @@
         <div class="clearfix"></div>
         <div class="text-center mt20 odd-even-button">
             <button class="btn btn-default" type="submit" ng-disabled="formName.$invalid">Save</button>
-            <a class="btn btn-default" ui-sref="template-lor-list">Cancel</a>
+            <a class="btn btn-default" ui-sref="timeline({id:assignment._id})">Cancel</a>
         </div>
     </div>
 </form>
