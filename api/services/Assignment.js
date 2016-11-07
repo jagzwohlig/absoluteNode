@@ -266,6 +266,66 @@ var schema = new Schema({
       required: true,
       key: "assignment"
     }
+  }],
+  templateIla: [{
+    name: {
+      type: String,
+      required: true,
+      unique: true,
+      uniqueCaseInsensitive: true
+    },
+    status: {
+      type: Boolean,
+      default: true
+    },
+    forms: {
+      type: []
+    }
+  }],
+  templateIsr: [{
+    name: {
+      type: String,
+      required: true,
+      unique: true,
+      uniqueCaseInsensitive: true
+    },
+    status: {
+      type: Boolean,
+      default: true
+    },
+    forms: {
+      type: []
+    }
+  }],
+  templateJir: [{
+    name: {
+      type: String,
+      required: true,
+      unique: true,
+      uniqueCaseInsensitive: true
+    },
+    status: {
+      type: Boolean,
+      default: true
+    },
+    forms: {
+      type: []
+    }
+  }],
+  templateLor: [{
+    name: {
+      type: String,
+      required: true,
+      unique: true,
+      uniqueCaseInsensitive: true
+    },
+    status: {
+      type: Boolean,
+      default: true
+    },
+    forms: {
+      type: []
+    }
   }]
 });
 

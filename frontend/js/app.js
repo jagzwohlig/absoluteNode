@@ -1315,7 +1315,6 @@ firstapp.filter('toobject', function () {
             returnStr = returnStr + obj.value;
             return obj;
         });
-        console.log(sInput);
         return returnStr;
     };
 });

@@ -6312,9 +6312,16 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             dropdownValues: ['Mumbai', 'Bihar', 'Orissa']
         }]
     }];
+    $scope.assignment = {};
+    $scope.assignment.templateIla = [];
+    $scope.assignment.templateIsr = [];
+    $scope.assignment.templateLor = [];
+    $scope.assignment.templateJir = [];
+
 
     $scope.tempt = $stateParams.type;
 
+    // if ()
     NavigationService.getOneModel($stateParams.type, $stateParams.template, function (data) {
         $scope.forms = data.data;
     });
@@ -6324,14 +6331,19 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     });
 
     $scope.saveModel = function (templateObj) {
-        NavigationService.saveModel($stateParams.type, templateObj, function (data) {
+        console.log(_.camelCase($stateParams.type));
+        $scope.assignment[_.camelCase($stateParams.type)];
+        if (NavigationService.getTemplate() === "") {
+            $scope.assignment[_.camelCase($stateParams.type)].push(templateObj);
+        }
+        NavigationService.modelSave("Assignment", $scope.assignment, function (data) {
             console.log(data);
         });
     };
 
 })
 
-.controller('TimelineCtrl', function ($scope, TemplateService, NavigationService, $timeout, $uibModal, $stateParams, toastr, $filter) {
+.controller('TimelineCtrl', function ($scope, TemplateService, NavigationService, $timeout, $uibModal, $stateParams, toastr, $filter, $state) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("timeline");
     $scope.menutitle = NavigationService.makeactive("Timeline");
@@ -6506,20 +6518,29 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
     };
     $scope.allTemplate = "";
-    $scope.ViewTemplates = function (temp, getApi) {
+    $scope.ViewTemplates = function (temp, getApi, data) {
+        NavigationService.setTemplate(data);
         $scope.allTemplate = temp;
         $scope.api = getApi;
-        NavigationService.searchModel(getApi, {
-            page: "1",
-            keyword: ""
-        }, "", function (data) {
-            $scope.templateList = data.data.results;
-        });
-        var modalInstance = $uibModal.open({
-            scope: $scope,
-            templateUrl: '/frontend/views/modal/modal-template.html',
-            size: 'md'
-        });
+        if (data === "") {
+            NavigationService.searchModel(getApi, {
+                page: "1",
+                keyword: ""
+            }, "", function (data) {
+                $scope.templateList = data.data.results;
+            });
+            var modalInstance = $uibModal.open({
+                scope: $scope,
+                templateUrl: '/frontend/views/modal/modal-template.html',
+                size: 'md'
+            });
+        } else {
+            $state.go("template-view", {
+                "template": data._id,
+                "assignment": $scope.assignment._id,
+                "type": getApi
+            });
+        }
     };
 
 

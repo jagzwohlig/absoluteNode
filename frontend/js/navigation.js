@@ -552,6 +552,12 @@ var navigationservice = angular.module('navigationservice', [])
                 callback(data, i);
             });
         },
+        setTemplate: function (id) {
+            $.jStorage.set("template", id);
+        },
+        getTemplate: function () {
+            return $.jStorage.get("template");
+        },
         getAttachment: function (formData, callback) {
             formData.accessToken = $.jStorage.get("accessToken");
             $http.post(adminurl + 'user/getAttachment', formData).success(function (data) {
