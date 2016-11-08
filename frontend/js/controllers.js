@@ -1,5 +1,5 @@
 var globalfunction = {};
-angular.module('phonecatControllers', ['templateservicemod', 'navigationservice', 'ui.bootstrap', 'ui.select', 'ngAnimate', 'toastr', 'ngSanitize', 'angular-flexslider', 'ui.tinymce', 'imageupload', 'ngMap', 'toggle-switch', 'cfp.hotkeys', 'ui.sortable', 'infinite-scroll'])
+angular.module('phonecatControllers', ['templateservicemod', 'navigationservice', 'assignmenttemplate', 'ui.bootstrap', 'ui.select', 'ngAnimate', 'toastr', 'ngSanitize', 'angular-flexslider', 'ui.tinymce', 'imageupload', 'ngMap', 'toggle-switch', 'cfp.hotkeys', 'ui.sortable', 'infinite-scroll'])
 
 .controller('DashboardCtrl', function ($scope, TemplateService, NavigationService, $timeout, base64) {
     //Used to name the .html file
@@ -6281,7 +6281,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     };
 })
 
-.controller('TemplateViewCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+.controller('TemplateViewCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, AssignmentTemplate) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("template-view");
     $scope.menutitle = NavigationService.makeactive("Form Name");
@@ -6317,16 +6317,16 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.assignment.templateIsr = [];
     $scope.assignment.templateLor = [];
     $scope.assignment.templateJir = [];
-
+    console.log(AssignmentTemplate.template);
 
     $scope.tempt = $stateParams.type;
 
-    if (NavigationService.getTemplate() === "") {
+    if (AssignmentTemplate.template === "") {
         NavigationService.getOneModel($stateParams.type, $stateParams.template, function (data) {
             $scope.forms = data.data;
         });
     } else {
-        $scope.forms = NavigationService.getTemplate();
+        $scope.forms = AssignmentTemplate.template;
     }
 
     NavigationService.getOneModel("Assignment", $stateParams.assignment, function (data) {
@@ -6334,14 +6334,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     });
 
     $scope.saveModel = function (templateObj) {
-        if (NavigationService.getTemplate() === "") {
+        if (AssignmentTemplate.template === "") {
             $scope.assignment[_.camelCase($stateParams.type)];
-            if (NavigationService.getTemplate() === "") {
+            if (AssignmentTemplate.template === "") {
                 $scope.assignment[_.camelCase($stateParams.type)].push(templateObj);
             }
             NavigationService.modelSave("Assignment", $scope.assignment, function (data) {
                 if (data.value) {
                     toastr.success("Created " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
+                    $state.go('timeline', {
+                        id: $scope.assignment._id
+                    });
                 } else {
                     toastr.erroe("Error occured in Creating " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
                 }
@@ -6349,25 +6352,29 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         } else {
             _.each($scope.assignment[_.camelCase($stateParams.type)], function (n) {
 
-                if (n._id === templateObj._id) {
+                if (n._id == templateObj._id) {
                     n = templateObj;
+                }
+            });
+            $timeout(function () {
+                NavigationService.modelSave("Assignment", $scope.assignment, function (data) {
+                    if (data.value) {
+                        toastr.success("Updated " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
+                        $state.go('timeline', {
+                            id: $scope.assignment._id
+                        });
+                    } else {
+                        toastr.erroe("Error occured in Updating " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
+                    }
+                });
+            }, 1000)
 
-                }
-            });
-            console.log($scope.assignment[_.camelCase($stateParams.type)]);
-            NavigationService.modelSave("Assignment", $scope.assignment, function (data) {
-                if (data.value) {
-                    toastr.success("Updated " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
-                } else {
-                    toastr.erroe("Error occured in Updating " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
-                }
-            });
         }
     };
 
 })
 
-.controller('TimelineCtrl', function ($scope, TemplateService, NavigationService, $timeout, $uibModal, $stateParams, toastr, $filter, $state) {
+.controller('TimelineCtrl', function ($scope, TemplateService, NavigationService, AssignmentTemplate, $timeout, $uibModal, $stateParams, toastr, $filter, $state) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("timeline");
     $scope.menutitle = NavigationService.makeactive("Timeline");
@@ -6543,7 +6550,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     };
     $scope.allTemplate = "";
     $scope.ViewTemplates = function (temp, getApi, data) {
-        NavigationService.setTemplate(data);
+        AssignmentTemplate.template = data;
         $scope.allTemplate = temp;
         $scope.api = getApi;
         if (data === "") {

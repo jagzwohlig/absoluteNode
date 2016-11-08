@@ -38,5 +38,6 @@ module.exports = [
   "frontend/js/controllers.js",
   "frontend/js/language.js",
   "frontend/js/navigation.js",
-  "frontend/js/templateservice.js"
+  "frontend/js/templateservice.js",
+  "frontend/js/assignmenttemplate.js"
 ];
