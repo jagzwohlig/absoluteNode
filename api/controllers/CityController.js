@@ -21,7 +21,7 @@ var controller = {
             }, function (err, data) {
                 if (err) {
                     retVal.push(err);
-                    callback(null, data3);
+                    callback(null, data);
                 } else {
                     Zone.getIdByName({
                         country: data,
@@ -50,23 +50,46 @@ var controller = {
                                             retVal.push(err);
                                             callback(null, data4);
                                         } else {
-                                            City.getIdByName({
-                                                country: data,
-                                                zone: data2,
-                                                state: data3,
-                                                district: data4,
-                                                name: n[6],
-                                                stdCode: n[7],
-                                                timezone: n[8]
-                                            }, function (err, data5) {
-                                                if (err) {
-                                                    retVal.push(err);
-                                                    callback(null, data5);
-                                                } else {
-                                                    retVal.push(data5);
-                                                    callback(null, data5);
-                                                }
-                                            });
+                                            if (n.length === 9) {
+                                                City.getIdByName({
+                                                    country: data,
+                                                    zone: data2,
+                                                    state: data3,
+                                                    district: data4,
+                                                    name: n[6],
+                                                    stdCode: n[7],
+                                                    timezone: n[8]
+                                                }, function (err, data5) {
+                                                    if (err) {
+                                                        retVal.push(err);
+                                                        callback(null, data5);
+                                                    } else {
+                                                        retVal.push(data5);
+                                                        callback(null, data5);
+                                                    }
+                                                });
+                                            }
+                                            if (n.length === 8) {
+                                                City.getIdByName({
+                                                    country: data,
+                                                    zone: data2,
+                                                    state: data3,
+                                                    district: data4,
+                                                    name: n[5],
+                                                    stdCode: n[6],
+                                                    timezone: n[7]
+                                                }, function (err, data5) {
+                                                    if (err) {
+                                                        retVal.push(err);
+                                                        callback(null, data5);
+                                                    } else {
+                                                        data5 = data5 + " +1";
+                                                        retVal.push(data5);
+                                                        callback(null, data5);
+                                                    }
+                                                });
+                                            }
+
                                         }
                                     });
                                 }
