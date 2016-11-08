@@ -82,6 +82,7 @@ global["Schema"] = mongoose.Schema;
 global["moment"] = require("moment");
 global["exec"] = require('child_process').exec;
 global["_"] = require('lodash');
+global["fs"] = require('fs');
 global["chalk"] = require('chalk');
 global["uid"] = require('rand-token').uid;
 global["request"] = require('request');

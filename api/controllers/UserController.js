@@ -185,6 +185,31 @@ var controller = {
                 });
             }
         });
+    },
+    backupDatabase: function (req, res) {
+        var jagz = _.map(mongoose.models, function (Model, key) {
+            var name = Model.collection.collectionName;
+            return {
+                key: key,
+                name: name,
+            };
+        });
+        var isBackup = fs.existsSync("./backup");
+        if (!isBackup) {
+            fs.mkdirSync("./backup");
+        }
+        var mom = moment();
+        var folderName = "./backup/" + mom.format("ddd-Do-MMM-YYYY-HH-mm-SSSSS");
+        var retVal = [];
+        fs.mkdirSync(folderName);
+        async.eachSeries(jagz, function (obj, callback) {
+            exec("mongoexport --db " + database + " --collection " + obj.name + " --out " + folderName + "/" + obj.name + ".json", function (data1, data2, data3) {
+                retVal.push(data3 + " VALUES OF " + obj.name + " MODEL NAME " + obj.key);
+                callback();
+            });
+        }, function () {
+            res.json(retVal);
+        });
     }
 };
 module.exports = _.assign(module.exports, controller);
