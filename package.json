@@ -66,8 +66,8 @@
     "request": "^2.74.0",
     "sails": "^0.12.8",
     "sails-disk": "~0.10.9",
-    "sails-wohlig-controller": "~0.0.3",
-    "sails-wohlig-service": "~0.0.6"
+    "sails-wohlig-controller": "latest",
+    "sails-wohlig-service": "latest"
   },
   "scripts": {
     "debug": "node debug app.js",
