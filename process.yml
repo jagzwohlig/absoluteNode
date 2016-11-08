@@ -3,3 +3,4 @@ apps:
     name: "Absolute ABM 3"
     watch: true
     args: "--prod"
+    exec_mode: "cluster"

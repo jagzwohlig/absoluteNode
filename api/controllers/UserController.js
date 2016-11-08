@@ -187,7 +187,6 @@ var controller = {
         });
     },
     backupDatabase: function (req, res) {
-        console.log(req.ip);
         var q = req.ip.search("127.0.0.1");
         if (q >= 0) {
             var jagz = _.map(mongoose.models, function (Model, key) {
