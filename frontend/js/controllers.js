@@ -6334,14 +6334,35 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     });
 
     $scope.saveModel = function (templateObj) {
-        console.log(_.camelCase($stateParams.type));
-        $scope.assignment[_.camelCase($stateParams.type)];
         if (NavigationService.getTemplate() === "") {
-            $scope.assignment[_.camelCase($stateParams.type)].push(templateObj);
+            $scope.assignment[_.camelCase($stateParams.type)];
+            if (NavigationService.getTemplate() === "") {
+                $scope.assignment[_.camelCase($stateParams.type)].push(templateObj);
+            }
+            NavigationService.modelSave("Assignment", $scope.assignment, function (data) {
+                if (data.value) {
+                    toastr.success("Created " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
+                } else {
+                    toastr.erroe("Error occured in Creating " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
+                }
+            });
+        } else {
+            _.each($scope.assignment[_.camelCase($stateParams.type)], function (n) {
+
+                if (n._id === templateObj._id) {
+                    n = templateObj;
+
+                }
+            });
+            console.log($scope.assignment[_.camelCase($stateParams.type)]);
+            NavigationService.modelSave("Assignment", $scope.assignment, function (data) {
+                if (data.value) {
+                    toastr.success("Updated " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
+                } else {
+                    toastr.erroe("Error occured in Updating " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
+                }
+            });
         }
-        NavigationService.modelSave("Assignment", $scope.assignment, function (data) {
-            console.log(data);
-        });
     };
 
 })

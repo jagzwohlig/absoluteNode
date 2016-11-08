@@ -1382,6 +1382,18 @@ firstapp.filter('numberFixedLen', function () {
     };
 });
 
+firstapp.directive('dateModel', function () {
+    return {
+        scope: {
+            model: '=ngModel'
+        },
+        link: function ($scope, element, attrs) {
+            $scope.model = new Date($scope.model);
+        }
+    };
+});
+
+
 firstapp.directive('uploadImage', function ($http, $filter, $timeout) {
     return {
         templateUrl: '/frontend/views/directive/uploadFile.html',
