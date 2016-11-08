@@ -37,6 +37,22 @@
                                   </div>
                                 </div>
                                 <div class="col-md-12">
+                                  <div class="form-group">
+                                      <label>Date *</label>
+                                      <div class="input-group">
+                                          <input type="text" name="date" class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.date"
+                                              is-open="popup.date" ng-change="chageDOB(formData.date)" datepicker-options="dateOptions"
+                                              readonly/>
+                                          <span class="input-group-btn">
+                                              <button type="button" class="btn btn-default" ng-click="popup.birthDate = true">
+                                                  <i class="fa fa-calendar"></i>
+                                              </button>
+                                          </span>
+                                      </div>
+                                      <div class="error-msg" ng-show="formName.birthDate.$invalid && formName.birthDate.$touched">Please enter Date</div>
+                                  </div>
+                                </div>
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Reasons</label>
                                         <textarea class="form-control" ng-model="formData.reason"></textarea>
