@@ -6321,10 +6321,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     $scope.tempt = $stateParams.type;
 
-    // if ()
-    NavigationService.getOneModel($stateParams.type, $stateParams.template, function (data) {
-        $scope.forms = data.data;
-    });
+    if (NavigationService.getTemplate() === "") {
+        NavigationService.getOneModel($stateParams.type, $stateParams.template, function (data) {
+            $scope.forms = data.data;
+        });
+    } else {
+        $scope.forms = NavigationService.getTemplate();
+    }
 
     NavigationService.getOneModel("Assignment", $stateParams.assignment, function (data) {
         $scope.assignment = data.data;

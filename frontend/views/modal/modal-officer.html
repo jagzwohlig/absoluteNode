@@ -1,5 +1,5 @@
-<form name="modalForm" ng-submit="createOfficer(modalData);$dismiss()"class="min-hit">
-    <div class="modal-header blue-bg  ">
+<form name="modalForm" ng-submit="createOfficer(modalData);$dismiss()" class="min-hit">
+    <div class="modal-header blue-bg ">
         <div class="pull-right">
             <a class="btn btn-clear" ng-click="$dismiss()">
                 <i class="ln-cross"></i>
@@ -45,7 +45,8 @@
                 <div class="form-group">
                     <label>Date of Birth</label>
                     <div class="input-group">
-                        <input type="text" name="birthDate" class="form-control" uib-datepicker-popup="{{format}}" ng-model="modalData.birthDate" is-open="popup.birthDate" datepicker-options="dateOptions" readonly/>
+                        <input type="text" name="birthDate" class="form-control" uib-datepicker-popup="{{format}}" ng-model="modalData.birthDate"
+                            is-open="popup.birthDate" datepicker-options="dateOptions" readonly/>
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-default" ng-click="popup.birthDate = true">
                                 <i class="fa fa-calendar"></i>
@@ -61,7 +62,7 @@
                 <div class="form-group">
                     <label>Password</label>
                     <div class="input-group">
-                      <input type="{{passType}}" name="password" ng-model="modalData.password" class="form-control">
+                        <input type="{{passType}}" name="password" ng-model="modalData.password" class="form-control">
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-default" ng-click="showPass()">
                                 <i class="fa fa-eye"></i>
@@ -71,9 +72,8 @@
                 </div>
             </div>
         </div>
-
         <div class="text-center">
-          <button class="btn btn-primary btn-save" type="submit" ng-disabled="modalForm.$invalid">{{buttonValue}}</button>
+            <button class="btn btn-primary btn-save" type="submit" ng-disabled="modalForm.$invalid">{{buttonValue}}</button>
         </div>
     </div>
 </form>

@@ -79,11 +79,34 @@ var schema = new Schema({
     required: true,
     key: "assignment"
   },
+  insurerOffice: {
+    type: Schema.Types.ObjectId,
+    ref: "Customer",
+    index: true,
+    required: true,
+    key: "assignment"
+  },
+  brokerOffice: {
+    type: Schema.Types.ObjectId,
+    ref: "Customer",
+    index: true,
+    required: true,
+    key: "assignment"
+  },
   insured: {
     type: Schema.Types.ObjectId,
     ref: "CustomerCompany",
     index: true,
     key: "assignment"
+  },
+  customerCompany: {
+    type: Schema.Types.ObjectId,
+    ref: "CustomerCompany",
+    index: true,
+    key: "assignment"
+  },
+  provisionalInsured: {
+    type: String
   },
   causeOfLoss: {
     type: Schema.Types.ObjectId,
