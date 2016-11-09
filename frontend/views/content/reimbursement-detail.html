@@ -30,18 +30,18 @@
                         <div class="sec">
                             <div class="row">
                                 <div class="col-md-12">
-                                  <div class="form-group">
-                                      <label>Employee Name*</label>
+                                    <div class="form-group">
+                                        <label>Employee Name*</label>
                                         <multiple-select name="ename" required ng-model="formData.ename" ng-name="name.ename" api="searchCompany" ng-create="employeeName"></multiple-select>
-                                      <div class="error-msg" ng-show="formName.ename.$invalid && formName.ename.$touched">Please Enter Employee Name</div>
-                                  </div>
+                                        <div class="error-msg" ng-show="formName.ename.$invalid && formName.ename.$touched">Please Enter Employee Name</div>
+                                    </div>
                                 </div>
                                 <div class="col-md-12">
-                                  <div class="form-group">
-                                      <label>Cost*</label>
-                                      <input type="text" name="cost" class="form-control" ng-model="formData.cost" required>
-                                      <div class="error-msg" ng-show="formName.cost.$invalid && formName.cost.$touched">Please Enter cost</div>
-                                  </div>
+                                    <div class="form-group">
+                                        <label>Cost*</label>
+                                        <input type="text" name="cost" class="form-control" ng-model="formData.cost" required>
+                                        <div class="error-msg" ng-show="formName.cost.$invalid && formName.cost.$touched">Please Enter cost</div>
+                                    </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
@@ -49,33 +49,33 @@
                                         <textarea class="form-control" ng-model="formData.reason"></textarea>
                                     </div>
                                 </div>
-
                                 <div class="col-md-12">
-                                  <div class="form-group">
-                                      <label>Status*</label>
-                                      <select name="status" class="form-control" ng-model="formData.status" required ng-options="status for status in status"></select>
-                                      <div class="error-msg" ng-show="formName.status.$invalid && formName.status.$touched">Please Select status</div>
-                                  </div>
+                                    <div class="form-group">
+                                        <label>Status*</label>
+                                        <select name="status" class="form-control" ng-model="formData.status" required ng-options="status for status in status"></select>
+                                        <div class="error-msg" ng-show="formName.status.$invalid && formName.status.$touched">Please Select status</div>
+                                    </div>
                                 </div>
                                 <div class="col-md-12">
-                                  <div class="form-group">
-                                      <label>Assignment*</label>
-                                        <multiple-select name="assignment" required ng-model="formData.assignment" ng-name="name.assignment" api="searchCompany" ng-create="assignment"></multiple-select>
-                                      <div class="error-msg" ng-show="formName.ename.$invalid && formName.ename.$touched">Please Enter Employee Name</div>
-                                  </div>
+                                    <div class="form-group">
+                                        <label>Assignment*</label>
+                                        <multiple-select name="assignment" required ng-model="formData.assignment" ng-name="name.assignment" api="searchCompany"
+                                            ng-create="assignment"></multiple-select>
+                                        <div class="error-msg" ng-show="formName.ename.$invalid && formName.ename.$touched">Please Enter Employee Name</div>
+                                    </div>
                                 </div>
                                 <div class="col-md-12">
-                                  <div class="form-group">
-                                      <label>Approved amount</label>
-                                        <m  <input type="text" name="amnt" class="form-control" ng-model="formData.amnt" required>
-                                      <div class="error-msg" ng-show="formName.amnt.$invalid && formName.amnt.$touched">Please Enter Amount</div>
-                                  </div>
+                                    <div class="form-group">
+                                        <label>Approved amount</label>
+                                        <input type="text" name="amnt" class="form-control" ng-model="formData.amnt" required>
+                                        <div class="error-msg" ng-show="formName.amnt.$invalid && formName.amnt.$touched">Please Enter Amount</div>
+                                    </div>
                                 </div>
                                 <div class="col-md-12">
-                                  <div class="form-group">
-                                      <label>Upload Documents</label>
-                                      <upload-image ng-model="formData.doc"></upload-image>
-                                  </div>
+                                    <div class="form-group">
+                                        <label>Upload Documents</label>
+                                        <upload-image ng-model="formData.doc"></upload-image>
+                                    </div>
                                 </div>
                             </div>
                             <div class="text-center mt20 odd-even-button">
