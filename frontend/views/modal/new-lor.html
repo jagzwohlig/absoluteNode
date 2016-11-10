@@ -1,14 +1,14 @@
 <div class="modal-header green-bg">
   <div class="pull-right">
-    <button class="btn btn-darker btn-round btn-nopad" ng-click="ViewTemplates('LORs','TemplateLor')">Create new</button>
+    <button class="btn btn-darker btn-round btn-nopad" ng-click="ViewTemplates('LORs','TemplateLor','')">Create new</button>
     <button class="btn btn-clear" ng-click="$dismiss()">
       <i class="ln-cross"></i>
     </button>
   </div>
-  <h5 class="modal-title">View LORs</h5>
+  <h5 class="modal-title">View LOR's</h5>
 </div>
 <div class="modal-body">
-  <table class="file-list table">
+  <table class="file-list table" ng-if="assignment.templateLor != ''">
     <thead>
       <tr>
         <th>#</th>
@@ -18,11 +18,13 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>1</td>
-        <td>LOR-CC99-9999-9999-9999</td>
-        <td>26-23-2016</td>
-        <td><button class="btn btn-clear" ui-sref="template-view"><i class="ln-pencil"></i></button><button class="btn btn-clear"><i class="ln-trash2"></i></button>
+      <tr ng-repeat="lor in assignment.templateLor track by $index">
+        <td>{{$index + 1}}</td>
+        <td>{{lor.name}}</td>
+        <td>{{lor.timestamp|date:'dd-mm-yyyy'}}</td>
+        <td>
+          <button class="btn btn-clear" ng-click="ViewTemplates('LORs','TemplateLor',lor)"><i class="ln-pencil"></i></button>
+          <button class="btn btn-clear"><i class="ln-trash2"></i></button>
           <button class="btn btn-clear"><i class="ln-download"></i></button>
         </td>
       </tr>

@@ -6114,9 +6114,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     }, {
         value: 'Original',
         name: 'Original'
-    }, {
-        value: 'Submitted',
-        name: 'Submitted'
     }];
 
     $scope.formData.forms = [{
@@ -6201,9 +6198,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     }, {
         value: 'Original',
         name: 'Original'
-    }, {
-        value: 'Submitted',
-        name: 'Submitted'
     }];
 
     $scope.formData = {};
@@ -6552,6 +6546,26 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
     };
     $scope.allTemplate = "";
+    $scope.saveAssignmentTemplate = function (name, temp) {
+        console.log(temp);
+        NavigationService.modelSave('assignment', temp, function (data) {
+            if (data.value === true) {
+                $scope.message.title = name + " Uploaded.";
+                $scope.sendMessage("Normal");
+                toastr.success($scope.assignment.name + " Updated", "Assignment " + $scope.assignment.name);
+            } else {
+                toastr.error("Error in updating " + $scope.assignment.name + ".", "Assignment " + $scope.assignment.name);
+            }
+        });
+    };
+    $scope.deleteTemplate = function (type, index) {
+        $scope.assignment[type].splice(index, 1);
+        var newAssignment = {
+            "_id": $scope.assignment._id
+        };
+        newAssignment[type] = $scope.assignment[type];
+        $scope.saveAssignmentTemplate(type, newAssignment);
+    };
     $scope.ViewTemplates = function (temp, getApi, data) {
         AssignmentTemplate.template = data;
         $scope.allTemplate = temp;

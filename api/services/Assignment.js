@@ -303,6 +303,10 @@ var schema = new Schema({
     },
     forms: {
       type: []
+    },
+    timestamp: {
+      type: Date,
+      default: Date.now
     }
   }],
   templateIsr: [{
@@ -318,6 +322,10 @@ var schema = new Schema({
     },
     forms: {
       type: []
+    },
+    timestamp: {
+      type: Date,
+      default: Date.now
     }
   }],
   templateJir: [{
@@ -333,6 +341,10 @@ var schema = new Schema({
     },
     forms: {
       type: []
+    },
+    timestamp: {
+      type: Date,
+      default: Date.now
     }
   }],
   templateLor: [{
@@ -348,6 +360,10 @@ var schema = new Schema({
     },
     forms: {
       type: []
+    },
+    timestamp: {
+      type: Date,
+      default: Date.now
     }
   }]
 });
@@ -375,6 +391,9 @@ schema.plugin(deepPopulate, {
     },
     'city.district.state.zone.country': {
       select: 'name countryCode _id'
+    },
+    'insurer': {
+      select: 'name _id'
     },
     'company': {
       select: ''
@@ -424,7 +443,7 @@ schema.plugin(timestamps);
 
 module.exports = mongoose.model('Assignment', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer owner owner.func company company.city assessment.employee docs.employee photos.employee causeOfLoss", "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer owner owner.func company company.city assessment.employee docs.employee photos.employee causeOfLoss insurer", "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer"));
 
 var model = {
   saveData: function (data, callback) {

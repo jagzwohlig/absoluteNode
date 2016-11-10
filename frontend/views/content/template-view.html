@@ -22,7 +22,9 @@
                             <div class="form-builder-hr" id="sortable-ul-selector-id" ng-model="form.items">
                                 <div class="form-builder-item no-pad row-item" ng-repeat="item in form.items">
                                     <div class="col-item col-item-35">
-                                        <p>{{item.name}}</p>
+                                        <p>{{item.name}}
+                                            <span ng-if="item.value == true">*</span>
+                                        </p>
                                     </div>
                                     <!-- TEXT -->
                                     <div class="col-item" ng-if="item.value=='Text'">
@@ -38,11 +40,14 @@
                                     </div>
                                     <!-- SYSTEM FIELD -->
                                     <div class="col-item" ng-if="item.type=='System Fields'">
-                                        {{item.value|toobject:assignment}}
+                                        <p>{{item.value|toobject:assignment}}</p>
                                     </div>
                                     <!-- LOR -->
-                                    <div class="col-item" ng-if="item.type=='Copy'||item.type=='Original'||item.type=='Submitted'">
-                                        {{item.type}}
+                                    <div class="col-item" ng-if="item.type=='Copy'||item.type=='Original'">
+                                        <p>{{item.type}}
+                                            <span class="pull-right">Submitted<toggle-switch ng-model="item.submit" class="switch-small switch-success m5"></toggle-switch></span>
+                                            <span class="pull-right" ng-if="item.submit"><input type="date" date-model placeholder="Enter submitted date" class="form-control" ng-model="item.date"></span>
+                                        </p>
                                     </div>
                                     <!-- DROPDOWN -->
                                     <div class="col-item" ng-if="item.type=='dropdown'">
