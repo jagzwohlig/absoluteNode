@@ -27,7 +27,7 @@ module.exports = {
 
 
   port: 80,
-  realHost: "http://wohlig.io",
+  realHost: "http://abolute.wohlig.co.in",
 
 
 
