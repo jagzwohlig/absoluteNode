@@ -1935,6 +1935,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     };
 
     $scope.saveModel = function (data) {
+        console.log(data);
         $scope.saveModel = function (formData) {
             NavigationService.modelSave("TemplateJir", $scope.formData, function (data) {
                 if (data.value === true) {
@@ -2037,6 +2038,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     };
 
     $scope.saveModel = function (data) {
+        console.log(data);
         $scope.saveModel = function (formData) {
             NavigationService.modelSave("TemplateJir", $scope.formData, function (data) {
                 if (data.value === true) {
@@ -6357,6 +6359,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 }
             });
             $timeout(function () {
+                console.log($scope.assignment[_.camelCase($stateParams.type)]);
                 NavigationService.modelSave("Assignment", $scope.assignment, function (data) {
                     if (data.value) {
                         toastr.success("Updated " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
@@ -6367,7 +6370,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         toastr.erroe("Error occured in Updating " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
                     }
                 });
-            }, 1000)
+            }, 1000);
 
         }
     };

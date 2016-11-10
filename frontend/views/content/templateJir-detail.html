@@ -32,14 +32,14 @@
                     <div class="clearfix"></div>
                     <div class="form-builder">
                         <div class="form-repeater" ng-repeat="form in formData.forms track by $index">
-                            <div class="form-builder-head">
+                            <div class="form-builder-head">{{form}}
                                 <div class="mark-float">
                                     <i class="fa fa-plus-circle success" ng-click="addHead();"></i>
                                     <i class="fa fa-minus-circle danger" ng-click="removeHead($index);"></i>
                                 </div>
                                 <input type="text" ng-model="form.name" placeholder="Enter Heading" class="form-control">
                             </div>
-                            <div class="form-builder-hr" id="sortable-ul-selector-id" ui-sortable="sortableOptions" ng-model="form.items">
+                            <div class="form-builder-hr" id="sortable-ul-selector-id" ui-sortable="sortableOptions">
                                 <div class="form-builder-item row-item" ng-repeat="item in form.items track by $index">
                                     <div class="right-float mark-float">
                                         <i class="fa fa-bars handleBar"></i>
