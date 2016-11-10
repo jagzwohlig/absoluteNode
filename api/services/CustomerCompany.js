@@ -74,6 +74,27 @@ module.exports = mongoose.model('CustomerCompany', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "customerSegment", "customerSegment"));
 var model = {
+    getIdByName: function (data, callback) {
+        var Model = this;
+        var Const = this(data);
+        Model.findOne({
+            shortCode: data.shortCode
+        }, function (err, data2) {
+            if (err) {
+                callback(err);
+            } else if (_.isEmpty(data2)) {
+                Const.save(function (err, data3) {
+                    if (err) {
+                        callback(err);
+                    } else {
+                        callback(null, data3._id);
+                    }
+                });
+            } else {
+                callback(null, data2._id);
+            }
+        });
+    },
     getSegmented: function (data, callback) {
         var Model = this;
         var Const = this(data);
