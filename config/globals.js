@@ -114,7 +114,7 @@ global["log"] = function (data) {
     console.log(data);
 };
 
-if (process.env.NODE_ENV) {
+if (process.env.NODE_ENV && process.env.NODE_ENV === "production") {
     global["env"] = require("./env/production.js");
 } else {
     global["env"] = require("./env/development.js");
