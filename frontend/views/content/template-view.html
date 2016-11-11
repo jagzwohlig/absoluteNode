@@ -13,6 +13,21 @@
         <div class="widget">
             <div class="form-elements-sec">
                 <div class="sec">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Template Name</label>
+                                <input type="text" class="form-control" ng-model="forms.templateName" name="templateName">
+                                <div class="error-msg" ng-show="formName.templateName.$invalid">Please enter Template name</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="widget">
+            <div class="form-elements-sec">
+                <div class="sec">
                     <div class="clearfix"></div>
                     <div class="form-builder">
                         <div class="form-repeater" ng-repeat="form in forms.forms">

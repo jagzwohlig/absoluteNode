@@ -6313,7 +6313,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.assignment.templateIsr = [];
     $scope.assignment.templateLor = [];
     $scope.assignment.templateJir = [];
-    console.log(AssignmentTemplate.template);
+    $scope.message = {};
+    $scope.message.employee = $.jStorage.get("profile")._id;
+    $scope.timeline = {};
+    $scope.message.title = "Sent a new message";
 
     $scope.tempt = $stateParams.type;
 
@@ -6325,9 +6328,24 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.forms = AssignmentTemplate.template;
     }
 
+    $scope.getTimeline = function () {
+        NavigationService.getOneModel("Timeline", $scope.assignment.timeline[0], function (data) {
+            $scope.timeline = data.data;
+        });
+    };
+
+    $scope.sendMessage = function (type) {
+        $scope.message.type = type;
+        $scope.timeline.chat.push($scope.message);
+        NavigationService.saveChat($scope.timeline, function (data) {});
+    };
+
     NavigationService.getOneModel("Assignment", $stateParams.assignment, function (data) {
         $scope.assignment = data.data;
+        $scope.getTimeline();
     });
+
+
 
     $scope.saveModel = function (templateObj) {
         if (AssignmentTemplate.template === "") {
@@ -6337,6 +6355,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             }
             NavigationService.modelSave("Assignment", $scope.assignment, function (data) {
                 if (data.value) {
+                    $scope.message.title = "Created New " + $stateParams.type;
+                    $scope.sendMessage("Normal");
                     toastr.success("Created " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
                     $state.go('timeline', {
                         id: $scope.assignment._id
@@ -6356,6 +6376,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 console.log($scope.assignment[_.camelCase($stateParams.type)]);
                 NavigationService.modelSave("Assignment", $scope.assignment, function (data) {
                     if (data.value) {
+                        $scope.message.title = "Updated New " + $stateParams.type;
+                        $scope.sendMessage("Normal");
                         toastr.success("Updated " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
                         $state.go('timeline', {
                             id: $scope.assignment._id
@@ -6545,6 +6567,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             size: 'md'
         });
     };
+    var modalInstance = function () {};
     $scope.allTemplate = "";
     $scope.saveAssignmentTemplate = function (name, temp) {
         console.log(temp);

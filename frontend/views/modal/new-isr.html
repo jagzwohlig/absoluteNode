@@ -12,7 +12,8 @@
     <thead>
       <tr>
         <th>#</th>
-        <th>File Name</th>
+        <th>ISR Template</th>
+        <th>Template Name</th>
         <th>Date</th>
         <th>Actions</th>
       </tr>
@@ -21,6 +22,7 @@
       <tr ng-repeat="isr in assignment.templateIsr track by $index">
         <td>{{$index + 1}}</td>
         <td>{{isr.name}}</td>
+        <td>{{isr.templateName}}</td>
         <td>{{isr.timestamp|date:'dd-mm-yyyy'}}</td>
         <td>
           <button class="btn btn-clear" ng-click="ViewTemplates('ISRs','TemplateIsr',isr)"><i class="ln-pencil"></i></button>

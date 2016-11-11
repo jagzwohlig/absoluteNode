@@ -143,45 +143,6 @@
                                             </div>
                                             <div ng-if="chat.type=='Email'">
                                                 <span class="user-device"></span>
-                                                <div class="user-activity emailed custom-box">
-                                                    <div class="who-post-this">
-                                                        <span><img ng-src="{{chat.employee.employee.photo|uploadpath:300:300}}" alt="{{chat.employee.employee.name}}" /></span>
-                                                        <div class="who-post-detail">
-                                                            <h3>{{chat.employee.employee.name}} <span class="vsmall">{{chat.employee.employee.func.name}}</span>                                                                <span class="pull-right vsmall cl-pro">Client</span></h3>
-                                                            <span><span class="sp-cl">Sent an email To :</span> {{chat.email.to}}</span>
-                                                            <span ng-if="chat.email.cc != ''"><span class="sp-cl">Cc : </span>                                                            {{chat.email.cc}}</span>
-                                                            <span ng-if="chat.email.bcc != ''"><span class="sp-cl">Bcc : </span>{{chat.email.bcc}}</span>
-                                                            <i>{{chat.time|date:"ddMMMyyyy, EEEE, hh:mm"}}</i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="post-content">
-                                                        <div class="e-subject">
-                                                            <p class="strong">{{chat.email.subject}}</p>
-                                                        </div>
-                                                        <div class="e-message">
-                                                            <p ng-bind-html="chat.email.message">
-                                                            </p>
-                                                        </div>
-                                                        <!--<div class="e-attachments">
-                                                        <div class="row">
-                                                            <div class="col-xs-6 col-md-3">
-                                                                <div class="filebx">
-                                                                    <div class="dl-bx">
-                                                                        <i class="ln-download"></i>
-                                                                    </div>
-                                                                    <i class="ln-document"></i>
-                                                                    <p>Vehicle Doc.docx</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>-->
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <!--<li ng-repeat="chat in timeline.chat">
-                                            <div class="other-chat">
-                                                <span class="user-device"></span>
                                                 <div class="user-activity emailed mt-10">
                                                     <div class="who-post-this">
                                                         <span><img ng-src="{{chat.employee.employee.photo|uploadpath:300:300}}" alt="{{chat.employee.employee.name}}" /></span>
@@ -204,8 +165,42 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <!--<div class="user-activity emailed custom-box">
+                                                    <div class="who-post-this">
+                                                        <span><img ng-src="{{chat.employee.employee.photo|uploadpath:300:300}}" alt="{{chat.employee.employee.name}}" /></span>
+                                                        <div class="who-post-detail">
+                                                            <h3>{{chat.employee.employee.name}} <span class="vsmall">{{chat.employee.employee.func.name}}</span>                                                                <span class="pull-right vsmall cl-pro">Client</span></h3>
+                                                            <span><span class="sp-cl">Sent an email To :</span> {{chat.email.to}}</span>
+                                                            <span ng-if="chat.email.cc != ''"><span class="sp-cl">Cc : </span>                                                            {{chat.email.cc}}</span>
+                                                            <span ng-if="chat.email.bcc != ''"><span class="sp-cl">Bcc : </span>{{chat.email.bcc}}</span>
+                                                            <i>{{chat.time|date:"ddMMMyyyy, EEEE, hh:mm"}}</i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="post-content">
+                                                        <div class="e-subject">
+                                                            <p class="strong">{{chat.email.subject}}</p>
+                                                        </div>
+                                                        <div class="e-message">
+                                                            <p ng-bind-html="chat.email.message">
+                                                            </p>
+                                                        </div>
+                                                        <div class="e-attachments">
+                                                        <div class="row">
+                                                            <div class="col-xs-6 col-md-3">
+                                                                <div class="filebx">
+                                                                    <div class="dl-bx">
+                                                                        <i class="ln-download"></i>
+                                                                    </div>
+                                                                    <i class="ln-document"></i>
+                                                                    <p>Vehicle Doc.docx</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                </div>-->
                                             </div>
-                                        </li>-->
+                                        </li>
                                     </ul>
                                 </div>
                             </div>

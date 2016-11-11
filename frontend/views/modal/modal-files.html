@@ -12,7 +12,8 @@
     <thead>
       <tr>
         <th>#</th>
-        <th>File Name</th>
+        <th>JIR Template</th>
+        <th>Template Name</th>
         <th>Date</th>
         <th>Actions</th>
       </tr>
@@ -21,7 +22,8 @@
       <tr ng-repeat="jirs in assignment.templateJir track by $index">
         <td>{{$index + 1}}</td>
         <td>{{jirs.name}}</td>
-        <td>26-23-2016</td>
+        <td>{{jirs.templateName}}</td>
+        <td>{{jirs.timestamp|date:'dd-mm-yyyy'}}</td>
         <td>
           <button class="btn btn-clear" ng-click="ViewTemplates('JIRs','TemplateJir',jirs)"><i class="ln-pencil"></i></button>
           <button class="btn btn-clear"><i class="ln-trash2"></i></button>

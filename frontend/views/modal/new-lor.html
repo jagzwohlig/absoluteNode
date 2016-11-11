@@ -12,7 +12,8 @@
     <thead>
       <tr>
         <th>#</th>
-        <th>File Name</th>
+        <th>LOR Template</th>
+        <th>Template Name</th>
         <th>Date</th>
         <th>Actions</th>
       </tr>
@@ -21,6 +22,7 @@
       <tr ng-repeat="lor in assignment.templateLor track by $index">
         <td>{{$index + 1}}</td>
         <td>{{lor.name}}</td>
+        <td>{{lor.templateName}}</td>
         <td>{{lor.timestamp|date:'dd-mm-yyyy'}}</td>
         <td>
           <button class="btn btn-clear" ng-click="ViewTemplates('LORs','TemplateLor',lor)"><i class="ln-pencil"></i></button>

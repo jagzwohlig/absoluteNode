@@ -291,11 +291,13 @@ var schema = new Schema({
     }
   }],
   templateIla: [{
+    templateName: {
+      type: String,
+      required: true
+    },
     name: {
       type: String,
       required: true,
-      unique: true,
-      uniqueCaseInsensitive: true
     },
     status: {
       type: Boolean,
@@ -310,11 +312,13 @@ var schema = new Schema({
     }
   }],
   templateIsr: [{
+    templateName: {
+      type: String,
+      required: true
+    },
     name: {
       type: String,
       required: true,
-      unique: true,
-      uniqueCaseInsensitive: true
     },
     status: {
       type: Boolean,
@@ -329,11 +333,13 @@ var schema = new Schema({
     }
   }],
   templateJir: [{
+    templateName: {
+      type: String,
+      required: true
+    },
     name: {
       type: String,
       required: true,
-      unique: true,
-      uniqueCaseInsensitive: true
     },
     status: {
       type: Boolean,
@@ -348,11 +354,13 @@ var schema = new Schema({
     }
   }],
   templateLor: [{
+    templateName: {
+      type: String,
+      required: true
+    },
     name: {
       type: String,
       required: true,
-      unique: true,
-      uniqueCaseInsensitive: true
     },
     status: {
       type: Boolean,
