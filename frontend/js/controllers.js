@@ -6348,11 +6348,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 
     $scope.saveModel = function (templateObj) {
+        delete templateObj._id;
         if (AssignmentTemplate.template === "") {
             $scope.assignment[_.camelCase($stateParams.type)];
             if (AssignmentTemplate.template === "") {
                 $scope.assignment[_.camelCase($stateParams.type)].push(templateObj);
             }
+
             NavigationService.modelSave("Assignment", $scope.assignment, function (data) {
                 if (data.value) {
                     $scope.message.title = "Created New " + $stateParams.type;
