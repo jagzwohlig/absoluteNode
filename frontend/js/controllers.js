@@ -6320,11 +6320,18 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     $scope.tempt = $stateParams.type;
 
-    if (AssignmentTemplate.template === "") {
+    if ($stateParams.assignmentTemplate === "") {
         NavigationService.getOneModel($stateParams.type, $stateParams.template, function (data) {
             $scope.forms = data.data;
         });
     } else {
+        var a = {
+            _id: $stateParams.assignmentTemplate,
+            type: _.camelCase($stateParams.type)
+        };
+        NavigationService.getAssignmentTemplate(a, function (data) {
+            console.log(data);
+        });
         $scope.forms = AssignmentTemplate.template;
     }
 
@@ -6609,8 +6616,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         } else {
             $state.go("template-view", {
-                "template": data._id,
-                "assignment": $scope.assignment._id,
+                "assignmentTemplate": data._id,
                 "type": getApi
             });
         }
