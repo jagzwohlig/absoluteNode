@@ -306,6 +306,12 @@ var schema = new Schema({
     forms: {
       type: []
     },
+    templateIla: {
+      type: Schema.Types.ObjectId,
+      ref: "TemplateIla",
+      required: true,
+      key: "assignment"
+    },
     timestamp: {
       type: Date,
       default: Date.now
@@ -326,6 +332,12 @@ var schema = new Schema({
     },
     forms: {
       type: []
+    },
+    templateIsr: {
+      type: Schema.Types.ObjectId,
+      ref: "TemplateIsr",
+      required: true,
+      key: "assignment"
     },
     timestamp: {
       type: Date,
@@ -348,6 +360,12 @@ var schema = new Schema({
     forms: {
       type: []
     },
+    templateJir: {
+      type: Schema.Types.ObjectId,
+      ref: "TemplateJir",
+      required: true,
+      key: "assignment"
+    },
     timestamp: {
       type: Date,
       default: Date.now
@@ -368,6 +386,12 @@ var schema = new Schema({
     },
     forms: {
       type: []
+    },
+    templateLor: {
+      type: Schema.Types.ObjectId,
+      ref: "TemplateLor",
+      required: true,
+      key: "assignment"
     },
     timestamp: {
       type: Date,
