@@ -6614,59 +6614,55 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         }
     };
 
-
     $scope.files = [{
-        type: "JIR",
+        name: "JIR",
+        type: "templateJir",
         count: 2,
-        files: [{
-            name: "doc1.docx",
-            selection: true
-        }, {
-            name: "doc2.docx",
-            selection: true
-        }]
+        files: []
     }, {
-        type: "ILA",
+        name: "ILA",
+        type: "templateIla",
         count: 0,
         files: []
     }, {
-        type: "ILR",
+        name: "ISR",
+        type: "templateIsr",
         count: 0,
         files: []
     }, {
-        type: "LOR",
+        name: "LOR",
+        type: "templateLor",
         count: 0,
         files: []
     }, {
-        type: "Assesments",
+        name: "Assesments",
+        type: "assessment",
         count: 0,
         files: []
     }, {
-        type: "FSR",
+        name: "FSR",
+        type: "",
         count: 0,
         files: []
     }, {
-        type: "Invoice",
+        name: "Invoice",
+        type: "",
         count: 0,
         files: []
     }, {
-        type: "Documents",
+        name: "Documents",
+        type: "docs",
         count: 0,
         files: []
     }, {
-        type: "Images",
+        name: "Photos",
+        type: "photos",
         count: 0,
         files: []
     }, {
-        type: "Total Attachments",
+        name: "Total Attachments",
         count: 2,
-        files: [{
-            name: "doc1.docx",
-            selection: true
-        }, {
-            name: "doc2.docx",
-            selection: true
-        }]
+        files: []
     }];
 
 
@@ -6705,14 +6701,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     };
     NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
         $scope.assignment = data.data;
+        _.each($scope.assignment, function (n, assignmentKey) {
+            console.log("assignment for template");
+            _.each($scope.files, function (m, filesKey) {
+                if (assignmentKey === m.type) {
+                    m.files = n;
+                }
+            });
+            console.log(assignmentKey);
+        });
         if ($scope.assignment.natureOfLoss) {
             $scope.assignment.natureloss = "";
-            // _.each($scope.assignment.natureOfLoss, function (n,key) {
-            // $scope.assignment.natureloss += n.name;
-            // if(key )
-            // console.log($scope.assignment.natureloss);
-            // });
-
         }
         if (data.data.timeline && data.data.timeline[0]) {
             console.log("in if");

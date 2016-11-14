@@ -21,7 +21,7 @@
             <uib-tabset>
               <uib-tab ng-repeat="file in files">
                 <uib-tab-heading>
-                  {{file.type}} <span ng-if="file.count!=0">({{file.count}})</span>
+                  {{file.name}} <span ng-if="file.files.length!=0">({{file.files.length}})</span>
                 </uib-tab-heading>
                 <div class="file-selector">
                   <div class="text-right">Select All <span class="check-bx"><input type="checkbox"><i class="ln-checkmark aired"></i></span></div>
