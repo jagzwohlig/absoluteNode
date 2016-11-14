@@ -6316,6 +6316,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.message = {};
     $scope.message.employee = $.jStorage.get("profile")._id;
     $scope.timeline = {};
+    $scope.timeline.attachment = [];
     $scope.message.title = "Sent a new message";
 
     $scope.tempt = $stateParams.type;
@@ -6331,9 +6332,29 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         NavigationService.getAssignmentTemplate(a, function (data) {
             console.log(data);
+            $scope.forms = data.data;
+            $scope.assignment = data.data.assignment;
+            $scope.getTimeline();
         });
-        $scope.forms = AssignmentTemplate.template;
+        // $scope.forms = AssignmentTemplate.template;
     }
+
+
+    $scope.sendMessage = function (type) {
+        $scope.message.type = type;
+        var a = {
+            type: $stateParams.type,
+            url: {
+                assignmentTemplate: $stateParams.assignmentTemplate,
+                type: $stateParams.type
+            }
+        };
+        $scope.message.attachment = [];
+        $scope.message.attachment.push(a);
+        $scope.timeline.chat.push($scope.message);
+
+        NavigationService.saveChat($scope.timeline, function (data) {});
+    };
 
     $scope.getTimeline = function () {
         NavigationService.getOneModel("Timeline", $scope.assignment.timeline[0], function (data) {
@@ -6341,65 +6362,48 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
     };
 
-    $scope.sendMessage = function (type) {
-        $scope.message.type = type;
-        $scope.timeline.chat.push($scope.message);
-        NavigationService.saveChat($scope.timeline, function (data) {});
-    };
-
-    NavigationService.getOneModel("Assignment", $stateParams.assignment, function (data) {
-        $scope.assignment = data.data;
-        $scope.getTimeline();
-    });
+    if ($stateParams.assignment !== "") {
+        NavigationService.getOneModel("Assignment", $stateParams.assignment, function (data) {
+            $scope.assignment = data.data;
+            $scope.getTimeline();
+        });
+    }
 
 
 
     $scope.saveModel = function (templateObj) {
-        delete templateObj._id;
-        if (AssignmentTemplate.template === "") {
-            $scope.assignment[_.camelCase($stateParams.type)];
-            if (AssignmentTemplate.template === "") {
-                $scope.assignment[_.camelCase($stateParams.type)].push(templateObj);
-            }
+
+        if ($stateParams.assignment !== "") {
+            delete templateObj._id;
+            $scope.assignment[_.camelCase($stateParams.type)].push(templateObj);
 
             NavigationService.modelSave("Assignment", $scope.assignment, function (data) {
                 if (data.value) {
                     $scope.message.title = "Created New " + $stateParams.type;
-                    $scope.sendMessage("Normal");
+                    $scope.sendMessage("Template");
                     toastr.success("Created " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
                     $state.go('timeline', {
                         id: $scope.assignment._id
                     });
                 } else {
-                    toastr.erroe("Error occured in Creating " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
+                    toastr.error("Error occured in Creating " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
                 }
             });
         } else {
-            _.each($scope.assignment[_.camelCase($stateParams.type)], function (n) {
-
-                if (n._id == templateObj._id) {
-                    n = templateObj;
+            NavigationService.editAssignmentTemplate($scope.forms, function (data) {
+                if (data.value) {
+                    $scope.message.title = "Updated " + $stateParams.type;
+                    $scope.sendMessage("Template");
+                    toastr.success("Updated " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
+                    $state.go('timeline', {
+                        id: $scope.assignment._id
+                    });
+                } else {
+                    toastr.error("Error occured in Updating " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
                 }
             });
-            $timeout(function () {
-                console.log($scope.assignment[_.camelCase($stateParams.type)]);
-                NavigationService.modelSave("Assignment", $scope.assignment, function (data) {
-                    if (data.value) {
-                        $scope.message.title = "Updated " + $stateParams.type;
-                        $scope.sendMessage("Normal");
-                        toastr.success("Updated " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
-                        $state.go('timeline', {
-                            id: $scope.assignment._id
-                        });
-                    } else {
-                        toastr.erroe("Error occured in Updating " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
-                    }
-                });
-            }, 1000);
-
         }
     };
-
 })
 
 .controller('TimelineCtrl', function ($scope, TemplateService, NavigationService, AssignmentTemplate, $timeout, $uibModal, $stateParams, toastr, $filter, $state) {
@@ -6620,6 +6624,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 "type": getApi
             });
         }
+    };
+
+    $scope.templateAttachment = function (attachment) {
+        console.log(attachment);
+        $state.go("template-view", attachment[0].url);
     };
 
     $scope.files = [{

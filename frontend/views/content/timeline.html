@@ -141,6 +141,24 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div ng-if="chat.type=='Template'">
+                                                <span class="user-device"></span>
+                                                <div class="user-activity">
+                                                    <div class="who-post-this">
+                                                        <span><img ng-src="{{chat.employee.employee.photo|uploadpath:300:300}}" alt="{{chat.employee.employee.name}}" />
+                                                        <img ng-src="frontend/img/house/house-{{chat.employee.employee.houseColor}}.png" alt="{{chat.employee.employee.houseColor}} House" class="house"></span>
+                                                        <div class="who-post-detail">
+                                                            <h3>{{chat.employee.employee.name}} <span class="vsmall">{{chat.employee.employee.func.name}}</span></h3>
+                                                            <span>{{chat.title}}</span>
+                                                            <!--<i>23JUN2016, Thrusday, 18:24</i>-->
+                                                            <i>{{chat.time|date:"ddMMMyyyy, EEEE, hh:mm"}}</i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="post-content" ng-if="chat.type=='TemplateJir' || chat.type=='TemplateIla' || chat.type=='TemplateIsr' || chat.type=='TemplateLor'">
+                                                        <p>View Template <a ng-click="templateAttachment(chat.attachment)"><b>Here</b></a></p>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div ng-if="chat.type=='Email'">
                                                 <span class="user-device"></span>
                                                 <div class="user-activity emailed mt-10">

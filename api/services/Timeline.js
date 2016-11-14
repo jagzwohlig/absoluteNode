@@ -40,9 +40,9 @@ var schema = new Schema({
         email: {
             type: {}
         },
-        attachment: [{
-            type: String
-        }]
+        attachment: {
+            type: []
+        }
     }]
 });
 
