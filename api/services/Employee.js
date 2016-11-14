@@ -23,7 +23,6 @@ var schema = new Schema({
     branch: {
         type: Schema.Types.ObjectId,
         ref: "Branch",
-        required: true,
         key: "employee"
     },
     func: {
