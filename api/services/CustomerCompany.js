@@ -78,7 +78,7 @@ var model = {
         var Model = this;
         var Const = this(data);
         Model.findOne({
-            shortCode: data.shortCode
+            shortName: data.shortName
         }, function (err, data2) {
             if (err) {
                 callback(err);

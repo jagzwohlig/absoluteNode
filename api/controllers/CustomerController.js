@@ -34,57 +34,64 @@ var controller = {
         var retVal = [];
         var excelDataToExport = _.slice(jsonExcel[0].data, 1);
         async.eachSeries(excelDataToExport, function (n, callback) {
+                n = _.map(n, function (m) {
+                    m = _.trim(m);
+                    return m;
+                });
                 TypeOfOffice.getIdByName({
                     shortCode: n[3]
                 }, function (err, data) {
                     if (err) {
+                        err.value = n[3];
                         retVal.push(err);
                         callback(null, data);
                     } else {
                         CustomerCompany.getIdByName({
-                            shortCode: n[2]
+                            shortName: n[2]
                         }, function (err, data2) {
                             if (err) {
+                                err.value = n[2];
                                 retVal.push(err);
-                                callback(null, data3);
+                                callback(null, data2);
                             } else {
                                 City.getIdByName({
                                     name: n[14]
                                 }, function (err, data3) {
                                     if (err) {
+                                        err.value = n[14];
                                         retVal.push(err);
                                         callback(null, data3);
                                     } else {
-                                        Customer.getIdByName({
-                                                customerSegment: "57c3ef9b6fb3c3420233a00d",
-                                                typeOfOffice: data,
-                                                customerCompany: data2,
-                                                issueOffice: n[5],
-                                                officeCode: n[4],
-                                                category: n[6],
-                                                creditLimitAlloted: n[7],
-                                                creditLimitExhausted: "0",
-                                                creditLimitPending: n[9],
-                                                direct: n[19],
-                                                phone1: n[20],
-                                                phone2: n[21],
-                                                phone3: "",
-                                                email: n[22],
-                                                city: data3,
-                                                address: n[15],
-                                                pincode: n[16],
-                                                lat: 0,
-                                                lng: 0,
-                                            },
-                                            function (err, data4) {
-                                                if (err) {
-                                                    retVal.push(err);
-                                                    callback(null, data4);
-                                                } else {
-                                                    retVal.push(data3);
-                                                    callback(null, data4);
-                                                }
-                                            });
+                                        var cust = Customer({
+                                            customerSegment: "57c3ef9b6fb3c3420233a00d",
+                                            typeOfOffice: data,
+                                            customerCompany: data2,
+                                            issueOffice: n[5],
+                                            officeCode: n[4],
+                                            category: n[6],
+                                            creditLimitAlloted: n[7],
+                                            creditLimitExhausted: "0",
+                                            creditLimitPending: n[9],
+                                            direct: n[19],
+                                            phone1: n[20],
+                                            phone2: n[21],
+                                            phone3: "",
+                                            email: n[22],
+                                            city: data3,
+                                            address: n[15],
+                                            pincode: n[16],
+                                            lat: 0,
+                                            lng: 0,
+                                        });
+                                        cust.save(function (err, data4) {
+                                            if (err) {
+                                                retVal.push(err);
+                                                callback(null, data4);
+                                            } else {
+                                                retVal.push(data3);
+                                                callback(null, data4);
+                                            }
+                                        });
                                     }
                                 });
 

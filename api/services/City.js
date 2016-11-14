@@ -69,29 +69,25 @@ module.exports = mongoose.model("City", schema);
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "district.state.zone.country", "district.state.zone.country"));
 
 var model = {
-    getIdByName: function (data, callback) {
-        var Model = this;
-        var Const = this(data);
-        Model.findOne({
-            name: data.name,
-            country: data.country,
-            zone: data.zone,
-            state: data.state,
-            district: data.district,
-        }, function (err, data2) {
-            if (err) {
-                callback(err);
-            } else {
-                Const.save(function (err, data3) {
-                    if (err) {
-                        callback(err);
-                    } else {
-                        callback(null, data3._id);
-                    }
-                });
-            }
-        });
-    }
+    // getIdByName: function (data, callback) {
+    //     var Model = this;
+    //     var Const = this(data);
+    //     Model.findOne({
+    //         name: data.name
+    //     }, function (err, data2) {
+    //         if (err) {
+    //             callback(err);
+    //         } else {
+    //             Const.save(function (err, data3) {
+    //                 if (err) {
+    //                     callback(err);
+    //                 } else {
+    //                     callback(null, data3._id);
+    //                 }
+    //             });
+    //         }
+    //     });
+    // }
 };
 
 module.exports = _.assign(module.exports, exports, model);
