@@ -1265,7 +1265,7 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
 
 
     .state('template-view', {
-        url: "/template-view/:template/:assignment/:type",
+        url: "/template-view/:template/:assignmentTemplate/:assignment/:type",
         templateUrl: "frontend/views/template.html",
         controller: 'TemplateViewCtrl'
     })

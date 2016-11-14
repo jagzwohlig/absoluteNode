@@ -6376,7 +6376,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 console.log($scope.assignment[_.camelCase($stateParams.type)]);
                 NavigationService.modelSave("Assignment", $scope.assignment, function (data) {
                     if (data.value) {
-                        $scope.message.title = "Updated New " + $stateParams.type;
+                        $scope.message.title = "Updated " + $stateParams.type;
                         $scope.sendMessage("Normal");
                         toastr.success("Updated " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
                         $state.go('timeline', {
