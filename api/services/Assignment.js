@@ -653,6 +653,22 @@ var model = {
 
       }
     });
+  },
+  getAssignmentTemplate: function (type, id, callback) {
+    var Model = this;
+
+    var aggText = [];
+    var searchText = new RegExp(data.keyword, "i");
+    aggText = [{
+      "$unwind": "$templateJir"
+    }, {
+      "$match": {
+        "templateJir._id": mongoose.Types.ObjectId(id),
+      }
+    }];
+
+
+    Model.aggregate(aggText).exec(callback);
   }
 };
 
