@@ -496,6 +496,11 @@ var navigationservice = angular.module('navigationservice', [])
                 callback(data, i);
             });
         },
+        searchLeave: function (formData, i, callback) {
+            $http.post(adminurl + 'LeaveManagement/search', formData).success(function (data) {
+                callback(data, i);
+            });
+        },
         searchCustomerCompany: function (formData, i, callback) {
             $http.post(adminurl + 'CustomerCompany/search', formData).success(function (data) {
                 callback(data, i);

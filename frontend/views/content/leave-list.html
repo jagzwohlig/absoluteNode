@@ -53,13 +53,12 @@
                                     <th>Actions</th>
                                 </tr>
                             </thead>
-                            <tbody >
-                                <tr >
+                            <tbody ng-show="totalItems>0">
+                                <tr ng-repeat="data in leaveList">
                                     <!-- <td>$index</td> -->
-                                    <td>Mahesh Maurya</td>
-                                    <td>3</td>
-                                    <td>Pending</td>
-
+                                    <td>{{data.name}}</td>
+                                    <td>{{data.days}}</td>
+                                    <td>{{data.status}}</td>
                                     <td>
                                         <a class="btn btn-blue" ui-sref="leave-detail">
                                             <i class="fa fa-pencil"></i>

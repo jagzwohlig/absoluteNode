@@ -1347,7 +1347,30 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.menutitle = NavigationService.makeactive("Leave List");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
-
+        $scope.currentPage = $stateParams.page;
+        var i = 0;
+        $scope.search = {
+            keyword: ""
+        };
+        if ($stateParams.keyword) {
+            $scope.search.keyword = $stateParams.keyword;
+        }
+        $scope.showAllLeaves = function (keywordChange) {
+            $scope.totalItems = undefined;
+            if (keywordChange) {
+                $scope.currentPage = 1;
+            }
+            NavigationService.searchLeaves({
+                page: $scope.currentPage,
+                keyword: $scope.search.keyword
+            }, ++i, function (data, ini) {
+                if (ini == i) {
+                    $scope.countries = data.data.results;
+                    $scope.totalItems = data.data.total;
+                    $scope.maxRow = data.data.options.count;
+                }
+            });
+        };
 
     })
     .controller('ReimbursementListCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state) {
