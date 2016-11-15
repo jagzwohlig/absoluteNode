@@ -74,16 +74,11 @@ var controller = {
                                                             houseColor: n[8],
                                                             employeeCode: n[10],
                                                             photo: "",
-
                                                             bank: n[11],
                                                             accountNumber: n[13],
                                                             branchName: n[12],
                                                             neftCode: n[14],
-                                                            gender: {
-                                                                type: "String",
-                                                                enum: ["Female", "Male"],
-                                                                required: true
-                                                            },
+                                                            gender: n[39],
                                                             city: data4,
                                                             address: n[21],
                                                             pincode: n[20],
