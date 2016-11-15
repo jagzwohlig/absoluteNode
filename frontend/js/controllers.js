@@ -6602,7 +6602,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         newAssignment[type] = $scope.assignment[type];
         $scope.saveAssignmentTemplate(type, newAssignment);
     };
-    $scope.ViewTemplates = function (temp, getApi, data) {
+    $scope.viewTemplates = function (temp, getApi, data) {
         AssignmentTemplate.template = data;
         $scope.allTemplate = temp;
         $scope.api = getApi;
