@@ -658,9 +658,8 @@ var model = {
     var Model = this;
 
     var aggText = [];
-    var searchText = new RegExp(data.keyword, "i");
     aggText = [{
-      "$unwind": "$templateJir"
+      "$unwind": "$" + type
     }, {
       "$match": {
         "templateJir._id": mongoose.Types.ObjectId(id),
@@ -668,7 +667,44 @@ var model = {
     }];
 
 
-    Model.aggregate(aggText).exec(callback);
+    Model.aggregate(aggText).exec(function (err, data) {
+      if (err || data.length === 0) {
+        callback(err);
+      } else if (data.length > 0) {
+        var data2 = _.cloneDeep(data[0][type]);
+        data2.type = type;
+
+        Model.findOne({
+          _id: data[0]._id
+        }).deepPopulate("city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer owner owner.func company company.city assessment.employee docs.employee photos.employee causeOfLoss insurer", "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer").exec(function (err, data3) {
+          if (err) {
+            callback(err, data3);
+          } else {
+            data2.assignment = data3;
+            callback(null, data2);
+          }
+
+        });
+
+      }
+    });
+  },
+  editAssignmentTemplate: function (body, callback) {
+    var Model = this;
+    var data2 = _.cloneDeep(body);
+    delete data2.assignment;
+    delete data2.type;
+
+    var findObj = {
+      _id: body.assignment
+    };
+    findObj[body.type + "._id"] = body._id;
+
+    var setObj = {};
+    setObj[body.type + ".$"] = data2;
+    Model.update(findObj, {
+      "$set": setObj
+    }, callback);
   }
 };
 
