@@ -15,7 +15,8 @@
                 <td>{{tmp.name}}</td>
                 <td>{{tmp.updatedAt|date:'dd-mm-yyyy'}}</td>
                 <td>
-                    <button class="btn btn-clear" ui-sref="template-view({template:tmp._id, assignment:assignment._id, type:api})"><i class="ln-pencil"></i></button>
+                    <!--<button class="btn btn-clear" ui-sref="template-view({template:tmp._id, assignment:assignment._id, type:api})"><i class="ln-pencil"></i></button>-->
+                    <button class="btn btn-clear" ng-click="createTemplate(tmp)"><i class="ln-pencil"></i></button>
                 </td>
             </tr>
         </tbody>

@@ -290,6 +290,21 @@ var schema = new Schema({
       key: "assignment"
     }
   }],
+  fsrs: [{
+    file: {
+      type: String
+    },
+    fileName: {
+      type: String
+    },
+    employee: {
+      type: Schema.Types.ObjectId,
+      ref: "Employee",
+      index: true,
+      required: true,
+      key: "assignment"
+    }
+  }],
   templateIla: [{
     templateName: {
       type: String,
@@ -662,9 +677,10 @@ var model = {
       "$unwind": "$" + type
     }, {
       "$match": {
-        "templateJir._id": mongoose.Types.ObjectId(id),
+
       }
     }];
+    aggText[1]["$match"][type + "._id"] = mongoose.Types.ObjectId(id);
 
 
     Model.aggregate(aggText).exec(function (err, data) {

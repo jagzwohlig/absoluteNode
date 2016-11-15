@@ -6625,8 +6625,24 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         newAssignment[type] = $scope.assignment[type];
         $scope.saveAssignmentTemplate(type, newAssignment);
     };
+    $scope.createTemplate = function (tmp) {
+        delete tmp._id;
+        $scope.assignment[_.camelCase($scope.api)].push(tmp);
+
+        NavigationService.modelSave("Assignment", $scope.assignment, function (data) {
+            if (data.value) {
+
+                toastr.success("Created " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
+                $scope.assignmentRefresh();
+                // $state.go('timeline', {
+                //     id: $scope.assignment._id
+                // });
+            } else {
+                toastr.error("Error occured in Creating " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
+            }
+        });
+    }
     $scope.viewTemplates = function (temp, getApi, data) {
-        AssignmentTemplate.template = data;
         $scope.allTemplate = temp;
         $scope.api = getApi;
         if (data === "") {
@@ -6739,34 +6755,37 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.getTimeline();
         });
     };
-    NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
-        $scope.assignment = data.data;
-        _.each($scope.assignment, function (n, assignmentKey) {
-            console.log("assignment for template");
-            _.each($scope.files, function (m, filesKey) {
-                if (assignmentKey === m.type) {
-                    m.files = n;
-                }
-            });
-            console.log(assignmentKey);
-        });
-        if ($scope.assignment.natureOfLoss) {
-            $scope.assignment.natureloss = "";
-        }
-        if (data.data.timeline && data.data.timeline[0]) {
-            console.log("in if");
-            $scope.timelineID = data.data.timeline[0];
-            $scope.getTimeline();
-        } else {
-            console.log("in else");
-            NavigationService.createTimeline(data.data._id, function (data) {
-                NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
-                    $scope.timelineID = data.data.timeline[0];
-                    $scope.getTimeline();
+    $scope.assignmentRefresh = function () {
+        NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
+            $scope.assignment = data.data;
+            _.each($scope.assignment, function (n, assignmentKey) {
+                console.log("assignment for template");
+                _.each($scope.files, function (m, filesKey) {
+                    if (assignmentKey === m.type) {
+                        m.files = n;
+                    }
                 });
+                console.log(assignmentKey);
             });
-        }
-    });
+            if ($scope.assignment.natureOfLoss) {
+                $scope.assignment.natureloss = "";
+            }
+            if (data.data.timeline && data.data.timeline[0]) {
+                console.log("in if");
+                $scope.timelineID = data.data.timeline[0];
+                $scope.getTimeline();
+            } else {
+                console.log("in else");
+                NavigationService.createTimeline(data.data._id, function (data) {
+                    NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
+                        $scope.timelineID = data.data.timeline[0];
+                        $scope.getTimeline();
+                    });
+                });
+            }
+        });
+    }
+    $scope.assignmentRefresh();
 
     //  send email
     $scope.sendEmail = function (modalForm) {
@@ -6816,7 +6835,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         NavigationService.assignmentSave($scope.assignment, function (data) {
             if (data.value === true) {
                 $scope.message.title = otherInfo + " Uploaded.";
-                $scope.sendMessage("Normal");
+                $scope.sendMessage("File");
                 toastr.success($scope.assignment.name + " Updated", "Assignment " + $scope.assignment.name);
             } else {
                 toastr.error("Error in updating " + $scope.assignment.name + ".", "Assignment " + $scope.assignment.name);
@@ -6830,8 +6849,31 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.assignment.assessment = [];
             }
             data.fileName = Date.now();
+            $scope.message.attachment = [];
+            var a = {
+                type: "Assessment",
+                url: data.file[0]
+            };
+            $scope.message.attachment.push(a);
             $scope.assignment.assessment.push(data);
             $scope.saveAssignment("Assessment");
+        }
+    };
+
+    $scope.onFileUploadCallback = function (data) {
+        if (data.file) {
+            if (!$scope.assignment.fsrs) {
+                $scope.assignment.fsrs = [];
+            }
+            data.fileName = Date.now();
+            $scope.message.attachment = [];
+            var a = {
+                type: "FSR",
+                url: data.file[0]
+            };
+            $scope.message.attachment.push(a);
+            $scope.assignment.fsrs.push(data);
+            $scope.saveAssignment("FSR");
         }
     };
 
@@ -6841,6 +6883,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.assignment.photos = [];
             }
             data.fileName = Date.now();
+            $scope.message.attachment = [];
+            var a = {
+                type: "Photo",
+                url: data.file[0]
+            };
             $scope.assignment.photos.push(data);
             $scope.saveAssignment("Photo");
         }
@@ -6852,6 +6899,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.assignment.docs = [];
             }
             data.fileName = Date.now();
+            $scope.message.attachment = [];
+            var a = {
+                type: "Docs",
+                url: data.file[0]
+            };
             $scope.assignment.docs.push(data);
             $scope.saveAssignment("Docs");
         }
