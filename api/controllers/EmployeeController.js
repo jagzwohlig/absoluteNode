@@ -2,11 +2,12 @@ module.exports = _.cloneDeep(require("sails-wohlig-controller"));
 var controller = {
     import: function (req, res) {
         var xlsx = require('node-xlsx').default;
-        var jsonExcel = xlsx.parse("./employee.ods");
+        var jsonExcel = xlsx.parse("./employee.xlsx");
         // console.log(jsonExcel[0].data);
         // res.json(jsonExcel[0].data);
         var retVal = [];
         var excelDataToExport = _.slice(jsonExcel[0].data, 1);
+
 
         function isYes(value) {
             value = _.upperCase(_.trim(value));
@@ -18,18 +19,26 @@ var controller = {
         }
 
         function isDate(value) {
-            var mom = moment(value, "DD/MM/YYYY");
+            value = (value - (25567 + 1)) * 86400 * 1000;
+            console.log(value);
+            var mom = moment(value);
+            console.log(mom.isValid());
             if (mom.isValid()) {
-                return undefined;
-            } else {
+                console.log(mom.toDate());
                 return mom.toDate();
+            } else {
+                return undefined;
             }
         }
         async.eachSeries(excelDataToExport, function (n, callback) {
+                n = _.map(n, function (m) {
+                    return _.trim(m);
+                });
                 Grade.getIdByName({
                     name: n[7],
                 }, function (err, data) {
                     if (err) {
+                        err.name = n[7];
                         retVal.push(err);
                         callback(null, data);
                     } else {
@@ -37,6 +46,7 @@ var controller = {
                             name: n[6]
                         }, function (err, data2) {
                             if (err) {
+                                err.name = n[6];
                                 retVal.push(err);
                                 callback(null, data2);
                             } else {
@@ -51,6 +61,7 @@ var controller = {
                                             name: n[19],
                                         }, function (err, data4) {
                                             if (err) {
+                                                err.name = n[19];
                                                 retVal.push(err);
                                                 callback(null, data4);
                                             } else {

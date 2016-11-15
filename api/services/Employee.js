@@ -9,7 +9,7 @@ var schema = new Schema({
     },
     lastName: {
         type: String,
-        required: true
+        // required: true
     },
     company: {
         type: Schema.Types.ObjectId,
@@ -34,7 +34,6 @@ var schema = new Schema({
     postedAt: {
         type: Schema.Types.ObjectId,
         ref: "Office",
-        required: true,
         key: "employee"
     },
     grade: {
@@ -104,25 +103,25 @@ var schema = new Schema({
         type: Number,
     },
     officeNumber: {
-        type: Number
+        type: String
     },
     officeMobile: {
-        type: Number
+        type: String
     },
     officeEmail: {
         type: String
     },
     homeNumber: {
-        type: Number
+        type: String
     },
     mobile: {
-        type: Number
+        type: String
     },
     email: {
         type: String
     },
     extension: {
-        type: Number
+        type: String
     },
     birthDate: {
         type: Date
