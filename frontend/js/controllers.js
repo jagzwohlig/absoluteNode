@@ -1341,7 +1341,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('LeaveListCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state) {
+    .controller('LeaveListCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state,$stateParams) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("leave-list");
         $scope.menutitle = NavigationService.makeactive("Leave List");
@@ -1357,15 +1357,18 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         }
         $scope.showAllLeaves = function (keywordChange) {
             $scope.totalItems = undefined;
+            console.log("showAllLeaves");
             if (keywordChange) {
                 $scope.currentPage = 1;
             }
             NavigationService.searchLeaves({
+
                 page: $scope.currentPage,
                 keyword: $scope.search.keyword
             }, ++i, function (data, ini) {
                 if (ini == i) {
-                    $scope.countries = data.data.results;
+                    console.log("In searchLeaves");   
+                    $scope.leaveList = data.data.results;
                     $scope.totalItems = data.data.total;
                     $scope.maxRow = data.data.options.count;
                 }

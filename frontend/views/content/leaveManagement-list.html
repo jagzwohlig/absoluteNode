@@ -29,6 +29,7 @@
                         <div class="pull-right">
                             <form class="search-form mr-form">
                                 <input type="text" ng-change="showAll(true)" placeholder="Search Here..." ng-model="search.keyword" />
+                               
                                 <button type="submit">
                                     <i class="fa fa-search"></i>
                                 </button>
@@ -54,7 +55,7 @@
                                 </tr>
                             </thead>
                             <tbody ng-show="totalItems>0">
-                                <tr ng-repeat="data in leaveList">
+                                <tr ng-repeat="data in modelList">
                                     <!-- <td>$index</td> -->
                                     <td>{{data.name}}</td>
                                     <td>{{data.days}}</td>
@@ -71,7 +72,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="tableData">
+                    <div class="tableData" ng-show="totalItems == 0">
                         <h5>No data found</h5>
                     </div>
                     <div class="tableData" ng-show="totalItems == undefined">

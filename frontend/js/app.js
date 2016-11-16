@@ -657,10 +657,15 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
         controller: 'LeaveDetailCtrl'
     })
 
-    .state('leave-list', {
-        url: "/leave-list",
+    .state('leaveManagement-list', {
+        url: "/leavemanagement-list/{page:.*}/{keyword:.*}/{model:.*}",
         templateUrl: "frontend/views/template.html",
-        controller: 'LeaveListCtrl'
+        controller: 'ModelViewCtrl',
+        params: {
+            page: "1",
+            keyword: "",
+            model: "leave management"
+        }
     })
 
     .state('reimbursement-list', {

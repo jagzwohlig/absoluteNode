@@ -274,7 +274,7 @@ var navigationservice = angular.module('navigationservice', [])
         subnav: [{
             name: "Employee Leave Detail",
             classis: "active",
-            anchor: "leave-list",
+            anchor: "leaveManagement-list",
             icon: "user"
         }]
     }, {
@@ -496,7 +496,7 @@ var navigationservice = angular.module('navigationservice', [])
                 callback(data, i);
             });
         },
-        searchLeave: function (formData, i, callback) {
+        searchLeaves: function (formData, i, callback) {
             $http.post(adminurl + 'LeaveManagement/search', formData).success(function (data) {
                 callback(data, i);
             });
