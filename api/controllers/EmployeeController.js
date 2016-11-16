@@ -31,8 +31,12 @@ var controller = {
             }
         }
         async.eachSeries(excelDataToExport, function (n, callback) {
-                n = _.map(n, function (m) {
-                    return _.trim(m);
+                n = _.map(n, function (m, key) {
+                    var b = _.trim(m);
+                    if (key == 19) {
+                        b = _.capitalize(b);
+                    }
+                    return b;
                 });
                 Grade.getIdByName({
                     name: n[7],
@@ -65,63 +69,73 @@ var controller = {
                                                 retVal.push(err);
                                                 callback(null, data4);
                                             } else {
-                                                Office.getIdByName({
+                                                City.getIdByName({
                                                     name: n[5],
-                                                }, function (err, data5) {
+                                                }, function (err, dataPostedAt) {
                                                     if (err) {
+                                                        err.name = n[19];
                                                         retVal.push(err);
-                                                        callback(null, data5);
+                                                        callback(null, data4);
                                                     } else {
-                                                        Employee.getIdByName({
-                                                            name: n[3] + " " + n[4],
-                                                            firstName: n[3],
-                                                            lastName: n[4],
-                                                            company: "57b08c39e69e5abf43334252",
-                                                            salutation: n[2],
-                                                            branch: data3,
-                                                            func: data2,
-                                                            postedAt: data5,
-                                                            grade: data,
-                                                            houseColor: n[8],
-                                                            employeeCode: n[10],
-                                                            photo: "",
-                                                            bank: n[11],
-                                                            accountNumber: n[13],
-                                                            branchName: n[12],
-                                                            neftCode: n[14],
-                                                            gender: n[39],
-                                                            city: data4,
-                                                            address: n[21],
-                                                            pincode: n[20],
-                                                            lat: n[22],
-                                                            lng: n[23],
-                                                            officeNumber: n[24],
-                                                            officeMobile: n[25],
-                                                            officeEmail: n[26],
-                                                            homeNumber: n[27],
-                                                            mobile: n[28],
-                                                            email: n[29],
-                                                            extension: n[30],
-                                                            birthDate: isDate(n[31]),
-                                                            marriageDate: isDate(n[33]),
-                                                            joiningDate: isDate(n[32]),
-                                                            leavingDate: isDate(n[34]),
-                                                            isSBC: isYes(n[35]),
-                                                            isField: isYes(n[36]),
-                                                            isSurveyor: isYes(n[37]),
-
-                                                        }, function (err, data6) {
+                                                        Office.getIdByName({
+                                                            name: n[5],
+                                                        }, function (err, data5) {
                                                             if (err) {
                                                                 retVal.push(err);
-                                                                callback(null, data6);
+                                                                callback(null, data5);
                                                             } else {
-                                                                retVal.push(data6);
-                                                                callback(null, data6);
+                                                                Employee.getIdByName({
+                                                                    name: n[3] + " " + n[4],
+                                                                    firstName: n[3],
+                                                                    lastName: n[4],
+                                                                    company: "57b08c39e69e5abf43334252",
+                                                                    salutation: n[2],
+                                                                    branch: data3,
+                                                                    func: data2,
+                                                                    postedAt: dataPostedAt,
+                                                                    grade: data,
+                                                                    houseColor: n[8],
+                                                                    employeeCode: n[10],
+                                                                    photo: "",
+                                                                    bank: n[11],
+                                                                    accountNumber: n[13],
+                                                                    branchName: n[12],
+                                                                    neftCode: n[14],
+                                                                    gender: n[39],
+                                                                    city: data4,
+                                                                    address: n[21],
+                                                                    pincode: n[20],
+                                                                    lat: n[22],
+                                                                    lng: n[23],
+                                                                    officeNumber: n[24],
+                                                                    officeMobile: n[25],
+                                                                    officeEmail: n[26],
+                                                                    homeNumber: n[27],
+                                                                    mobile: n[28],
+                                                                    email: n[29],
+                                                                    extension: n[30],
+                                                                    birthDate: isDate(n[31]),
+                                                                    marriageDate: isDate(n[33]),
+                                                                    joiningDate: isDate(n[32]),
+                                                                    leavingDate: isDate(n[34]),
+                                                                    isSBC: isYes(n[35]),
+                                                                    isField: isYes(n[36]),
+                                                                    isSurveyor: isYes(n[37]),
+
+                                                                }, function (err, data6) {
+                                                                    if (err) {
+                                                                        retVal.push(err);
+                                                                        callback(null, data6);
+                                                                    } else {
+                                                                        retVal.push(data6);
+                                                                        callback(null, data6);
+                                                                    }
+                                                                });
                                                             }
                                                         });
+
                                                     }
                                                 });
-
                                             }
                                         });
                                     }

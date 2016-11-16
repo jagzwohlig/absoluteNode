@@ -34,9 +34,12 @@ var controller = {
         var retVal = [];
         var excelDataToExport = _.slice(jsonExcel[0].data, 1);
         async.eachSeries(excelDataToExport, function (n, callback) {
-                n = _.map(n, function (m) {
-                    m = _.trim(m);
-                    return m;
+                n = _.map(n, function (m, key) {
+                    var b = _.trim(m);
+                    if (key == 14) {
+                        b = _.capitalize(b);
+                    }
+                    return b;
                 });
                 TypeOfOffice.getIdByName({
                     shortCode: n[3]
