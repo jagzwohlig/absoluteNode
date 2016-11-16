@@ -8,12 +8,16 @@ module.exports = _.cloneDeep(require("sails-wohlig-controller"));
 var controller = {
     import: function (req, res) {
         var xlsx = require('node-xlsx').default;
-        var jsonExcel = xlsx.parse("./location.ods");
+        var jsonExcel = xlsx.parse("./location.xlsx");
         // console.log(jsonExcel[0].data);
         // res.json(jsonExcel[0].data);
         var retVal = [];
         var excelDataToExport = _.slice(jsonExcel[0].data, 1);
         async.eachSeries(excelDataToExport, function (n, callback) {
+            n = _.map(n, function (m) {
+                var b = _.capitalize(_.trim(m));
+                return b;
+            });
             Country.getIdByName({
                 name: n[0],
                 countryCode: n[1],
@@ -29,7 +33,7 @@ var controller = {
                     }, function (err, data2) {
                         if (err) {
                             retVal.push(err);
-                            callback(null, data3);
+                            callback(null, data2);
                         } else {
                             State.getIdByName({
                                 country: data,
@@ -70,6 +74,7 @@ var controller = {
                                                 });
                                             }
                                             if (n.length === 8) {
+                                                console.log("Lengtn -1");
                                                 City.getIdByName({
                                                     country: data,
                                                     zone: data2,
