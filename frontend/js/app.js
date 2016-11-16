@@ -668,6 +668,18 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
         }
     })
 
+    .state('editleaves', {
+        url: "/leaves-edit/{id:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditModelCtrl',
+        params: {
+            id: "",
+            model: "leave management"
+        }
+    })
+
+    
+
     .state('reimbursement-list', {
         url: "/reimbursement-list",
         templateUrl: "frontend/views/template.html",

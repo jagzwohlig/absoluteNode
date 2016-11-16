@@ -1376,6 +1376,48 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
+    .controller('EditLeaveListCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("leave-detail");
+        $scope.menutitle = NavigationService.makeactive("LeaveManagement");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.userStatus = [{
+            "name": "Active",
+            "value": true
+        }, {
+            "name": "Inactive",
+            "value": false
+        }];
+        $scope.header = {
+            "name": "Edit LeaveManagement"
+        };
+
+        NavigationService.getOneLeaveManagement($stateParams.id, function (data) {
+            $scope.formData = data.data;
+            console.log('$scope.formData', $scope.formData);
+
+        });
+
+        $scope.saveLeaveManagement= function (formValid) {
+
+            //  if (formValid.$valid) {
+            //  $scope.formComplete = true;
+            NavigationService.leaveManagementEditSave($scope.formData, function (data) {
+                if (data.value === true) {
+                    $state.go('leaveManagement-list');
+                }
+            });
+            //  }
+        };
+        NavigationService.getAllUniqueTypes(function (data) {
+            $scope.allUniqueTypes = data.data;
+            console.log('$scope.allUniqueTypes', $scope.allUniqueTypes);
+
+        });
+
+    })
+
     .controller('ReimbursementListCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("reimbursement-list");
