@@ -89,6 +89,7 @@ global["request"] = require('request');
 global["btoa"] = require('btoa');
 global["base64url"] = require('base64url');
 global["json2xls"] = require('json2xls');
+global["lwip"] = require('lwip');
 
 // passport Globals
 global["passport"] = require('passport');

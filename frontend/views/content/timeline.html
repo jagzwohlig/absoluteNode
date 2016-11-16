@@ -123,39 +123,38 @@
                                 <div class="activity-feed">
                                     <ul class="activity-timeline">
                                         <li ng-repeat="chat in timeline.chat">
-                                            <div ng-if="chat.type=='Normal'">
-                                                <span class="user-device"></span>
-                                                <div class="user-activity">
-                                                    <div class="who-post-this">
-                                                        <span><img ng-src="{{chat.employee.employee.photo|uploadpath:300:300}}" alt="{{chat.employee.employee.name}}" />
+                                            <span class="user-device" ng-if="chat.type!='Email' && !formName.onlyEmail"></span>
+                                            <div class="user-activity" ng-if="chat.type!='Email' && !formName.onlyEmail">
+                                                <div class="who-post-this">
+                                                    <span><img ng-src="{{chat.employee.employee.photo|uploadpath:300:300}}" alt="{{chat.employee.employee.name}}" />
                                                         <img ng-src="frontend/img/house/house-{{chat.employee.employee.houseColor}}.png" alt="{{chat.employee.employee.houseColor}} House" class="house"></span>
-                                                        <div class="who-post-detail">
-                                                            <h3>{{chat.employee.employee.name}} <span class="vsmall">{{chat.employee.employee.func.name}}</span></h3>
-                                                            <span>{{chat.title}}</span>
-                                                            <!--<i>23JUN2016, Thrusday, 18:24</i>-->
-                                                            <i>{{chat.time|date:"ddMMMyyyy, EEEE, hh:mm"}}</i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="post-content">
-                                                        <p ng-bind-html="chat.message"></p>
+                                                    <div class="who-post-detail">
+                                                        <h3>{{chat.employee.employee.name}} <span class="vsmall">{{chat.employee.employee.func.name}}</span></h3>
+                                                        <span>{{chat.title}}</span>
+                                                        <!--<i>23JUN2016, Thrusday, 18:24</i>-->
+                                                        <i>{{chat.time|date:"ddMMMyyyy, EEEE, hh:mm"}}</i>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div ng-if="chat.type=='Template'">
-                                                <span class="user-device"></span>
-                                                <div class="user-activity">
-                                                    <div class="who-post-this">
-                                                        <span><img ng-src="{{chat.employee.employee.photo|uploadpath:300:300}}" alt="{{chat.employee.employee.name}}" />
-                                                        <img ng-src="frontend/img/house/house-{{chat.employee.employee.houseColor}}.png" alt="{{chat.employee.employee.houseColor}} House" class="house"></span>
-                                                        <div class="who-post-detail">
-                                                            <h3>{{chat.employee.employee.name}} <span class="vsmall">{{chat.employee.employee.func.name}}</span></h3>
-                                                            <span>{{chat.title}}</span>
-                                                            <!--<i>23JUN2016, Thrusday, 18:24</i>-->
-                                                            <i>{{chat.time|date:"ddMMMyyyy, EEEE, hh:mm"}}</i>
+                                                <div class="post-content" ng-if="chat.type=='Normal'">
+                                                    <p ng-bind-html="chat.message"></p>
+                                                </div>
+                                                <div class="post-content" ng-if="chat.type=='Template'">
+                                                    <p>View Template <a ng-click="templateAttachment(chat.attachment)"><b>Here</b></a></p>
+                                                </div>
+                                                <div class="post-content" ng-if="chat.type=='File'">
+                                                    <!--<p>View Template <a ng-click="templateAttachment(chat.attachment)"><b>Here</b></a></p>-->
+                                                    <div class="e-attachments">
+                                                        <div class="row">
+                                                            <div class="col-xs-6 col-md-3">
+                                                                <div class="filebx">
+                                                                    <div class="dl-bx">
+                                                                        <a download="absolute" href="{{chat.attachment[0].url|uploadpath}}"><i class="ln-download"></i></a>
+                                                                    </div>
+                                                                    <i class="ln-document"></i>
+                                                                    <p>{{chat.time|date:"ddMMMyyyy, EEEE, hh:mm"}}</p>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="post-content" ng-if="chat.type=='TemplateJir' || chat.type=='TemplateIla' || chat.type=='TemplateIsr' || chat.type=='TemplateLor'">
-                                                        <p>View Template <a ng-click="templateAttachment(chat.attachment)"><b>Here</b></a></p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -265,7 +264,7 @@
                                 <div class="only-email">
                                     <div class="form-group">
                                         <label class="ml-4">Only email</label>
-                                        <toggle-switch on-label="Yes" off-label="No" ng-model="formName.broker" class="switch-mini switch-success"></toggle-switch>
+                                        <toggle-switch on-label="Yes" off-label="No" ng-model="formName.onlyEmail" class="switch-mini switch-success"></toggle-switch>
                                     </div>
                                 </div>
                             </div>

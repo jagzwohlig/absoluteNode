@@ -1,50 +1,48 @@
-<div class="modal-header green-bg">
-  <div class="pull-right">
-    <button class="btn btn-darker btn-round btn-nopad" ui-sref="template-view">Create new</button>
-    <button class="btn btn-clear" ng-click="$dismiss()">
-      <i class="ln-cross"></i>
-    </button>
-  </div>
-    <h5 class="modal-title">View FSRs</h5>
+<div class="modal-header green-bg with-button">
+    <div class="pull-right">
+        <button class="btn btn-darker btn-round btn-nopad" ng-click="showCreate = true">Create new</button>
+        <button class="btn btn-clear" ng-click="$dismiss();showCreate=false">
+            <i class="ln-cross"></i>
+        </button>
+    </div>
+    <h5 class="modal-title">All Assessment</h5>
 </div>
 <div class="modal-body">
-  <form name="companyForm" ng-submit="saveCompany(formData)">
-      <div class="form-group">
-          <label>Upload FSRs</label>
-          <upload-image ng-model="companyForm.logo"></upload-image>
-      </div>
-  </form>
-  <div class="file-border">
-      <!-- <div class="text-center" ng-if="file.files.length==0">No files found.</div> -->
-      <div class="scroll-x-max">
-          <table class="file-list table">
-              <thead>
-                  <tr>
-                      <th>#</th>
-                      <th>User</th>
-                      <th>Date</th>
-                      <th>Actions</th>
-                  </tr>
-              </thead>
-              <tbody class="vert-mid">
-                  <tr>
-                      <td>1</td>
-                      <td>
-                          <div class="user-img">
-                              <img src="frontend/img/varun-khali.png" alt="" class="user-mini">
-                              <span>Mahesh Maurya</span>
-                          </div>
-                      </td>
-                      <td>28Oct2016</td>
-
-                      <td>
-                          <button class="btn btn-clear"><i class="ln-trash2"></i></button>
-                          <button class="btn btn-clear"><i class="ln-download"></i></button>
-                      </td>
-                  </tr>
-              </tbody>
-          </table>
-
-      </div>
-  </div>
+    <form name="companyForm" ng-submit="saveCompany(formData)" ng-if="showCreate">
+        <div class="form-group">
+            <label>Upload FSR</label>
+            <upload-image ng-model="fsrs.file" ng-callback="onFileUploadCallback(fsrs)" no-view></upload-image>
+        </div>
+    </form>
+    <div class="field">
+        <div class="custom-tabs">
+            <div>FSR's' <span class="color-green">({{assignment.fsrs.length}})</span>
+                <div class="file-border" ng-if="assignment.fsrs.length !== 0">
+                    <div class="scroll-x-max">
+                        <table class="file-list table">
+                            <thead>
+                                <tr>
+                                    <th>User Name</th>
+                                    <th>File Name</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="vert-mid">
+                                <tr ng-repeat="fsr in assignment.fsrs | orderBy: '-fileName' track by $index">
+                                    <td>
+                                        <div class="user-img">
+                                            <img ng-src="{{fsr.employee.photo|uploadpath}}" alt="" class="user-mini">
+                                            <span>{{fsr.employee.name}}</span>
+                                        </div>
+                                    </td>
+                                    <td>{{fsr.fileName | date:'ddMMMyy, hh:mm'}}</td>
+                                    <td><button class="btn btn-clear"><i class="ln-trash2"></i></button><button class="btn btn-clear"><i class="ln-download"></i></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
