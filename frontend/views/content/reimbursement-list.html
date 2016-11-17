@@ -33,7 +33,7 @@
                                     <i class="fa fa-search"></i>
                                 </button>
                             </form>
-                            <a class="btn btn-primary" ui-sref="reimbursement-detail">Add New</a>
+                            <a class="btn btn-primary" ui-sref="createreimbursements">Add New</a>
                         </div>
                         <h3>List of Reimbursement
                             <span class="tableTotal">(Total :
@@ -54,16 +54,17 @@
                                     <th>Actions</th>
                                 </tr>
                             </thead>
-                            <tbody >
+                            <tbody ng-repeat="data in modelList">
                                 <tr >
                                     <!-- <td>$index</td> -->
-                                    <td>Mahesh Maurya</td>
+                                    <td>{{data.name.name}}</td>
+                                    <!-- <td>Mahesh Maurya</td>
                                     <td>3000</td>
                                     <td>Pending</td>
-                                    <td>Demo</td>
+                                    <td>Demo</td> -->
 
                                     <td>
-                                        <a class="btn btn-blue" ui-sref="reimbursement-detail">
+                                        <a class="btn btn-blue" ui-sref="editreimbursements({id:data._id})">
                                             <i class="fa fa-pencil"></i>
                                         </a>
                                         <a class="btn btn-red" ng-click="deleteEmployee(data._id)">

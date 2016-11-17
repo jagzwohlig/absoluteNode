@@ -2204,6 +2204,183 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     };
 })
 
+
+.controller('CreateReimbursementCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter) {
+    //Used to name the .html file
+    $scope.template = TemplateService.changecontent("reimbursement-detail");
+    $scope.menutitle = NavigationService.makeactive("Reimbursement");
+    TemplateService.title = $scope.menutitle;
+    $scope.navigation = NavigationService.getnav();
+    $scope.formData = {};
+    // $scope.formData.personalDocument = [];
+    // $scope.formData.licenseDocument = [];
+    // $scope.formData.IIISLACertificate = [];
+    // $scope.formData.IIISLAReciept = [];
+    // $scope.formData.CTCDetails = [];
+    $scope.header = {
+        "name": "Create Reimbursement"
+    };
+    $scope.userStatus = [{
+        "name": "Active",
+        "value": true
+    }, {
+        "name": "Inactive",
+        "value": false
+    }];
+    $scope.status = ["Approved", "Pending", "Rejected", "Partially Approved"];
+    // $scope.houseColors = ["Red", "Green", "Blue", "Yellow", "White"];
+
+    $scope.dateOptions = {
+        showWeeks: true
+    };
+
+
+    $scope.format = 'dd-MMMM-yyyy';
+    $scope.modalData = {};
+    $scope.holdObject = '';
+    $scope.modalIndex = 0;
+
+    $scope.changeDOB = function (date) {
+        console.log($filter('ageFilter')(date));
+    };
+    $scope.minDate = new Date();
+    $scope.addModal = function (filename, index, holdobj, data, current) {
+        if (index !== "") {
+            $scope.modalData = data;
+            $scope.modalIndex = index;
+            $scope.modalData.from = new Date(data.from);
+            $scope.modalData.to = new Date(data.to);
+        } else {
+            $scope.modalData = {};
+            if (current.length > 0) {
+                $scope.modalData.from = new Date(current[current.length - 1].to);
+                $scope.modalData.grade = current[current.length - 1].grade;
+            }
+            $scope.modalIndex = "";
+        }
+        $scope.holdObject = holdobj;
+        console.log($scope.holdObject);
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/' + filename + '.html',
+            size: 'lg'
+        });
+    };
+
+
+    $scope.saveModel = function (formData) {
+        console.log(formData);
+        // $scope.formData.name = $scope.formData.firstName + " " + $scope.formData.lastName;
+
+        NavigationService.modelSave("Reimbursement", $scope.formData, function (data) {
+            if (data.value === true) {
+                console.log("Data In Else", data.value);
+                $state.go('reimbursement-list');
+                toastr.success("Reimbursement Of " + " " + formData.name + " created successfully.", "Employee" + " Created");
+            } else {
+                console.log("Data In Else", data.value);
+                toastr.error("Reimbursement Of " + " creation failed.", "Employee" + " creation error");
+            }
+        });
+    };
+})
+
+
+.controller('EditReimbursementCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter) {
+    //Used to name the .html file
+    $scope.template = TemplateService.changecontent("reimbursement-detail");
+    $scope.menutitle = NavigationService.makeactive("Reimbursement");
+    TemplateService.title = $scope.menutitle;
+    $scope.navigation = NavigationService.getnav();
+    $scope.formData = {};
+
+    $scope.header = {
+        "name": "Edit Reimbursement"
+    };
+    $scope.userStatus = [{
+        "name": "Active",
+        "value": true
+    }, {
+        "name": "Inactive",
+        "value": false
+    }];
+    $scope.status = ["Approved", "Pending", "Rejected", "Partially Approved"];
+    $scope.dateOptions = {
+        showWeeks: true
+    };
+
+
+    $scope.format = 'dd-MMMM-yyyy';
+    $scope.modalData = {};
+    $scope.holdObject = '';
+    $scope.modalIndex = 0;
+
+    $scope.changeDOB = function (date) {
+        console.log($filter('ageFilter')(date));
+    };
+    $scope.minDate = new Date();
+    $scope.addModal = function (filename, index, holdobj, data, current) {
+        if (index !== "") {
+            $scope.modalData = data;
+            $scope.modalIndex = index;
+            $scope.modalData.from = new Date(data.from);
+            $scope.modalData.to = new Date(data.to);
+        } else {
+            $scope.modalData = {};
+            if (current.length > 0) {
+                $scope.modalData.from = new Date(current[current.length - 1].to);
+                $scope.modalData.grade = current[current.length - 1].grade;
+            }
+            $scope.modalIndex = "";
+        }
+        $scope.holdObject = holdobj;
+        console.log($scope.holdObject);
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/' + filename + '.html',
+            size: 'lg'
+        });
+    };
+
+        NavigationService.getOneModel("Reimbursement", $stateParams.id, function (data) {
+            $scope.formData = data.data;
+            console.log("$scope.formData",$scope.formData);
+            if (data.data.name) {
+                $scope.formData.name = data.data.name._id;
+                console.log("$scope.formData.fromDate",$scope.formData.fromDate);
+            }
+             if (data.data.fromDate) {
+                $scope.formData.fromDate = new Date(data.data.fromDate);
+            }
+            if (data.data.toDate) {
+                $scope.formData.toDate = new Date(data.data.toDate);
+            }
+            if (data.data.approvedFrom) {
+                $scope.formData.approvedFrom = new Date(data.data.approvedFrom);
+            }
+            if (data.data.approvedTo) {
+                $scope.formData.approvedTo = new Date(data.data.approvedTo);
+            }
+            // $scope.formData.name = $scope.formData.companyShortName + '-' + $scope.formData.TOFShortName + '-' + $scope.formData.officeCode + '-' + $scope.formData.city1;
+        });
+    $scope.saveModel = function (formData) {
+        console.log(formData);
+        // $scope.formData.name = $scope.formData.firstName + " " + $scope.formData.lastName;
+
+        NavigationService.modelSave("Reimbursement", $scope.formData, function (data) {
+            if (data.value === true) {
+                console.log("Data In Else", data.value);
+                $state.go('reimbursement-list');
+                toastr.success("Leave Of " + " " + formData.name + " created successfully.", "Leave" + " Created");
+            } else {
+                console.log("Data In Else", data.value);
+                toastr.error("Reimbursement Of " + " creation failed.", "Reimbursement" + " creation error");
+            }
+        });
+    };
+})
+
+
 .controller('EditLeaveCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("leaveManagement-detail");

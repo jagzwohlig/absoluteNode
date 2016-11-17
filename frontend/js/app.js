@@ -686,19 +686,45 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
         }
     })
 
-    
+
 
     .state('reimbursement-list', {
-        url: "/reimbursement-list",
+        url: "/reimbursement-list/{page:.*}/{keyword:.*}/{model:.*}",
         templateUrl: "frontend/views/template.html",
-        controller: 'ReimbursementListCtrl'
+        controller: 'ModelViewCtrl',
+        params: {
+            page: "1",
+            keyword: "",
+            model: "reimbursement"
+        }
     })
 
-    .state('reimbursement-detail', {
-        url: "/reimbursement-detail",
+    .state('createreimbursements', {
+        url: "/reimbursement-create/{id:.*}/{model:.*}",
         templateUrl: "frontend/views/template.html",
-        controller: 'ReimbursementDetailCtrl'
+        controller: 'CreateReimbursementCtrl',
+        params: {
+            id: "",
+            model: "reimbursement"
+        }
     })
+    .state('editreimbursements', {
+        url: "/reimbursements-edit/{id:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditReimbursementCtrl',
+        params: {
+            id: "",
+            model: "reimbursement"
+        }
+    })
+
+
+
+    // .state('reimbursement-detail', {
+    //     url: "/reimbursement-detail",
+    //     templateUrl: "frontend/views/template.html",
+    //     controller: 'ReimbursementDetailCtrl'
+    // })
 
     .state('edituser', {
         url: "/user-edit/:id",
