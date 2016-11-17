@@ -673,7 +673,7 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
         controller: 'CreateLeaveCtrl',
         params: {
             id: "",
-            model: "employee"
+            model: "leave management"
         }
     })
     .state('editleaves', {
