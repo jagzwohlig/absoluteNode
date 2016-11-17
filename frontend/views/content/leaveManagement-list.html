@@ -34,7 +34,7 @@
                                     <i class="fa fa-search"></i>
                                 </button>
                             </form>
-                            <a class="btn btn-primary" ui-sref="leave-detail">Add New</a>
+                            <a class="btn btn-primary" ui-sref="createleaves">Add New</a>
                         </div>
                         <h3>List of Leave
                             <span class="tableTotal">(Total :
@@ -57,14 +57,14 @@
                             <tbody ng-show="totalItems>0">
                                 <tr ng-repeat="data in modelList">
                                     <!-- <td>$index</td> -->
-                                    <td>{{data.name}}</td>
+                                    <td>{{data.name.name}}</td>
                                     <td>{{data.days}}</td>
                                     <td>{{data.status}}</td>
                                     <td>
                                         <a class="btn btn-blue" ui-sref="editleaves({id:data._id})">
                                             <i class="fa fa-pencil"></i>
                                         </a>
-                                        <a class="btn btn-red" ng-click="deleteEmployee(data._id)">
+                                        <a class="btn btn-red" ng-click="deleteModel(data._id)">
                                             <i class="fa fa-trash"></i>
                                         </a>
                                     </td>

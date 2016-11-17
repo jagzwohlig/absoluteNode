@@ -667,11 +667,19 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
             model: "leave management"
         }
     })
-
+    .state('createleaves', {
+        url: "/leave-create/{id:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateLeaveCtrl',
+        params: {
+            id: "",
+            model: "employee"
+        }
+    })
     .state('editleaves', {
         url: "/leaves-edit/{id:.*}/{model:.*}",
         templateUrl: "frontend/views/template.html",
-        controller: 'EditModelCtrl',
+        controller: 'EditLeaveCtrl',
         params: {
             id: "",
             model: "leave management"
