@@ -4,7 +4,7 @@
             <a title="Home">Reimbursement Management</a>
         </li>
         <li>
-            <a ui-sref="customerSegment-list">Create Reimbursement</a>
+            <a ui-sref="customerSegment-list">{{header.name}}</a>
         </li>
     </ul>
 </div>
@@ -13,7 +13,7 @@
         <div class="row">
             <div class="col-md-4 column">
                 <div class="heading-profile">
-                    <h2>Create Reimbursement</h2>
+                    <h2>{{header.name}}</h2>
                 </div>
             </div>
         </div>
@@ -32,14 +32,14 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Employee Name*</label>
-                                        <multiple-select name="ename" required ng-model="formData.ename" ng-name="name.ename" api="searchCompany" ng-create="employeeName"></multiple-select>
-                                        <div class="error-msg" ng-show="formName.ename.$invalid && formName.ename.$touched">Please Enter Employee Name</div>
+                                        <multiple-select name="name" required ng-model="formData.name" ng-name="name.firstName" api="searchEmployee" ng-create="employeeName"></multiple-select>
+                                        <div class="error-msg" ng-show="formName.name.$invalid && formName.name.$touched">Please Enter Employee Name</div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Cost*</label>
-                                        <input type="text" name="cost" class="form-control" ng-model="formData.cost" required>
+                                        <input type="number" name="cost" class="form-control" ng-model="formData.cost" required>
                                         <div class="error-msg" ng-show="formName.cost.$invalid && formName.cost.$touched">Please Enter cost</div>
                                     </div>
                                 </div>
@@ -59,8 +59,8 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Assignment*</label>
-                                        <multiple-select name="assignment" required ng-model="formData.assignment" ng-name="name.assignment" api="searchCompany"
-                                            ng-create="assignment"></multiple-select>
+                                        <multiple-select name="assignment" required ng-model="formData.assignment" ng-name="name.assignment" api="searchAssignment
+                                        " ng-create="assignment"></multiple-select>
                                         <div class="error-msg" ng-show="formName.ename.$invalid && formName.ename.$touched">Please Enter Employee Name</div>
                                     </div>
                                 </div>
@@ -80,7 +80,7 @@
                             </div>
                             <div class="text-center mt20 odd-even-button">
                                 <button class="btn btn-default" type="submit" ng-disabled="formName.$invalid">Save</button>
-                                <a class="btn btn-default" ui-sref="customerSegment-list">Cancel</a>
+                                <a class="btn btn-default" ui-sref="reimbursement-list">Cancel</a>
                             </div>
                         </div>
                     </div>
