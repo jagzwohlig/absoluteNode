@@ -34,9 +34,18 @@ var controller = {
         var retVal = [];
         var excelDataToExport = _.slice(jsonExcel[0].data, 1);
         async.eachSeries(excelDataToExport, function (n, callback) {
-                n = _.map(n, function (m) {
-                    m = _.trim(m);
-                    return m;
+                var newname = "";
+                if (_.isEmpty(n[4])) {
+                    newname = n[2] + " " + n[3] + " " + n[14];
+                } else {
+                    newname = n[2] + " " + n[3] + " " + n[4] + " " + n[14];
+                }
+                n = _.map(n, function (m, key) {
+                    var b = _.trim(m);
+                    if (key == 14) {
+                        b = _.capitalize(b);
+                    }
+                    return b;
                 });
                 TypeOfOffice.getIdByName({
                     shortCode: n[3]
@@ -82,6 +91,7 @@ var controller = {
                                             pincode: n[16],
                                             lat: 0,
                                             lng: 0,
+                                            name: newname
                                         });
                                         cust.save(function (err, data4) {
                                             if (err) {

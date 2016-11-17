@@ -37,6 +37,22 @@ var schema = new Schema({
         index: true,
         restrictedDelete: true
     },
+    employee: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: "Employee",
+        }],
+        index: true,
+        restrictedDelete: true
+    },
+    employeePosted: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: "Employee",
+        }],
+        index: true,
+        restrictedDelete: true
+    },
     stdCode: Number,
     timezone: {
         type: Number,

@@ -33,8 +33,8 @@ var schema = new Schema({
     },
     postedAt: {
         type: Schema.Types.ObjectId,
-        ref: "Office",
-        key: "employee"
+        ref: "City",
+        key: "employeePosted"
     },
     grade: {
         type: Schema.Types.ObjectId,
@@ -92,7 +92,8 @@ var schema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "City",
         index: true,
-        required: true
+        required: true,
+        key: "employee"
     },
     address: String,
     pincode: String,
