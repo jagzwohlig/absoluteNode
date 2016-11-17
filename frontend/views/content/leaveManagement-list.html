@@ -1,4 +1,3 @@
-
 <div class="breadcrumbs">
     <ul>
         <li>
@@ -9,7 +8,6 @@
         </li>
     </ul>
 </div>
-
 <div class="heading-sec">
     <div class="row">
         <div class="col-md-4 column">
@@ -29,7 +27,6 @@
                         <div class="pull-right">
                             <form class="search-form mr-form">
                                 <input type="text" ng-change="showAll(true)" placeholder="Search Here..." ng-model="search.keyword" />
-                               
                                 <button type="submit">
                                     <i class="fa fa-search"></i>
                                 </button>
@@ -48,9 +45,9 @@
                                 <tr>
                                     <!-- <th>#</th> -->
                                     <th>Name</th>
-                                    <th>No Of days</th>
+                                    <th>Leave From </th>
+                                    <th>Leave To </th>
                                     <th>Status</th>
-
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -58,7 +55,8 @@
                                 <tr ng-repeat="data in modelList">
                                     <!-- <td>$index</td> -->
                                     <td>{{data.name.name}}</td>
-                                    <td>{{data.days}}</td>
+                                    <td>{{data.fromDate|date:'dd-MMMM-yyyy'}}</td>
+                                    <td>{{data.toDate|date:'dd-MMMM-yyyy'}}</td>
                                     <td>{{data.status}}</td>
                                     <td>
                                         <a class="btn btn-blue" ui-sref="editleaves({id:data._id})">
@@ -78,8 +76,8 @@
                     <div class="tableData" ng-show="totalItems == undefined">
                         <h5>Loading Data</h5>
                     </div>
-                    <ul ng-if="totalItems" ng-change="changePage(currentPage);" uib-pagination total-items="totalItems" items-per-page="maxRow" ng-model="currentPage" max-size="template.pageMax" class="pagination-sm" boundary-links="true" force-ellipses="true"></ul>
-
+                    <ul ng-if="totalItems" ng-change="changePage(currentPage);" uib-pagination total-items="totalItems" items-per-page="maxRow"
+                        ng-model="currentPage" max-size="template.pageMax" class="pagination-sm" boundary-links="true" force-ellipses="true"></ul>
                 </div>
             </div>
         </div>

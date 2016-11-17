@@ -221,9 +221,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         $scope.showAll();
         $scope.deleteModel = function (id) {
-            console.log("Delete Id",id);
+            console.log("Delete Id", id);
             globalfunction.confDel(function (value) {
- console.log("Delete value",value);
+                console.log("Delete value", value);
                 if (value) {
                     NavigationService.deleteModel($scope.ModelApi, id, function (data) {
                         if (data.value) {
@@ -306,7 +306,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         NavigationService.modelSave($scope.ModelApi, $scope.formData, function (data) {
             if (data.value === true) {
                 $state.go($scope.modelCamel + '-list');
-                toastr.success($scope.modelCap + " " + formData.name+ " created successfully.", $scope.modelCap + " Created");
+                toastr.success($scope.modelCap + " " + formData.name + " created successfully.", $scope.modelCap + " Created");
             } else {
                 toastr.error($scope.modelCap + " creation failed.", $scope.modelCap + " creation error");
             }
@@ -1343,7 +1343,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('LeaveListCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state,$stateParams) {
+    .controller('LeaveListCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("leave-list");
         $scope.menutitle = NavigationService.makeactive("Leave List");
@@ -1369,7 +1369,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 keyword: $scope.search.keyword
             }, ++i, function (data, ini) {
                 if (ini == i) {
-                    console.log("In searchLeaves");   
+                    console.log("In searchLeaves");
                     $scope.leaveList = data.data.results;
                     $scope.totalItems = data.data.total;
                     $scope.maxRow = data.data.options.count;
@@ -1395,32 +1395,32 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     //         "name": "Edit LeaveManagement"
     //     };
 
-    //     NavigationService.getOneLeaveManagement($stateParams.id, function (data) {
-    //         $scope.formData = data.data;
-    //         console.log('$scope.formData', $scope.formData);
+//     NavigationService.getOneLeaveManagement($stateParams.id, function (data) {
+//         $scope.formData = data.data;
+//         console.log('$scope.formData', $scope.formData);
 
-    //     });
+//     });
 
-    //     $scope.saveLeaveManagement= function (formValid) {
+//     $scope.saveLeaveManagement= function (formValid) {
 
-    //         //  if (formValid.$valid) {
-    //         //  $scope.formComplete = true;
-    //         NavigationService.leaveManagementEditSave($scope.formData, function (data) {
-    //             if (data.value === true) {
-    //                 $state.go('leaveManagement-list');
-    //             }
-    //         });
-    //         //  }
-    //     };
-    //     NavigationService.getAllUniqueTypes(function (data) {
-    //         $scope.allUniqueTypes = data.data;
-    //         console.log('$scope.allUniqueTypes', $scope.allUniqueTypes);
+//         //  if (formValid.$valid) {
+//         //  $scope.formComplete = true;
+//         NavigationService.leaveManagementEditSave($scope.formData, function (data) {
+//             if (data.value === true) {
+//                 $state.go('leaveManagement-list');
+//             }
+//         });
+//         //  }
+//     };
+//     NavigationService.getAllUniqueTypes(function (data) {
+//         $scope.allUniqueTypes = data.data;
+//         console.log('$scope.allUniqueTypes', $scope.allUniqueTypes);
 
-    //     });
+//     });
 
-    // })
+// })
 
-    .controller('ReimbursementListCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state) {
+.controller('ReimbursementListCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("reimbursement-list");
         $scope.menutitle = NavigationService.makeactive("Reimbursement List");
@@ -2125,84 +2125,158 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 })
 
 .controller('CreateLeaveCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter) {
-        //Used to name the .html file
-        $scope.template = TemplateService.changecontent("leaveManagement-detail");
-        $scope.menutitle = NavigationService.makeactive("LeaveManagement");
-        TemplateService.title = $scope.menutitle;
-        $scope.navigation = NavigationService.getnav();
-        $scope.formData = {};
-        // $scope.formData.personalDocument = [];
-        // $scope.formData.licenseDocument = [];
-        // $scope.formData.IIISLACertificate = [];
-        // $scope.formData.IIISLAReciept = [];
-        // $scope.formData.CTCDetails = [];
-        $scope.header = {
-            "name": "Create Leave"
-        };
-        $scope.userStatus = [{
-            "name": "Active",
-            "value": true
-        }, {
-            "name": "Inactive",
-            "value": false
-        }];
-        // $scope.salutations = ["Mr.", "Mrs.", "Ms.", "Dr."];
-        // $scope.houseColors = ["Red", "Green", "Blue", "Yellow", "White"];
+    //Used to name the .html file
+    $scope.template = TemplateService.changecontent("leaveManagement-detail");
+    $scope.menutitle = NavigationService.makeactive("LeaveManagement");
+    TemplateService.title = $scope.menutitle;
+    $scope.navigation = NavigationService.getnav();
+    $scope.formData = {};
+    // $scope.formData.personalDocument = [];
+    // $scope.formData.licenseDocument = [];
+    // $scope.formData.IIISLACertificate = [];
+    // $scope.formData.IIISLAReciept = [];
+    // $scope.formData.CTCDetails = [];
+    $scope.header = {
+        "name": "Create Leave"
+    };
+    $scope.userStatus = [{
+        "name": "Active",
+        "value": true
+    }, {
+        "name": "Inactive",
+        "value": false
+    }];
+    $scope.status = ["Approved", "Pending", "Rejected", "Partially Approved"];
+    // $scope.houseColors = ["Red", "Green", "Blue", "Yellow", "White"];
 
-        $scope.dateOptions = {
-            showWeeks: true
-        };
+    $scope.dateOptions = {
+        showWeeks: true
+    };
 
 
-        $scope.format = 'dd-MMMM-yyyy';
-        $scope.modalData = {};
-        $scope.holdObject = '';
-        $scope.modalIndex = 0;
+    $scope.format = 'dd-MMMM-yyyy';
+    $scope.modalData = {};
+    $scope.holdObject = '';
+    $scope.modalIndex = 0;
 
-        $scope.changeDOB = function (date) {
-            console.log($filter('ageFilter')(date));
-        };
-        $scope.minDate = new Date();
-        $scope.addModal = function (filename, index, holdobj, data, current) {
-            if (index !== "") {
-                $scope.modalData = data;
-                $scope.modalIndex = index;
-                $scope.modalData.from = new Date(data.from);
-                $scope.modalData.to = new Date(data.to);
-            } else {
-                $scope.modalData = {};
-                if (current.length > 0) {
-                    $scope.modalData.from = new Date(current[current.length - 1].to);
-                    $scope.modalData.grade = current[current.length - 1].grade;
-                }
-                $scope.modalIndex = "";
+    $scope.changeDOB = function (date) {
+        console.log($filter('ageFilter')(date));
+    };
+    $scope.minDate = new Date();
+    $scope.addModal = function (filename, index, holdobj, data, current) {
+        if (index !== "") {
+            $scope.modalData = data;
+            $scope.modalIndex = index;
+            $scope.modalData.from = new Date(data.from);
+            $scope.modalData.to = new Date(data.to);
+        } else {
+            $scope.modalData = {};
+            if (current.length > 0) {
+                $scope.modalData.from = new Date(current[current.length - 1].to);
+                $scope.modalData.grade = current[current.length - 1].grade;
             }
-            $scope.holdObject = holdobj;
-            console.log($scope.holdObject);
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/' + filename + '.html',
-                size: 'lg'
-            });
-        };
-        
+            $scope.modalIndex = "";
+        }
+        $scope.holdObject = holdobj;
+        console.log($scope.holdObject);
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/' + filename + '.html',
+            size: 'lg'
+        });
+    };
 
-        $scope.saveModel = function (formData) {
-            console.log(formData);
-            // $scope.formData.name = $scope.formData.firstName + " " + $scope.formData.lastName;
 
-            NavigationService.modelSave("LeaveManagement", $scope.formData, function (data) {
-                if (data.value === true) {
-                    console.log("Data In Else", data.value);
-                    $state.go('leaveManagement-list');
-                    toastr.success("Leave Of " + " " + formData.name + " created successfully.", "Employee" + " Created");
-                } else {
-                    console.log("Data In Else", data.value);
-                    toastr.error("Leave Of " + " creation failed.", "Employee" + " creation error");
-                }
-            });
-        };
-    })
+    $scope.saveModel = function (formData) {
+        console.log(formData);
+        // $scope.formData.name = $scope.formData.firstName + " " + $scope.formData.lastName;
+
+        NavigationService.modelSave("LeaveManagement", $scope.formData, function (data) {
+            if (data.value === true) {
+                console.log("Data In Else", data.value);
+                $state.go('leaveManagement-list');
+                toastr.success("Leave Of " + " " + formData.name + " created successfully.", "Employee" + " Created");
+            } else {
+                console.log("Data In Else", data.value);
+                toastr.error("Leave Of " + " creation failed.", "Employee" + " creation error");
+            }
+        });
+    };
+})
+
+.controller('EditLeaveCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter) {
+    //Used to name the .html file
+    $scope.template = TemplateService.changecontent("leaveManagement-detail");
+    $scope.menutitle = NavigationService.makeactive("LeaveManagement");
+    TemplateService.title = $scope.menutitle;
+    $scope.navigation = NavigationService.getnav();
+    $scope.formData = {};
+
+    $scope.header = {
+        "name": "Edit Leave"
+    };
+    $scope.userStatus = [{
+        "name": "Active",
+        "value": true
+    }, {
+        "name": "Inactive",
+        "value": false
+    }];
+    $scope.status = ["Approved", "Pending", "Rejected", "Partially Approved"];
+    $scope.dateOptions = {
+        showWeeks: true
+    };
+
+
+    $scope.format = 'dd-MMMM-yyyy';
+    $scope.modalData = {};
+    $scope.holdObject = '';
+    $scope.modalIndex = 0;
+
+    $scope.changeDOB = function (date) {
+        console.log($filter('ageFilter')(date));
+    };
+    $scope.minDate = new Date();
+    $scope.addModal = function (filename, index, holdobj, data, current) {
+        if (index !== "") {
+            $scope.modalData = data;
+            $scope.modalIndex = index;
+            $scope.modalData.from = new Date(data.from);
+            $scope.modalData.to = new Date(data.to);
+        } else {
+            $scope.modalData = {};
+            if (current.length > 0) {
+                $scope.modalData.from = new Date(current[current.length - 1].to);
+                $scope.modalData.grade = current[current.length - 1].grade;
+            }
+            $scope.modalIndex = "";
+        }
+        $scope.holdObject = holdobj;
+        console.log($scope.holdObject);
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/' + filename + '.html',
+            size: 'lg'
+        });
+    };
+
+
+    $scope.saveModel = function (formData) {
+        console.log(formData);
+        // $scope.formData.name = $scope.formData.firstName + " " + $scope.formData.lastName;
+
+        NavigationService.modelSave("LeaveManagement", $scope.formData, function (data) {
+            if (data.value === true) {
+                console.log("Data In Else", data.value);
+                $state.go('leaveManagement-list');
+                toastr.success("Leave Of " + " " + formData.name + " created successfully.", "Employee" + " Created");
+            } else {
+                console.log("Data In Else", data.value);
+                toastr.error("Leave Of " + " creation failed.", "Employee" + " creation error");
+            }
+        });
+    };
+})
 
 .controller('CreateEmployeeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter) {
         //Used to name the .html file

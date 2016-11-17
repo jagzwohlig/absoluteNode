@@ -9,6 +9,7 @@ var schema = new Schema({
     reason:String,
     status:{
         type:String,
+        default:"Pending",
         Enum:["Approved","Pending","Rejected","Partially Approved"]
     },
     approvedFrom:Date,
