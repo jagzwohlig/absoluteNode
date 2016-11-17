@@ -2260,7 +2260,27 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
     };
 
-
+        NavigationService.getOneModel("LeaveManagement", $stateParams.id, function (data) {
+            $scope.formData = data.data;
+            console.log("$scope.formData",$scope.formData);
+            if (data.data.name) {
+                $scope.formData.name = data.data.name._id;
+                console.log("$scope.formData.fromDate",$scope.formData.fromDate);
+            }
+             if (data.data.fromDate) {
+                $scope.formData.fromDate = new Date(data.data.fromDate);
+            }
+            if (data.data.toDate) {
+                $scope.formData.toDate = new Date(data.data.toDate);
+            }
+            if (data.data.approvedFrom) {
+                $scope.formData.approvedFrom = new Date(data.data.approvedFrom);
+            }
+            if (data.data.approvedTo) {
+                $scope.formData.approvedTo = new Date(data.data.approvedTo);
+            }
+            // $scope.formData.name = $scope.formData.companyShortName + '-' + $scope.formData.TOFShortName + '-' + $scope.formData.officeCode + '-' + $scope.formData.city1;
+        });
     $scope.saveModel = function (formData) {
         console.log(formData);
         // $scope.formData.name = $scope.formData.firstName + " " + $scope.formData.lastName;
@@ -2269,10 +2289,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             if (data.value === true) {
                 console.log("Data In Else", data.value);
                 $state.go('leaveManagement-list');
-                toastr.success("Leave Of " + " " + formData.name + " created successfully.", "Employee" + " Created");
+                toastr.success("Leave Of " + " " + formData.name + " created successfully.", "Leave" + " Created");
             } else {
                 console.log("Data In Else", data.value);
-                toastr.error("Leave Of " + " creation failed.", "Employee" + " creation error");
+                toastr.error("Leave Of " + " creation failed.", "Leave" + " creation error");
             }
         });
     };
