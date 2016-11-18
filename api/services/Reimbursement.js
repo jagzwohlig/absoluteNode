@@ -13,9 +13,9 @@ var schema = new Schema({
         required: true
     },
     approvedAmount: Number,
-    image: {
+    image: [{
         type: String
-    }
+    }]
 });
 
 schema.plugin(deepPopulate, {

@@ -50,8 +50,9 @@
                                     <th>Cost</th>
                                     <th>Status</th>
                                     <th>Assignment</th>
-
+                                    <th>Approved Amount</th>
                                     <th>Actions</th>
+                                    
                                 </tr>
                             </thead>
                             <!--<pre>{{modelList}}</pre>-->
@@ -63,7 +64,8 @@
                                     <td>{{data.name.name|| "-"}}</td>
                                     <td>{{data.cost|| "-"}}</td>
                                     <td>{{data.status || "-"}}</td>
-                                    <td>{{data.assignment.name|| "-"}}</td> 
+                                    <td>{{data.assignment.name|| "-"}}</td>
+                                     <td>{{data.approvedAmount || "-"}}</td>
                                     <td>
                                         <a class="btn btn-blue" ui-sref="editreimbursements({id:data._id})">
                                             <i class="fa fa-pencil"></i>
