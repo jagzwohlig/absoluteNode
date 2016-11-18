@@ -54,20 +54,21 @@
                                     <th>Actions</th>
                                 </tr>
                             </thead>
+                            <!--<pre>{{modelList}}</pre>-->
                             <tbody ng-repeat="data in modelList">
+                               
                                 <tr >
+                                
                                     <!-- <td>$index</td> -->
-                                    <td>{{data.name.name}}</td>
-                                    <!-- <td>Mahesh Maurya</td>
-                                    <td>3000</td>
-                                    <td>Pending</td>
-                                    <td>Demo</td> -->
-
+                                    <td>{{data.name.name|| "-"}}</td>
+                                    <td>{{data.cost|| "-"}}</td>
+                                    <td>{{data.status || "-"}}</td>
+                                    <td>{{data.assignment.name|| "-"}}</td> 
                                     <td>
                                         <a class="btn btn-blue" ui-sref="editreimbursements({id:data._id})">
                                             <i class="fa fa-pencil"></i>
                                         </a>
-                                        <a class="btn btn-red" ng-click="deleteEmployee(data._id)">
+                                        <a class="btn btn-red" ng-click="deleteModel(data._id)">
                                             <i class="fa fa-trash"></i>
                                         </a>
                                     </td>
@@ -75,7 +76,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="tableData">
+                    <div class="tableData" ng-show="totalItems == undefined">
                         <h5>No data found</h5>
                     </div>
                     <div class="tableData" ng-show="totalItems == undefined">

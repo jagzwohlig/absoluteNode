@@ -2188,7 +2188,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 
     $scope.saveModel = function (formData) {
-        console.log(formData);
+        console.log("SAVE MODEL DATA",formData);
         // $scope.formData.name = $scope.formData.firstName + " " + $scope.formData.lastName;
 
         NavigationService.modelSave("LeaveManagement", $scope.formData, function (data) {
@@ -2273,6 +2273,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         // $scope.formData.name = $scope.formData.firstName + " " + $scope.formData.lastName;
 
         NavigationService.modelSave("Reimbursement", $scope.formData, function (data) {
+           console.log($scope.formData);
+           console.log(data.value);
             if (data.value === true) {
                 console.log("Data In Else", data.value);
                 $state.go('reimbursement-list');
@@ -2347,6 +2349,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             console.log("$scope.formData",$scope.formData);
             if (data.data.name) {
                 $scope.formData.name = data.data.name._id;
+                $scope.formData.assignment = data.data.assignment._id;
                 console.log("$scope.formData.fromDate",$scope.formData.fromDate);
             }
              if (data.data.fromDate) {
@@ -7041,6 +7044,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.viewTemplates = function (temp, getApi, data) {
         $scope.allTemplate = temp;
         $scope.api = getApi;
+        console.log("$scope.api",$scope.api);
         if (data === "") {
             NavigationService.searchModel(getApi, {
                 page: "1",

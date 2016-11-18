@@ -372,6 +372,11 @@ var navigationservice = angular.module('navigationservice', [])
                 callback(data, i);
             });
         },
+        searchAssignment: function (formData, i, callback) {
+            $http.post(adminurl + 'Assignment/search', formData).success(function (data) {
+                callback(data, i);
+            });
+        },
         searchNatureLoss: function (formData, i, callback) {
             $http.post(adminurl + 'NatureLoss/search', formData).success(function (data) {
                 callback(data, i);

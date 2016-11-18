@@ -59,22 +59,21 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Assignment*</label>
-                                        <multiple-select name="assignment" required ng-model="formData.assignment" ng-name="name.assignment" api="searchAssignment
-                                        " ng-create="assignment"></multiple-select>
+                                        <multiple-select name="assignment" ng-model="formData.assignment" ng-name="assignment.name" api="searchAssignment" ng-create="assignment"></multiple-select>
                                         <div class="error-msg" ng-show="formName.ename.$invalid && formName.ename.$touched">Please Enter Employee Name</div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Approved amount</label>
-                                        <input type="text" name="amnt" class="form-control" ng-model="formData.amnt" required>
+                                        <input type="number" name="amnt" class="form-control" ng-model="formData.amnt">
                                         <div class="error-msg" ng-show="formName.amnt.$invalid && formName.amnt.$touched">Please Enter Amount</div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Upload Documents</label>
-                                        <upload-image ng-model="formData.doc"></upload-image>
+                                        <upload-image ng-model="formData.image" isMultiple=true></upload-image>
                                     </div>
                                 </div>
                             </div>
