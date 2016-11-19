@@ -54,9 +54,9 @@
                                 <tr ng-repeat="data in modelList" >
                                     <td>{{data.name}}</td>
                                     <td>{{data.department.name}}</td>
-                                    <td>{{data.document}}</td>
+                                    
                                     <td>
-                                        <a class="btn btn-primary" download="HHHHHHHHH" ng-href="{{data.document|downloadImage}}">
+                                        <a class="btn btn-primary" download="{{data.document}}" ng-href="{{data.document|downloadImage}}">
                                             <i class="fa fa-download"></i>
                                         </a>
                                         <a class="btn btn-danger" ng-click="deleteModel(data._id)">
