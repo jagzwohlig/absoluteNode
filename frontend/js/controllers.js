@@ -2223,8 +2223,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         "name": "Inactive",
         "value": false
     }];
-    $scope.status = ["Approved", "Pending", "Rejected", "Partially Approved"];
-    // $scope.houseColors = ["Red", "Green", "Blue", "Yellow", "White"];
+   
+    
 
     $scope.dateOptions = {
         showWeeks: true
@@ -2266,12 +2266,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     $scope.saveModel = function (formData) {
         console.log("SAVE MODEL DATA",formData);
-        // $scope.formData.name = $scope.formData.firstName + " " + $scope.formData.lastName;
-
+       
         NavigationService.modelSave("KnowledgeBase", $scope.formData, function (data) {
             if (data.value === true) {
-                console.log("Data In Else", data.value);
-                $state.go('knowledgeBase-list');
+                console.log("Data In If", data.value);
+                $state.go('knowledgebase-list');
                 toastr.success("Document for " + " " + formData.name + " created successfully.", "Employee" + " Created");
             } else {
                 console.log("Data In Else", data.value);
@@ -2346,13 +2345,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     $scope.saveModel = function (formData) {
         console.log(formData);
-        // $scope.formData.name = $scope.formData.firstName + " " + $scope.formData.lastName;
-
         NavigationService.modelSave("Reimbursement", $scope.formData, function (data) {
            console.log($scope.formData);
            console.log(data.value);
             if (data.value === true) {
-                console.log("Data In Else", data.value);
+                console.log("Data In If", data.value);
                 $state.go('reimbursement-list');
                 toastr.success("Reimbursement Of " + " " + formData.name + " created successfully.", "Employee" + " Created");
             } else {
