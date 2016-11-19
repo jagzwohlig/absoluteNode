@@ -34,24 +34,6 @@
                                     <h6>{{a.name}}</h6>
                                 </div>
                             </div>
-                            <!--<div class="col-xs-1 pointer" ng-click="viewJIR(abc);"><img src="frontend/img/folder.png">
-                                  <h6>Law</h6>
-                              </div>
-                              <div class="col-xs-1 pointer" ng-click="viewILR();"><img src="frontend/img/folder.png">
-                                  <h6>Insurance</h6>
-                              </div>
-                              <div class="col-xs-1 pointer" ng-click="viewILR();"><img src="frontend/img/folder.png">
-                                  <h6>survey</h6>
-                              </div>
-                              <div class="col-xs-1 pointer" ng-click="viewILR();"><img src="frontend/img/folder.png">
-                                  <h6>Surveyor</h6>
-                              </div>
-                              <div class="col-xs-1 pointer" ng-click="viewILR();"><img src="frontend/img/folder.png">
-                                  <h6>ILR</h6>
-                              </div>
-                              <div class="col-xs-1 pointer" ng-click="viewILR();"><img src="frontend/img/folder.png">
-                                  <h6>ILA</h6>
-                              </div>-->
                         </div>
                     </div>
                 </div>
@@ -79,7 +61,7 @@
                                             <td>{{data.name}}</td>
                                             <td>{{data.department.name}}</td>
                                             <td>
-                                                <a class="btn btn-primary" ui-sref="editpolicyType({id:data._id})">
+                                                <a class="btn btn-primary" download="{{data.document}}" ng-href="{{data.document|downloadImage}}">
                                                     <i class="fa fa-download"></i>
                                                 </a>
                                                 <!-- <a class="btn btn-danger" ng-click="deleteModel(data._id)">
