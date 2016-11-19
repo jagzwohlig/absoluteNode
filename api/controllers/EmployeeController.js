@@ -20,11 +20,8 @@ var controller = {
 
         function isDate(value) {
             value = (value - (25567 + 1)) * 86400 * 1000;
-            console.log(value);
             var mom = moment(value);
-            console.log(mom.isValid());
             if (mom.isValid()) {
-                console.log(mom.toDate());
                 return mom.toDate();
             } else {
                 return undefined;
