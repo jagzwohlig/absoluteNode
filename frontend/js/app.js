@@ -720,6 +720,8 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
 
 
 
+
+
     // .state('reimbursement-detail', {
     //     url: "/reimbursement-detail",
     //     templateUrl: "frontend/views/template.html",
@@ -890,11 +892,25 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
             templateUrl: "frontend/views/template.html",
             controller: 'EditCompanyCtrl'
         })
-        .state('knowledgebase-list', {
-            url: "/knowledgebase-list",
+    .state('knowledgebase-list', {
+            url: "/knowledgebase-list/{page:.*}/{keyword:.*}/{model:.*}",
             templateUrl: "frontend/views/template.html",
-            controller: 'KnowledgebaseListCtrl'
+            controller: 'ModelViewCtrl',
+            params: {
+            page: "1",
+            keyword: "",
+            model: "knowledge base"
+        }
         })
+     .state('createKnowledgeBase', {
+        url: "/KnowledgeBase-create/{id:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateKnowledgeBaseCtrl',
+        params: {
+            id: "",
+            model: "knowledge base"
+        }
+    })
         .state('knowledgebase-detail', {
             url: "/knowledgebase-detail",
             templateUrl: "frontend/views/template.html",

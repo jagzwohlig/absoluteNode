@@ -32,7 +32,7 @@
                                     <i class="fa fa-search"></i>
                                 </button>
                             </form>
-                            <a class="btn btn-primary" ui-sref="knowledgebase-detail">Add New</a>
+                            <a class="btn btn-primary" ui-sref="createKnowledgeBase">Add New</a>
                         </div>
                         <h3>List of Document Types
                             <span class="tableTotal">(Total :
@@ -50,10 +50,10 @@
                                     <th>Actions</th>
                                 </tr>
                             </thead>
-                            <tbody >
-                                <tr >
-                                    <td>House Holders Insurance Policy</td>
-                                    <td>Misc</td>
+                            <tbody ng-show="totalItems>0">
+                                <tr ng-repeat="data in modelList" >
+                                    <td>{{data.name}}</td>
+                                    <td>{{data.department.name}}</td>
 
                                     <td>
                                         <a class="btn btn-primary" ui-sref="editpolicyType({id:data._id})">

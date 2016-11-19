@@ -4,7 +4,6 @@
     <img ng-src="{{model|uploadpath}}" class="img-responsive uploadingImage img-thumbnail" ng-if="type=='img'" />
     <iframe src="{{model|uploadpath}}" style="width:400px; height:400px;" frameborder="0" ng-if="type=='pdf'"></iframe>
   </div>
-  {{isMultiple}}
   <div class="clearfix" ng-if="model && isMultiple" ng-hide="noShow">
     <div class="img-box" style="float:left;" ng-repeat="sImage in model track by $index">
       <img alt="" ng-src="{{sImage|uploadpath}}" class="img-responsive" />
