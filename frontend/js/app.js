@@ -916,12 +916,11 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
             templateUrl: "frontend/views/template.html",
             controller: 'KnowledgebaseDetailCtrl'
         })
-        .state('all-document', {
+    .state('all-document', {
             url: "/all-document",
             templateUrl: "frontend/views/template.html",
             controller: 'AllDocumentCtrl'
-        })
-
+    })
     .state('customer-list', {
         url: "/customer-list/{page:.*}/{keyword:.*}/{model:.*}",
         templateUrl: "frontend/views/template.html",

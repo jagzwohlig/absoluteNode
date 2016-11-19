@@ -1483,8 +1483,42 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.menutitle = NavigationService.makeactive("All Document");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
+        $scope.modelList = [];
+        $scope.firsttime=0;
+        $scope.name;
+        $scope.dept = [{
+            "name": "Jir",
+            "type": "Jir"
+        }, {
+            "name": "Law",
+            "type": "Law"
+        }, {
+            "name": "Insurance",
+            "type": "Insurance"
+        }, {
+            "name": "survey",
+            "type": "survey"
+        }, {
+            "name": "Surveyor",
+            "type": "Surveyor"
+        }, {
+            "name": "ILR",
+            "type": "ILR"
+        }, {
+            "name": "ILA",
+            "type": "ILA"
+        }];
+      
+        $scope.viewJIR = function (data) { 
+        
+                NavigationService.searchAllDocument(data, function (data) {
+                    $scope.modelList = data.data
+                    $scope.firsttime=1
+                    console.log("DATA IN ALL", $scope.modelList);
+                });
+            }
 
-
+            $scope.viewJIR($scope.dept[0].type);
     })
     .controller('EditTemplateILACtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
         //Used to name the .html file
@@ -2188,7 +2222,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 
     $scope.saveModel = function (formData) {
-        console.log("SAVE MODEL DATA",formData);
+        console.log("SAVE MODEL DATA", formData);
         // $scope.formData.name = $scope.formData.firstName + " " + $scope.formData.lastName;
 
         NavigationService.modelSave("LeaveManagement", $scope.formData, function (data) {
@@ -2223,8 +2257,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         "name": "Inactive",
         "value": false
     }];
-   
-    
+
+
 
     $scope.dateOptions = {
         showWeeks: true
@@ -2265,8 +2299,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 
     $scope.saveModel = function (formData) {
-        console.log("SAVE MODEL DATA",formData);
-       
+        console.log("SAVE MODEL DATA", formData);
+
         NavigationService.modelSave("KnowledgeBase", $scope.formData, function (data) {
             if (data.value === true) {
                 console.log("Data In If", data.value);
@@ -2346,8 +2380,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.saveModel = function (formData) {
         console.log(formData);
         NavigationService.modelSave("Reimbursement", $scope.formData, function (data) {
-           console.log($scope.formData);
-           console.log(data.value);
+            console.log($scope.formData);
+            console.log(data.value);
             if (data.value === true) {
                 console.log("Data In If", data.value);
                 $state.go('reimbursement-list');
@@ -2417,28 +2451,28 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
     };
 
-        NavigationService.getOneModel("Reimbursement", $stateParams.id, function (data) {
-            $scope.formData = data.data;
-            console.log("$scope.formData",$scope.formData);
-            if (data.data.name) {
-                $scope.formData.name = data.data.name._id;
-                $scope.formData.assignment = data.data.assignment._id;
-                console.log("$scope.formData.fromDate",$scope.formData.fromDate);
-            }
-             if (data.data.fromDate) {
-                $scope.formData.fromDate = new Date(data.data.fromDate);
-            }
-            if (data.data.toDate) {
-                $scope.formData.toDate = new Date(data.data.toDate);
-            }
-            if (data.data.approvedFrom) {
-                $scope.formData.approvedFrom = new Date(data.data.approvedFrom);
-            }
-            if (data.data.approvedTo) {
-                $scope.formData.approvedTo = new Date(data.data.approvedTo);
-            }
-            // $scope.formData.name = $scope.formData.companyShortName + '-' + $scope.formData.TOFShortName + '-' + $scope.formData.officeCode + '-' + $scope.formData.city1;
-        });
+    NavigationService.getOneModel("Reimbursement", $stateParams.id, function (data) {
+        $scope.formData = data.data;
+        console.log("$scope.formData", $scope.formData);
+        if (data.data.name) {
+            $scope.formData.name = data.data.name._id;
+            $scope.formData.assignment = data.data.assignment._id;
+            console.log("$scope.formData.fromDate", $scope.formData.fromDate);
+        }
+        if (data.data.fromDate) {
+            $scope.formData.fromDate = new Date(data.data.fromDate);
+        }
+        if (data.data.toDate) {
+            $scope.formData.toDate = new Date(data.data.toDate);
+        }
+        if (data.data.approvedFrom) {
+            $scope.formData.approvedFrom = new Date(data.data.approvedFrom);
+        }
+        if (data.data.approvedTo) {
+            $scope.formData.approvedTo = new Date(data.data.approvedTo);
+        }
+        // $scope.formData.name = $scope.formData.companyShortName + '-' + $scope.formData.TOFShortName + '-' + $scope.formData.officeCode + '-' + $scope.formData.city1;
+    });
     $scope.saveModel = function (formData) {
         console.log(formData);
         // $scope.formData.name = $scope.formData.firstName + " " + $scope.formData.lastName;
@@ -2513,27 +2547,27 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
     };
 
-        NavigationService.getOneModel("LeaveManagement", $stateParams.id, function (data) {
-            $scope.formData = data.data;
-            console.log("$scope.formData",$scope.formData);
-            if (data.data.name) {
-                $scope.formData.name = data.data.name._id;
-                console.log("$scope.formData.fromDate",$scope.formData.fromDate);
-            }
-             if (data.data.fromDate) {
-                $scope.formData.fromDate = new Date(data.data.fromDate);
-            }
-            if (data.data.toDate) {
-                $scope.formData.toDate = new Date(data.data.toDate);
-            }
-            if (data.data.approvedFrom) {
-                $scope.formData.approvedFrom = new Date(data.data.approvedFrom);
-            }
-            if (data.data.approvedTo) {
-                $scope.formData.approvedTo = new Date(data.data.approvedTo);
-            }
-            // $scope.formData.name = $scope.formData.companyShortName + '-' + $scope.formData.TOFShortName + '-' + $scope.formData.officeCode + '-' + $scope.formData.city1;
-        });
+    NavigationService.getOneModel("LeaveManagement", $stateParams.id, function (data) {
+        $scope.formData = data.data;
+        console.log("$scope.formData", $scope.formData);
+        if (data.data.name) {
+            $scope.formData.name = data.data.name._id;
+            console.log("$scope.formData.fromDate", $scope.formData.fromDate);
+        }
+        if (data.data.fromDate) {
+            $scope.formData.fromDate = new Date(data.data.fromDate);
+        }
+        if (data.data.toDate) {
+            $scope.formData.toDate = new Date(data.data.toDate);
+        }
+        if (data.data.approvedFrom) {
+            $scope.formData.approvedFrom = new Date(data.data.approvedFrom);
+        }
+        if (data.data.approvedTo) {
+            $scope.formData.approvedTo = new Date(data.data.approvedTo);
+        }
+        // $scope.formData.name = $scope.formData.companyShortName + '-' + $scope.formData.TOFShortName + '-' + $scope.formData.officeCode + '-' + $scope.formData.city1;
+    });
     $scope.saveModel = function (formData) {
         console.log(formData);
         // $scope.formData.name = $scope.formData.firstName + " " + $scope.formData.lastName;
@@ -7117,7 +7151,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.viewTemplates = function (temp, getApi, data) {
         $scope.allTemplate = temp;
         $scope.api = getApi;
-        console.log("$scope.api",$scope.api);
+        console.log("$scope.api", $scope.api);
         if (data === "") {
             NavigationService.searchModel(getApi, {
                 page: "1",
