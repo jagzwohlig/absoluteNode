@@ -658,33 +658,33 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
     })
 
     .state('leaveManagement-list', {
-        url: "/leavemanagement-list/{page:.*}/{keyword:.*}/{model:.*}",
-        templateUrl: "frontend/views/template.html",
-        controller: 'ModelViewCtrl',
-        params: {
-            page: "1",
-            keyword: "",
-            model: "leave management"
-        }
-    })
-    .state('createleaves', {
-        url: "/leave-create/{id:.*}/{model:.*}",
-        templateUrl: "frontend/views/template.html",
-        controller: 'CreateLeaveCtrl',
-        params: {
-            id: "",
-            model: "leave management"
-        }
-    })
-    .state('editleaves', {
-        url: "/leaves-edit/{id:.*}/{model:.*}",
-        templateUrl: "frontend/views/template.html",
-        controller: 'EditLeaveCtrl',
-        params: {
-            id: "",
-            model: "leave management"
-        }
-    })
+            url: "/leavemanagement-list/{page:.*}/{keyword:.*}/{model:.*}",
+            templateUrl: "frontend/views/template.html",
+            controller: 'ModelViewCtrl',
+            params: {
+                page: "1",
+                keyword: "",
+                model: "leave management"
+            }
+        })
+        .state('createleaves', {
+            url: "/leave-create/{id:.*}/{model:.*}",
+            templateUrl: "frontend/views/template.html",
+            controller: 'CreateLeaveCtrl',
+            params: {
+                id: "",
+                model: "leave management"
+            }
+        })
+        .state('editleaves', {
+            url: "/leaves-edit/{id:.*}/{model:.*}",
+            templateUrl: "frontend/views/template.html",
+            controller: 'EditLeaveCtrl',
+            params: {
+                id: "",
+                model: "leave management"
+            }
+        })
 
 
 
@@ -700,23 +700,23 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
     })
 
     .state('createreimbursements', {
-        url: "/reimbursement-create/{id:.*}/{model:.*}",
-        templateUrl: "frontend/views/template.html",
-        controller: 'CreateReimbursementCtrl',
-        params: {
-            id: "",
-            model: "reimbursement"
-        }
-    })
-    .state('editreimbursements', {
-        url: "/reimbursements-edit/{id:.*}/{model:.*}",
-        templateUrl: "frontend/views/template.html",
-        controller: 'EditReimbursementCtrl',
-        params: {
-            id: "",
-            model: "reimbursement"
-        }
-    })
+            url: "/reimbursement-create/{id:.*}/{model:.*}",
+            templateUrl: "frontend/views/template.html",
+            controller: 'CreateReimbursementCtrl',
+            params: {
+                id: "",
+                model: "reimbursement"
+            }
+        })
+        .state('editreimbursements', {
+            url: "/reimbursements-edit/{id:.*}/{model:.*}",
+            templateUrl: "frontend/views/template.html",
+            controller: 'EditReimbursementCtrl',
+            params: {
+                id: "",
+                model: "reimbursement"
+            }
+        })
 
 
 
@@ -1492,7 +1492,6 @@ firstapp.directive('uploadImage', function ($http, $filter, $timeout) {
 
             $scope.$watch("image", function (newVal, oldVal) {
                 if (newVal && newVal.file) {
-
                     $scope.uploadNow(newVal);
                 }
             });
