@@ -1510,7 +1510,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         }];
       
         $scope.viewJIR = function (data) { 
-        
+        $scope.name = data
                 NavigationService.searchAllDocument(data, function (data) {
                     $scope.modelList = data.data
                     $scope.firsttime=1
