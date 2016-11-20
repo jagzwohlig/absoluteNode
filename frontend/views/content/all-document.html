@@ -40,13 +40,30 @@
                 <div class="widget">
                     <div class="form-elements-sec">
                         <div class="">
+                            <!--From Here-->
                             <div class="widget-title">
+                                <div class="pull-right">
+                                    <form class="search-form mr-form">
+                                        <input type="text" ng-change="showAll(true)" placeholder="Search Here..." ng-model="search.keyword" />
+                                        <button type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                                    </form>
+                                    <a class="btn btn-primary" ui-sref="createAllDocument">Add New</a>
+                                </div>
+                                <h3>{{name}} List of Document
+                                    <span class="tableTotal">(Total :
+                                {{modelList.length}})
+                            </span>
+                                </h3>
+                            </div>
+                            <!--<div class="widget-title">
                                 <h3>{{name}} List of Document
                                     <span class="tableTotal">(Total :
                                     {{modelList.length}})
                                 </span>
                                 </h3>
-                            </div>
+                            </div>-->
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
@@ -64,9 +81,9 @@
                                                 <a class="btn btn-primary" download="{{data.document}}" ng-href="{{data.document|downloadImage}}">
                                                     <i class="fa fa-download"></i>
                                                 </a>
-                                                <!-- <a class="btn btn-danger" ng-click="deleteModel(data._id)">
+                                                 <a class="btn btn-danger" ng-click="deleteModel(data._id)">
                                                 <i class="fa fa-trash"></i>
-                                            </a> -->
+                                            </a> 
                                             </td>
                                         </tr>
                                     </tbody>

@@ -1477,8 +1477,16 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 
     })
-    .controller('AllDocumentCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state) {
+    .controller('AllDocumentCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state,$stateParams) {
         //Used to name the .html file
+
+        $scope.modelCamel = _.camelCase($stateParams.model);
+        var a = _.startCase($scope.modelCamel).split(" ");
+        $scope.ModelApi = "";
+        _.each(a, function (n) {
+            $scope.ModelApi = $scope.ModelApi + n;
+        });
+
         $scope.template = TemplateService.changecontent("all-document");
         $scope.menutitle = NavigationService.makeactive("All Document");
         TemplateService.title = $scope.menutitle;
@@ -1496,8 +1504,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Insurance",
             "type": "Insurance"
         }, {
-            "name": "survey",
-            "type": "survey"
+            "name": "Survey",
+            "type": "Survey"
         }, {
             "name": "Surveyor",
             "type": "Surveyor"
@@ -1509,6 +1517,31 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "type": "ILA"
         }];
       
+// 
+        $scope.deleteModel = function (id) {
+            console.log("Delete Id", id);
+            globalfunction.confDel(function (value) {
+                console.log("Delete value", value);
+                if (value) {
+                    console.log("Delete Value", $scope.ModelApi);
+                    NavigationService.deleteModel($scope.ModelApi, id, function (data) {
+                        if (data.value) {
+                            console.log("Delete Value", data.value);
+                            $scope.showAll();
+                            toastr.success($scope.modelCap + " deleted successfully.", $scope.modelCap + " deleted");
+                        } else {
+                            toastr.error("There was an error while deleting " + $scope.modelCap, $scope.modelCap + " deleting error");
+                        }
+
+
+                    });
+                }
+            });
+        };
+
+
+// 
+
         $scope.viewJIR = function (data) { 
         $scope.name = data
                 NavigationService.searchAllDocument(data, function (data) {
@@ -2248,7 +2281,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.navigation = NavigationService.getnav();
     $scope.formData = {};
     $scope.header = {
-        "name": "Create KnowledgeBase"
+        "name": "Create All-Documents"
     };
     $scope.userStatus = [{
         "name": "Active",
@@ -2301,14 +2334,88 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.saveModel = function (formData) {
         console.log("SAVE MODEL DATA", formData);
 
-        NavigationService.modelSave("KnowledgeBase", $scope.formData, function (data) {
+        NavigationService.modelSave("Jir", $scope.formData, function (data) {
             if (data.value === true) {
                 console.log("Data In If", data.value);
-                $state.go('knowledgebase-list');
+                $state.go('all-document');
                 toastr.success("Document for " + " " + formData.name + " created successfully.", "Employee" + " Created");
             } else {
                 console.log("Data In Else", data.value);
                 toastr.error("Document for " + " creation failed.", "Employee" + " creation error");
+            }
+        });
+    };
+})
+.controller('CreateAllDocumentCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter) {
+    //Used to name the .html file
+    $scope.template = TemplateService.changecontent("all-document-details");
+    $scope.menutitle = NavigationService.makeactive("Jir");
+    TemplateService.title = $scope.menutitle;
+    $scope.navigation = NavigationService.getnav();
+    $scope.formData = {};
+    $scope.header = {
+        "name": "Create Document"
+    };
+    $scope.userStatus = [{
+        "name": "Active",
+        "value": true
+    }, {
+        "name": "Inactive",
+        "value": false
+    }];
+
+
+
+    $scope.dateOptions = {
+        showWeeks: true
+    };
+
+    $scope.status = ["Jir", "Law", "Insurance","Survey","Surveyor","ILR","ILA"];
+
+    $scope.format = 'dd-MMMM-yyyy';
+    $scope.modalData = {};
+    $scope.holdObject = '';
+    $scope.modalIndex = 0;
+
+    $scope.changeDOB = function (date) {
+        console.log($filter('ageFilter')(date));
+    };
+    $scope.minDate = new Date();
+    $scope.addModal = function (filename, index, holdobj, data, current) {
+        if (index !== "") {
+            $scope.modalData = data;
+            $scope.modalIndex = index;
+            $scope.modalData.from = new Date(data.from);
+            $scope.modalData.to = new Date(data.to);
+        } else {
+            $scope.modalData = {};
+            if (current.length > 0) {
+                $scope.modalData.from = new Date(current[current.length - 1].to);
+                $scope.modalData.grade = current[current.length - 1].grade;
+            }
+            $scope.modalIndex = "";
+        }
+        $scope.holdObject = holdobj;
+        console.log($scope.holdObject);
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/' + filename + '.html',
+            size: 'lg'
+        });
+    };
+
+
+    $scope.saveModel = function (formData) {
+        console.log("SAVE MODEL DATA", formData);
+
+        NavigationService.modelSave("Jir", $scope.formData, function (data) {
+            if (data.value === true) {
+                console.log("Data In If", data.value);
+                $state.go('all-document');
+                toastr.success("Document for " + " " + formData.name + " created successfully.", "Document" + " Created");
+            } else {
+                console.log("Data In Else", data.value);
+                toastr.error("Document for " + " creation failed.", "Document" + " creation error");
             }
         });
     };

@@ -911,6 +911,15 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
             model: "knowledge base"
         }
     })
+    .state('createAllDocument', {
+        url: "/AllDocument-create/{id:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateAllDocumentCtrl',
+        params: {
+            id: "",
+            model: "jir"
+        }
+    })
         .state('knowledgebase-detail', {
             url: "/knowledgebase-detail",
             templateUrl: "frontend/views/template.html",
