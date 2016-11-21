@@ -95,7 +95,7 @@
                             <div class="tableData" ng-if="modelList == undefined">
                                 <h5>Loading Data</h5>
                             </div>
-                            <ul ng-if="totalItems" ng-change="changePage(currentPage);" uib-pagination total-items="totalItems" items-per-page="maxRow"
+                            <ul ng-if="modelList.length" ng-change="changePage(currentPage);" uib-pagination total-items="modelList.length" items-per-page="maxRow"
                                 ng-model="currentPage" max-size="template.pageMax" class="pagination-sm" boundary-links="true"
                                 force-ellipses="true"></ul>
                         </div>

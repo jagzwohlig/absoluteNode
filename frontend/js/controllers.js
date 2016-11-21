@@ -225,6 +225,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             globalfunction.confDel(function (value) {
                 console.log("Delete value", value);
                 if (value) {
+                    console.log("$scope.ModelApi",$scope.ModelApi);
                     NavigationService.deleteModel($scope.ModelApi, id, function (data) {
                         if (data.value) {
                             $scope.showAll();
@@ -1477,7 +1478,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 
     })
-    .controller('AllDocumentCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state,$stateParams) {
+    .controller('AllDocumentCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state,$stateParams,toastr) {
         //Used to name the .html file
 
         $scope.modelCamel = _.camelCase($stateParams.model);
@@ -1492,7 +1493,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
         $scope.modelList = [];
-        $scope.firsttime=0;
         $scope.name;
         $scope.dept = [{
             "name": "Jir",
@@ -1527,7 +1527,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     NavigationService.deleteModel($scope.ModelApi, id, function (data) {
                         if (data.value) {
                             console.log("Delete Value", data.value);
-                            $scope.showAll();
+                            $scope.viewJIR($scope.ModelApi);
                             toastr.success($scope.modelCap + " deleted successfully.", $scope.modelCap + " deleted");
                         } else {
                             toastr.error("There was an error while deleting " + $scope.modelCap, $scope.modelCap + " deleting error");
@@ -1546,7 +1546,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.name = data
                 NavigationService.searchAllDocument(data, function (data) {
                     $scope.modelList = data.data
-                    $scope.firsttime=1
                     console.log("DATA IN ALL", $scope.modelList);
                 });
             }

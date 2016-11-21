@@ -928,7 +928,11 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
     .state('all-document', {
             url: "/all-document",
             templateUrl: "frontend/views/template.html",
-            controller: 'AllDocumentCtrl'
+            controller: 'AllDocumentCtrl',
+            params: {
+            id: "",
+            model: "jir"
+        }
     })
     .state('customer-list', {
         url: "/customer-list/{page:.*}/{keyword:.*}/{model:.*}",
