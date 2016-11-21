@@ -1518,16 +1518,16 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         }];
       
 // 
-        $scope.deleteModel = function (id) {
-            console.log("Delete Id", id);
+        $scope.deleteModel = function (id,type) {
+            console.log("Delete Id Type", id ,type);
             globalfunction.confDel(function (value) {
                 console.log("Delete value", value);
                 if (value) {
-                    console.log("Delete Value", $scope.ModelApi);
+                    // console.log("Delete Value", type);
                     NavigationService.deleteModel($scope.ModelApi, id, function (data) {
                         if (data.value) {
                             console.log("Delete Value", data.value);
-                            $scope.viewJIR($scope.ModelApi);
+                            $scope.viewJIR(type);
                             toastr.success($scope.modelCap + " deleted successfully.", $scope.modelCap + " deleted");
                         } else {
                             toastr.error("There was an error while deleting " + $scope.modelCap, $scope.modelCap + " deleting error");
