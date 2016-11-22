@@ -158,9 +158,9 @@ module.exports = mongoose.model('Customer', schema);
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country customerSegment customerCompany typeOfOffice officers", "city.district.state.zone.country customerSegment customerCompany typeOfOffice officers"));
 
 var model = {
-    getOfficer: function(data, callback) {
+    getOfficer: function (data, callback) {
         var Model = this;
-        var Search = Model.findOne(data.filter).lean().populate('officers').exec(function(err, data2) {
+        var Search = Model.findOne(data.filter).lean().populate('officers').exec(function (err, data2) {
             if (err) {
                 callback(err, data2);
             } else if (_.isEmpty(data2)) {
@@ -169,14 +169,14 @@ var model = {
                 console.log(data2);
                 var data3 = {};
                 data3.results = data2.officers;
-                _.each(data3, function(n) {
+                _.each(data3, function (n) {
                     n.name = n.firstName + n.lastName;
                 });
                 callback(err, data3);
             }
         });
     },
-    search: function(data, callback) {
+    search: function (data, callback) {
         var Model = this;
         var Const = this(data);
         var maxRow = Config.maxRow;
@@ -190,12 +190,12 @@ var model = {
             field: data.field,
             filters: {
                 keyword: {
-                    fields: ['officeCode'],
+                    fields: ['name'],
                     term: data.keyword
                 }
             },
             sort: {
-                asc: 'officeCode'
+                asc: 'name'
             },
             start: (page - 1) * maxRow,
             count: maxRow
@@ -209,7 +209,56 @@ var model = {
             .page(options, callback);
 
     },
-    getSegmented: function(data, callback) {
+    search: function (data, callback) {
+        var Model = this;
+        var Const = this(data);
+        var maxRow = Config.maxRow;
+
+        var page = 1;
+        if (data.page) {
+            page = data.page;
+        }
+        var field = data.field;
+
+
+
+
+        var options = {
+            field: data.field,
+            filters: {
+                keyword: {
+                    fields: ['name'],
+                    term: data.keyword
+                }
+            },
+            sort: {
+                asc: 'name'
+            },
+            start: (page - 1) * maxRow,
+            count: maxRow
+        };
+
+        if (defaultSort) {
+            if (defaultSortOrder && defaultSortOrder === "desc") {
+                options.sort = {
+                    desc: defaultSort
+                };
+            } else {
+                options.sort = {
+                    asc: defaultSort
+                };
+            }
+        }
+
+        var Search = Model.find(data.filter)
+
+        .order(options)
+            .deepPopulate(deepSearch)
+            .keyword(options)
+            .page(options, callback);
+
+    },
+    getSegmented: function (data, callback) {
         var Model = this;
         var Const = this(data);
         var maxRow = Config.maxRow;
@@ -237,12 +286,12 @@ var model = {
         var Search = Model.find()
             .order(options)
             .keyword(options)
-            .deepPopulate("customerSegment").exec(function(err, company) {
+            .deepPopulate("customerSegment").exec(function (err, company) {
                 if (err) {
                     callback(err, company);
                 } else {
                     var company2 = {};
-                    company2.results = _.slice(_.filter(company, function(c) {
+                    company2.results = _.slice(_.filter(company, function (c) {
                         return c.customerSegment.name == data.segment;
                     }), 0, Config.maxRow);
                     callback(err, company2);
