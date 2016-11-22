@@ -2336,7 +2336,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         NavigationService.modelSave("Jir", $scope.formData, function (data) {
             if (data.value === true) {
                 console.log("Data In If", data.value);
-                $state.go('all-document');
+                $state.go('knowledgebase-list');
                 toastr.success("Document for " + " " + formData.name + " created successfully.", "Employee" + " Created");
             } else {
                 console.log("Data In Else", data.value);
