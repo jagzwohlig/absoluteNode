@@ -892,58 +892,58 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
             templateUrl: "frontend/views/template.html",
             controller: 'EditCompanyCtrl'
         })
-    .state('knowledgebase-list', {
+        .state('knowledgebase-list', {
             url: "/knowledgebase-list/{page:.*}/{keyword:.*}/{model:.*}",
             templateUrl: "frontend/views/template.html",
             controller: 'ModelViewCtrl',
             params: {
-            page: "1",
-            keyword: "",
-            model: "knowledge base"
-        }
+                page: "1",
+                keyword: "",
+                model: "knowledge base"
+            }
         })
-     .state('createKnowledgeBase', {
-        url: "/KnowledgeBase-create/{id:.*}/{model:.*}",
-        templateUrl: "frontend/views/template.html",
-        controller: 'CreateKnowledgeBaseCtrl',
-        params: {
-            id: "",
-            model: "knowledge base"
-        }
-    })
-    .state('createAllDocument', {
-        url: "/AllDocument-create/{id:.*}/{model:.*}",
-        templateUrl: "frontend/views/template.html",
-        controller: 'CreateAllDocumentCtrl',
-        params: {
-            id: "",
-            model: "jir"
-        }
-    })
+        .state('createKnowledgeBase', {
+            url: "/KnowledgeBase-create/{id:.*}/{model:.*}",
+            templateUrl: "frontend/views/template.html",
+            controller: 'CreateKnowledgeBaseCtrl',
+            params: {
+                id: "",
+                model: "knowledge base"
+            }
+        })
+        .state('createAllDocument', {
+            url: "/AllDocument-create/{id:.*}/{model:.*}",
+            templateUrl: "frontend/views/template.html",
+            controller: 'CreateAllDocumentCtrl',
+            params: {
+                id: "",
+                model: "jir"
+            }
+        })
         .state('knowledgebase-detail', {
             url: "/knowledgebase-detail",
             templateUrl: "frontend/views/template.html",
             controller: 'KnowledgebaseDetailCtrl'
         })
-    .state('all-document', {
+        .state('all-document', {
             url: "/all-document",
             templateUrl: "frontend/views/template.html",
             controller: 'AllDocumentCtrl',
             params: {
-            id: "",
-            model: "jir"
-        }
-    })
-    .state('customer-list', {
-        url: "/customer-list/{page:.*}/{keyword:.*}/{model:.*}",
-        templateUrl: "frontend/views/template.html",
-        controller: 'ModelViewCtrl',
-        params: {
-            page: "1",
-            keyword: "",
-            model: "customer"
-        }
-    })
+                id: "",
+                model: "jir"
+            }
+        })
+        .state('customer-list', {
+            url: "/customer-list/{page:.*}/{keyword:.*}/{model:.*}",
+            templateUrl: "frontend/views/template.html",
+            controller: 'ModelViewCtrl',
+            params: {
+                page: "1",
+                keyword: "",
+                model: "customer"
+            }
+        })
 
     .state('createcustomer', {
         url: "/customer-detail/{id:.*}/{model:.*}",
@@ -1503,8 +1503,22 @@ firstapp.directive('uploadImage', function ($http, $filter, $timeout) {
             // }
 
             $scope.$watch("image", function (newVal, oldVal) {
-                if (newVal && newVal.file) {
+
+                isArr = _.isArray(newVal);
+                if (!isArr && newVal && newVal.file) {
                     $scope.uploadNow(newVal);
+                } else if (isArr && newVal.length > 0 && newVal[0].file) {
+
+                    $timeout(function () {
+                        console.log(oldVal, newVal);
+                        console.log(newVal.length);
+                        _.each(newVal, function (newV, key) {
+                            if (newV && newV.file) {
+                                $scope.uploadNow(newV);
+                            }
+                        });
+                    }, 100);
+
                 }
             });
 
@@ -1545,11 +1559,15 @@ firstapp.directive('uploadImage', function ($http, $filter, $timeout) {
 
                     $scope.uploadStatus = "uploaded";
                     if ($scope.isMultiple) {
+
                         if ($scope.inObject) {
                             $scope.model.push({
                                 "image": data.data[0]
                             });
                         } else {
+                            if (!$scope.model) {
+                                $scope.clearOld();
+                            }
                             $scope.model.push(data.data[0]);
                         }
                     } else {
@@ -1784,7 +1802,6 @@ firstapp.filter('from', function () {
                 }
             });
             return returnString;
-
         } else {
             return "Unknown";
         }

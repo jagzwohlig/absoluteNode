@@ -59,7 +59,8 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Assignment*</label>
-                                        <multiple-select name="assignment" required ng-model="formData.assignment" ng-name="assignment.name" api="searchAssignment" ng-create="assignment"></multiple-select>
+                                        <multiple-select name="assignment" required ng-model="formData.assignment" ng-name="assignment.name" api="searchAssignment"
+                                            ng-create="assignment"></multiple-select>
                                         <div class="error-msg" ng-show="formName.ename.$invalid && formName.ename.$touched">Please Enter Employee Name</div>
                                     </div>
                                 </div>
@@ -73,7 +74,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Upload Documents</label>
-                                        <upload-image ng-model="formData.image"></upload-image>
+                                        <upload-image multiple ng-model="formData.image"></upload-image>
                                     </div>
                                 </div>
                             </div>
