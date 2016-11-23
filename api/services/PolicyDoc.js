@@ -1,4 +1,7 @@
 var schema = new Schema({
+    name: {
+        type: String
+    },
     insuredCompany: {
         type: Schema.Types.ObjectId,
         ref: "CustomerCompany",
@@ -72,6 +75,87 @@ module.exports = mongoose.model('PolicyDoc', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "insuredCompany insuredOffice", "insuredCompany insuredOffice"));
 var model = {
+    saveData: function (data, callback) {
+        var Model = this;
+        var Const = this(data);
+        var foreignKeys = Config.getForeignKeys(schema);
+
+        CustomerCompany.findOne({
+            _id: data.insuredCompany
+        }).exec(function (err, data2) {
+            if (err && !data2._id) {
+                callback(err);
+            } else {
+                Customer.findOne({
+                    _id: data.insuredOffice
+                }).exec(function (err, data3) {
+                    if (err && !data3._id) {
+                        callback(err);
+                    } else {
+                        data.name = data2.name + " " + data3.name;
+                        Const = Model(data);
+                        afterName();
+                    }
+                });
+            }
+
+        });
+
+
+        function afterName() {
+            if (data._id) {
+                Model.findOne({
+                    _id: data._id
+                }, function (err, data2) {
+                    if (err) {
+                        callback(err, data2);
+                    } else if (data2) {
+                        async.each(foreignKeys, function (n, callback) {
+                            if (data[n.name] != data2[n.name]) {
+                                Config.manageArrayObject(mongoose.models[n.ref], data2[n.name], data2._id, n.key, "delete", function (err, md) {
+                                    if (err) {
+                                        callback(err, md);
+                                    } else {
+                                        Config.manageArrayObject(mongoose.models[n.ref], data[n.name], data2._id, n.key, "create", callback);
+                                    }
+                                });
+                            } else {
+                                callback(null, "no found for ");
+                            }
+                        }, function (err) {
+                            data2.update(data, {
+                                w: 1
+                            }, callback);
+                        });
+
+
+                    } else {
+                        callback("No Data Found", data2);
+                    }
+                });
+            } else {
+
+                Const.save(function (err, data2) {
+                    if (err) {
+                        callback(err, data2);
+                    } else {
+
+                        async.each(foreignKeys, function (n, callback) {
+                            Config.manageArrayObject(mongoose.models[n.ref], data2[n.name], data2._id, n.key, "create", function (err, md) {
+                                callback(err, data2);
+                            });
+                        }, function (err) {
+                            callback(err, data2);
+                        });
+
+                    }
+                });
+
+            }
+        }
+
+
+    },
     getPolicyDoc: function (data, callback) {
         var Model = this;
         var aggText = [];
