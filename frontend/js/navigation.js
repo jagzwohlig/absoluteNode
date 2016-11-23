@@ -439,6 +439,9 @@ var navigationservice = angular.module('navigationservice', [])
             $http.post(adminurl + 'Template/save', data).success(callback);
         },
         assignmentSave: function (data, callback) {
+            if (data.policyDoc == "") {
+                delete data.policyDoc;
+            }
             $http.post(adminurl + 'Assignment/save', data).success(callback);
         },
         searchModel: function (model, formData, i, callback) {
