@@ -1,7 +1,7 @@
 var globalfunction = {};
 angular.module('phonecatControllers', ['templateservicemod', 'navigationservice', 'assignmenttemplate', 'ui.bootstrap', 'ui.select', 'ngAnimate', 'toastr', 'ngSanitize', 'angular-flexslider', 'ui.tinymce', 'imageupload', 'ngMap', 'toggle-switch', 'cfp.hotkeys', 'ui.sortable', 'infinite-scroll'])
 
-.controller('DashboardCtrl', function ($scope, TemplateService, NavigationService, $timeout, base64) {
+.controller('DashboardCtrl', function ($scope, TemplateService, NavigationService, $timeout, base64,$window) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("dashboard");
     $scope.menutitle = NavigationService.makeactive("Dashboard");
@@ -10,7 +10,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 })
 
-.controller('AccessController', function ($scope, TemplateService, NavigationService, $timeout, $state) {
+.controller('AccessController', function ($scope, TemplateService, NavigationService, $timeout, $state,$window) {
     if ($.jStorage.get("accessToken")) {
 
     } else {
@@ -474,7 +474,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
         $scope.refreshShareWith = function (data, office) {
             var formdata = {};
-            formdata.search = data;
+            formdata.keyword = data;
             formdata.filter = {
                 "isSBC":false
             };
