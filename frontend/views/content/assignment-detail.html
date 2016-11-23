@@ -89,14 +89,12 @@
                                     <table class="table table-input" ng-if="formData.shareWith.length!=0">
                                         <thead>
                                             <tr>
-                                                <th>Office</th>
                                                 <th>Persons</th>
                                                 <th width="150px">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr ng-repeat="data in formData.shareWith">
-                                                <td>{{data.name}}</td>
                                                 <td><span ng-repeat="person in data.persons
                       ">{{person.name}}<span ng-if="$index!=data.persons.length-1">, </span></span>
                                                 </td>
