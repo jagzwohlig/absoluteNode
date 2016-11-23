@@ -476,9 +476,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             var formdata = {};
             formdata.search = data;
             formdata.filter = {
-                "postedAt": office
+                "isSBC":false
             };
             NavigationService.searchEmployee(formdata, 1, function (data) {
+                console.log(data.data.results);
                 $scope.shareWith = data.data.results;
             });
         };
@@ -629,7 +630,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             var formdata = {};
             formdata.search = data;
             formdata.filter = {
-                "postedAt": office
+                "isSBC":false
             };
             NavigationService.searchEmployee(formdata, 1, function (data) {
                 $scope.shareWith = data.data.results;

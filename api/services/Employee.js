@@ -271,5 +271,18 @@ schema.plugin(timestamps);
 module.exports = mongoose.model('Employee', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country func grade department IIISLACertificate.department", "city.district.state.zone.country  func grade postedAt"));
-var model = {};
+var model = {
+
+     getBackendEmployee: function (data, callback) {
+    Employee.find({
+      isSBC:false
+    }).exec(function (err, found) {
+      if (err) {
+        callback(err, null);
+      } else {
+          callback(null, found);
+      }
+      })
+  },
+};
 module.exports = _.assign(module.exports, exports, model);
