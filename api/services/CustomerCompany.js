@@ -142,6 +142,16 @@ var model = {
         var Model = this;
         var Const = this(data);
         var maxRow = Config.maxRow;
+        var filter = {};
+
+        if (data && data.filter && data.filter._id) {
+            filter = data.filter._id;
+        }
+
+
+
+
+
 
         var page = 1;
         if (data.page) {
@@ -163,7 +173,7 @@ var model = {
             count: maxRow
         };
 
-        var Search = Model.find()
+        var Search = Model.find(filter)
             .order(options)
             .keyword(options)
             .deepPopulate("customerSegment").exec(function (err, company) {
