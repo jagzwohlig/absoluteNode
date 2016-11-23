@@ -721,7 +721,52 @@ var model = {
     Model.update(findObj, {
       "$set": setObj
     }, callback);
-  }
+  },
+      getPerson: function (data, callback) {
+        var Model = this;
+        var Const = this(data);
+        var maxRow = Config.maxRow;
+        console.log(data.segment);
+        var page = 1;
+        if (data.page) {
+            page = data.page;
+        }
+        var field = data.field;
+        var options = {
+            field: data.field,
+            filters: {
+                keyword: {
+                    fields: ['name'],
+                    term: data.keyword
+                }
+            },
+            sort: {
+                asc: 'name'
+            },
+            start: (page - 1) * maxRow,
+            count: maxRow
+        };
+
+        var Search = Employee.find({
+          isSBC:false
+        })
+            .order(options)
+            .keyword(options)
+            .deepPopulate("Employee").exec(function (err, company) {
+                if (err) {
+                    callback(err, company);
+                } else {
+                    var company2 = {};
+                    company2.results = _.slice(_.filter(company, function (c) {
+                        return c.Employee.name == data.name;
+                    }), 0, Config.maxRow);
+                    callback(err, company2);
+                }
+
+            });
+
+
+    },
 };
 
 module.exports = _.assign(module.exports, exports, model);

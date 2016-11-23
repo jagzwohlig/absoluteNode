@@ -6,6 +6,17 @@
  */
 module.exports = _.cloneDeep(require("sails-wohlig-controller"));
 var controller = {
+     getPerson: function (req, res) {
+        if (req.body) {
+            req.model.getPerson(req.body, res.callback);
+
+        } else {
+            res.json({
+                value: false,
+                data: "Invalid Request"
+            });
+        }
+    },
     generateAssignmentNumber: function (req, res) {
         if (req.body) {
             req.model.generateAssignmentNumber(req.body, res.callback);
