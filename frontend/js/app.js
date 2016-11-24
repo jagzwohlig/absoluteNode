@@ -145,27 +145,37 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
         controller: 'EditDistrictCtrl'
     })
 
-    .state('currency-list', {
-        url: "/currency-list/{page:.*}/{keyword:.*}",
+    .state('currencies-list', {
+        url: "/currencies-list/{page:.*}/{keyword:.*}/{model:.*}",
         templateUrl: "frontend/views/template.html",
-        controller: 'CurrencyCtrl',
+        controller: 'ModelViewCtrl',
         params: {
             page: "1",
-            keyword: ""
+            keyword: "",
+            model: "currencies"
         }
     })
 
     .state('createcurrency', {
-        url: "/currency-create",
+        url: "/currency-create/{id:.*}/{model:.*}",
         templateUrl: "frontend/views/template.html",
-        controller: 'CreateCurrencyCtrl'
+        controller: 'CreateModelCtrl',
+        params: {
+            id: "",
+            model: "currencies"
+        }
+    })
+    
+        .state('editcurrency', {
+        url: "/currency-edit/{id:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditModelCtrl',
+        params: {
+            id: "",
+            model: "currencies"
+        }
     })
 
-    .state('editcurrency', {
-        url: "/currency-edit/:id",
-        templateUrl: "frontend/views/template.html",
-        controller: 'EditCurrencyCtrl'
-    })
 
     .state('city-list', {
         url: "/city-list/{page:.*}/{keyword:.*}",

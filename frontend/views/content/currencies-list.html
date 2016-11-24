@@ -7,7 +7,7 @@
             <a title="Home">Company Setup</a>
         </li>
         <li>
-            <a ui-sref="currency-list" >Currency List</a>
+            <a ui-sref="currencies-list" >Currency List</a>
         </li>
     </ul>
 </div>
@@ -53,7 +53,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="currency in allCurrencies">
+                                <tr ng-repeat="currency in modelList">
                                   <td>
                                     {{($index + 1)+((currentPage-1)*maxRow)}}
                                   </td>
@@ -73,8 +73,9 @@
                     <div class="tableData" ng-show="totalItems == undefined">
                         <h5>Loading Data</h5>
                     </div>
-                    <ul ng-if="totalItems" ng-change="changePage(currentPage);" uib-pagination total-items="totalItems" items-per-page="maxRow" ng-model="currentPage" max-size="template.pageMax" class="pagination-sm" boundary-links="true" force-ellipses="true"></ul>
-                </div>
+                     <ul ng-if="totalItems" ng-change="changePage(currentPage);" uib-pagination total-items="totalItems" items-per-page="maxRow"
+                        ng-model="currentPage" max-size="template.pageMax" class="pagination-sm" boundary-links="true" force-ellipses="true"></ul>
+                    </div>
             </div>
         </div>
     </div>
