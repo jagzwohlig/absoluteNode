@@ -1,7 +1,7 @@
 var globalfunction = {};
 angular.module('phonecatControllers', ['templateservicemod', 'navigationservice', 'assignmenttemplate', 'ui.bootstrap', 'ui.select', 'ngAnimate', 'toastr', 'ngSanitize', 'angular-flexslider', 'ui.tinymce', 'imageupload', 'ngMap', 'toggle-switch', 'cfp.hotkeys', 'ui.sortable', 'infinite-scroll'])
 
-.controller('DashboardCtrl', function ($scope, TemplateService, NavigationService, $timeout, base64,$window) {
+.controller('DashboardCtrl', function ($scope, TemplateService, NavigationService, $timeout, base64, $window) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("dashboard");
     $scope.menutitle = NavigationService.makeactive("Dashboard");
@@ -10,7 +10,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 })
 
-.controller('AccessController', function ($scope, TemplateService, NavigationService, $timeout, $state,$window) {
+.controller('AccessController', function ($scope, TemplateService, NavigationService, $timeout, $state, $window) {
     if ($.jStorage.get("accessToken")) {
 
     } else {
@@ -39,7 +39,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 })
 
 
-.controller('BranchListCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr,$window) {
+.controller('BranchListCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $window) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("branch-list");
     $scope.menutitle = NavigationService.makeactive("Branch List");
@@ -100,7 +100,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     };
 })
 
-.controller('CountryCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr,$window) {
+.controller('CountryCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("country-list");
         $scope.menutitle = NavigationService.makeactive("Country List");
@@ -160,7 +160,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
     })
-    .controller('ModelViewCtrl', function ($scope, hotkeys, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr,$window) {
+    .controller('ModelViewCtrl', function ($scope, hotkeys, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr, $window) {
         //Used to name the .html file
         $scope.modelCamel = _.camelCase($stateParams.model);
         var a = _.startCase($scope.modelCamel).split(" ");
@@ -225,7 +225,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             globalfunction.confDel(function (value) {
                 console.log("Delete value", value);
                 if (value) {
-                    console.log("$scope.ModelApi",$scope.ModelApi);
+                    console.log("$scope.ModelApi", $scope.ModelApi);
                     NavigationService.deleteModel($scope.ModelApi, id, function (data) {
                         if (data.value) {
                             $scope.showAll();
@@ -247,7 +247,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
     })
 
-.controller('CreateModelCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr, $stateParams,$window) {
+.controller('CreateModelCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr, $stateParams, $window) {
     //Used to name the .html file
     $scope.modelCamel = _.camelCase($stateParams.model);
     var a = _.startCase($scope.modelCamel).split(" ");
@@ -303,7 +303,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     $scope.formData = {};
     $scope.formData.status = true;
-    $scope.cancel = function(){
+    $scope.cancel = function () {
         $window.history.back();
     }
     $scope.saveModel = function (formData) {
@@ -320,7 +320,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 })
 
-.controller('EditModelCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $uibModal,$window) {
+.controller('EditModelCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $uibModal, $window) {
     $scope.modelCamel = _.camelCase($stateParams.model);
     var a = _.startCase($scope.modelCamel).split(" ");
     $scope.ModelApi = "";
@@ -382,7 +382,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 })
 
 
-.controller('CreateCountryCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr,$window) {
+.controller('CreateCountryCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr, $window) {
         //Used to name the .html file
 
         $scope.template = TemplateService.changecontent("country-detail");
@@ -408,7 +408,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('CreateAssignmentCtrl', function ($scope, TemplateService, NavigationService, $filter, $timeout, $state, toastr, $stateParams, $uibModal,$window) {
+    .controller('CreateAssignmentCtrl', function ($scope, TemplateService, NavigationService, $filter, $timeout, $state, toastr, $stateParams, $uibModal, $window) {
         //Used to name the .html file
 
         $scope.template = TemplateService.changecontent("assignment-detail");
@@ -476,7 +476,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             var formdata = {};
             formdata.keyword = data;
             formdata.filter = {
-                "isSBC":false
+                "isSBC": false
             };
             NavigationService.searchEmployee(formdata, 1, function (data) {
                 console.log(data.data.results);
@@ -585,7 +585,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('EditAssignmentCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr, $stateParams, $uibModal, $filter,$window) {
+    .controller('EditAssignmentCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr, $stateParams, $uibModal, $filter, $window) {
         //Used to name the .html file
 
         $scope.template = TemplateService.changecontent("assignment-detail");
@@ -630,7 +630,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             var formdata = {};
             formdata.keyword = data;
             formdata.filter = {
-                "isSBC":false
+                "isSBC": false
             };
             NavigationService.searchEmployee(formdata, 1, function (data) {
                 $scope.shareWith = data.data.results;
@@ -740,7 +740,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     })
 
-.controller('EditCountryCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr,$window) {
+.controller('EditCountryCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $window) {
     //Used to name the .html file
 
     $scope.template = TemplateService.changecontent("country-detail");
@@ -775,7 +775,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 
 
-.controller('OfficeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr,$window) {
+.controller('OfficeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("office-list");
         $scope.menutitle = NavigationService.makeactive("Office List");
@@ -844,7 +844,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
     })
-    .controller('CreateOfficeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr,$window) {
+    .controller('CreateOfficeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("office-detail");
         $scope.menutitle = NavigationService.makeactive("Office");
@@ -869,7 +869,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('EditOfficeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr,$window) {
+    .controller('EditOfficeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("office-detail");
         $scope.menutitle = NavigationService.makeactive("Office");
@@ -901,7 +901,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('TypeOfOfficeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr,$window) {
+    .controller('TypeOfOfficeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("typeOfOffice-list");
         $scope.menutitle = NavigationService.makeactive("Type Of Office List");
@@ -959,7 +959,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
     })
-    .controller('CreateTypeOfOfficeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr,$window) {
+    .controller('CreateTypeOfOfficeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("typeOfOffice-detail");
         $scope.menutitle = NavigationService.makeactive("Type Of Office");
@@ -992,7 +992,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('EditTypeOfOfficeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr,$window) {
+    .controller('EditTypeOfOfficeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("typeOfOffice-detail");
         $scope.menutitle = NavigationService.makeactive("Type Of Office");
@@ -1097,7 +1097,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
     })
-    .controller('CreateZoneCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr,$window) {
+    .controller('CreateZoneCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("zone-detail");
         $scope.menutitle = NavigationService.makeactive("Zone");
@@ -1119,7 +1119,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
     })
-    .controller('EditZoneCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr,$window) {
+    .controller('EditZoneCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("zone-detail");
         $scope.menutitle = NavigationService.makeactive("Zone");
@@ -1213,7 +1213,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     })
 
-.controller('CreateStateCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr,$window) {
+.controller('CreateStateCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("state-detail");
         $scope.menutitle = NavigationService.makeactive("State");
@@ -1238,7 +1238,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('EditStateCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr,$window) {
+    .controller('EditStateCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("state-detail");
         $scope.menutitle = NavigationService.makeactive("State");
@@ -1496,7 +1496,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 
     })
-    .controller('AllDocumentCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state,$stateParams,toastr) {
+    .controller('AllDocumentCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
         //Used to name the .html file
 
         $scope.modelCamel = _.camelCase($stateParams.model);
@@ -1534,10 +1534,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "ILA",
             "type": "ILA"
         }];
-      
-// 
-        $scope.deleteModel = function (id,type) {
-            console.log("Delete Id Type", id ,type);
+
+        // 
+        $scope.deleteModel = function (id, type) {
+            console.log("Delete Id Type", id, type);
             globalfunction.confDel(function (value) {
                 console.log("Delete value", value);
                 if (value) {
@@ -1558,19 +1558,19 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
 
-// 
+        // 
 
-        $scope.viewJIR = function (data) { 
-        $scope.name = data
-                NavigationService.searchAllDocument(data, function (data) {
-                    $scope.modelList = data.data
-                    console.log("DATA IN ALL", $scope.modelList);
-                });
-            }
+        $scope.viewJIR = function (data) {
+            $scope.name = data
+            NavigationService.searchAllDocument(data, function (data) {
+                $scope.modelList = data.data
+                console.log("DATA IN ALL", $scope.modelList);
+            });
+        }
 
-            $scope.viewJIR($scope.dept[0].type);
+        $scope.viewJIR($scope.dept[0].type);
     })
-    .controller('EditTemplateILACtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr,$window) {
+    .controller('EditTemplateILACtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("templateIla-detail");
         $scope.menutitle = NavigationService.makeactive("Edit ILA Template");
@@ -1656,9 +1656,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $('#sortable-ul-selector-id').sortable("refresh");
             }
         };
-$scope.cancel = function(){
-        $window.history.back();
-    }
+        $scope.cancel = function () {
+            $window.history.back();
+        }
         $scope.saveModel = function (data) {
             $scope.saveModel = function (formData) {
                 NavigationService.modelSave("TemplateIla", $scope.formData, function (data) {
@@ -1674,7 +1674,7 @@ $scope.cancel = function(){
         };
     })
 
-.controller('CreateTemplateILACtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr,$window) {
+.controller('CreateTemplateILACtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $window) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("templateIla-detail");
     $scope.menutitle = NavigationService.makeactive("Create ILA Template");
@@ -1761,7 +1761,7 @@ $scope.cancel = function(){
             $('#sortable-ul-selector-id').sortable("refresh");
         }
     };
-$scope.cancel = function(){
+    $scope.cancel = function () {
         $window.history.back();
     }
     $scope.saveModel = function (data) {
@@ -1791,7 +1791,7 @@ $scope.cancel = function(){
 })
 
 
-.controller('EditTemplateISRCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr,$window) {
+.controller('EditTemplateISRCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $window) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("templateIsr-detail");
     $scope.menutitle = NavigationService.makeactive("Edit ISR Template");
@@ -1877,7 +1877,7 @@ $scope.cancel = function(){
             $('#sortable-ul-selector-id').sortable("refresh");
         }
     };
-$scope.cancel = function(){
+    $scope.cancel = function () {
         $window.history.back();
     }
     $scope.saveModel = function (data) {
@@ -1895,7 +1895,7 @@ $scope.cancel = function(){
     };
 })
 
-.controller('CreateTemplateISRCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr,$window) {
+.controller('CreateTemplateISRCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $window) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("templateIsr-detail");
     $scope.menutitle = NavigationService.makeactive("Create ISR Template");
@@ -1982,7 +1982,7 @@ $scope.cancel = function(){
             $('#sortable-ul-selector-id').sortable("refresh");
         }
     };
-$scope.cancel = function(){
+    $scope.cancel = function () {
         $window.history.back();
     }
     $scope.saveModel = function (data) {
@@ -2013,7 +2013,7 @@ $scope.cancel = function(){
 })
 
 
-.controller('EditTemplateJIRCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr,$window) {
+.controller('EditTemplateJIRCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $window) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("templateJir-detail");
     $scope.menutitle = NavigationService.makeactive("Edit JIR Template");
@@ -2099,7 +2099,7 @@ $scope.cancel = function(){
             $('#sortable-ul-selector-id').sortable("refresh");
         }
     };
-$scope.cancel = function(){
+    $scope.cancel = function () {
         $window.history.back();
     }
     $scope.saveModel = function (data) {
@@ -2118,7 +2118,7 @@ $scope.cancel = function(){
     };
 })
 
-.controller('CreateTemplateJIRCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr,$window) {
+.controller('CreateTemplateJIRCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $window) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("templateJir-detail");
     $scope.menutitle = NavigationService.makeactive("Create JIR Template");
@@ -2205,7 +2205,7 @@ $scope.cancel = function(){
             $('#sortable-ul-selector-id').sortable("refresh");
         }
     };
-$scope.cancel = function(){
+    $scope.cancel = function () {
         $window.history.back();
     }
     $scope.saveModel = function (data) {
@@ -2226,7 +2226,7 @@ $scope.cancel = function(){
 
 })
 
-.controller('CreateLeaveCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter,$window) {
+.controller('CreateLeaveCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter, $window) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("leaveManagement-detail");
     $scope.menutitle = NavigationService.makeactive("LeaveManagement");
@@ -2288,7 +2288,7 @@ $scope.cancel = function(){
         });
     };
 
-$scope.cancel = function(){
+    $scope.cancel = function () {
         $window.history.back();
     }
     $scope.saveModel = function (formData) {
@@ -2299,7 +2299,7 @@ $scope.cancel = function(){
             if (data.value === true) {
                 console.log("Data In Else", data.value);
                 // $state.go('leaveManagement-list');
-            $window.history.back();
+                $window.history.back();
                 toastr.success("Leave Of " + " " + formData.name + " created successfully.", "Employee" + " Created");
             } else {
                 console.log("Data In Else", data.value);
@@ -2311,161 +2311,161 @@ $scope.cancel = function(){
 
 
 
-.controller('CreateKnowledgeBaseCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter,$window) {
-    //Used to name the .html file
-    $scope.template = TemplateService.changecontent("knowledgeBase-detail");
-    $scope.menutitle = NavigationService.makeactive("KnowledgeBase");
-    TemplateService.title = $scope.menutitle;
-    $scope.navigation = NavigationService.getnav();
-    $scope.formData = {};
-    $scope.header = {
-        "name": "Create All-Documents"
-    };
-    $scope.userStatus = [{
-        "name": "Active",
-        "value": true
-    }, {
-        "name": "Inactive",
-        "value": false
-    }];
+.controller('CreateKnowledgeBaseCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter, $window) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("knowledgeBase-detail");
+        $scope.menutitle = NavigationService.makeactive("KnowledgeBase");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.formData = {};
+        $scope.header = {
+            "name": "Create All-Documents"
+        };
+        $scope.userStatus = [{
+            "name": "Active",
+            "value": true
+        }, {
+            "name": "Inactive",
+            "value": false
+        }];
 
 
 
-    $scope.dateOptions = {
-        showWeeks: true
-    };
+        $scope.dateOptions = {
+            showWeeks: true
+        };
 
 
-    $scope.format = 'dd-MMMM-yyyy';
-    $scope.modalData = {};
-    $scope.holdObject = '';
-    $scope.modalIndex = 0;
+        $scope.format = 'dd-MMMM-yyyy';
+        $scope.modalData = {};
+        $scope.holdObject = '';
+        $scope.modalIndex = 0;
 
-    $scope.changeDOB = function (date) {
-        console.log($filter('ageFilter')(date));
-    };
-    $scope.minDate = new Date();
-    $scope.addModal = function (filename, index, holdobj, data, current) {
-        if (index !== "") {
-            $scope.modalData = data;
-            $scope.modalIndex = index;
-            $scope.modalData.from = new Date(data.from);
-            $scope.modalData.to = new Date(data.to);
-        } else {
-            $scope.modalData = {};
-            if (current.length > 0) {
-                $scope.modalData.from = new Date(current[current.length - 1].to);
-                $scope.modalData.grade = current[current.length - 1].grade;
-            }
-            $scope.modalIndex = "";
-        }
-        $scope.holdObject = holdobj;
-        console.log($scope.holdObject);
-        var modalInstance = $uibModal.open({
-            scope: $scope,
-            templateUrl: '/frontend/views/modal/' + filename + '.html',
-            size: 'lg'
-        });
-    };
-
-$scope.cancel = function(){
-        $window.history.back();
-    }
-    $scope.saveModel = function (formData) {
-        console.log("SAVE MODEL DATA", formData);
-
-        NavigationService.modelSave("Jir", $scope.formData, function (data) {
-            if (data.value === true) {
-                console.log("Data In If", data.value);
-                // $state.go('knowledgebase-list');
-                $window.history.back();
-                toastr.success("Document for " + " " + formData.name + " created successfully.", "Employee" + " Created");
+        $scope.changeDOB = function (date) {
+            console.log($filter('ageFilter')(date));
+        };
+        $scope.minDate = new Date();
+        $scope.addModal = function (filename, index, holdobj, data, current) {
+            if (index !== "") {
+                $scope.modalData = data;
+                $scope.modalIndex = index;
+                $scope.modalData.from = new Date(data.from);
+                $scope.modalData.to = new Date(data.to);
             } else {
-                console.log("Data In Else", data.value);
-                toastr.error("Document for " + " creation failed.", "Employee" + " creation error");
+                $scope.modalData = {};
+                if (current.length > 0) {
+                    $scope.modalData.from = new Date(current[current.length - 1].to);
+                    $scope.modalData.grade = current[current.length - 1].grade;
+                }
+                $scope.modalIndex = "";
             }
-        });
-    };
-})
-.controller('CreateAllDocumentCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter,$window) {
-    //Used to name the .html file
-    $scope.template = TemplateService.changecontent("all-document-details");
-    $scope.menutitle = NavigationService.makeactive("Jir");
-    TemplateService.title = $scope.menutitle;
-    $scope.navigation = NavigationService.getnav();
-    $scope.formData = {};
-    $scope.header = {
-        "name": "Create Document"
-    };
-    $scope.userStatus = [{
-        "name": "Active",
-        "value": true
-    }, {
-        "name": "Inactive",
-        "value": false
-    }];
+            $scope.holdObject = holdobj;
+            console.log($scope.holdObject);
+            var modalInstance = $uibModal.open({
+                scope: $scope,
+                templateUrl: '/frontend/views/modal/' + filename + '.html',
+                size: 'lg'
+            });
+        };
 
-
-
-    $scope.dateOptions = {
-        showWeeks: true
-    };
-
-    $scope.status = ["Jir", "Law", "Insurance","Survey","Surveyor","ILR","ILA"];
-
-    $scope.format = 'dd-MMMM-yyyy';
-    $scope.modalData = {};
-    $scope.holdObject = '';
-    $scope.modalIndex = 0;
-
-    $scope.changeDOB = function (date) {
-        console.log($filter('ageFilter')(date));
-    };
-    $scope.minDate = new Date();
-    $scope.addModal = function (filename, index, holdobj, data, current) {
-        if (index !== "") {
-            $scope.modalData = data;
-            $scope.modalIndex = index;
-            $scope.modalData.from = new Date(data.from);
-            $scope.modalData.to = new Date(data.to);
-        } else {
-            $scope.modalData = {};
-            if (current.length > 0) {
-                $scope.modalData.from = new Date(current[current.length - 1].to);
-                $scope.modalData.grade = current[current.length - 1].grade;
-            }
-            $scope.modalIndex = "";
+        $scope.cancel = function () {
+            $window.history.back();
         }
-        $scope.holdObject = holdobj;
-        console.log($scope.holdObject);
-        var modalInstance = $uibModal.open({
-            scope: $scope,
-            templateUrl: '/frontend/views/modal/' + filename + '.html',
-            size: 'lg'
-        });
-    };
+        $scope.saveModel = function (formData) {
+            console.log("SAVE MODEL DATA", formData);
 
-$scope.cancel = function(){
-        $window.history.back();
-    }
-    $scope.saveModel = function (formData) {
-        console.log("SAVE MODEL DATA", formData);
+            NavigationService.modelSave("Jir", $scope.formData, function (data) {
+                if (data.value === true) {
+                    console.log("Data In If", data.value);
+                    // $state.go('knowledgebase-list');
+                    $window.history.back();
+                    toastr.success("Document for " + " " + formData.name + " created successfully.", "Employee" + " Created");
+                } else {
+                    console.log("Data In Else", data.value);
+                    toastr.error("Document for " + " creation failed.", "Employee" + " creation error");
+                }
+            });
+        };
+    })
+    .controller('CreateAllDocumentCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter, $window) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("all-document-details");
+        $scope.menutitle = NavigationService.makeactive("Jir");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.formData = {};
+        $scope.header = {
+            "name": "Create Document"
+        };
+        $scope.userStatus = [{
+            "name": "Active",
+            "value": true
+        }, {
+            "name": "Inactive",
+            "value": false
+        }];
 
-        NavigationService.modelSave("Jir", $scope.formData, function (data) {
-            if (data.value === true) {
-                console.log("Data In If", data.value);
-                // $state.go('all-document');
-                $window.history.back();
-                toastr.success("Document for " + " " + formData.name + " created successfully.", "Document" + " Created");
+
+
+        $scope.dateOptions = {
+            showWeeks: true
+        };
+
+        $scope.status = ["Jir", "Law", "Insurance", "Survey", "Surveyor", "ILR", "ILA"];
+
+        $scope.format = 'dd-MMMM-yyyy';
+        $scope.modalData = {};
+        $scope.holdObject = '';
+        $scope.modalIndex = 0;
+
+        $scope.changeDOB = function (date) {
+            console.log($filter('ageFilter')(date));
+        };
+        $scope.minDate = new Date();
+        $scope.addModal = function (filename, index, holdobj, data, current) {
+            if (index !== "") {
+                $scope.modalData = data;
+                $scope.modalIndex = index;
+                $scope.modalData.from = new Date(data.from);
+                $scope.modalData.to = new Date(data.to);
             } else {
-                console.log("Data In Else", data.value);
-                toastr.error("Document for " + " creation failed.", "Document" + " creation error");
+                $scope.modalData = {};
+                if (current.length > 0) {
+                    $scope.modalData.from = new Date(current[current.length - 1].to);
+                    $scope.modalData.grade = current[current.length - 1].grade;
+                }
+                $scope.modalIndex = "";
             }
-        });
-    };
-})
+            $scope.holdObject = holdobj;
+            console.log($scope.holdObject);
+            var modalInstance = $uibModal.open({
+                scope: $scope,
+                templateUrl: '/frontend/views/modal/' + filename + '.html',
+                size: 'lg'
+            });
+        };
 
-.controller('CreateReimbursementCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter,$window) {
+        $scope.cancel = function () {
+            $window.history.back();
+        }
+        $scope.saveModel = function (formData) {
+            console.log("SAVE MODEL DATA", formData);
+
+            NavigationService.modelSave("Jir", $scope.formData, function (data) {
+                if (data.value === true) {
+                    console.log("Data In If", data.value);
+                    // $state.go('all-document');
+                    $window.history.back();
+                    toastr.success("Document for " + " " + formData.name + " created successfully.", "Document" + " Created");
+                } else {
+                    console.log("Data In Else", data.value);
+                    toastr.error("Document for " + " creation failed.", "Document" + " creation error");
+                }
+            });
+        };
+    })
+
+.controller('CreateReimbursementCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter, $window) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("reimbursement-detail");
     $scope.menutitle = NavigationService.makeactive("Reimbursement");
@@ -2527,7 +2527,7 @@ $scope.cancel = function(){
         });
     };
 
-$scope.cancel = function(){
+    $scope.cancel = function () {
         $window.history.back();
     }
     $scope.saveModel = function (formData) {
@@ -2549,7 +2549,7 @@ $scope.cancel = function(){
 })
 
 
-.controller('EditReimbursementCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter,$window) {
+.controller('EditReimbursementCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter, $window) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("reimbursement-detail");
     $scope.menutitle = NavigationService.makeactive("Reimbursement");
@@ -2628,7 +2628,7 @@ $scope.cancel = function(){
         // $scope.formData.name = $scope.formData.companyShortName + '-' + $scope.formData.TOFShortName + '-' + $scope.formData.officeCode + '-' + $scope.formData.city1;
     });
 
-    $scope.cancel = function(){
+    $scope.cancel = function () {
         $window.history.back();
     }
     $scope.saveModel = function (formData) {
@@ -2650,7 +2650,7 @@ $scope.cancel = function(){
 })
 
 
-.controller('EditLeaveCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter,$window) {
+.controller('EditLeaveCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter, $window) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("leaveManagement-detail");
     $scope.menutitle = NavigationService.makeactive("LeaveManagement");
@@ -2727,7 +2727,7 @@ $scope.cancel = function(){
         }
         // $scope.formData.name = $scope.formData.companyShortName + '-' + $scope.formData.TOFShortName + '-' + $scope.formData.officeCode + '-' + $scope.formData.city1;
     });
-    $scope.cancel = function(){
+    $scope.cancel = function () {
         $window.history.back();
     }
     $scope.saveModel = function (formData) {
@@ -2748,7 +2748,7 @@ $scope.cancel = function(){
     };
 })
 
-.controller('CreateEmployeeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter,$window) {
+.controller('CreateEmployeeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("employee-detail");
         $scope.menutitle = NavigationService.makeactive("Employee");
@@ -2893,9 +2893,9 @@ $scope.cancel = function(){
             }
         };
 
-$scope.cancel = function(){
-        $window.history.back();
-    }
+        $scope.cancel = function () {
+            $window.history.back();
+        }
         $scope.saveModel = function (formData) {
             console.log(formData);
             $scope.formData.name = $scope.formData.firstName + " " + $scope.formData.lastName;
@@ -2911,7 +2911,7 @@ $scope.cancel = function(){
             });
         };
     })
-    .controller('EditEmployeeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, $filter, $uibModal, toastr,$window) {
+    .controller('EditEmployeeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, $filter, $uibModal, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("employee-detail");
         $scope.menutitle = NavigationService.makeactive("Employee");
@@ -3114,7 +3114,7 @@ $scope.cancel = function(){
         };
     })
 
-.controller('ProductCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr,$window) {
+.controller('ProductCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("product-list");
         $scope.menutitle = NavigationService.makeactive("Product");
@@ -3172,7 +3172,7 @@ $scope.cancel = function(){
             });
         };
     })
-    .controller('CreateProductCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr,$window) {
+    .controller('CreateProductCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("product-detail");
         $scope.menutitle = NavigationService.makeactive("Product");
@@ -3204,7 +3204,7 @@ $scope.cancel = function(){
         };
 
     })
-    .controller('EditProductCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr,$window) {
+    .controller('EditProductCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("product-detail");
         $scope.menutitle = NavigationService.makeactive("Product");
@@ -3266,7 +3266,7 @@ $scope.cancel = function(){
             });
         };
     })
-    .controller('CreateSalvageCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state,$window) {
+    .controller('CreateSalvageCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("salvage-detail");
         $scope.menutitle = NavigationService.makeactive("Salvage");
@@ -3294,7 +3294,7 @@ $scope.cancel = function(){
             });
         };
     })
-    .controller('EditSalvageCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams,$window) {
+    .controller('EditSalvageCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("salvage-detail");
         $scope.menutitle = NavigationService.makeactive("Salvage");
@@ -3323,7 +3323,7 @@ $scope.cancel = function(){
             });
         };
     })
-    .controller('BankMasterCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr,$window) {
+    .controller('BankMasterCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("bankMaster-list");
         $scope.menutitle = NavigationService.makeactive("Bank List");
@@ -3391,7 +3391,7 @@ $scope.cancel = function(){
             });
         };
     })
-    .controller('CreateBankmasterCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr,$window) {
+    .controller('CreateBankmasterCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("bankMaster-detail");
         $scope.menutitle = NavigationService.makeactive("Create Bank");
@@ -3421,7 +3421,7 @@ $scope.cancel = function(){
             });
         };
     })
-    .controller('EditBankmasterCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr,$window) {
+    .controller('EditBankmasterCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("bankMaster-detail");
         $scope.menutitle = NavigationService.makeactive("Edit Bank");
@@ -3497,7 +3497,7 @@ $scope.cancel = function(){
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
     })
-    .controller('CompanyCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr,$window) {
+    .controller('CompanyCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("company-list");
         $scope.menutitle = NavigationService.makeactive("List of Companies");
@@ -3562,7 +3562,7 @@ $scope.cancel = function(){
         };
 
     })
-    .controller('CreateCompanyCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr,$window) {
+    .controller('CreateCompanyCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("company-detail");
         $scope.menutitle = NavigationService.makeactive("Create Company");
@@ -3593,7 +3593,7 @@ $scope.cancel = function(){
             });
         };
     })
-    .controller('EditCompanyCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr,$window) {
+    .controller('EditCompanyCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("company-detail");
         $scope.menutitle = NavigationService.makeactive("Edit Company");
@@ -3635,7 +3635,7 @@ $scope.cancel = function(){
         };
 
     })
-    .controller('CreateDistrictCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr,$window) {
+    .controller('CreateDistrictCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("district-detail");
         $scope.menutitle = NavigationService.makeactive("District");
@@ -3657,7 +3657,7 @@ $scope.cancel = function(){
             });
         };
     })
-    .controller('EditDistrictCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr,$window) {
+    .controller('EditDistrictCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("district-detail");
         $scope.menutitle = NavigationService.makeactive("District");
@@ -3687,7 +3687,7 @@ $scope.cancel = function(){
             });
         };
     })
-    .controller('CurrencyCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr,$window) {
+    .controller('CurrencyCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("currency-list");
         $scope.menutitle = NavigationService.makeactive("Currency List");
@@ -3752,7 +3752,7 @@ $scope.cancel = function(){
             });
         };
     })
-    .controller('CreateCurrencyCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr,$window) {
+    .controller('CreateCurrencyCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("currency-detail");
         $scope.menutitle = NavigationService.makeactive("Currency");
@@ -3777,7 +3777,7 @@ $scope.cancel = function(){
         };
 
     })
-    .controller('EditCurrencyCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr,$window) {
+    .controller('EditCurrencyCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("currency-detail");
         $scope.menutitle = NavigationService.makeactive("Currency");
@@ -3806,7 +3806,7 @@ $scope.cancel = function(){
         };
 
     })
-    .controller('CityCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr,$window) {
+    .controller('CityCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("city-list");
         $scope.menutitle = NavigationService.makeactive("City Lists");
@@ -3869,7 +3869,7 @@ $scope.cancel = function(){
             });
         };
     })
-    .controller('CreateCityCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr,$window) {
+    .controller('CreateCityCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("city-detail");
         $scope.menutitle = NavigationService.makeactive("Create City");
@@ -3894,7 +3894,7 @@ $scope.cancel = function(){
             });
         };
     })
-    .controller('EditCityCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr,$window) {
+    .controller('EditCityCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("city-detail");
         $scope.menutitle = NavigationService.makeactive("Edit City");
@@ -3917,7 +3917,7 @@ $scope.cancel = function(){
             NavigationService.citySave($scope.formData, function (data) {
                 if (data.value === true) {
                     // $state.go('city-list');
-                     $window.history.back();
+                    $window.history.back();
                     toastr.success("City " + $scope.formData.name + " edited successfully.", "City Edited");
                 } else {
                     toastr.error("City edition failed.", "City editing error");
@@ -3974,7 +3974,7 @@ $scope.cancel = function(){
                 console.log(data);
                 if (data.value === true) {
                     // $state.go('department-list');
-                     $window.history.back();
+                    $window.history.back();
                 }
                 // console.log('$scope.allCountriessave', $scope.data);
 
@@ -4018,7 +4018,7 @@ $scope.cancel = function(){
             NavigationService.departmentEditSave($scope.formData, function (data) {
                 if (data.value === true) {
                     // $state.go('department-list');
-                     $window.history.back();
+                    $window.history.back();
                 }
             });
             //  }
@@ -4073,7 +4073,7 @@ $scope.cancel = function(){
                 console.log(data);
                 if (data.value === true) {
                     // $state.go('uniquetype-list');
-                     $window.history.back();
+                    $window.history.back();
                 }
                 // console.log('$scope.allCountriessave', $scope.data);
 
@@ -4111,7 +4111,7 @@ $scope.cancel = function(){
             NavigationService.UniqueTypeEditSave($scope.formData, function (data) {
                 if (data.value === true) {
                     // $state.go('uniquetype-list');
-                     $window.history.back();
+                    $window.history.back();
                 }
             });
             //  }
@@ -4169,7 +4169,7 @@ $scope.cancel = function(){
                 console.log(data);
                 if (data.value === true) {
                     // $state.go('customerSegment-list');
-                     $window.history.back();
+                    $window.history.back();
                 }
                 // console.log('$scope.allCountriessave', $scope.data);
 
@@ -4207,7 +4207,7 @@ $scope.cancel = function(){
             NavigationService.CustomerSegmentEditSave($scope.formData, function (data) {
                 if (data.value === true) {
                     // $state.go('customerSegment-list');
-                     $window.history.back();
+                    $window.history.back();
                 }
             });
             //  }
@@ -4248,7 +4248,7 @@ $scope.cancel = function(){
         };
 
     })
-    .controller('CreatePolicyTypeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr,$window) {
+    .controller('CreatePolicyTypeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("policyType-detail");
         $scope.menutitle = NavigationService.makeactive("Policy Type");
@@ -4282,9 +4282,9 @@ $scope.cancel = function(){
             return new_object;
         };
 
-$scope.cancel = function(){
-        $window.history.back();
-    }
+        $scope.cancel = function () {
+            $window.history.back();
+        }
         $scope.saveModel = function (formData) {
             console.log("hihihihih");
             _.each(formData.insurer, function (n) {
@@ -4294,7 +4294,7 @@ $scope.cancel = function(){
             NavigationService.modelSave("PolicyType", $scope.formData, function (data) {
                 if (data.value === true) {
                     // $state.go('policyType-list');
-                     $window.history.back();
+                    $window.history.back();
                     toastr.success("PolicyType" + " " + formData.name + " created successfully.", "PolicyType" + " Created");
                 } else {
                     toastr.error("PolicyType" + " creation failed.", "PolicyType" + " creation error");
@@ -4304,7 +4304,7 @@ $scope.cancel = function(){
 
 
     })
-    .controller('EditPolicyTypeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr,$window) {
+    .controller('EditPolicyTypeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("policyType-detail");
         $scope.menutitle = NavigationService.makeactive("Policy Type");
@@ -4332,9 +4332,9 @@ $scope.cancel = function(){
         NavigationService.getOneModel("PolicyType", $stateParams.id, function (data) {
             $scope.formData = data.data;
         });
-$scope.cancel = function(){
-        $window.history.back();
-    }
+        $scope.cancel = function () {
+            $window.history.back();
+        }
         $scope.saveModel = function (formData) {
             _.each(formData.insurer, function (n) {
                 n = n._id;
@@ -4342,7 +4342,7 @@ $scope.cancel = function(){
             NavigationService.modelSave("PolicyType", $scope.formData, function (data) {
                 if (data.value === true) {
                     // $state.go('policyType-list');
-                     $window.history.back();
+                    $window.history.back();
                     toastr.success("PolicyType" + $scope.formData.name + " edited successfully.", "PolicyType" + " Edited");
                 } else {
                     toastr.error("PolicyType" + " edition failed.", "PolicyType" + " editing error");
@@ -4394,7 +4394,7 @@ $scope.cancel = function(){
                 console.log(data);
                 if (data.value === true) {
                     // $state.go('policy-list');
-                     $window.history.back();
+                    $window.history.back();
                 }
                 // console.log('$scope.allCountriessave', $scope.data);
 
@@ -4430,7 +4430,7 @@ $scope.cancel = function(){
             NavigationService.PolicyEditSave($scope.formData, function (data) {
                 if (data.value === true) {
                     // $state.go('policy-list');
-                     $window.history.back();
+                    $window.history.back();
                 }
             });
             //  }
@@ -4469,7 +4469,7 @@ $scope.cancel = function(){
         };
 
     })
-    .controller('CreatePolicyDocCtrl', function ($scope, $uibModal, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr,$window) {
+    .controller('CreatePolicyDocCtrl', function ($scope, $uibModal, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("policyDoc-detail");
         $scope.menutitle = NavigationService.makeactive("Policy Document");
@@ -4490,9 +4490,9 @@ $scope.cancel = function(){
         $scope.formData.listOfDocuments = [];
         $scope.check = true;
         $scope.modelData = {};
-        $scope.cancel = function(){
-        $window.history.back();
-    }
+        $scope.cancel = function () {
+            $window.history.back();
+        }
         $scope.saveModel = function (formData) {
             if ($scope.check) {
                 console.log(formData);
@@ -4500,7 +4500,7 @@ $scope.cancel = function(){
                     $scope.check = false;
                     if (data.value === true) {
                         // $state.go('policyDoc-list');
-                         $window.history.back();
+                        $window.history.back();
                         toastr.success("Policy Document" + " " + formData.name + " created successfully.", "Policy Document" + " Created");
                     } else {
                         toastr.error("Policy Document" + " creation failed.", "Policy Document" + " creation error");
@@ -4560,7 +4560,7 @@ $scope.cancel = function(){
         $scope.format = 'dd-MMMM-yyyy';
 
     })
-    .controller('EditPolicyDocCtrl', function ($scope, TemplateService, NavigationService, $timeout, $uibModal, $stateParams, $state, toastr,$window) {
+    .controller('EditPolicyDocCtrl', function ($scope, TemplateService, NavigationService, $timeout, $uibModal, $stateParams, $state, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("policyDoc-detail");
         $scope.menutitle = NavigationService.makeactive("Policy Document");
@@ -4583,15 +4583,15 @@ $scope.cancel = function(){
             $scope.formData = data.data;
 
         });
-        $scope.cancel = function(){
-        $window.history.back();
-    }
+        $scope.cancel = function () {
+            $window.history.back();
+        }
         $scope.saveModel = function (formData) {
             console.log(formData);
             NavigationService.modelSave("PolicyDoc", $scope.formData, function (data) {
                 if (data.value === true) {
                     // $state.go('policyDoc-list');
-                     $window.history.back();
+                    $window.history.back();
                     toastr.success("Policy Document" + " " + formData.name + " created successfully.", "Policy Document" + " Created");
                 } else {
                     toastr.error("Policy Document" + " creation failed.", "Policy Document" + " creation error");
@@ -4652,7 +4652,7 @@ $scope.cancel = function(){
         $scope.format = 'dd-MMMM-yyyy';
     })
 
-.controller('IndustryCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr,$window) {
+.controller('IndustryCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("industry-list");
         $scope.menutitle = NavigationService.makeactive("Industry List");
@@ -4720,13 +4720,13 @@ $scope.cancel = function(){
             NavigationService.industrySave(ind, function (data) {
                 if (data.value === true) {
                     // $state.go('industry-list');
-                     $window.history.back();
+                    $window.history.back();
                 }
             });
         };
 
     })
-    .controller('CreateIndustryCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr,$window) {
+    .controller('CreateIndustryCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("industry-detail");
         $scope.menutitle = NavigationService.makeactive("Industry");
@@ -4749,7 +4749,7 @@ $scope.cancel = function(){
 
                 if (data.value === true) {
                     // $state.go('industry-list');
-                     $window.history.back();
+                    $window.history.back();
                     toastr.success("Industry " + $scope.formData.name + " created successfully.", "Industry Created");
                 } else {
                     toastr.error("Industry creation failed.", "Industry creation error");
@@ -4758,7 +4758,7 @@ $scope.cancel = function(){
         };
 
     })
-    .controller('EditIndustryCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr,$window) {
+    .controller('EditIndustryCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("industry-detail");
         $scope.menutitle = NavigationService.makeactive("Industry");
@@ -4784,7 +4784,7 @@ $scope.cancel = function(){
             NavigationService.industrySave($scope.formData, function (data) {
                 if (data.value === true) {
                     // $state.go('industry-list');
-                     $window.history.back();
+                    $window.history.back();
                     toastr.success("Industry " + $scope.formData.name + " created successfully.", "Industry Created");
                 } else {
                     toastr.error("Industry creation failed.", "Industry creation error");
@@ -4793,7 +4793,7 @@ $scope.cancel = function(){
         };
 
     })
-    .controller('CategoryCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr,$window) {
+    .controller('CategoryCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("category-list");
         $scope.menutitle = NavigationService.makeactive("Category List");
@@ -4862,7 +4862,7 @@ $scope.cancel = function(){
             });
         };
     })
-    .controller('CreateCategoryCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr,$window) {
+    .controller('CreateCategoryCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("category-detail");
         $scope.menutitle = NavigationService.makeactive("Category");
@@ -4883,7 +4883,7 @@ $scope.cancel = function(){
             NavigationService.categorySave($scope.formData, function (data) {
                 if (data.value === true) {
                     // $state.go('category-list');
-                     $window.history.back();
+                    $window.history.back();
                     toastr.success("Category " + formData.name + " created successfully.", "Category Created");
                 } else {
                     toastr.error("Category creation failed.", "Category creation error");
@@ -4891,7 +4891,7 @@ $scope.cancel = function(){
             });
         };
     })
-    .controller('EditCategoryCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr,$window) {
+    .controller('EditCategoryCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("category-detail");
         $scope.menutitle = NavigationService.makeactive("Category");
@@ -4918,7 +4918,7 @@ $scope.cancel = function(){
             NavigationService.categorySave($scope.formData, function (data) {
                 if (data.value === true) {
                     // $state.go('category-list');
-                     $window.history.back();
+                    $window.history.back();
                     toastr.success("Category " + $scope.formData.name + " edited successfully.", "Category Edited");
                 } else {
                     toastr.error("Category edition failed.", "Category editing error");
@@ -4970,7 +4970,7 @@ $scope.cancel = function(){
                 console.log(data);
                 if (data.value === true) {
                     // $state.go('func-list');
-                     $window.history.back();
+                    $window.history.back();
                 }
                 // console.log('$scope.allCountriessave', $scope.data);
 
@@ -5002,7 +5002,7 @@ $scope.cancel = function(){
             NavigationService.FuncEditSave($scope.formData, function (data) {
                 if (data.value === true) {
                     // $state.go('func-list');
-                     $window.history.back();
+                    $window.history.back();
                 }
             });
         };
@@ -5034,7 +5034,7 @@ $scope.cancel = function(){
         };
 
     })
-    .controller('CreateCauseLossCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr,$window) {
+    .controller('CreateCauseLossCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("causeLoss-detail");
         $scope.menutitle = NavigationService.makeactive("Cause of Loss");
@@ -5076,14 +5076,14 @@ $scope.cancel = function(){
                 $scope.formData.natureOfLoss[$scope.formData.natureOfLoss.length - 1] = data.data;
             });
         };
-        $scope.cancel = function(){
-        $window.history.back();
-    }
+        $scope.cancel = function () {
+            $window.history.back();
+        }
         $scope.saveModel = function (formData) {
             NavigationService.modelSave("CauseLoss", $scope.formData, function (data) {
                 if (data.value === true) {
                     // $state.go('causeLoss' + '-list');
-                     $window.history.back();
+                    $window.history.back();
                     toastr.success("Customer" + " " + formData.name + " created successfully.", "Customer" + " Created");
                 } else {
                     toastr.error("Customer" + " creation failed.", "Customer" + " creation error");
@@ -5092,7 +5092,7 @@ $scope.cancel = function(){
         };
 
     })
-    .controller('EditCauseLossCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr,$window) {
+    .controller('EditCauseLossCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("causeLoss-detail");
         $scope.menutitle = NavigationService.makeactive("Cause of Loss");
@@ -5139,7 +5139,7 @@ $scope.cancel = function(){
             NavigationService.modelSave("CauseLoss", $scope.formData, function (data) {
                 if (data.value === true) {
                     // $state.go('causeLoss-list');
-                     $window.history.back();
+                    $window.history.back();
                     toastr.success("Cause Of Loss" + $scope.formData.name + " edited successfully.", "Cause Of Loss" + " Edited");
                 } else {
                     toastr.error("Cause Of Loss" + " edition failed.", "Cause Of Loss" + " editing error");
@@ -5197,7 +5197,7 @@ $scope.cancel = function(){
                 console.log(data);
                 if (data.value === true) {
                     // $state.go('natureloss-list');
-                     $window.history.back();
+                    $window.history.back();
                 }
                 // console.log('$scope.allCountriessave', $scope.data);
 
@@ -5243,7 +5243,7 @@ $scope.cancel = function(){
             NavigationService.NatureLossEditSave($scope.formData, function (data) {
                 if (data.value === true) {
                     // $state.go('natureloss-list');
-                     $window.history.back();
+                    $window.history.back();
                 }
             });
         };
@@ -5299,7 +5299,7 @@ $scope.cancel = function(){
                 console.log(data);
                 if (data.value === true) {
                     // $state.go('businessbranch-list');
-                     $window.history.back();
+                    $window.history.back();
                 }
                 // console.log('$scope.allCountriessave', $scope.data);
 
@@ -5331,7 +5331,7 @@ $scope.cancel = function(){
             NavigationService.BusinessBranchEditSave($scope.formData, function (data) {
                 if (data.value === true) {
                     // $state.go('businessbranch-list');
-                     $window.history.back();
+                    $window.history.back();
                 }
             });
         };
@@ -5396,7 +5396,7 @@ $scope.cancel = function(){
                 console.log(data);
                 if (data.value === true) {
                     // $state.go('menu-list');
-                     $window.history.back();
+                    $window.history.back();
                 }
                 // console.log('$scope.allCountriessave', $scope.data);
 
@@ -5440,7 +5440,7 @@ $scope.cancel = function(){
             NavigationService.menuEditSave($scope.formData, function (data) {
                 if (data.value === true) {
                     // $state.go('menu-list');
-                     $window.history.back();
+                    $window.history.back();
                 }
             });
             //  }
@@ -5508,7 +5508,7 @@ $scope.cancel = function(){
                 console.log(data);
                 if (data.value === true) {
                     // $state.go('role-list');
-                     $window.history.back();
+                    $window.history.back();
                 }
                 // console.log('$scope.allCountriessave', $scope.data);
 
@@ -5545,7 +5545,7 @@ $scope.cancel = function(){
             NavigationService.roleEditSave($scope.formData, function (data) {
                 if (data.value === true) {
                     // $state.go('role-list');
-                     $window.history.back();
+                    $window.history.back();
                 }
             });
             //  }
@@ -5621,7 +5621,7 @@ $scope.cancel = function(){
                 console.log(data);
                 if (data.value === true) {
                     // $state.go('user-list');
-                     $window.history.back();
+                    $window.history.back();
                 }
                 // console.log('$scope.allCountriessave', $scope.data);
 
@@ -5685,7 +5685,7 @@ $scope.cancel = function(){
             NavigationService.userEditSave($scope.formData, function (data) {
                 if (data.value === true) {
                     // $state.go('user-list');
-                     $window.history.back();
+                    $window.history.back();
                 }
             });
             //  }
@@ -5720,7 +5720,7 @@ $scope.cancel = function(){
             NavigationService.branchSave($scope.formData, function (data) {
                 if (data.value === true) {
                     // $state.go('branch-list');
-                     $window.history.back();
+                    $window.history.back();
                     toastr.success("Branch " + $scope.formData.name + " created successfully.", "Branch Created");
                 } else {
                     toastr.error("Branch creation failed.", "Branch creation error");
@@ -5728,7 +5728,7 @@ $scope.cancel = function(){
             });
         };
     })
-    .controller('BranchEditCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr,$window) {
+    .controller('BranchEditCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("branch-create");
         $scope.menutitle = NavigationService.makeactive("Edit Branch");
@@ -5748,7 +5748,7 @@ $scope.cancel = function(){
             NavigationService.branchSave($scope.formData, function (data) {
                 if (data.value === true) {
                     // $state.go('branch-list');
-                     $window.history.back();
+                    $window.history.back();
                     toastr.success("Branch " + $scope.formData.name + " edited successfully.", "Branch Edited");
                 } else {
                     toastr.error("Branch edition failed.", "Branch editing error");
@@ -5839,7 +5839,7 @@ $scope.cancel = function(){
             NavigationService.customerCompanySave($scope.formData, function (data) {
                 if (data.value === true) {
                     // $state.go('customerCompany-list');
-                     $window.history.back();
+                    $window.history.back();
                 }
 
             });
@@ -5868,7 +5868,7 @@ $scope.cancel = function(){
             NavigationService.customerCompanyEditSave($scope.formData, function (data) {
                 if (data.value === true) {
                     // $state.go('customerCompany-list');
-                     $window.history.back();
+                    $window.history.back();
                 }
             });
             //  }
@@ -5997,14 +5997,14 @@ $scope.cancel = function(){
                 size: 'lg'
             });
         };
-        $scope.cancel = function(){
-        $window.history.back();
-    }
+        $scope.cancel = function () {
+            $window.history.back();
+        }
         $scope.saveModel = function (formData) {
             NavigationService.modelSave("Customer", $scope.formData, function (data) {
                 if (data.value === true) {
                     // $state.go('customer' + '-list');
-                     $window.history.back();
+                    $window.history.back();
                     toastr.success("Customer" + " " + formData.name + " created successfully.", "Customer" + " Created");
                 } else {
                     toastr.error("Customer" + " creation failed.", "Customer" + " creation error");
@@ -6040,7 +6040,7 @@ $scope.cancel = function(){
             });
         };
     })
-    .controller('EditCustomerCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, $uibModal, toastr,$window) {
+    .controller('EditCustomerCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, $uibModal, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("customer-detail");
         $scope.menutitle = NavigationService.makeactive("Edit Customer");
@@ -6152,7 +6152,7 @@ $scope.cancel = function(){
             NavigationService.modelSave("Customer", $scope.formData, function (data) {
                 if (data.value === true) {
                     // $state.go("customer" + '-list');
-                     $window.history.back();
+                    $window.history.back();
                     toastr.success("Customer" + $scope.formData.name + " edited successfully.", "Customer" + " Edited");
                 } else {
                     toastr.error("Customer" + " edition failed.", "Customer" + " editing error");
@@ -6194,7 +6194,7 @@ $scope.cancel = function(){
         };
     })
 
-.controller('MultipleSelectCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, $filter, toastr,$window) {
+.controller('MultipleSelectCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, $stateParams, $filter, toastr, $window) {
         var i = 0;
         $scope.getValues = function (filter, insertFirst) {
             var dataSend = {
@@ -6409,7 +6409,7 @@ $scope.cancel = function(){
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
     })
-    .controller('ActivityTypeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr,$window) {
+    .controller('ActivityTypeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("activityType-list");
         $scope.menutitle = NavigationService.makeactive("Activity Type List");
@@ -6467,7 +6467,7 @@ $scope.cancel = function(){
             });
         };
     })
-    .controller('CreateActivityTypeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr,$window) {
+    .controller('CreateActivityTypeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("activityType-detail");
         $scope.menutitle = NavigationService.makeactive("Activity Type");
@@ -6483,7 +6483,7 @@ $scope.cancel = function(){
             NavigationService.typeofofficeSave($scope.formData, function (data) {
                 if (data.value === true) {
                     // $state.go('typeOfOffice-list');
-                     $window.history.back();
+                    $window.history.back();
                     toastr.success("Type Of Office " + $scope.formData.name + " created successfully.", "Type Of Office Created");
                 } else {
                     toastr.error("Type Of Office creation failed.", "Type Of Office creation error");
@@ -6492,7 +6492,7 @@ $scope.cancel = function(){
         };
 
     })
-    .controller('EditActivityTypeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr,$window) {
+    .controller('EditActivityTypeCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("activityType-detail");
         $scope.menutitle = NavigationService.makeactive("Activity Type");
@@ -6514,7 +6514,7 @@ $scope.cancel = function(){
             NavigationService.typeofofficeSave($scope.formData, function (data) {
                 if (data.value === true) {
                     // $state.go('typeOfOffice-list');
-                     $window.history.back();
+                    $window.history.back();
                     toastr.success("Type Of Office " + $scope.formData.name + " created successfully.", "Type Of Office Created");
                 } else {
                     toastr.error("Type Of Office creation failed.", "Type Of Office creation error");
@@ -6524,7 +6524,7 @@ $scope.cancel = function(){
         };
 
     })
-    .controller('ExpenseCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr,$window) {
+    .controller('ExpenseCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("expense-list");
         $scope.menutitle = NavigationService.makeactive("Expense List");
@@ -6582,7 +6582,7 @@ $scope.cancel = function(){
             });
         };
     })
-    .controller('CreateExpenseCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr,$window) {
+    .controller('CreateExpenseCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("expense-detail");
         $scope.menutitle = NavigationService.makeactive("Expense");
@@ -6598,7 +6598,7 @@ $scope.cancel = function(){
             NavigationService.typeofofficeSave($scope.formData, function (data) {
                 if (data.value === true) {
                     // $state.go('typeOfOffice-list');
-                     $window.history.back();
+                    $window.history.back();
                     toastr.success("Type Of Office " + $scope.formData.name + " created successfully.", "Type Of Office Created");
                 } else {
                     toastr.error("Type Of Office creation failed.", "Type Of Office creation error");
@@ -6607,7 +6607,7 @@ $scope.cancel = function(){
         };
 
     })
-    .controller('EditExpenseCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr,$window) {
+    .controller('EditExpenseCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $window) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("expense-detail");
         $scope.menutitle = NavigationService.makeactive("Expense");
@@ -6629,7 +6629,7 @@ $scope.cancel = function(){
             NavigationService.typeofofficeSave($scope.formData, function (data) {
                 if (data.value === true) {
                     // $state.go('typeOfOffice-list');
-                     $window.history.back();
+                    $window.history.back();
                     toastr.success("Type Of Office " + $scope.formData.name + " created successfully.", "Type Of Office Created");
                 } else {
                     toastr.error("Type Of Office creation failed.", "Type Of Office creation error");
@@ -6640,7 +6640,7 @@ $scope.cancel = function(){
 
     })
 
-.controller('EditTemplateCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr,$window) {
+.controller('EditTemplateCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $window) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("template-detail");
     $scope.menutitle = NavigationService.makeactive("Edit Template");
@@ -6726,7 +6726,7 @@ $scope.cancel = function(){
             $('#sortable-ul-selector-id').sortable("refresh");
         }
     };
-$scope.cancel = function(){
+    $scope.cancel = function () {
         $window.history.back();
     }
     $scope.saveModel = function (data) {
@@ -6734,7 +6734,7 @@ $scope.cancel = function(){
             NavigationService.modelSave("Template", $scope.formData, function (data) {
                 if (data.value === true) {
                     // $state.go('template-list');
-                     $window.history.back();
+                    $window.history.back();
                     toastr.success("Template " + formData.name + " edited successfully.", "Template Edited");
                 } else {
                     toastr.error("Template Edition failed.", "Template edition error");
@@ -6744,7 +6744,7 @@ $scope.cancel = function(){
     };
 })
 
-.controller('CreateTemplateCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr,$window) {
+.controller('CreateTemplateCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $window) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("template-detail");
     $scope.menutitle = NavigationService.makeactive("Create Template");
@@ -6831,7 +6831,7 @@ $scope.cancel = function(){
             $('#sortable-ul-selector-id').sortable("refresh");
         }
     };
-$scope.cancel = function(){
+    $scope.cancel = function () {
         $window.history.back();
     }
     $scope.saveModel = function (data) {
@@ -6839,7 +6839,7 @@ $scope.cancel = function(){
             NavigationService.modelSave("Template", $scope.formData, function (data) {
                 if (data.value === true) {
                     // $state.go('template-list');
-                     $window.history.back();
+                    $window.history.back();
                     toastr.success("Template " + formData.name + " created successfully.", "Template Created");
                 } else {
                     toastr.error("Template creation failed.", "Template creation error");
@@ -6851,7 +6851,7 @@ $scope.cancel = function(){
 
 })
 
-.controller('TemplateCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr,$window) {
+.controller('TemplateCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $window) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("template-list");
     $scope.menutitle = NavigationService.makeactive("Templates");
@@ -6863,7 +6863,7 @@ $scope.cancel = function(){
     };
 })
 
-.controller('EditTemplateLORCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr,$window) {
+.controller('EditTemplateLORCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $window) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("templateLor-detail");
     $scope.menutitle = NavigationService.makeactive("Edit LOR Template");
@@ -6936,7 +6936,7 @@ $scope.cancel = function(){
             $('#sortable-ul-selector-id').sortable("refresh");
         }
     };
-$scope.cancel = function(){
+    $scope.cancel = function () {
         $window.history.back();
     }
     $scope.saveModel = function (data) {
@@ -6944,7 +6944,7 @@ $scope.cancel = function(){
             NavigationService.modelSave("TemplateLor", $scope.formData, function (data) {
                 if (data.value === true) {
                     // $state.go('templateLor-list');
-                     $window.history.back();
+                    $window.history.back();
                     toastr.success("LOR Template " + formData.name + " edited successfully.", "LOR Template Edited");
                 } else {
                     toastr.error("LOR Template edition failed.", "LOr Template edition error");
@@ -6954,7 +6954,7 @@ $scope.cancel = function(){
     };
 })
 
-.controller('CreateTemplateLORCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr,$window) {
+.controller('CreateTemplateLORCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $window) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("templateLor-detail");
     $scope.menutitle = NavigationService.makeactive("Create LOR Template");
@@ -7025,7 +7025,7 @@ $scope.cancel = function(){
             $('#sortable-ul-selector-id').sortable("refresh");
         }
     };
-$scope.cancel = function(){
+    $scope.cancel = function () {
         $window.history.back();
     }
     $scope.saveModel = function (data) {
@@ -7033,7 +7033,7 @@ $scope.cancel = function(){
             NavigationService.modelSave("TemplateLor", $scope.formData, function (data) {
                 if (data.value === true) {
                     // $state.go('templateLor-list');
-                     $window.history.back();
+                    $window.history.back();
                     toastr.success("LOR Template " + formData.name + " created successfully.", "LOR Template Created");
                 } else {
                     toastr.error("LOR Template creation failed.", "LOr Template creation error");
@@ -7044,7 +7044,7 @@ $scope.cancel = function(){
 
 })
 
-.controller('TemplateLORCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr,$window) {
+.controller('TemplateLORCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $window) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("template-lor-list");
     $scope.menutitle = NavigationService.makeactive("LOR Templates");
@@ -7916,7 +7916,7 @@ $scope.cancel = function(){
 })
 
 
-.controller('EmailSingleCtrl', function ($scope, $filter, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr,$window) {
+.controller('EmailSingleCtrl', function ($scope, $filter, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $window) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("email-single");
     $scope.menutitle = NavigationService.makeactive("Single Mail");
@@ -8032,7 +8032,7 @@ $scope.cancel = function(){
 
 })
 
-.controller('ForbiddenCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr,$window) {
+.controller('ForbiddenCtrl', function ($scope, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $window) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("forbidden");
     $scope.menutitle = NavigationService.makeactive("Access Forbidden");
