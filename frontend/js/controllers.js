@@ -69,7 +69,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             }
         });
     };
-
+    $scope.cancel = function () {
+            $window.history.back();
+    };
     $scope.changePage = function (page) {
         var goTo = "branch-list";
         if ($scope.search.keyword) {
@@ -130,7 +132,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 }
             });
         };
-
+        $scope.cancel = function () {
+            $window.history.back();
+        };
         $scope.changePage = function (page) {
             var goTo = "country-list";
             if ($scope.search.keyword) {
@@ -169,6 +173,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.ModelApi = $scope.ModelApi + n;
         });
 
+        
         hotkeys.bindTo($scope).add({
             combo: 'enter',
             description: 'This one goes to 11',
@@ -209,6 +214,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
+        $scope.cancel = function () {
+            $window.history.back();
+        };
         $scope.changePage = function (page) {
             var goTo = $scope.modelCamel + "-list";
             if ($scope.search.keyword) {
@@ -394,6 +402,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Create Country"
         };
         $scope.formData = {};
+        $scope.cancel = function () {
+            $window.history.back();
+        };
         $scope.saveCountry = function (formData) {
             console.log($scope.formData);
             NavigationService.countrySave($scope.formData, function (data) {
@@ -757,7 +768,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         console.log('$scope.oneCountry', $scope.oneCountry);
 
     });
-
+    $scope.cancel = function () {
+            $window.history.back();
+    };
     $scope.saveCountry = function (formValid) {
         NavigationService.countryEditSave($scope.formData, function (data) {
             if (data.value === true) {
@@ -3356,7 +3369,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 }
             });
         };
-
+        $scope.cancel = function () {
+            $window.history.back();
+        };
         $scope.changePage = function (page) {
             var goTo = "bankMaster-list";
             if ($scope.search.keyword) {
@@ -3461,6 +3476,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.menutitle = NavigationService.makeactive("Contact Management");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
+        $scope.cancel = function () {
+            $window.history.back();
+    };
     })
     .controller('ContactManagementCtrl', function ( $scope, $window, TemplateService, NavigationService, $timeout, $state) {
         //Used to name the .html file
@@ -3468,6 +3486,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.menutitle = NavigationService.makeactive("Contact Management List");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
+        $scope.cancel = function () {
+            $window.history.back();
+    };
     })
     .controller('CreateContactTypeCtrl', function ( $scope, $window, TemplateService, NavigationService, $timeout, $state) {
         //Used to name the .html file
@@ -3475,6 +3496,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.menutitle = NavigationService.makeactive("Contact Type");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
+        $scope.cancel = function () {
+            $window.history.back();
+    };
     })
     .controller('ContactTypeCtrl', function ( $scope, $window, TemplateService, NavigationService, $timeout, $state) {
         //Used to name the .html file
@@ -3482,6 +3506,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.menutitle = NavigationService.makeactive("Contact Type List");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
+        $scope.cancel = function () {
+            $window.history.back();
+    };
     })
     .controller('CreateContactTypeOfficeCtrl', function ( $scope, $window, TemplateService, NavigationService, $timeout, $state) {
         //Used to name the .html file
@@ -3489,6 +3516,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.menutitle = NavigationService.makeactive("Contact Type of Office Type");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
+        $scope.cancel = function () {
+            $window.history.back();
+        };
     })
     .controller('ContactTypeOfficeCtrl', function ( $scope, $window, TemplateService, NavigationService, $timeout, $state) {
         //Used to name the .html file
@@ -3496,6 +3526,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.menutitle = NavigationService.makeactive("Contact Type of Office List");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
+        $scope.cancel = function () {
+            $window.history.back();
+        };
     })
     .controller('CompanyCtrl', function ( $scope, $window, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr ) {
         //Used to name the .html file
@@ -3530,6 +3563,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
                 }
             });
+        };
+        $scope.cancel = function () {
+            $window.history.back();
         };
 
         $scope.changePage = function (page) {
@@ -3721,7 +3757,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 }
             });
         };
-
+        $scope.cancel = function () {
+            $window.history.back();
+        };
         $scope.changePage = function (page) {
             var goTo = "zone-list";
             if ($scope.search.keyword) {
@@ -3763,6 +3801,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Create Currency"
         };
         $scope.formData = {};
+        $scope.cancel = function () {
+            $window.history.back();
+        };
         $scope.saveCurrency = function (formData) {
 
             NavigationService.currencySave($scope.formData, function (data) {
@@ -3791,7 +3832,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         NavigationService.getOneCurrency($stateParams.id, function (data) {
             $scope.formData = data.data;
         });
-
+        $scope.cancel = function () {
+            $window.history.back();
+        };
         $scope.saveCurrency = function (formValid) {
 
             NavigationService.currencySave($scope.formData, function (data) {
@@ -4879,6 +4922,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Create Category"
         };
         $scope.formData = {};
+        $scope.cancel = function () {
+            $window.history.back();
+        };
         $scope.saveCategory = function (formData) {
             NavigationService.categorySave($scope.formData, function (data) {
                 if (data.value === true) {
@@ -4913,7 +4959,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             console.log('$scope.formData', $scope.formData);
 
         });
-
+        $scope.cancel = function () {
+            $window.history.back();
+        };
         $scope.saveCategory = function (formValid) {
             NavigationService.categorySave($scope.formData, function (data) {
                 if (data.value === true) {
@@ -5295,6 +5343,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.formData = {};
         $scope.saveBusinessBranch = function (formData) {
 
+            $scope.cancel = function () {
+                 $window.history.back();
+            };
+
             NavigationService.businessbranchSave($scope.formData, function (data) {
                 console.log(data);
                 if (data.value === true) {
@@ -5323,7 +5375,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             console.log('$scope.formData', $scope.formData);
 
         });
-
+        $scope.cancel = function () {
+            $window.history.back();
+        };
         $scope.saveBusinessBranch = function (formValid) {
 
             //  if (formValid.$valid) {
@@ -5891,7 +5945,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
     };
     $scope.showAllCustomers();
-
+    $scope.cancel = function () {
+            $window.history.back();
+    };
     $scope.deleteCustomer = function (id) {
 
         NavigationService.deleteCustomer({
@@ -5942,6 +5998,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             } else {
                 $scope.passType = 'text';
             }
+        };
+        $scope.cancel = function () {
+            $window.history.back();
         };
         $scope.$watch('formData.typeOfOffice', function () {
             console.log($scope.formData.typeOfOffice);
@@ -6079,6 +6138,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             } else {
                 $scope.passType = 'text';
             }
+        };
+        $scope.cancel = function () {
+            $window.history.back();
         };
         $scope.addOfficer = function () {
             var modalInstance = $uibModal.open({
