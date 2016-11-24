@@ -485,7 +485,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         $scope.refreshNature = function (data, causeloss) {
             var formdata = {};
-            formdata.search = data;
+            formdata.keyword = data;
             formdata.filter = {
                 "_id": causeloss
             };
@@ -628,7 +628,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
         $scope.refreshShareWith = function (data, office) {
             var formdata = {};
-            formdata.search = data;
+            formdata.keyword = data;
             formdata.filter = {
                 "isSBC":false
             };
@@ -638,7 +638,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         $scope.refreshNature = function (data, causeloss) {
             var formdata = {};
-            formdata.search = data;
+            formdata.keyword = data;
             formdata.filter = {
                 "_id": causeloss
             };
@@ -4269,7 +4269,7 @@ $scope.cancel = function(){
 
         $scope.refreshInsurer = function (data) {
             var formdata = {};
-            formdata.search = data;
+            formdata.keyword = data;
             NavigationService.searchInsurerOffice(formdata, 1, function (data) {
                 $scope.insurers = data.data.results;
             });
@@ -4323,7 +4323,7 @@ $scope.cancel = function(){
         $scope.insurers = [];
         $scope.refreshInsurer = function (data) {
             var formdata = {};
-            formdata.search = data;
+            formdata.keyword = data;
             NavigationService.searchInsurerOffice(formdata, 1, function (data) {
                 $scope.insurers = data.data.results;
             });
@@ -5061,7 +5061,7 @@ $scope.cancel = function(){
 
         $scope.refreshNature = function (data) {
             var formdata = {};
-            formdata.search = data;
+            formdata.keyword = data;
             NavigationService.getNature(formdata, 1, function (data) {
                 $scope.natureOfLosses = data.data.results;
             });
@@ -5118,7 +5118,7 @@ $scope.cancel = function(){
         };
         $scope.refreshNature = function (data) {
             var formdata = {};
-            formdata.search = data;
+            formdata.keyword = data;
             NavigationService.getNature(formdata, 1, function (data) {
                 $scope.natureOfLosses = data.data.results;
             });
