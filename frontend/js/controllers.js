@@ -6466,6 +6466,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.model = "";
             }
             var filter = {};
+            console.log($scope.filter);
             if ($scope.filter) {
                 filter = JSON.parse($scope.filter);
             }
