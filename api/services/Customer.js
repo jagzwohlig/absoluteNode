@@ -200,7 +200,11 @@ var model = {
             start: (page - 1) * maxRow,
             count: maxRow
         };
-
+        var newFilter = _.each(data.filter, function (n, key) {
+            if (_.isEmpty(n)) {
+                n = undefined;
+            }
+        });
         var Search = Model.find(data.filter)
 
         .order(options)
