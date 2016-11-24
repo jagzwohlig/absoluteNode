@@ -453,6 +453,11 @@ var navigationservice = angular.module('navigationservice', [])
             $http.post(adminurl + 'Department/search', {}).success(callback);
         },
         searchCustomer: function (formData, i, callback) {
+            _.each(formData.filter, function (n, key) {
+                if (n === "") {
+                    n = undefined;
+                };
+            });
             $http.post(adminurl + 'Customer/search', formData).success(function (data) {
                 // _.each(data.data.results, function(n) {
                 //     n.name = n.officeCode;
@@ -649,7 +654,7 @@ var navigationservice = angular.module('navigationservice', [])
             $http.post(adminurl + 'Claims/save', formData).success(callback);
         },
         modelSave: function (modal, formData, callback) {
-            console.log("modal",modal);
+            console.log("modal", modal);
             $http.post(adminurl + modal + '/save', formData).success(callback);
         },
         getAssignmentTemplate: function (data, callback) {
