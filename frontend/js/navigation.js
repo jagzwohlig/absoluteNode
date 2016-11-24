@@ -456,7 +456,7 @@ var navigationservice = angular.module('navigationservice', [])
             _.each(formData.filter, function (n, key) {
                 if (n === "") {
                     n = undefined;
-                };
+                }
             });
             $http.post(adminurl + 'Customer/search', formData).success(function (data) {
                 // _.each(data.data.results, function(n) {
