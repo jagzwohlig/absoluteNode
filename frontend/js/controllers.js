@@ -164,7 +164,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
     })
     .controller('ModelViewCtrl', function ($scope, $window, hotkeys, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
-        //Used to name the .html file
+        //Used to name the .html file        
         $scope.modelCamel = _.camelCase($stateParams.model);
         var a = _.startCase($scope.modelCamel).split(" ");
         $scope.ModelApi = "";
@@ -190,12 +190,73 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.navigation = NavigationService.getnav();
         $scope.currentPage = $stateParams.page;
         var i = 0;
+        //  
+        console.log("efhfh");
+        $scope.showList = function () {
+            console.log("aaa");
+            $scope.totalItems = undefined;
+            if (true) {
+                $scope.currentPage = 1;
+            } 
+            $scope.search = {
+                keyword: ""
+             };
+        if ($stateParams.keyword) {
+            $scope.search.keyword = $stateParams.keyword;
+        }
+            NavigationService.searchModel1($scope.ModelApi, {
+                page: $scope.currentPage,
+                keyword: $scope.search.keyword
+            }, ++i, function (data, ini) {
+                console.log("aaa",ini);
+                if (ini == 1) {
+                    console.log("aaa");
+                    $scope.modelList1 = data.data.results;
+                    $scope.totalItems = data.data.total;
+                    $scope.maxRow = data.data.options.count;
+                    console.log("modelList1", $scope.modelList1);
+                }
+            });
+        };
+        $scope.showList();
+        // 
         $scope.search = {
             keyword: ""
         };
         if ($stateParams.keyword) {
             $scope.search.keyword = $stateParams.keyword;
         }
+
+
+        // 
+        //     $scope.getTag= function (keywordChange) {
+        //     $scope.totalItems = undefined;
+        //     if (keywordChange) {
+        //         $scope.currentPage = 1;
+        //     }
+        //     NavigationService.searchModel($scope.ModelApi, {
+        //         page: $scope.currentPage,
+        //         keyword: $scope.search.keyword
+        //     }, ++i, function (data, ini) {
+        //         if (ini == i) {
+        //             $scope.modelList = data.data.results;
+        //             $scope.totalItems = data.data.total;
+        //             $scope.maxRow = data.data.options.count;
+        //             console.log("modelList", $scope.modelList);
+        //         }
+        //     });
+        // };
+
+        $scope.getTag = function (data) {
+            // $scope.name = data
+            NavigationService.searchAllDocument(data, function (data) {
+                console.log("Data",data);
+                $scope.modelList = data.data;
+                console.log("DATA IN ALL", $scope.modelList);
+            });
+        };
+
+        // 
         $scope.showAll = function (keywordChange) {
             $scope.totalItems = undefined;
             if (keywordChange) {
@@ -313,7 +374,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.formData.status = true;
     $scope.cancel = function () {
         $window.history.back();
-    }
+    };
     $scope.saveModel = function (formData) {
         NavigationService.modelSave($scope.ModelApi, $scope.formData, function (data) {
             if (data.value === true) {
@@ -359,6 +420,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         }
     });
     $scope.cancel = function () {
+        console.log("ABC");
         $window.history.back();
     };
     $scope.saveModel = function (formValid) {
@@ -2362,10 +2424,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         }];
 
 
-
+        
         $scope.dateOptions = {
             showWeeks: true
         };
+
 
 
         $scope.format = 'dd-MMMM-yyyy';

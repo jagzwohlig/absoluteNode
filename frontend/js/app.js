@@ -944,6 +944,35 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
                 model: "jir"
             }
         })
+        .state('tag-list', {
+            url: "/tag-list/{page:.*}/{keyword:.*}/{model:.*}",
+            templateUrl: "frontend/views/template.html",
+            controller: 'ModelViewCtrl',
+            params: {
+                page: "1",
+                keyword: "",
+                model: "tag"
+            }
+        })
+    .state('createtag', {
+        url: "/tag-detail/{id:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateModelCtrl',
+        params: {
+            id: "",
+            model: "tag"
+        }
+    })
+        .state('edittag', {
+            url: "/tag-edit/{id:.*}/{model:.*}",
+            templateUrl: "frontend/views/template.html",
+            controller: 'EditModelCtrl',
+            params: {
+                page: "1",
+                keyword: "",
+                model: "tag"
+            }
+        })
         .state('customer-list', {
             url: "/customer-list/{page:.*}/{keyword:.*}/{model:.*}",
             templateUrl: "frontend/views/template.html",

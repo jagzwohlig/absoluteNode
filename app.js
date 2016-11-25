@@ -27,6 +27,7 @@ mongoose = require('mongoose');
 global["database"] = "absolute";
 mongoose.connect('mongodb://104.155.238.145:27017/' + database, function (err, data) {
   if (err) {
+    // 104.155.238.145
     console.log(err);
   } else {
     console.log("Database Connected to Absolute");
