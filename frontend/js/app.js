@@ -905,7 +905,7 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
         .state('knowledgebase-list', {
             url: "/knowledgebase-list/{page:.*}/{keyword:.*}/{model:.*}",
             templateUrl: "frontend/views/template.html",
-            controller: 'ModelViewCtrl',
+            controller: 'KnowledgeBaseViewCtrl',
             params: {
                 page: "1",
                 keyword: "",

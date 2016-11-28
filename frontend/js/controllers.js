@@ -191,33 +191,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.currentPage = $stateParams.page;
         var i = 0;
         //  
-        $scope.showList = function () {
-            console.log("aaa");
-            $scope.totalItems = undefined;
-            if (true) {
-                $scope.currentPage = 1;
-            } 
-            $scope.search = {
-                keyword: ""
-             };
-        if ($stateParams.keyword) {
-            $scope.search.keyword = $stateParams.keyword;
-        }
-            NavigationService.searchModel1($scope.ModelApi, {
-                page: $scope.currentPage,
-                keyword: $scope.search.keyword
-            }, ++i, function (data, ini) {
-                console.log("aaa",ini);
-                if (ini == 1) {
-                    console.log("aaa");
-                    $scope.modelList1 = data.data.results;
-                    $scope.totalItems = data.data.total;
-                    $scope.maxRow = data.data.options.count;
-                    console.log("modelList1", $scope.modelList1);
-                }
-            });
-        };
-        $scope.showList();
         // 
         $scope.search = {
             keyword: ""
@@ -225,35 +198,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         if ($stateParams.keyword) {
             $scope.search.keyword = $stateParams.keyword;
         }
-
-
-        // 
-        //     $scope.getTag= function (keywordChange) {
-        //     $scope.totalItems = undefined;
-        //     if (keywordChange) {
-        //         $scope.currentPage = 1;
-        //     }
-        //     NavigationService.searchModel($scope.ModelApi, {
-        //         page: $scope.currentPage,
-        //         keyword: $scope.search.keyword
-        //     }, ++i, function (data, ini) {
-        //         if (ini == i) {
-        //             $scope.modelList = data.data.results;
-        //             $scope.totalItems = data.data.total;
-        //             $scope.maxRow = data.data.options.count;
-        //             console.log("modelList", $scope.modelList);
-        //         }
-        //     });
-        // };
-
-        $scope.getTag = function (data) {
-            // $scope.name = data
-            NavigationService.searchAllDocument(data, function (data) {
-                // console.log("Data",data);
-                $scope.modelList = data.data;
-                console.log("DATA IN ALL", $scope.modelList);
-            });
-        };
 
         // 
         $scope.showAll = function (keywordChange) {
@@ -273,11 +217,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 }
             });
         };
-
-        //  For Knowledge
-       
-// $scope.showAll();
-// $scope.showList();
         $scope.cancel = function () {
             $window.history.back();
         };
@@ -292,17 +231,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
         $scope.showAll();
-        // if($stateParams.model==="knowledge base"){
-        //     console.log("MODEL",$stateParams.model);
-        //     $scope.showList();
-        //     // getTag()
-        // }
-        // else{
-        //     console.log("MODEL",$stateParams.model);
-        //     $scope.showAll();
-        // }
-        
-        
+
+
         $scope.deleteModel = function (id) {
             console.log("Delete Id", id);
             globalfunction.confDel(function (value) {
@@ -329,6 +259,122 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
     })
+
+
+.controller('KnowledgeBaseViewCtrl', function ($scope, $window, hotkeys, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
+    //Used to name the .html file        
+    $scope.modelCamel = _.camelCase($stateParams.model);
+    var a = _.startCase($scope.modelCamel).split(" ");
+    $scope.ModelApi = "";
+    _.each(a, function (n) {
+        $scope.ModelApi = $scope.ModelApi + n;
+    });
+
+
+    hotkeys.bindTo($scope).add({
+        combo: 'enter',
+        description: 'This one goes to 11',
+        callback: function () {
+            $state.go("create" + $scope.modelCamel);
+        }
+    });
+
+    $scope.modelCap = _.capitalize($stateParams.model);
+    $scope.modelLow = _.lowerCase($stateParams.model);
+
+    $scope.template = TemplateService.changecontent($scope.modelCamel + "-list");
+    $scope.menutitle = NavigationService.makeactive($scope.modelCap + " List");
+    TemplateService.title = $scope.menutitle;
+    $scope.navigation = NavigationService.getnav();
+    $scope.currentPage = $stateParams.page;
+    var i = 0;
+    //  
+    // 
+    $scope.search = {
+        keyword: ""
+    };
+    if ($stateParams.keyword) {
+        $scope.search.keyword = $stateParams.keyword;
+    }
+
+    $scope.getAllTags = function () {
+        NavigationService.searchModel("Tag", {}, 0, function (data) {
+            $scope.tags = data.data.results;
+        });
+    };
+    $scope.getAllTags();
+
+
+    // 
+    $scope.showAll = function (keywordChange, tagId) {
+        $scope.totalItems = undefined;
+        if (keywordChange) {
+            $scope.currentPage = 1;
+        }
+        var filterObj = {
+            page: $scope.currentPage,
+            keyword: $scope.search.keyword
+        };
+        if (tagId) {
+            filterObj.filter = {
+                tag: tagId
+            }
+        }
+        NavigationService.searchKnowledgeBase($scope.ModelApi, filterObj, ++i, function (data, ini) {
+            if (ini == i) {
+                $scope.modelList = data.data.results;
+                $scope.totalItems = data.data.total;
+                $scope.maxRow = data.data.options.count;
+                console.log("modelList", $scope.modelList);
+            }
+        });
+    };
+    $scope.cancel = function () {
+        $window.history.back();
+    };
+    $scope.changePage = function (page) {
+        var goTo = $scope.modelCamel + "-list";
+        if ($scope.search.keyword) {
+            goTo = $scope.modelCamel + "-list";
+        }
+        $state.go(goTo, {
+            page: page,
+            keyword: $scope.search.keyword
+        });
+    };
+    $scope.showAll();
+
+
+    $scope.deleteModel = function (id) {
+        console.log("Delete Id", id);
+        globalfunction.confDel(function (value) {
+            console.log("Delete value", value);
+            if (value) {
+                console.log("$scope.ModelApi", $scope.ModelApi);
+                NavigationService.deleteModel($scope.ModelApi, id, function (data) {
+                    if (data.value) {
+                        $scope.showAll();
+                        toastr.success($scope.modelCap + " deleted successfully.", $scope.modelCap + " deleted");
+                    } else {
+                        toastr.error("There was an error while deleting " + $scope.modelCap, $scope.modelCap + " deleting error");
+                    }
+
+
+                });
+            }
+        });
+    };
+
+    $scope.changeStatus = function (ind) {
+        NavigationService.modelSave($scope.ModelApi, ind, function (data) {
+            if (data.value === true) {}
+        });
+    };
+})
+
+
+
+
 
 .controller('CreateModelCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $state, toastr, $stateParams) {
     //Used to name the .html file
@@ -2438,7 +2484,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         }];
 
 
-        
+
         $scope.dateOptions = {
             showWeeks: true
         };
