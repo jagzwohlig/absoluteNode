@@ -455,7 +455,6 @@ var navigationservice = angular.module('navigationservice', [])
             });
         },
         searchKnowledgeBase: function (model, formData, i, callback) {
-            console.log(formData);
             $http.post(adminurl + model + '/search', formData).success(function (data) {
                 callback(data, i);
             });

@@ -304,6 +304,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     };
     $scope.getAllTags();
 
+    var newTag = 7091990;
 
     // 
     $scope.showAll = function (keywordChange, tagId) {
@@ -316,8 +317,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             keyword: $scope.search.keyword
         };
         if (tagId) {
+            newTag = tagId;
+        }
+        if (newTag != 7091990) {
             filterObj.filter = {
-                tag: tagId
+                tag: newTag
             }
         }
         NavigationService.searchKnowledgeBase($scope.ModelApi, filterObj, ++i, function (data, ini) {
