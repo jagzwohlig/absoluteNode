@@ -557,8 +557,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.header = {
             "name": "Create Assignment"
         };
+        
+        
         $scope.formData = {};
         $scope.formData.status = true;
+        $scope.formData.pdf=$stateParams.pdf;
         $scope.formData.invoice = [];
         $scope.formData.products = [];
         $scope.formData.LRs = [];
@@ -571,6 +574,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.addModels = function (dataArray, data) {
             dataArray.push(data);
         };
+        console.log("PDF",$scope.formData.pdf);
         $scope.formData.isInsured = true;
         $scope.formData.typeOfClaim = true;
 
@@ -8207,6 +8211,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.header = {
         "name": "Single Mail"
     };
+    console.log();
     $scope.createAssignment = function () {
         // html2canvas(document.getElementById('myCanvas'), {
         //     onrendered: function(canvas) {

@@ -1215,7 +1215,7 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
     })
 
     .state('createassignmentemail', {
-        url: "/assignmentemail-create/{emailId:.*}/{model:.*}",
+        url: "/assignmentemail-create/{emailId:.*}/{model:.*}/{pdf:.*}",
         templateUrl: "frontend/views/template.html",
         controller: 'CreateAssignmentCtrl',
         params: {

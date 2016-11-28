@@ -38,5 +38,25 @@ module.exports = {
     },
     wallpaper: function(req, res) {
         Config.readUploaded(req.query.file, req.query.width, req.query.height, req.query.style, res);
+    },
+        pdf: function (req, res) {
+        var pdf = require('html-pdf');
+        var html = fs.readFileSync('./views/pdf/demo.ejs', 'utf8');
+        var options = {
+            format: 'A4'
+        };
+        var id = mongoose.Types.ObjectId();
+        var newFilename = id + ".pdf";
+        var writestream = gfs.createWriteStream({
+            filename: newFilename
+        });
+        writestream.on('finish', function () {
+            res.callback(null, {
+                name: newFilename
+            });
+        });
+        pdf.create(html).toStream(function (err, stream) {
+            stream.pipe(writestream);
+        });
     }
 };

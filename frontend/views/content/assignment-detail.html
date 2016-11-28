@@ -299,6 +299,7 @@
                                         <div class="error-msg" ng-show="formName.policyDepartment.$invalid">Please Select Policy Department</div>
                                     </div>
                                 </div>
+                                
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
@@ -328,7 +329,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group" ng-if="formData.typeOfClaim">
                                         <label>Appointment Mail*</label>
-                                        <upload-image ng-model="formData.appointment" required></upload-image>
+                                        <upload-image ng-model="formData.pdf" required></upload-image>
                                         <div class="error-msg" ng-show="formName.image.$invalid && formName.image.$touched">Please Upload Appointment Mail</div>
                                     </div>
                                     <div class="form-group" ng-if="!formData.typeOfClaim">

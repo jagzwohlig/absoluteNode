@@ -77,7 +77,9 @@ global["validators"] = require('mongoose-validators');
 global["monguurl"] = require('monguurl');
 require('mongoose-middleware').initialize(mongoose);
 global["Schema"] = mongoose.Schema;
-
+global["Grid"] = require('gridfs-stream');
+global["gfs"] = Grid(mongoose.connections[0].db, mongoose);
+gfs.mongo = mongoose.mongo;
 // Util Globals
 global["moment"] = require("moment");
 global["exec"] = require('child_process').exec;
