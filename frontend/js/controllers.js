@@ -191,7 +191,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.currentPage = $stateParams.page;
         var i = 0;
         //  
-        console.log("efhfh");
         $scope.showList = function () {
             console.log("aaa");
             $scope.totalItems = undefined;
@@ -250,7 +249,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.getTag = function (data) {
             // $scope.name = data
             NavigationService.searchAllDocument(data, function (data) {
-                console.log("Data",data);
+                // console.log("Data",data);
                 $scope.modelList = data.data;
                 console.log("DATA IN ALL", $scope.modelList);
             });
@@ -275,6 +274,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
+        //  For Knowledge
+       
+// $scope.showAll();
+// $scope.showList();
         $scope.cancel = function () {
             $window.history.back();
         };
@@ -289,6 +292,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
         $scope.showAll();
+        // if($stateParams.model==="knowledge base"){
+        //     console.log("MODEL",$stateParams.model);
+        //     $scope.showList();
+        //     // getTag()
+        // }
+        // else{
+        //     console.log("MODEL",$stateParams.model);
+        //     $scope.showAll();
+        // }
+        
+        
         $scope.deleteModel = function (id) {
             console.log("Delete Id", id);
             globalfunction.confDel(function (value) {
