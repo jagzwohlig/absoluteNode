@@ -308,8 +308,7 @@ var navigationservice = angular.module('navigationservice', [])
             classis: "active",
             anchor: "tag-list",
             icon: "book"
-        }
-        ]
+        }]
     }];
     var membershipLevel = [{
         name: "Student",
@@ -374,8 +373,10 @@ var navigationservice = angular.module('navigationservice', [])
             $http.post(adminurl + 'customerCompany/getInsurer', {}).success(callback);
         },
         searchAllDocument: function (data, callback) {
-            $http.post(adminurl + 'KnowledgeBase/getTypeData', {
-                type: data
+            $http.post(adminurl + 'KnowledgeBase/search', {
+                filter: {
+                    tag: data
+                }
             }).success(callback);
         },
         // searchAllDocument: function (formData, i, callback) {
@@ -458,13 +459,13 @@ var navigationservice = angular.module('navigationservice', [])
         searchModel: function (model, formData, i, callback) {
             $http.post(adminurl + model + '/search', formData).success(function (data) {
                 callback(data, i);
-            });    
+            });
         },
         searchModel1: function (model, formData, i, callback) {
-            $http.post(adminurl +  'Tag/search', formData).success(function (data) {
-                console.log("i",i);
+            $http.post(adminurl + 'Tag/search', formData).success(function (data) {
+                console.log("i", i);
                 callback(data, i);
-            });    
+            });
         },
         getDepartment: function (callback) {
             $http.post(adminurl + 'Department/search', {}).success(callback);
