@@ -296,7 +296,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     if ($stateParams.keyword) {
         $scope.search.keyword = $stateParams.keyword;
     }
-
     $scope.getAllTags = function () {
         NavigationService.searchModel("Tag", {}, 0, function (data) {
             $scope.tags = data.data.results;
@@ -2533,7 +2532,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.saveModel = function (formData) {
             console.log("SAVE MODEL DATA", formData);
 
-            NavigationService.modelSave("Jir", $scope.formData, function (data) {
+            NavigationService.modelSave("KnowledgeBase", $scope.formData, function (data) {
                 if (data.value === true) {
                     console.log("Data In If", data.value);
                     // $state.go('knowledgebase-list');
