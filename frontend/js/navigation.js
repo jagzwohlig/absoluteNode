@@ -372,13 +372,6 @@ var navigationservice = angular.module('navigationservice', [])
         getInsurer: function (callback) {
             $http.post(adminurl + 'customerCompany/getInsurer', {}).success(callback);
         },
-        searchAllDocument: function (data, callback) {
-            $http.post(adminurl + 'KnowledgeBase/search', {
-                filter: {
-                    tag: data
-                }
-            }).success(callback);
-        },
         // searchAllDocument: function (formData, i, callback) {
         //     $http.post(adminurl + 'Tag/search', formData).success(function (data) {
         //         callback(data, i);
@@ -457,6 +450,12 @@ var navigationservice = angular.module('navigationservice', [])
             $http.post(adminurl + 'Assignment/save', data).success(callback);
         },
         searchModel: function (model, formData, i, callback) {
+            $http.post(adminurl + model + '/search', formData).success(function (data) {
+                callback(data, i);
+            });
+        },
+        searchKnowledgeBase: function (model, formData, i, callback) {
+            console.log(formData);
             $http.post(adminurl + model + '/search', formData).success(function (data) {
                 callback(data, i);
             });
