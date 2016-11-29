@@ -4876,7 +4876,36 @@ $scope.modelData.from=$scope.modelData.to=$scope.modelData.policyNo=null
                 }
             });
         };
+// 
+$scope.modelData.from=$scope.modelData.to=$scope.modelData.policyNo=null
+        
 
+    $scope.$watch("modelData.from", function (newVal, oldVal) {
+            
+            console.log(newVal);
+            console.log(oldVal);
+            $scope.modelData.from=newVal;
+            $scope.abc($scope.modelData);
+    });
+    $scope.$watch("modelData.to", function (newVal, oldVal) {  
+            console.log(newVal);
+            console.log(oldVal);
+            $scope.modelData.to=newVal;
+            $scope.abc($scope.modelData);
+    });
+    $scope.$watch("modelData.policyNo", function (newVal, oldVal) {
+            console.log(newVal);
+            console.log(oldVal);
+            $scope.modelData.policyNo=newVal;
+            $scope.abc($scope.modelData);
+    });
+    $scope.abc = function (modelData) {
+        console.log("modelData",modelData);
+         if(modelData.from && modelData.to && modelData.policyNo){    
+                modelData.name=moment(modelData.from).format("DDMMMYY")+"-"+moment(modelData.to).format("DDMMMYY")+"-"+modelData.policyNo;
+         }   
+        };
+// 
         $scope.addDocument = function () {
             var modalInstance = $uibModal.open({
                 scope: $scope,
@@ -7839,7 +7868,7 @@ $scope.modelData.from=$scope.modelData.to=$scope.modelData.policyNo=null
         $scope.message.type = type;
         $scope.timeline.chat.push($scope.message);
         NavigationService.saveChat($scope.timeline, function (data) {
-            console.log(data);
+            // console.log(data);
             $scope.getTimeline();
         });
     };
@@ -7976,7 +8005,7 @@ $scope.modelData.from=$scope.modelData.to=$scope.modelData.policyNo=null
                 type: "Photo",
                 url: data.file[0]
             };
-            $scope.assignment.photos.push(data);
+            $scope.assignment.photos.push(_.cloneDeep(data));
             $scope.saveAssignment("Photo");
         }
     };
