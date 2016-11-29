@@ -557,11 +557,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.header = {
             "name": "Create Assignment"
         };
-        
-        
+
+
         $scope.formData = {};
         $scope.formData.status = true;
-        $scope.formData.pdf=$stateParams.pdf;
+        $scope.formData.pdf = $stateParams.pdf;
         $scope.formData.invoice = [];
         $scope.formData.products = [];
         $scope.formData.LRs = [];
@@ -574,7 +574,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.addModels = function (dataArray, data) {
             dataArray.push(data);
         };
-        console.log("PDF",$scope.formData.pdf);
         $scope.formData.isInsured = true;
         $scope.formData.typeOfClaim = true;
 
@@ -8212,12 +8211,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         "name": "Single Mail"
     };
     console.log();
-    $scope.pdf={};
-     NavigationService.pdfGenerate(function (data) {
-            console.log("Data",data);
-            $scope.pdf = data.data;
-            console.log($scope.pdf);
-        });
+    $scope.pdf = {};
+
     $scope.createAssignment = function () {
         // html2canvas(document.getElementById('myCanvas'), {
         //     onrendered: function(canvas) {
@@ -8231,12 +8226,19 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         //         pdfMake.createPdf(docDefinition).download("Score_Details.pdf");
         //     }
         // });
-       
-        $state.go("createassignmentemail", {
-            'emailId': $scope.email.id,
-            'model': "assignment",
-            'pdf':$scope.pdf.name
+        NavigationService.pdfGenerate(function (data) {
+            console.log("Data", data);
+            $scope.pdf = data.data;
+            console.log($scope.pdf);
+
+            $state.go("createassignmentemail", {
+                'emailId': $scope.email.id,
+                'model': "assignment",
+                'pdf': $scope.pdf.name
+            });
+
         });
+
     };
     NavigationService.detailEmail({
         "messageId": $stateParams.id
