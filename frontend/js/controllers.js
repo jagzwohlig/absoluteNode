@@ -508,6 +508,20 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             size: 'lg'
         });
     };
+    $scope.$watch("modelData.from", function (newVal, oldVal) {
+
+        console.log("OLD DATA");
+        $scope.abc();
+    });
+    $scope.$watch("modelData.to", function (newVal, oldVal) {
+        $scope.abc();
+    });
+    $scope.abc = function (modalData) {
+        console.log("IIIIIIIIIIIIIIINNNNNNNNNNNNN");
+        console.log("Data", modalData);
+        // modelData.name=modalData.from;
+        // console.log("Data",modalData.from);
+    };
     $scope.createOfficer = function (modelData) {
         $scope.formData.officers.push(modelData);
         console.log($scope.formData);
@@ -4772,6 +4786,37 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.formData.listOfDocuments.splice(index, 1);
         };
 
+$scope.modelData.from=$scope.modelData.to=$scope.modelData.policyNo=null
+        
+
+    $scope.$watch("modelData.from", function (newVal, oldVal) {
+            
+            console.log(newVal);
+            console.log(oldVal);
+            $scope.modelData.from=newVal;
+            $scope.abc($scope.modelData);
+    });
+    $scope.$watch("modelData.to", function (newVal, oldVal) {  
+            console.log(newVal);
+            console.log(oldVal);
+            $scope.modelData.to=newVal;
+            $scope.abc($scope.modelData);
+    });
+    $scope.$watch("modelData.policyNo", function (newVal, oldVal) {
+            console.log(newVal);
+            console.log(oldVal);
+            $scope.modelData.policyNo=newVal;
+            $scope.abc($scope.modelData);
+    });
+    $scope.abc = function (modelData) {
+        console.log("modelData",modelData);
+         if(modelData.from && modelData.to && modelData.policyNo){    
+                modelData.name=moment(modelData.from).format("DDMMMYY")+"-"+moment(modelData.to).format("DDMMMYY")+"-"+modelData.policyNo;
+         }   
+        };
+    
+        
+
         $scope.dateOptions = {
             showWeeks: true
         };
@@ -4863,6 +4908,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.deleteOfficer = function (index) {
             $scope.formData.listOfDocuments.splice(index, 1);
         };
+
+
 
         $scope.dateOptions = {
             showWeeks: true
@@ -8227,9 +8274,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         //     }
         // });
         NavigationService.pdfGenerate(function (data) {
-            console.log("Data", data);
+            // console.log("Data", data);
             $scope.pdf = data.data;
-            console.log($scope.pdf);
+            // console.log($scope.pdf);
 
             $state.go("createassignmentemail", {
                 'emailId': $scope.email.id,
