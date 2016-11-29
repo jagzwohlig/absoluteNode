@@ -653,6 +653,10 @@ var navigationservice = angular.module('navigationservice', [])
                 callback(data, i);
             });
         },
+        pdfGenerate: function (callback) {
+            console.log("In PDF Generate");
+            $http.post(adminurl + 'Upload/pdf').success(callback);
+        },
         searchCurrency: function (formData, i, callback) {
             $http.post(adminurl + 'currencies/search', formData).success(function (data) {
                 callback(data, i);

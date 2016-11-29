@@ -8212,6 +8212,12 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         "name": "Single Mail"
     };
     console.log();
+    $scope.pdf={};
+     NavigationService.pdfGenerate(function (data) {
+            console.log("Data",data);
+            $scope.pdf = data.data;
+            console.log($scope.pdf);
+        });
     $scope.createAssignment = function () {
         // html2canvas(document.getElementById('myCanvas'), {
         //     onrendered: function(canvas) {
@@ -8225,9 +8231,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         //         pdfMake.createPdf(docDefinition).download("Score_Details.pdf");
         //     }
         // });
+       
         $state.go("createassignmentemail", {
             'emailId': $scope.email.id,
-            'model': "assignment"
+            'model': "assignment",
+            'pdf':$scope.pdf.name
         });
     };
     NavigationService.detailEmail({
@@ -8235,7 +8243,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     }, function (data) {
         $scope.email = data.data;
         var a = $filter("base64url")(data.data.raw);
-        console.log($scope.email);
+        // console.log($scope.email);
         $scope.email.attachment = [];
         switch ($scope.email.payload.mimeType) {
             case "multipart/related":
