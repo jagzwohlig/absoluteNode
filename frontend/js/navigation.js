@@ -298,7 +298,7 @@ var navigationservice = angular.module('navigationservice', [])
             classis: "active",
             anchor: "knowledgebase-list",
             icon: "book"
-        },  {
+        }, {
             name: "Tags",
             classis: "active",
             anchor: "tag-list",
@@ -454,7 +454,7 @@ var navigationservice = angular.module('navigationservice', [])
                 callback(data, i);
             });
         },
-         searchTag: function (model, formData, i, callback) {
+        searchTag: function (model, formData, i, callback) {
             $http.post(adminurl + 'Tag/search', formData).success(function (data) {
                 callback(data, i);
             });
@@ -623,8 +623,8 @@ var navigationservice = angular.module('navigationservice', [])
                 callback(data, i);
             });
         },
-        searchTag: function (formData, i, callback) {
-            $http.post(adminurl + 'tag/search', formData).success(function (data) {
+        searchDepartment: function (formData, i, callback) {
+            $http.post(adminurl + 'department/search', formData).success(function (data) {
                 callback(data, i);
             });
         },
