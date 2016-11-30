@@ -173,7 +173,6 @@ var schema = new Schema({
       type: Schema.Types.ObjectId,
       ref: "Office",
       index: true,
-      required: true,
       key: "assignment"
     },
     persons: [{
@@ -240,8 +239,7 @@ var schema = new Schema({
       type: Schema.Types.ObjectId,
       ref: "Timeline",
     }],
-    index: true,
-    restrictedDelete: true
+    index: true
   },
   assessment: [{
     file: {

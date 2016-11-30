@@ -274,14 +274,15 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
+                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Broker Company*</label>
-                                        <multiple-select name="broker" required ng-model="formData.broker" filter='{"company":"{{formData.company}}"}' ng-name="name.broker"
-                                            api="searchBrokerCustomerCompany"></multiple-select>
+                                        <multiple-select name="broker" required ng-model="formData.broker" filter='{"company":"{{formData.company}}"}'
+                                            ng-name="name.broker" api="searchBrokerCustomerCompany"></multiple-select>
                                         <div class="error-msg" ng-show="formName.broker.$invalid">Please Select Broker Company</div>
                                     </div>
                                 </div>
+
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Broker Office*</label>
@@ -329,7 +330,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group" ng-if="formData.typeOfClaim">
                                         <label>Appointment Mail*</label>
-                                        <upload-image ng-model="formData.pdf" required></upload-image>
+                                        <upload-image ng-model="formData.appointment" required></upload-image>
                                         <div class="error-msg" ng-show="formName.image.$invalid && formName.image.$touched">Please Upload Appointment Mail</div>
                                     </div>
                                     <div class="form-group" ng-if="!formData.typeOfClaim">
@@ -887,7 +888,7 @@
         <div class="clearfix"></div>
         <div class="text-center mt20 odd-even-button">
             <button class="btn btn-default" type="submit" ng-disabled="formName.$invalid || formData.products.length==0">Save</button>
-            <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+            <a class="btn btn-default" ng-click="cancel()">Cancel</a>
         </div>
     </div>
 </form>

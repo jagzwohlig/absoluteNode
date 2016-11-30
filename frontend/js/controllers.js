@@ -774,6 +774,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
         NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
+            console.log(data.data.broker,data.data.customerCompany);
             $scope.formData = data.data;
             $scope.MRnumber = data.data.city.district.state.zone.country.countryCode;
             $scope.formData.dateOfIntimation = new Date(data.data.dateOfIntimation);
@@ -902,7 +903,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
                 // Cancel
     $scope.cancel = function () {
-            console.log("In Else");
+            console.log("In Cancel");
             $window.history.back();
         };
 
