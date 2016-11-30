@@ -218,6 +218,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
         $scope.cancel = function () {
+            console.log("Model");
             $window.history.back();
         };
         $scope.changePage = function (page) {
@@ -591,6 +592,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.formData.isInsured = true;
         $scope.formData.typeOfClaim = true;
 
+        // cancel
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+
         //  CLONE ASSIGNMENT
         if ($stateParams.assignment) {
             NavigationService.getOneModel("Assignment", $stateParams.assignment, function (data) {
@@ -780,6 +786,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.formData.insuredOfficer = data.data.insuredOfficer._id;
         });
 
+// cancel
+
 
         $scope.refreshShareWith = function (data, office) {
             var formdata = {};
@@ -891,6 +899,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 });
             });
 
+        };
+                // Cancel
+    $scope.cancel = function () {
+            console.log("In Else");
+            $window.history.back();
         };
 
     })
@@ -6298,13 +6311,15 @@ $scope.modelData.from=$scope.modelData.to=$scope.modelData.policyNo=null
             $window.history.back();
         };
         $scope.$watch('formData.typeOfOffice', function () {
-            console.log($scope.formData.typeOfOffice);
+            console.log("typeOfOffice",$scope.formData.typeOfOffice);
             if ($scope.formData.typeOfOffice) {
                 NavigationService.getOneModel('TypeOfOffice', $scope.formData.typeOfOffice, function (data) {
                     $scope.formData.TOFShortName = data.data.shortCode;
                     if ($scope.formData.officeCode === "") {
+                        // $scope.formData.sname = $scope.formData.TOFShortName ;
                         $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.city1;
                     } else {
+                        //  $scope.formData.sname = $scope.formData.TOFShortName ;
                         $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.officeCode + ' ' + $scope.formData.city1;
                     }
                 });
@@ -6434,9 +6449,7 @@ $scope.modelData.from=$scope.modelData.to=$scope.modelData.policyNo=null
                 $scope.passType = 'text';
             }
         };
-        $scope.cancel = function () {
-            $window.history.back();
-        };
+f
         $scope.addOfficer = function () {
             var modalInstance = $uibModal.open({
                 scope: $scope,
@@ -6671,7 +6684,7 @@ $scope.modelData.from=$scope.modelData.to=$scope.modelData.policyNo=null
                 $scope.model = "";
             }
             var filter = {};
-            console.log($scope.filter);
+            // console.log($scope.filter);
             if ($scope.filter) {
                 filter = JSON.parse($scope.filter);
             }

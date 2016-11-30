@@ -76,14 +76,12 @@ var schema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Customer",
     index: true,
-    required: true,
     key: "assignment"
   },
   insurerOffice: {
     type: Schema.Types.ObjectId,
     ref: "Customer",
     index: true,
-    required: true,
     key: "assignment"
   },
   brokerOffice: {

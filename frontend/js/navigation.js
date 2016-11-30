@@ -459,6 +459,7 @@ var navigationservice = angular.module('navigationservice', [])
             $http.post(adminurl + 'Department/search', {}).success(callback);
         },
         searchCustomer: function (formData, i, callback) {
+            console.log(formData);
             _.each(formData.filter, function (n, key) {
                 if (n === "") {
                     n = undefined;
