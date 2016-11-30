@@ -367,16 +367,6 @@ var navigationservice = angular.module('navigationservice', [])
         getInsurer: function (callback) {
             $http.post(adminurl + 'customerCompany/getInsurer', {}).success(callback);
         },
-        // searchAllDocument: function (formData, i, callback) {
-        //     $http.post(adminurl + 'Tag/search', formData).success(function (data) {
-        //         callback(data, i);
-        //     });
-        // },
-        // searchBackendEmployee: function (formData, i, callback) {
-        //     $http.post(adminurl + 'Employee/search', formData).success(function (data) {
-        //         callback(data, i);
-        //     });
-        // },
         searchEmployee: function (formData, i, callback) {
             $http.post(adminurl + 'Employee/search', formData).success(function (data) {
                 callback(data, i);
