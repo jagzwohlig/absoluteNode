@@ -66,8 +66,8 @@
                                     </div>-->
                                     <div class="form-group">
                                         <label>Owner*</label>
-                                        <multiple-select name="owner" required ng-model="formData.owner" filter='{"company":"{{formData.company}}","isSBC": false}' ng-name="name.owner"
-                                            api="searchEmployee"></multiple-select>
+                                        <multiple-select name="owner" required ng-model="formData.owner" filter='{"company":"{{formData.company}}","isSBC": false}'
+                                            ng-name="name.owner" api="searchEmployee"></multiple-select>
                                         <div class="error-msg" ng-show="formName.owner.$invalid">Please Select Branch Office</div>
                                     </div>
                                 </div>
@@ -259,30 +259,26 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Insurer Company*</label>
-                                        <multiple-select name="insurer" required ng-model="formData.insurer" filter='{"company":"{{formData.company}}"}' ng-name="name.insurer"
-                                            api="searchInsurerCustomerCompany"></multiple-select>
+                                        <multiple-select name="insurer" required ng-model="formData.insurer" ng-name="name.insurer" api="searchInsurerCustomerCompany"></multiple-select>
                                         <div class="error-msg" ng-show="formName.insurer.$invalid">Please Select Insurer Company</div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Insurer Office*</label>
-                                        <multiple-select name="insurerOffice" required ng-model="formData.insurerOffice" filter='{"customerCompany":"{{formData.insurer}}"}'
-                                            ng-name="name.broker" api="searchCustomer"></multiple-select>
+                                        <multiple-select name="insurerOffice" required ng-model="formData.insurerOffice" ng-name="name.broker" api="searchCustomer"></multiple-select>
                                         <div class="error-msg" ng-show="formName.insurerOffice.$invalid">Please Select Insurer Office</div>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                 <div class="col-md-6">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Broker Company*</label>
-                                        <multiple-select name="broker" required ng-model="formData.broker" filter='{"company":"{{formData.company}}"}'
-                                            ng-name="name.broker" api="searchBrokerCustomerCompany"></multiple-select>
+                                        <multiple-select name="broker" required ng-model="formData.broker" ng-name="name.broker" api="searchBrokerCustomerCompany"></multiple-select>
                                         <div class="error-msg" ng-show="formName.broker.$invalid">Please Select Broker Company</div>
                                     </div>
                                 </div>
-
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Broker Office*</label>
@@ -300,7 +296,6 @@
                                         <div class="error-msg" ng-show="formName.policyDepartment.$invalid">Please Select Policy Department</div>
                                     </div>
                                 </div>
-                                
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
@@ -417,8 +412,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Insurer Company*</label>
-                                        <multiple-select name="insurer" required ng-model="formData.insurer" filter='{"company":"{{formData.company}}"}' ng-name="name.insurer"
-                                            api="searchInsurerCustomerCompany"></multiple-select>
+                                        <multiple-select name="insurer" required ng-model="formData.insurer" ng-name="name.insurer" api="searchInsurerCustomerCompany"></multiple-select>
                                         <div class="error-msg" ng-show="formName.insurer.$invalid">Please Select Insurer Company</div>
                                     </div>
                                 </div>
@@ -435,8 +429,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Broker Company*</label>
-                                        <multiple-select name="broker" required ng-model="formData.broker" filter='{"company":"{{formData.company}}"}' ng-name="name.broker"
-                                            api="searchBrokerCustomerCompany"></multiple-select>
+                                        <multiple-select name="broker" required ng-model="formData.broker" ng-name="name.broker" api="searchBrokerCustomerCompany"></multiple-select>
                                         <div class="error-msg" ng-show="formName.broker.$invalid">Please Select Broker Company</div>
                                     </div>
                                 </div>
