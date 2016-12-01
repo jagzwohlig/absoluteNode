@@ -488,19 +488,16 @@ var navigationservice = angular.module('navigationservice', [])
             });
         },
         searchInsurerCustomerCompany: function (formData, i, callback) {
-            formData.segment = "Insurer";
             $http.post(adminurl + 'CustomerCompany/getInsurer', formData).success(function (data) {
                 callback(data, i);
             });
         },
         searchInsurerdCustomerCompany: function (formData, i, callback) {
-            formData.segment = "Insured";
             $http.post(adminurl + 'CustomerCompany/getInsured', formData).success(function (data) {
                 callback(data, i);
             });
         },
         searchBrokerCustomerCompany: function (formData, i, callback) {
-            formData.segment = "Broker";
             $http.post(adminurl + 'CustomerCompany/getBroker', formData).success(function (data) {
                 callback(data, i);
             });
