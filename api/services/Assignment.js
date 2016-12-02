@@ -594,7 +594,7 @@ var model = {
                   fourthDigit = "2";
                   break;
                 }
-              case "true-false":
+              case "false-true":
                 {
                   fourthDigit = "3";
                   break;
@@ -603,52 +603,52 @@ var model = {
             switch (data2.typeOfClaim + "-" + data2.department.name) {
               case "false-Engineering":
                 {
-                  nos = 40;
+                  nos = "40";
                   break;
                 }
               case "false-Motor":
                 {
-                  nos = 30;
+                  nos = "30";
                   break;
                 }
               case "false-Pre Dispatch":
                 {
-                  nos = 20;
+                  nos = "20";
                   break;
                 }
               case "false-Pre Acceptance - Fire":
                 {
-                  nos = 10;
+                  nos = "10";
                   break;
                 }
               case "true-Engineering":
                 {
-                  nos = 44;
+                  nos = "44";
                   break;
                 }
               case "true-Fire":
                 {
-                  nos = 11;
+                  nos = "11";
                   break;
                 }
               case "true-Marine Cargo":
                 {
-                  nos = 21;
+                  nos = "21";
                   break;
                 }
               case "true-Misc":
                 {
-                  nos = 48;
+                  nos = "48";
                   break;
                 }
               case "true-Motor":
                 {
-                  nos = 31;
+                  nos = "31";
                   break;
                 }
               default:
                 {
-                  nos = 00;
+                  nos = "00";
                   break;
                 }
             }
