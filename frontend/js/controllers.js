@@ -6451,7 +6451,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.passType = 'text';
             }
         };
-        f
         $scope.addOfficer = function () {
             var modalInstance = $uibModal.open({
                 scope: $scope,
