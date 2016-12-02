@@ -459,7 +459,7 @@ var navigationservice = angular.module('navigationservice', [])
             $http.post(adminurl + 'Department/search', {}).success(callback);
         },
         searchCustomer: function (formData, i, callback) {
-            console.log(formData);
+
             _.each(formData.filter, function (n, key) {
                 if (n === "") {
                     n = undefined;
@@ -498,9 +498,13 @@ var navigationservice = angular.module('navigationservice', [])
             });
         },
         searchBrokerCustomerCompany: function (formData, i, callback) {
+            console.log(formData, "Broker");
+
             $http.post(adminurl + 'CustomerCompany/getBroker', formData).success(function (data) {
+                console.log(data);
                 callback(data, i);
             });
+
         },
         searchInsuredCustomerCompany: function (formData, i, callback) {
             formData.segment = "Insured";
@@ -642,7 +646,6 @@ var navigationservice = angular.module('navigationservice', [])
             });
         },
         pdfGenerate: function (callback) {
-            console.log("In PDF Generate");
             $http.post(adminurl + 'Upload/pdf').success(callback);
         },
         searchCurrency: function (formData, i, callback) {
@@ -662,7 +665,6 @@ var navigationservice = angular.module('navigationservice', [])
             $http.post(adminurl + 'Claims/save', formData).success(callback);
         },
         modelSave: function (modal, formData, callback) {
-            console.log("modal", modal);
             $http.post(adminurl + modal + '/save', formData).success(callback);
         },
         getAssignmentTemplate: function (data, callback) {

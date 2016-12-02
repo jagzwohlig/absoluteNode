@@ -774,7 +774,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
         NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
-            console.log(data.data.broker,data.data.customerCompany);
+            console.log(data);
+            // console.log(data.data.broker,data.data.customerCompany);
             $scope.formData = data.data;
             $scope.MRnumber = data.data.city.district.state.zone.country.countryCode;
             $scope.formData.dateOfIntimation = new Date(data.data.dateOfIntimation);
@@ -787,7 +788,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.formData.insuredOfficer = data.data.insuredOfficer._id;
         });
 
-// cancel
+        // cancel
 
 
         $scope.refreshShareWith = function (data, office) {
@@ -901,8 +902,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
 
         };
-                // Cancel
-    $scope.cancel = function () {
+        // Cancel
+        $scope.cancel = function () {
             console.log("In Cancel");
             $window.history.back();
         };
@@ -4800,36 +4801,36 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.formData.listOfDocuments.splice(index, 1);
         };
 
-$scope.modelData.from=$scope.modelData.to=$scope.modelData.policyNo=null
-        
+        $scope.modelData.from = $scope.modelData.to = $scope.modelData.policyNo = null
 
-    $scope.$watch("modelData.from", function (newVal, oldVal) {
-            
+
+        $scope.$watch("modelData.from", function (newVal, oldVal) {
+
             console.log(newVal);
             console.log(oldVal);
-            $scope.modelData.from=newVal;
+            $scope.modelData.from = newVal;
             $scope.abc($scope.modelData);
-    });
-    $scope.$watch("modelData.to", function (newVal, oldVal) {  
+        });
+        $scope.$watch("modelData.to", function (newVal, oldVal) {
             console.log(newVal);
             console.log(oldVal);
-            $scope.modelData.to=newVal;
+            $scope.modelData.to = newVal;
             $scope.abc($scope.modelData);
-    });
-    $scope.$watch("modelData.policyNo", function (newVal, oldVal) {
+        });
+        $scope.$watch("modelData.policyNo", function (newVal, oldVal) {
             console.log(newVal);
             console.log(oldVal);
-            $scope.modelData.policyNo=newVal;
+            $scope.modelData.policyNo = newVal;
             $scope.abc($scope.modelData);
-    });
-    $scope.abc = function (modelData) {
-        console.log("modelData",modelData);
-         if(modelData.from && modelData.to && modelData.policyNo){    
-                modelData.name=moment(modelData.from).format("DDMMMYY")+"-"+moment(modelData.to).format("DDMMMYY")+"-"+modelData.policyNo;
-         }   
+        });
+        $scope.abc = function (modelData) {
+            console.log("modelData", modelData);
+            if (modelData.from && modelData.to && modelData.policyNo) {
+                modelData.name = moment(modelData.from).format("DDMMMYY") + "-" + moment(modelData.to).format("DDMMMYY") + "-" + modelData.policyNo;
+            }
         };
-    
-        
+
+
 
         $scope.dateOptions = {
             showWeeks: true
@@ -4890,36 +4891,36 @@ $scope.modelData.from=$scope.modelData.to=$scope.modelData.policyNo=null
                 }
             });
         };
-// 
-$scope.modelData.from=$scope.modelData.to=$scope.modelData.policyNo=null
-        
+        // 
+        $scope.modelData.from = $scope.modelData.to = $scope.modelData.policyNo = null
 
-    $scope.$watch("modelData.from", function (newVal, oldVal) {
-            
+
+        $scope.$watch("modelData.from", function (newVal, oldVal) {
+
             console.log(newVal);
             console.log(oldVal);
-            $scope.modelData.from=newVal;
+            $scope.modelData.from = newVal;
             $scope.abc($scope.modelData);
-    });
-    $scope.$watch("modelData.to", function (newVal, oldVal) {  
+        });
+        $scope.$watch("modelData.to", function (newVal, oldVal) {
             console.log(newVal);
             console.log(oldVal);
-            $scope.modelData.to=newVal;
+            $scope.modelData.to = newVal;
             $scope.abc($scope.modelData);
-    });
-    $scope.$watch("modelData.policyNo", function (newVal, oldVal) {
+        });
+        $scope.$watch("modelData.policyNo", function (newVal, oldVal) {
             console.log(newVal);
             console.log(oldVal);
-            $scope.modelData.policyNo=newVal;
+            $scope.modelData.policyNo = newVal;
             $scope.abc($scope.modelData);
-    });
-    $scope.abc = function (modelData) {
-        console.log("modelData",modelData);
-         if(modelData.from && modelData.to && modelData.policyNo){    
-                modelData.name=moment(modelData.from).format("DDMMMYY")+"-"+moment(modelData.to).format("DDMMMYY")+"-"+modelData.policyNo;
-         }   
+        });
+        $scope.abc = function (modelData) {
+            console.log("modelData", modelData);
+            if (modelData.from && modelData.to && modelData.policyNo) {
+                modelData.name = moment(modelData.from).format("DDMMMYY") + "-" + moment(modelData.to).format("DDMMMYY") + "-" + modelData.policyNo;
+            }
         };
-// 
+        // 
         $scope.addDocument = function () {
             var modalInstance = $uibModal.open({
                 scope: $scope,
@@ -6312,7 +6313,7 @@ $scope.modelData.from=$scope.modelData.to=$scope.modelData.policyNo=null
             $window.history.back();
         };
         $scope.$watch('formData.typeOfOffice', function () {
-            console.log("typeOfOffice",$scope.formData.typeOfOffice);
+            console.log("typeOfOffice", $scope.formData.typeOfOffice);
             if ($scope.formData.typeOfOffice) {
                 NavigationService.getOneModel('TypeOfOffice', $scope.formData.typeOfOffice, function (data) {
                     $scope.formData.TOFShortName = data.data.shortCode;
@@ -6450,7 +6451,7 @@ $scope.modelData.from=$scope.modelData.to=$scope.modelData.policyNo=null
                 $scope.passType = 'text';
             }
         };
-f
+        f
         $scope.addOfficer = function () {
             var modalInstance = $uibModal.open({
                 scope: $scope,
