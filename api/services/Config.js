@@ -1,26 +1,26 @@
 /**
- * Config.js
+ * Plan.js
  *
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
  */
 
+var mongoose = require('mongoose');
+var Grid = require('gridfs-stream');
+var fs = require("fs");
+// var lwip = require("lwip");
+var process = require('child_process');
+var lodash = require('lodash');
+// var json2xl = require('json2xl');
+var MaxImageSize = 1200;
 
-var MaxImageSize = 1600;
+var gfs = Grid(mongoose.connections[0].db, mongoose);
+gfs.mongo = mongoose.mongo;
 
-
-
+var Schema = mongoose.Schema;
 var schema = new Schema({
-    name: String,
-    content: String,
+    name: String
 });
-
-// var client = new Twitter({
-//     consumer_key: 'w0Mizb3YKniG8GfZmhQJbMvER',
-//     consumer_secret: '6wnwpnm6a475ROm3aY8aOy8YXynQxQgZkcoJ05Y8D9EvL0Duov',
-//     access_token_key: '121427044-PJTEM2zmqwcRu4K0FBotK9jtTibsNOiomyVlkSo0',
-//     access_token_secret: 'TvMPCXaXpJOvpu8hCGc61kzp5EpIPbrAgOT7u6lDnastg'
-// });
 
 module.exports = mongoose.model('Config', schema);
 
@@ -67,42 +67,62 @@ var models = {
             }
         });
     },
+
     manageArrayObject: function (Model, id, data, key, action, callback) {
-        Model.findOne({
-            "_id": id
-        }, function (err, data2) {
-            if (err) {
-                callback(err, null);
-            } else if (data2) {
-                switch (action) {
-                    case "create":
-                        {
-                            data2[key].push(data);
-                            data2[key] = _.uniq(data2[key]);
-                            data2.update(data2, {
-                                w: 1
-                            }, callback);
-                        }
-                        break;
-                    case "delete":
-                        {
-                            _.remove(data2[key], function (n) {
-                                return (n + "") == (data + "");
-                            });
-                            data2.update(data2, {
-                                w: 1
-                            }, callback);
-                        }
-                        break;
+        if (id) {
+            Model.findOne({
+                "_id": id
+            }, function (err, data2) {
+                if (err) {
+                    callback(err, null);
+                } else if (data2) {
+                    switch (action) {
+                        case "create":
+                            {
+                                data2[key].push(data);
+                                // data2[key] = _.unique(data2[key]);
+                                console.log(data2[key]);
+                                data2.update(data2, {
+                                    w: 1
+                                }, callback);
+                            }
+                            break;
+                        case "delete":
+                            {
+                                _.remove(data2[key], function (n) {
+                                    return (n + "") == (data + "");
+                                });
+                                data2.update(data2, {
+                                    w: 1
+                                }, callback);
+                            }
+                            break;
+                    }
+                } else {
+
+                    callback("No Data Found for the ID" + " " + id + " " + data + " " + key + " " + action, null);
                 }
-            } else {
-                callback(null, null);
-            }
-        });
+            });
+        } else {
+            callback(null, "Done");
+        }
+
 
 
     },
-
+    GlobalCallback: function (err, data, res) {
+        if (err) {
+            res.json({
+                error: err,
+                value: false
+            });
+        } else {
+            res.json({
+                data: data,
+                value: true
+            });
+        }
+    },
     uploadFile: function (filename, callback) {
         var id = mongoose.Types.ObjectId();
         var extension = filename.split(".").pop();
@@ -115,49 +135,163 @@ var models = {
         var writestream = gfs.createWriteStream({
             filename: newFilename
         });
+        var imageStream = fs.createReadStream(filename);
+
+        function writer2(metaValue) {
+            var writestream2 = gfs.createWriteStream({
+                filename: newFilename,
+                metadata: metaValue
+            });
+            writestream2.on('finish', function () {
+                callback(null, {
+                    name: newFilename
+                });
+                fs.unlink(filename);
+            });
+            fs.createReadStream(filename).pipe(writestream2);
+        }
+
+        if (extension == "png" || extension == "jpg" || extension == "gif") {
+            lwip.open(filename, extension, function (err, image) {
+                if (err) {
+                    console.log(err);
+                    callback(err, null);
+                } else {
+                    var upImage = {
+                        width: image.width(),
+                        height: image.height(),
+                        ratio: image.width() / image.height()
+                    };
+
+                    if (upImage.width > upImage.height) {
+                        if (upImage.width > MaxImageSize) {
+                            image.resize(MaxImageSize, MaxImageSize / (upImage.width / upImage.height), function (err, image2) {
+                                if (err) {
+                                    console.log(err);
+                                    callback(err, null);
+                                } else {
+                                    upImage = {
+                                        width: image2.width(),
+                                        height: image2.height(),
+                                        ratio: image2.width() / image2.height()
+                                    };
+                                    image2.writeFile(filename, function (err) {
+                                        writer2(upImage);
+                                    });
+                                }
+                            });
+                        } else {
+                            writer2(upImage);
+                        }
+                    } else {
+                        if (upImage.height > MaxImageSize) {
+                            image.resize((upImage.width / upImage.height) * MaxImageSize, MaxImageSize, function (err, image2) {
+                                if (err) {
+                                    console.log(err);
+                                    callback(err, null);
+                                } else {
+                                    upImage = {
+                                        width: image2.width(),
+                                        height: image2.height(),
+                                        ratio: image2.width() / image2.height()
+                                    };
+                                    image2.writeFile(filename, function (err) {
+                                        writer2(upImage);
+                                    });
+                                }
+                            });
+                        } else {
+                            writer2(upImage);
+                        }
+                    }
+                }
+            });
+        } else {
+            imageStream.pipe(writestream);
+        }
+
         writestream.on('finish', function () {
             callback(null, {
                 name: newFilename
             });
             fs.unlink(filename);
         });
+    },
+    generateExcel: function (name, found, res) {
+        name = _.kebabCase(name);
+        var excelData = [];
+        _.each(found, function (singleData, num) {
+            var singleExcel = {};
+            _.each(singleData, function (n, key) {
+                var ckey = _.capitalize(key);
+                if (key != "__v" && key != "createdAt" && key != "updatedAt") {
+                    if (num === 0) {
+                        console.log(typeof n);
+                        if (typeof n == "object") {
+                            console.log(n);
+                        }
 
-        var imageStream = fs.createReadStream(filename);
-
-        if (extension == "png" || extension == "jpg" || extension == "gif") {
-            Jimp.read(filename, function (err, image) {
-                if (err) {
-                    callback(err, null);
-                } else {
-                    if (image.bitmap.width > MaxImageSize || image.bitmap.height > MaxImageSize) {
-                        image.scaleToFit(MaxImageSize, MaxImageSize).getBuffer(Jimp.AUTO, function (err, imageBuf) {
-                            var bufferStream = new stream.PassThrough();
-                            bufferStream.end(imageBuf);
-                            bufferStream.pipe(writestream);
-                        });
-                    } else {
-                        image.getBuffer(Jimp.AUTO, function (err, imageBuf) {
-                            var bufferStream = new stream.PassThrough();
-                            bufferStream.end(imageBuf);
-                            bufferStream.pipe(writestream);
-                        });
                     }
 
+                    if (_.isArray(n)) {
+                        if (num === 0) {
+                            console.log("As Array");
+                        }
+                        _.each(n, function (m, index) {
+                            if (_.isPlainObject(m)) {
+                                _.each(m, function (k, index2) {
+
+                                    singleExcel[ckey + "[" + index + "][" + index2 + "]"] = m;
+                                });
+                            } else {
+                                singleExcel[ckey + "[" + index + "]"] = m;
+                            }
+                        });
+
+                    } else if (_.isPlainObject(n)) {
+                        if (num === 0) {
+                            console.log("As Object");
+                        }
+                        _.each(n, function (m, index) {
+                            singleExcel[ckey + "[" + index + "]"] = m;
+                        });
+                    } else {
+                        if (num === 0) {
+                            console.log("As Other");
+                        }
+                        singleExcel[_.capitalize(key)] = n;
+                    }
+                     if (num === 0) {
+                            console.log("-----------------------");
+                        }
                 }
-
             });
-        } else {
-            imageStream.pipe(writestream);
-        }
-
+            excelData.push(singleExcel);
+        });
+        var xls = json2xls(excelData);
+        var folder = "./.tmp/";
+        var path = name + "-" + moment().format("MMM-DD-YYYY-hh-mm-ss-a") + ".xlsx";
+        var finalPath = folder + path;
+        fs.writeFile(finalPath, xls, 'binary', function (err) {
+            if (err) {
+                res.callback(err, null);
+            } else {
+                fs.readFile(finalPath, function (err, excel) {
+                    if (err) {
+                        res.callback(err, null);
+                    } else {
+                        res.set('Content-Type', "application/octet-stream");
+                        res.set('Content-Disposition', "attachment;filename=" + path);
+                        res.send(excel);
+                        fs.unlink(finalPath);
+                    }
+                });
+            }
+        });
 
     },
     readUploaded: function (filename, width, height, style, res) {
-        res.set({
-            'Cache-Control': 'public, max-age=31557600',
-            'Expires': new Date(Date.now() + 345600000).toUTCString(),
-            'Content-Type': 'image/jpeg'
-        });
+        res.set('Content-Disposition', "filename=" + filename);
         var readstream = gfs.createReadStream({
             filename: filename
         });
@@ -167,52 +301,17 @@ var models = {
                 error: err
             });
         });
-        var buf;
-        var newNameExtire;
-        var bufs = [];
-        var proceedI = 0;
-        var wi;
-        var he;
-        readstream.on('data', function (d) {
-            bufs.push(d);
-        });
-        readstream.on('end', function () {
-            buf = Buffer.concat(bufs);
-            proceed();
-        });
 
-
-        function proceed() {
-            proceedI++;
-            if (proceedI === 2) {
-                Jimp.read(buf, function (err, image) {
-                    if (err) {
-                        callback(err, null);
-                    } else {
-                        if (style === "contain" && width && height) {
-                            image.contain(width, height).getBuffer(Jimp.AUTO, writer2);
-                        } else if (style === "cover" && (width && width > 0) && (height && height > 0)) {
-                            image.cover(width, height).getBuffer(Jimp.AUTO, writer2);
-                        } else if ((width && width > 0) && (height && height > 0)) {
-                            image.resize(width, height).getBuffer(Jimp.AUTO, writer2);
-                        } else if ((width && width > 0) && !(height && height > 0)) {
-                            image.resize(width, Jimp.AUTO).getBuffer(Jimp.AUTO, writer2);
-                        } else {
-                            image.resize(Jimp.AUTO, height).getBuffer(Jimp.AUTO, writer2);
-                        }
-                    }
-                });
-            }
-        }
-
-        function writer2(err, imageBuf) {
+        function writer2(filename, gridFSFilename, metaValue) {
             var writestream2 = gfs.createWriteStream({
-                filename: newNameExtire,
+                filename: gridFSFilename,
+                metadata: metaValue
             });
-            var bufferStream = new stream.PassThrough();
-            bufferStream.end(imageBuf);
-            bufferStream.pipe(writestream2);
-            res.send(imageBuf);
+            writestream2.on('finish', function () {
+                fs.unlink(filename);
+            });
+            fs.createReadStream(filename).pipe(res);
+            fs.createReadStream(filename).pipe(writestream2);
         }
 
         function read2(filename2) {
@@ -242,12 +341,12 @@ var models = {
             } else {
                 newName += "-" + 0;
             }
-            if (style && (style == "contain" || style == "cover")) {
+            if (style && (style == "fill" || style == "cover")) {
                 newName += "-" + style;
             } else {
                 newName += "-" + 0;
             }
-            newNameExtire = newName + "." + extension;
+            var newNameExtire = newName + "." + extension;
             gfs.exist({
                 filename: newNameExtire
             }, function (err, found) {
@@ -260,7 +359,56 @@ var models = {
                 if (found) {
                     read2(newNameExtire);
                 } else {
-                    proceed();
+                    var imageStream = fs.createWriteStream('./.tmp/uploads/' + filename);
+                    readstream.pipe(imageStream);
+                    imageStream.on("finish", function () {
+                        lwip.open('./.tmp/uploads/' + filename, function (err, image) {
+                            ImageWidth = image.width();
+                            ImageHeight = image.height();
+                            var newWidth = 0;
+                            var newHeight = 0;
+                            var pRatio = width / height;
+                            var iRatio = ImageWidth / ImageHeight;
+                            if (width && height) {
+                                newWidth = width;
+                                newHeight = height;
+                                switch (style) {
+                                    case "fill":
+                                        if (pRatio > iRatio) {
+                                            newHeight = height;
+                                            newWidth = height * (ImageWidth / ImageHeight);
+                                        } else {
+                                            newWidth = width;
+                                            newHeight = width / (ImageWidth / ImageHeight);
+                                        }
+                                        break;
+                                    case "cover":
+                                        if (pRatio < iRatio) {
+                                            newHeight = height;
+                                            newWidth = height * (ImageWidth / ImageHeight);
+                                        } else {
+                                            newWidth = width;
+                                            newHeight = width / (ImageWidth / ImageHeight);
+                                        }
+                                        break;
+                                }
+                            } else if (width) {
+                                newWidth = width;
+                                newHeight = width / (ImageWidth / ImageHeight);
+                            } else if (height) {
+                                newWidth = height * (ImageWidth / ImageHeight);
+                                newHeight = height;
+                            }
+                            image.resize(parseInt(newWidth), parseInt(newHeight), function (err, image2) {
+                                image2.writeFile('./.tmp/uploads/' + filename, function (err) {
+                                    writer2('./.tmp/uploads/' + filename, newNameExtire, {
+                                        width: newWidth,
+                                        height: newHeight
+                                    });
+                                });
+                            });
+                        });
+                    });
                 }
             });
             //else create a resized image and serve
@@ -270,82 +418,5 @@ var models = {
         //error handling, e.g. file does not exist
     },
 
-    import: function (name) {
-        var jsonExcel = xlsx.parse(name);
-        var retVal = [];
-        var firstRow = _.slice(jsonExcel[0].data, 0, 1)[0];
-        var excelDataToExport = _.slice(jsonExcel[0].data, 1);
-        var dataObj = [];
-        _.each(excelDataToExport, function (val, key) {
-            dataObj.push({});
-            _.each(val, function (value, key2) {
-                dataObj[key][firstRow[key2]] = value;
-            });
-        });
-        return dataObj;
-    },
-    importGS: function (filename, callback) {
-        var readstream = gfs.createReadStream({
-            filename: filename
-        });
-        readstream.on('error', function (err) {
-            res.json({
-                value: false,
-                error: err
-            });
-        });
-        var buffers = [];
-        readstream.on('data', function (buffer) {
-            buffers.push(buffer);
-        });
-        readstream.on('end', function () {
-            var buffer = Buffer.concat(buffers);
-            callback(null, Config.import(buffer));
-        });
-    },
-    generateExcel: function (name, found, res) {
-        // name = _.kebabCase(name);
-        var excelData = [];
-        _.each(found, function (singleData) {
-            var singleExcel = {};
-            _.each(singleData, function (n, key) {
-                if (key != "__v" && key != "createdAt" && key != "updatedAt") {
-                    singleExcel[key] = n;
-                }
-            });
-            excelData.push(singleExcel);
-        });
-        var xls = json2xls(excelData);
-        var folder = "./.tmp/";
-        var path = name + "-" + moment().format("MMM-DD-YYYY-hh-mm-ss-a") + ".xlsx";
-        var finalPath = folder + path;
-        fs.writeFile(finalPath, xls, 'binary', function (err) {
-            if (err) {
-                res.callback(err, null);
-            } else {
-                fs.readFile(finalPath, function (err, excel) {
-                    if (err) {
-                        res.callback(err, null);
-                    } else {
-                        res.set('Content-Type', "application/octet-stream");
-                        res.set('Content-Disposition', "attachment;filename=" + path);
-                        res.send(excel);
-                        fs.unlink(finalPath);
-                    }
-                });
-            }
-        });
-
-    },
-
-    excelDateToDate: function isDate(value) {
-        value = (value - (25567 + 1)) * 86400 * 1000;
-        var mom = moment(value);
-        if (mom.isValid()) {
-            return mom.toDate();
-        } else {
-            return undefined;
-        }
-    }
 };
 module.exports = _.assign(module.exports, models);
