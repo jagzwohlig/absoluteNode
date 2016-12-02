@@ -36,7 +36,6 @@
     "html-pdf": "^2.1.0",
     "include-all": "~0.1.6",
     "install": "^0.8.1",
-    "jimp": "^0.2.27",
     "json2xl": "^1.0.5",
     "json2xls": "^0.1.2",
     "lackey-mongoose-ref-validator": "0.0.3",
