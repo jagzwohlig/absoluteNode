@@ -25,6 +25,7 @@ process.chdir(__dirname);
 var mongoose;
 mongoose = require('mongoose');
 global["database"] = "absolute";
+mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost:27017/' + database, function (err, data) {
   if (err) {
     // 104.155.238.145
