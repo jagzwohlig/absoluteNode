@@ -730,20 +730,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
         $scope.submit = function (formData) {
             $scope.hideSaveCancel = true;
-            console.log($scope.formData);
-            TemplateService.mrnumber($scope.formData, function (data) {
-                console.log(data);
-                // $scope.formData.name = data;
-                NavigationService.assignmentSave($scope.formData, function (data) {
+                NavigationService.assignmentSave($scope.formData, function (data) {         
+                    console.log(data);          
                     if (data.value === true) {
                         // $state.go('assignment-list');
                         $window.history.back();
-                        toastr.success("Assignment " + formData.name + " created successfully.", "Assignment Created");
+                        toastr.success("Assignment " + data.data.name + " created successfully.", "Assignment Created");
                     } else {
                         toastr.error("Assignment creation failed.", "Assignment creation error");
                     }
                 });
-            });
+           
         };
 
     })
