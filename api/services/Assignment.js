@@ -2,7 +2,8 @@ var autoIncrement = require('mongoose-auto-increment');
 
 var schema = new Schema({
   name: {
-    type: String
+    type: String,
+    unique:true
   },
   company: {
     type: Schema.Types.ObjectId,
@@ -16,8 +17,8 @@ var schema = new Schema({
     default: 0
   },
   typeOfClaim: {
-    type: String,
-    required: true,
+    type: Boolean,
+    required: true
   },
   department: {
     type: Schema.Types.ObjectId,

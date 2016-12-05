@@ -755,6 +755,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.header = {
             "name": "Edit Assignment"
         };
+        $scope.name="";
         $scope.MRnumber = "";
         $scope.formData = {};
         $scope.formData.status = true;
@@ -773,6 +774,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
         NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
             console.log(data);
+            $scope.name=data.data.name;
+            console.log($scope.name);
             // console.log(data.data.broker,data.data.customerCompany);
             $scope.formData = data.data;
             $scope.MRnumber = data.data.city.district.state.zone.country.countryCode;
@@ -885,19 +888,16 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
         $scope.submit = function (formData) {
             console.log($scope.formData);
-            TemplateService.mrnumber($scope.formData, function (data) {
-                console.log(data);
-                // $scope.formData.name = data;
                 NavigationService.assignmentSave($scope.formData, function (data) {
+                    console.log(data);  
                     if (data.value === true) {
                         // $state.go('assignment-list');
                         $window.history.back();
-                        toastr.success("Assignment " + formData.name + " created successfully.", "Assignment Created");
+                        toastr.success("Assignment " + $scope.name + " Edited successfully.", "Assignment Edited");
                     } else {
                         toastr.error("Assignment creation failed.", "Assignment creation error");
                     }
                 });
-            });
 
         };
         // Cancel
