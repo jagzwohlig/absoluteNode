@@ -60,15 +60,15 @@
                                         <input type="text" name="name" class="form-control" ng-model="formData.name" ng-value="formData.name" readonly>
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-6" ng-show="name.customerSegment=='Insurer'">
                                     <div class="form-group">
-                                        <label>Policy Issuing Office*</label>
+                                        <label>Policy Issuing Office</label>
                                         <br>
                                         <toggle-switch on-label="Yes" off-label="No" ng-model="formData.issueOffice" class="switch-mini switch-success"></toggle-switch>
                                         <div class="error-msg" ng-show="formName.issueOffice.$invalid && formName.issueOffice.$touched">Please Select Policy Issuing Office</div>
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-6" ng-show="name.customerSegment=='Insurer'">
                                     <div class="form-group">
                                         <label>Office Code</label>
                                         <input type="text" name="officeCode" class="form-control" ng-model="formData.officeCode">

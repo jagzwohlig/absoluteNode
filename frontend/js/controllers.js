@@ -576,7 +576,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
         $scope.formData = {};
         $scope.formData.status = true;
-        $scope.formData.pdf = $stateParams.pdf;
+        $scope.formData.appointment = $stateParams.pdf;
         $scope.formData.invoice = [];
         $scope.formData.products = [];
         $scope.formData.LRs = [];
@@ -601,6 +601,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         if ($stateParams.assignment) {
             NavigationService.getOneModel("Assignment", $stateParams.assignment, function (data) {
                 $scope.formData = data.data;
+                console.log("Form Clone",$scope.formData.name);
                 delete $scope.formData.appointment;
                 delete $scope.formData.intimatedLoss;
                 delete $scope.formData.city;
@@ -616,6 +617,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 delete $scope.formData.siteNumber;
                 delete $scope.formData.siteMobile;
                 delete $scope.formData.siteEmail;
+                delete $scope.formData.name;
             });
         }
 
@@ -729,6 +731,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 
         $scope.submit = function (formData) {
+            delete formData._id;
             $scope.hideSaveCancel = true;
                 NavigationService.assignmentSave($scope.formData, function (data) {         
                     console.log(data);          
@@ -6296,6 +6299,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Inactive",
             "value": false
         }];
+        $scope.cancel = function () {
+            $window.history.back();
+        }
         $scope.salutations = ["Mr.", "Mrs.", "Ms.", "Dr."];
         $scope.formData.companyShortName = "";
         $scope.formData.TOFShortName = "";
@@ -6439,6 +6445,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Inactive",
             "value": false
         }];
+        $scope.cancel = function () {
+            $window.history.back();
+        }
         $scope.salutations = ["Mr.", "Mrs.", "Ms.", "Dr."];
         $scope.formData.companyShortName = "";
         $scope.formData.TOFShortName = "";

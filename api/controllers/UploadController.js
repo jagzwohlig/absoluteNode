@@ -41,7 +41,7 @@ module.exports = {
     },
         pdf: function (req, res) {
         var pdf = require('html-pdf');
-        var html = fs.readFileSync('./views/pdf/abs-emalier.ejs', 'utf8');
+        var html = fs.readFileSync('./views/pdf/demo.ejs', 'utf8');
         var options = {
             format: 'A4'
         };
