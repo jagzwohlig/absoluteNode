@@ -1142,6 +1142,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.header = {
             "name": "Create Type Of Office"
         };
+        $scope.cancel = function () {
+            $window.history.back();
+        };
         $scope.formData = {};
         $scope.savetypeOfOffice = function (formData) {
             $scope.errormsg = "";
@@ -1179,7 +1182,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         NavigationService.getOneTypeOfOffice($stateParams.id, function (data) {
             $scope.formData = data.data;
         });
-
+        $scope.cancel = function () {
+            $window.history.back();
+        };
         $scope.savetypeOfOffice = function (formValid) {
             $scope.errormsg = "";
 
@@ -3802,6 +3807,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.header = {
             "name": "Create Company"
         };
+        $scope.cancel = function () {
+            $window.history.back();
+        };
         $scope.formData = {};
         $scope.saveCompany = function (formData) {
             NavigationService.companySave(formData, function (data) {
@@ -3833,7 +3841,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Edit Company"
         };
         $scope.formData = {};
-
+        $scope.cancel = function () {
+            $window.history.back();
+        };
         NavigationService.getOneCompany($stateParams.id, function (data) {
             $scope.formData = data.data;
             // $scope.formData.country = data.data.
@@ -3870,9 +3880,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.cancel = function () {
             $window.history.back();
         };
-        $scope.cancel = function () {
-            $window.history.back();
-        };
+        
         $scope.saveDistrict = function (formData) {
             NavigationService.districtSave($scope.formData, function (data) {
                 if (data.value === true) {
