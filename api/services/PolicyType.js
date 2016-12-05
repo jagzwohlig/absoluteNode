@@ -12,17 +12,17 @@ var schema = new Schema({
         required: true,
         key: "policytype"
     },
+    insurer:[{
+      type: Schema.Types.ObjectId,
+      ref: "CustomerCompany",
+      required: true,
+      key: "insurer"
+    }],
     // insurer:{
     //   type: Schema.Types.ObjectId,
-    //   ref: "CustomerCompany",
-    //   required: true,
-    //   key: "insurer"
+    //   ref: "Company",
+    //   required: true
     // },
-    insurer:{
-      type: Schema.Types.ObjectId,
-      ref: "Company",
-      required: true
-    },
     policydoc: {
         type: [{
             type: Schema.Types.ObjectId,

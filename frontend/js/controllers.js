@@ -572,8 +572,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.header = {
             "name": "Create Assignment"
         };
-
-
+        
         $scope.formData = {};
         $scope.formData.status = true;
         $scope.formData.appointment = $stateParams.pdf;
@@ -591,7 +590,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         $scope.formData.isInsured = true;
         $scope.formData.typeOfClaim = true;
-
         // cancel
         $scope.cancel = function () {
             $window.history.back();
