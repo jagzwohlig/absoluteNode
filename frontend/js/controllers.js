@@ -729,6 +729,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 
         $scope.submit = function (formData) {
+            $scope.hideSaveCancel = true;
             console.log($scope.formData);
             TemplateService.mrnumber($scope.formData, function (data) {
                 console.log(data);
