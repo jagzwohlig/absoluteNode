@@ -4,10 +4,13 @@ var schema = new Schema({
   name: {
     type: String,
     unique: true
+<<<<<<< HEAD
   },
   name1: {
     type: String,
     unique: true
+=======
+>>>>>>> 844323163ac763a961d51631f8bb7ef14349b889
   },
   company: {
     type: Schema.Types.ObjectId,
@@ -572,8 +575,8 @@ var model = {
               newNumber = data3.assignmentNumber + 1;
             }
             data2.assignmentNumber = newNumber;
-            var num = parseInt(newNumber, 10);
-            len = parseInt(4, 10);
+            var num = parseInt(newNumber);
+            len = 4;
             if (isNaN(num) || isNaN(len)) {
               return n;
             }
@@ -657,7 +660,6 @@ var model = {
                   break;
                 }
             }
-            console.log("in assignment");
             data2.name = data2.city.district.state.zone.country.countryCode + data2.company.companyCode + fourthDigit + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
             //add this here
             // data2.name1=subString(data2.name.length-8);
