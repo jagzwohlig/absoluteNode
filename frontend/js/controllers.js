@@ -578,10 +578,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             };
 
             NavigationService.searchFunc(formdata, 1, function (data) {
-                console.log("In Owner");
-                console.log(data.data.results[0]._id);
                 $scope.owner = data.data.results[0]._id;
-                console.log($scope.owner);
             });
         };
         $scope.Owner();
@@ -800,16 +797,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             };
 
             NavigationService.searchFunc(formdata, 1, function (data) {
-                console.log("In Owner");
-                console.log(data.data.results[0]._id);
                 $scope.owner = data.data.results[0]._id;
-                console.log($scope.owner);
             });
         };
         $scope.Owner();
 
         // End
-        
+
         NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
             console.log(data);
             $scope.name = data.data.name;

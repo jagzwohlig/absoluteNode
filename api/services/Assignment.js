@@ -3,7 +3,11 @@ var autoIncrement = require('mongoose-auto-increment');
 var schema = new Schema({
   name: {
     type: String,
-    unique:true
+    unique: true
+  },
+  name1: {
+    type: String,
+    unique: true
   },
   company: {
     type: Schema.Types.ObjectId,
@@ -656,6 +660,7 @@ var model = {
             console.log("in assignment");
             data2.name = data2.city.district.state.zone.country.countryCode + data2.company.companyCode + fourthDigit + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
             //add this here
+            // data2.name1=subString(data2.name.length-8);
             data2.save(function (err, data) {
               callback(err, data);
             });
@@ -762,6 +767,46 @@ var model = {
 
       });
 
+
+  },
+
+  search: function (data, callback) {
+    var Model = this;
+    var Const = this(data);
+    var maxRow = Config.maxRow;
+    var page = 1;
+    // var name1=subString()
+    if (data.page) {
+      page = data.page;
+    }
+    var field = data.field;
+    var options = {
+      field: data.field,
+      filters: {
+        keyword: {
+          fields: ['name'],
+          term: data.keyword
+        }
+      },
+      
+      sort: {
+        desc: ["createdAt",'assignmentNumber'],
+      },
+      start: (page - 1) * maxRow,
+      count: maxRow
+    };
+    _.each(data.filter, function (n, key) {
+      if (_.isEmpty(n)) {
+        n = undefined;
+      }
+    });
+    var Search = Model.find(data.filter)
+
+     .order(options)
+      .deepPopulate()
+      .keyword(options)
+     
+      .page(options, callback);
 
   },
 };
