@@ -561,7 +561,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('CreateAssignmentCtrl', function ($scope, $window, TemplateService, NavigationService, $filter, $timeout, $state, toastr, $stateParams, $uibModal) {
+    .controller('CreateAssignmentCtrl', function ($scope, $window, TemplateService, hotkeys, NavigationService, $filter, $timeout, $state, toastr, $stateParams, $uibModal) {
         //Used to name the .html file
 
         $scope.template = TemplateService.changecontent("assignment-detail");
@@ -571,7 +571,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.header = {
             "name": "Create Assignment"
         };
-
+        $scope.a=function(){
+            console.log("CTRL + ENTER");
+        }
         $scope.formData = {};
         $scope.formData.status = true;
         $scope.formData.appointment = $stateParams.pdf;
@@ -594,11 +596,37 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $window.history.back();
         };
 
+    //         hotkeys.bindTo($scope).add({
+    //     combo: 'enter',
+    //     description: 'This one goes to 11',
+    //     callback: function () {
+    //         $state.go("create" + $scope.modelCamel);
+    //     }
+    // });
+  hotkeys.bindTo($scope).add({
+    combo: 'ctrl+enter',
+   callback: function (formData) {
+            $scope.hideSaveCancel = true;
+            NavigationService.assignmentSave($scope.formData, function (data) {
+                console.log(data);
+                if (data.value === true) {
+                    // $state.go('assignment-list');
+                    $window.history.back();
+                    toastr.success("Assignment " + data.data.name + " created successfully.", "Assignment Created");
+                } else {
+                    toastr.error("Assignment creation failed.", "Assignment creation error");
+                }
+            });
+    }
+  });
+ 
+
         //  CLONE ASSIGNMENT
         if ($stateParams.assignment) {
             NavigationService.getOneModel("Assignment", $stateParams.assignment, function (data) {
                 $scope.formData = data.data;
                 console.log("Form Clone", $scope.formData.name);
+                delete $scope.formData._id;
                 delete $scope.formData.appointment;
                 delete $scope.formData.intimatedLoss;
                 delete $scope.formData.city;
@@ -744,7 +772,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('EditAssignmentCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $state, toastr, $stateParams, $uibModal, $filter) {
+    .controller('EditAssignmentCtrl', function ($scope, $window, hotkeys, TemplateService, NavigationService, $timeout, $state, toastr, $stateParams, $uibModal, $filter) {
         //Used to name the .html file
 
         $scope.template = TemplateService.changecontent("assignment-detail");
@@ -770,6 +798,27 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.addModels = function (dataArray, data) {
             dataArray.push(data);
         };
+
+// 
+hotkeys.bindTo($scope).add({
+    combo: 'ctrl+enter',
+   callback: function (formData) {
+        console.log($scope.formData);
+            NavigationService.assignmentSave($scope.formData, function (data) {
+                console.log(data);
+                if (data.value === true) {
+                    // $state.go('assignment-list');
+                    $window.history.back();
+                    toastr.success("Assignment " + $scope.name + " Edited successfully.", "Assignment Edited");
+                } else {
+                    toastr.error("Assignment creation failed.", "Assignment creation error");
+                }
+            });
+
+    }
+  });
+// 
+
 
         NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
             console.log(data);
