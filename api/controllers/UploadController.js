@@ -41,7 +41,7 @@ module.exports = {
     },
     pdf: function (req, res) {
 
-        sails.hooks.views.render("pdf/demo.ejs", {}, function (err, html) {
+        sails.hooks.views.render("pdf/demo", {}, function (err, html) {
             if (err) {
                 res.callback(err);
             } else {
