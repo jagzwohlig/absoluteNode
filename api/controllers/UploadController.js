@@ -41,29 +41,36 @@ module.exports = {
     },
     pdf: function (req, res) {
 
-        var html = sails.hooks.views.render("pdf/demo.ejs");
-        console.log(html);
-        var options = {
-            format: 'A4'
-        };
-        var id = mongoose.Types.ObjectId();
-        var newFilename = id + ".pdf";
-        var writestream = gfs.createWriteStream({
-            filename: newFilename
-        });
-        writestream.on('finish', function () {
-            res.callback(null, {
-                name: newFilename
-            });
-        });
-        pdf.create(html).toStream(function (err, stream) {
-            console.log(err);
+        sails.hooks.views.render("pdf/demo.ejs", {}, function (err, html) {
             if (err) {
                 res.callback(err);
             } else {
-                stream.pipe(writestream);
+                console.log(html);
+                var options = {
+                    format: 'A4'
+                };
+                var id = mongoose.Types.ObjectId();
+                var newFilename = id + ".pdf";
+                var writestream = gfs.createWriteStream({
+                    filename: newFilename
+                });
+                writestream.on('finish', function () {
+                    res.callback(null, {
+                        name: newFilename
+                    });
+                });
+                pdf.create(html).toStream(function (err, stream) {
+                    console.log(err);
+                    if (err) {
+                        res.callback(err);
+                    } else {
+                        stream.pipe(writestream);
+                    }
+
+                });
             }
 
         });
+
     }
 };
