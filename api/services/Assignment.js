@@ -3,7 +3,7 @@ var autoIncrement = require('mongoose-auto-increment');
 var schema = new Schema({
   name: {
     type: String,
-    unique:true
+    unique: true
   },
   company: {
     type: Schema.Types.ObjectId,
@@ -568,8 +568,8 @@ var model = {
               newNumber = data3.assignmentNumber + 1;
             }
             data2.assignmentNumber = newNumber;
-            var num = parseInt(newNumber, 10);
-            len = parseInt(4, 10);
+            var num = parseInt(newNumber);
+            len = 4;
             if (isNaN(num) || isNaN(len)) {
               return n;
             }
@@ -653,7 +653,6 @@ var model = {
                   break;
                 }
             }
-            console.log("in assignment");
             data2.name = data2.city.district.state.zone.country.countryCode + data2.company.companyCode + fourthDigit + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
             //add this here
             data2.save(function (err, data) {
