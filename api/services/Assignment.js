@@ -660,7 +660,7 @@ var model = {
             data2.name = data2.city.district.state.zone.country.countryCode + data2.company.companyCode + fourthDigit + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
 
             data2.name1 = moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
-            //add this here
+            // add this here ss
             // data2.name1=subString(data2.name.length-8);
             data2.save(function (err, data) {
               callback(err, data);
