@@ -40,8 +40,9 @@ module.exports = {
         Config.readUploaded(req.query.file, req.query.width, req.query.height, req.query.style, res);
     },
     pdf: function (req, res) {
-        var pdf = require('html-pdf');
-        var html = fs.readFileSync('./views/pdf/demo.ejs', 'utf8');
+
+        var html = sails.hooks.views.render("pdf/demo.ejs");
+        console.log(html);
         var options = {
             format: 'A4'
         };
