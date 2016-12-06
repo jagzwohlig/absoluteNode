@@ -568,11 +568,29 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.menutitle = NavigationService.makeactive("Assignment");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
+        // Start Of Owner*
 
+        $scope.Owner = function () {
+            var formdata = {};
+            // formdata.keyword = "Back Office";
+            formdata.filter = {
+                "name": "Back Office"
+            };
+
+            NavigationService.searchFunc(formdata, 1, function (data) {
+                console.log("In Owner");
+                console.log(data.data.results[0]._id);
+                $scope.owner = data.data.results[0]._id;
+                console.log($scope.owner);
+            });
+        };
+        $scope.Owner();
+
+        // End
         $scope.header = {
             "name": "Create Assignment"
         };
-        
+
         $scope.formData = {};
         $scope.formData.status = true;
         $scope.formData.appointment = $stateParams.pdf;
@@ -599,7 +617,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         if ($stateParams.assignment) {
             NavigationService.getOneModel("Assignment", $stateParams.assignment, function (data) {
                 $scope.formData = data.data;
-                console.log("Form Clone",$scope.formData.name);
+                console.log("Form Clone", $scope.formData.name);
                 delete $scope.formData.appointment;
                 delete $scope.formData.intimatedLoss;
                 delete $scope.formData.city;
@@ -731,17 +749,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.submit = function (formData) {
             delete formData._id;
             $scope.hideSaveCancel = true;
-                NavigationService.assignmentSave($scope.formData, function (data) {         
-                    console.log(data);          
-                    if (data.value === true) {
-                        // $state.go('assignment-list');
-                        $window.history.back();
-                        toastr.success("Assignment " + data.data.name + " created successfully.", "Assignment Created");
-                    } else {
-                        toastr.error("Assignment creation failed.", "Assignment creation error");
-                    }
-                });
-           
+            NavigationService.assignmentSave($scope.formData, function (data) {
+                console.log(data);
+                if (data.value === true) {
+                    // $state.go('assignment-list');
+                    $window.history.back();
+                    toastr.success("Assignment " + data.data.name + " created successfully.", "Assignment Created");
+                } else {
+                    toastr.error("Assignment creation failed.", "Assignment creation error");
+                }
+            });
+
         };
 
     })
@@ -756,7 +774,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.header = {
             "name": "Edit Assignment"
         };
-        $scope.name="";
+        $scope.name = "";
         $scope.MRnumber = "";
         $scope.formData = {};
         $scope.formData.status = true;
@@ -772,10 +790,29 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.addModels = function (dataArray, data) {
             dataArray.push(data);
         };
+        // Start Of Owner*
 
+        $scope.Owner = function () {
+            var formdata = {};
+            // formdata.keyword = "Back Office";
+            formdata.filter = {
+                "name": "Back Office"
+            };
+
+            NavigationService.searchFunc(formdata, 1, function (data) {
+                console.log("In Owner");
+                console.log(data.data.results[0]._id);
+                $scope.owner = data.data.results[0]._id;
+                console.log($scope.owner);
+            });
+        };
+        $scope.Owner();
+
+        // End
+        
         NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
             console.log(data);
-            $scope.name=data.data.name;
+            $scope.name = data.data.name;
             console.log($scope.name);
             // console.log(data.data.broker,data.data.customerCompany);
             $scope.formData = data.data;
@@ -889,16 +926,16 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
         $scope.submit = function (formData) {
             console.log($scope.formData);
-                NavigationService.assignmentSave($scope.formData, function (data) {
-                    console.log(data);  
-                    if (data.value === true) {
-                        // $state.go('assignment-list');
-                        $window.history.back();
-                        toastr.success("Assignment " + $scope.name + " Edited successfully.", "Assignment Edited");
-                    } else {
-                        toastr.error("Assignment creation failed.", "Assignment creation error");
-                    }
-                });
+            NavigationService.assignmentSave($scope.formData, function (data) {
+                console.log(data);
+                if (data.value === true) {
+                    // $state.go('assignment-list');
+                    $window.history.back();
+                    toastr.success("Assignment " + $scope.name + " Edited successfully.", "Assignment Edited");
+                } else {
+                    toastr.error("Assignment creation failed.", "Assignment creation error");
+                }
+            });
 
         };
         // Cancel
@@ -2964,6 +3001,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Inactive",
             "value": false
         }];
+        $scope.cancel = function () {
+            $window.history.back();
+        }
         $scope.salutations = ["Mr.", "Mrs.", "Ms.", "Dr."];
         $scope.houseColors = ["Red", "Green", "Blue", "Yellow", "White"];
 
@@ -3131,6 +3171,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Inactive",
             "value": false
         }];
+        $scope.cancel = function () {
+            $window.history.back();
+        }
         $scope.salutations = ["Mr.", "Mrs.", "Ms.", "Dr."];
         $scope.houseColors = ["Red", "Green", "Blue", "Yellow", "White"];
 
@@ -3881,7 +3924,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.cancel = function () {
             $window.history.back();
         };
-        
+
         $scope.saveDistrict = function (formData) {
             NavigationService.districtSave($scope.formData, function (data) {
                 if (data.value === true) {

@@ -66,7 +66,8 @@
                                     </div>-->
                                     <div class="form-group">
                                         <label>Owner*</label>
-                                        <multiple-select name="owner" required ng-model="formData.owner" filter='{"company":"{{formData.company}}","isSBC": true}'
+                                        <!--"57b5d471e69e5abf43334c42"-->
+                                        <multiple-select name="owner" required ng-model="formData.owner" filter='{"company":"{{formData.company}}","func": "{{owner}}"}'
                                             ng-name="name.owner" api="searchEmployee"></multiple-select>
                                         <div class="error-msg" ng-show="formName.owner.$invalid">Please Select Branch Office</div>
                                     </div>
