@@ -45,7 +45,6 @@ module.exports = {
             if (err) {
                 res.callback(err);
             } else {
-                console.log(html);
                 var options = {
                     format: 'A4'
                 };
