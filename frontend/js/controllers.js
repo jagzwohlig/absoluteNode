@@ -568,22 +568,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.menutitle = NavigationService.makeactive("Assignment");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
-        // Start Of Owner*
-
-        $scope.Owner = function () {
-            var formdata = {};
-            // formdata.keyword = "Back Office";
-            formdata.filter = {
-                "name": "Back Office"
-            };
-
-            NavigationService.searchFunc(formdata, 1, function (data) {
-                $scope.owner = data.data.results[0]._id;
-            });
-        };
-        $scope.Owner();
-
-        // End
         $scope.header = {
             "name": "Create Assignment"
         };
@@ -786,22 +770,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.addModels = function (dataArray, data) {
             dataArray.push(data);
         };
-        // Start Of Owner*
-
-        $scope.Owner = function () {
-            var formdata = {};
-            // formdata.keyword = "Back Office";
-            formdata.filter = {
-                "name": "Back Office"
-            };
-
-            NavigationService.searchFunc(formdata, 1, function (data) {
-                $scope.owner = data.data.results[0]._id;
-            });
-        };
-        $scope.Owner();
-
-        // End
 
         NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
             console.log(data);
