@@ -568,7 +568,25 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.menutitle = NavigationService.makeactive("Assignment");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
+        // Start Of Owner*
+        
+        $scope.Owner = function () {
+            var formdata = {};
+            // formdata.keyword = "Back Office";
+            formdata.filter = {
+                "name": "Back Office"
+            };
+        
+        NavigationService.searchFunc(formdata, 1, function (data) {
+                console.log("In Owner");
+                console.log(data.data.results[0]._id);
+                $scope.owner = data.data.results[0]._id;
+                console.log($scope.owner);
+            });
+    };
+$scope.Owner();
 
+        // End
         $scope.header = {
             "name": "Create Assignment"
         };
@@ -2964,6 +2982,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Inactive",
             "value": false
         }];
+        $scope.cancel = function () {
+            $window.history.back();
+        }
         $scope.salutations = ["Mr.", "Mrs.", "Ms.", "Dr."];
         $scope.houseColors = ["Red", "Green", "Blue", "Yellow", "White"];
 
@@ -3131,6 +3152,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Inactive",
             "value": false
         }];
+        $scope.cancel = function () {
+            $window.history.back();
+        }
         $scope.salutations = ["Mr.", "Mrs.", "Ms.", "Dr."];
         $scope.houseColors = ["Red", "Green", "Blue", "Yellow", "White"];
 
