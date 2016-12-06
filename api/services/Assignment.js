@@ -4,13 +4,10 @@ var schema = new Schema({
   name: {
     type: String,
     unique: true
-<<<<<<< HEAD
   },
   name1: {
     type: String,
     unique: true
-=======
->>>>>>> 844323163ac763a961d51631f8bb7ef14349b889
   },
   company: {
     type: Schema.Types.ObjectId,
