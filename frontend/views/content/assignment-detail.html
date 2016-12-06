@@ -67,7 +67,7 @@
                                     <div class="form-group">
                                         <label>Owner*</label>
                                         <!--"57b5d471e69e5abf43334c42"-->
-                                        <multiple-select name="owner" required ng-model="formData.owner" filter='{"company":"{{formData.company}}","func": "{{owner}}"}'
+                                        <multiple-select name="owner" required ng-model="formData.owner" filter='{"company":"{{formData.company}}","branch":"{{formData.branch}}"}'
                                             ng-name="name.owner" api="searchEmployee"></multiple-select>
                                         <div class="error-msg" ng-show="formName.owner.$invalid">Please Select Branch Office</div>
                                     </div>
@@ -204,7 +204,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div class="form-group">
+                                 <div class="form-group">
                                         <label>Insured</label>
                                         <multiple-select name="insured" ng-model="formData.insured" ng-name="name.office" api="searchInsuredCustomerCompany"></multiple-select>
                                         <div class="error-msg" ng-show="formName.insured.$invalid">Please Select Insured Company</div>
