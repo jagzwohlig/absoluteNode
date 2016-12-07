@@ -823,7 +823,7 @@ hotkeys.bindTo($scope).add({
         NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
             console.log(data);
             $scope.name = data.data.name;
-            console.log($scope.name);
+            console.log(data.data);
             // console.log(data.data.broker,data.data.customerCompany);
             $scope.formData = data.data;
             $scope.MRnumber = data.data.city.district.state.zone.country.countryCode;

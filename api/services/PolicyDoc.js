@@ -67,7 +67,8 @@ schema.plugin(deepPopulate, {
     },
     'insuredOffice': {
         select: 'name _id'
-    }
+    },
+    
 });
 schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
