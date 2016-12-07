@@ -145,7 +145,7 @@ var model = {
         var filter = {};
 
         if (data && data.filter && data.filter._id) {
-            filter = data.filter._id;
+            filter._id = data.filter._id;
         }
 
         var page = 1;
@@ -193,7 +193,7 @@ var model = {
         var filter = {};
 
         if (data && data.filter && data.filter._id) {
-            filter = data.filter._id;
+            filter._id = data.filter._id;
         }
 
         var page = 1;
@@ -241,7 +241,7 @@ var model = {
         var filter = {};
 
         if (data && data.filter && data.filter._id) {
-            filter = data.filter._id;
+            filter._id = data.filter._id;
         }
 
         var page = 1;

@@ -68,7 +68,7 @@ schema.plugin(deepPopulate, {
     'insuredOffice': {
         select: 'name _id'
     },
-    
+
 });
 schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
@@ -189,10 +189,12 @@ var model = {
             }, {
                 "$limit": 10
             }];
-        }
-        if (data.filter && data.filter.insurerOffice && mongoose.Types.ObjectId.isValid(data.filter.insurerOffice) && data.filter.insuredOffice && mongoose.Types.ObjectId.isValid(data.filter.insuredOffice)) {
-            aggText[1].$match["listOfDocuments.insurerOffice"] = mongoose.Types.ObjectId(data.filter.insurerOffice);
-            aggText[1].$match["insuredOffice"] = mongoose.Types.ObjectId(data.filter.insuredOffice);
+            if (data.filter && data.filter.insurerOffice && mongoose.Types.ObjectId.isValid(data.filter.insurerOffice) && data.filter.insuredOffice && mongoose.Types.ObjectId.isValid(data.filter.insuredOffice)) {
+                aggText[1].$match["listOfDocuments.insurerOffice"] = mongoose.Types.ObjectId(data.filter.insurerOffice);
+                aggText[1].$match["insuredOffice"] = mongoose.Types.ObjectId(data.filter.insuredOffice);
+            }
+
+
         } else {
             callback("Data not Formatted", null);
             return false;

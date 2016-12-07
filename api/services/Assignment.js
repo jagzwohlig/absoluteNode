@@ -146,8 +146,6 @@ var schema = new Schema({
   },
   policyDoc: {
     type: Schema.Types.ObjectId,
-    ref:"PolicyDoc",
-    index:true
   },
   city: {
     type: Schema.Types.ObjectId,
@@ -483,12 +481,6 @@ schema.plugin(deepPopulate, {
     },
     'causeOfLoss': {
       select: 'name _id'
-    },
-    'policyDoc': {
-      select: 'listOfDocuments _id'
-    },
-    'policyDoc.listOfDocuments': {
-      select: 'name _id'
     }
 
   }
@@ -499,7 +491,7 @@ schema.plugin(timestamps);
 
 module.exports = mongoose.model('Assignment', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer owner owner.func company company.city assessment.employee docs.employee photos.employee causeOfLoss insurer policyDoc policyDoc.listOfDocuments", "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer policyDoc policyDoc.listOfDocuments"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer owner owner.func company company.city assessment.employee docs.employee photos.employee causeOfLoss insurer ", "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer"));
 
 var model = {
   saveData: function (data, callback) {

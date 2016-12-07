@@ -204,7 +204,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                 <div class="form-group">
+                                    <div class="form-group">
                                         <label>Insured</label>
                                         <multiple-select name="insured" ng-model="formData.insured" ng-name="name.office" api="searchInsuredCustomerCompany"></multiple-select>
                                         <div class="error-msg" ng-show="formName.insured.$invalid">Please Select Insured Company</div>
@@ -461,11 +461,11 @@
                                         <div class="error-msg" ng-show="formName.policyType.$invalid">Please Select Policy Type</div>
                                     </div>
                                 </div>
-                                <div class="col-md-6" ng-if="(formData.policyType && formData.insurer && formData.insurerOffice && formData.insuredOffice)">
+                                <div class="col-md-6" ng-if="(formData.policyType && formData.insurerOffice && formData.insuredOffice)">
                                     <div class="form-group">
                                         <label>Policy Document</label>
-                                        <multiple-select name="policyDoc" ng-model="formData.policyDoc" filter='{"policyType":"{{formData.policyType}}","insurerCompany":"{{formData.formData.insurer}}","insurerOffice":"{{formData.insurerOffice}}","insuredOffice":"{{formData.insuredOffice}}"}' ng-name="name.policyDoc"
-                                            api="getPolicyDoc"></multiple-select>
+                                        <multiple-select name="policyDoc" ng-model="formData.policyDoc" filter='{"policyType":"{{formData.policyType}}","insurerOffice":"{{formData.insurerOffice}}","insuredOffice":"{{formData.insuredOffice}}"}'
+                                            ng-name="name.policyDoc" api="getPolicyDoc"></multiple-select>
                                         <div class="error-msg" ng-show="formName.policyDoc.$invalid">Please Select Policy Document</div>
                                     </div>
                                 </div>
@@ -881,7 +881,7 @@
         </div>
         <div class="clearfix"></div>
         <div class="text-center mt20 odd-even-button" ng-hide="hideSaveCancel">
-        <button class="btn btn-default" type="submit" ng-disabled="formName.$invalid || formData.products.length==0">Save</button>
+            <button class="btn btn-default" type="submit" ng-disabled="formName.$invalid || formData.products.length==0">Save</button>
             <a class="btn btn-default" ng-click="cancel()">Cancel</a>
         </div>
     </div>

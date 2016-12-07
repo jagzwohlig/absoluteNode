@@ -6706,13 +6706,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 page: 1
             };
 
-            // NavigationService[$scope.api](dataSend, ++i, function (data) {
-            //     if (data.value) {
-            //         $scope.list = data.data.results;
-            //         $scope.showCreate = false;
+            NavigationService[$scope.api](dataSend, ++i, function (data) {
+                if (data.value) {
+                    $scope.list = data.data.results;
+                    $scope.showCreate = false;
 
-            //     }
-            // });
+                }
+            });
         });
 
 
