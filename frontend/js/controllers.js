@@ -4580,6 +4580,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.insurers = [];
 
         $scope.refreshInsurer = function (data) {
+            console.log("Data Inn",data);
             var formdata = {};
             formdata.keyword = data;
             NavigationService.searchInsurerOffice(formdata, 1, function (data) {

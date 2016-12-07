@@ -403,8 +403,7 @@ var navigationservice = angular.module('navigationservice', [])
             });
         },
         searchInsurerOffice: function (formData, i, callback) {
-            console.log("ABC");
-            formData.customerSegment = "Insurer";
+            formData.customerSegment.name = "Insurer";
             $http.post(adminurl + 'CustomerCompany/search', formData).success(function (data) {
                 callback(data, i);
             });
