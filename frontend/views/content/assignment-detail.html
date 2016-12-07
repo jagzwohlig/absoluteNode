@@ -464,7 +464,7 @@
                                 <div class="col-md-6" ng-show="formData.insuredOffice">
                                     <div class="form-group">
                                         <label>Policy Document</label>
-                                        <multiple-select name="policyDoc" ng-model="formData.policyDoc" filter='{"policyType":"{{formData.policyType}}"}' ng-name="name.policyDoc"
+                                        <multiple-select name="policyDoc" ng-model="formData.policyDoc" filter='{"policyType":"{{formData.policyType}}","insurerCompany":"{{formData.formData.insurer}}","insurerOffice":"{{formData.insurerOffice}}","insuredOffice":"{{formData.insuredOffice}}"}' ng-name="name.policyDoc"
                                             api="getPolicyDoc"></multiple-select>
                                         <div class="error-msg" ng-show="formName.policyDoc.$invalid">Please Select Policy Document</div>
                                     </div>

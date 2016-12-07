@@ -179,6 +179,8 @@ var model = {
             }, {
                 "$match": {
                     "listOfDocuments.policyType": mongoose.Types.ObjectId(data.filter.policyType),
+                    // "listOfDocuments.insurerCompany": mongoose.Types.ObjectId(data.filter.insurerCompany),
+                    // "listOfDocuments.insurerOffice": mongoose.Types.ObjectId(data.filter.insurerOffice),
                     "listOfDocuments.name": {
                         $regex: searchText
                     }
@@ -186,6 +188,10 @@ var model = {
             }, {
                 "$limit": 10
             }];
+        }
+        if (data.filter && data.filter.insurerOffice && mongoose.Types.ObjectId.isValid(data.filter.insurerOffice) && data.filter.insuredOffice && mongoose.Types.ObjectId.isValid(data.filter.insuredOffice)) {
+            aggText[1].$match["listOfDocuments.insurerOffice"] = mongoose.Types.ObjectId(data.filter.insurerOffice);
+            aggText[1].$match["insuredOffice"] = mongoose.Types.ObjectId(data.filter.insuredOffice);
         } else {
             callback("Data not Formatted", null);
             return false;
@@ -193,7 +199,7 @@ var model = {
         if (!data.keyword) {
             data.keyword = "";
         }
-
+        console.log(aggText);
         Model.aggregate(aggText).exec(function (err, data2) {
             var data3 = [];
             _.each(data2, function (n) {
@@ -201,6 +207,7 @@ var model = {
             });
             var resultdoc = {};
             resultdoc.results = data3;
+            console.log("Policy Doc result", resultdoc.results);
             callback(err, resultdoc);
         });
     },
