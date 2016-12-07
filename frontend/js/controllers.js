@@ -571,7 +571,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.header = {
             "name": "Create Assignment"
         };
-        $scope.a=function(){
+        $scope.a = function () {
             console.log("CTRL + ENTER");
         }
         $scope.formData = {};
@@ -596,30 +596,30 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $window.history.back();
         };
 
-    //         hotkeys.bindTo($scope).add({
-    //     combo: 'enter',
-    //     description: 'This one goes to 11',
-    //     callback: function () {
-    //         $state.go("create" + $scope.modelCamel);
-    //     }
-    // });
-  hotkeys.bindTo($scope).add({
-    combo: 'ctrl+enter',
-   callback: function (formData) {
-            $scope.hideSaveCancel = true;
-            NavigationService.assignmentSave($scope.formData, function (data) {
-                console.log(data);
-                if (data.value === true) {
-                    // $state.go('assignment-list');
-                    $window.history.back();
-                    toastr.success("Assignment " + data.data.name + " created successfully.", "Assignment Created");
-                } else {
-                    toastr.error("Assignment creation failed.", "Assignment creation error");
-                }
-            });
-    }
-  });
- 
+        //         hotkeys.bindTo($scope).add({
+        //     combo: 'enter',
+        //     description: 'This one goes to 11',
+        //     callback: function () {
+        //         $state.go("create" + $scope.modelCamel);
+        //     }
+        // });
+        hotkeys.bindTo($scope).add({
+            combo: 'ctrl+enter',
+            callback: function (formData) {
+                $scope.hideSaveCancel = true;
+                NavigationService.assignmentSave($scope.formData, function (data) {
+                    console.log(data);
+                    if (data.value === true) {
+                        // $state.go('assignment-list');
+                        $window.history.back();
+                        toastr.success("Assignment " + data.data.name + " created successfully.", "Assignment Created");
+                    } else {
+                        toastr.error("Assignment creation failed.", "Assignment creation error");
+                    }
+                });
+            }
+        });
+
 
         //  CLONE ASSIGNMENT
         if ($stateParams.assignment) {
@@ -799,25 +799,25 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             dataArray.push(data);
         };
 
-// 
-hotkeys.bindTo($scope).add({
-    combo: 'ctrl+enter',
-   callback: function (formData) {
-        console.log($scope.formData);
-            NavigationService.assignmentSave($scope.formData, function (data) {
-                console.log(data);
-                if (data.value === true) {
-                    // $state.go('assignment-list');
-                    $window.history.back();
-                    toastr.success("Assignment " + $scope.name + " Edited successfully.", "Assignment Edited");
-                } else {
-                    toastr.error("Assignment creation failed.", "Assignment creation error");
-                }
-            });
+        // 
+        hotkeys.bindTo($scope).add({
+            combo: 'ctrl+enter',
+            callback: function (formData) {
+                console.log($scope.formData);
+                NavigationService.assignmentSave($scope.formData, function (data) {
+                    console.log(data);
+                    if (data.value === true) {
+                        // $state.go('assignment-list');
+                        $window.history.back();
+                        toastr.success("Assignment " + $scope.name + " Edited successfully.", "Assignment Edited");
+                    } else {
+                        toastr.error("Assignment creation failed.", "Assignment creation error");
+                    }
+                });
 
-    }
-  });
-// 
+            }
+        });
+        // 
 
 
         NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
@@ -6706,13 +6706,13 @@ hotkeys.bindTo($scope).add({
                 page: 1
             };
 
-            NavigationService[$scope.api](dataSend, ++i, function (data) {
-                if (data.value) {
-                    $scope.list = data.data.results;
-                    $scope.showCreate = false;
+            // NavigationService[$scope.api](dataSend, ++i, function (data) {
+            //     if (data.value) {
+            //         $scope.list = data.data.results;
+            //         $scope.showCreate = false;
 
-                }
-            });
+            //     }
+            // });
         });
 
 
