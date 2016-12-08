@@ -373,7 +373,7 @@ var navigationservice = angular.module('navigationservice', [])
             });
         },
         searchEmployeee: function (formData, i, callback) {
-            console.log("FormData in search",formData);
+            console.log("FormData in search", formData);
             // formData.filter={
             //     func: "Back Office"
             // }
@@ -405,7 +405,7 @@ var navigationservice = angular.module('navigationservice', [])
         searchInsurerOffice: function (formData, i, callback) {
             console.log("AAAAAAAA");
             // formData.customerSegment = "Insurer";
-            formData.filter={
+            formData.filter = {
                 customerSegment: "57c3ef9b6fb3c3420233a00d"
             }
             $http.post(adminurl + 'CustomerCompany/search', formData).success(function (data) {
@@ -658,8 +658,9 @@ var navigationservice = angular.module('navigationservice', [])
                 callback(data, i);
             });
         },
-        pdfGenerate: function (callback) {
-            $http.post(adminurl + 'Upload/pdf').success(callback);
+        pdfGenerate: function (formData, callback) {
+            formData.accessToken = $.jStorage.get("accessToken");
+            $http.post(adminurl + 'user/generateEmailPdf', formData).success(callback);
         },
         searchCurrency: function (formData, i, callback) {
             $http.post(adminurl + 'currencies/search', formData).success(function (data) {

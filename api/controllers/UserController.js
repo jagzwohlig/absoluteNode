@@ -215,6 +215,126 @@ var controller = {
         } else {
             res.callback("Access Denied for Database Backup");
         }
+    },
+    generateEmailPdf: function (req, res) {
+        var $scope = {};
+        console.log(req.user);
+
+        // var obj = {
+        //     body: {
+        //         url: "messages/" + req.body.messageId,
+        //         method: "GET",
+        //         // other: "&format=raw"
+        //     },
+        //     user: req.user
+        // };
+        var obj = {
+            body: {
+                url: "messages/" + "158dd2998b59553e",
+                method: "GET",
+                // other: "&format=raw"
+            },
+            user: {
+                _id: "57fa4cbc4b9153e470c324e0",
+                name: 'Chintan Shah',
+                email: 'chintan@wohlig.com',
+                googleAccessToken: 'ya29.CjGuA8oODbrko7so0Vw7V-C0p8YQqx7wYypZRm5TveyrzK44K2Hvq7VfNFFPSSv2bL0h',
+                accessLevel: 'User',
+                mobile: '',
+                photo: 'https://lh3.googleusercontent.com/-NkSY2F99cBk/AAAAAAAAAAI/AAAAAAAAAAA/c7_N3Fuu-4w/photo.jpg?sz=500'
+            }
+        };
+        User.gmailCall(obj, function (err, data) {
+            if (err) {
+                res.callback(err, data);
+            } else {
+                $scope.email = data;
+                // console.log($scope.email);
+                $scope.email.attachment = [];
+                switch ($scope.email.payload.mimeType) {
+                    case "multipart/related":
+                        {
+                            _.each($scope.email.payload.parts, function (data) {
+                                console.log("in parts");
+                                console.log(data);
+                                if (data.mimeType == "multipart/alternative") {
+                                    _.each(data.parts, function (data2) {
+                                        if (data2.mimeType == "text/html") {
+                                            $scope.email.body = data2.body.data;
+                                        }
+                                    });
+
+                                }
+                                if (data.filename !== "") {
+                                    console.log("in attach");
+                                    $scope.email.attachment.push(data);
+                                    console.log($scope.email.attachment);
+                                }
+                            });
+                        }
+                        break;
+                    case "multipart/mixed":
+                        {
+                            _.each($scope.email.payload.parts, function (data) {
+                                console.log("in parts");
+                                console.log(data);
+                                if (data.mimeType == "multipart/alternative") {
+                                    _.each(data.parts, function (data2) {
+                                        if (data2.mimeType == "text/html") {
+                                            $scope.email.body = data2.body.data;
+                                        }
+                                    });
+
+                                }
+                                if (data.filename !== "") {
+                                    console.log("in attach");
+                                    $scope.email.attachment.push(data);
+                                    console.log($scope.email.attachment);
+                                }
+                            });
+                        }
+                        break;
+
+                    case "multipart/alternative":
+                        {
+                            _.each($scope.email.payload.parts, function (data) {
+
+                                if (data.mimeType == "text/html") {
+                                    $scope.email.body = data.body.data;
+                                }
+
+                            });
+                        }
+                        break;
+                    case "text/html":
+                        {
+                            $scope.email.body = $scope.email.payload.body.data;
+                        }
+                        break;
+                }
+
+                function getFromHeader(input) {
+                    console.log(input);
+
+                    var obj = _.filter($scope.email.payload.headers, function (n) {
+                        return n.name == input;
+                    });
+                    if (obj.length == 0) {
+                        return "Unknown";
+                    } else {
+                        return obj[0].value;
+                    }
+                }
+
+                $scope.email.from = getFromHeader("From");
+                $scope.email.to = getFromHeader("To");
+                $scope.email.body = base64url.decode($scope.email.body);
+                res.view("pdf/emailer", $scope);
+
+            }
+        });
+
+
     }
 };
 module.exports = _.assign(module.exports, controller);

@@ -4580,7 +4580,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.insurers = [];
 
         $scope.refreshInsurer = function (data) {
-            console.log("Data Inn",data);
+            console.log("Data Inn", data);
             var formdata = {};
             formdata.keyword = data;
             NavigationService.searchInsurerOffice(formdata, 1, function (data) {
@@ -8371,31 +8371,19 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.pdf = {};
 
     $scope.createAssignment = function () {
-        // html2canvas(document.getElementById('myCanvas'), {
-        //     onrendered: function(canvas) {
-        //         var data = canvas.toDataURL();
-        //         var docDefinition = {
-        //             content: [{
-        //                 image: data,
-        //                 width: 500,
-        //             }]
-        //         };
-        //         pdfMake.createPdf(docDefinition).download("Score_Details.pdf");
-        //     }
-        // });
-        NavigationService.pdfGenerate(function (data) {
-            // console.log("Data", data);
-            $scope.pdf = data.data;
-            // console.log($scope.pdf);
+        NavigationService.pdfGenerate({
+            "messageId": $stateParams.id
+        }, function (data) {
 
-            $state.go("createassignmentemail", {
-                'emailId': $scope.email.id,
-                'model': "assignment",
-                'pdf': $scope.pdf.name
-            });
+            // $scope.pdf = data.data;
+
+            // $state.go("createassignmentemail", {
+            //     'emailId': $scope.email.id,
+            //     'model': "assignment",
+            //     'pdf': $scope.pdf.name
+            // });
 
         });
-
     };
     NavigationService.detailEmail({
         "messageId": $stateParams.id

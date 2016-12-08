@@ -165,8 +165,8 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
             model: "currencies"
         }
     })
-    
-        .state('editcurrency', {
+
+    .state('editcurrency', {
         url: "/currency-edit/{id:.*}/{model:.*}",
         templateUrl: "frontend/views/template.html",
         controller: 'EditModelCtrl',
@@ -955,15 +955,15 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
                 model: "tag"
             }
         })
-    .state('createtag', {
-        url: "/tag-detail/{id:.*}/{model:.*}",
-        templateUrl: "frontend/views/template.html",
-        controller: 'CreateModelCtrl',
-        params: {
-            id: "",
-            model: "tag"
-        }
-    })
+        .state('createtag', {
+            url: "/tag-detail/{id:.*}/{model:.*}",
+            templateUrl: "frontend/views/template.html",
+            controller: 'CreateModelCtrl',
+            params: {
+                id: "",
+                model: "tag"
+            }
+        })
         .state('edittag', {
             url: "/tag-edit/{id:.*}/{model:.*}",
             templateUrl: "frontend/views/template.html",
@@ -1476,11 +1476,11 @@ firstapp.filter("mrnumber", function (NavigationService, $timeout) {
 });
 
 
-    firstapp.directive('myEnter', function () {
+firstapp.directive('myEnter', function () {
     return function (scope, element, attrs) {
         element.bind("keydown keypress", function (event) {
-            if(event.which === 13) {
-                scope.$apply(function (){
+            if (event.which === 13) {
+                scope.$apply(function () {
                     scope.$eval(attrs.myEnter);
                 });
 
