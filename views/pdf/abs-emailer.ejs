@@ -32,16 +32,16 @@
 <body>
     <div class="img-header">
         <img src="http://absolute.wohlig.co.in/frontend/img/logo.png" alt="Absolute Logo"  width="200px" height="auto">
-        <p class="txt-position">Tushar Sachde < tushar@wohlig.com> </p>
+        <p class="txt-position"><%= email.deliveredTo %> </p>
     </div>
 
     <div class="tpbt-border">
-      <h3 font-weight="bold">Change in absolute</h3>
+      <h3 font-weight="bold"><%= email.subject %></h3>
     </div>
     <div style="position:relative">
-      <p style="position:absolute ; top:-10px ; right:0">Wed , Sept 7 , 2016 at 1:19 PM</p>
-      <p><b>Chintan Shah</b> < chintan@wohlig.com ></p>
-      <p>To: Jagruti Patil < jagruti@wohlig.com > , tushar sachde < tushar@wohlig.com ></p>
+      <p style="position:absolute ; top:-10px ; right:0"><%= email.date %></p>
+      <p><b><%= email.from %></b></p>
+      <p>To: <%= email.to %></p>
       <div style="padding: 20px">
         <%- email.body %>
       </div>

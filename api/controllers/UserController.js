@@ -291,15 +291,22 @@ var controller = {
                     var obj = _.filter($scope.email.payload.headers, function (n) {
                         return n.name == input;
                     });
-                    if (obj.length == 0) {
+                    if(obj.length == 0){
                         return "Unknown";
-                    } else {
-                        return obj[0].value;
                     }
+                    else{                        
+                        return obj[0].value;
+                    } 
                 }
 
+                
+                $scope.email.date = getFromHeader("Date");
+                $scope.email.date=moment($scope.email.date).format('llll');
+                $scope.email.subject = getFromHeader("Subject");
                 $scope.email.from = getFromHeader("From");
                 $scope.email.to = getFromHeader("To");
+                $scope.email.deliveredTo = getFromHeader("Delivered-To");
+               
                 $scope.email.body = base64url.decode($scope.email.body);
                 Config.generatePdf("pdf/abs-emailer", $scope, res.callback);
 
