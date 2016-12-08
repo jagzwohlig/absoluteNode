@@ -8375,13 +8375,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "messageId": $stateParams.id
         }, function (data) {
 
-            // $scope.pdf = data.data;
+            $scope.pdf = data.data;
 
-            // $state.go("createassignmentemail", {
-            //     'emailId': $scope.email.id,
-            //     'model': "assignment",
-            //     'pdf': $scope.pdf.name
-            // });
+            $state.go("createassignmentemail", {
+                'emailId': $scope.email.id,
+                'model': "assignment",
+                'pdf': $scope.pdf.name
+            });
 
         });
     };

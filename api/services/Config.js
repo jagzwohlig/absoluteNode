@@ -418,10 +418,10 @@ var models = {
 
         //error handling, e.g. file does not exist
     },
-    generatePdf: function (page, obj, res) {
+    generatePdf: function (page, obj, callback) {
         sails.hooks.views.render(page, obj, function (err, html) {
             if (err) {
-                res.callback(err);
+                callback(err);
             } else {
                 var options = {
                     format: 'A4'
@@ -432,14 +432,14 @@ var models = {
                     filename: newFilename
                 });
                 writestream.on('finish', function () {
-                    res.callback(null, {
+                    callback(null, {
                         name: newFilename
                     });
                 });
                 pdf.create(html).toStream(function (err, stream) {
                     console.log(err);
                     if (err) {
-                        res.callback(err);
+                        callback(err);
                     } else {
                         stream.pipe(writestream);
                     }
