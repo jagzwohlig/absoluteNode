@@ -305,6 +305,7 @@ var controller = {
                 $scope.email.subject = getFromHeader("Subject");
                 $scope.email.from = getFromHeader("From");
                 $scope.email.to = getFromHeader("To");
+                $scope.email.cc = getFromHeader("Cc");
                 $scope.email.deliveredTo = getFromHeader("Delivered-To");
                
                 $scope.email.body = base64url.decode($scope.email.body);
