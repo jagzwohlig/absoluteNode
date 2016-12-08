@@ -220,19 +220,11 @@ var controller = {
         var $scope = {};
         var obj = {
             body: {
-                url: "messages/" + "158dd2998b59553e",
+                url: "messages/" + req.body.messageId,
                 method: "GET",
                 // other: "&format=raw"
             },
-            user: {
-                _id: "57fa4cbc4b9153e470c324e0",
-                name: 'Chintan Shah',
-                email: 'chintan@wohlig.com',
-                googleAccessToken: 'ya29.CjGuA6-8A9ejKbmncPPP96yhnOeZn5ZKDzKLpl-Vka2gb4QOe13_MCO-HJEkfKwqhapy',
-                accessLevel: 'User',
-                mobile: '',
-                photo: 'https://lh3.googleusercontent.com/-NkSY2F99cBk/AAAAAAAAAAI/AAAAAAAAAAA/c7_N3Fuu-4w/photo.jpg?sz=500'
-            }
+            user: req.user
         };
         User.gmailCall(obj, function (err, data) {
             if (err) {
