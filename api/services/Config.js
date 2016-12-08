@@ -261,9 +261,9 @@ var models = {
                         }
                         singleExcel[_.capitalize(key)] = n;
                     }
-                     if (num === 0) {
-                            console.log("-----------------------");
-                        }
+                    if (num === 0) {
+                        console.log("-----------------------");
+                    }
                 }
             });
             excelData.push(singleExcel);
@@ -415,8 +415,40 @@ var models = {
         } else {
             readstream.pipe(res);
         }
+
         //error handling, e.g. file does not exist
     },
+    generatePdf: function (page, obj, res) {
+        sails.hooks.views.render(page, obj, function (err, html) {
+            if (err) {
+                res.callback(err);
+            } else {
+                var options = {
+                    format: 'A4'
+                };
+                var id = mongoose.Types.ObjectId();
+                var newFilename = id + ".pdf";
+                var writestream = gfs.createWriteStream({
+                    filename: newFilename
+                });
+                writestream.on('finish', function () {
+                    res.callback(null, {
+                        name: newFilename
+                    });
+                });
+                pdf.create(html).toStream(function (err, stream) {
+                    console.log(err);
+                    if (err) {
+                        res.callback(err);
+                    } else {
+                        stream.pipe(writestream);
+                    }
+
+                });
+            }
+
+        });
+    }
 
 };
 module.exports = _.assign(module.exports, models);
