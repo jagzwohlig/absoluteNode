@@ -31,14 +31,14 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Insured Company*</label>
-                                <multiple-select name="insuredCompany" required ng-model="formData.insuredCompany" ng-name="name.zone" api="searchInsured"></multiple-select>
+                                <multiple-select my-enter name="insuredCompany" required ng-model="formData.insuredCompany" ng-name="name.zone" api="searchInsured"></multiple-select>
                                 <div class="error-msg" ng-show="formName.insuredCompany.$invalid">Please Select Company</div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Insured Office*</label>
-                                <multiple-select name="insuredOffice" required ng-model="formData.insuredOffice" filter='{"customerCompany":"{{formData.insuredCompany}}"}'
+                                <multiple-select my-enter name="insuredOffice" required ng-model="formData.insuredOffice" filter='{"customerCompany":"{{formData.insuredCompany}}"}'
                                     ng-name="name.zone" api="searchCustomer"></multiple-select>
                                 <div class="error-msg" ng-show="formName.insuredOffice.$invalid">Please Select Insured Office</div>
                             </div>

@@ -32,12 +32,12 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Industry*</label>
-                                    <multiple-select  name="industry" required ng-model="formData.industry" ng-name = "name.industry" api="searchIndustry" ng-create="industrySave"></multiple-select>
+                                    <multiple-select my-enter  name="industry" required ng-model="formData.industry" ng-name = "name.industry" api="searchIndustry" ng-create="industrySave"></multiple-select>
                                     <div class="error-msg" ng-show="formName.industry.$invalid">Please Enter Industry</div>
                                 </div>
                                 <div class="form-group">
                                     <label>Category*</label>
-                                    <multiple-select  name="category" required ng-model="formData.category" filter='{"industry":"{{formData.industry}}"}' ng-name = "name.category" api="searchCategory" ng-create="categorySave"></multiple-select>
+                                    <multiple-select my-enter  name="category" required ng-model="formData.category" filter='{"industry":"{{formData.industry}}"}' ng-name = "name.category" api="searchCategory" ng-create="categorySave"></multiple-select>
                                     <div class="error-msg" ng-show="formName.industry.$invalid">Please Enter Category</div>
                                 </div>
                                 <div class="form-group">

@@ -33,7 +33,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Company Name*</label>
-                                        <multiple-select name="company" required ng-model="formData.company" ng-name="name.company" api="searchCompany" ng-create="companySave"></multiple-select>
+                                        <multiple-select my-enter name="company" required ng-model="formData.company" ng-name="name.company" api="searchCompany" ng-create="companySave"></multiple-select>
                                         <div class="error-msg" ng-show="formName.company.$invalid">Please Select Company Name</div>
                                     </div>
                                 </div>
@@ -61,7 +61,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Posted at*</label>
-                                        <multiple-select name="postedAt" required ng-model="formData.postedAt" filter='{"company":"{{formData.company}}"}' ng-name="name.postedAt"
+                                        <multiple-select my-enter name="postedAt" required ng-model="formData.postedAt" filter='{"company":"{{formData.company}}"}' ng-name="name.postedAt"
                                             api="searchOffice"></multiple-select>
                                         <div class="error-msg" ng-show="formName.postedAt.$invalid">Please Select Current Posting</div>
                                     </div>
@@ -69,14 +69,14 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Function*</label>
-                                        <multiple-select name="func" required ng-model="formData.func" ng-name="name.func" api="searchFunc" ng-create="funcSave"></multiple-select>
+                                        <multiple-select my-enter name="func" required ng-model="formData.func" ng-name="name.func" api="searchFunc" ng-create="funcSave"></multiple-select>
                                         <div class="error-msg" ng-show="formName.func.$invalid">Please Select Function</div>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Grade*</label>
-                                        <multiple-select name="grade" required ng-model="formData.grade" ng-name="name.grade" api="searchGrade" ng-create="gradeSave"
+                                        <multiple-select my-enter name="grade" required ng-model="formData.grade" ng-name="name.grade" api="searchGrade" ng-create="gradeSave"
                                             readonly></multiple-select>
                                         <div class="error-msg" ng-show="formName.grade.$invalid">Please Select Grade</div>
                                     </div>
@@ -92,7 +92,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Branch*</label>
-                                        <multiple-select name="branch" required ng-model="formData.branch" filter='{"office":"{{formData.postedAt}}"}' ng-name="name.branch"
+                                        <multiple-select my-enter name="branch" required ng-model="formData.branch" filter='{"office":"{{formData.postedAt}}"}' ng-name="name.branch"
                                             api="searchBranch" ng-create="branchSave"></multiple-select>
                                         <div class="error-msg" ng-show="formName.branch.$invalid">Please Select Branch</div>
                                     </div>
@@ -113,7 +113,7 @@
                                 <!-- <div class="col-sm-6">
                                   <div class="form-group">
                                       <label>Access*</label>
-                                      <multiple-select name="access" required ng-model="formData.access" filter='{"access":"{{formData.access}}"}' ng-name="name.access" api="searchAccess" ng-create="accessSave"></multiple-select>
+                                      <multiple-select my-enter name="access" required ng-model="formData.access" filter='{"access":"{{formData.access}}"}' ng-name="name.access" api="searchAccess" ng-create="accessSave"></multiple-select>
                                       <div class="error-msg" ng-show="formName.city.$invalid">Please Select Access</div>
                                   </div>
                                 </div> -->

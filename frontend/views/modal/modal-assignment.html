@@ -51,7 +51,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Industry*</label>
-                    <multiple-select name="industry" required ng-model="modalData.product.category.industry._id" ng-name="modalData.product.category.industry.name"
+                    <multiple-select my-enter name="industry" required ng-model="modalData.product.category.industry._id" ng-name="modalData.product.category.industry.name"
                         api="searchIndustry" ng-create="industrySave"></multiple-select>
                     <div class="error-msg" ng-show="modalForm1.industry.$invalid">Please Select Industry</div>
                 </div>
@@ -59,7 +59,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Category*</label>
-                    <multiple-select name="category" required ng-model="modalData.product.category._id" filter='{"industry":"{{modalData.product.category.industry._id}}"}'
+                    <multiple-select my-enter name="category" required ng-model="modalData.product.category._id" filter='{"industry":"{{modalData.product.category.industry._id}}"}'
                         ng-name="modalData.product.category.name" api="searchCategory" ng-create="categorySave"></multiple-select>
                     <div class="error-msg" ng-show="modalForm1.category.$invalid">Please Select Category</div>
                 </div>
@@ -69,7 +69,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Product*</label>
-                    <multiple-select name="product" required ng-model="modalData.product._id" filter='{"category":"{{modalData.product.category._id}}"}'
+                    <multiple-select my-enter name="product" required ng-model="modalData.product._id" filter='{"category":"{{modalData.product.category._id}}"}'
                         ng-name="modalData.product.name" api="searchProduct"></multiple-select>
                     <div class="error-msg" ng-show="modalForm1.product.$invalid">Please Select Product</div>
                 </div>

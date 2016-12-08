@@ -33,7 +33,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Customer Segment*</label>
-                                        <multiple-select name="customerSegment" required ng-model="formData.customerSegment" ng-name="name.customerSegment" api="searchCustomerSegment"
+                                        <multiple-select my-enter name="customerSegment" required ng-model="formData.customerSegment" ng-name="name.customerSegment" api="searchCustomerSegment"
                                             ng-create="customerSegmentSave"></multiple-select>
                                         <div class="error-msg" ng-show="formName.customerSegment.$invalid">Please Select Customer Segment</div>
                                     </div>
@@ -41,7 +41,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Customer Company*</label>
-                                        <multiple-select name="customerCompany" required ng-model="formData.customerCompany" filter='{"customerSegment":"{{formData.customerSegment}}"}'
+                                        <multiple-select my-enter name="customerCompany" required ng-model="formData.customerCompany" filter='{"customerSegment":"{{formData.customerSegment}}"}'
                                             ng-name="name.customerCompany" api="searchCustomerCompany"></multiple-select>
                                         <div class="error-msg" ng-show="formName.customerCompany.$invalid">Please Select Customer Company</div>
                                     </div>
@@ -49,7 +49,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Type of Office*</label>
-                                        <multiple-select name="typeOfOffice" required ng-model="formData.typeOfOffice" ng-name="formData.TOFShortName" api="searchTypeOfOffice"
+                                        <multiple-select my-enter name="typeOfOffice" required ng-model="formData.typeOfOffice" ng-name="formData.TOFShortName" api="searchTypeOfOffice"
                                             ng-create="typeofofficeSave"></multiple-select>
                                         <div class="error-msg" ng-show="formName.typeOfOffice.$invalid">Please Select Type of Office</div>
                                     </div>

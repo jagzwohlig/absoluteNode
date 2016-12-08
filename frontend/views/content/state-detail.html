@@ -32,12 +32,12 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Country*</label>
-                                    <multiple-select  name="country" required ng-model="formData.country" ng-name = "name.country" api="searchCountry" ng-create="countrySave"></multiple-select>
+                                    <multiple-select my-enter  name="country" required ng-model="formData.country" ng-name = "name.country" api="searchCountry" ng-create="countrySave"></multiple-select>
                                     <div class="error-msg" ng-show="stateform.country.$invalid">Please Enter Country</div>
                                 </div>
                                 <div class="form-group">
                                     <label for="disabledSelect">Zone*</label>
-                                    <multiple-select  name="zone" required ng-model="formData.zone" filter='{"country":"{{formData.country}}"}' ng-name = "name.zone" api="searchZone"  ng-create="zoneSave"></multiple-select>
+                                    <multiple-select my-enter  name="zone" required ng-model="formData.zone" filter='{"country":"{{formData.country}}"}' ng-name = "name.zone" api="searchZone"  ng-create="zoneSave"></multiple-select>
                                     <div class="error-msg" ng-show="stateform.zone.$invalid">Please Enter Zone</div>
                                 </div>
                                 <div class="form-group">

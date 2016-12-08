@@ -19,7 +19,7 @@
                   </div>
                   <div class="form-group">
                       <label>Department*</label>
-                      <multiple-select name="department" required ng-model="modelData.department" ng-name="name.zone" api="searchDepartment" ng-create="departmentSave"></multiple-select>
+                      <multiple-select my-enter name="department" required ng-model="modelData.department" ng-name="name.zone" api="searchDepartment" ng-create="departmentSave"></multiple-select>
                       <div class="error-msg" ng-show="formName.department.$invalid">Please Select Department</div>
                   </div>
               </div>
@@ -31,7 +31,7 @@
                   </div>
                   <div class="form-group">
                       <label>Policy Type*</label>
-                      <multiple-select name="department" required ng-model="modelData.policyType" filter='{"department":"{{modelData.department}}"}' ng-name="name.zone" api="searchPolicyType"></multiple-select>
+                      <multiple-select my-enter name="department" required ng-model="modelData.policyType" filter='{"department":"{{modelData.department}}"}' ng-name="name.zone" api="searchPolicyType"></multiple-select>
                       <div class="error-msg" ng-show="formName.policyType.$invalid && formName.policyType.$touched">Please Select Policy Type</div>
                   </div>
               </div>
@@ -42,14 +42,14 @@
               <div class="col-md-6">
                   <div class="form-group">
                       <label>Insurer Company*</label>
-                      <multiple-select name="company" required ng-model="modelData.insurerCompany" ng-name="name.zone" api="searchInsurerCustomerCompany"></multiple-select>
+                      <multiple-select my-enter name="company" required ng-model="modelData.insurerCompany" ng-name="name.zone" api="searchInsurerCustomerCompany"></multiple-select>
                       <div class="error-msg" ng-show="formName.company.$invalid">Please Select Company</div>
                   </div>
               </div>
               <div class="col-md-6">
                   <div class="form-group">
                       <label>Insurer Office*</label>
-                      <multiple-select name="insurerOffice" required ng-model="modelData.insurerOffice" filter='{"customerCompany":"{{modelData.insurerCompany}}"}' ng-name="name.zone" api="searchCustomer"></multiple-select>
+                      <multiple-select my-enter name="insurerOffice" required ng-model="modelData.insurerOffice" filter='{"customerCompany":"{{modelData.insurerCompany}}"}' ng-name="name.zone" api="searchCustomer"></multiple-select>
                       <div class="error-msg" ng-show="formName.insurerOffice.$invalid">Please Select Insurer Office</div>
                   </div>
               </div>

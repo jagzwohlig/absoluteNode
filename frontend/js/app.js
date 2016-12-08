@@ -755,6 +755,7 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
         }
     })
 
+
     .state('createemployee', {
         url: "/employee-create/{id:.*}/{model:.*}",
         templateUrl: "frontend/views/template.html",
@@ -1473,6 +1474,21 @@ firstapp.filter("mrnumber", function (NavigationService, $timeout) {
         });
     };
 });
+
+
+    firstapp.directive('myEnter', function () {
+    return function (scope, element, attrs) {
+        element.bind("keydown keypress", function (event) {
+            if(event.which === 13) {
+                scope.$apply(function (){
+                    scope.$eval(attrs.myEnter);
+                });
+
+                event.preventDefault();
+            }
+        });
+    };
+})
 
 firstapp.directive('imageonload', function () {
     return {

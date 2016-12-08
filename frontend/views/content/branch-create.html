@@ -30,14 +30,14 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Company Name*</label>
-                                        <multiple-select name="company" required ng-model="formData.company" ng-name="name.company" api="searchCompany"></multiple-select>
+                                        <multiple-select my-enter name="company" required ng-model="formData.company" ng-name="name.company" api="searchCompany"></multiple-select>
                                         <div class="error-msg" ng-show="formName.company.$invalid">Please Enter Company Name</div>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Office Name*</label>
-                                        <multiple-select name="office" required ng-model="formData.office" filter='{"company":"{{formData.company}}"}' ng-name="name.office"
+                                        <multiple-select my-enter name="office" required ng-model="formData.office" filter='{"company":"{{formData.company}}"}' ng-name="name.office"
                                             api="searchOffice"></multiple-select>
                                         <div class="error-msg" ng-show="formName.office.$invalid">Please Enter Office Name</div>
                                     </div>
@@ -53,7 +53,7 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label>Office Name*</label>
-                                            <multiple-select name="office" required ng-model="formData.office" filter='{"company":"{{formData.company}}"}' ng-name="name.office"
+                                            <multiple-select my-enter name="office" required ng-model="formData.office" filter='{"company":"{{formData.company}}"}' ng-name="name.office"
                                                 api="searchOffice"></multiple-select>
                                             <div class="error-msg" ng-show="formName.office.$invalid">Please Enter Office Name</div>
                                         </div>

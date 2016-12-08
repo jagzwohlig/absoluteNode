@@ -31,12 +31,12 @@
                         <div class="sec">
                             <div class="form-group">
                                 <label>Company Name*</label>
-                                <multiple-select name="companyName" required ng-model="formData.company" ng-name="name.company" api="searchCompany"></multiple-select>
+                                <multiple-select my-enter name="companyName" required ng-model="formData.company" ng-name="name.company" api="searchCompany"></multiple-select>
                                 <div class="error-msg" ng-show="officeform.companyName.$invalid">Please Enter Company Name</div>
                             </div>
                             <div class="form-group">
                                 <label>Type of Office*</label>
-                                <multiple-select name="officeType" required ng-model="formData.typeOfOffice" ng-name="name.typeOfOffice" api="searchTypeOfOffice"
+                                <multiple-select my-enter name="officeType" required ng-model="formData.typeOfOffice" ng-name="name.typeOfOffice" api="searchTypeOfOffice"
                                     ng-create="typeofofficeSave"></multiple-select>
                                 <div class="error-msg" ng-show="officeform.officeType.$invalid">Please Enter Type of Office</div>
                             </div>
