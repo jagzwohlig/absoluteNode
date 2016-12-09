@@ -716,6 +716,11 @@ var navigationservice = angular.module('navigationservice', [])
                 _id: id
             }).success(callback);
         },
+        getOneModelPopulate: function (model, id, callback) {
+            $http.post(adminurl + model + '/getOne', {
+                city: id
+            }).success(callback);
+        },
         getOneBranch: function (id, callback) {
             $http.post(adminurl + 'branch/getOne', {
                 _id: id

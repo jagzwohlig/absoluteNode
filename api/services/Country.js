@@ -23,12 +23,18 @@ var schema = new Schema({
         restrictedDelete: true
     }
 });
-schema.plugin(deepPopulate, {});
+schema.plugin(deepPopulate, {
+    populate:{
+        'zone':{
+            select:"_id name"
+        }
+    }
+});
 schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('Country', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema,"zone","zone"));
 
 var model = {};
 

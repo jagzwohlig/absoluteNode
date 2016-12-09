@@ -1901,7 +1901,7 @@ firstapp.directive('addressForm', function ($document) {
         scope: {
             formData: "=ngModel",
             demoForm: "=ngValid"
-        },
+            },
         restrict: 'EA',
         replace: false,
         controller: function ($scope, NgMap, NavigationService) {
@@ -1916,6 +1916,36 @@ firstapp.directive('addressForm', function ($document) {
                     _.assign($scope.formData, latLng);
                 });
             };
+var value =0;
+            //  Start Changes
+            $scope.populateAddress = function(data){
+                console.log("demo clicked",data);
+                var id=data;
+
+// Start
+
+if(data !== undefined && value ===0){
+    value=1;
+    NavigationService.getOneModel("City", id, function (data) {
+        console.log("ABCCCCCCCCCCCC",data.data);
+        $scope.formData = data.data;
+        if (data.data.district) {
+            console.log("In");
+            $scope.formData.country = data.data.district.state.zone.country._id;
+            $scope.formData.zone = data.data.district.state.zone._id;
+            $scope.formData.state = data.data.district.state._id;
+            $scope.formData.district = data.data.district._id;
+
+        }
+    });
+}
+// End
+
+
+            }
+
+
+            // End Changes
             var LatLongi = 0;
             $scope.getLatLng = function (address) {
 

@@ -621,6 +621,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
 
 
+        $scope.populateAddress = function (data) {
+            console.log("In Populate");
+            var formdata = {};
+            formData.zone=data;
+            console.log("Form Data",formData);
+        };
+
+
         //  CLONE ASSIGNMENT
         if ($stateParams.assignment) {
             NavigationService.getOneModel("Assignment", $stateParams.assignment, function (data) {
