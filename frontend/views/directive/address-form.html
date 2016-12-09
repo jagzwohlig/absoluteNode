@@ -23,7 +23,7 @@
 </div>
 <div class="form-group">
     <label>City*</label>
-    <multiple-select my-enter name="city"  ng-model="formData.city" ng-selected="populateAddress(formData.city)" ng-name="formData.city1"
+    <multiple-select my-enter name="city"  ng-model="formData.city" ng-selected="populateAddress(formData.city,'City')" ng-name="formData.city1"
         api="searchCity" ng-create="citySave"></multiple-select>
     <div class="error-msg" ng-show="demoForm.city.$invalid">Please Enter city</div>
 </div>
