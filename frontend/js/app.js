@@ -1916,44 +1916,79 @@ firstapp.directive('addressForm', function ($document) {
                     _.assign($scope.formData, latLng);
                 });
             };
-            var value2 = 0;
+            var value2 = "a";
             //  Start Changes  Remove value2 or else it will work only Once
             $scope.populateAddress = function (data, value) {
-                console.log("demo clicked", data, value);
+                // console.log("demo clicked", data, value);
+                console.log($scope.formData);
                 var id = data;
                 // Start
-
-                if (data !== undefined && value2 === 0) {
-                    value2 = 1;
-                    NavigationService.getOneModel(value, id, function (data) {
-                        console.log("ABCCCCCCCCCCCC", data.data);
-                        $scope.formData = data.data;
-                        if (value === "City") {
-                            $scope.formData.country = data.data.district.state.zone.country._id;
-                            $scope.formData.zone = data.data.district.state.zone._id;
-                            $scope.formData.state = data.data.district.state._id;
-                            $scope.formData.district = data.data.district._id;
-                        } else if (value === "District") {
-                            $scope.formData.country = data.data.state.zone.country._id;
-                            $scope.formData.zone = data.data.state.zone._id;
-                            $scope.formData.state = data.data.state._id;
-                        } else if (value === "State") {
-                            $scope.formData.country = data.data.zone.country._id;
-                            $scope.formData.zone = data.data.zone._id;
-                        } else {
-                            $scope.formData.country = data.data.country._id;
-                        }
-                    });
+                if (value2 === data) {
+                    // console.log("Repeated Data",data);
                 } else {
-                    console.log("Invalid Address");
-                }
+                    if (data !== undefined && id !== "") {
+                        value2 = data;
+                        NavigationService.getOneModel(value, id, function (data) {
+                            console.log()
+                            console.log("Before", $scope.formData.district, $scope.formData.state, $scope.formData.zone, $scope.formData.country);
+                            // $scope.formData = data.data;
+                            $scope.formData = {};
+                            if (value === "City") {
+                                console.log("dfhajshwfaljhdsk")
 
+                                $scope.formData.country = data.data.district.state.zone.country._id;
+                                $scope.formData.zone = data.data.district.state.zone._id;
+                                $scope.formData.state = data.data.district.state._id;
+                                $scope.formData.district = data.data.district._id;
+                                //      $scope.$apply(function(){
+                                //          $scope.formData = _.clone($scope.formData);
+                                //    });
+                                // $scope.$apply();
+                                console.log("After", $scope.formData.district, $scope.formData.state, $scope.formData.zone, $scope.formData.country);
+                            } else if (value === "District") {
+                                $scope.formData.country = data.data.state.zone.country._id;
+                                $scope.formData.zone = data.data.state.zone._id;
+                                $scope.formData.state = data.data.state._id;
+                            } else if (value === "State") {
+                                $scope.formData.country = data.data.zone.country._id;
+                                $scope.formData.zone = data.data.zone._id;
+                            } else {
+                                $scope.formData.country = data.data.country._id;
+                            }
+                        });
+                    } else {
+                        console.log("Invalid Address");
+                    }
+                }
 
 
             }
 
-
             // End Changes
+
+            $scope.populateAddress = function (keywordChange) {
+                var i =0;
+                NavigationService.searchPopulatedCity({
+            page: $scope.currentPage,
+            keyword: keywordChange
+        }, ++i, function (data, ini) {
+                     if (ini == i) {
+                $scope.allBranch = data.data.results;
+                console.log("ASDFGHJK",$scope.allBranch);
+                $scope.totalItems = data.data.total;
+                $scope.maxRow = data.data.options.count;
+            }
+                });
+
+                
+               
+            }
+
+
+
+            // 
+
+
             var LatLongi = 0;
             $scope.getLatLng = function (address) {
 

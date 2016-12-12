@@ -7,7 +7,7 @@
         ng-change="searchNew(search.modelData)" onkeyup="">
     <ul class="ng-list allOptions" ng-show="listview">
         <li ng-repeat="l in list" ng-class="{'arrow-down':activeKey==$index}" ng-click="sendData(l._id,l.name);" ng-if="list.length>0">{{l.name}}</li>
-        <li class="lightColor" ng-class="{'arrow-down':activeKey==list.length}" ng-if="create && showCreate && search.modelData != ''"
-            ng-click="createNew(search.modelData);">Click to create new "{{search.modelData|capitalize}}"</li>
+        <!--<li class="lightColor" ng-class="{'arrow-down':activeKey==list.length}" ng-if="create && showCreate && search.modelData != ''"
+            ng-click="createNew(search.modelData);">Click to create new "{{search.modelData|capitalize}}"</li>-->
     </ul>
 </div>

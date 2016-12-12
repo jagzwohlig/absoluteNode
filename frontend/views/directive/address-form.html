@@ -1,32 +1,10 @@
 <div class="form-group">
-    <label>Country*</label>
-    <multiple-select my-enter name="country"  ng-model="formData.country" ng-name="name.country" api="searchCountry" ng-create="countrySave"></multiple-select>
-    <div class="error-msg" ng-show="demoForm.country.$invalid">Please Enter Country</div>
-</div>
-<div class="form-group">
-    <label>Zone*</label>
-    <multiple-select my-enter name="zone"  ng-model="formData.zone" ng-name="name.zone"
-        api="searchZone" ng-create="zoneSave"></multiple-select>
-    <div class="error-msg" ng-show="demoForm.zone.$invalid">Please Enter Zone</div>
-</div>
-<div class="form-group">
-    <label>State*</label>
-    <multiple-select my-enter name="state"  ng-model="formData.state" ng-name="name.state"
-        api="searchState" ng-create="stateSave"></multiple-select>
-    <div class="error-msg" ng-show="demoForm.state.$invalid">Please Enter State</div>
-</div>
-<div class="form-group">
-    <label>District*</label>
-    <multiple-select my-enter name="district"  ng-model="formData.district"  ng-name="name.district"
-        api="searchDistrict" ng-create="districtSave"></multiple-select>
-    <div class="error-msg" ng-show="demoForm.district.$invalid">Please Enter district</div>
-</div>
-<div class="form-group">
-    <label>City*</label>
-    <multiple-select my-enter name="city"  ng-model="formData.city" ng-selected="populateAddress(formData.city,'City')" ng-name="formData.city1"
-        api="searchCity" ng-create="citySave"></multiple-select>
+    <label>City</label>
+    <multiple-select my-enter name="city" ng-model="formData.city" ng-selected="populateAddress1(ng-name)" ng-name="formData.city1" api="searchPopulatedCity"
+         ng-create="citySave"></multiple-select>
     <div class="error-msg" ng-show="demoForm.city.$invalid">Please Enter city</div>
 </div>
+<!--ng-selected="populateAddress()" -->
 <div class="form-group">
     <label>Address</label>
     <textarea class="form-control" ng-model="formData.address"></textarea>
