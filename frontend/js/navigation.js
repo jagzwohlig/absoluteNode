@@ -518,7 +518,14 @@ var navigationservice = angular.module('navigationservice', [])
                 callback(data, i);
             });
         },
+        searchInsurerCustomerCompany1: function (formData, i, callback) {
+            $http.post(adminurl + 'PolicyType/getCompany', formData).success(function (data) {
+                callback(data, i);
+            });
+        },
+        
         searchInsurerdCustomerCompany: function (formData, i, callback) {
+            console.log("..........",formData);
             $http.post(adminurl + 'CustomerCompany/getInsured', formData).success(function (data) {
                 callback(data, i);
             });

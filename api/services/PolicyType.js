@@ -12,11 +12,11 @@ var schema = new Schema({
         required: true,
         key: "policytype"
     },
-    insurer:[{
-      type: Schema.Types.ObjectId,
-      ref: "CustomerCompany",
-      required: true,
-      key: "insurer"
+    insurer: [{
+        type: Schema.Types.ObjectId,
+        ref: "CustomerCompany",
+        required: true,
+        key: "insurer"
     }],
     // insurer:{
     //   type: Schema.Types.ObjectId,
@@ -31,9 +31,9 @@ var schema = new Schema({
         index: true,
         restrictedDelete: true
     },
-    status:{
-      type: Boolean,
-      default:true
+    status: {
+        type: Boolean,
+        default: true
     },
     assignment: {
         type: [{
@@ -46,22 +46,40 @@ var schema = new Schema({
 });
 
 schema.plugin(deepPopulate, {
-  populate:{
-    "department":{
-      select: 'name _id'
-    },
-    "insurer":[{
-      select: 'name _id'
-    }]
-  }
+    populate: {
+        "department": {
+            select: 'name _id'
+        },
+        "insurer": [{
+            select: 'name _id'
+        }]
+    }
 });
 
 schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('PolicyType', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema,"department insurer","department insurer"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "department insurer", "department insurer"));
 
-var model = {};
+var model = {
+    getCompany: function (data, callback) {
+        if (data && data.filter && data.filter.policyType) {
+            PolicyType.findOne({
+                _id: data.filter.policyType
+            }).deepPopulate("insurer").lean().exec(function (err, found) {
+                if (err) {
+                    callback(err, null);
+                } else {
+                    callback(null, {
+                        results: found.insurer
+                    })
+                }
+            })
+        }else{
+            callback("No Policy Found",null);
+        }
+    }
+};
 
 module.exports = _.assign(module.exports, exports, model);
