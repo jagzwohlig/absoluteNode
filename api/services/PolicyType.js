@@ -77,7 +77,7 @@ var model = {
                 }
             })
         }else{
-            callback("No Policy Found",null);
+           CustomerCompany.search(data,callback);
         }
     }
 };
