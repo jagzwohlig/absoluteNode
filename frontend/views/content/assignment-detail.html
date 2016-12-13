@@ -36,8 +36,8 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Branch Office*</label>
-                                        <multiple-select my-enter my-enter name="branchOffice"  required ng-model="formData.branch" filter='{"company":"{{formData.company}}"}' ng-name="name.branch"
-                                            api="searchBranch"></multiple-select>
+                                        <multiple-select my-enter my-enter name="branchOffice" required ng-model="formData.branch" filter='{"company":"{{formData.company}}"}'
+                                            ng-name="name.branch" api="searchBranch"></multiple-select>
                                         <div class="error-msg" ng-show="formName.branchOffice.$invalid">Please Select Branch Office</div>
                                     </div>
                                 </div>
@@ -293,7 +293,8 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Department*</label>
-                                        <multiple-select my-enter name="policyDepartment" required ng-model="formData.policyDepartment" ng-name="name.policyDepartment" api="searchDepartment"></multiple-select>
+                                        <multiple-select my-enter name="policyDepartment" required ng-model="formData.policyDepartment" ng-name="name.policyDepartment"
+                                            api="searchDepartment"></multiple-select>
                                         <div class="error-msg" ng-show="formName.policyDepartment.$invalid">Please Select Policy Department</div>
                                     </div>
                                 </div>
@@ -310,8 +311,8 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Policy Document</label>
-                                        <multiple-select my-enter name="policyDoc" ng-model="formData.policyDoc" filter='{"policyType":"{{formData.policyType}}"}' ng-name="name.policyDoc"
-                                            api="getPolicyDoc"></multiple-select>
+                                        <multiple-select my-enter name="policyDoc" ng-model="formData.policyDoc" filter='{"policyType":"{{formData.policyType}}"}'
+                                            ng-name="name.policyDoc" api="getPolicyDoc"></multiple-select>
                                         <div class="error-msg" ng-show="formName.policyDoc.$invalid">Please Select Policy Document</div>
                                     </div>
                                 </div>
@@ -447,7 +448,8 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Department*</label>
-                                        <multiple-select my-enter name="policyDepartment" required ng-model="formData.policyDepartment" ng-name="name.policyDepartment" api="searchDepartment"></multiple-select>
+                                        <multiple-select my-enter name="policyDepartment" required ng-model="formData.policyDepartment" ng-name="name.policyDepartment"
+                                            api="searchDepartment"></multiple-select>
                                         <div class="error-msg" ng-show="formName.policyDepartment.$invalid">Please Select Company</div>
                                     </div>
                                 </div>
