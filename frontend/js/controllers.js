@@ -633,7 +633,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         if ($stateParams.assignment) {
             NavigationService.getOneModel("Assignment", $stateParams.assignment, function (data) {
                 $scope.formData = data.data;
-                console.log("Form Clone", $scope.formData.name);
+                
+                // console.log("Form Clone", $scope.formData.name);
                 delete $scope.formData._id;
                 delete $scope.formData.appointment;
                 delete $scope.formData.intimatedLoss;
@@ -701,6 +702,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.wholeObj = wholeObj;
             $scope.current = current;
             $scope.holdObject = holdobj;
+            console.log(filename);
             var modalInstance = $uibModal.open({
                 scope: $scope,
                 templateUrl: '/frontend/views/modal/' + filename + '.html',
@@ -831,7 +833,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
             console.log(data);
             $scope.name = data.data.name;
-            console.log(data.data);
+            console.log(data.data.city);
             // console.log(data.data.broker,data.data.customerCompany);
             $scope.formData = data.data;
             $scope.MRnumber = data.data.city.district.state.zone.country.countryCode;

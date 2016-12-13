@@ -393,6 +393,12 @@ var navigationservice = angular.module('navigationservice', [])
             });
         },
 
+        searchPopulatedProduct: function (formData, i, callback) {
+            $http.post(adminurl + 'product/populateProductDetails', formData).success(function (data) {
+                callback(data, i);
+            });
+        },
+
         searchNatureLoss: function (formData, i, callback) {
             $http.post(adminurl + 'NatureLoss/search', formData).success(function (data) {
                 callback(data, i);
