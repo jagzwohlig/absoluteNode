@@ -1964,29 +1964,6 @@ firstapp.directive('addressForm', function ($document) {
 
             }
 
-            // End Changes
-
-            $scope.populateAddress = function (keywordChange) {
-                var i =0;
-                NavigationService.searchPopulatedCity({
-            page: $scope.currentPage,
-            keyword: keywordChange
-        }, ++i, function (data, ini) {
-                     if (ini == i) {
-                $scope.allBranch = data.data.results;
-                console.log("ASDFGHJK",$scope.allBranch);
-                $scope.totalItems = data.data.total;
-                $scope.maxRow = data.data.options.count;
-            }
-                });
-
-                
-               
-            }
-
-
-
-            // 
 
 
             var LatLongi = 0;

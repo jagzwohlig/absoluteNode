@@ -90,7 +90,6 @@ var model = {
 
         var keys = _.split(data.keyword, " ");
         stringMatch = [];
-        console.log(keys);
         _.each(keys, function (key) {
             var data = {
                 keyword: key
@@ -131,7 +130,6 @@ var model = {
                 }
             });
         });
-        console.log(stringMatch);
 
         City.aggregate([{
             $lookup: {
@@ -197,147 +195,7 @@ var model = {
                 callback(null, obj)
             }
         })
-    },
-
-
-
-
-    populateCityDetails2: function (data, callback) {
-        var Model = this;
-        var Const = this(data);
-        var maxRow = Config.maxRow;
-        var page = 1;
-        // var name1=subString()
-        if (data.page) {
-            page = data.page;
-        }
-        var field = data.field;
-        var options = {
-            field: data.field,
-            filters: {
-                keyword: {
-                    fields: ['name'],
-                    term: data.keyword
-                }
-            },
-
-            sort: {
-                desc: "name1",
-            },
-            start: (page - 1) * maxRow,
-            count: maxRow
-        };
-
-        // // 
-
-        //  City.aggregate([{
-        //             $lookup: {
-        //                 from:"districts",
-        //                 localField:"district",
-        //                 foreignField: "_id",
-        //                 as : "districts"
-        //             }
-        //         },
-        //         {
-        //             $unwind: "$districts"
-        //         }
-        //         ,{
-        //             $lookup: {
-        //                 from:"states",
-        //                 localField:"districts.state",
-        //                 foreignField: "_id",
-        //                 as : "districts.states"
-        //             }
-        //         },{
-        //             $unwind: "$districts.states"
-        //         }
-        //         ,{
-        //             $lookup: {
-        //                 from:"zones",
-        //                 localField:"districts.states.zone",
-        //                 foreignField: "_id",
-        //                 as : "districts.states.zones"
-        //             }
-        //         },{
-        //             $unwind: "$districts.states.zones"
-        //         },{
-        //             $lookup: {
-        //                 from:"countries",
-        //                 localField:"districts.states.zones.country",
-        //                 foreignField: "_id",
-        //                 as : "districts.states.zones.countries"
-        //             }
-        //         },{
-        //             $unwind: "$districts.states.zones.countries"
-        //         }
-        //         ,{
-        //                 $match: {
-
-        //                     $or: [
-        //                         {
-        //                         "name":{
-        //                             $regex: data.keyword,
-        //                             $options: 'i'
-        //                         } 
-        //                     },{
-        //                         "districts.name":{
-        //                             $regex: data.keyword,
-        //                             $options: 'i'
-        //                         } 
-        //                     }
-        //                     ,{
-        //                         "districts.states.name":{
-        //                             $regex: data.keyword,
-        //                             $options: 'i'
-        //                         } 
-        //                     }
-        //                     ,{
-        //                         "districts.states.zones.name":{
-        //                             $regex: data.keyword,
-        //                             $options: 'i'
-        //                         } 
-        //                     },
-        //                     {
-        //                         "districts.states.zones.countries.name":{
-        //                             $regex: data.keyword,
-        //                             $options: 'i'
-        //                         } 
-        //                     }
-        //                     ]
-        //                 }
-        //             },{
-        //                 $project:{
-        //                     _id:1,
-        //                     city:"$name",
-        //                     district:"$districts.name",
-        //                     state:"$districts.states.name",
-        //                     zone:"$districts.states.zones.name",
-        //                     country:"$districts.states.zones.countries.name"
-        //                 }
-        //             }
-
-
-        //         ],function(err, data4){
-        //             if(err){
-
-        //             }else{
-        //                 callback(null,data4)
-        //             }
-        //         })
-
-
-        // // 
-
-
-        var Search = Model.find(data.filter)
-
-        .order(options)
-            .deepPopulate()
-            .keyword(options)
-
-        .page(options, callback);
-
-    },
+    }
 
 };
 
