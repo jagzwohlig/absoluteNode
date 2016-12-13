@@ -60,6 +60,12 @@ schema.plugin(deepPopulate, {
     populate: {
         'customerSegment': {
             select: 'name _id'
+        },
+        'policydoc': {
+            select: 'name _id policyType'
+        },
+        'policydoc.policyType':{
+            select:'_id name'
         }
     }
 });
@@ -67,7 +73,7 @@ schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('CustomerCompany', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "customerSegment", "customerSegment"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "customerSegment policydoc.policyType", "customerSegment policydoc.policyType"));
 var model = {
     getIdByName: function (data, callback) {
         var Model = this;

@@ -533,7 +533,9 @@ var navigationservice = angular.module('navigationservice', [])
 
         },
         searchInsuredCustomerCompany: function (formData, i, callback) {
-            formData.segment = "Insured";
+            formData.filter={
+                customerSegment: "57c3ef916fb3c3420233a00b"
+            }
             $http.post(adminurl + 'CustomerCompany/search', formData).success(function (data) {
                 callback(data, i);
             });
