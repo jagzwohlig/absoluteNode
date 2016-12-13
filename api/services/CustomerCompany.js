@@ -24,40 +24,35 @@ var schema = new Schema({
             type: Schema.Types.ObjectId,
             ref: "Customer",
         }],
-        index: true,
-        restrictedDelete: true
+        index: true
     },
     insurer: {
         type: [{
             type: Schema.Types.ObjectId,
             ref: "PolicyType",
         }],
-        index: true,
-        restrictedDelete: true
+        index: true
     },
     policydoc: {
         type: [{
             type: Schema.Types.ObjectId,
             ref: "PolicyDoc",
         }],
-        index: true,
-        restrictedDelete: true
+        index: true
     },
     insurercompany: {
         type: [{
             type: Schema.Types.ObjectId,
             ref: "PolicyDoc",
         }],
-        index: true,
-        restrictedDelete: true
+        index: true
     },
     assignment: {
         type: [{
             type: Schema.Types.ObjectId,
             ref: "Assignment",
         }],
-        index: true,
-        restrictedDelete: true
+        index: true
     },
 });
 
