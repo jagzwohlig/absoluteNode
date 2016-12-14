@@ -470,8 +470,9 @@ var navigationservice = angular.module('navigationservice', [])
                 callback(data, i);
             });
         },
-        searchTag: function (model, formData, i, callback) {
-            $http.post(adminurl + 'Tag/search', formData).success(function (data) {
+        
+        searchTag: function (formData, i, callback) {
+            $http.post(adminurl + 'tag/search', formData).success(function (data) {
                 callback(data, i);
             });
         },

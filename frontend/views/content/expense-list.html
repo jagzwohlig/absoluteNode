@@ -51,7 +51,7 @@
                                     <td>{{office.name}}</td>
                                     <td>
                                         <a class="btn btn-primary" ui-sref="editexpense({id:office._id})"><i class="fa fa-pencil"></i></a>
-                                        <a class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                                        <a class="btn btn-danger" ng-click="deleteModel(office._id)"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>
                             </tbody>
