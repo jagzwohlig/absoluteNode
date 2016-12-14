@@ -624,8 +624,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.populateAddress = function (data) {
             console.log("In Populate");
             var formdata = {};
-            formData.zone=data;
-            console.log("Form Data",formData);
+            formData.zone = data;
+            console.log("Form Data", formData);
         };
 
 
@@ -633,7 +633,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         if ($stateParams.assignment) {
             NavigationService.getOneModel("Assignment", $stateParams.assignment, function (data) {
                 $scope.formData = data.data;
-                
+
                 // console.log("Form Clone", $scope.formData.name);
                 delete $scope.formData._id;
                 delete $scope.formData.appointment;
@@ -6391,10 +6391,15 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             if ($scope.formData.typeOfOffice) {
                 NavigationService.getOneModel('TypeOfOffice', $scope.formData.typeOfOffice, function (data) {
                     $scope.formData.TOFShortName = data.data.shortCode;
+                    console.log("CIty Detalis", $scope.formData);
                     if ($scope.formData.officeCode === "") {
+                        arr=_.split($scope.formData.city1,",",1);
+                        $scope.formData.city1 = arr[0];
                         // $scope.formData.sname = $scope.formData.TOFShortName ;
                         $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.city1;
                     } else {
+                        arr=_.split($scope.formData.city1,",",1);
+                        $scope.formData.city1 = arr[0];
                         //  $scope.formData.sname = $scope.formData.TOFShortName ;
                         $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.officeCode + ' ' + $scope.formData.city1;
                     }
@@ -6406,8 +6411,12 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 NavigationService.getOneModel('CustomerCompany', $scope.formData.customerCompany, function (data) {
                     $scope.formData.companyShortName = data.data.shortName;
                     if ($scope.formData.officeCode === "") {
+                        arr=_.split($scope.formData.city1,",",1);
+                        $scope.formData.city1 = arr[0];
                         $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.city1;
                     } else {
+                        arr=_.split($scope.formData.city1,",",1);
+                        $scope.formData.city1 = arr[0];
                         $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.officeCode + ' ' + $scope.formData.city1;
                     }
                 });
@@ -6415,15 +6424,23 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
         $scope.$watch('formData.officeCode', function () {
             if ($scope.formData.officeCode === "") {
+                arr=_.split($scope.formData.city1,",",1);
+                $scope.formData.city1 = arr[0];
                 $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.city1;
             } else {
+                arr=_.split($scope.formData.city1,",",1);
+                $scope.formData.city1 = arr[0];
                 $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.officeCode + ' ' + $scope.formData.city1;
             }
         });
         $scope.$watch('formData.city1', function () {
             if ($scope.formData.officeCode === "") {
+                arr=_.split($scope.formData.city1,",",1);
+                $scope.formData.city1 = arr[0];
                 $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.city1;
             } else {
+                arr=_.split($scope.formData.city1,",",1);
+                $scope.formData.city1 = arr[0];
                 $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.officeCode + ' ' + $scope.formData.city1;
             }
         });
@@ -6546,10 +6563,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             console.log($scope.formData.typeOfOffice);
             if ($scope.formData.typeOfOffice) {
                 NavigationService.getOneModel('TypeOfOffice', $scope.formData.typeOfOffice, function (data) {
+                    console.log(data);
                     $scope.formData.TOFShortName = data.data.shortCode;
+                    console.log("CIty Detalis", $scope.formData);
                     if ($scope.formData.officeCode === "") {
+                        arr=_.split($scope.formData.city1,",",1);
+                        $scope.formData.city1 = arr[0];
                         $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.city1;
+
                     } else {
+                        arr=_.split($scope.formData.city1,",",1);
+                        $scope.formData.city1 = arr[0];                    
                         $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.officeCode + ' ' + $scope.formData.city1;
                     }
                 });
@@ -6558,10 +6582,16 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.$watch('formData.customerCompany', function () {
             if ($scope.formData.customerCompany) {
                 NavigationService.getOneModel('CustomerCompany', $scope.formData.customerCompany, function (data) {
+                    //    console.log(data);
                     $scope.formData.companyShortName = data.data.shortName;
+                    // console.log("CIty Detalis",$scope.formData);
                     if ($scope.formData.officeCode === "") {
+                        arr=_.split($scope.formData.city1,",",1);
+                        $scope.formData.city1 = arr[0];
                         $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.city1;
                     } else {
+                        arr=_.split($scope.formData.city1,",",1);
+                        $scope.formData.city1 = arr[0];
                         $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.officeCode + ' ' + $scope.formData.city1;
                     }
                 });
@@ -6569,15 +6599,25 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
         $scope.$watch('formData.officeCode', function () {
             if ($scope.formData.officeCode === "") {
+                arr=_.split($scope.formData.city1,",",1);
+                $scope.formData.city1 = arr[0];
                 $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.city1;
             } else {
+                arr=_.split($scope.formData.city1,",",1);
+                $scope.formData.city1 = arr[0];
                 $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.officeCode + ' ' + $scope.formData.city1;
             }
         });
         $scope.$watch('formData.city1', function () {
             if ($scope.formData.officeCode === "") {
+                arr=_.split($scope.formData.city1,",",1);
+                $scope.formData.city1 = arr[0];
                 $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.city1;
+
+
             } else {
+                arr=_.split($scope.formData.city1,",",1);
+                $scope.formData.city1 = arr[0];
                 $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.officeCode + ' ' + $scope.formData.city1;
             }
         });
@@ -6592,6 +6632,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.formData.district = data.data.city.district._id;
                 $scope.formData.city = data.data.city._id;
             }
+            // console.log("asdfg",$scope.formData.city.name);
             $scope.formData.name = $scope.formData.companyShortName + '-' + $scope.formData.TOFShortName + '-' + $scope.formData.officeCode + '-' + $scope.formData.city1;
 
         });
@@ -6782,6 +6823,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     toastr.success($scope.name + " Created Successfully", "Creation Success");
                     $scope.model = data.data._id;
                     $scope.ngName = data.data.name;
+                    // $scope.ngCity = data.data.city;
                 } else {
                     toastr.error("Error while creating " + $scope.name, "Error");
                 }
@@ -6790,6 +6832,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         $scope.sendData = function (val, name) {
             $scope.search.modelData = name;
+            // $scope.ngCity = city;
             $scope.ngName = name;
             $scope.model = val;
             $scope.listview = false;
