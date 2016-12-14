@@ -596,13 +596,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $window.history.back();
         };
 
-        //         hotkeys.bindTo($scope).add({
-        //     combo: 'enter',
-        //     description: 'This one goes to 11',
-        //     callback: function () {
-        //         $state.go("create" + $scope.modelCamel);
-        //     }
-        // });
         hotkeys.bindTo($scope).add({
             combo: 'ctrl+enter',
             callback: function (formData) {
@@ -610,10 +603,12 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 NavigationService.assignmentSave($scope.formData, function (data) {
                     console.log(data);
                     if (data.value === true) {
+
                         // $state.go('assignment-list');
                         $window.history.back();
                         toastr.success("Assignment " + data.data.name + " created successfully.", "Assignment Created");
                     } else {
+                        $scope.hideSaveCancel = false;
                         toastr.error("Assignment creation failed.", "Assignment creation error");
                     }
                 });
@@ -775,6 +770,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     $window.history.back();
                     toastr.success("Assignment " + data.data.name + " created successfully.", "Assignment Created");
                 } else {
+                    $scope.hideSaveCancel = false;
                     toastr.error("Assignment creation failed.", "Assignment creation error");
                 }
             });
@@ -1072,7 +1068,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
     })
-    .controller('CreateOfficeCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $state, toastr) {
+    .controller('CreateOfficeCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("office-detail");
         $scope.menutitle = NavigationService.makeactive("Office");
@@ -1083,11 +1079,26 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Create Office"
         };
         $scope.formData = {};
-        $scope.saveOffice = function (formData) {
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+        hotkeys.bindTo($scope).add({
+            combo: 'ctrl+enter',
+            callback: function (formData) {
+                NavigationService.officeSave($scope.formData, function (data) {
+                    if (data.value === true) {
+                        $window.history.back();
+                        toastr.success("Office " + formData.name + " created successfully.", "Office Created");
+                    } else {
+                        toastr.error("Office creation failed.", "Office creation error");
+                    }
+                });
+            }
+        });
 
+        $scope.saveOffice = function (formData) {
             NavigationService.officeSave($scope.formData, function (data) {
                 if (data.value === true) {
-                    // $state.go('office-list');
                     $window.history.back();
                     toastr.success("Office " + formData.name + " created successfully.", "Office Created");
                 } else {
@@ -1097,7 +1108,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('EditOfficeCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+    .controller('EditOfficeCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("office-detail");
         $scope.menutitle = NavigationService.makeactive("Office");
@@ -1107,6 +1118,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.header = {
             "name": "Edit Office"
         };
+        $scope.cancel = function () {
+            $window.history.back();
+        };
         NavigationService.getOneOffice($stateParams.id, function (data) {
             $scope.formData = data.data;
             $scope.formData.country = data.data.city.district.state.zone.country._id;
@@ -1114,6 +1128,20 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.formData.state = data.data.city.district.state._id;
             $scope.formData.district = data.data.city.district._id;
             $scope.formData.city = data.data.city._id;
+        });
+
+        hotkeys.bindTo($scope).add({
+            combo: 'ctrl+enter',
+            callback: function (formData) {
+                NavigationService.officeSave($scope.formData, function (data) {
+                    if (data.value === true) {
+                        $window.history.back();
+                        toastr.success("Office " + $scope.formData.name + " edited successfully.", "Office Edited");
+                    } else {
+                        toastr.error("Office edition failed.", "Office editing error");
+                    }
+                });
+            }
         });
 
         $scope.saveOffice = function (formValid) {
@@ -1190,7 +1218,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
     })
-    .controller('CreateTypeOfOfficeCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $state, toastr) {
+    .controller('CreateTypeOfOfficeCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("typeOfOffice-detail");
         $scope.menutitle = NavigationService.makeactive("Type Of Office");
@@ -1204,12 +1232,32 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $window.history.back();
         };
         $scope.formData = {};
+
+        hotkeys.bindTo($scope).add({
+            combo: 'ctrl+enter',
+            callback: function (formData) {
+                $scope.errormsg = "";
+                NavigationService.typeofofficeSave($scope.formData, function (data) {
+                    if (data.value === true) {
+                        $window.history.back();
+                        toastr.success("Type Of Office " + $scope.formData.name + " created successfully.", "Type Of Office Created");
+                    } else {
+                        if (data.error.errors) {
+                            var i = 0;
+                            _.each(data.error.errors, function (data) {
+                                $scope.errormsg += data.message + "\n\n";
+                            });
+                        }
+                        toastr.error($scope.errormsg, "Type Of Office creation failed.");
+                    }
+                });
+            }
+        });
+
         $scope.savetypeOfOffice = function (formData) {
             $scope.errormsg = "";
-
             NavigationService.typeofofficeSave($scope.formData, function (data) {
                 if (data.value === true) {
-                    // $state.go('typeOfOffice-list');
                     $window.history.back();
                     toastr.success("Type Of Office " + $scope.formData.name + " created successfully.", "Type Of Office Created");
                 } else {
@@ -1218,7 +1266,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         _.each(data.error.errors, function (data) {
                             $scope.errormsg += data.message + "\n\n";
                         });
-
                     }
                     toastr.error($scope.errormsg, "Type Of Office creation failed.");
                 }
@@ -1226,7 +1273,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('EditTypeOfOfficeCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+    .controller('EditTypeOfOfficeCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("typeOfOffice-detail");
         $scope.menutitle = NavigationService.makeactive("Type Of Office");
@@ -1243,6 +1290,29 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.cancel = function () {
             $window.history.back();
         };
+
+        hotkeys.bindTo($scope).add({
+            combo: 'ctrl+enter',
+            callback: function (formData) {
+                $scope.errormsg = "";
+                NavigationService.typeofofficeSave($scope.formData, function (data) {
+                    if (data.value === true) {
+                        $window.history.back();
+                        toastr.success("Type Of Office " + $scope.formData.name + " Updated successfully.", "Type Of Office Updated");
+                    } else {
+                        if (data.error.errors) {
+                            var i = 0;
+                            _.each(data.error.errors, function (data) {
+                                $scope.errormsg += data.message;
+                            });
+                        }
+                        toastr.error($scope.errormsg, "Type Of Office creation failed.");
+                    }
+                });
+            }
+        });
+
+
         $scope.savetypeOfOffice = function (formValid) {
             $scope.errormsg = "";
 
@@ -3853,7 +3923,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('CreateCompanyCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $state, toastr) {
+    .controller('CreateCompanyCtrl', function (hotkeys, $scope, $window, TemplateService, NavigationService, $timeout, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("company-detail");
         $scope.menutitle = NavigationService.makeactive("Create Company");
@@ -3875,6 +3945,25 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $window.history.back();
         };
         $scope.formData = {};
+        // Ctrl + Enter
+        hotkeys.bindTo($scope).add({
+            combo: 'ctrl+enter',
+            callback: function (formData) {
+                $scope.hideSaveCancel = true;
+                NavigationService.companySave(formData, function (data) {
+                    if (data.value === true) {
+                        // $state.go('company-list');
+                        $window.history.back();
+                        toastr.success("company " + formData.name + " created successfully.", "company Created");
+                    } else {
+                        $scope.hideSaveCancel = false;
+                        toastr.error("company creation failed.", "company creation error");
+                    }
+                });
+            }
+        });
+
+        // 
         $scope.saveCompany = function (formData) {
             NavigationService.companySave(formData, function (data) {
                 if (data.value === true) {
@@ -3887,7 +3976,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
     })
-    .controller('EditCompanyCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
+    .controller('EditCompanyCtrl', function (hotkeys, $scope, $window, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("company-detail");
         $scope.menutitle = NavigationService.makeactive("Edit Company");
@@ -3918,6 +4007,25 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.formData.district = data.data.city.district._id;
             $scope.formData.city = data.data.city._id;
         });
+
+
+        // Ctrl + ENTER
+        hotkeys.bindTo($scope).add({
+            combo: 'ctrl+enter',
+            callback: function (formData) {
+                $scope.hideSaveCancel = true;
+                NavigationService.companySave($scope.formData, function (data) {
+                    if (data.value === true) {
+                        $window.history.back();
+                        toastr.success("Company " + $scope.formData.name + " edited successfully.", "Company Edited");
+                    } else {
+                        $scope.hideSaveCancel = false;
+                        toastr.error("Company edition failed.", "Company editing error");
+                    }
+                });
+            }
+        });
+        // 
         $scope.saveCompany = function (formValid) {
             NavigationService.companySave($scope.formData, function (data) {
                 if (data.value === true) {
@@ -6141,7 +6249,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     })
 
-.controller('BranchCreateCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, toastr, $state) {
+.controller('BranchCreateCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, toastr, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("branch-create");
         $scope.menutitle = NavigationService.makeactive("Create Branch");
@@ -6151,10 +6259,28 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.header = {
             "name": "Create Branch Master"
         };
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+
+        hotkeys.bindTo($scope).add({
+            combo: 'ctrl+enter',
+            callback: function (formData) {
+                $scope.hideSaveCancel = true;
+                NavigationService.branchSave($scope.formData, function (data) {
+                    if (data.value === true) {
+                        $window.history.back();
+                        toastr.success("Branch " + $scope.formData.name + " created successfully.", "Branch Created");
+                    } else {
+                        toastr.error("Branch creation failed.", "Branch creation error");
+                    }
+                });
+            }
+        });
+
         $scope.submit = function (formData) {
             NavigationService.branchSave($scope.formData, function (data) {
                 if (data.value === true) {
-                    // $state.go('branch-list');
                     $window.history.back();
                     toastr.success("Branch " + $scope.formData.name + " created successfully.", "Branch Created");
                 } else {
@@ -6163,7 +6289,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
     })
-    .controller('BranchEditCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+    .controller('BranchEditCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("branch-create");
         $scope.menutitle = NavigationService.makeactive("Edit Branch");
@@ -6178,11 +6304,28 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.formData.company = data.data.office.company;
 
         });
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+
+        hotkeys.bindTo($scope).add({
+            combo: 'ctrl+enter',
+            callback: function (formData) {
+                $scope.hideSaveCancel = true;
+                NavigationService.branchSave($scope.formData, function (data) {
+                    if (data.value === true) {
+                        $window.history.back();
+                        toastr.success("Branch " + $scope.formData.name + " edited successfully.", "Branch Edited");
+                    } else {
+                        toastr.error("Branch edition failed.", "Branch editing error");
+                    }
+                });
+            }
+        });
 
         $scope.submit = function (formValid) {
             NavigationService.branchSave($scope.formData, function (data) {
                 if (data.value === true) {
-                    // $state.go('branch-list');
                     $window.history.back();
                     toastr.success("Branch " + $scope.formData.name + " edited successfully.", "Branch Edited");
                 } else {
@@ -6393,12 +6536,12 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     $scope.formData.TOFShortName = data.data.shortCode;
                     console.log("CIty Detalis", $scope.formData);
                     if ($scope.formData.officeCode === "") {
-                        arr=_.split($scope.formData.city1,",",1);
+                        arr = _.split($scope.formData.city1, ",", 1);
                         $scope.formData.city1 = arr[0];
                         // $scope.formData.sname = $scope.formData.TOFShortName ;
                         $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.city1;
                     } else {
-                        arr=_.split($scope.formData.city1,",",1);
+                        arr = _.split($scope.formData.city1, ",", 1);
                         $scope.formData.city1 = arr[0];
                         //  $scope.formData.sname = $scope.formData.TOFShortName ;
                         $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.officeCode + ' ' + $scope.formData.city1;
@@ -6411,11 +6554,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 NavigationService.getOneModel('CustomerCompany', $scope.formData.customerCompany, function (data) {
                     $scope.formData.companyShortName = data.data.shortName;
                     if ($scope.formData.officeCode === "") {
-                        arr=_.split($scope.formData.city1,",",1);
+                        arr = _.split($scope.formData.city1, ",", 1);
                         $scope.formData.city1 = arr[0];
                         $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.city1;
                     } else {
-                        arr=_.split($scope.formData.city1,",",1);
+                        arr = _.split($scope.formData.city1, ",", 1);
                         $scope.formData.city1 = arr[0];
                         $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.officeCode + ' ' + $scope.formData.city1;
                     }
@@ -6424,22 +6567,22 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
         $scope.$watch('formData.officeCode', function () {
             if ($scope.formData.officeCode === "") {
-                arr=_.split($scope.formData.city1,",",1);
+                arr = _.split($scope.formData.city1, ",", 1);
                 $scope.formData.city1 = arr[0];
                 $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.city1;
             } else {
-                arr=_.split($scope.formData.city1,",",1);
+                arr = _.split($scope.formData.city1, ",", 1);
                 $scope.formData.city1 = arr[0];
                 $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.officeCode + ' ' + $scope.formData.city1;
             }
         });
         $scope.$watch('formData.city1', function () {
             if ($scope.formData.officeCode === "") {
-                arr=_.split($scope.formData.city1,",",1);
+                arr = _.split($scope.formData.city1, ",", 1);
                 $scope.formData.city1 = arr[0];
                 $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.city1;
             } else {
-                arr=_.split($scope.formData.city1,",",1);
+                arr = _.split($scope.formData.city1, ",", 1);
                 $scope.formData.city1 = arr[0];
                 $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.officeCode + ' ' + $scope.formData.city1;
             }
@@ -6567,13 +6710,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     $scope.formData.TOFShortName = data.data.shortCode;
                     console.log("CIty Detalis", $scope.formData);
                     if ($scope.formData.officeCode === "") {
-                        arr=_.split($scope.formData.city1,",",1);
+                        arr = _.split($scope.formData.city1, ",", 1);
                         $scope.formData.city1 = arr[0];
                         $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.city1;
 
                     } else {
-                        arr=_.split($scope.formData.city1,",",1);
-                        $scope.formData.city1 = arr[0];                    
+                        arr = _.split($scope.formData.city1, ",", 1);
+                        $scope.formData.city1 = arr[0];
                         $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.officeCode + ' ' + $scope.formData.city1;
                     }
                 });
@@ -6586,11 +6729,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     $scope.formData.companyShortName = data.data.shortName;
                     // console.log("CIty Detalis",$scope.formData);
                     if ($scope.formData.officeCode === "") {
-                        arr=_.split($scope.formData.city1,",",1);
+                        arr = _.split($scope.formData.city1, ",", 1);
                         $scope.formData.city1 = arr[0];
                         $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.city1;
                     } else {
-                        arr=_.split($scope.formData.city1,",",1);
+                        arr = _.split($scope.formData.city1, ",", 1);
                         $scope.formData.city1 = arr[0];
                         $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.officeCode + ' ' + $scope.formData.city1;
                     }
@@ -6599,24 +6742,24 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
         $scope.$watch('formData.officeCode', function () {
             if ($scope.formData.officeCode === "") {
-                arr=_.split($scope.formData.city1,",",1);
+                arr = _.split($scope.formData.city1, ",", 1);
                 $scope.formData.city1 = arr[0];
                 $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.city1;
             } else {
-                arr=_.split($scope.formData.city1,",",1);
+                arr = _.split($scope.formData.city1, ",", 1);
                 $scope.formData.city1 = arr[0];
                 $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.officeCode + ' ' + $scope.formData.city1;
             }
         });
         $scope.$watch('formData.city1', function () {
             if ($scope.formData.officeCode === "") {
-                arr=_.split($scope.formData.city1,",",1);
+                arr = _.split($scope.formData.city1, ",", 1);
                 $scope.formData.city1 = arr[0];
                 $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.city1;
 
 
             } else {
-                arr=_.split($scope.formData.city1,",",1);
+                arr = _.split($scope.formData.city1, ",", 1);
                 $scope.formData.city1 = arr[0];
                 $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.officeCode + ' ' + $scope.formData.city1;
             }
