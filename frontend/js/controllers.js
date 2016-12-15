@@ -864,7 +864,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 
         NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
-            console.log("Assignment",$stateParams.id,data.data);
+           
             $scope.name = data.data.name;
             console.log(data.data.city);
             // console.log(data.data.broker,data.data.customerCompany);
