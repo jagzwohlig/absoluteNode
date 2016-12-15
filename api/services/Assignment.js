@@ -557,6 +557,7 @@ var model = {
       } else {
         Model.findOne({
           company: data2.company._id,
+          // branch: data2.branch._id
           _id: {
             $ne: data._id
           }

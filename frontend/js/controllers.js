@@ -684,6 +684,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 delete $scope.formData.siteMobile;
                 delete $scope.formData.siteEmail;
                 delete $scope.formData.name;
+                delete $scope.formData.name1;
             });
         }
 
