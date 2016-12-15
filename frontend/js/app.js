@@ -1982,6 +1982,7 @@ firstapp.directive('addressForm', function ($document) {
 
                     if (i == LatLongi) {
                         $scope.formData = _.assign($scope.formData, data.results[0].geometry.location);
+                        console.log("In function App",$scope.formData);
                     }
                 });
                 // $http.get("http://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyCn9ypqFNxdXt9Zu2YqLcdD1Xdt2wNul9s&address="+address);

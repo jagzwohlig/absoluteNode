@@ -87,7 +87,7 @@ var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "district.stat
 var model = {
 
     populateCityDetails: function (data, callback) {
-        if (data && data.filter._id) {
+        if (data && data.filter && data.filter._id) {
             City.search(data, function (err, data1) {
                 data4 = _.cloneDeep(data1);
                 _.each(data4.results, function (n) {
