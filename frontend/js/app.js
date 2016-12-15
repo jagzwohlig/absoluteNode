@@ -922,6 +922,15 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
                 model: "knowledge base"
             }
         })
+       .state('editKnowledgeBase', {
+        url: "/KnowledgeBase-edit/{id:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditKnowledgeBaseCtrl',
+        params: {
+            id: "",
+            model: "knowledge base"
+        }
+    })
         .state('createAllDocument', {
             url: "/AllDocument-create/{id:.*}/{model:.*}",
             templateUrl: "frontend/views/template.html",

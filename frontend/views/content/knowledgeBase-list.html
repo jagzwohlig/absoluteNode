@@ -78,9 +78,13 @@
                                         <a class="btn btn-primary" download="{{data.document}}" ng-href="{{data.document|downloadImage}}">
                                             <i class="fa fa-download"></i>
                                         </a>
+                                        <a class="btn btn-primary" ui-sref="editKnowledgeBase({id:data._id})">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
                                         <a class="btn btn-danger" ng-click="deleteModel(data._id)">
                                             <i class="fa fa-trash"></i>
                                         </a>
+
                                     </td>
                                 </tr>
                             </tbody>

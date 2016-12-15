@@ -2855,6 +2855,73 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
     })
+
+// 
+    .controller('EditKnowledgeBaseCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("knowledgeBase-detail");
+        $scope.menutitle = NavigationService.makeactive("Policy Type");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.userStatus = [{
+            "name": "Active",
+            "value": true
+        }, {
+            "name": "Inactive",
+            "value": false
+        }];
+        $scope.header = {
+            "name": "Edit Policy Type"
+        };
+        $scope.tags = [];
+       $scope.refreshTags = function (data) {
+            console.log("Data Inn", data);
+            var formdata = {};
+            formdata.keyword = data;
+            NavigationService.searchTags(formdata, 1, function (data) {
+                $scope.tags = data.data.results;
+            });
+        };
+
+        NavigationService.getOneModel("KnowledgeBase", $stateParams.id, function (data) {
+            $scope.formData = data.data;
+        });
+        $scope.cancel = function () {
+            $window.history.back();
+        }
+        hotkeys.bindTo($scope).add({
+            combo: 'ctrl+enter',
+            callback: function (formData) {
+                _.each(formData.tag, function (n) {
+                    n = n._id;
+                });
+                NavigationService.modelSave("KnowledgeBase", $scope.formData, function (data) {
+                    if (data.value === true) {
+                        $window.history.back();
+                        toastr.success("KnowledgeBase" + $scope.formData.name + " edited successfully.", "KnowledgeBase" + " Edited");
+                    } else {
+                        toastr.error("KnowledgeBase" + " edition failed.", "KnowledgeBase" + " editing error");
+                    }
+                });
+            }
+        });
+        $scope.saveModel = function (formData) {
+            _.each(formData.tag, function (n) {
+                n = n._id;
+            });
+            NavigationService.modelSave("KnowledgeBase", $scope.formData, function (data) {
+                if (data.value === true) {
+                    $window.history.back();
+                    toastr.success("KnowledgeBase" + $scope.formData.name + " edited successfully.", "KnowledgeBase" + " Edited");
+                } else {
+                    toastr.error("KnowledgeBase" + " edition failed.", "KnowledgeBase" + " editing error");
+                }
+            });
+        };
+
+    })
+// 
+
     .controller('CreateAllDocumentCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("all-document-details");
@@ -5276,8 +5343,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
         NavigationService.getOnePolicy($stateParams.id, function (data) {
             $scope.formData = data.data;
-            console.log('$scope.formData', $scope.formData);
-
         });
         $scope.cancel = function () {
             $window.history.back();
