@@ -38,23 +38,25 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Tag*</label>
-                                        <multiple-select my-enter name="department" required ng-model="formData.tag" ng-name="name.zone" api="searchTag" ng-create="departmentSave"></multiple-select>
-                                        <div class="error-msg" ng-show="policyTypeForm.department.$invalid">Please Enter Tag</div>
-                                    </div>
-                                    <div class="form-group">    
-                                        <label>Upload Documents</label> 
+                                        <!--<multiple-select my-enter multiple name="department" required ng-model="formData.tag" ng-name="name.zone" api="searchTag" ng-create="departmentSave"></multiple-select>
+                                        <div class="error-msg" ng-show="policyTypeForm.department.$invalid">Please Enter Tag</div>-->
+                                   <ui-select multiple ng-model="formData.tag" theme="bootstrap" required>
+                                            <ui-select-match>{{$item.name}}</ui-select-match>
+                                            <ui-select-choices repeat="tag in tags | filter:$select.search" refresh="refreshTags($select.search)" ui-disable-choice="tags.length==0">{{tag.name}}</ui-select-choices>
+                                        </ui-select>
+                                    </div>                            
+                                    <div class="form-group">
+                                        <label>Upload Documents</label>
                                         <upload-image ng-model="formData.document"></upload-image>
                                     </div>
                                 </div>
                             </div>
-
                             <div class="text-center mt20 odd-even-button">
                                 <button class="btn btn-default" type="submit" ng-disabled="policyTypeForm.$invalid">Save</button>
                                 <a class="btn btn-default" ng-click="cancel()">Cancel</a>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

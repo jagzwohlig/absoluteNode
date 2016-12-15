@@ -425,6 +425,13 @@ var navigationservice = angular.module('navigationservice', [])
                 callback(data, i);
             });
         },
+         searchTags: function (formData, i, callback) {
+            console.log("AAAAAAAA");
+            $http.post(adminurl + 'Tag/search', formData).success(function (data) {
+                console.log("Data",data);
+                callback(data, i);
+            });
+        },
         searchBroker: function (formData, i, callback) {
             formData.segment = "Broker";
             $http.post(adminurl + 'Customer/getSegmented', formData).success(function (data) {

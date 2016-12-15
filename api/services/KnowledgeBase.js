@@ -1,10 +1,10 @@
 var schema = new Schema({
     name: String,
-    tag: {
+    tag: [{
         type: Schema.Types.ObjectId,
         ref: "Tag",
         required: true
-    },
+    }],
     document: String
 });
 

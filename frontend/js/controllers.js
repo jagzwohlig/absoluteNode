@@ -2814,6 +2814,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
+       $scope.refreshTags = function (data) {
+            console.log("Data Inn", data);
+            var formdata = {};
+            formdata.keyword = data;
+            NavigationService.searchTags(formdata, 1, function (data) {
+                $scope.tags = data.data.results;
+            });
+        };
         $scope.cancel = function () {
             $window.history.back();
         }
@@ -2823,7 +2831,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 NavigationService.modelSave("KnowledgeBase", $scope.formData, function (data) {
                     if (data.value === true) {
                         console.log("Data In If", data.value);
-                        // $state.go('knowledgebase-list');
                         $window.history.back();
                         toastr.success("Document for " + " " + formData.name + " created successfully.", "Employee" + " Created");
                     } else {
