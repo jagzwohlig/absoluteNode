@@ -505,6 +505,7 @@ var model = {
         if (err) {
           callback(err, data2);
         } else if (data2) {
+          Model.getNearestSurveyer(data2, callback)
           async.each(foreignKeys, function (n, callback) {
             if (data[n.name] != data2[n.name]) {
               Config.manageArrayObject(mongoose.models[n.ref], data2[n.name], data2._id, n.key, "delete", function (err, md) {
@@ -531,7 +532,7 @@ var model = {
         if (err) {
           callback(err, data2);
         } else {
-          // Model.getNearestSurveyer(data2, callback)
+          Model.getNearestSurveyer(data2, callback)
           async.each(foreignKeys, function (n, callback) {
             Config.manageArrayObject(mongoose.models[n.ref], data2[n.name], data2._id, n.key, "create", function (err, md) {
               callback(err, data2);
@@ -550,16 +551,18 @@ var model = {
 
   getNearestSurveyer: function (data, callback) {
     Office.find({
-      // location: {
-      //   $near: {
-      //     $geometry: {
-      //       type: "Point",
-      //       coordinates: [72.03849475658762, 18.015210073047854]
-      //     },
-      //     $maxDistance: 100
-      //   }
-      // }
-    }).lean().exec(function (err, data2) {
+      location: {
+        $near: {
+          $geometry: {
+            type: "Point",
+            coordinates: [data.lat, data.lng],
+            coordinates: [19.1555762,  72.8849595]
+            //  Lat Long Form  19.1555762  72.8849595
+          },
+          // $maxDistance: 5000
+        }
+      }
+    }).limit(10).lean().exec(function (err, data2) {
       if (err) {
         console.log(err, null);
         callback(err,null);
