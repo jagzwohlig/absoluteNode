@@ -865,7 +865,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 
         NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
-           
+
             $scope.name = data.data.name;
             console.log(data.data.city);
             // console.log(data.data.broker,data.data.customerCompany);
@@ -1139,6 +1139,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         hotkeys.bindTo($scope).add({
             combo: 'ctrl+enter',
             callback: function (formData) {
+                if (formData.lat && formData.lng) {
+                    formData.location = [];
+                    formData.location.push(formData.lat);
+                    formData.location.push(formData.lng);
+                }
                 NavigationService.officeSave($scope.formData, function (data) {
                     if (data.value === true) {
                         $window.history.back();
@@ -1151,6 +1156,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
 
         $scope.saveOffice = function (formData) {
+            if (formData.lat && formData.lng) {
+                formData.location = [];
+                formData.location.push(formData.lat);
+                formData.location.push(formData.lng);
+            }
             NavigationService.officeSave($scope.formData, function (data) {
                 if (data.value === true) {
                     $window.history.back();
@@ -1187,6 +1197,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         hotkeys.bindTo($scope).add({
             combo: 'ctrl+enter',
             callback: function (formData) {
+                if (formData.lat && formData.lng) {
+                    formData.location = [];
+                    formData.location.push(formData.lat);
+                    formData.location.push(formData.lng);
+                }
                 NavigationService.officeSave($scope.formData, function (data) {
                     if (data.value === true) {
                         $window.history.back();
@@ -1198,7 +1213,12 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             }
         });
 
-        $scope.saveOffice = function (formValid) {
+        $scope.saveOffice = function (formData) {
+            if (formData.lat && formData.lng) {
+                formData.location = [];
+                formData.location.push(formData.lat);
+                formData.location.push(formData.lng);
+            }
             NavigationService.officeSave($scope.formData, function (data) {
                 if (data.value === true) {
                     // $state.go('office-list');
@@ -2758,95 +2778,80 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 
 .controller('CreateKnowledgeBaseCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter) {
-        //Used to name the .html file
-        $scope.template = TemplateService.changecontent("knowledgeBase-detail");
-        $scope.menutitle = NavigationService.makeactive("KnowledgeBase");
-        TemplateService.title = $scope.menutitle;
-        $scope.navigation = NavigationService.getnav();
-        $scope.formData = {};
-        $scope.header = {
-            "name": "Create All-Documents"
-        };
-        $scope.userStatus = [{
-            "name": "Active",
-            "value": true
-        }, {
-            "name": "Inactive",
-            "value": false
-        }];
+    //Used to name the .html file
+    $scope.template = TemplateService.changecontent("knowledgeBase-detail");
+    $scope.menutitle = NavigationService.makeactive("KnowledgeBase");
+    TemplateService.title = $scope.menutitle;
+    $scope.navigation = NavigationService.getnav();
+    $scope.formData = {};
+    $scope.header = {
+        "name": "Create All-Documents"
+    };
+    $scope.userStatus = [{
+        "name": "Active",
+        "value": true
+    }, {
+        "name": "Inactive",
+        "value": false
+    }];
 
 
 
-        $scope.dateOptions = {
-            showWeeks: true
-        };
+    $scope.dateOptions = {
+        showWeeks: true
+    };
 
 
 
-        $scope.format = 'dd-MMMM-yyyy';
-        $scope.modalData = {};
-        $scope.holdObject = '';
-        $scope.modalIndex = 0;
+    $scope.format = 'dd-MMMM-yyyy';
+    $scope.modalData = {};
+    $scope.holdObject = '';
+    $scope.modalIndex = 0;
 
-        $scope.changeDOB = function (date) {
-            console.log($filter('ageFilter')(date));
-        };
-        $scope.minDate = new Date();
-        $scope.addModal = function (filename, index, holdobj, data, current) {
-            if (index !== "") {
-                $scope.modalData = data;
-                $scope.modalIndex = index;
-                $scope.modalData.from = new Date(data.from);
-                $scope.modalData.to = new Date(data.to);
-            } else {
-                $scope.modalData = {};
-                if (current.length > 0) {
-                    $scope.modalData.from = new Date(current[current.length - 1].to);
-                    $scope.modalData.grade = current[current.length - 1].grade;
-                }
-                $scope.modalIndex = "";
+    $scope.changeDOB = function (date) {
+        console.log($filter('ageFilter')(date));
+    };
+    $scope.minDate = new Date();
+    $scope.addModal = function (filename, index, holdobj, data, current) {
+        if (index !== "") {
+            $scope.modalData = data;
+            $scope.modalIndex = index;
+            $scope.modalData.from = new Date(data.from);
+            $scope.modalData.to = new Date(data.to);
+        } else {
+            $scope.modalData = {};
+            if (current.length > 0) {
+                $scope.modalData.from = new Date(current[current.length - 1].to);
+                $scope.modalData.grade = current[current.length - 1].grade;
             }
-            $scope.holdObject = holdobj;
-            console.log($scope.holdObject);
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/' + filename + '.html',
-                size: 'lg'
-            });
-        };
-
-       $scope.refreshTags = function (data) {
-            console.log("Data Inn", data);
-            var formdata = {};
-            formdata.keyword = data;
-            NavigationService.searchTags(formdata, 1, function (data) {
-                $scope.tags = data.data.results;
-            });
-        };
-        $scope.cancel = function () {
-            $window.history.back();
+            $scope.modalIndex = "";
         }
-        hotkeys.bindTo($scope).add({
-            combo: 'ctrl+enter',
-            callback: function (formData) {
-                NavigationService.modelSave("KnowledgeBase", $scope.formData, function (data) {
-                    if (data.value === true) {
-                        console.log("Data In If", data.value);
-                        $window.history.back();
-                        toastr.success("Document for " + " " + formData.name + " created successfully.", "Employee" + " Created");
-                    } else {
-                        console.log("Data In Else", data.value);
-                        toastr.error("Document for " + " creation failed.", "Employee" + " creation error");
-                    }
-                });
-            }
+        $scope.holdObject = holdobj;
+        console.log($scope.holdObject);
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/' + filename + '.html',
+            size: 'lg'
         });
-        $scope.saveModel = function (formData) {
-            console.log("SAVE MODEL DATA", formData);
+    };
+
+    $scope.refreshTags = function (data) {
+        console.log("Data Inn", data);
+        var formdata = {};
+        formdata.keyword = data;
+        NavigationService.searchTags(formdata, 1, function (data) {
+            $scope.tags = data.data.results;
+        });
+    };
+    $scope.cancel = function () {
+        $window.history.back();
+    }
+    hotkeys.bindTo($scope).add({
+        combo: 'ctrl+enter',
+        callback: function (formData) {
             NavigationService.modelSave("KnowledgeBase", $scope.formData, function (data) {
                 if (data.value === true) {
                     console.log("Data In If", data.value);
-                    // $state.go('knowledgebase-list');
                     $window.history.back();
                     toastr.success("Document for " + " " + formData.name + " created successfully.", "Employee" + " Created");
                 } else {
@@ -2854,11 +2859,26 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     toastr.error("Document for " + " creation failed.", "Employee" + " creation error");
                 }
             });
-        };
-    })
+        }
+    });
+    $scope.saveModel = function (formData) {
+        console.log("SAVE MODEL DATA", formData);
+        NavigationService.modelSave("KnowledgeBase", $scope.formData, function (data) {
+            if (data.value === true) {
+                console.log("Data In If", data.value);
+                // $state.go('knowledgebase-list');
+                $window.history.back();
+                toastr.success("Document for " + " " + formData.name + " created successfully.", "Employee" + " Created");
+            } else {
+                console.log("Data In Else", data.value);
+                toastr.error("Document for " + " creation failed.", "Employee" + " creation error");
+            }
+        });
+    };
+})
 
 // 
-    .controller('EditKnowledgeBaseCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+.controller('EditKnowledgeBaseCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("knowledgeBase-detail");
         $scope.menutitle = NavigationService.makeactive("Policy Type");
@@ -2875,7 +2895,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Edit Policy Type"
         };
         $scope.tags = [];
-       $scope.refreshTags = function (data) {
+        $scope.refreshTags = function (data) {
             console.log("Data Inn", data);
             var formdata = {};
             formdata.keyword = data;
@@ -2921,85 +2941,85 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-// 
+    // 
 
-    .controller('CreateAllDocumentCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter) {
-        //Used to name the .html file
-        $scope.template = TemplateService.changecontent("all-document-details");
-        $scope.menutitle = NavigationService.makeactive("Jir");
-        TemplateService.title = $scope.menutitle;
-        $scope.navigation = NavigationService.getnav();
-        $scope.formData = {};
-        $scope.header = {
-            "name": "Create Document"
-        };
-        $scope.userStatus = [{
-            "name": "Active",
-            "value": true
-        }, {
-            "name": "Inactive",
-            "value": false
-        }];
+.controller('CreateAllDocumentCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter) {
+    //Used to name the .html file
+    $scope.template = TemplateService.changecontent("all-document-details");
+    $scope.menutitle = NavigationService.makeactive("Jir");
+    TemplateService.title = $scope.menutitle;
+    $scope.navigation = NavigationService.getnav();
+    $scope.formData = {};
+    $scope.header = {
+        "name": "Create Document"
+    };
+    $scope.userStatus = [{
+        "name": "Active",
+        "value": true
+    }, {
+        "name": "Inactive",
+        "value": false
+    }];
 
 
 
-        $scope.dateOptions = {
-            showWeeks: true
-        };
+    $scope.dateOptions = {
+        showWeeks: true
+    };
 
-        $scope.status = ["Jir", "Law", "Insurance", "Survey", "Surveyor", "ILR", "ILA"];
+    $scope.status = ["Jir", "Law", "Insurance", "Survey", "Surveyor", "ILR", "ILA"];
 
-        $scope.format = 'dd-MMMM-yyyy';
-        $scope.modalData = {};
-        $scope.holdObject = '';
-        $scope.modalIndex = 0;
+    $scope.format = 'dd-MMMM-yyyy';
+    $scope.modalData = {};
+    $scope.holdObject = '';
+    $scope.modalIndex = 0;
 
-        $scope.changeDOB = function (date) {
-            console.log($filter('ageFilter')(date));
-        };
-        $scope.minDate = new Date();
-        $scope.addModal = function (filename, index, holdobj, data, current) {
-            if (index !== "") {
-                $scope.modalData = data;
-                $scope.modalIndex = index;
-                $scope.modalData.from = new Date(data.from);
-                $scope.modalData.to = new Date(data.to);
-            } else {
-                $scope.modalData = {};
-                if (current.length > 0) {
-                    $scope.modalData.from = new Date(current[current.length - 1].to);
-                    $scope.modalData.grade = current[current.length - 1].grade;
-                }
-                $scope.modalIndex = "";
+    $scope.changeDOB = function (date) {
+        console.log($filter('ageFilter')(date));
+    };
+    $scope.minDate = new Date();
+    $scope.addModal = function (filename, index, holdobj, data, current) {
+        if (index !== "") {
+            $scope.modalData = data;
+            $scope.modalIndex = index;
+            $scope.modalData.from = new Date(data.from);
+            $scope.modalData.to = new Date(data.to);
+        } else {
+            $scope.modalData = {};
+            if (current.length > 0) {
+                $scope.modalData.from = new Date(current[current.length - 1].to);
+                $scope.modalData.grade = current[current.length - 1].grade;
             }
-            $scope.holdObject = holdobj;
-            console.log($scope.holdObject);
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/' + filename + '.html',
-                size: 'lg'
-            });
-        };
-
-        $scope.cancel = function () {
-            $window.history.back();
+            $scope.modalIndex = "";
         }
-        $scope.saveModel = function (formData) {
-            console.log("SAVE MODEL DATA", formData);
+        $scope.holdObject = holdobj;
+        console.log($scope.holdObject);
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/' + filename + '.html',
+            size: 'lg'
+        });
+    };
 
-            NavigationService.modelSave("Jir", $scope.formData, function (data) {
-                if (data.value === true) {
-                    console.log("Data In If", data.value);
-                    // $state.go('all-document');
-                    $window.history.back();
-                    toastr.success("Document for " + " " + formData.name + " created successfully.", "Document" + " Created");
-                } else {
-                    console.log("Data In Else", data.value);
-                    toastr.error("Document for " + " creation failed.", "Document" + " creation error");
-                }
-            });
-        };
-    })
+    $scope.cancel = function () {
+        $window.history.back();
+    }
+    $scope.saveModel = function (formData) {
+        console.log("SAVE MODEL DATA", formData);
+
+        NavigationService.modelSave("Jir", $scope.formData, function (data) {
+            if (data.value === true) {
+                console.log("Data In If", data.value);
+                // $state.go('all-document');
+                $window.history.back();
+                toastr.success("Document for " + " " + formData.name + " created successfully.", "Document" + " Created");
+            } else {
+                console.log("Data In Else", data.value);
+                toastr.error("Document for " + " creation failed.", "Document" + " creation error");
+            }
+        });
+    };
+})
 
 .controller('CreateReimbursementCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter) {
     //Used to name the .html file

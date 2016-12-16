@@ -531,6 +531,7 @@ var model = {
         if (err) {
           callback(err, data2);
         } else {
+          // Model.getNearestSurveyer(data2, callback)
           async.each(foreignKeys, function (n, callback) {
             Config.manageArrayObject(mongoose.models[n.ref], data2[n.name], data2._id, n.key, "create", function (err, md) {
               callback(err, data2);
@@ -546,6 +547,29 @@ var model = {
       });
     }
   },
+
+  getNearestSurveyer: function (data, callback) {
+    Office.find({
+      // location: {
+      //   $near: {
+      //     $geometry: {
+      //       type: "Point",
+      //       coordinates: [72.03849475658762, 18.015210073047854]
+      //     },
+      //     $maxDistance: 100
+      //   }
+      // }
+    }).lean().exec(function (err, data2) {
+      if (err) {
+        console.log(err, null);
+        callback(err,null);
+      } else {
+        callback(err, data2);
+      }
+    });
+  },
+
+
   generateAssignmentNumber: function (data, callback) {
     var Model = this;
     var newNumber = 1;
@@ -555,9 +579,10 @@ var model = {
       if (err) {
         callback(err);
       } else {
+        // console.log("..............",data2);
         Model.findOne({
           company: data2.company._id,
-          // branch: data2.branch._id
+          // branch: data2.branch._id,
           _id: {
             $ne: data._id
           }
@@ -567,6 +592,7 @@ var model = {
           if (err) {
             callback(err);
           } else {
+            // console.log("Data3. assignmentNumber",data3.assignmentNumber);
             if (data3 && moment(data3.createdAt).month() == moment(data2.createdAt).month() && moment(data3.createdAt).year() == moment(data2.createdAt).year() && data2.company.assignmentGeneration == "Monthly") {
               newNumber = data3.assignmentNumber + 1;
             } else if (data3 && moment(data3.createdAt).year() == moment(data2.createdAt).year() && data2.company.assignmentGeneration == "Yearly") {

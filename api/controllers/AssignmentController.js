@@ -17,6 +17,16 @@ var controller = {
             });
         }
     },
+    getNearestSurveyer: function (req, res) {
+        if (req.body) {
+            req.model.getNearestSurveyer(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: "Invalid Request"
+            });
+        }
+    },
     generateAssignmentNumber: function (req, res) {
         if (req.body) {
             req.model.generateAssignmentNumber(req.body, res.callback);
