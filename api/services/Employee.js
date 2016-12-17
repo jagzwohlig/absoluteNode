@@ -96,6 +96,7 @@ var schema = new Schema({
         key: "employee"
     },
     address: String,
+    formatted_address:String,
     pincode: String,
     lat: {
         type: Number,

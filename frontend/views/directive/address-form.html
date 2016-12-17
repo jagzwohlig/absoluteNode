@@ -1,5 +1,5 @@
 <div class="form-group">
-    <label>City</label>
+    <label>City*</label>
     <multiple-select my-enter name="city" ng-model="formData.city" ng-name="formData.city1" api="searchPopulatedCity"
          ng-create="citySave"></multiple-select>
     <div class="error-msg" ng-show="demoForm.city.$invalid">Please Enter city</div>
@@ -10,8 +10,9 @@
     <textarea class="form-control" ng-model="formData.address"></textarea>
 </div>
 <div class="form-group">
-    <label>Postal Code</label>
-    <input type="text" class="form-control" ng-model="formData.pincode" ng-keyup="getLatLng(formData.pincode+','+name.country);">
+    <label>Postal Code*</label>{{name.country}}
+    <input type="text" class="form-control" ng-model="formData.pincode" ng-keyup="getLatLng(formData.pincode);">
+    <!--+' ,'+name.country-->
 </div>
 <div class="form-group">
     <label for="">Latitude</label>
@@ -28,11 +29,18 @@
         </ng-map>
     </div>
 </div>
-<div class="form-group" ng-show="formData.country && formData.zone && formData.state && formData.district && formData.city && formData.pincode && formData.address">
-    <label>Final Address</label>
-    <div>
-        {{formData.address }},</br>
-        {{formData.city1}} {{formData.pincode}},</br>
+<!--<div>{{formData.country}},</div> ng-show="formData.country && formData.zone && formData.state && formData.district && formData.city && formData.pincode && formData.address"-->
+<div class="form-group" ng-show="formData.city && formData.pincode">
+    <label>Final Address</label>{{formData.district}}
+    <!--<div>
+       <div ng-show="formData.address"> {{formData.address }},<br></div>
+        {{formData.city1}} {{formData.pincode}},<br>
         {{name.district}}, {{name.state}}, {{name.country}}
+    </div>-->
+     <div>
+       <div ng-show="formData.address"> {{formData.address}},<br></div>
+        {{formData.city1}},<br>
+        {{formData.formatted_address}}
+        <!--{{name.district}}, {{name.state}}, {{name.country}}-->
     </div>
 </div>

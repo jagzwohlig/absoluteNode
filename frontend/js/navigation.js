@@ -1987,6 +1987,7 @@ var navigationservice = angular.module('navigationservice', [])
                 method: 'GET',
                 withCredentials: false,
             }).success(function (data) {
+                console.log("getLatLng In Nav",data, i);
                 callback(data, i);
             });
         }

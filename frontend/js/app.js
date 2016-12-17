@@ -1977,10 +1977,12 @@ firstapp.directive('addressForm', function ($document) {
 
             var LatLongi = 0;
             $scope.getLatLng = function (address) {
-
+                
+                console.log("getLatLng Funct Enter param",address+" ,");
                 NavigationService.getLatLng(address, ++LatLongi, function (data, i) {
-
+                    console.log("geometry Data",data);
                     if (i == LatLongi) {
+                        $scope.formData.formatted_address=data.results[0].formatted_address;
                         $scope.formData = _.assign($scope.formData, data.results[0].geometry.location);
                         console.log("In function App",$scope.formData);
                     }
