@@ -543,8 +543,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.abc = function (modalData) {
         console.log("IIIIIIIIIIIIIIINNNNNNNNNNNNN");
         console.log("Data", modalData);
-        // modelData.name=modalData.from;
-        // console.log("Data",modalData.from);
     };
     $scope.createOfficer = function (modelData) {
         $scope.formData.officers.push(modelData);
@@ -665,8 +663,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         if ($stateParams.assignment) {
             NavigationService.getOneModel("Assignment", $stateParams.assignment, function (data) {
                 $scope.formData = data.data;
-
-                // console.log("Form Clone", $scope.formData.name);
                 delete $scope.formData._id;
                 delete $scope.formData.appointment;
                 delete $scope.formData.intimatedLoss;
@@ -868,7 +864,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
             $scope.name = data.data.name;
             console.log(data.data.city);
-            // console.log(data.data.broker,data.data.customerCompany);
             $scope.formData = data.data;
             $scope.MRnumber = data.data.city.district.state.zone.country.countryCode;
             $scope.formData.dateOfIntimation = new Date(data.data.dateOfIntimation);
@@ -1991,7 +1986,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             globalfunction.confDel(function (value) {
                 console.log("Delete value", value);
                 if (value) {
-                    // console.log("Delete Value", type);
                     NavigationService.deleteModel($scope.ModelApi, id, function (data) {
                         if (data.value) {
                             console.log("Delete Value", data.value);
@@ -3185,7 +3179,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         if (data.data.name) {
             $scope.formData.name = data.data.name._id;
             $scope.formData.assignment = data.data.assignment._id;
-            // console.log("$scope.formData.fromDate", $scope.formData.fromDate);
         }
         if (data.data.fromDate) {
             $scope.formData.fromDate = new Date(data.data.fromDate);
@@ -3507,7 +3500,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         hotkeys.bindTo($scope).add({
             combo: 'ctrl+enter',
             callback: function (formData) {
-                 if (formData.lat && formData.lng) {
+                if (formData.lat && formData.lng) {
                     formData.location = [];
                     formData.location.push(formData.lat);
                     formData.location.push(formData.lng);
@@ -3526,10 +3519,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
         $scope.saveModel = function (formData) {
             if (formData.lat && formData.lng) {
-                    formData.location = [];
-                    formData.location.push(formData.lat);
-                    formData.location.push(formData.lng);
-                }
+                formData.location = [];
+                formData.location.push(formData.lat);
+                formData.location.push(formData.lng);
+            }
             console.log(formData);
             $scope.formData.name = $scope.formData.firstName + " " + $scope.formData.lastName;
             NavigationService.modelSave("Employee", $scope.formData, function (data) {
@@ -3711,11 +3704,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             }
             NavigationService.getDepartment(function (data1) {
                 $scope.departments = data1.data.results;
-
-                // $scope.departments = _.flatten(_.map(data1.data.results, function(item) {
-                //     return _.filter(data.data.department, item);
-                // }));
-                // console.log($scope.departments);
             });
             if (data.data.birthDate) {
                 $scope.formData.birthDate = new Date(data.data.birthDate);
@@ -3756,10 +3744,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
         $scope.saveModel = function (formData) {
             if (formData.lat && formData.lng) {
-                    formData.location = [];
-                    formData.location.push(formData.lat);
-                    formData.location.push(formData.lng);
-                }
+                formData.location = [];
+                formData.location.push(formData.lat);
+                formData.location.push(formData.lng);
+            }
             $scope.formData.name = $scope.formData.firstName + " " + $scope.formData.lastName;
             NavigationService.modelSave("Employee", $scope.formData, function (data) {
                 if (data.value === true) {
@@ -4882,10 +4870,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             NavigationService.departmentSave($scope.formData, function (data) {
                 console.log(data);
                 if (data.value === true) {
-                    // $state.go('department-list');
                     $window.history.back();
                 }
-                // console.log('$scope.allCountriessave', $scope.data);
 
             });
         };
@@ -4987,10 +4973,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             NavigationService.uniquetypeSave($scope.formData, function (data) {
                 console.log(data);
                 if (data.value === true) {
-                    // $state.go('uniquetype-list');
                     $window.history.back();
                 }
-                // console.log('$scope.allCountriessave', $scope.data);
 
             });
         };
@@ -5357,10 +5341,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             NavigationService.policySave($scope.formData, function (data) {
                 console.log(data);
                 if (data.value === true) {
-                    // $state.go('policy-list');
                     $window.history.back();
                 }
-                // console.log('$scope.allCountriessave', $scope.data);
 
             });
         };
@@ -6089,10 +6071,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             NavigationService.funcSave($scope.formData, function (data) {
                 console.log(data);
                 if (data.value === true) {
-                    // $state.go('func-list');
                     $window.history.back();
                 }
-                // console.log('$scope.allCountriessave', $scope.data);
 
             });
         };
@@ -6359,10 +6339,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             NavigationService.naturelossSave($scope.formData, function (data) {
                 console.log(data);
                 if (data.value === true) {
-                    // $state.go('natureloss-list');
                     $window.history.back();
                 }
-                // console.log('$scope.allCountriessave', $scope.data);
 
             });
         };
@@ -6478,10 +6456,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             NavigationService.businessbranchSave($scope.formData, function (data) {
                 console.log(data);
                 if (data.value === true) {
-                    // $state.go('businessbranch-list');
                     $window.history.back();
                 }
-                // console.log('$scope.allCountriessave', $scope.data);
 
             });
         };
@@ -6582,10 +6558,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             NavigationService.menuSave($scope.formData, function (data) {
                 console.log(data);
                 if (data.value === true) {
-                    // $state.go('menu-list');
                     $window.history.back();
                 }
-                // console.log('$scope.allCountriessave', $scope.data);
 
             });
         };
@@ -6616,7 +6590,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
         NavigationService.getOneMenu($stateParams.id, function (data) {
             $scope.formData = data.data;
-            // console.log('$scope.oneCountry', $scope.oneCountry);
 
         });
         $scope.cancel = function () {
@@ -6702,10 +6675,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             NavigationService.roleSave($scope.formData, function (data) {
                 console.log(data);
                 if (data.value === true) {
-                    // $state.go('role-list');
                     $window.history.back();
                 }
-                // console.log('$scope.allCountriessave', $scope.data);
 
             });
         };
@@ -6729,19 +6700,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.UserType = ['internal', 'external'];
         NavigationService.getOneRole($stateParams.id, function (data) {
             $scope.formData = data.data;
-            // console.log('$scope.oneCountry', $scope.oneCountry);
 
         });
         $scope.cancel = function () {
             $window.history.back();
         };
         $scope.saveRole = function (formValid) {
-
-            //  if (formValid.$valid) {
-            //  $scope.formComplete = true;
             NavigationService.roleEditSave($scope.formData, function (data) {
                 if (data.value === true) {
-                    // $state.go('role-list');
                     $window.history.back();
                 }
             });
@@ -6819,10 +6785,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             NavigationService.userSave($scope.formData, function (data) {
                 console.log(data);
                 if (data.value === true) {
-                    // $state.go('user-list');
                     $window.history.back();
                 }
-                // console.log('$scope.allCountriessave', $scope.data);
 
             });
         };
@@ -7390,9 +7354,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.$watch('formData.customerCompany', function () {
             if ($scope.formData.customerCompany) {
                 NavigationService.getOneModel('CustomerCompany', $scope.formData.customerCompany, function (data) {
-                    //    console.log(data);
                     $scope.formData.companyShortName = data.data.shortName;
-                    // console.log("CIty Detalis",$scope.formData);
                     if ($scope.formData.officeCode === "") {
                         arr = _.split($scope.formData.city1, ",", 1);
                         $scope.formData.city1 = arr[0];
@@ -7440,7 +7402,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.formData.district = data.data.city.district._id;
                 $scope.formData.city = data.data.city._id;
             }
-            // console.log("asdfg",$scope.formData.city.name);
             $scope.formData.name = $scope.formData.companyShortName + '-' + $scope.formData.TOFShortName + '-' + $scope.formData.officeCode + '-' + $scope.formData.city1;
 
         });
@@ -7627,7 +7588,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.model = "";
             }
             var filter = {};
-            // console.log($scope.filter);
             if ($scope.filter) {
                 filter = JSON.parse($scope.filter);
             }
@@ -8531,7 +8491,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 })
 
 .controller('TimelineCtrl', function ($scope, $window, TemplateService, NavigationService, AssignmentTemplate, $timeout, $uibModal, $stateParams, toastr, $filter, $state) {
-    //Used to name the .html file
     $scope.template = TemplateService.changecontent("timeline");
     $scope.menutitle = NavigationService.makeactive("Timeline");
     TemplateService.title = $scope.menutitle;
@@ -8539,7 +8498,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.email = {
         message: ""
     };
-    $scope.getSurveyors=[];
+    $scope.getSurveyors = [];
     $scope.emailtos = [{
         name: 'Mahesh',
         email: 'mahesh@wohlig.com'
@@ -8562,16 +8521,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     // 
     $scope.getAssignmentData = function () {
-       NavigationService.getOneModel("Assignment",$stateParams.id , function (data) {
-           NavigationService.getNearerSurveyor(data.data,function(data){
-               console.log("Data In Survayer",$scope.getSurveyors);
-               $scope.getSurveyors=data.data;
-               console.log("Data In Survayer",$scope.getSurveyors);
-           });
+        NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
+            NavigationService.getNearerSurveyor(data.data, function (data) {
+                $scope.getSurveyors = data.data;
+            });
         });
     };
     $scope.getAssignmentData();
-        
+
     // 
 
     $scope.tinymceModel = 'Initial content';
@@ -8749,9 +8706,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
                 toastr.success("Created " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
                 $scope.assignmentRefresh();
-                // $state.go('timeline', {
-                //     id: $scope.assignment._id
-                // });
             } else {
                 toastr.error("Error occured in Creating " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
             }
@@ -8867,7 +8821,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.message.type = type;
         $scope.timeline.chat.push($scope.message);
         NavigationService.saveChat($scope.timeline, function (data) {
-            // console.log(data);
+
             $scope.getTimeline();
         });
     };
@@ -9308,7 +9262,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     }, function (data) {
         $scope.email = data.data;
         var a = $filter("base64url")(data.data.raw);
-        // console.log($scope.email);
+
         $scope.email.attachment = [];
         switch ($scope.email.payload.mimeType) {
             case "multipart/related":

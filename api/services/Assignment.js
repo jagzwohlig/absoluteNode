@@ -505,7 +505,6 @@ var model = {
         if (err) {
           callback(err, data2);
         } else if (data2) {
-          // Model.getNearestSurveyor(data2, callback)
           async.each(foreignKeys, function (n, callback) {
             if (data[n.name] != data2[n.name]) {
               Config.manageArrayObject(mongoose.models[n.ref], data2[n.name], data2._id, n.key, "delete", function (err, md) {
@@ -532,7 +531,6 @@ var model = {
         if (err) {
           callback(err, data2);
         } else {
-          // Model.getNearestSurveyor(data2, callback)
           async.each(foreignKeys, function (n, callback) {
             Config.manageArrayObject(mongoose.models[n.ref], data2[n.name], data2._id, n.key, "create", function (err, md) {
               callback(err, data2);
@@ -550,20 +548,21 @@ var model = {
   },
 
   getNearestSurveyor: function (data, callback) {
-    console.log("Data In GetSurveyer",data.lat,data.lng);
     Employee.find({
       location: {
         $near: {
           $geometry: {
             type: "Point",
-            coordinates: [data.lat, data.lng]
+            coordinates: [data.lng, data.lat]
           }
         }
       }
-    },{name:1,photo:1}).limit(10).lean().exec(function (err, data2) {
+    }, {
+      name: 1,
+      photo: 1
+    }).limit(10).lean().exec(function (err, data2) {
       if (err) {
-        console.log(err, null);
-        callback(err,null);
+        callback(err, null);
       } else {
         callback(err, data2);
       }
@@ -580,10 +579,8 @@ var model = {
       if (err) {
         callback(err);
       } else {
-        // console.log("..............",data2);
         Model.findOne({
           company: data2.company._id,
-          // branch: data2.branch._id,
           _id: {
             $ne: data._id
           }
@@ -593,7 +590,6 @@ var model = {
           if (err) {
             callback(err);
           } else {
-            // console.log("Data3. assignmentNumber",data3.assignmentNumber);
             if (data3 && moment(data3.createdAt).month() == moment(data2.createdAt).month() && moment(data3.createdAt).year() == moment(data2.createdAt).year() && data2.company.assignmentGeneration == "Monthly") {
               newNumber = data3.assignmentNumber + 1;
             } else if (data3 && moment(data3.createdAt).year() == moment(data2.createdAt).year() && data2.company.assignmentGeneration == "Yearly") {
@@ -688,8 +684,6 @@ var model = {
             data2.name = data2.city.district.state.zone.country.countryCode + data2.company.companyCode + fourthDigit + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
 
             data2.name1 = moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
-            // add this here ss
-            // data2.name1=subString(data2.name.length-8);
             data2.save(function (err, data) {
               callback(err, data);
             });
@@ -757,7 +751,6 @@ var model = {
     var Model = this;
     var Const = this(data);
     var maxRow = Config.maxRow;
-    console.log(data.segment);
     var page = 1;
     if (data.page) {
       page = data.page;

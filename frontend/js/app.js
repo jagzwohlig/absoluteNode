@@ -922,15 +922,15 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
                 model: "knowledge base"
             }
         })
-       .state('editKnowledgeBase', {
-        url: "/KnowledgeBase-edit/{id:.*}/{model:.*}",
-        templateUrl: "frontend/views/template.html",
-        controller: 'EditKnowledgeBaseCtrl',
-        params: {
-            id: "",
-            model: "knowledge base"
-        }
-    })
+        .state('editKnowledgeBase', {
+            url: "/KnowledgeBase-edit/{id:.*}/{model:.*}",
+            templateUrl: "frontend/views/template.html",
+            controller: 'EditKnowledgeBaseCtrl',
+            params: {
+                id: "",
+                model: "knowledge base"
+            }
+        })
         .state('createAllDocument', {
             url: "/AllDocument-create/{id:.*}/{model:.*}",
             templateUrl: "frontend/views/template.html",
@@ -1477,7 +1477,6 @@ firstapp.filter("mrnumber", function (NavigationService, $timeout) {
     return function (input) {
         var MRNumber = "";
         NavigationService.getOneCity(input.city, function (data) {
-            // console.log(data);
             MRNumber = data.data.district.state.zone.country.countryCode;
             return data;
         });
@@ -1926,21 +1925,16 @@ firstapp.directive('addressForm', function ($document) {
                 });
             };
             var value2 = "a";
-            //  Start Changes  Remove value2 or else it will work only Once
             $scope.populateAddress = function (data, value) {
-                // console.log("demo clicked", data, value);
                 console.log($scope.formData);
                 var id = data;
                 // Start
-                if (value2 === data) {
-                    // console.log("Repeated Data",data);
-                } else {
+                if (value2 === data) {} else {
                     if (data !== undefined && id !== "") {
                         value2 = data;
                         NavigationService.getOneModel(value, id, function (data) {
                             console.log()
                             console.log("Before", $scope.formData.district, $scope.formData.state, $scope.formData.zone, $scope.formData.country);
-                            // $scope.formData = data.data;
                             $scope.formData = {};
                             if (value === "City") {
                                 console.log("dfhajshwfaljhdsk")
@@ -1977,34 +1971,20 @@ firstapp.directive('addressForm', function ($document) {
 
             var LatLongi = 0;
             $scope.getLatLng = function (address) {
-                
-                console.log("getLatLng Funct Enter param",address+" ,");
+
+                console.log("getLatLng Funct Enter param", address + " ,");
                 NavigationService.getLatLng(address, ++LatLongi, function (data, i) {
-                    console.log("geometry Data",data);
+                    console.log("geometry Data", data);
                     if (i == LatLongi) {
-                        $scope.formData.formatted_address=data.results[0].formatted_address;
+                        $scope.formData.formatted_address = data.results[0].formatted_address;
                         $scope.formData = _.assign($scope.formData, data.results[0].geometry.location);
-                        console.log("In function App",$scope.formData);
+                        console.log("In function App", $scope.formData);
                     }
                 });
                 // $http.get("http://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyCn9ypqFNxdXt9Zu2YqLcdD1Xdt2wNul9s&address="+address);
             };
 
         },
-        // link: function($scope, element, attr, NgMap) {
-        //     var $element = $(element);
-        //     $scope.demoForm = {};
-        //     $scope.demoForm.lat = 19.0760;
-        //     $scope.demoForm.long = 72.8777;
-        //     $scope.map = {};
-        //     $scope.change = function() {
-        //       NgMap.getMap().then(function(map) {
-        //         console.log(map);
-        //       });
-        //
-        //     };
-        //
-        // }
     };
 });
 var aa = {};
@@ -2032,7 +2012,6 @@ firstapp.directive('multipleSelect', function ($document, $timeout) {
                 scope.isRequired = false;
             }
             scope.typeselect = attr.typeselect;
-            // $scope.searchNew()
             aa = $element;
             var maxItemLength = 40;
             var maxBoxLength = 200;
