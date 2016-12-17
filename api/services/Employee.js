@@ -3,6 +3,10 @@ var schema = new Schema({
         type: String,
         required: true
     },
+        location: {
+    type: [Number],
+    index: '2dsphere'
+  },
     firstName: {
         type: String,
         required: true

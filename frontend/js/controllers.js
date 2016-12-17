@@ -3507,6 +3507,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         hotkeys.bindTo($scope).add({
             combo: 'ctrl+enter',
             callback: function (formData) {
+                 if (formData.lat && formData.lng) {
+                    formData.location = [];
+                    formData.location.push(formData.lat);
+                    formData.location.push(formData.lng);
+                }
                 $scope.formData.name = $scope.formData.firstName + " " + $scope.formData.lastName;
                 NavigationService.modelSave("Employee", $scope.formData, function (data) {
                     if (data.value === true) {
@@ -3520,6 +3525,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             }
         });
         $scope.saveModel = function (formData) {
+            if (formData.lat && formData.lng) {
+                    formData.location = [];
+                    formData.location.push(formData.lat);
+                    formData.location.push(formData.lng);
+                }
             console.log(formData);
             $scope.formData.name = $scope.formData.firstName + " " + $scope.formData.lastName;
             NavigationService.modelSave("Employee", $scope.formData, function (data) {
@@ -3726,6 +3736,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         hotkeys.bindTo($scope).add({
             combo: 'ctrl+enter',
             callback: function (formData) {
+                if (formData.lat && formData.lng) {
+                    formData.location = [];
+                    formData.location.push(formData.lat);
+                    formData.location.push(formData.lng);
+                }
                 $scope.formData.name = $scope.formData.firstName + " " + $scope.formData.lastName;
                 console.log($scope.formData);
                 NavigationService.modelSave("Employee", $scope.formData, function (data) {
@@ -3739,9 +3754,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 });
             }
         });
-        $scope.saveModel = function (formValid) {
+        $scope.saveModel = function (formData) {
+            if (formData.lat && formData.lng) {
+                    formData.location = [];
+                    formData.location.push(formData.lat);
+                    formData.location.push(formData.lng);
+                }
             $scope.formData.name = $scope.formData.firstName + " " + $scope.formData.lastName;
-            console.log($scope.formData);
             NavigationService.modelSave("Employee", $scope.formData, function (data) {
                 if (data.value === true) {
                     // $state.go('employee-list');
@@ -8517,10 +8536,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.menutitle = NavigationService.makeactive("Timeline");
     TemplateService.title = $scope.menutitle;
     $scope.navigation = NavigationService.getnav();
-
     $scope.email = {
         message: ""
     };
+    $scope.getSurveyors=[];
     $scope.emailtos = [{
         name: 'Mahesh',
         email: 'mahesh@wohlig.com'
@@ -8540,6 +8559,20 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         name: 'Raj',
         email: 'raj@wohlig.com'
     }];
+
+    // 
+    $scope.getAssignmentData = function () {
+       NavigationService.getOneModel("Assignment",$stateParams.id , function (data) {
+           NavigationService.getNearerSurveyor(data.data,function(data){
+               console.log("Data In Survayer",$scope.getSurveyors);
+               $scope.getSurveyors=data.data;
+               console.log("Data In Survayer",$scope.getSurveyors);
+           });
+        });
+    };
+    $scope.getAssignmentData();
+        
+    // 
 
     $scope.tinymceModel = 'Initial content';
     $scope.tinymceOptions = {
