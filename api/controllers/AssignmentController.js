@@ -17,9 +17,9 @@ var controller = {
             });
         }
     },
-    getNearestSurveyer: function (req, res) {
+    getNearestSurveyor: function (req, res) {
         if (req.body) {
-            req.model.getNearestSurveyer(req.body, res.callback);
+            req.model.getNearestSurveyor(req.body, res.callback);
         } else {
             res.json({
                 value: false,
