@@ -8369,7 +8369,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.header = {
         "name": "Form Name"
     };
-
+    $scope.Saved=false;
     $scope.forms = [{
         head: 'Snapshot',
         items: [{
@@ -8477,8 +8477,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 }
             });
         } else {
-            console.log("ABBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",$scope.forms);
+            $scope.Saved=true;
             NavigationService.editAssignmentTemplate($scope.forms, function (data) {
+                
                 if (data.value) {
                     $scope.message.title = "Updated " + $stateParams.type;
                     $scope.sendMessage("Template");
