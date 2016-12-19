@@ -732,10 +732,19 @@ var model = {
   },
   editAssignmentTemplate: function (body, callback) {
     var Model = this;
+    var $scope = {};
     var data2 = _.cloneDeep(body);
     delete data2.assignment;
     delete data2.type;
-
+    console.log("INNNNNNNNNNNNN",data2);
+     $scope.data = data2;
+     _.each($scope.data.forms,function(n){
+       _.each(n.items,function(m){
+       if(m.value=="Date"){
+         m.field=moment(m.field).format('ddd, MMM Do, YYYY');
+       }
+     });
+     });
     var findObj = {
       _id: body.assignment
     };
@@ -745,7 +754,14 @@ var model = {
     setObj[body.type + ".$"] = data2;
     Model.update(findObj, {
       "$set": setObj
-    }, callback);
+    }, function(err,data3){
+      if(err){
+        callback(err,null);
+      }
+      else{
+        Config.generatePdf("pdf/abs-synopsis", $scope, callback);
+      }
+    });
   },
   getPerson: function (data, callback) {
     var Model = this;

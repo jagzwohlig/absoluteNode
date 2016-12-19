@@ -10,35 +10,37 @@
             padding: 30px;
             font-family: sans-serif;
         }
-
+        
         table {
             width: 100%;
             border-collapse: collapse;
         }
-
+        
         th {
             width: 50%;
             background-color: red;
             text-align: left;
             padding: 10px;
         }
-
+        
         tr {
             width: 100%;
         }
-
+        
         td {
             width: 50%;
             padding: 10px;
             border: 1px solid #000;
             min-height: 30px;
         }
-        .white-text{
-          color: transparent;
-          user-select: none;
+        
+        .white-text {
+            color: transparent;
+            user-select: none;
         }
-        .blank-row{
-          height: 20px !important;
+        
+        .blank-row {
+            height: 20px !important;
         }
     </style>
 </head>
@@ -46,32 +48,28 @@
 <body>
     <div>
         <table>
-            <tr>
-                <td colspan="2"><b>SYNOPSIS</b></td>
-            </tr>
-            <tr>
-                <td>INSURED</td>
-                <td>Absolute Insurance Surveyors & Loss Assessors Pvt Ltd - ASPL</td>
-            </tr>
-            <tr>
-                <td>INSURER</td>
-                <td>dd/mm/yyyy</td>
-            </tr>
-            <tr>
-                <td colspan="2" class="white-text blank-row"></td>
-            </tr>
-            <tr>
-                <td colspan="2"><b>CONSIGNMENT</b></td>
-                <!-- <td></td> -->
-            </tr>
-            <tr>
-                <td>LR NUMBER</td>
-                <td>Enter LR NUMBER</td>
-            </tr>
-            <tr>
-                <td>NOTES</td>
-                <td>Enter NOTES</td>
-            </tr>
+            <% for(var i=0; i<data.forms.length; i++) {%>
+                <tr>
+                    <td colspan="2"><b><%= data.forms[i].name %></b></td>
+                </tr>
+                <% for(var j=0; j<data.forms[i].items.length; j++) {%>
+                    <tr>
+                        <td>
+                            <%= data.forms[i].items[j].name %>
+                        </td>
+                     <% if(data.forms[i].items[j].type=="Custom Input") {  %>   
+                        <td>
+                            <%= data.forms[i].items[j].field %>
+                        </td>
+                        <% }else{%>
+                        <td>
+                            <%= data.forms[i].items[j].field %>
+                        </td>
+                         <% }%>
+                    </tr>
+                    <% } %>
+                    <% } %>
         </table>
+        
     </div>
 </body>

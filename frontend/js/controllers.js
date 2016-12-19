@@ -8457,6 +8457,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     $scope.saveModel = function (templateObj) {
 
+
+        console.log("Save Data",templateObj);
+        //  Config.generatePdf("pdf/abs-synopsis", templateObj.forms, res.callback);
         if ($stateParams.assignment !== "") {
             delete templateObj._id;
             $scope.assignment[_.camelCase($stateParams.type)].push(templateObj);
@@ -8474,6 +8477,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 }
             });
         } else {
+            console.log("ABBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",$scope.forms);
             NavigationService.editAssignmentTemplate($scope.forms, function (data) {
                 if (data.value) {
                     $scope.message.title = "Updated " + $stateParams.type;
@@ -8698,6 +8702,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.saveAssignmentTemplate(type, newAssignment);
     };
     $scope.createTemplate = function (tmp) {
+        console.log("In createTemplate",tmp);
         delete tmp._id;
         $scope.assignment[_.camelCase($scope.api)].push(tmp);
 

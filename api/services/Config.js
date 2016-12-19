@@ -437,10 +437,10 @@ var models = {
                     });
                 });
                 pdf.create(html).toStream(function (err, stream) {
-                    console.log(err);
                     if (err) {
                         callback(err);
                     } else {
+                        console.log("In Config To generate PDF");
                         stream.pipe(writestream);
                     }
 
