@@ -8406,6 +8406,15 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     if ($stateParams.assignmentTemplate === "") {
         NavigationService.getOneModel($stateParams.type, $stateParams.template, function (data) {
             $scope.forms = data.data;
+           
+            console.log("CCCCCCCCCCCCCCCCCCC",$scope.forms);
+    //    _.each($scope.data.forms,function(n){
+    //    _.each(n.items,function(m){
+    //    if(m.value=="Date"){
+    //      m.field=moment(m.field).format('ddd, MMM Do, YYYY');
+    //    }
+    //  });
+    //  });
         });
     } else {
         var a = {
@@ -8413,6 +8422,15 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             type: _.camelCase($stateParams.type)
         };
         NavigationService.getAssignmentTemplate(a, function (data) {
+            console.log("CCCCCCCCCCCCCCCCCCC");
+       _.each(data.data.forms,function(n){
+       _.each(n.items,function(m){
+       if(m.value=="Date"){
+           console.log(m.field);
+         m.field=moment(m.field,'ddd, MMM Do, YYYY').toDate();
+       }
+     });
+     });
             console.log(data);
             $scope.forms = data.data;
             $scope.assignment = data.data.assignment;
