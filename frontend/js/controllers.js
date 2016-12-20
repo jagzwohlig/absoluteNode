@@ -644,7 +644,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         toastr.success("Assignment " + data.data.name + " created successfully.", "Assignment Created");
                     } else {
                         $scope.hideSaveCancel = false;
-                        toastr.error("Assignment creation failed.", "Assignment creation error");
+                        toastr.error("Assignment creation failed, " + data.error.errors.name.message +".", "Assignment creation error");
                     }
                 });
             }
@@ -805,7 +805,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     toastr.success("Assignment " + data.data.name + " created successfully.", "Assignment Created");
                 } else {
                     $scope.hideSaveCancel = false;
-                    toastr.error("Assignment creation failed.", "Assignment creation error");
+                    toastr.error("Assignment  creation failed," + data.error.errors.name.message +".", "Assignment creation error");
                 }
             });
 
@@ -851,7 +851,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         $window.history.back();
                         toastr.success("Assignment " + $scope.name + " Edited successfully.", "Assignment Edited");
                     } else {
-                        toastr.error("Assignment creation failed.", "Assignment creation error");
+                        toastr.error("Assignment creation failed, " + data.error.errors.name.message +".", "Assignment creation error");
                     }
                 });
 
@@ -982,7 +982,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     $window.history.back();
                     toastr.success("Assignment " + $scope.name + " Edited successfully.", "Assignment Edited");
                 } else {
-                    toastr.error("Assignment creation failed.", "Assignment creation error");
+                    toastr.error("Assignment creation failed, " + data.error.errors.name.message +".", "Assignment creation error");
                 }
             });
 
