@@ -736,6 +736,7 @@ var model = {
     delete data2.assignment;
     delete data2.type;
      $scope.data = data2;
+     console.log("INNNNNNNNNNNNNNN",data2);
      _.each($scope.data.forms,function(n){
        _.each(n.items,function(m){
        if(m.value=="Date"){

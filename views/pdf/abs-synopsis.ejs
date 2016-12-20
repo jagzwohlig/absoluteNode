@@ -10,7 +10,9 @@
             padding: 30px;
             font-family: sans-serif;
         }
-        
+        tab1{
+            margin:20px 0;
+        }
         table {
             width: 100%;
             border-collapse: collapse;
@@ -46,6 +48,19 @@
 </head>
 
 <body>
+
+    <div>
+        <table>
+        <tr><td>
+        <b>Template Name</b>
+        </td></tr>
+        <tr>
+        <td>
+        <%= data.templateName %>
+        </td>
+        <tr>
+        </table>
+    </div>
     <div>
         <table>
             <% for(var i=0; i<data.forms.length; i++) {%>
