@@ -1013,6 +1013,7 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
             model: "customer"
         }
     })
+    
 
     .state('contactManagement-list', {
         url: "/contactmanagement-list/{page:.*}/{keyword:.*}",
