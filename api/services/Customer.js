@@ -21,7 +21,8 @@ var schema = new Schema({
         type: String
     },
     name: {
-        type: String
+        type: String,
+        unique:true
     },
     TOFShortName: {
         type: String
