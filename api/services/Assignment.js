@@ -736,7 +736,6 @@ var model = {
     var data2 = _.cloneDeep(body);
     delete data2.assignment;
     delete data2.type;
-    console.log("INNNNNNNNNNNNN",data2);
      $scope.data = data2;
      _.each($scope.data.forms,function(n){
        _.each(n.items,function(m){
