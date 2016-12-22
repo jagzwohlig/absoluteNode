@@ -91,8 +91,9 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label>Branch*</label>
-                                        <multiple-select my-enter name="branch" required ng-model="formData.branch" filter='{"office":"{{formData.postedAt}}"}' ng-name="name.branch"
+                                        <label>Branch</label>
+                                        <!--filter='{"office":"{{formData.postedAt}}"}' Removed Office Filter-->
+                                        <multiple-select my-enter name="branch" ng-model="formData.branch" ng-name="name.branch"
                                             api="searchBranch" ng-create="branchSave"></multiple-select>
                                         <div class="error-msg" ng-show="formName.branch.$invalid">Please Select Branch</div>
                                     </div>
@@ -430,7 +431,7 @@
                 </div>
             </div>
         </div>
-        <div class="widget">
+        <div class="widget"ng-hide=true >
             <div class="form-elements-sec">
                 <div class="widget-title">
                     <h3>Leave Management</h3>
