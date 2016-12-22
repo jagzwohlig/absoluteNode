@@ -289,5 +289,204 @@ var model = {
       }
       })
   },
+
+  search: function (data, callback) {
+
+        var Model = this;
+        var Const = this(data);
+        var maxRow = Config.maxRow;
+        var pagestartfrom = (data.page - 1) * maxRow;
+        var page = 1;
+        // var name1=subString()
+        if (data.page) {
+            page = data.page;
+        }
+        var field = data.field;
+        var options = {
+            field: data.field,
+            filters: {
+                keyword: {
+                    fields: ['name'],
+                    term: data.keyword
+                }
+            },
+
+            sort: {
+                desc: "name",
+            },
+            start: (page - 1) * maxRow,
+            count: maxRow
+        };
+        _.each(data.filter, function (n, key) {
+            if (_.isEmpty(n)) {
+                n = undefined;
+            }
+        });
+        if (data.keyword != "") {
+            async.parallel([
+                //Start 
+                function (callback) {
+                    var Search = Employee.aggregate([{
+                        $lookup: {
+                            from: "cities",
+                            localField: "postedAt",
+                            foreignField: "_id",
+                            as: "postedAt"
+                        }
+                    }, {
+                        $unwind: "$postedAt"
+                    },{
+                        $lookup: {
+                            from: "grades",
+                            localField: "grade",
+                            foreignField: "_id",
+                            as: "grade"
+                        }
+                    }, {
+                        $unwind: "$grade"
+                    }, {
+                        $match: {
+                            $or: [{
+                                "grade.name": {
+                                    $regex: data.keyword,
+                                    $options: 'i'
+                                }
+                            },{
+                                "postedAt.name": {
+                                    $regex: data.keyword,
+                                    $options: 'i'
+                                }
+                            }, {
+                                "name": {
+                                    $regex: data.keyword,
+                                    $options: 'i'
+                                }
+                            }, {
+                                "officeEmail": {
+                                    $regex: data.keyword,
+                                    $options: 'i'
+                                }
+                            }, {
+                                "officeMobile": {
+                                    $regex: data.keyword,
+                                    $options: 'i'
+                                }
+                            }]
+                        }
+                    }, {
+                        $skip: parseInt(pagestartfrom)
+                    }, {
+                        $limit: maxRow
+                    }], function (err, data1) {
+                        if (err) {
+                            callback(err, null);
+                        } else {
+                            callback(null, data1);
+                        }
+                    });
+
+                },
+
+                function (callback) {
+                    var Search = Employee.aggregate([{
+                        $lookup: {
+                            from: "cities",
+                            localField: "postedAt",
+                            foreignField: "_id",
+                            as: "postedAt"
+                        }
+                    }, {
+                        $unwind: "$postedAt"
+                    },{
+                        $lookup: {
+                            from: "grades",
+                            localField: "grade",
+                            foreignField: "_id",
+                            as: "grade"
+                        }
+                    }, {
+                        $unwind: "$grade"
+                    }, {
+                        $match: {
+                           $or: [{
+                                "grade.name": {
+                                    $regex: data.keyword,
+                                    $options: 'i'
+                                }
+                            },{
+                                "postedAt.name": {
+                                    $regex: data.keyword,
+                                    $options: 'i'
+                                }
+                            }, {
+                                "name": {
+                                    $regex: data.keyword,
+                                    $options: 'i'
+                                }
+                            }, {
+                                "officeEmail": {
+                                    $regex: data.keyword,
+                                    $options: 'i'
+                                }
+                            }, {
+                                "officeMobile": {
+                                    $regex: data.keyword,
+                                    $options: 'i'
+                                }
+                            }]
+                        }
+                    }, {
+                        $group: {
+                            _id: null,
+                            count: {
+                                $sum: 1
+                            }
+                        }
+                    }, {
+                        $project: {
+                            "_id": 1,
+                            "count": 1
+                        }
+                    }], function (err, data2) {
+                        if (err) {
+                            callback(err, null);
+                        } else {
+                            callback(null, data2);
+                        }
+                    });
+                }
+
+                //end
+            ], function (err, data4) {
+                if (err) {
+                    callback(err, null);
+                }
+                if(_.isEmpty(data4[1])){
+                    var data5 = {
+                    results: data4[0],
+                    options: {
+                        count: 0
+                    }
+                };
+                } else {
+                    var data5 = {
+                    results: data4[0],
+                    options: {
+                        count: maxRow
+                    }
+                };
+                data5.total=data4[1][0].count;
+                }
+                callback(null, data5);
+            });
+        } else {
+            var Search = Model.find(data.filter)
+
+            .order(options)
+                .deepPopulate("postedAt grade")
+                .keyword(options)
+                .page(options, callback);
+        }
+    }
 };
 module.exports = _.assign(module.exports, exports, model);
