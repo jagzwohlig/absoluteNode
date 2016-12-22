@@ -221,18 +221,20 @@ var navigationservice = angular.module('navigationservice', [])
             anchor: "assignment-list",
             icon: "pencil"
         }]
-    }, {
-        name: "Timeline",
-        classis: "active",
-        anchor: "timeline",
-        icon: "calendar",
-        subnav: [{
-            name: "Music Broadcast Ltd",
-            classis: "active",
-            anchor: "timeline",
-            icon: "music"
-        }]
-    }, {
+    }, 
+    // {
+    //     name: "Timeline",
+    //     classis: "active",
+    //     anchor: "timeline",
+    //     icon: "calendar",
+    //     subnav: [{
+    //         name: "Music Broadcast Ltd",
+    //         classis: "active",
+    //         anchor: "timeline",
+    //         icon: "music"
+    //     }]
+    // },
+     {
         name: "Templates",
         classis: "active",
         anchor: "timeline",
@@ -266,18 +268,20 @@ var navigationservice = angular.module('navigationservice', [])
                 icon: "file-text"
             }
         ]
-    }, {
-        name: "Leave Management",
-        classis: "active",
-        anchor: "timeline",
-        icon: "users",
-        subnav: [{
-            name: "Employee Leave Detail",
-            classis: "active",
-            anchor: "leaveManagement-list",
-            icon: "user"
-        }]
-    }, {
+    },
+    //  {
+    //     name: "Leave Management",
+    //     classis: "active",
+    //     anchor: "timeline",
+    //     icon: "users",
+    //     subnav: [{
+    //         name: "Employee Leave Detail",
+    //         classis: "active",
+    //         anchor: "leaveManagement-list",
+    //         icon: "user"
+    //     }]
+    // },
+     {
         name: "Reimbursement",
         classis: "active",
         anchor: "timeline",

@@ -170,7 +170,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="widget" ng-if="formData.isInsured && formData.postLoss">
+                <div class="widget" ng-if="formData.isInsured && !formData.postLoss">
                     <div class="form-elements-sec">
                         <div class="sec">
                             <div class="row">
@@ -320,7 +320,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="widget" ng-if="formData.isInsured && !formData.postLoss">
+                <div class="widget" ng-if="formData.isInsured && formData.postLoss">
                     <div class="form-elements-sec">
                         <div class="sec">
                             <div class="row">
@@ -475,7 +475,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="widget" ng-if="!formData.isInsured && formData.postLoss">
+                <div class="widget" ng-if="!formData.isInsured && !formData.postLoss">
                     <div class="form-elements-sec">
                         <div class="sec">
                             <div class="row">
@@ -564,7 +564,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="widget" ng-if="!formData.isInsured && !formData.postLoss">
+                <div class="widget" ng-if="!formData.isInsured && formData.postLoss">
                     <div class="form-elements-sec">
                         <div class="sec">
                             <div class="row">
