@@ -730,7 +730,13 @@
                 </div>
                 <div class="widget" ng-if="name.department=='Marine Cargo'">
                     <div class="form-elements-sec">
-                        <div class="widget-title">
+                        <div class="widget-title" ng-if="!formData.postLoss">
+                            <a class="btn btn-primary pull-right" ng-click="addModal( 'modal-assignment', '',
+                        'invoice', 'datefilter', '',formData.invoice)">Add New</a>
+                            <!-- <button class="btn btn-primary pull-right" type="submit" ng-disabled="modelData.$invalid">Add New</button> -->
+                            <h3>Invoices</h3>
+                        </div>
+                        <div class="widget-title" ng-if="formData.postLoss">
                             <a class="btn btn-primary pull-right" ng-click="addModal( 'modal-assignment', '',
                         'invoice', '', '',formData.invoice)">Add New</a>
                             <!-- <button class="btn btn-primary pull-right" type="submit" ng-disabled="modelData.$invalid">Add New</button> -->
@@ -748,7 +754,7 @@
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="data in formData.invoice track by $index">
-                                            <td>{{data.invoiceNumber}}</td>
+                                            <td>{{data.invoiceNumber}} </td>
                                             <td>{{data.invoiceNumberDate| date:'dd MMM yyyy'}}</td>
                                             <td>
                                                 <a class="btn btn-primary" ng-click="addModal( 'modal-assignment',$index,
@@ -768,7 +774,12 @@
                 </div>
                 <div class="widget" ng-if="name.department=='Marine Cargo'">
                     <div class="form-elements-sec">
-                        <div class="widget-title">
+                        <div class="widget-title" ng-if="!formData.postLoss">
+                            <a class="btn btn-primary pull-right" ng-click="addModal( 'modal-assignment', '', 'LRs',
+                        'datefilter', '',formData.LRs)">Add New</a>
+                            <h3>LRs</h3>
+                        </div>
+                        <div class="widget-title" ng-if="formData.postLoss">
                             <a class="btn btn-primary pull-right" ng-click="addModal( 'modal-assignment', '', 'LRs',
                         '', '',formData.LRs)">Add New</a>
                             <h3>LRs</h3>

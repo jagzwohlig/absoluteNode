@@ -644,7 +644,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         toastr.success("Assignment " + data.data.name + " created successfully.", "Assignment Created");
                     } else {
                         $scope.hideSaveCancel = false;
-                        toastr.error("Assignment creation failed, " + data.error.errors.name.message +".", "Assignment creation error");
+                        toastr.error("Assignment creation failed, " + data.error.errors.name.message + ".", "Assignment creation error");
                     }
                 });
             }
@@ -731,6 +731,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.wholeObj = wholeObj;
             $scope.current = current;
             $scope.holdObject = holdobj;
+            if (data === "datefilter") {
+                $scope.dateOptions = {
+                    maxDate : new Date()
+                }
+            }
             console.log(filename);
             var modalInstance = $uibModal.open({
                 scope: $scope,
@@ -805,7 +810,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     toastr.success("Assignment " + data.data.name + " created successfully.", "Assignment Created");
                 } else {
                     $scope.hideSaveCancel = false;
-                    toastr.error("Assignment  creation failed," + data.error.errors.name.message +".", "Assignment creation error");
+                    toastr.error("Assignment  creation failed," + data.error.errors.name.message + ".", "Assignment creation error");
                 }
             });
 
@@ -851,7 +856,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         $window.history.back();
                         toastr.success("Assignment " + $scope.name + " Edited successfully.", "Assignment Edited");
                     } else {
-                        toastr.error("Assignment creation failed, " + data.error.errors.name.message +".", "Assignment creation error");
+                        toastr.error("Assignment creation failed, " + data.error.errors.name.message + ".", "Assignment creation error");
                     }
                 });
 
@@ -982,7 +987,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     $window.history.back();
                     toastr.success("Assignment " + $scope.name + " Edited successfully.", "Assignment Edited");
                 } else {
-                    toastr.error("Assignment creation failed, " + data.error.errors.name.message +".", "Assignment creation error");
+                    toastr.error("Assignment creation failed, " + data.error.errors.name.message + ".", "Assignment creation error");
                 }
             });
 
@@ -7244,7 +7249,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     $window.history.back();
                     toastr.success("Customer" + " " + formData.name + " created successfully.", "Customer" + " Created");
                 } else {
-                    toastr.error("Customer" + data.error.errors.name.message +" creation failed.", "Customer" + " creation error");
+                    toastr.error("Customer" + data.error.errors.name.message + " creation failed.", "Customer" + " creation error");
                 }
             });
         };
@@ -7417,7 +7422,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         $window.history.back();
                         toastr.success("Customer" + $scope.formData.name + " edited successfully.", "Customer" + " Edited");
                     } else {
-                        toastr.error("Customer" + data.error.errors.name.message +" edition failed.", "Customer" + " editing error");
+                        toastr.error("Customer" + data.error.errors.name.message + " edition failed.", "Customer" + " editing error");
                     }
                 });
             }
@@ -7429,7 +7434,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     $window.history.back();
                     toastr.success("Customer" + $scope.formData.name + " edited successfully.", "Customer" + " Edited");
                 } else {
-                    toastr.error("Customer" + data.error.errors.name.message +" edition failed.", "Customer" + " editing error");
+                    toastr.error("Customer" + data.error.errors.name.message + " edition failed.", "Customer" + " editing error");
                 }
             });
         };
@@ -8369,7 +8374,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.header = {
         "name": "Form Name"
     };
-    $scope.Saved=false;
+    $scope.Saved = false;
     $scope.forms = [{
         head: 'Snapshot',
         items: [{
@@ -8406,15 +8411,15 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     if ($stateParams.assignmentTemplate === "") {
         NavigationService.getOneModel($stateParams.type, $stateParams.template, function (data) {
             $scope.forms = data.data;
-           
-            console.log("CCCCCCCCCCCCCCCCCCC",$scope.forms);
-    //    _.each($scope.data.forms,function(n){
-    //    _.each(n.items,function(m){
-    //    if(m.value=="Date"){
-    //      m.field=moment(m.field).format('ddd, MMM Do, YYYY');
-    //    }
-    //  });
-    //  });
+
+            console.log("CCCCCCCCCCCCCCCCCCC", $scope.forms);
+            //    _.each($scope.data.forms,function(n){
+            //    _.each(n.items,function(m){
+            //    if(m.value=="Date"){
+            //      m.field=moment(m.field).format('ddd, MMM Do, YYYY');
+            //    }
+            //  });
+            //  });
         });
     } else {
         var a = {
@@ -8423,14 +8428,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         NavigationService.getAssignmentTemplate(a, function (data) {
             console.log("CCCCCCCCCCCCCCCCCCC");
-       _.each(data.data.forms,function(n){
-       _.each(n.items,function(m){
-       if(m.value=="Date"){
-           console.log(m.field);
-         m.field=moment(m.field,'ddd, MMM Do, YYYY').toDate();
-       }
-     });
-     });
+            _.each(data.data.forms, function (n) {
+                _.each(n.items, function (m) {
+                    if (m.value == "Date") {
+                        console.log(m.field);
+                        m.field = moment(m.field, 'ddd, MMM Do, YYYY').toDate();
+                    }
+                });
+            });
             console.log(data);
             $scope.forms = data.data;
             $scope.assignment = data.data.assignment;
@@ -8476,7 +8481,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.saveModel = function (templateObj) {
 
 
-        console.log("Save Data",templateObj);
+        console.log("Save Data", templateObj);
         //  Config.generatePdf("pdf/abs-synopsis", templateObj.forms, res.callback);
         if ($stateParams.assignment !== "") {
             delete templateObj._id;
@@ -8495,9 +8500,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 }
             });
         } else {
-            $scope.Saved=true;
+            $scope.Saved = true;
             NavigationService.editAssignmentTemplate($scope.forms, function (data) {
-                
+
                 if (data.value) {
                     $scope.message.title = "Updated " + $stateParams.type;
                     $scope.sendMessage("Template");
@@ -8721,7 +8726,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.saveAssignmentTemplate(type, newAssignment);
     };
     $scope.createTemplate = function (tmp) {
-        console.log("In createTemplate",tmp);
+        console.log("In createTemplate", tmp);
         delete tmp._id;
         $scope.assignment[_.camelCase($scope.api)].push(tmp);
 
