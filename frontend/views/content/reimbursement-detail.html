@@ -71,12 +71,63 @@
                                         <div class="error-msg" ng-show="formName.amnt.$invalid && formName.amnt.$touched">Please Enter Amount</div>
                                     </div>
                                 </div>
-                                <div class="col-md-12">
+                                <!--<div class="col-md-12">
                                     <div class="form-group">
                                         <label>Upload Documents</label>
                                         <upload-image multiple ng-model="formData.image"></upload-image>
                                     </div>
+                                </div>-->
+                                <!--Start Expense-->
+                                <div class="widget" ng-if="true">
+                                    <div class="form-elements-sec">
+                                        <div class="widget-title">
+                                            <a class="btn btn-primary pull-right" ng-click="addModal( 'reimbursement', '', 'expense',
+                        'datefilter', '',formData.expense)">Add New</a>
+                                            <h3>Expense</h3>
+                                        </div>
+                                        <div class="sec">
+                                            <div class="table-responsive">
+                                                <table class="table table-input" ng-if="formData.expense.length!=0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Date</th>
+                                                            <th>From</th>
+                                                            <th>To</th>
+                                                            <th>Purpose</th>
+                                                            <th>Mode</th>
+                                                            <th>Distance</th>
+                                                            <th>Rate</th>
+                                                            <th>Amount</th>
+                                                            <th width="150px">Actions</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="data in formData.expense">
+                                                            <td>{{data.date| date:'dd MMM yyyy'}} </td>
+                                                            <td>{{data.from}}</td>
+                                                            <td>{{data.to}}</td>
+                                                            <td>{{data.purpose}}</td>
+                                                            <td>{{data.mode}}</td>
+                                                            <td>{{data.distance}}</td>
+                                                            <td>{{data.rate}}</td>
+                                                            <td>{{data.amount}}</td>
+                                                            <td>
+                                                                <a class="btn btn-primary" ng-click="addModal( 'reimbursement',$index,
+                        'expense',data, '',formData.expense)">
+                                                                    <i class="fa fa-pencil"></i>
+                                                                </a>
+                                                                <a class="btn btn-danger" ng-click="deleteElements($index, formData.expense)">
+                                                                    <i class="fa fa-trash"></i>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+                                <!--End-->
                             </div>
                             <div class="text-center mt20 odd-even-button">
                                 <button class="btn btn-default" type="submit" ng-disabled="formName.$invalid">Save</button>

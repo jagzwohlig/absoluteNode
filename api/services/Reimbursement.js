@@ -15,6 +15,18 @@ var schema = new Schema({
     approvedAmount: Number,
     image: [{
         type: String
+    }],
+    expense: [{
+        date: {
+            type: Date
+        },
+        from:String,
+        to:String,
+        purpose:String,
+        mode:String,
+        distance:String,
+        rate:Number,
+        amount:Number
     }]
 });
 
