@@ -173,7 +173,7 @@
                 <div class="widget" ng-if="formData.isInsured && !formData.postLoss">
                     <div class="form-elements-sec">
                         <div class="sec">
-                            <div class="row">
+                            <!--<div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group" ng-if="formData.typeOfClaim">
                                         <label>Appointment Mail</label>
@@ -199,6 +199,60 @@
                                           </span>
                                         </div>
                                         <div class="error-msg" ng-show="formName.dateOfAppointment.$invalid && formName.dateOfAppointment.$touched">Please Enter Date of Intimation</div>
+                                    </div>
+                                </div>
+                            </div>-->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group" ng-if="formData.typeOfClaim">
+                                        <label>Appointment Mail</label>
+                                        <upload-image ng-model="formData.appointment"></upload-image>
+                                        <div class="error-msg" ng-show="formName.image.$invalid && formName.image.$touched">Please Upload Appointment Mail</div>
+                                    </div>
+                                    <div class="form-group" ng-if="!formData.typeOfClaim">
+                                        <label>Appointment Mail</label>
+                                        <upload-image ng-model="formData.appointment"></upload-image>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Intimated Loss*</label>
+                                        <input type="text" name="intimatedLoss" ng-model="formData.intimatedLoss" class="form-control" required>
+                                        <div class="error-msg" ng-show="formName.intimatedLoss.$invalid && formName.intimatedLoss.$touched">Please Enter Intimated Loss</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Date Of Appointment*</label>
+                                        <div class="input-group">
+                                            <input type="text" name="dateOfAppointment" required class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.dateOfAppointment"
+                                                is-open="popup.dateOfAppointment" ng-change="chageDOB(formData.birthDate)" datepicker-options="dateOptions"
+                                                readonly/>
+                                            <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="popup.dateOfAppointment=true">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </span>
+                                        </div>
+                                        <div class="error-msg" ng-show="formName.dateOfAppointment.$invalid && formName.dateOfAppointment.$touched">Please Enter Date of Intimation</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Date Of Intimation*</label>
+                                        <div class="input-group">
+                                            <input type="text" name="dateOfIntimation" required class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.dateOfIntimation"
+                                                is-open="popup.dateOfIntimation" ng-change="chageDOB(formData.birthDate)" datepicker-options="dateOptions"
+                                                readonly/>
+                                            <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="popup.dateOfIntimation=true">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </span>
+                                        </div>
+                                        <div class="error-msg" ng-show="formName.dateOfIntimation.$invalid && formName.dateOfIntimation.$touched">Please Enter Date of Intimation</div>
                                     </div>
                                 </div>
                             </div>
