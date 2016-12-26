@@ -644,7 +644,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         toastr.success("Assignment " + data.data.name + " created successfully.", "Assignment Created");
                     } else {
                         $scope.hideSaveCancel = false;
-                        toastr.error("Assignment creation failed, " + data.error.errors.name.message + ".", "Assignment creation error");
+                        toastr.error("Assignment creation failed, " + data.error.message + ".", "Assignment creation error");
                     }
                 });
             }
@@ -810,7 +810,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     toastr.success("Assignment " + data.data.name + " created successfully.", "Assignment Created");
                 } else {
                     $scope.hideSaveCancel = false;
-                    toastr.error("Assignment  creation failed," + data.error.errors.name.message + ".", "Assignment creation error");
+                    toastr.error("Assignment  creation failed," + data.error.message + ".", "Assignment creation error");
                 }
             });
 
@@ -856,7 +856,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         $window.history.back();
                         toastr.success("Assignment " + $scope.name + " Edited successfully.", "Assignment Edited");
                     } else {
-                        toastr.error("Assignment creation failed, " + data.error.errors.name.message + ".", "Assignment creation error");
+                        toastr.error("Assignment creation failed, " + data.error.message + ".", "Assignment creation error");
                     }
                 });
 
@@ -988,7 +988,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     $window.history.back();
                     toastr.success("Assignment " + $scope.name + " Edited successfully.", "Assignment Edited");
                 } else {
-                    toastr.error("Assignment creation failed, " + data.error.errors.name.message + ".", "Assignment creation error");
+                    toastr.error("Assignment creation failed, " + data.error.message + ".", "Assignment creation error");
                 }
             });
 
@@ -7310,7 +7310,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         $window.history.back();
                         toastr.success("Customer" + " " + formData.name + " created successfully.", "Customer" + " Created");
                     } else {
-                        toastr.error("Customer" + data.error.errors.name.message + " creation failed.", "Customer" + " creation error");
+                        toastr.error("Error while creating " + data.error.message, "Error");
                     }
                 });
             }
@@ -7322,7 +7322,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     $window.history.back();
                     toastr.success("Customer" + " " + formData.name + " created successfully.", "Customer" + " Created");
                 } else {
-                    toastr.error("Customer" + data.error.errors.name.message + " creation failed.", "Customer" + " creation error");
+                    toastr.error("Customer" + data.error.message + " creation failed.", "Customer" + " creation error");
                 }
             });
         };
@@ -7495,7 +7495,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         $window.history.back();
                         toastr.success("Customer" + $scope.formData.name + " edited successfully.", "Customer" + " Edited");
                     } else {
-                        toastr.error("Customer" + data.error.errors.name.message + " edition failed.", "Customer" + " editing error");
+                        toastr.error("Customer" + data.error.message + " edition failed.", "Customer" + " editing error");
                     }
                 });
             }
@@ -7507,7 +7507,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     $window.history.back();
                     toastr.success("Customer" + $scope.formData.name + " edited successfully.", "Customer" + " Edited");
                 } else {
-                    toastr.error("Customer" + data.error.errors.name.message + " edition failed.", "Customer" + " editing error");
+                    toastr.error("Customer" + data.error.message + " edition failed.", "Customer" + " editing error");
                 }
             });
         };

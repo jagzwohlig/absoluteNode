@@ -998,7 +998,7 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
         url: "/customer-detail/{id:.*}/{model:.*}",
         templateUrl: "frontend/views/template.html",
         controller: 'CreateCustomerCtrl',
-        // data.error.errors.name.message
+        // data.error.message
         params: {
             id: "",
             model: "customer"
