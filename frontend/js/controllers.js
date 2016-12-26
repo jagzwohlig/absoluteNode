@@ -3080,12 +3080,12 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
     };
     $scope.wholeObj = [];
+    $scope.formData.expense=[];
         $scope.addElements = function (moddata) {
             console.log("moddata",moddata);
             if ($scope.modalIndex !== "") {
                 $scope.wholeObj[$scope.modalIndex] = moddata;
             } else {
-                $scope.formData.expense=[];
                 $scope.newjson = moddata;
                 var a = moddata;
                 console.log("A",a,$scope.holdObject);
@@ -3215,13 +3215,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         if (index !== "") {
             $scope.modalData = data;
             $scope.modalIndex = index;
-            $scope.modalData.from = new Date(data.from);
-            $scope.modalData.to = new Date(data.to);
         } else {
             $scope.modalData = {};
             if (current.length > 0) {
-                $scope.modalData.from = new Date(current[current.length - 1].to);
-                $scope.modalData.grade = current[current.length - 1].grade;
             }
             $scope.modalIndex = "";
         }

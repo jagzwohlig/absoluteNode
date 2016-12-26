@@ -267,7 +267,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Insurer Office*</label>
-                                        <multiple-select my-enter name="insurerOffice" required ng-model="formData.insurerOffice" ng-name="name.broker" api="searchCustomer"></multiple-select>
+                                        <multiple-select my-enter name="insurerOffice" required ng-model="formData.insurerOffice" ng-name="name.broker" api="searchCustomer" filter='{"customerCompany":"{{formData.insurer}}"}'></multiple-select>
                                         <div class="error-msg" ng-show="formName.insurerOffice.$invalid">Please Select Insurer Office</div>
                                     </div>
                                 </div>
