@@ -3078,6 +3078,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             size: 'lg'
         });
     };
+    $scope.deleteElements = function (index, data) {
+        data.splice(index, 1);
+    };
     $scope.wholeObj = [];
     $scope.formData.expense = [];
     $scope.addElements = function (moddata) {
@@ -3226,6 +3229,65 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             templateUrl: '/frontend/views/modal/' + filename + '.html',
             size: 'lg'
         });
+    };
+        $scope.addElements = function (moddata) {
+        console.log("moddata", moddata);
+        if ($scope.modalIndex !== "") {
+            $scope.wholeObj[$scope.modalIndex] = moddata;
+        } else {
+            $scope.newjson = moddata;
+            var a = moddata;
+            console.log("A", a, $scope.holdObject);
+            switch ($scope.holdObject) {
+                case "expense":
+                    {
+
+
+                        //  var newmod = a;
+                        //  console.log("kjfgaksdjhfjakshdgk");
+                        //  console.log(newmod);
+                        // _.each(newmod, function (n) {
+                        // $scope.newjson.item = n;
+                        // $scope.wholeObj.push(moddata);
+                        $scope.formData.expense.push(moddata);
+                        // });
+                    }
+                    break;
+                case "products":
+                    {
+                        var newmod1 = a.item.split(',');
+                        _.each(newmod1, function (n) {
+                            $scope.newjson.item = n;
+                            $scope.wholeObj.push($scope.newjson);
+                        });
+                    }
+                    break;
+                case "LRs":
+                    var newmod2 = a.lrNumber.split(',');
+                    _.each(newmod2, function (n) {
+                        $scope.newjson.lrNumber = n;
+                        $scope.wholeObj.push($scope.newjson);
+                    });
+                    break;
+                case "Vehicle":
+                    var newmod3 = a.vehicleNumber.split(',');
+                    _.each(newmod3, function (n) {
+                        $scope.newjson.vehicleNumber = n;
+                        $scope.wholeObj.push($scope.newjson);
+                    });
+                    break;
+
+                default:
+                    {
+                        $scope.wholeObj.push($scope.newjson);
+                    }
+
+            }
+
+        }
+    };
+    $scope.deleteElements = function (index, data) {
+        data.splice(index, 1);
     };
 
     NavigationService.getOneModel("Reimbursement", $stateParams.id, function (data) {
