@@ -6,12 +6,12 @@ var schema = new Schema({
         uniqueCaseInsensitive: true,
         capitalizeAll: true,
     },
-    department: {
+    department: [{
         type: Schema.Types.ObjectId,
         ref: "Department",
         required: true,
         key: "causeloss"
-    },
+    }],
     natureOfLoss:[{
       type: Schema.Types.ObjectId,
       ref: "NatureLoss",

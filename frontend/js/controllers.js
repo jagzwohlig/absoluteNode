@@ -733,7 +733,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.holdObject = holdobj;
             if (data === "datefilter") {
                 $scope.dateOptions = {
-                    maxDate : new Date()
+                    maxDate: new Date()
                 }
             }
             console.log(filename);
@@ -924,7 +924,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
         $scope.addElements = function (moddata) {
-                console.log("moddata",moddata);
+            console.log("moddata", moddata);
             if ($scope.modalIndex !== "") {
                 $scope.wholeObj[$scope.modalIndex] = moddata;
             } else {
@@ -3067,12 +3067,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
         } else {
             $scope.modalData = {};
-            if (current.length > 0) {
-            }
+            if (current.length > 0) {}
             $scope.modalIndex = "";
         }
         $scope.holdObject = holdobj;
-        console.log($scope.holdObject,filename);
+        console.log($scope.holdObject, filename);
         var modalInstance = $uibModal.open({
             scope: $scope,
             templateUrl: '/frontend/views/modal/' + filename + '.html',
@@ -3080,63 +3079,63 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
     };
     $scope.wholeObj = [];
-    $scope.formData.expense=[];
-        $scope.addElements = function (moddata) {
-            console.log("moddata",moddata);
-            if ($scope.modalIndex !== "") {
-                $scope.wholeObj[$scope.modalIndex] = moddata;
-            } else {
-                $scope.newjson = moddata;
-                var a = moddata;
-                console.log("A",a,$scope.holdObject);
-                switch ($scope.holdObject) {
-                    case "expense":
-                        {
+    $scope.formData.expense = [];
+    $scope.addElements = function (moddata) {
+        console.log("moddata", moddata);
+        if ($scope.modalIndex !== "") {
+            $scope.wholeObj[$scope.modalIndex] = moddata;
+        } else {
+            $scope.newjson = moddata;
+            var a = moddata;
+            console.log("A", a, $scope.holdObject);
+            switch ($scope.holdObject) {
+                case "expense":
+                    {
 
-                            
-                            //  var newmod = a;
-                            //  console.log("kjfgaksdjhfjakshdgk");
-                            //  console.log(newmod);
-                            // _.each(newmod, function (n) {
-                                // $scope.newjson.item = n;
-                                // $scope.wholeObj.push(moddata);
-                                $scope.formData.expense.push(moddata);
-                            // });
-                        }
-                        break;
-                    case "products":
-                        {
-                            var newmod1 = a.item.split(',');
-                            _.each(newmod1, function (n) {
-                                $scope.newjson.item = n;
-                                $scope.wholeObj.push($scope.newjson);
-                            });
-                        }
-                        break;
-                    case "LRs":
-                        var newmod2 = a.lrNumber.split(',');
-                        _.each(newmod2, function (n) {
-                            $scope.newjson.lrNumber = n;
+
+                        //  var newmod = a;
+                        //  console.log("kjfgaksdjhfjakshdgk");
+                        //  console.log(newmod);
+                        // _.each(newmod, function (n) {
+                        // $scope.newjson.item = n;
+                        // $scope.wholeObj.push(moddata);
+                        $scope.formData.expense.push(moddata);
+                        // });
+                    }
+                    break;
+                case "products":
+                    {
+                        var newmod1 = a.item.split(',');
+                        _.each(newmod1, function (n) {
+                            $scope.newjson.item = n;
                             $scope.wholeObj.push($scope.newjson);
                         });
-                        break;
-                    case "Vehicle":
-                        var newmod3 = a.vehicleNumber.split(',');
-                        _.each(newmod3, function (n) {
-                            $scope.newjson.vehicleNumber = n;
-                            $scope.wholeObj.push($scope.newjson);
-                        });
-                        break;
+                    }
+                    break;
+                case "LRs":
+                    var newmod2 = a.lrNumber.split(',');
+                    _.each(newmod2, function (n) {
+                        $scope.newjson.lrNumber = n;
+                        $scope.wholeObj.push($scope.newjson);
+                    });
+                    break;
+                case "Vehicle":
+                    var newmod3 = a.vehicleNumber.split(',');
+                    _.each(newmod3, function (n) {
+                        $scope.newjson.vehicleNumber = n;
+                        $scope.wholeObj.push($scope.newjson);
+                    });
+                    break;
 
-                    default:
-                        {
-                            $scope.wholeObj.push($scope.newjson);
-                        }
-
-                }
+                default:
+                    {
+                        $scope.wholeObj.push($scope.newjson);
+                    }
 
             }
-        };
+
+        }
+    };
 
     $scope.cancel = function () {
         $window.history.back();
@@ -3217,8 +3216,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.modalIndex = index;
         } else {
             $scope.modalData = {};
-            if (current.length > 0) {
-            }
+            if (current.length > 0) {}
             $scope.modalIndex = "";
         }
         $scope.holdObject = holdobj;
@@ -6216,6 +6214,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             return item;
         };
 
+        $scope.departments = [];
+        $scope.refreshDepartments = function (data) {
+            console.log("Data Inn", data);
+            var formdata = {};
+            formdata.keyword = data;
+            NavigationService.searchDepartment(formdata, 1, function (data) {
+                $scope.departments = data.data.results;
+            });
+        };
+        $scope.refreshDepartments();
+
         $scope.refreshNature = function (data) {
             var formdata = {};
             formdata.keyword = data;
@@ -6287,6 +6296,18 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             };
             return item;
         };
+
+        $scope.departments = [];
+        $scope.refreshDepartments = function (data) {
+            console.log("Data Inn", data);
+            var formdata = {};
+            formdata.keyword = data;
+            NavigationService.searchDepartment(formdata, 1, function (data) {
+                $scope.departments = data.data.results;
+            });
+        };
+        $scope.refreshDepartments();
+
         $scope.refreshNature = function (data) {
             var formdata = {};
             formdata.keyword = data;
