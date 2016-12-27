@@ -50,7 +50,8 @@ var exports = _.cloneDeep(require("sails-wohlig-service")(schema,"department nat
 var model = {
   getNatureLoss: function(data, callback) {
     var Model = this;
-    var Search = Model.findOne(data.filter).lean().populate('natureOfLoss').exec(function(err, data2) {
+    var Search = Model.findOne({
+        "_id":data.filter._id}).lean().populate('natureOfLoss').exec(function(err, data2) {
         if (err) {
             callback(err, data2);
         } else if (_.isEmpty(data2)) {
@@ -58,9 +59,6 @@ var model = {
         } else {
           var data3 = {};
             data3.results = data2.natureOfLoss;
-            // _.each(data3, function(n) {
-            //     n.name = n.firstName + n.lastName;
-            // });
             callback(err, data3);
         }
     });

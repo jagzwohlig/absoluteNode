@@ -716,9 +716,15 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 "_id": causeloss
             };
             NavigationService.getNatureLoss(formdata, 1, function (data) {
+                console.log("getNatureLoss",data.data.results);
                 $scope.natureLoss = data.data.results;
             });
         };
+        $scope.$watch("formData.causeOfLoss", function (newVal, oldVal) {
+            
+            console.log(newVal);
+            $scope.refreshNature("",newVal);
+        });
 
         $scope.addModal = function (filename, index, holdobj, data, current, wholeObj) {
             if (index !== "") {
@@ -894,6 +900,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.shareWith = data.data.results;
             });
         };
+        
         $scope.refreshNature = function (data, causeloss) {
             var formdata = {};
             formdata.keyword = data;
@@ -904,6 +911,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.natureLoss = data.data.results;
             });
         };
+        $scope.$watch("formData.causeOfLoss", function (newVal, oldVal) {
+            
+            console.log(newVal);
+            $scope.refreshNature("",newVal);
+        });
 
         $scope.addModal = function (filename, index, holdobj, data, current, wholeObj) {
             if (index !== "") {
