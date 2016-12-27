@@ -7,7 +7,7 @@ var schema = new Schema({
   },
   name1: {
     type: String,
-    unique: true
+    unique: true  
   },
   company: {
     type: Schema.Types.ObjectId,
@@ -149,8 +149,7 @@ var schema = new Schema({
   city: {
     type: Schema.Types.ObjectId,
     ref: "City",
-    index: true,
-    required: true
+    index: true
   },
   address: String,
   pincode: String,
@@ -680,7 +679,8 @@ var model = {
                   break;
                 }
             }
-            data2.name = data2.city.district.state.zone.country.countryCode + data2.company.companyCode + fourthDigit + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
+            // data2.city.district.state.zone.country.countryCode +
+            data2.name = "In" + data2.company.companyCode + fourthDigit + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
 
             data2.name1 = moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
             data2.save(function (err, data) {

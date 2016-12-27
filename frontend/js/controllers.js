@@ -857,7 +857,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         // $state.go('assignment-list');
                         $window.history.back();
                         toastr.success("Assignment " + $scope.name + " Edited successfully.", "Assignment Edited");
-                    } else {
+                    } else {city
                         toastr.error("Assignment creation failed, " + data.error.message + ".", "Assignment creation error");
                     }
                 });
@@ -868,19 +868,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 
         NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
-
             $scope.name = data.data.name;
-            console.log(data.data.city);
             $scope.formData = data.data;
-            $scope.MRnumber = data.data.city.district.state.zone.country.countryCode;
             $scope.formData.dateOfIntimation = new Date(data.data.dateOfIntimation);
             $scope.formData.dateOfAppointment = new Date(data.data.dateOfAppointment);
+            $scope.formData.insuredOfficer = data.data.insuredOfficer._id;
+            $scope.MRnumber = data.data.city.district.state.zone.country.countryCode;
             $scope.formData.country = data.data.city.district.state.zone.country._id;
             $scope.formData.zone = data.data.city.district.state.zone._id;
             $scope.formData.state = data.data.city.district.state._id;
             $scope.formData.district = data.data.city.district._id;
             $scope.formData.city = data.data.city._id;
-            $scope.formData.insuredOfficer = data.data.insuredOfficer._id;
         });
 
         // cancel
@@ -930,7 +928,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             if ($scope.modalIndex !== "") {
                 $scope.wholeObj[$scope.modalIndex] = moddata;
             } else {
-                
+
                 $scope.newjson = moddata;
                 var a = moddata;
                 switch ($scope.holdObject) {
