@@ -705,7 +705,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 "isSBC": false
             };
             NavigationService.searchEmployee(formdata, 1, function (data) {
-                console.log(data.data.results);
+                console.log("AAAAAAAAAAAAAAA",data.data.results);
                 $scope.shareWith = data.data.results;
             });
         };
@@ -898,6 +898,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             };
             NavigationService.searchEmployee(formdata, 1, function (data) {
                 $scope.shareWith = data.data.results;
+                console.log("AAAAAAAAAAAAAAA",$scope.shareWith);
             });
         };
         

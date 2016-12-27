@@ -86,7 +86,7 @@
                     <ui-select multiple tagging="tagTransform" on-select="clicked($select.selected)" name="Persons" ng-model="modalData.persons"
                         theme="bootstrap" required>
                         <ui-select-match>{{$item.name}}</ui-select-match>
-                        <ui-select-choices repeat="natureOfLoss in shareWith | filter:$select.search" refresh-delay="0" refresh="refreshShareWith($select.search,modalData.office)">{{natureOfLoss.name}}, <b>{{natureOfLoss.city.name}}</b></ui-select-choices>
+                        <ui-select-choices repeat="natureOfLoss in shareWith | filter:$select.search" refresh-delay="0" refresh="refreshShareWith($select.search,modalData.office)">{{natureOfLoss.name}}, <b>{{natureOfLoss.postedAt.name}}</b></ui-select-choices>
                     </ui-select>
                     <div class="error-msg" ng-show="formName.Persons.$invalid && formName.Persons.$touched">Please Enter name to Share With</div>
                 </div>
