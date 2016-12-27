@@ -70,6 +70,7 @@ var model = {
                 data4 = _.cloneDeep(data1);
                 _.each(data4.results, function (n) {
                     n.name = n.name + ", " + n.category.name + ", " + n.category.industry.name;
+                    //  n.name = n.name + ", " + n.category.name + ", " + n.category.industry.name;
                 });
                 callback(err, data4);
             });
