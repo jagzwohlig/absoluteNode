@@ -44,101 +44,112 @@ module.exports = mongoose.model('Product', schema);
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "category.industry", "category.industry"));
 
 var model = {
-      getIdByName : function(data,callback) {
+    getIdByName: function (data, callback) {
         var Model = this;
         var Const = this(data);
-        Model.findOne({name:data.name},function(err,data2) {
-            if(err) {
+        Model.findOne({
+            name: data.name
+        }, function (err, data2) {
+            if (err) {
                 callback(err);
-            } else  {
-                Const.save(function(err,data3) {
-                    if(err) {
+            } else {
+                Const.save(function (err, data3) {
+                    if (err) {
                         callback(err);
-                    }
-                    else {
-                        callback(null,data3._id);
+                    } else {
+                        callback(null, data3._id);
                     }
                 });
-            } 
+            }
         });
     },
 
-        populateProductDetails: function (data, callback) {
-
-        var keys = _.split(data.keyword, " ");
-        stringMatch = [];
-        _.each(keys, function (key) {
-            var data = {
-                keyword: key
-            };
-
-            stringMatch.push({
-                "name": {
-                    $regex: data.keyword,
-                    $options: 'i'
-                }
-            });
-
-            stringMatch.push({
-                "categories.name": {
-                    $regex: data.keyword,
-                    $options: 'i'
-                }
-            });
-
-            stringMatch.push({
-                "categories.industries.name": {
-                    $regex: data.keyword,
-                    $options: 'i'
-                }
-            });
-
-        });
-
-        Product.aggregate([{
-            $lookup: {
-                from: "categories",
-                localField: "category",
-                foreignField: "_id",
-                as: "categories"
-            }
-        }, {
-            $unwind: "$categories"
-        }, {
-            $lookup: {
-                from: "industries",
-                localField: "categories.industry",
-                foreignField: "_id",
-                as: "categories.industries"
-            }
-        }, {
-            $unwind: "$categories.industries"
-        }, {
-            $match: {
-                $or: stringMatch
-            }
-        }, {
-            $project: {
-                _id: 1,
-                product: "$name",
-                category: "$categories.name",
-                industry: "$categories.industries.name"
-            }
-        }, {
-            $limit: 10
-        }], function (err, data4) {
-            if (err) {
-
-            } else {
-                _.each(data4, function (n) {
-                    n.name = n.product + ", " + n.category + ", " + n.industry;
+    populateProductDetails: function (data, callback) {
+        if (data && data.filter && data.filter._id) {
+                 Product.search(data, function (err, data1) {
+                data4 = _.cloneDeep(data1);
+                _.each(data4.results, function (n) {
+                    n.name = n.name + ", " + n.category.name + ", " + n.category.industry.name;
                 });
-                var obj = {
-                    results: data4
+                callback(err, data4);
+            });
+        }
+        else {
+            var keys = _.split(data.keyword, " ");
+            stringMatch = [];
+            _.each(keys, function (key) {
+                var data = {
+                    keyword: key
                 };
-                callback(null, obj)
-            }
-        })
+
+                stringMatch.push({
+                    "name": {
+                        $regex: data.keyword,
+                        $options: 'i'
+                    }
+                });
+
+                stringMatch.push({
+                    "categories.name": {
+                        $regex: data.keyword,
+                        $options: 'i'
+                    }
+                });
+
+                stringMatch.push({
+                    "categories.industries.name": {
+                        $regex: data.keyword,
+                        $options: 'i'
+                    }
+                });
+
+            });
+
+            Product.aggregate([{
+                $lookup: {
+                    from: "categories",
+                    localField: "category",
+                    foreignField: "_id",
+                    as: "categories"
+                }
+            }, {
+                $unwind: "$categories"
+            }, {
+                $lookup: {
+                    from: "industries",
+                    localField: "categories.industry",
+                    foreignField: "_id",
+                    as: "categories.industries"
+                }
+            }, {
+                $unwind: "$categories.industries"
+            }, {
+                $match: {
+                    $or: stringMatch
+                }
+            }, {
+                $project: {
+                    _id: 1,
+                    product: "$name",
+                    category: "$categories.name",
+                    industry: "$categories.industries.name"
+                }
+            }, {
+                $limit: 10
+            }], function (err, data4) {
+                if (err) {
+
+                } else {
+                    _.each(data4, function (n) {
+                        n.name = n.product + ", " + n.category + ", " + n.industry;
+                    });
+                    var obj = {
+                        results: data4
+                    };
+                    callback(null, obj)
+                }
+            })
+        }
     }
 };
 

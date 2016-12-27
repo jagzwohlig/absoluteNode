@@ -746,8 +746,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
         $scope.addElements = function (moddata) {
             if ($scope.modalIndex !== "") {
+                console.log("In Assignment if",moddata);
                 $scope.wholeObj[$scope.modalIndex] = moddata;
             } else {
+                console.log("In Assignment else",moddata);
                 $scope.newjson = moddata;
                 var a = moddata;
                 switch ($scope.holdObject) {
@@ -928,6 +930,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             if ($scope.modalIndex !== "") {
                 $scope.wholeObj[$scope.modalIndex] = moddata;
             } else {
+                
                 $scope.newjson = moddata;
                 var a = moddata;
                 switch ($scope.holdObject) {
