@@ -2,12 +2,10 @@ var autoIncrement = require('mongoose-auto-increment');
 
 var schema = new Schema({
   name: {
-    type: String,
-    unique: true
+    type: String
   },
   name1: {
-    type: String,
-    unique: true  
+    type: String
   },
   company: {
     type: Schema.Types.ObjectId,
@@ -570,6 +568,7 @@ var model = {
 
   generateAssignmentNumber: function (data, callback) {
     var Model = this;
+    var num = 1;
     var newNumber = 1;
     Model.findOne({
       _id: data._id
@@ -594,15 +593,15 @@ var model = {
               newNumber = data3.assignmentNumber + 1;
             }
             data2.assignmentNumber = newNumber;
-            var num = parseInt(newNumber);
-            len = 4;
-            if (isNaN(num) || isNaN(len)) {
-              return n;
-            }
-            num = '' + num;
-            while (num.length < len) {
-              num = '0' + num;
-            }
+            // var num = parseInt(newNumber);
+            // len = 4;
+            // if (isNaN(num) || isNaN(len)) {
+            //   return n;
+            // }
+            // // num = '' + num;
+            // while (num.length < len) {
+            //   num = '0' + num;
+            // }
             var nos = "";
             var fourthDigit = "";
             switch (data2.typeOfClaim + "-" + data2.isInsured) {
@@ -679,14 +678,34 @@ var model = {
                   break;
                 }
             }
-            // data2.city.district.state.zone.country.countryCode +
-            data2.name = "In" + data2.company.companyCode + fourthDigit + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
+            var a = nos + data2.branch.code;
 
-            data2.name1 = moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
-            data2.save(function (err, data) {
-              callback(err, data);
+            Assignment.find().exec(function (err, data8) {
+              if (err) {
+                console.log("EEEEEEEEroo");
+                callback(err, null);
+              } else {
+                var len= 4;
+                green("Success");
+                _.each(data8, function (n) {
+                  var splitVal = _.split(n.name, "-", 2);
+                  if (splitVal[1] == a) {
+                    num = num + 1;
+                  }
+                });
+                num = '' + num;
+                while (num.length < len) {
+                  num = '0' + num;
+                }
+                // data2.city.district.state.zone.country.countryCode + Replaced By In
+                data2.name = "In" + data2.company.companyCode + fourthDigit + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
+
+                data2.name1 = moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
+                data2.save(function (err, data) {
+                  callback(err, data);
+                });
+              }
             });
-
           }
         });
 
@@ -735,15 +754,14 @@ var model = {
     var data2 = _.cloneDeep(body);
     delete data2.assignment;
     delete data2.type;
-     $scope.data = data2;
-     console.log("INNNNNNNNNNNNNNN",data2);
-     _.each($scope.data.forms,function(n){
-       _.each(n.items,function(m){
-       if(m.value=="Date"){
-         m.field=moment(m.field).format('ddd, MMM Do, YYYY');
-       }
-     });
-     });
+    $scope.data = data2;
+    _.each($scope.data.forms, function (n) {
+      _.each(n.items, function (m) {
+        if (m.value == "Date") {
+          m.field = moment(m.field).format('ddd, MMM Do, YYYY');
+        }
+      });
+    });
     var findObj = {
       _id: body.assignment
     };
@@ -753,11 +771,10 @@ var model = {
     setObj[body.type + ".$"] = data2;
     Model.update(findObj, {
       "$set": setObj
-    }, function(err,data3){
-      if(err){
-        callback(err,null);
-      }
-      else{
+    }, function (err, data3) {
+      if (err) {
+        callback(err, null);
+      } else {
         Config.generatePdf("pdf/abs-synopsis", $scope, callback);
       }
     });
