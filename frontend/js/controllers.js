@@ -700,7 +700,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
         $scope.refreshShareWith = function (data, office) {
             var formdata = {};
-            
+            formdata.keyword = data;
             NavigationService.getBackendEmployee(formdata, 1, function (data) {
                 $scope.shareWith = data.data.results;
             });
@@ -888,7 +888,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
         $scope.refreshShareWith = function (data, office) {
             var formdata = {};
-
+            formdata.keyword = data;
             NavigationService.getBackendEmployee(formdata, 1, function (data) {
                 $scope.shareWith = data.data.results;
             });
