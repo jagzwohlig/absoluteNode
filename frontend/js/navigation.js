@@ -376,12 +376,10 @@ var navigationservice = angular.module('navigationservice', [])
                 callback(data, i);
             });
         },
-        searchEmployeee: function (formData, i, callback) {
+        getBackendEmployee: function (formData, i, callback) {
             console.log("FormData in search", formData);
-            // formData.filter={
-            //     func: "Back Office"
-            // }
-            $http.post(adminurl + 'Employee/search', formData).success(function (data) {
+            $http.post(adminurl + 'Employee/getBackendEmployee', formData).success(function (data) {
+                console.log("FormData in search", data);
                 callback(data, i);
             });
         },

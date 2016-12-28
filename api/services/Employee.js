@@ -278,9 +278,71 @@ module.exports = mongoose.model('Employee', schema);
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country func grade department IIISLACertificate.department", "city.district.state.zone.country  func grade postedAt"));
 var model = {
 
-     getBackendEmployee: function (data, callback) {
+//      getBackendEmployee: function (data, callback) {
+//          console.log("..............................................",data);
+//     Employee.find({
+//       isSBC:false,
+//       isField:false,
+//       isSurveyor:false
+//     }).populate("postedAt").exec(function (err, found) {
+//       if (err) {
+//         callback(err, null);
+//       } else {
+//           callback(null, found);
+//       }
+//       })
+//   },
+
+
+// Start
+  getBackendEmployee: function (data, callback) {
+    var Model = this;
+    var Const = this(data);
+    var maxRow = Config.maxRow;
+    var page = 1;
+    // var name1=subString()
+    if (data.page) {
+      page = data.page;
+    }
+    var field = data.field;
+    var options = {
+      field: data.field,
+      filters: {
+        keyword: {
+          fields: ['name'],
+          term: data.keyword
+        }
+      },
+
+      sort: {
+        asc: "name",
+      },
+      start: (page - 1) * maxRow,
+      count: maxRow
+    };
+    _.each(data.filter, function (n, key) {
+      if (_.isEmpty(n)) {
+        n = undefined;
+      }
+    });
+    data.filter={
+        isSBC:false,
+        isField:false,
+        isSurveyor:false
+    }
+    var Search = Model.find(data.filter)
+    .order(options)
+      .deepPopulate("postedAt")
+      .keyword(options)
+
+    .page(options, callback);
+  },
+
+// End
+
+     getShareWith: function (data, callback) {
     Employee.find({
-      isSBC:false
+        
     }).exec(function (err, found) {
       if (err) {
         callback(err, null);
