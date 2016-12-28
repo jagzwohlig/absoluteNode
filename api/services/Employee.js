@@ -374,7 +374,7 @@ var model = {
             },
 
             sort: {
-                desc: "name",
+                asc: "name",
             },
             start: (page - 1) * maxRow,
             count: maxRow
