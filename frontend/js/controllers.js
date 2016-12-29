@@ -712,14 +712,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 "_id": causeloss
             };
             NavigationService.getNatureLoss(formdata, 1, function (data) {
-                console.log("getNatureLoss",data.data.results);
+                console.log("getNatureLoss", data.data.results);
                 $scope.natureLoss = data.data.results;
             });
         };
         $scope.$watch("formData.causeOfLoss", function (newVal, oldVal) {
-            
+
             console.log(newVal);
-            $scope.refreshNature("",newVal);
+            $scope.refreshNature("", newVal);
         });
 
         $scope.addModal = function (filename, index, holdobj, data, current, wholeObj) {
@@ -748,10 +748,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
         $scope.addElements = function (moddata) {
             if ($scope.modalIndex !== "") {
-                console.log("In Assignment if",moddata);
+                console.log("In Assignment if", moddata);
                 $scope.wholeObj[$scope.modalIndex] = moddata;
             } else {
-                console.log("In Assignment else",moddata);
+                console.log("In Assignment else", moddata);
                 $scope.newjson = moddata;
                 var a = moddata;
                 switch ($scope.holdObject) {
@@ -831,7 +831,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.header = {
             "name": "Edit Assignment"
         };
-        $scope.name = "";
+        $scope.name = {};
+        $scope.msg = "";
         $scope.MRnumber = "";
         $scope.formData = {};
         $scope.formData.status = true;
@@ -858,8 +859,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     if (data.value === true) {
                         // $state.go('assignment-list');
                         $window.history.back();
-                        toastr.success("Assignment " + $scope.name + " Edited successfully.", "Assignment Edited");
-                    } else {city
+                        toastr.success("Assignment " + $scope.msg + " Edited successfully.", "Assignment Edited");
+                    } else {
+                        city
                         toastr.error("Assignment creation failed, " + data.error.message + ".", "Assignment creation error");
                     }
                 });
@@ -870,7 +872,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 
         NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
-            $scope.name = data.data.name;
+            $scope.msg = data.data.name;
             $scope.formData = data.data;
             $scope.formData.dateOfIntimation = new Date(data.data.dateOfIntimation);
             $scope.formData.dateOfAppointment = new Date(data.data.dateOfAppointment);
@@ -893,7 +895,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.shareWith = data.data.results;
             });
         };
-        
+
         $scope.refreshNature = function (data, causeloss) {
             var formdata = {};
             formdata.keyword = data;
@@ -905,9 +907,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
         $scope.$watch("formData.causeOfLoss", function (newVal, oldVal) {
-            
+
             console.log(newVal);
-            $scope.refreshNature("",newVal);
+            $scope.refreshNature("", newVal);
         });
 
         $scope.addModal = function (filename, index, holdobj, data, current, wholeObj) {
@@ -992,7 +994,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 if (data.value === true) {
                     // $state.go('assignment-list');
                     $window.history.back();
-                    toastr.success("Assignment " + $scope.name + " Edited successfully.", "Assignment Edited");
+                    toastr.success("Assignment " + $scope.msg + " Edited successfully.", "Assignment Edited");
                 } else {
                     toastr.error("Assignment creation failed, " + data.error.message + ".", "Assignment creation error");
                 }
@@ -3236,7 +3238,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             size: 'lg'
         });
     };
-        $scope.addElements = function (moddata) {
+    $scope.addElements = function (moddata) {
         console.log("moddata", moddata);
         if ($scope.modalIndex !== "") {
             $scope.wholeObj[$scope.modalIndex] = moddata;
