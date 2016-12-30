@@ -2,8 +2,7 @@ var schema = new Schema({
     name: {
         type: String,
         required: true,
-        uniqueCaseInsensitive: true,
-        capitalizeAll: true,
+        capitalizeAll: true
     },
     country: {
         type: Schema.Types.ObjectId,
