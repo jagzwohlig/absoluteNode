@@ -2077,6 +2077,22 @@ firstapp.filter('capitalize', function () {
         }) : '';
     };
 });
+firstapp.filter('boldElements', function () {
+    return function (input) {
+       var textArr = _.split(input,",");
+       var retText = "";
+       _.each(textArr,function(n,key) {
+           if(key%2 == 1) {
+                retText = retText +"<b>"+ n +"</b>, " 
+           } else {
+                retText = retText + n +", " 
+           }
+       });
+
+       retText = retText.substr(0,retText.length-2);
+       return retText;
+    };
+});
 
 firstapp.config(function ($translateProvider) {
     $translateProvider.translations('en', LanguageEnglish);
