@@ -609,6 +609,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.a = function () {
             console.log("CTRL + ENTER");
         }
+        $scope.hideSaveCancel = false;
         $scope.formData = {};
         $scope.formData.status = true;
         $scope.formData.appointment = $stateParams.pdf;
