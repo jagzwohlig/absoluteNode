@@ -6,10 +6,10 @@ var schema = new Schema({
         uniqueCaseInsensitive: true,
         capitalizeAll: true,
     },
-    location: {
-    type: [Number],
-    index: '2dsphere'
-  },
+//     location: {
+//     type: [Number],
+//     index: '2dsphere'
+//   },
     typeOfOffice: {
         type: Schema.Types.ObjectId,
         ref: "TypeOfOffice",
