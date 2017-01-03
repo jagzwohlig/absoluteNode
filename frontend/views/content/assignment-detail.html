@@ -362,7 +362,7 @@
                                         <div class="error-msg" ng-show="formName.policyType.$invalid">Please Select Policy Type</div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6" ng-if="(formData.policyType && formData.insurerOffice && formData.insuredOffice)">
                                     <div class="form-group">
                                         <label>Policy Document</label>
                                         <multiple-select my-enter name="policyDoc" ng-model="formData.policyDoc" filter='{"policyType":"{{formData.policyType}}"}'

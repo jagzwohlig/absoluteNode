@@ -1097,9 +1097,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
         $scope.changePage = function (page) {
-            var goTo = "bankmaster-list";
+            console.log("1100",page);
+            var goTo = "office-list";     
             if ($scope.search.keyword) {
-                goTo = "bankmaster-list";
+                goTo = "office-list";
             }
             $state.go(goTo, {
                 page: page,
