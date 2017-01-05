@@ -773,14 +773,18 @@ var model = {
                   });
                 } else {
                   // Changes for Monthly
-                  // var lastDay = moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30,"minutes");
-                  var lastDay = new Date(data2.dateOfAppointment.getFullYear(), data2.dateOfAppointment.getMonth() + 1, 0);
-                  green(lastDay);
+                  var dateOfApp = moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30,"minutes").toDate();
+                  green(dateOfApp);
+                  var firstDay = new Date(dateOfApp.getFullYear(), dateOfApp.getMonth(), 1);
+                  var lastDay = new Date(dateOfApp.getFullYear(), dateOfApp.getMonth() + 1, 0);
+                  console.log(firstDay,lastDay);
                   lastDay= moment(new Date(lastDay)).subtract(5,"hours").subtract(30,"minutes");
-                  green(lastDay);                  
+                  firstDay= moment(new Date(firstDay)).subtract(5,"hours").subtract(30,"minutes");
+                  console.log(firstDay,lastDay);                  
                   Assignment.find({
                     branch: data9._id,
                     dateOfAppointment: {
+                      $gte : firstDay,
                       $lte: lastDay
                     }
                   }).sort({
