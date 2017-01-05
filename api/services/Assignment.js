@@ -699,7 +699,7 @@ var model = {
                 } else {
                     lastDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).format("YYYY"), "MM YYYY").toDate();
                     firstDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).subtract(1, "year").format("YYYY"), "MM YYYY").toDate();
-                    console.log("......", lastDay, firstDay);
+                    console.log("......", lastDay, firstDay,data2.dateOfAppointment);
                  }
                   
                   Assignment.find({
