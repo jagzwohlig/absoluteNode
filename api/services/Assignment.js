@@ -555,7 +555,9 @@ var model = {
       }
     }, {
       name: 1,
-      photo: 1
+      photo: 1,
+      employeeCode: 1,
+      officeEmail: 1
     }).limit(10).lean().exec(function (err, data2) {
       if (err) {
         callback(err, null);
@@ -678,37 +680,148 @@ var model = {
                   break;
                 }
             }
-            var a = nos + data2.branch.code;
-
-            Assignment.find().exec(function (err, data8) {
+            Branch.findOne({
+              code: data2.branch.code
+            }).exec(function (err, data9) {
               if (err) {
-                console.log("EEEEEEEEroo");
                 callback(err, null);
               } else {
-                var len= 4;
-                green("Success");
-                _.each(data8, function (n) {
-                  var splitVal = _.split(n.name, "-", 2);
-                  if (splitVal[1] == a) {
-                    num = num + 1;
+                if (data9.seriesFormat == "yearly") {
+                  var lastDay;
+                  var firstDay;
+                  var currentDateMonth = moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM");
+                  if (currentDateMonth > 3) {
+                    lastDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).add(1, "year").format("YYYY"), "MM YYYY").toDate();
+                    firstDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).format("YYYY"), "MM YYYY").toDate();
+                  } else {
+                    lastDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).format("YYYY"), "MM YYYY").toDate();
+                    firstDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).subtract(1, "year").format("YYYY"), "MM YYYY").toDate();
                   }
-                });
-                num = '' + num;
-                while (num.length < len) {
-                  num = '0' + num;
-                }
-                // data2.city.district.state.zone.country.countryCode + Replaced By In
-                data2.name = "In" + data2.company.companyCode + fourthDigit + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
+                  console.log("......", lastDay, firstDay);
+                  Assignment.find({
+                    branch: data9._id,
+                    dateOfAppointment: {
+                      $lt: lastDay,
+                      $gte: firstDay
+                    }
+                  }).sort({
+                    createdAt: -1
+                  }).limit(2).exec(function (err, data8) {
+                    if (err) {
+                      console.log("EEEEEEEEroo");
+                      callback(err, null);
+                    } else if (data8[1] != undefined) {
+                      var len = 4;
+                      var currentDateMonth = moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM");
+                      num = data8[1].assignmentNumber + 1;
+                      green(num);
+                      data2.assignmentNumber = num
+                      num = '' + num;
+                      while (num.length < len) {
+                        num = '0' + num;
+                      }
+                      if (currentDateMonth > 3) {
+                        data2.name = "In" + data2.company.companyCode + fourthDigit + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(1, "year").add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
+                      } else {
+                        data2.name = "In" + data2.company.companyCode + fourthDigit + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
+                      }
+                      data2.name1 = data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
+                      data2.save(function (err, data) {
+                        if (err) {
+                          callback(err, data);
+                        } else {
+                          callback(null, data);
+                        }
+                      });
+                    } else {
+                      green("HIIIIIIIIIIIIIIIII");
+                      var currentDateMonth = moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM");
+                      var len = 4;
+                      data2.assignmentNumber = num
+                      num = '' + num;
+                      while (num.length < len) {
+                        num = '0' + num;
+                      }
+                      if (currentDateMonth > 3) {
+                        data2.name = "In" + data2.company.companyCode + fourthDigit + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(1, "year").add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
+                      } else {
+                        data2.name = "In" + data2.company.companyCode + fourthDigit + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
+                      }
+                      data2.name1 = data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
+                      data2.save(function (err, data) {
+                        if (err) {
+                          callback(err, data);
+                        } else {
+                          callback(null, data);
+                        }
+                      });
+                    }
+                  });
+                } else {
+                  var lastDay = new Date(data2.dateOfAppointment.getFullYear(), data2.dateOfAppointment.getMonth() + 1, 0);
+                  green(lastDay);
+                  Assignment.find({
+                    branch: data9._id,
+                    dateOfAppointment: {
+                      $lte: lastDay
+                    }
+                  }).sort({
+                    createdAt: -1
+                  }).limit(2).exec(function (err, data8) {
+                    if (err) {
+                      console.log("EEEEEEEEroo");
+                      callback(err, null);
+                    } else if (data8[1] != undefined) {
+                      var len = 4;
+                      console.log("data8[1].name", data8[1]);
+                      var prevDate = moment(new Date(data8[1].dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM YYYY");
+                      var currentDate = moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM YYYY");
+                      green("Date");
+                      console.log(prevDate, currentDate);
+                      if (prevDate == currentDate) {
+                        num = data8[1].assignmentNumber + 1;
+                      }
+                      console.log(num, "NUM");
+                      data2.assignmentNumber = num
+                      num = '' + num;
+                      while (num.length < len) {
+                        num = '0' + num;
+                      }
+                      data2.name = "In" + data2.company.companyCode + fourthDigit + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
 
-                data2.name1 = nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
-                data2.save(function (err, data) {
-                  callback(err, data);
-                });
+                      data2.name1 = data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
+                      data2.save(function (err, data) {
+                        if (err) {
+                          callback(err, data);
+                        } else {
+                          callback(null, data);
+                        }
+                      });
+                    } else {
+                      green("HIIIIIIIIIIIIIIIII");
+                      var len = 4;
+                      data2.assignmentNumber = num
+                      num = '' + num;
+                      while (num.length < len) {
+                        num = '0' + num;
+                      }
+                      data2.name = "In" + data2.company.companyCode + fourthDigit + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
+
+                      data2.name1 = data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
+                      data2.save(function (err, data) {
+                        if (err) {
+                          callback(err, data);
+                        } else {
+                          callback(null, data);
+                        }
+                      });
+                    }
+                  });
+                }
               }
             });
           }
         });
-
       }
     });
   },
