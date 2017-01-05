@@ -690,7 +690,7 @@ var model = {
                   var lastDay;
                   var firstDay;
                   // .add(5, "hours").add(30, "minutes")
-                  var currentDateMonth = moment(new Date(data2.dateOfAppointment)).format("MM");
+                  var currentDateMonth = moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM");
                   green(currentDateMonth);
                   if (currentDateMonth > 3) {
                     lastDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).add(1, "year").format("YYYY"), "MM YYYY").toDate();
