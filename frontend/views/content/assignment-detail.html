@@ -357,7 +357,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Policy Type*</label>
-                                        <multiple-select my-enter name="policyType" required ng-model="formData.policyType" filter='{"department":"{{formData.policyDepartment}}"}'
+                                        <multiple-select my-enter name="policyType" required ng-model="formData.policyType" filter='{"department":"{{formData.policyDepartment}}","insurer":"{{formData.insurer}}"}'
                                             ng-name="name.policyType" api="searchPolicyType"></multiple-select>
                                         <div class="error-msg" ng-show="formName.policyType.$invalid">Please Select Policy Type</div>
                                     </div>
@@ -513,7 +513,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Policy Type*</label>
-                                        <multiple-select my-enter name="policyType" required ng-model="formData.policyType" filter='{"department":"{{formData.policyDepartment}}"}'
+                                        <multiple-select my-enter name="policyType" required ng-model="formData.policyType" filter='{"department":"{{formData.policyDepartment}}","insurer":"{{formData.insurer}}"}'
                                             ng-name="name.policyType" api="searchPolicyType"></multiple-select>
                                         <div class="error-msg" ng-show="formName.policyType.$invalid">Please Select Policy Type</div>
                                     </div>
