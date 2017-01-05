@@ -689,20 +689,36 @@ var model = {
                 if (data9.seriesFormat == "yearly") {
                   var lastDay;
                   var firstDay;
-                  // .add(5, "hours").add(30, "minutes")
-                  var currentDateMonth = moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM");
+                  // .add(5, "hours").add(30, "minutes") On local Add 5:30 
+                  // var currentDateMonth = moment(new Date(data2.dateOfAppointment)).format("MM");                  
+                  // On Server
+                   var currentDateMonth = moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM");
                   green(currentDateMonth);
                   if (currentDateMonth > 3) {
+                    // on Local 
+                    // lastDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).add(1, "year").format("YYYY"), "MM YYYY").toDate();
+                    // firstDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).format("YYYY"), "MM YYYY").toDate();
+                    
+                    // on Server
                     lastDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").add(1, "year").format("YYYY"), "MM YYYY").toDate();
                     firstDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YYYY"), "MM YYYY").toDate();
                     firstDay = moment(new Date(firstDay)).subtract(5, "hours").subtract(30,"minutes");                    
                     lastDay = moment(new Date(lastDay)).subtract(5, "hours").subtract(30,"minutes");
+                    
+                    
                     console.log(".2....", lastDay, firstDay,data2.dateOfAppointment);
                 } else {
+                     // on Local 
+                      // lastDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).format("YYYY"), "MM YYYY").toDate();
+                      // firstDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).subtract(1, "year").format("YYYY"), "MM YYYY").toDate();
+                    
+                    // on Server
+
                     lastDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YYYY"), "MM YYYY").toDate();
                     firstDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").subtract(1, "year").format("YYYY"), "MM YYYY").toDate();
                     firstDay = moment(new Date(firstDay)).subtract(5, "hours").subtract(30,"minutes");                    
                     lastDay = moment(new Date(lastDay)).subtract(5, "hours").subtract(30,"minutes");
+
                     console.log("......", lastDay, firstDay,data2.dateOfAppointment);
                  }
                   
@@ -720,7 +736,6 @@ var model = {
                       callback(err, null);
                     } else if (data8[1] != undefined) {
                       var len = 4;
-                      var currentDateMonth = moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM");
                       num = data8[1].assignmentNumber + 1;
                       green(num);
                       data2.assignmentNumber = num
@@ -728,11 +743,7 @@ var model = {
                       while (num.length < len) {
                         num = '0' + num;
                       }
-                      // if (currentDateMonth > 3) {
-                      //   data2.name = "In" + data2.company.companyCode + fourthDigit + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(1, "year").add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
-                      // } else {
                         data2.name = "In" + data2.company.companyCode + fourthDigit + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
-                      // }
                       data2.name1 = data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
                       data2.save(function (err, data) {
                         if (err) {
@@ -743,18 +754,13 @@ var model = {
                       });
                     } else {
                       green("HIIIIIIIIIIIIIIIII");
-                      var currentDateMonth = moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM");
                       var len = 4;
                       data2.assignmentNumber = num
                       num = '' + num;
                       while (num.length < len) {
                         num = '0' + num;
                       }
-                      // if (currentDateMonth > 3) {
-                      //   data2.name = "In" + data2.company.companyCode + fourthDigit + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(1, "year").add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
-                      // } else {
                         data2.name = "IN" + data2.company.companyCode + fourthDigit + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
-                      // }
                       data2.name1 = data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
                       data2.save(function (err, data) {
                         if (err) {
@@ -766,7 +772,15 @@ var model = {
                     }
                   });
                 } else {
-                  var lastDay = new Date(data2.dateOfAppointment.getFullYear(), data2.dateOfAppointment.getMonth() + 1, 0);
+                  // Changes for Monthly
+                  // local
+                  // var lastDay = new Date(data2.dateOfAppointment.getFullYear(), data2.dateOfAppointment.getMonth() + 1, 0);
+                  
+                  // Server
+                  var lastDay = moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30,"minutes");
+                  lastDay = new Date(lastDay.getFullYear(), lastDay.getMonth() + 1, 0);
+
+                  
                   green(lastDay);
                   Assignment.find({
                     branch: data9._id,
