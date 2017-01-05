@@ -773,14 +773,8 @@ var model = {
                   });
                 } else {
                   // Changes for Monthly
-                  // local
-                  // var lastDay = new Date(data2.dateOfAppointment.getFullYear(), data2.dateOfAppointment.getMonth() + 1, 0);
-                  
-                  // Server
-                  var lastDay = moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30,"minutes");
-                  lastDay = new Date(lastDay.getFullYear(), lastDay.getMonth() + 1, 0);
-
-                  
+                  // var lastDay = moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30,"minutes");
+                  var lastDay = new Date(data2.dateOfAppointment.getFullYear(), data2.dateOfAppointment.getMonth() + 1, 0);
                   green(lastDay);
                   Assignment.find({
                     branch: data9._id,
