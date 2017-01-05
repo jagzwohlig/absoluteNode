@@ -689,15 +689,19 @@ var model = {
                 if (data9.seriesFormat == "yearly") {
                   var lastDay;
                   var firstDay;
-                  var currentDateMonth = moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM");
+                  // .add(5, "hours").add(30, "minutes")
+                  var currentDateMonth = moment(new Date(data2.dateOfAppointment)).format("MM");
+                  green(currentDateMonth);
                   if (currentDateMonth > 3) {
                     lastDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).add(1, "year").format("YYYY"), "MM YYYY").toDate();
                     firstDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).format("YYYY"), "MM YYYY").toDate();
-                  } else {
+                    console.log(".2....", lastDay, firstDay);
+                } else {
                     lastDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).format("YYYY"), "MM YYYY").toDate();
                     firstDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).subtract(1, "year").format("YYYY"), "MM YYYY").toDate();
-                  }
-                  console.log("......", lastDay, firstDay);
+                    console.log("......", lastDay, firstDay);
+                 }
+                  
                   Assignment.find({
                     branch: data9._id,
                     dateOfAppointment: {
@@ -745,7 +749,7 @@ var model = {
                       // if (currentDateMonth > 3) {
                       //   data2.name = "In" + data2.company.companyCode + fourthDigit + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(1, "year").add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
                       // } else {
-                        data2.name = "In" + data2.company.companyCode + fourthDigit + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
+                        data2.name = "IN" + data2.company.companyCode + fourthDigit + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
                       // }
                       data2.name1 = data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
                       data2.save(function (err, data) {
