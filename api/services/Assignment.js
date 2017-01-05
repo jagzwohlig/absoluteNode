@@ -774,7 +774,7 @@ var model = {
                 } else {
                   // Changes for Monthly
                   var dateOfApp = moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30,"minutes").toDate();
-                  green(dateOfApp);
+                  console.log(data2.dateOfAppointment);
                   var firstDay = new Date(dateOfApp.getFullYear(), dateOfApp.getMonth(), 1);
                   var lastDay = new Date(dateOfApp.getFullYear(), dateOfApp.getMonth() + 1, 0);
                   console.log(firstDay,lastDay);
