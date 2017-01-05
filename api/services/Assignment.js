@@ -776,6 +776,8 @@ var model = {
                   // var lastDay = moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30,"minutes");
                   var lastDay = new Date(data2.dateOfAppointment.getFullYear(), data2.dateOfAppointment.getMonth() + 1, 0);
                   green(lastDay);
+                  lastDay= moment(new Date(lastDay)).subtract(5,"hours").subtract(30,"minutes");
+                  green(lastDay);                  
                   Assignment.find({
                     branch: data9._id,
                     dateOfAppointment: {
