@@ -695,10 +695,14 @@ var model = {
                   if (currentDateMonth > 3) {
                     lastDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").add(1, "year").format("YYYY"), "MM YYYY").toDate();
                     firstDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YYYY"), "MM YYYY").toDate();
+                    firstDay = moment(new Date(firstDay)).subtract(5, "hours").subtract(30,"minutes");                    
+                    lastDay = moment(new Date(lastDay)).subtract(5, "hours").subtract(30,"minutes");
                     console.log(".2....", lastDay, firstDay,data2.dateOfAppointment);
                 } else {
                     lastDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YYYY"), "MM YYYY").toDate();
                     firstDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").subtract(1, "year").format("YYYY"), "MM YYYY").toDate();
+                    firstDay = moment(new Date(firstDay)).subtract(5, "hours").subtract(30,"minutes");                    
+                    lastDay = moment(new Date(lastDay)).subtract(5, "hours").subtract(30,"minutes");
                     console.log("......", lastDay, firstDay,data2.dateOfAppointment);
                  }
                   
