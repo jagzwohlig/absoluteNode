@@ -545,6 +545,7 @@ var model = {
 
   getNearestSurveyor: function (data, callback) {
     Employee.find({
+      isSurveyor:true,
       location: {
         $near: {
           $geometry: {
