@@ -307,10 +307,9 @@ var controller = {
                 $scope.email.to = getFromHeader("To");
                 $scope.email.cc = getFromHeader("Cc");
                 $scope.email.deliveredTo = getFromHeader("Delivered-To");
-               
                 $scope.email.body = base64url.decode($scope.email.body);
+                console.log("Email attachment.................................",$scope.email.attachment[0].body);
                 Config.generatePdf("pdf/abs-emailer", $scope, res.callback);
-
             }
         });
 
