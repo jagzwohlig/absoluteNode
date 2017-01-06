@@ -6,6 +6,22 @@
     </button>
     </div>
     <h5 class="modal-title">Assign a new surveyor</h5>
+    <div class="pull-right">
+        <table class="file-list table hover-btn">
+            <td>
+                <h5 class="modal-title">Select Date</h5>
+            </td>
+            <td width="150" class="text-right">
+                <input type="date" class="form-control">
+            </td>
+            <td class="text-right">
+            <button>Go</button>
+            </td>
+            <!--<td width="150" class="text-right">
+                  <input type="time" name="form-control">
+                </td>-->
+        </table>
+    </div>
 </div>
 <div class="modal-body">
     <table class="file-list table hover-btn">
@@ -18,16 +34,9 @@
                 </td>
                 <td>{{r.name}}</td>
                 <td width="150" class="text-right">
-                    <input type="date" class="form-control">
-                </td>
-                <td width="150" class="text-right">
-                  <input type="time" name="form-control">
-                </td>
-                <td width="150" class="text-right">
                     <a href="https://calendar.google.com/calendar/" target="_blank"><button class="btn btn-success btn-show">Assign Now</button></a>
                 </td>
             </tr>
-
         </tbody>
     </table>
 </div>
