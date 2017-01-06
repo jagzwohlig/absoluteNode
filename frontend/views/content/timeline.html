@@ -64,7 +64,8 @@
                         </div>
                     </div>
                     <div class="info-pic">
-                        <span><img ng-src="{{assignment.owner.photo|uploadpath:300:300}}" alt="Varun Dhawan" class="dp" /></span>
+                        <span ng-if="assignment.owner.photo"><img ng-src="{{assignment.owner.photo|uploadpath:300:300}}" alt="Varun Dhawan" class="dp" /></span>
+                        <span ng-if="!assignment.owner.photo"><img ng-src="{{template.profile.photo|serverimage}}" alt="Varun Dhawan" class="dp" /></span>
                         <img src="frontend/img/house/house-{{assignment.owner.houseColor}}.png" alt="{{assignment.owner.houseColor}} House" class="info-house"
                         />
                     </div>
