@@ -12,10 +12,10 @@
                 <h5 class="modal-title">Select Date</h5>
             </td>
             <td width="150" class="text-right">
-                <input type="date" class="form-control">
+                <input type="date" class="form-control" name="date" ng-model="date" >
             </td>
             <td class="text-right">
-            <button>Go</button>
+            <button ng-if="date" ng-click="getHRMSemployee(date)">Go</button>
             </td>
             <!--<td width="150" class="text-right">
                   <input type="time" name="form-control">
@@ -26,7 +26,7 @@
 <div class="modal-body">
     <table class="file-list table hover-btn">
         <tbody>
-            <tr ng-repeat="r in getSurveyors">
+            <tr ng-repeat="r in getAllSurveyors">
                 <td width="70">
                     <div class="img-thumbu">
                         <img src="{{r.photo|serverimage}}" class="full-image">
