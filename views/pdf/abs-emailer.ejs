@@ -69,23 +69,17 @@
               <td height="100px" width="100px">
                 <div class="img-header">
                   <% if((email.attachment[i].mimeType=="image/png")||(email.attachment[i].mimeType=="image/jpeg")||(email.attachment[i].mimeType=="image/gif")||(email.attachment[i].mimeType=="image/jpg")) {%>
-                    <img src="email.attachment[i].body.attachmentId" alt="Absolute Logo" width="100px" height="100px">
+                    <img src="http://absolute.wohlig.co.in/frontend/img/commonimg.png" alt="Absolute Logo" width="100px" height="100px">
                     <p class="txt-position">
                       <%= email.attachment[i].filename %>
                     </p>
-                    <% }%>
-                      <% if(email.attachment[i].mimeType=="application/pdf") {%>
-                        <img src="http://absolute.wohlig.co.in/frontend/img/pdf-icon-png-17.png" alt="Absolute Logo" width="100px" height="100px">
+                    <% }else{%>
+                        <img src="http://absolute.wohlig.co.in/frontend/img/doc.png" alt="Absolute Logo" width="100px" height="100px">
                         <p class="txt-position">
                           <%= email.attachment[i].filename %>
                         </p>
                         <% }%>
-                          <% if((email.attachment[i].mimeType=="application/doc")||(email.attachment[i].mimeType=="application/txt")||(email.attachment[i].mimeType=="application/doc")) {%>
-                            <img src="http://absolute.wohlig.co.in/frontend/img/doc.png" alt="Absolute Logo" width="100px" height="100px">
-                            <p class="txt-position">
-                              <%= email.attachment[i].filename %>
-                            </p>
-                            <% }%>
+                          
                 </div>
               </td>
               <% }%>
