@@ -8704,10 +8704,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
         $scope.getHRMSemployee = function (date) {
             console.log("Date", date);
-            var newDate = moment(new Date(date)).add(5, "hours").add(30, "minutes");
-            console.log("New - Date", newDate);
             var allEmployees = _.each($scope.getAllSurveyors, function (n) {
-                n.date = newDate;
+                n.date = date;
             });
             console.log("All Employee", allEmployees);
         };
