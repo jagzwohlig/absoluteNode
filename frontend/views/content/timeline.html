@@ -28,7 +28,7 @@
                 <button class="btn btn-green btn-round" id="new-tasks" uib-dropdown-toggle><i class="ln-circle-plus"></i> New Tasks</button>
 
                 <ul class="dropdown-menu info-dropdown" uib-dropdown-menu role="menu" aria-labelledby="new-tasks">
-                  <li role="menuitem"><a ng-click="assignSurveyor();">Assign Surveyor</a></li>
+                  <li role="menuitem"><a ng-if="assignment.typeOfClaim" ng-click="assignSurveyor();">Assign Surveyor</a></li>
                   <li role="menuitem"><a href="">New JIR</a></li>
                   <li role="menuitem"><a href="">New ILA</a></li>
                   <li role="menuitem"><a href="">New ILR</a></li>
