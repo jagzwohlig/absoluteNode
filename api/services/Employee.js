@@ -37,7 +37,7 @@ var schema = new Schema({
     },
     postedAt: {
         type: Schema.Types.ObjectId,
-        ref: "City",
+        ref: "Office",
         key: "employeePosted"
     },
     grade: {
@@ -390,7 +390,7 @@ var model = {
                 function (callback) {
                     var Search = Employee.aggregate([{
                         $lookup: {
-                            from: "cities",
+                            from: "offices",
                             localField: "postedAt",
                             foreignField: "_id",
                             as: "postedAt"
