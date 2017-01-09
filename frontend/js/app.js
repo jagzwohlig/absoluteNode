@@ -1485,6 +1485,12 @@ firstapp.filter("mrnumber", function (NavigationService, $timeout) {
     };
 });
 
+firstapp.filter('reverse', function() {
+  return function(items) {
+    return items.slice().reverse();
+  };
+});
+
 
 firstapp.directive('myEnter', function () {
     return function (scope, element, attrs) {
