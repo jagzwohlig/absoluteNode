@@ -2,8 +2,6 @@ var schema = new Schema({
     name: {
         type: String,
         required: true,
-        unique: true,
-        uniqueCaseInsensitive: true,
         capitalizeAll: true,
     },
     state: {
