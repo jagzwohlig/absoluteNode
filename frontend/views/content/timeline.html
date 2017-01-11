@@ -16,7 +16,7 @@
                             <button class="btn btn-green btn-round pull-right mt-5" ng-click="newMessage();"><i class="ln-comments"></i> Send Message</button>
                         </div>
                         <div class="compny">
-                            <h3>{{assignment.company.shortName}} <span class="dif">({{assignment.company.city.name}})</span></h3>
+                            <h3>Site:<span class="dif">({{assignment.city.name}},<b>{{assignment.city.district.name}}</b>,{{assignment.city.district.state.name}},<b>{{assignment.city.district.state.zone.name}}</b>,{{assignment.city.district.state.zone.country.name}})</span></h3>
                             <p>{{assignment.name}}</p>
                             <p ng-if="assignment.causeOfLoss">{{assignment.causeOfLoss.name}} - <span ng-repeat="nl in assignment.natureOfLoss">{{nl.name}}<span ng-if="$index < assignment.natureOfLoss.length - 1">, </span></span>
                             </p>
