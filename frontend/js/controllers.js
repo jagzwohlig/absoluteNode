@@ -722,15 +722,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             console.log(newVal);
             $scope.refreshNature("", newVal);
         });
-        $scope.dateOptionsForIntimation = {
-            showWeeks: true
-        };
-        $scope.newDateOfIntimation = function (DateOfAppoinment) {
-            console.log("For Date Of Intemation", DateOfAppoinment);
-            $scope.dateOptionsForIntimation = {
-                maxDate: new Date(DateOfAppoinment)
-            }
-        };
 
         $scope.addModal = function (filename, index, holdobj, data, current, wholeObj) {
             if (index !== "") {
@@ -921,16 +912,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             console.log(newVal);
             $scope.refreshNature("", newVal);
         });
-
-        $scope.dateOptionsForIntimation = {
-            showWeeks: true
-        };
-        $scope.newDateOfIntimation = function (DateOfAppoinment) {
-            console.log("For Date Of Intemation", DateOfAppoinment);
-            $scope.dateOptionsForIntimation = {
-                maxDate: new Date(DateOfAppoinment)
-            }
-        };
         $scope.addModal = function (filename, index, holdobj, data, current, wholeObj) {
             if (index !== "") {
                 $scope.modalData = data;
