@@ -722,6 +722,15 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             console.log(newVal);
             $scope.refreshNature("", newVal);
         });
+        $scope.dateOptionsForIntimation = {
+            showWeeks: true
+        };
+        $scope.newDateOfIntimation = function (DateOfAppoinment) {
+            console.log("For Date Of Intemation", DateOfAppoinment);
+            $scope.dateOptionsForIntimation = {
+                maxDate: new Date(DateOfAppoinment)
+            }
+        };
 
         $scope.addModal = function (filename, index, holdobj, data, current, wholeObj) {
             if (index !== "") {
@@ -913,6 +922,15 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.refreshNature("", newVal);
         });
 
+        $scope.dateOptionsForIntimation = {
+            showWeeks: true
+        };
+        $scope.newDateOfIntimation = function (DateOfAppoinment) {
+            console.log("For Date Of Intemation", DateOfAppoinment);
+            $scope.dateOptionsForIntimation = {
+                maxDate: new Date(DateOfAppoinment)
+            }
+        };
         $scope.addModal = function (filename, index, holdobj, data, current, wholeObj) {
             if (index !== "") {
                 $scope.modalData = data;
@@ -9153,9 +9171,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         // };
         var a = {};
         var b = 0;
-        $scope.arr=[];
+        $scope.arr = [];
 
-        $scope.onPhotoUploadCallback = function (data, length) {         
+        $scope.onPhotoUploadCallback = function (data, length) {
             if ($scope.checker === length) {
                 $scope.arr.push(data);
                 $scope.checker = 1;
@@ -9166,19 +9184,19 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
                 // $scope.message.attachment = [];
                 var array = _.cloneDeep($scope.arr);
-                    var newArray = _.each($scope.arr, function (n) {
-                        a.employee = $scope.photo.employee,
-                            a.file = n,
-                            a.fileName = Date.now();
-                        $scope.assignment.photos.push(_.cloneDeep(a));
+                var newArray = _.each($scope.arr, function (n) {
+                    a.employee = $scope.photo.employee,
+                        a.file = n,
+                        a.fileName = Date.now();
+                    $scope.assignment.photos.push(_.cloneDeep(a));
 
-                    });
-                    $scope.arr=[];
-                    $scope.saveAssignment("Photo");
-                    console.log("After Save",$scope.arr);
-              
+                });
+                $scope.arr = [];
+                $scope.saveAssignment("Photo");
+                console.log("After Save", $scope.arr);
+
             } else {
-                $scope.arr.push(data);              
+                $scope.arr.push(data);
                 $scope.checker++;
             }
         };

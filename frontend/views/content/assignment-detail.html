@@ -228,7 +228,7 @@
                                         <label>Date Of Appointment*</label>
                                         <div class="input-group">
                                             <input type="text" name="dateOfAppointment" required class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.dateOfAppointment"
-                                                is-open="popup.dateOfAppointment" ng-change="chageDOB(formData.birthDate)" datepicker-options="dateOptions"
+                                                is-open="popup.dateOfAppointment" ng-change="chageDOB(formData.birthDate);newDateOfIntimation(formData.dateOfAppointment)" datepicker-options="dateOptions"
                                                 readonly/>
                                             <span class="input-group-btn">
                                             <button type="button" class="btn btn-default" ng-click="popup.dateOfAppointment=true">
@@ -244,7 +244,7 @@
                                         <label>Date Of Intimation*</label>
                                         <div class="input-group">
                                             <input type="text" name="dateOfIntimation" required class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.dateOfIntimation"
-                                                is-open="popup.dateOfIntimation" ng-change="chageDOB(formData.birthDate)" datepicker-options="dateOptions"
+                                                is-open="popup.dateOfIntimation" ng-change="chageDOB(formData.birthDate)" datepicker-options="dateOptionsForIntimation"
                                                 readonly/>
                                             <span class="input-group-btn">
                                             <button type="button" class="btn btn-default" ng-click="popup.dateOfIntimation=true">
@@ -403,7 +403,7 @@
                                         <label>Date Of Appointment*</label>
                                         <div class="input-group">
                                             <input type="text" name="dateOfAppointment" required class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.dateOfAppointment"
-                                                is-open="popup.dateOfAppointment" ng-change="chageDOB(formData.birthDate)" datepicker-options="dateOptions"
+                                                is-open="popup.dateOfAppointment" ng-change="chageDOB(formData.birthDate);newDateOfIntimation(formData.dateOfAppointment)" datepicker-options="dateOptions"
                                                 readonly/>
                                             <span class="input-group-btn">
                                             <button type="button" class="btn btn-default" ng-click="popup.dateOfAppointment=true">
@@ -419,7 +419,7 @@
                                         <label>Date Of Intimation*</label>
                                         <div class="input-group">
                                             <input type="text" name="dateOfIntimation" required class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.dateOfIntimation"
-                                                is-open="popup.dateOfIntimation" ng-change="chageDOB(formData.birthDate)" datepicker-options="dateOptions"
+                                                is-open="popup.dateOfIntimation" ng-change="chageDOB(formData.birthDate)" datepicker-options="dateOptionsForIntimation"
                                                 readonly/>
                                             <span class="input-group-btn">
                                             <button type="button" class="btn btn-default" ng-click="popup.dateOfIntimation=true">
@@ -550,7 +550,7 @@
                                         <label>Date Of Appointment*</label>
                                         <div class="input-group">
                                             <input type="text" name="dateOfAppointment" required class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.dateOfAppointment"
-                                                is-open="popup.dateOfAppointment" ng-change="chageDOB(formData.birthDate)" datepicker-options="dateOptions"
+                                                is-open="popup.dateOfAppointment" ng-change="chageDOB(formData.birthDate);newDateOfIntimation(formData.dateOfAppointment)" datepicker-options="dateOptions"
                                                 readonly/>
                                             <span class="input-group-btn">
                                               <button type="button" class="btn btn-default" ng-click="popup.dateOfAppointment=true">
@@ -648,7 +648,7 @@
                                         <label>Date Of Appointment*</label>
                                         <div class="input-group">
                                             <input type="text" name="dateOfAppointment" required class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.dateOfAppointment"
-                                                is-open="popup.dateOfAppointment" ng-change="chageDOB(formData.birthDate)" datepicker-options="dateOptions"
+                                                is-open="popup.dateOfAppointment" ng-change="chageDOB(formData.birthDate);newDateOfIntimation(formData.dateOfAppointment)" datepicker-options="dateOptions"
                                                 readonly/>
                                             <span class="input-group-btn">
                                             <button type="button" class="btn btn-default" ng-click="popup.dateOfAppointment=true">
@@ -664,7 +664,7 @@
                                         <label>Date Of Intimation*</label>
                                         <div class="input-group">
                                             <input type="text" name="dateOfIntimation" required class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.dateOfIntimation"
-                                                is-open="popup.dateOfIntimation" ng-change="chageDOB(formData.birthDate)" datepicker-options="dateOptions"
+                                                is-open="popup.dateOfIntimation" ng-change="chageDOB(formData.birthDate)" datepicker-options="dateOptionsForIntimation"
                                                 readonly/>
                                             <span class="input-group-btn">
                                             <button type="button" class="btn btn-default" ng-click="popup.dateOfIntimation=true">
