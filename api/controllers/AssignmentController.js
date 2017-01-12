@@ -6,7 +6,7 @@
  */
 module.exports = _.cloneDeep(require("sails-wohlig-controller"));
 var controller = {
-     getPerson: function (req, res) {
+    getPerson: function (req, res) {
         if (req.body) {
             req.model.getPerson(req.body, res.callback);
 
@@ -20,6 +20,16 @@ var controller = {
     getNearestSurveyor: function (req, res) {
         if (req.body) {
             req.model.getNearestSurveyor(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: "Invalid Request"
+            });
+        }
+    },
+    getNearestSurveyor2: function (req, res) {
+        if (req.body) {
+            req.model.getNearestSurveyor2(req.body, res.callback);
         } else {
             res.json({
                 value: false,

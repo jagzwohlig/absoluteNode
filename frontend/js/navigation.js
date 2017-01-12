@@ -808,6 +808,9 @@ var navigationservice = angular.module('navigationservice', [])
         getNearerSurveyor:function (formData, callback) {
             $http.post(adminurl + 'Assignment/getNearestSurveyor', formData).success(callback);
         },
+        getNearerSurveyor2:function (formData, callback) {
+            $http.post(adminurl + 'Assignment/getNearestSurveyor2', formData).success(callback);
+        },
         zoneSave: function (formData, callback) {
 
             $http.post(adminurl + 'zone/save', formData).success(callback);

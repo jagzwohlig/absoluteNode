@@ -217,6 +217,12 @@ $trans-black: rgba( black, .15);
     }
 }
 
+.aign {
+    margin: 0;
+    vertical-align: super;
+    padding-left: 10px;
+}
+
 .inline {
     display: inline-block;
 }

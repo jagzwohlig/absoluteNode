@@ -8670,7 +8670,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.email = {
             message: ""
         };
+        var surveyDate;
         $scope.getAllSurveyors = [];
+        $scope.finalSurveyors = [];
         $scope.checker = 1;
         $scope.emailtos = [{
             name: 'Mahesh',
@@ -8692,23 +8694,62 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             email: 'raj@wohlig.com'
         }];
 
-        // 
+        // 1st
+        $scope.saveSurveyDate = function (date) {
+            var formdata = {};
+            surveyDate = date;
+            formdata.surveyDate = date;
+            formdata._id = $stateParams.id;
+            NavigationService.assignmentSave(formdata, function (data) {
+                console.log("Survey Date Saved");
+                $scope.getAssignmentData();
+            });
+        };
+
+        // 2nd
         $scope.getAssignmentData = function () {
+            console.log("surveyDate", surveyDate);
             NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
                 NavigationService.getNearerSurveyor(data.data, function (data) {
                     $scope.getAllSurveyors = data.data;
+                    _.each($scope.getAllSurveyors, function (n) {
+                        n.date = surveyDate;
+                        console.log("$scope.getAllSurveyors", $scope.getAllSurveyors);
+                    });
+                    console.log("Success On GetNearest Survayer",$scope.getAllSurveyors);
+                //    Consider Api Reply
+                    $scope.displayFinalSurveyor();
                 });
             });
         };
-        $scope.getAssignmentData();
 
-        $scope.getHRMSemployee = function (date) {
-            console.log("Date", date);
-            var allEmployees = _.each($scope.getAllSurveyors, function (n) {
-                n.date = date;
+        // 3rd
+        $scope.displayFinalSurveyor = function () {
+            console.log("surveyDate", surveyDate);
+            var arrayOfId=_.cloneDeep($scope.getAllSurveyors);
+            console.log("arrayOfId",arrayOfId);
+            var arrayId=[];
+            _.each(arrayOfId,function(n){
+                delete n.date,
+                delete n.officeEmail,
+                arrayId.push(n._id);
             });
-            console.log("All Employee", allEmployees);
+            console.log("arrayOfId",arrayId);
+                NavigationService.getNearerSurveyor2({ids:arrayId}, function (data) {
+                    var final = data.data;
+                    console.log("Final Data",data,final)
+                    $scope.finalSurveyors=final;
+                });
         };
+
+        // $scope.getHRMSemployee = function (date) {
+        //     console.log("Date", date, $scope.getAllSurveyors);
+        //     var allEmployees = _.each($scope.getAllSurveyors, function (n) {
+        //         n.date = date;
+        //         console.log("$scope.getAllSurveyors", $scope.getAllSurveyors);
+        //     });
+        //     console.log("All Employee", allEmployees);
+        // };
         // 
 
         $scope.tinymceModel = 'Initial content';

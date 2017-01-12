@@ -6,27 +6,40 @@
     </button>
     </div>
     <h5 class="modal-title">Assign a new surveyor</h5>
-    <div class="pull-right">
-        <table class="file-list table hover-btn">
-            <td>
+    <div>
+        <table>
+            <td width="150">
                 <h5 class="modal-title">Select Date</h5>
             </td>
-            <td width="150" class="text-right">
-                <input type="date" class="form-control" name="date" ng-model="date" >
+            <td width="150">
+                <!--<input type="date" class="form-control" name="date" ng-model="date">-->
+                <!--Alternate To this-->
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" name="surveyDate" required class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.surveyDate"
+                            is-open="popup.surveyDate" ng-change="chageDOB(formData.birthDate);"
+                            datepicker-options="dateOptions" readonly/>
+                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="popup.surveyDate=true">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </span>
+                    </div>
+                    <div class="error-msg" ng-show="formName.surveyDate.$invalid && formName.surveyDate.$touched">Please Enter Date of Intimation</div>
+                </div>
             </td>
-            <td class="text-right">
-            <button ng-if="date" ng-click="getHRMSemployee(date)">Go</button>
+            
+            <td class="aign">
+                <button ng-if="formData.surveyDate" class="btn btn-primary" ng-click="saveSurveyDate(formData.surveyDate)">Go</button>
             </td>
-            <!--<td width="150" class="text-right">
-                  <input type="time" name="form-control">
-                </td>-->
+            <!--getHRMSemployee(formData.surveyDate);-->
         </table>
     </div>
 </div>
 <div class="modal-body">
     <table class="file-list table hover-btn">
         <tbody>
-            <tr ng-repeat="r in getAllSurveyors">
+            <tr ng-repeat="r in finalSurveyors">
                 <td width="70">
                     <div class="img-thumbu">
                         <img src="{{r.photo|serverimage}}" class="full-image">

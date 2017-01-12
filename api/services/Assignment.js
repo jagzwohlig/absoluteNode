@@ -562,11 +562,32 @@ var model = {
         }
       }
     }, {
+      // name: 1,
+      // photo: 1,
+      // employeeCode: 1,
+      officeEmail: 1
+    }).limit(10).lean().exec(function (err, data2) {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(err, data2);
+      }
+    });
+  },
+
+    getNearestSurveyor2: function (data, callback) {
+      console.log("AAAAAAA",data);
+    Employee.find({
+     _id:{
+       $in:data.ids
+     }
+    }, {
       name: 1,
       photo: 1,
       employeeCode: 1,
       officeEmail: 1
     }).limit(10).lean().exec(function (err, data2) {
+      console.log("Data2",data2);
       if (err) {
         callback(err, null);
       } else {
