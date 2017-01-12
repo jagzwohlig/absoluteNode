@@ -1,6 +1,9 @@
 var autoIncrement = require('mongoose-auto-increment');
 
 var schema = new Schema({
+  surveyDate: {
+    type: Date
+  },
   name: {
     type: String
   },
@@ -545,7 +548,11 @@ var model = {
 
   getNearestSurveyor: function (data, callback) {
     Employee.find({
-      isSurveyor:true,
+      $or: [{
+        isSurveyor: true
+      }, {
+        isField: true
+      }],
       location: {
         $near: {
           $geometry: {
@@ -693,36 +700,36 @@ var model = {
                   // .add(5, "hours").add(30, "minutes") On local Add 5:30 
                   // var currentDateMonth = moment(new Date(data2.dateOfAppointment)).format("MM");                  
                   // On Server
-                   var currentDateMonth = moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM");
+                  var currentDateMonth = moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM");
                   green(currentDateMonth);
                   if (currentDateMonth > 3) {
                     // on Local 
                     // lastDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).add(1, "year").format("YYYY"), "MM YYYY").toDate();
                     // firstDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).format("YYYY"), "MM YYYY").toDate();
-                    
+
                     // on Server
                     lastDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").add(1, "year").format("YYYY"), "MM YYYY").toDate();
                     firstDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YYYY"), "MM YYYY").toDate();
-                    firstDay = moment(new Date(firstDay)).subtract(5, "hours").subtract(30,"minutes");                    
-                    lastDay = moment(new Date(lastDay)).subtract(5, "hours").subtract(30,"minutes");
-                    
-                    
-                    console.log(".2....", lastDay, firstDay,data2.dateOfAppointment);
-                } else {
-                     // on Local 
-                      // lastDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).format("YYYY"), "MM YYYY").toDate();
-                      // firstDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).subtract(1, "year").format("YYYY"), "MM YYYY").toDate();
-                    
+                    firstDay = moment(new Date(firstDay)).subtract(5, "hours").subtract(30, "minutes");
+                    lastDay = moment(new Date(lastDay)).subtract(5, "hours").subtract(30, "minutes");
+
+
+                    console.log(".2....", lastDay, firstDay, data2.dateOfAppointment);
+                  } else {
+                    // on Local 
+                    // lastDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).format("YYYY"), "MM YYYY").toDate();
+                    // firstDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).subtract(1, "year").format("YYYY"), "MM YYYY").toDate();
+
                     // on Server
 
                     lastDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YYYY"), "MM YYYY").toDate();
                     firstDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").subtract(1, "year").format("YYYY"), "MM YYYY").toDate();
-                    firstDay = moment(new Date(firstDay)).subtract(5, "hours").subtract(30,"minutes");                    
-                    lastDay = moment(new Date(lastDay)).subtract(5, "hours").subtract(30,"minutes");
+                    firstDay = moment(new Date(firstDay)).subtract(5, "hours").subtract(30, "minutes");
+                    lastDay = moment(new Date(lastDay)).subtract(5, "hours").subtract(30, "minutes");
 
-                    console.log("......", lastDay, firstDay,data2.dateOfAppointment);
-                 }
-                  
+                    console.log("......", lastDay, firstDay, data2.dateOfAppointment);
+                  }
+
                   Assignment.find({
                     branch: data9._id,
                     dateOfAppointment: {
@@ -744,7 +751,7 @@ var model = {
                       while (num.length < len) {
                         num = '0' + num;
                       }
-                        data2.name = "In" + data2.company.companyCode + fourthDigit + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
+                      data2.name = "In" + data2.company.companyCode + fourthDigit + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
                       data2.name1 = data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
                       data2.save(function (err, data) {
                         if (err) {
@@ -761,7 +768,7 @@ var model = {
                       while (num.length < len) {
                         num = '0' + num;
                       }
-                        data2.name = "IN" + data2.company.companyCode + fourthDigit + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
+                      data2.name = "IN" + data2.company.companyCode + fourthDigit + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
                       data2.name1 = data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
                       data2.save(function (err, data) {
                         if (err) {
@@ -774,18 +781,18 @@ var model = {
                   });
                 } else {
                   // Changes for Monthly
-                  var dateOfApp = moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30,"minutes").toDate();
-                  console.log("dateOfAppointment",data2.dateOfAppointment, dateOfApp);
+                  var dateOfApp = moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").toDate();
+                  console.log("dateOfAppointment", data2.dateOfAppointment, dateOfApp);
                   var firstDay = new Date(dateOfApp.getFullYear(), dateOfApp.getMonth(), 1);
                   var lastDay = new Date(dateOfApp.getFullYear(), dateOfApp.getMonth() + 1, 0);
-                  console.log(firstDay,lastDay);
-                  lastDay= moment(new Date(lastDay)).subtract(5,"hours").subtract(30,"minutes");
-                  firstDay= moment(new Date(firstDay)).subtract(5,"hours").subtract(30,"minutes");
-                  console.log(firstDay,lastDay);                  
+                  console.log(firstDay, lastDay);
+                  lastDay = moment(new Date(lastDay)).subtract(5, "hours").subtract(30, "minutes");
+                  firstDay = moment(new Date(firstDay)).subtract(5, "hours").subtract(30, "minutes");
+                  console.log(firstDay, lastDay);
                   Assignment.find({
                     branch: data9._id,
                     dateOfAppointment: {
-                      $gte : firstDay,
+                      $gte: firstDay,
                       $lte: lastDay
                     }
                   }).sort({
@@ -992,11 +999,11 @@ var model = {
     });
     var Search = Model.find(data.filter)
 
-    .order(options)
+      .order(options)
       .deepPopulate()
       .keyword(options)
 
-    .page(options, callback);
+      .page(options, callback);
 
   },
 };
