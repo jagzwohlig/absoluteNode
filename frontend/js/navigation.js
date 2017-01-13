@@ -811,6 +811,9 @@ var navigationservice = angular.module('navigationservice', [])
         getNearerSurveyor2:function (formData, callback) {
             $http.post(adminurl + 'Assignment/getNearestSurveyor2', formData).success(callback);
         },
+        getNearestOffice:function (formData, callback) {
+            $http.post(adminurl + 'Office/getNearestOffice', formData).success(callback);
+        },
         zoneSave: function (formData, callback) {
 
             $http.post(adminurl + 'zone/save', formData).success(callback);

@@ -8710,16 +8710,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.getAssignmentData = function () {
             console.log("surveyDate", surveyDate);
             NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
-                NavigationService.getNearerSurveyor(data.data, function (data) {
+                 NavigationService.getNearestOffice(data.data, function (data) {
                     $scope.getAllSurveyors = data.data;
-                    _.each($scope.getAllSurveyors, function (n) {
-                        n.date = surveyDate;
-                        console.log("$scope.getAllSurveyors", $scope.getAllSurveyors);
-                    });
                     console.log("Success On GetNearest Survayer",$scope.getAllSurveyors);
                 //    Consider Api Reply
                     $scope.displayFinalSurveyor();
                 });
+
             });
         };
 

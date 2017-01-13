@@ -15,6 +15,9 @@ var schema = new Schema({
         type: String,
         // required: true
     },
+    date:{
+        type:Date
+    },
     company: {
         type: Schema.Types.ObjectId,
         ref: "Company",
