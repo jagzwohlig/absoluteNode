@@ -9317,9 +9317,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         $scope.reloadGmail();
         $scope.showSingle = function (data) {
+            console.log("Email Data Before Passing",data);
             $.jStorage.set("oneEmail", data);
             $state.go("email-single", {
-                id: data.threadId
+                // id: data.threadId
+                id: data.id                
             });
         };
 
@@ -9521,6 +9523,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "messageId": $stateParams.id
         }, function (data) {
             $scope.email = data.data;
+            console.log("Email ............",$scope.email,data);
             var a = $filter("base64url")(data.data.raw);
 
             $scope.email.attachment = [];
@@ -9533,6 +9536,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                             if (data.mimeType == "multipart/alternative") {
                                 _.each(data.parts, function (data2) {
                                     if (data2.mimeType == "text/html") {
+                                        console.log("In related");                                        
                                         $scope.email.body = data2.body.data;
                                     }
                                 });
@@ -9554,6 +9558,18 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                             if (data.mimeType == "multipart/alternative") {
                                 _.each(data.parts, function (data2) {
                                     if (data2.mimeType == "text/html") {
+                                        console.log("In Mixed");
+                                        $scope.email.body = data2.body.data;
+                                    }
+                                });
+
+                            }
+                            if (data.mimeType == "application/zip") {
+                                console.log("In Zip outer If");
+                                _.each(data.parts, function (data2) {
+                                    console.log("In Zip _.each");
+                                    if (data2.mimeType == "multipart/alternative") {
+                                        console.log("In Zip");
                                         $scope.email.body = data2.body.data;
                                     }
                                 });
@@ -9573,6 +9589,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         _.each($scope.email.payload.parts, function (data) {
 
                             if (data.mimeType == "text/html") {
+                                console.log("In Alternative");                                
                                 $scope.email.body = data.body.data;
                             }
 
@@ -9580,7 +9597,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     }
                     break;
                 case "text/html":
-                    {
+                    {   
+                        console.log("In text/html");                                                        
                         $scope.email.body = $scope.email.payload.body.data;
                     }
                     break;
