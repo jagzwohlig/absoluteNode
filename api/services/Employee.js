@@ -389,16 +389,16 @@ var model = {
                 //Start 
                 function (callback) {
                     var Search = Employee.aggregate([
-                    //     {
-                    //     $lookup: {
-                    //         from: "offices",
-                    //         localField: "postedAt",
-                    //         foreignField: "_id",
-                    //         as: "postedAt"
-                    //     }
-                    // }, {
-                    //     $unwind: "$postedAt"
-                    // },
+                        {
+                        $lookup: {
+                            from: "offices",
+                            localField: "postedAt",
+                            foreignField: "_id",
+                            as: "postedAt"
+                        }
+                    }, {
+                        $unwind: "$postedAt"
+                    },
                     {
                         $lookup: {
                             from: "grades",
@@ -416,12 +416,12 @@ var model = {
                                     $options: 'i'
                                 }
                             }
-                            // ,{
-                            //     "postedAt.name": {
-                            //         $regex: data.keyword,
-                            //         $options: 'i'
-                            //     }
-                            // }
+                            ,{
+                                "postedAt.name": {
+                                    $regex: data.keyword,
+                                    $options: 'i'
+                                }
+                            }
                             , {
                                 "name": {
                                     $regex: data.keyword,
@@ -454,16 +454,18 @@ var model = {
                 },
 
                 function (callback) {
-                    var Search = Employee.aggregate([{
+                    var Search = Employee.aggregate([
+                        {
                         $lookup: {
-                            from: "cities",
+                            from: "offices",
                             localField: "postedAt",
                             foreignField: "_id",
                             as: "postedAt"
                         }
                     }, {
                         $unwind: "$postedAt"
-                    },{
+                    },
+                    {
                         $lookup: {
                             from: "grades",
                             localField: "grade",
@@ -479,12 +481,14 @@ var model = {
                                     $regex: data.keyword,
                                     $options: 'i'
                                 }
-                            },{
+                            },
+                            {
                                 "postedAt.name": {
                                     $regex: data.keyword,
                                     $options: 'i'
                                 }
-                            }, {
+                            },
+                             {
                                 "name": {
                                     $regex: data.keyword,
                                     $options: 'i'
