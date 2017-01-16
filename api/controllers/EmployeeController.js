@@ -155,29 +155,75 @@ var controller = {
     },
 
 
-    getBackendEmployee: function(req, res) {
-    if (req.body) {
-      Employee.getBackendEmployee(req.body, res.callback);
-    } else {
-      res.json({
-        value: false,
-        data: {
-          message: "Invalid Request"
+    getBackendEmployee: function (req, res) {
+        if (req.body) {
+            Employee.getBackendEmployee(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: "Invalid Request"
+                }
+            })
         }
-      })
-    }
+    },
+    getShareWith: function (req, res) {
+        if (req.body) {
+            Employee.getShareWith(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: "Invalid Request"
+                }
+            })
+        }
+    },
+    getLoginSurveyor: function (req, res) {
+        if (req.body) {
+            Employee.getLoginSurveyor(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: "Invalid Request"
+                }
+            })
+        }
+    },
+    MobileSubmit: function (req, res) {
+      if (req.body) {
+          Employee.MobileSubmit(req.body, res.callback);
+      } else {
+          res.json({
+              value: false,
+              data: "Invalid Request"
+          });
+      }
   },
-    getShareWith: function(req, res) {
-    if (req.body) {
-      Employee.getShareWith(req.body, res.callback);
-    } else {
-      res.json({
-        value: false,
-        data: {
-          message: "Invalid Request"
+    getTask: function (req, res) {
+        if (req.body) {
+            Employee.getTask(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: "Invalid Request"
+                }
+            })
         }
-      })
-    }
-  }
+    },
+    saveEmployeeAssignment: function (req, res) {
+        if (req.body) {
+            Employee.saveEmployeeAssignment(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: "Invalid Request"
+                }
+            })
+        }
+    },
 };
 module.exports = _.assign(module.exports, controller);

@@ -469,6 +469,9 @@ var navigationservice = angular.module('navigationservice', [])
             }
             $http.post(adminurl + 'Assignment/save', data).success(callback);
         },
+        saveEmployeeAssignment: function (data, callback) {
+            $http.post(adminurl + 'Employee/saveEmployeeAssignment', data).success(callback);
+        },
         searchModel: function (model, formData, i, callback) {
             $http.post(adminurl + model + '/search', formData).success(function (data) {
                 callback(data, i);
@@ -667,10 +670,10 @@ var navigationservice = angular.module('navigationservice', [])
         },
         searchSalvage: function (formData, i, callback) {
             $http.post(adminurl + 'salvage/search', formData).success(function (data) {
-            console.log("Search Salvage results",data);
-            var arr=[];
-            arr=_.dropWhile(data.data.results, ['sequence', 2]);
-            console.log("Search Salvage results After ",data,arr);
+            _.remove(data.data.results,function(n){
+                return n.sequence ==="2";
+            });
+            console.log("Search Salvage results After ",data);
                 callback(data, i);
             });
         },

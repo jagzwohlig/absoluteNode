@@ -7,9 +7,10 @@
                       <b>ILA:&nbsp;</b>{{assignment.ilaStatus}}
                         <toggle-switch ng-model="assignment.ilaStatus" class="switch-small switch-success pull-right" ng-change="savaAssignment(assignment)"></toggle-switch>
                     </li>
+
                 </ul>
                 <b>Status</b>
-                
+               <b ng-if="assignment.assignedTo" width="10px">{{assignment.assignedTo.name}}</b>
             </div>
         </div>
     </div>
@@ -42,9 +43,9 @@
                         <div class="info-btn inline">
                             <span uib-dropdown class="inline">
                 <button class="btn btn-green btn-round" id="new-tasks" uib-dropdown-toggle><i class="ln-circle-plus"></i> New Tasks</button>
-
+ <!--ng-if="assignment.assignedTo!==undefined"-->
                 <ul class="dropdown-menu info-dropdown" uib-dropdown-menu role="menu" aria-labelledby="new-tasks">
-                  <li role="menuitem"><a ng-if="assignment.typeOfClaim" ng-click="assignSurveyor();">Assign Surveyor</a></li>
+                  <li role="menuitem"><a ng-if="assignment.typeOfClaim" ng-if="!assignment.assignedTo" ng-click="assignSurveyor();">Assign Surveyor</a></li>
                   <li role="menuitem"><a href="">New JIR</a></li>
                   <li role="menuitem"><a href="">New ILA</a></li>
                   <li role="menuitem"><a href="">New ILR</a></li>

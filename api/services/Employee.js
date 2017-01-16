@@ -3,10 +3,10 @@ var schema = new Schema({
         type: String,
         required: true
     },
-        location: {
-    type: [Number],
-    index: '2dsphere'
-  },
+    location: {
+        type: [Number],
+        index: '2dsphere'
+    },
     firstName: {
         type: String,
         required: true
@@ -15,8 +15,8 @@ var schema = new Schema({
         type: String,
         // required: true
     },
-    date:{
-        type:Date
+    date: {
+        type: Date
     },
     company: {
         type: Schema.Types.ObjectId,
@@ -103,7 +103,7 @@ var schema = new Schema({
         key: "employee"
     },
     address: String,
-    formatted_address:String,
+    formatted_address: String,
     pincode: String,
     lat: {
         type: Number,
@@ -222,14 +222,26 @@ var schema = new Schema({
         }
 
     }],
-    assignment: {
-        type: [{
+    assignment: [{
+        assignment: {
             type: Schema.Types.ObjectId,
             ref: "Assignment",
-        }],
-        index: true,
-        restrictedDelete: true
-    },
+            index: true
+        },
+        status: {
+            type: Boolean,
+            default: false
+        }
+    }],
+    //   assignment: {
+    //     type: [{
+    //         type: Schema.Types.ObjectId,
+    //         ref: "Assignment",
+    //     }],
+    //     index: true,
+    //     restrictedDelete: true
+    // },
+
     user: {
         type: [{
             type: Schema.Types.ObjectId,
@@ -242,6 +254,24 @@ var schema = new Schema({
 
 schema.plugin(deepPopulate, {
     populate: {
+        'assignment.assignment': {
+            select: 'name address surveyDate city pincode siteMobile siteNumber siteEmail '
+        },
+        'assignment.assignment.city': {
+            select: 'name district'
+        },
+        'assignment.assignment.city.district': {
+            select: 'name _id state'
+        },
+        'assignment.assignment.city.district.state': {
+            select: 'name _id zone'
+        },
+        'assignment.assignment.city.district.state.zone': {
+            select: 'name _id country'
+        },
+        'assignment.assignment.city.district.state.zone.country': {
+            select: 'name _id'
+        },
         'city': {
             select: 'name _id district'
         },
@@ -281,81 +311,199 @@ module.exports = mongoose.model('Employee', schema);
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country func grade department IIISLACertificate.department", "city.district.state.zone.country  func grade postedAt"));
 var model = {
 
-//      getBackendEmployee: function (data, callback) {
-//          console.log("..............................................",data);
-//     Employee.find({
-//       isSBC:false,
-//       isField:false,
-//       isSurveyor:false
-//     }).populate("postedAt").exec(function (err, found) {
-//       if (err) {
-//         callback(err, null);
-//       } else {
-//           callback(null, found);
-//       }
-//       })
-//   },
+    //      getBackendEmployee: function (data, callback) {
+    //          console.log("..............................................",data);
+    //     Employee.find({
+    //       isSBC:false,
+    //       isField:false,
+    //       isSurveyor:false
+    //     }).populate("postedAt").exec(function (err, found) {
+    //       if (err) {
+    //         callback(err, null);
+    //       } else {
+    //           callback(null, found);
+    //       }
+    //       })
+    //   },
 
 
-// Start
-  getBackendEmployee: function (data, callback) {
-    var Model = this;
-    var Const = this(data);
-    var maxRow = Config.maxRow;
-    var page = 1;
-    // var name1=subString()
-    if (data.page) {
-      page = data.page;
-    }
-    var field = data.field;
-    var options = {
-      field: data.field,
-      filters: {
-        keyword: {
-          fields: ['name'],
-          term: data.keyword
+    // Start
+    getBackendEmployee: function (data, callback) {
+        var Model = this;
+        var Const = this(data);
+        var maxRow = Config.maxRow;
+        var page = 1;
+        // var name1=subString()
+        if (data.page) {
+            page = data.page;
         }
-      },
+        var field = data.field;
+        var options = {
+            field: data.field,
+            filters: {
+                keyword: {
+                    fields: ['name'],
+                    term: data.keyword
+                }
+            },
 
-      sort: {
-        asc: "name",
-      },
-      start: (page - 1) * maxRow,
-      count: maxRow
-    };
-    _.each(data.filter, function (n, key) {
-      if (_.isEmpty(n)) {
-        n = undefined;
-      }
-    });
-    data.filter={
-        isSBC:false,
-        isField:false,
-        isSurveyor:false
-    }
-    var Search = Model.find(data.filter)
-    .order(options)
-      .deepPopulate("postedAt")
-      .keyword(options)
+            sort: {
+                asc: "name",
+            },
+            start: (page - 1) * maxRow,
+            count: maxRow
+        };
+        _.each(data.filter, function (n, key) {
+            if (_.isEmpty(n)) {
+                n = undefined;
+            }
+        });
+        data.filter = {
+            isSBC: false,
+            isField: false,
+            isSurveyor: false
+        }
+        var Search = Model.find(data.filter)
+            .order(options)
+            .deepPopulate("postedAt")
+            .keyword(options)
 
-    .page(options, callback);
-  },
+            .page(options, callback);
+    },
 
-// End
+    // End
 
-     getShareWith: function (data, callback) {
-    Employee.find({
-        
-    }).exec(function (err, found) {
-      if (err) {
-        callback(err, null);
-      } else {
-          callback(null, found);
-      }
-      })
-  },
+    getShareWith: function (data, callback) {
+        Employee.find({
 
-  search: function (data, callback) {
+        }).exec(function (err, found) {
+            if (err) {
+                callback(err, null);
+            } else {
+                callback(null, found);
+            }
+        })
+    },
+
+    getLoginSurveyor: function (data, callback) {
+        Employee.findOne({
+            officeEmail: data.email,
+            $or: [{
+                    isSurveyor: true
+                },
+                {
+                    isField: true
+                }
+            ]
+        }, {
+            name: 1,
+            photo: 1,
+            grade: 1
+        }).populate("grade", "name").exec(function (err, found) {
+            if (err) {
+                callback(err, null);
+            } else {
+                callback(null, found);
+            }
+        })
+    },
+    getTask: function (data, callback) {
+        var deepSearch = "assignment.assignment assignment.assignment.city assignment.assignment.city.district assignment.assignment.city.district.state assignment.assignment.city.district.state.zone assignment.assignment.city.district.state.zone.country";
+        Employee.findOne({
+            _id: data.id
+        }).deepPopulate(deepSearch).exec(function (err, found) {
+            if (err) {
+                callback(err, null);
+            } else {
+                var arr = [];
+                _.each(found.assignment, function (n) {
+                    if (n.status === false) {
+                        arr.push(n);
+                    }
+                });
+                callback(null, arr);
+            }
+        })
+    },
+    // async.parallel start
+    MobileSubmit: function (data, callback) {
+        async.parallel({
+            saveEmployee: function (callback) {
+                Employee.update({
+                    "assignment._id": data.empId
+                }, {
+                    $set: {
+                        "assignment.$.status": true
+                    }
+                }).exec(function (err, found) {
+                    if (err) {
+                        console.log(err);
+                        callback(err, null);
+                    } else if (found) {
+                        console.log("Found", found);
+                        callback(null, found);
+                    } else {
+                        callback(null, found);
+                    }
+                });
+            },
+            saveAssignment: function (callback) {
+                Assignment.update({
+                    _id: data.assignId
+                }, {
+                    $push: {
+                        docs: {
+                            $each:data.doc
+                        },
+                        photos: {
+                            $each:data.photos
+                        },
+                        jir: {
+                            $each:data.jir
+                        }
+                    }
+                }).exec(function (err, found) {
+                    if (err) {
+                        console.log(err);
+                        callback(err, null);
+                    } else if (found) {
+                        console.log("Found", found);
+                        callback(null, found);
+                    } else {
+                        callback(null, found);
+                    }
+                });
+            },
+        }, function (err, results) {
+            if (err) {
+                console.log(err);
+                callback(err, null);
+            } else if (results && results.length > 0) {
+                callback(null, results);
+            } else {
+                callback(null, results);
+            }
+        });
+    },
+    // async.parallel End
+    saveEmployeeAssignment: function (data, callback) {
+        Employee.findOne({
+            _id: data._id
+        }).exec(function (err, employee) {
+            if (err) {
+                callback(err, null);
+            } else {
+                console.log("In saveEmployeeAssignment", employee);
+                console.log("ABC");
+                employee.assignment.push(data.assignment);
+                console.log("In saveEmployeeAssignment", employee);
+                Employee.saveData(employee, callback);
+            }
+        })
+    },
+
+
+    search: function (data, callback) {
 
         var Model = this;
         var Const = this(data);
@@ -391,62 +539,60 @@ var model = {
             async.parallel([
                 //Start 
                 function (callback) {
-                    var Search = Employee.aggregate([
+                    var Search = Employee.aggregate([{
+                            $lookup: {
+                                from: "offices",
+                                localField: "postedAt",
+                                foreignField: "_id",
+                                as: "postedAt"
+                            }
+                        }, {
+                            $unwind: "$postedAt"
+                        },
                         {
-                        $lookup: {
-                            from: "offices",
-                            localField: "postedAt",
-                            foreignField: "_id",
-                            as: "postedAt"
-                        }
-                    }, {
-                        $unwind: "$postedAt"
-                    },
-                    {
-                        $lookup: {
-                            from: "grades",
-                            localField: "grade",
-                            foreignField: "_id",
-                            as: "grade"
-                        }
-                    }, {
-                        $unwind: "$grade"
-                    }, {
-                        $match: {
-                            $or: [{
-                                "grade.name": {
-                                    $regex: data.keyword,
-                                    $options: 'i'
-                                }
+                            $lookup: {
+                                from: "grades",
+                                localField: "grade",
+                                foreignField: "_id",
+                                as: "grade"
                             }
-                            ,{
-                                "postedAt.name": {
-                                    $regex: data.keyword,
-                                    $options: 'i'
-                                }
+                        }, {
+                            $unwind: "$grade"
+                        }, {
+                            $match: {
+                                $or: [{
+                                    "grade.name": {
+                                        $regex: data.keyword,
+                                        $options: 'i'
+                                    }
+                                }, {
+                                    "postedAt.name": {
+                                        $regex: data.keyword,
+                                        $options: 'i'
+                                    }
+                                }, {
+                                    "name": {
+                                        $regex: data.keyword,
+                                        $options: 'i'
+                                    }
+                                }, {
+                                    "officeEmail": {
+                                        $regex: data.keyword,
+                                        $options: 'i'
+                                    }
+                                }, {
+                                    "officeMobile": {
+                                        $regex: data.keyword,
+                                        $options: 'i'
+                                    }
+                                }]
                             }
-                            , {
-                                "name": {
-                                    $regex: data.keyword,
-                                    $options: 'i'
-                                }
-                            }, {
-                                "officeEmail": {
-                                    $regex: data.keyword,
-                                    $options: 'i'
-                                }
-                            }, {
-                                "officeMobile": {
-                                    $regex: data.keyword,
-                                    $options: 'i'
-                                }
-                            }]
+                        }, {
+                            $skip: parseInt(pagestartfrom)
+                        }, {
+                            $limit: maxRow
                         }
-                    }, {
-                        $skip: parseInt(pagestartfrom)
-                    }, {
-                        $limit: maxRow
-                    }], function (err, data1) {
+                    ], function (err, data1) {
                         if (err) {
                             callback(err, null);
                         } else {
@@ -457,70 +603,71 @@ var model = {
                 },
 
                 function (callback) {
-                    var Search = Employee.aggregate([
+                    var Search = Employee.aggregate([{
+                            $lookup: {
+                                from: "offices",
+                                localField: "postedAt",
+                                foreignField: "_id",
+                                as: "postedAt"
+                            }
+                        }, {
+                            $unwind: "$postedAt"
+                        },
                         {
-                        $lookup: {
-                            from: "offices",
-                            localField: "postedAt",
-                            foreignField: "_id",
-                            as: "postedAt"
-                        }
-                    }, {
-                        $unwind: "$postedAt"
-                    },
-                    {
-                        $lookup: {
-                            from: "grades",
-                            localField: "grade",
-                            foreignField: "_id",
-                            as: "grade"
-                        }
-                    }, {
-                        $unwind: "$grade"
-                    }, {
-                        $match: {
-                           $or: [{
-                                "grade.name": {
-                                    $regex: data.keyword,
-                                    $options: 'i'
+                            $lookup: {
+                                from: "grades",
+                                localField: "grade",
+                                foreignField: "_id",
+                                as: "grade"
+                            }
+                        }, {
+                            $unwind: "$grade"
+                        }, {
+                            $match: {
+                                $or: [{
+                                        "grade.name": {
+                                            $regex: data.keyword,
+                                            $options: 'i'
+                                        }
+                                    },
+                                    {
+                                        "postedAt.name": {
+                                            $regex: data.keyword,
+                                            $options: 'i'
+                                        }
+                                    },
+                                    {
+                                        "name": {
+                                            $regex: data.keyword,
+                                            $options: 'i'
+                                        }
+                                    }, {
+                                        "officeEmail": {
+                                            $regex: data.keyword,
+                                            $options: 'i'
+                                        }
+                                    }, {
+                                        "officeMobile": {
+                                            $regex: data.keyword,
+                                            $options: 'i'
+                                        }
+                                    }
+                                ]
+                            }
+                        }, {
+                            $group: {
+                                _id: null,
+                                count: {
+                                    $sum: 1
                                 }
-                            },
-                            {
-                                "postedAt.name": {
-                                    $regex: data.keyword,
-                                    $options: 'i'
-                                }
-                            },
-                             {
-                                "name": {
-                                    $regex: data.keyword,
-                                    $options: 'i'
-                                }
-                            }, {
-                                "officeEmail": {
-                                    $regex: data.keyword,
-                                    $options: 'i'
-                                }
-                            }, {
-                                "officeMobile": {
-                                    $regex: data.keyword,
-                                    $options: 'i'
-                                }
-                            }]
-                        }
-                    }, {
-                        $group: {
-                            _id: null,
-                            count: {
-                                $sum: 1
+                            }
+                        }, {
+                            $project: {
+                                "_id": 1,
+                                "count": 1
                             }
                         }
-                    }, {
-                        $project: {
-                            "_id": 1,
-                            "count": 1
-                        }
-                    }], function (err, data2) {
+                    ], function (err, data2) {
                         if (err) {
                             callback(err, null);
                         } else {
@@ -534,28 +681,28 @@ var model = {
                 if (err) {
                     callback(err, null);
                 }
-                if(_.isEmpty(data4[1])){
+                if (_.isEmpty(data4[1])) {
                     var data5 = {
-                    results: data4[0],
-                    options: {
-                        count: 0
-                    }
-                };
+                        results: data4[0],
+                        options: {
+                            count: 0
+                        }
+                    };
                 } else {
                     var data5 = {
-                    results: data4[0],
-                    options: {
-                        count: maxRow
-                    }
-                };
-                data5.total=data4[1][0].count;
+                        results: data4[0],
+                        options: {
+                            count: maxRow
+                        }
+                    };
+                    data5.total = data4[1][0].count;
                 }
                 callback(null, data5);
             });
         } else {
             var Search = Model.find(data.filter)
 
-            .order(options)
+                .order(options)
                 .deepPopulate("postedAt grade")
                 .keyword(options)
                 .page(options, callback);

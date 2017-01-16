@@ -4,6 +4,11 @@ var schema = new Schema({
   surveyDate: {
     type: Date
   },
+  assignedTo:{
+    type: Schema.Types.ObjectId,
+    ref: "Employee",
+    index: true
+  },
   timelineStatus:String,
   brokerCompany:{
     type: Schema.Types.ObjectId,
@@ -446,6 +451,9 @@ var schema = new Schema({
 schema.plugin(deepPopulate, {
 
   populate: {
+    'assignedTo':{
+      select:'name _id'
+    },
     'city': {
       select: 'name _id district'
     },
@@ -518,7 +526,7 @@ schema.plugin(timestamps);
 
 module.exports = mongoose.model('Assignment', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer owner owner.func company company.city assessment.employee docs.employee photos.employee causeOfLoss insurer ", "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer owner owner.func company company.city assessment.employee docs.employee photos.employee causeOfLoss insurer assignedTo", "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer assignedTo"));
 
 var model = {
   saveData: function (data, callback) {
@@ -614,7 +622,7 @@ var model = {
       photo: 1,
       employeeCode: 1,
       officeEmail: 1
-    }).limit(10).lean().exec(function (err, data2) {
+    }).lean().exec(function (err, data2) {
       console.log("Data2",data2);
       if (err) {
         callback(err, null);

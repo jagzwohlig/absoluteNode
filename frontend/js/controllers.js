@@ -8671,7 +8671,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.email = {
             message: ""
         };
-        var surveyDate;
+        $scope.surveyDate;
         $scope.getAllSurveyors = [];
         $scope.finalSurveyors = [];
         $scope.checker = 1;
@@ -8698,7 +8698,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         // 1st
         $scope.saveSurveyDate = function (date) {
             var formdata = {};
-            surveyDate = date;
+            $scope.surveyDate = date;
             formdata.surveyDate = date;
             formdata._id = $stateParams.id;
             NavigationService.assignmentSave(formdata, function (data) {
@@ -8709,7 +8709,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
         // 2nd
         $scope.getAssignmentData = function () {
-            console.log("surveyDate", surveyDate);
+            console.log("surveyDate", $scope.surveyDate);
             NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
                  NavigationService.getNearestOffice(data.data, function (data) {
                     $scope.getAllSurveyors = data.data;
@@ -8723,7 +8723,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
         // 3rd
         $scope.displayFinalSurveyor = function () {
-            console.log("surveyDate", surveyDate);
+            console.log("surveyDate", $scope.surveyDate);
             var arrayOfId=_.cloneDeep($scope.getAllSurveyors);
             console.log("arrayOfId",arrayOfId);
             var arrayId=[];
@@ -8739,6 +8739,34 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     $scope.finalSurveyors=final;
                 });
         };
+
+        $scope.updateEmployeeAssignment=function(empId){
+            var emp={};
+            emp.assignment={
+               assignment:$stateParams.id
+            };
+            emp._id=empId;
+            console.log("Employee",emp);
+            NavigationService.saveEmployeeAssignment(emp,function (data) {
+                    console.log("Success On Save EmployeeAssignment",data);
+            });
+        };
+        $scope.updateAssignmentEmployee=function(empId){
+            var assignment={};
+            assignment._id=$stateParams.id
+            assignment.assignedTo=empId;
+            NavigationService.assignmentSave(assignment,function (data) {
+                    console.log("Success On Save AssignmentEmployee",data);
+            });
+        };
+        $scope.surveyorAssigned=false;
+        $scope.afterSurveyAssign=function(employee){
+           $scope.surveyorAssigned=true;
+           console.log("AAAAAAAAAAAAA",$scope.surveyorAssigned,$scope.surveyDate);
+           surveyDate=new Date(date);
+           console.log("AAAAAAAAAAAAA",$scope.surveyorAssigned,$scope.surveyDate);
+        };
+        
 
         // $scope.getHRMSemployee = function (date) {
         //     console.log("Date", date, $scope.getAllSurveyors);

@@ -7,7 +7,7 @@
     </div>
     <h5 class="modal-title">Assign a new surveyor</h5>
     <div>
-        <table>
+        <table ng-if="!surveyorAssigned">
             <td width="150">
                 <h5 class="modal-title">Select Date</h5>
             </td>
@@ -25,7 +25,7 @@
                                             </button>
                                         </span>
                     </div>
-                    <div class="error-msg" ng-show="formName.surveyDate.$invalid && formName.surveyDate.$touched">Please Enter Date of Intimation</div>
+                    <div class="error-msg" ng-show="formName.surveyDate.$invalid && formName.surveyDate.$touched">Please Enter Date of Survey</div>
                 </div>
             </td>
             
@@ -37,7 +37,7 @@
     </div>
 </div>
 <div class="modal-body">
-    <table class="file-list table hover-btn">
+    <table class="file-list table hover-btn" ng-if="!surveyorAssigned">
         <tbody>
             <tr ng-repeat="r in finalSurveyors">
                 <td width="70">
@@ -47,7 +47,8 @@
                 </td>
                 <td>{{r.name}}</td>
                 <td width="150" class="text-right">
-                    <a href="https://calendar.google.com/calendar/" target="_blank"><button class="btn btn-success btn-show">Assign Now</button></a>
+                    <button class="btn btn-success btn-show" ng-click="updateEmployeeAssignment(r._id);updateAssignmentEmployee(r._id);afterSurveyAssign(r)">Assign Now</button>                    
+                    <!--<a href="https://calendar.google.com/calendar/" target="_blank"><button class="btn btn-success btn-show">Assign Now</button></a>-->
                 </td>
             </tr>
         </tbody>
