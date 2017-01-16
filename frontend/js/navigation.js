@@ -548,7 +548,7 @@ var navigationservice = angular.module('navigationservice', [])
                 callback(data, i);
             });
 
-        },
+        },    
         searchInsuredCustomerCompany: function (formData, i, callback) {
             formData.filter={
                 customerSegment: "57c3ef916fb3c3420233a00b"
@@ -662,6 +662,20 @@ var navigationservice = angular.module('navigationservice', [])
         },
         searchDepartment: function (formData, i, callback) {
             $http.post(adminurl + 'department/search', formData).success(function (data) {
+                callback(data, i);
+            });
+        },
+        searchSalvage: function (formData, i, callback) {
+            $http.post(adminurl + 'salvage/search', formData).success(function (data) {
+            console.log("Search Salvage results",data);
+            var arr=[];
+            arr=_.dropWhile(data.data.results, ['sequence', 2]);
+            console.log("Search Salvage results After ",data,arr);
+                callback(data, i);
+            });
+        },
+        searchSalvageElse: function (formData, i, callback) {
+            $http.post(adminurl + 'salvage/search', formData).success(function (data) {
                 callback(data, i);
             });
         },

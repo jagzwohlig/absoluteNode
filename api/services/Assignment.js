@@ -4,6 +4,22 @@ var schema = new Schema({
   surveyDate: {
     type: Date
   },
+  timelineStatus:String,
+  brokerCompany:{
+    type: Schema.Types.ObjectId,
+    ref: "CustomerCompany",
+    index: true
+  },
+  insurerCompany:{
+    type: Schema.Types.ObjectId,
+    ref: "CustomerCompany",
+    index: true
+  },
+  insuredCompany:{
+    type: Schema.Types.ObjectId,
+    ref: "CustomerCompany",
+    index: true
+  },
   name: {
     type: String
   },
@@ -32,6 +48,11 @@ var schema = new Schema({
     required: true,
     key: "assignment"
   },
+  salvage: {
+    type: Schema.Types.ObjectId,
+    ref: "Salvage",
+    index: true
+  },
   policyDepartment: {
     type: Schema.Types.ObjectId,
     ref: "Department",
@@ -52,6 +73,9 @@ var schema = new Schema({
     type: Date
   },
   dateOfIntimation: {
+    type: Date
+  },
+  dateOfLoss: {
     type: Date
   },
   intimatedLoss: {
@@ -235,6 +259,10 @@ var schema = new Schema({
     }
   }],
   status: {
+    type: Boolean,
+    default: true
+  },
+  ilaStatus: {
     type: Boolean,
     default: true
   },

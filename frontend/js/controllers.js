@@ -875,6 +875,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
             $scope.msg = data.data.name;
             $scope.formData = data.data;
+            $scope.formData.dateOfLoss = new Date(data.data.dateOfLoss);
             $scope.formData.dateOfIntimation = new Date(data.data.dateOfIntimation);
             $scope.formData.dateOfAppointment = new Date(data.data.dateOfAppointment);
             $scope.formData.insuredOfficer = data.data.insuredOfficer._id;
@@ -8549,7 +8550,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.timeline = {};
         $scope.timeline.attachment = [];
         $scope.message.title = "Sent a new message";
-
         $scope.tempt = $stateParams.type;
 
         if ($stateParams.assignmentTemplate === "") {
@@ -8608,9 +8608,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.getTimeline = function () {
             NavigationService.getOneModel("Timeline", $scope.assignment.timeline[0], function (data) {
                 $scope.timeline = data.data;
+                
             });
         };
-
+        
         if ($stateParams.assignment !== "") {
             NavigationService.getOneModel("Assignment", $stateParams.assignment, function (data) {
                 $scope.assignment = data.data;
@@ -9028,14 +9029,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.photo.employee = $scope.employee.employee;
             $scope.doc.employee = $scope.employee.employee;
         });
-
-
-
         $scope.getTimeline = function () {
             NavigationService.getOneModel("Timeline", $scope.timelineID, function (data) {
                 $scope.timeline = data.data;
+                console.log("ABCD",data.data);
             });
         };
+        $scope.getTimeline();
         $scope.sendMessage = function (type) {
             $scope.message.type = type;
             $scope.timeline.chat.push($scope.message);
