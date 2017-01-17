@@ -13,7 +13,7 @@ var schema = new Schema({
     },
     lastName: {
         type: String,
-        // required: true
+        required: true
     },
     date: {
         type: Date
