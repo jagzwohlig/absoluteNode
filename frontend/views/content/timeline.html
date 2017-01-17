@@ -1,16 +1,16 @@
 <div class="heading-sec">
     <div class="row">
         <div class="col-md-12 column">
-            <div class="heading-profile ul-clas">
+            <div class="heading-profile ul-clas text-center">
                 <ul>
                     <li>
-                      <b>ILA:&nbsp;</b>{{assignment.ilaStatus}}
-                        <toggle-switch ng-model="assignment.ilaStatus" class="switch-small switch-success pull-right" ng-change="savaAssignment(assignment)"></toggle-switch>
+                      <b>ILA:&nbsp;</b>
+                        <toggle-switch ng-model="assignment.ilaStatus" class="switch-small switch-success pull-right" ng-change="saveILA(assignment)"></toggle-switch>
                     </li>
 
                 </ul>
-                <b>Status</b>
-               <b ng-if="assignment.assignedTo" width="10px">{{assignment.assignedTo.name}}</b>
+                <b class="pull-left">{{assignment.timelineStatus}}</b>
+               <b ng-if="assignment.assignedTo">Survey Assigned To : {{assignment.assignedTo.name}}</b>
             </div>
         </div>
     </div>
@@ -45,7 +45,7 @@
                 <button class="btn btn-green btn-round" id="new-tasks" uib-dropdown-toggle><i class="ln-circle-plus"></i> New Tasks</button>
  <!--ng-if="assignment.assignedTo!==undefined"-->
                 <ul class="dropdown-menu info-dropdown" uib-dropdown-menu role="menu" aria-labelledby="new-tasks">
-                  <li role="menuitem"><a ng-if="assignment.typeOfClaim" ng-if="!assignment.assignedTo" ng-click="assignSurveyor();">Assign Surveyor</a></li>
+                  <li role="menuitem"><a ng-if="assignment.typeOfClaim && !assignment.assignedTo" ng-click="assignSurveyor();">Assign Surveyor</a></li>
                   <li role="menuitem"><a href="">New JIR</a></li>
                   <li role="menuitem"><a href="">New ILA</a></li>
                   <li role="menuitem"><a href="">New ILR</a></li>
@@ -124,14 +124,6 @@
                                         <div class="col-xs-4 pointer" ng-click="newInvoice();"><img src="frontend/img/folder.png">
                                             <h6>Invoices</h6>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="widget cust-widg">
-                                <div class="only-email">
-                                    <div class="form-group">
-                                        <label class="ml-4">Only email</label>
-                                        <toggle-switch on-label="Yes" off-label="No" ng-model="formName.broker" class="switch-mini switch-success"></toggle-switch>
                                     </div>
                                 </div>
                             </div>

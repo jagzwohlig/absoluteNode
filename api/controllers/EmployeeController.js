@@ -191,9 +191,9 @@ var controller = {
             })
         }
     },
-    MobileSubmit: function (req, res) {
+    mobileSubmit: function (req, res) {
       if (req.body) {
-          Employee.MobileSubmit(req.body, res.callback);
+          Employee.mobileSubmit(req.body, res.callback);
       } else {
           res.json({
               value: false,

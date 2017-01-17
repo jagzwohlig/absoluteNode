@@ -4,23 +4,26 @@ var schema = new Schema({
   surveyDate: {
     type: Date
   },
-  assignedTo:{
+  assignedTo: {
     type: Schema.Types.ObjectId,
     ref: "Employee",
     index: true
   },
-  timelineStatus:String,
-  brokerCompany:{
+  timelineStatus: {
+    type: String,
+    default: "ILA Pending"
+  },
+  brokerCompany: {
     type: Schema.Types.ObjectId,
     ref: "CustomerCompany",
     index: true
   },
-  insurerCompany:{
+  insurerCompany: {
     type: Schema.Types.ObjectId,
     ref: "CustomerCompany",
     index: true
   },
-  insuredCompany:{
+  insuredCompany: {
     type: Schema.Types.ObjectId,
     ref: "CustomerCompany",
     index: true
@@ -263,6 +266,22 @@ var schema = new Schema({
       type: String
     }
   }],
+  locationArr:[{
+    locationString:{
+      type:String
+    },
+    date:{
+      type:Date
+    }
+  }],
+  product:[{
+    product:{
+      type:String
+    },
+    date:{
+      type:Date
+    }
+  }],
   status: {
     type: Boolean,
     default: true
@@ -279,6 +298,21 @@ var schema = new Schema({
     index: true
   },
   assessment: [{
+    file: {
+      type: String
+    },
+    fileName: {
+      type: String
+    },
+    employee: {
+      type: Schema.Types.ObjectId,
+      ref: "Employee",
+      index: true,
+      required: true,
+      key: "assignment"
+    }
+  }],
+  jir: [{
     file: {
       type: String
     },
@@ -451,8 +485,8 @@ var schema = new Schema({
 schema.plugin(deepPopulate, {
 
   populate: {
-    'assignedTo':{
-      select:'name _id'
+    'assignedTo': {
+      select: 'name _id'
     },
     'city': {
       select: 'name _id district'
@@ -611,19 +645,19 @@ var model = {
     });
   },
 
-    getNearestSurveyor2: function (data, callback) {
-      console.log("AAAAAAA",data);
+  getNearestSurveyor2: function (data, callback) {
+    console.log("AAAAAAA", data);
     Employee.find({
-     _id:{
-       $in:data.ids
-     }
+      _id: {
+        $in: data.ids
+      }
     }, {
       name: 1,
       photo: 1,
       employeeCode: 1,
       officeEmail: 1
     }).lean().exec(function (err, data2) {
-      console.log("Data2",data2);
+      console.log("Data2", data2);
       if (err) {
         callback(err, null);
       } else {
