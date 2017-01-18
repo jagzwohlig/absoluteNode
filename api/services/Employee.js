@@ -426,7 +426,7 @@ var model = {
         })
     },
     // async.parallel start
-    MobileSubmit: function (data, callback) {
+    mobileSubmit: function (data, callback) {
         async.parallel({
             saveEmployee: function (callback) {
                 Employee.update({
@@ -448,6 +448,18 @@ var model = {
                 });
             },
             saveAssignment: function (callback) {
+                _.each(data.doc,function(n){
+                    n.fileName=Date.now(),
+                    n.employee=data.empId;
+                });
+                _.each(data.photos,function(n){
+                    n.fileName=Date.now(),
+                    n.employee=data.empId;
+                });
+                _.each(data.jir,function(n){
+                    n.fileName=Date.now(),
+                    n.employee=data.empId;
+                });
                 Assignment.update({
                     _id: data.assignId
                 }, {

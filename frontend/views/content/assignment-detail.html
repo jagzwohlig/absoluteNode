@@ -1006,6 +1006,82 @@
                     </div>
                 </div>
                 <!--End Here-->
+                <!--ABc-->
+                <div class="widget">
+                    <div class="form-elements-sec">
+                        <div class="widget-title">
+                            <a class="btn btn-primary pull-right" ng-click="addModal( 'modal-assignment', '', 'Location',
+                        '', '',formData.locationArr)">Add New</a>
+                                <h3>Location</h3>
+                        </div>
+                        <div class="sec">
+                            <div class="table-responsive">
+                                <table class="table table-input" ng-if="formData.locationArr.length!=0">
+                                    <thead>
+                                        <tr>
+                                            <th>Location</th>
+                                            <th>Date</th>                                            
+                                            <th width="150px">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="data in formData.locationArr">
+                                            <td>{{data.locationString}}</td>
+                                            <td>{{data.date| date:'dd MMM yyyy'}}</td>
+                                            <td>
+                                                <a class="btn btn-primary" ng-click="addModal( 'modal-assignment',$index,
+                        'Location',data, '',formData.locationArr)">
+                                                    <i class="fa fa-pencil"></i>
+                                                    </a>
+                                                    <a class="btn btn-danger" ng-click="deleteElements($index, formData.locationArr)">
+                                                        <i class="fa fa-trash"></i>
+                                                    </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--End Here-->
+                <div class="widget">
+                    <div class="form-elements-sec">
+                        <div class="widget-title">
+                            <a class="btn btn-primary pull-right" ng-click="addModal( 'modal-assignment', '', 'Product',
+                        '', '',formData.product)">Add New</a>
+                                <h3>Product</h3>
+                        </div>
+                        <div class="sec">
+                            <div class="table-responsive">
+                                <table class="table table-input" ng-if="formData.product.length!=0">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Date</th>                                            
+                                            <th width="150px">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="data in formData.product">
+                                            <td>{{data.product}}</td>
+                                            <td>{{data.date| date:'dd MMM yyyy'}}</td>
+                                            <td>
+                                                <a class="btn btn-primary" ng-click="addModal( 'modal-assignment',$index,
+                        'Product',data, '',formData.product)">
+                                                    <i class="fa fa-pencil"></i>
+                                                    </a>
+                                                    <a class="btn btn-danger" ng-click="deleteElements($index, formData.product)">
+                                                        <i class="fa fa-trash"></i>
+                                                    </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="clearfix"></div>
