@@ -8605,6 +8605,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 
         $scope.sendMessage = function (type) {
+            console.log("DEF");
             $scope.message.type = type;
             var a = {
                 type: $stateParams.type,
@@ -9084,11 +9085,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.getTimeline = function () {
             NavigationService.getOneModel("Timeline", $scope.timelineID, function (data) {
                 $scope.timeline = data.data;
-                console.log("ABCD", data.data);
+                console.log("ABCD", data.data,$scope.timelineID);
             });
         };
-        $scope.getTimeline();
         $scope.sendMessage = function (type) {
+            console.log("ABC",$scope.timeline);
             $scope.message.type = type;
             $scope.timeline.chat.push($scope.message);
             NavigationService.saveChat($scope.timeline, function (data) {
