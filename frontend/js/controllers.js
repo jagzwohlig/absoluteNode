@@ -7641,6 +7641,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
     })
 
+<<<<<<< HEAD
 .controller('MultipleSelectCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $state, $stateParams, $filter, toastr) {
         var i = 0;
         $scope.getValues = function (filter, insertFirst) {
@@ -7669,6 +7670,79 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                             //       return 0;
                             //   }
                             // }
+=======
+    .controller('TemplateViewCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, AssignmentTemplate) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("template-view");
+        $scope.menutitle = NavigationService.makeactive("Form Name");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+
+        $scope.header = {
+            "name": "Form Name"
+        };
+        $scope.Saved = false;
+        $scope.forms = [{
+            head: 'Snapshot',
+            items: [{
+                name: 'Insurer',
+                type: 'text'
+            }, {
+                name: 'Date',
+                type: 'date'
+            }, {
+                name: 'Address',
+                type: 'textarea'
+            }, {
+                name: 'City',
+                type: 'system'
+            }, {
+                name: 'Country',
+                type: 'dropdown',
+                dropdownValues: ['Mumbai', 'Bihar', 'Orissa']
+            }]
+        }];
+        $scope.assignment = {};
+        $scope.assignment.templateIla = [];
+        $scope.assignment.templateIsr = [];
+        $scope.assignment.templateLor = [];
+        $scope.assignment.templateJir = [];
+        $scope.message = {};
+        $scope.timeline = {};
+        $scope.timeline.attachment = [];
+        $scope.message.title = "Sent a new message";
+        $scope.tempt = $stateParams.type;
+        NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
+            $scope.message.employee = data.data;
+            console.log("In Employee",$scope.employee,data);
+        });
+        if ($stateParams.assignmentTemplate === "") {
+            NavigationService.getOneModel($stateParams.type, $stateParams.template, function (data) {
+                $scope.forms = data.data;
+                console.log("CCCCCCCCCCCCCCCCCCC", $scope.forms);
+            });
+        } else {
+            var a = {
+                _id: $stateParams.assignmentTemplate,
+                type: _.camelCase($stateParams.type)
+            };
+            NavigationService.getAssignmentTemplate(a, function (data) {
+                console.log("CCCCCCCCCCCCCCCCCCC");
+                _.each(data.data.forms, function (n) {
+                    _.each(n.items, function (m) {
+                        if (m.value == "Date") {
+                            console.log(m.field);
+                            m.field = moment(m.field, 'ddd, MMM Do, YYYY').toDate();
+                        }
+                    });
+                });
+                console.log(data);
+                $scope.forms = data.data;
+                $scope.assignment = data.data.assignment;
+                $scope.getTimeline();
+            });
+        }
+>>>>>>> a910afb73034f210e433d3c1288db197a0d86e90
 
                         });
                     } else {
@@ -7739,6 +7813,24 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 
 
+<<<<<<< HEAD
+=======
+        };
+        $scope.surveyorAssigned = false;
+        $scope.afterSurveyAssign = function (employee) {
+            console.log("BEFORE",$scope.message.employee,$scope.message.title);            
+            $scope.message.employee=employee;
+            $scope.message.title="Assigned To";
+            console.log("AFTER",$scope.message.employee,$scope.message.title);
+           
+            $scope.surveyorAssigned = true;
+            $scope.modalInstance.close();
+            $timeout(function () {
+                 $scope.sendMessage("Normal");
+                $state.reload();
+            }, 1000);
+        };
+>>>>>>> a910afb73034f210e433d3c1288db197a0d86e90
 
 
         $scope.listview = false;
@@ -8612,6 +8704,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     }
 
 
+<<<<<<< HEAD
     $scope.sendMessage = function (type) {
         console.log("DEF");
         $scope.message.type = type;
@@ -8628,6 +8721,99 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
         NavigationService.saveChat($scope.timeline, function (data) {});
     };
+=======
+        //  INTEGRATION STARTS
+        $scope.assignment = {};
+        $scope.message = {};
+        $scope.message.employee = $.jStorage.get("profile")._id;
+        $scope.timeline = {};
+        console.log(new Date());
+        $scope.message.title = "Sent a new message";
+        $scope.assessment = {};
+        $scope.doc = {};
+        $scope.photo = {};
+        $scope.showCreate = false;
+        NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
+        // NavigationService.getOneModel("User", $.jStorage.get("profile")._id, function (data) {
+            $scope.message.employee = data.data;
+            console.log("In Employee",$scope.employee,data);
+            $scope.assessment.employee = $scope.employee.employee;
+            $scope.photo.employee = $scope.employee.employee;
+            $scope.doc.employee = $scope.employee.employee;
+        });
+        $scope.getTimeline = function () {
+            NavigationService.getOneModel("Timeline", $scope.timelineID, function (data) {
+                $scope.timeline = data.data;
+                console.log("ABCD", data.data,$scope.timelineID);
+            });
+        };
+        $scope.sendMessage = function (type) {
+            console.log("ABC",$scope.timeline);
+            $scope.message.type = type;
+            $scope.timeline.chat.push($scope.message);
+            NavigationService.saveChat($scope.timeline, function (data) {
+                console.log("FFFFF",data);
+                $scope.getTimeline();
+            });
+        };
+        $scope.assignmentRefresh = function () {
+            NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
+                $scope.assignment = data.data;
+                _.each($scope.assignment, function (n, assignmentKey) {
+                    console.log("assignment for template");
+                    _.each($scope.files, function (m, filesKey) {
+                        if (assignmentKey === m.type) {
+                            m.files = n;
+                        }
+                    });
+                    console.log(assignmentKey);
+                });
+                if ($scope.assignment.natureOfLoss) {
+                    $scope.assignment.natureloss = "";
+                }
+                if (data.data.timeline && data.data.timeline[0]) {
+                    console.log("in if");
+                    $scope.timelineID = data.data.timeline[0];
+                    $scope.getTimeline();
+                } else {
+                    console.log("in else");
+                    NavigationService.createTimeline(data.data._id, function (data) {
+                        NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
+                            $scope.timelineID = data.data.timeline[0];
+                            $scope.getTimeline();
+                        });
+                    });
+                }
+            });
+        }
+        $scope.assignmentRefresh();
+
+        //  send email
+        $scope.sendEmail = function (modalForm) {
+
+            $scope.msgSend = "Sending..";
+            $scope.newTo = angular.copy($scope.email);
+            $scope.newTo.to = [];
+            _.each($scope.email.to, function (n) {
+                $scope.newTo.to.push(n.email);
+            });
+            $scope.newTo.cc = [];
+            _.each($scope.email.cc, function (n) {
+                $scope.newTo.cc.push(n.email);
+            });
+            $scope.newTo.bcc = [];
+            _.each($scope.email.bcc, function (n) {
+                $scope.newTo.bcc.push(n.email);
+            });
+            $scope.newTo.to = $scope.newTo.to.join();
+            $scope.newTo.cc = $scope.newTo.cc.join();
+            $scope.newTo.bcc = $scope.newTo.bcc.join();
+            console.log($scope.newTo);
+            NavigationService.sendEmail($scope.newTo, function (data) {
+                console.log(data);
+                if (data.value) {
+                    if (data.data.error) {
+>>>>>>> a910afb73034f210e433d3c1288db197a0d86e90
 
     $scope.getTimeline = function () {
         NavigationService.getOneModel("Timeline", $scope.assignment.timeline[0], function (data) {
