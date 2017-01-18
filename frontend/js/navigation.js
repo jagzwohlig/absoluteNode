@@ -621,6 +621,11 @@ var navigationservice = angular.module('navigationservice', [])
                 callback(data, i);
             });
         },
+        getDashboardCount:function (callback) {
+            $http.post(adminurl + 'Employee/getDashboardCount').success(function (data) {
+                callback(data);
+            });
+        },
         getPolicyDoc: function (formData, i, callback) {
 
             $http.post(adminurl + 'PolicyDoc/getPolicyDoc', formData).success(function (data) {
