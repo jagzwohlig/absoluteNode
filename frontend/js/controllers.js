@@ -8796,9 +8796,15 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         $scope.surveyorAssigned = false;
         $scope.afterSurveyAssign = function (employee) {
+            console.log("BEFORE",$scope.message.employee,$scope.message.title);            
+            $scope.message.employee=employee;
+            $scope.message.title="Assigned To";
+            console.log("AFTER",$scope.message.employee,$scope.message.title);
+           
             $scope.surveyorAssigned = true;
             $scope.modalInstance.close();
             $timeout(function () {
+                 $scope.sendMessage("Normal");
                 $state.reload();
             }, 1000);
         };
@@ -9078,6 +9084,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.showCreate = false;
         NavigationService.getOneModel("User", $.jStorage.get("profile")._id, function (data) {
             $scope.employee = data.data;
+            console.log("$.jStorage.get('profile')",$.jStorage.get("profile"));
+            console.log("In Employee",$scope.employee,data);
             $scope.assessment.employee = $scope.employee.employee;
             $scope.photo.employee = $scope.employee.employee;
             $scope.doc.employee = $scope.employee.employee;
@@ -9093,7 +9101,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.message.type = type;
             $scope.timeline.chat.push($scope.message);
             NavigationService.saveChat($scope.timeline, function (data) {
-
+                console.log("FFFFF",data);
                 $scope.getTimeline();
             });
         };

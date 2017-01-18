@@ -147,10 +147,10 @@
                                                 <span class="user-device" ng-if="chat.type!='Email' && !formName.onlyEmail"></span>
                                                 <div class="user-activity" ng-if="chat.type!='Email' && !formName.onlyEmail">
                                                     <div class="who-post-this">
-                                                        <span><img ng-src="{{chat.employee.employee.photo|uploadpath:300:300}}" alt="{{chat.employee.employee.name}}" />
-                                                        <img ng-src="frontend/img/house/house-{{chat.employee.employee.houseColor}}.png" alt="{{chat.employee.employee.houseColor}} House" class="house"></span>
+                                                        <span><img ng-src="{{chat.employee.photo|uploadpath:300:300}}" alt="{{chat.employee.name}}" />
+                                                        <img ng-src="frontend/img/house/house-{{chat.employee.houseColor}}.png" alt="{{chat.employee.houseColor}} House" class="house"></span>
                                                         <div class="who-post-detail">
-                                                            <h3>{{chat.employee.employee.name}} <span class="vsmall">{{chat.employee.employee.func.name}}</span></h3>
+                                                            <h3>{{chat.employee.name}} <span class="vsmall">{{chat.employee.func.name}}</span></h3>
                                                             <span>{{chat.title}}</span>
                                                             <!--<i>23JUN2016, Thrusday, 18:24</i>-->
                                                             <i>{{chat.time|date:"ddMMMyyyy, EEEE, hh:mm"}}</i>
@@ -183,9 +183,9 @@
                                                     <span class="user-device"></span>
                                                     <div class="user-activity emailed mt-10">
                                                         <div class="who-post-this">
-                                                            <span><img ng-src="{{chat.employee.employee.photo|uploadpath:300:300}}" alt="{{chat.employee.employee.name}}" /></span>
+                                                            <span><img ng-src="{{chat.employee.photo|uploadpath:300:300}}" alt="{{chat.employee.name}}" /></span>
                                                             <div class="who-post-detail">
-                                                                <h3>{{chat.employee.employee.name}} <span class="vsmall">{{chat.employee.employee.func.name}}</span>
+                                                                <h3>{{chat.employee.name}} <span class="vsmall">{{chat.employee.func.name}}</span>
                                                                 </h3>
                                                                 <span><span class="sp-cl">Sent an email To :</span> {{chat.email.to}}</span>
                                                                 <span ng-if="chat.email.cc != ''"><span class="sp-cl">Cc : </span>                                                                {{chat.email.cc}}</span>

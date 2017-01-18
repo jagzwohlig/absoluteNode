@@ -761,6 +761,7 @@ var navigationservice = angular.module('navigationservice', [])
             }).success(callback);
         },
         getOneModel: function (model, id, callback) {
+            console.log("model",model , id);
             $http.post(adminurl + model + '/getOne', {
                 _id: id
             }).success(callback);

@@ -19,10 +19,15 @@ var schema = new Schema({
     chat: [{
         employee: {
             type: Schema.Types.ObjectId,
-            ref: "User",
-            index: true,
-            key: "timeline"
+            ref: "Employee",
+            index: true
         },
+        // employee: {
+        //     type: Schema.Types.ObjectId,
+        //     ref: "User",
+        //     index: true,
+        //     key: "timeline"
+        // },
         title: {
             type: String
         },
@@ -49,12 +54,12 @@ var schema = new Schema({
 schema.plugin(deepPopulate, {
     populate: {
         'chat.employee': {
-            select: "name employee _id"
-        },
-        'chat.employee.employee': {
             select: ""
         },
-        'chat.employee.employee.func': {
+        // 'chat.employee.employee': {
+        //     select: ""
+        // },
+        'chat.employee.func': {
             select: "name"
         }
     }
@@ -63,6 +68,6 @@ schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('Timeline', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "chat.employee chat.employee.employee chat.employee.employee.func", "chat.employee"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "chat.employee  chat.employee.func", "chat.employee"));
 var model = {};
 module.exports = _.assign(module.exports, exports, model);
