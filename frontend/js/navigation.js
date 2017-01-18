@@ -591,6 +591,21 @@ var navigationservice = angular.module('navigationservice', [])
                 callback(data, i);
             });
         },
+        // thirdPartyApi: function (formData, callback) {
+        //     $http.post('http://180.150.249.125/absolute/webservice/Mobile_HRMS.asmx', formData).success(function (data) {
+        //         callback(data);
+        //     });
+        // },
+         thirdPartyApi: function (formData, callback) {
+            $http({
+                url: 'http://180.150.249.125/absolute/webservice/Mobile_HRMS.asmx',
+                method: 'POST',
+                withCredentials: false,
+            }).success(function (data) {
+                console.log("getLatLng In Nav",data);
+                callback(data);
+            });
+        },
         searchOfficer: function (formData, i, callback) {
             $http.post(adminurl + 'officer/search', formData).success(function (data) {
                 callback(data, i);
