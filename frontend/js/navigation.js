@@ -760,6 +760,13 @@ var navigationservice = angular.module('navigationservice', [])
                 _id: id
             }).success(callback);
         },
+        
+        getLoginEmployee: function (email, callback) {
+            console.log("Data",email);
+            var data={};
+            data.email=email;
+            $http.post(adminurl + 'Employee/getLoginEmployee',data).success(callback);
+        },
         getOneModel: function (model, id, callback) {
             console.log("model",model , id);
             $http.post(adminurl + model + '/getOne', {

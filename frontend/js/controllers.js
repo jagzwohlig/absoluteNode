@@ -8561,24 +8561,18 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.assignment.templateLor = [];
         $scope.assignment.templateJir = [];
         $scope.message = {};
-        $scope.message.employee = $.jStorage.get("profile")._id;
         $scope.timeline = {};
         $scope.timeline.attachment = [];
         $scope.message.title = "Sent a new message";
         $scope.tempt = $stateParams.type;
-
+        NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
+            $scope.message.employee = data.data;
+            console.log("In Employee",$scope.employee,data);
+        });
         if ($stateParams.assignmentTemplate === "") {
             NavigationService.getOneModel($stateParams.type, $stateParams.template, function (data) {
                 $scope.forms = data.data;
-
                 console.log("CCCCCCCCCCCCCCCCCCC", $scope.forms);
-                //    _.each($scope.data.forms,function(n){
-                //    _.each(n.items,function(m){
-                //    if(m.value=="Date"){
-                //      m.field=moment(m.field).format('ddd, MMM Do, YYYY');
-                //    }
-                //  });
-                //  });
             });
         } else {
             var a = {
@@ -8600,7 +8594,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.assignment = data.data.assignment;
                 $scope.getTimeline();
             });
-            // $scope.forms = AssignmentTemplate.template;
         }
 
 
@@ -9082,9 +9075,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.doc = {};
         $scope.photo = {};
         $scope.showCreate = false;
-        NavigationService.getOneModel("User", $.jStorage.get("profile")._id, function (data) {
-            $scope.employee = data.data;
-            console.log("$.jStorage.get('profile')",$.jStorage.get("profile"));
+        NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
+        // NavigationService.getOneModel("User", $.jStorage.get("profile")._id, function (data) {
+            $scope.message.employee = data.data;
             console.log("In Employee",$scope.employee,data);
             $scope.assessment.employee = $scope.employee.employee;
             $scope.photo.employee = $scope.employee.employee;

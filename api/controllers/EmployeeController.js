@@ -191,6 +191,18 @@ var controller = {
             })
         }
     },
+        getLoginEmployee: function (req, res) {
+        if (req.body) {
+            Employee.getLoginEmployee(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: "Invalid Request"
+                }
+            })
+        }
+    },
     mobileSubmit: function (req, res) {
       if (req.body) {
           Employee.mobileSubmit(req.body, res.callback);
