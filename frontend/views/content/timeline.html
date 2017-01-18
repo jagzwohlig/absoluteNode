@@ -9,7 +9,7 @@
                     </li>
 
                 </ul>
-                <b class="pull-left">{{assignment.timelineStatus}}</b>
+                <b class="pull-left"></b>
                <b ng-if="assignment.assignedTo">Survey Assigned To : {{assignment.assignedTo.name}}</b>
             </div>
         </div>
@@ -45,7 +45,7 @@
                 <button class="btn btn-green btn-round" id="new-tasks" uib-dropdown-toggle><i class="ln-circle-plus"></i> New Tasks</button>
  <!--ng-if="assignment.assignedTo!==undefined"-->
                 <ul class="dropdown-menu info-dropdown" uib-dropdown-menu role="menu" aria-labelledby="new-tasks">
-                  <li role="menuitem"><a ng-if="assignment.typeOfClaim && !assignment.assignedTo" ng-click="assignSurveyor();">Assign Surveyor</a></li>
+                  <li role="menuitem"><a ng-if="assignment.typeOfClaim" ng-click="assignSurveyor();">Assign Surveyor</a></li>
                   <li role="menuitem"><a href="">New JIR</a></li>
                   <li role="menuitem"><a href="">New ILA</a></li>
                   <li role="menuitem"><a href="">New ILR</a></li>
@@ -70,13 +70,14 @@
                             <div class="compny text-right">
                                 <h3>{{assignment.owner.name}}</h3>
                                 <p>{{assignment.owner.func.name}}</p>
-                                <div class="pointer" uib-dropdown>
+                                <!--<div class="pointer" uib-dropdown>
                                     <span class="greenbg" uib-dropdown-toggle>Invoicing</span>
                                     <ul class="dropdown-menu info-dropdown" uib-dropdown-menu role="menu">
                                         <li role="menuitem"><a href="">Surveying</a></li>
                                         <li role="menuitem"><a href="">Invoicing</a></li>
                                     </ul>
-                                </div>
+                                </div>-->
+                                  <span class="greenbg">{{assignment.timelineStatus}}</span>  
                             </div>
                         </div>
                     </div>
