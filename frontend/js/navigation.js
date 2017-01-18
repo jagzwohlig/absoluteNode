@@ -2020,7 +2020,19 @@ var navigationservice = angular.module('navigationservice', [])
             }).success(callback);
         },
         getEmployeeOfficeEmail:  function (formData,i, callback) {
-            $http.post(adminurl + 'employee/getEmployeeByOfficeEmail',formData).success(callback);
+
+            $http.post(adminurl + 'employee/getEmployeeByOfficeEmail',{
+                officeEmail: formData.filter.officeEmail
+            }).success(function(emailData){
+                  var data1 = {
+                        results: emailData,
+                        options: {
+                            count: 10
+                        }
+                    };
+                    data1.total = 10;
+                    callback(data1,i);
+            });
         },
         getLatLng: function (address, i, callback) {
             $http({

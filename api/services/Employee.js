@@ -742,32 +742,32 @@ var model = {
     getDashboardCount: function (data, callback) {
         async.parallel([
 
-            // Assignment pending
+            // Assignment done
             function (callback) {
                 Assignment.count({
-                    status: false
-                }, function (err, assignmentPending) {
-                    console.log("assignmentPending : ", assignmentPending);
+                    status: true
+                }, function (err, assignmentDone) {
+                    console.log("assignmentDone : ", assignmentDone);
                     if (err) {
                         console.log(err);
                         callback(null, {
-                            assignmentPending: 0
+                            assignmentDone: 0
                         });
                     } else {
-                        if (assignmentPending) {
+                        if (assignmentDone) {
                             callback(null, {
-                                assignmentPending: assignmentPending
+                                assignmentDone: assignmentDone
                             });
                         } else {
                             callback(null, {
-                                assignmentPending: 0
+                                assignmentDone: 0
                             });
                         }
                     }
                 });
             },
 
-            // Assignment done
+            // Assignment pending
             function (callback) {
                 Assignment.count({
                     status: false
