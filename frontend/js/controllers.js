@@ -692,6 +692,16 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         NavigationService.searchCompany({}, 1, function (data) {
             $scope.formData.company = data.data.results[0]._id;
         });
+
+        var owner = $.jStorage.get("profile").email;
+        console.log("owner : ", owner);
+        NavigationService.getEmployeeOfficeEmail({
+            officeEmail: owner
+        }, 1, function (data) {
+            $scope.formData.owner = data.data.name;
+        });
+        console.log("formdata : ",$scope.formData.owner);
+        
         console.log($stateParams);
         if ($stateParams.emailId) {
 
