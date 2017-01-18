@@ -213,6 +213,18 @@ var controller = {
             })
         }
     },
+    getEmployeeByOfficeEmail: function (req, res) {
+        if (req.body) {
+            Employee.getEmployeeByOfficeEmail(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: "Invalid Request"
+                }
+            })
+        }
+    },
     saveEmployeeAssignment: function (req, res) {
         if (req.body) {
             Employee.saveEmployeeAssignment(req.body, res.callback);
@@ -223,7 +235,19 @@ var controller = {
                     message: "Invalid Request"
                 }
             })
-        }
+        } 
+    },
+    getDashboardCount : function (req, res) {
+        if (req.body) {
+            Employee.getDashboardCount(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: "Invalid Request"
+                }
+            })
+        } 
     },
 };
 module.exports = _.assign(module.exports, controller);

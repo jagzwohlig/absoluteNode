@@ -372,6 +372,7 @@ var navigationservice = angular.module('navigationservice', [])
             $http.post(adminurl + 'customerCompany/getInsurer', {}).success(callback);
         },
         searchEmployee: function (formData, i, callback) {
+             console.log("formData : ",formData);
             $http.post(adminurl + 'Employee/search', formData).success(function (data) {
                 callback(data, i);
             });
@@ -2009,6 +2010,9 @@ var navigationservice = angular.module('navigationservice', [])
             $http.post(adminurl + 'bank/delete', {
                 "_id": id,
             }).success(callback);
+        },
+        getEmployeeOfficeEmail:  function (formData,i, callback) {
+            $http.post(adminurl + 'employee/getEmployeeByOfficeEmail',formData).success(callback);
         },
         getLatLng: function (address, i, callback) {
             $http({

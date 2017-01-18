@@ -367,7 +367,6 @@ var model = {
             .order(options)
             .deepPopulate("postedAt")
             .keyword(options)
-
             .page(options, callback);
     },
 
@@ -389,12 +388,10 @@ var model = {
         Employee.findOne({
             officeEmail: data.email,
             $or: [{
-                    isSurveyor: true
-                },
-                {
-                    isField: true
-                }
-            ]
+                isSurveyor: true
+            }, {
+                isField: true
+            }]
         }, {
             name: 1,
             photo: 1,
@@ -448,30 +445,30 @@ var model = {
                 });
             },
             saveAssignment: function (callback) {
-                _.each(data.doc,function(n){
-                    n.fileName=Date.now(),
-                    n.employee=data.empId;
+                _.each(data.doc, function (n) {
+                    n.fileName = Date.now(),
+                        n.employee = data.empId;
                 });
-                _.each(data.photos,function(n){
-                    n.fileName=Date.now(),
-                    n.employee=data.empId;
+                _.each(data.photos, function (n) {
+                    n.fileName = Date.now(),
+                        n.employee = data.empId;
                 });
-                _.each(data.jir,function(n){
-                    n.fileName=Date.now(),
-                    n.employee=data.empId;
+                _.each(data.jir, function (n) {
+                    n.fileName = Date.now(),
+                        n.employee = data.empId;
                 });
                 Assignment.update({
                     _id: data.assignId
                 }, {
                     $push: {
                         docs: {
-                            $each:data.doc
+                            $each: data.doc
                         },
                         photos: {
-                            $each:data.photos
+                            $each: data.photos
                         },
                         jir: {
-                            $each:data.jir
+                            $each: data.jir
                         }
                     }
                 }).exec(function (err, found) {
@@ -514,6 +511,23 @@ var model = {
         })
     },
 
+    getEmployeeByOfficeEmail: function (data, callback) {
+        Employee.findOne({
+            officeEmail: data.officeEmail
+        }, {
+            name: 1
+        }).exec(function (err, employee) {
+            if (err) {
+                callback(err, null);
+            } else {
+                if (_.isEmpty(employee)) {
+                    callback(null, "No Data found");
+                } else {
+                    callback(null, employee);
+                }
+            }
+        })
+    },
 
     search: function (data, callback) {
 
@@ -552,59 +566,57 @@ var model = {
                 //Start 
                 function (callback) {
                     var Search = Employee.aggregate([{
-                            $lookup: {
-                                from: "offices",
-                                localField: "postedAt",
-                                foreignField: "_id",
-                                as: "postedAt"
-                            }
-                        }, {
-                            $unwind: "$postedAt"
-                        },
-                        {
-                            $lookup: {
-                                from: "grades",
-                                localField: "grade",
-                                foreignField: "_id",
-                                as: "grade"
-                            }
-                        }, {
-                            $unwind: "$grade"
-                        }, {
-                            $match: {
-                                $or: [{
-                                    "grade.name": {
-                                        $regex: data.keyword,
-                                        $options: 'i'
-                                    }
-                                }, {
-                                    "postedAt.name": {
-                                        $regex: data.keyword,
-                                        $options: 'i'
-                                    }
-                                }, {
-                                    "name": {
-                                        $regex: data.keyword,
-                                        $options: 'i'
-                                    }
-                                }, {
-                                    "officeEmail": {
-                                        $regex: data.keyword,
-                                        $options: 'i'
-                                    }
-                                }, {
-                                    "officeMobile": {
-                                        $regex: data.keyword,
-                                        $options: 'i'
-                                    }
-                                }]
-                            }
-                        }, {
-                            $skip: parseInt(pagestartfrom)
-                        }, {
-                            $limit: maxRow
+                        $lookup: {
+                            from: "offices",
+                            localField: "postedAt",
+                            foreignField: "_id",
+                            as: "postedAt"
                         }
-                    ], function (err, data1) {
+                    }, {
+                        $unwind: "$postedAt"
+                    }, {
+                        $lookup: {
+                            from: "grades",
+                            localField: "grade",
+                            foreignField: "_id",
+                            as: "grade"
+                        }
+                    }, {
+                        $unwind: "$grade"
+                    }, {
+                        $match: {
+                            $or: [{
+                                "grade.name": {
+                                    $regex: data.keyword,
+                                    $options: 'i'
+                                }
+                            }, {
+                                "postedAt.name": {
+                                    $regex: data.keyword,
+                                    $options: 'i'
+                                }
+                            }, {
+                                "name": {
+                                    $regex: data.keyword,
+                                    $options: 'i'
+                                }
+                            }, {
+                                "officeEmail": {
+                                    $regex: data.keyword,
+                                    $options: 'i'
+                                }
+                            }, {
+                                "officeMobile": {
+                                    $regex: data.keyword,
+                                    $options: 'i'
+                                }
+                            }]
+                        }
+                    }, {
+                        $skip: parseInt(pagestartfrom)
+                    }, {
+                        $limit: maxRow
+                    }], function (err, data1) {
                         if (err) {
                             callback(err, null);
                         } else {
@@ -616,70 +628,65 @@ var model = {
 
                 function (callback) {
                     var Search = Employee.aggregate([{
-                            $lookup: {
-                                from: "offices",
-                                localField: "postedAt",
-                                foreignField: "_id",
-                                as: "postedAt"
-                            }
-                        }, {
-                            $unwind: "$postedAt"
-                        },
-                        {
-                            $lookup: {
-                                from: "grades",
-                                localField: "grade",
-                                foreignField: "_id",
-                                as: "grade"
-                            }
-                        }, {
-                            $unwind: "$grade"
-                        }, {
-                            $match: {
-                                $or: [{
-                                        "grade.name": {
-                                            $regex: data.keyword,
-                                            $options: 'i'
-                                        }
-                                    },
-                                    {
-                                        "postedAt.name": {
-                                            $regex: data.keyword,
-                                            $options: 'i'
-                                        }
-                                    },
-                                    {
-                                        "name": {
-                                            $regex: data.keyword,
-                                            $options: 'i'
-                                        }
-                                    }, {
-                                        "officeEmail": {
-                                            $regex: data.keyword,
-                                            $options: 'i'
-                                        }
-                                    }, {
-                                        "officeMobile": {
-                                            $regex: data.keyword,
-                                            $options: 'i'
-                                        }
-                                    }
-                                ]
-                            }
-                        }, {
-                            $group: {
-                                _id: null,
-                                count: {
-                                    $sum: 1
+                        $lookup: {
+                            from: "offices",
+                            localField: "postedAt",
+                            foreignField: "_id",
+                            as: "postedAt"
+                        }
+                    }, {
+                        $unwind: "$postedAt"
+                    }, {
+                        $lookup: {
+                            from: "grades",
+                            localField: "grade",
+                            foreignField: "_id",
+                            as: "grade"
+                        }
+                    }, {
+                        $unwind: "$grade"
+                    }, {
+                        $match: {
+                            $or: [{
+                                "grade.name": {
+                                    $regex: data.keyword,
+                                    $options: 'i'
                                 }
-                            }
-                        }, {
-                            $project: {
-                                "_id": 1,
-                                "count": 1
+                            }, {
+                                "postedAt.name": {
+                                    $regex: data.keyword,
+                                    $options: 'i'
+                                }
+                            }, {
+                                "name": {
+                                    $regex: data.keyword,
+                                    $options: 'i'
+                                }
+                            }, {
+                                "officeEmail": {
+                                    $regex: data.keyword,
+                                    $options: 'i'
+                                }
+                            }, {
+                                "officeMobile": {
+                                    $regex: data.keyword,
+                                    $options: 'i'
+                                }
+                            }]
+                        }
+                    }, {
+                        $group: {
+                            _id: null,
+                            count: {
+                                $sum: 1
                             }
                         }
-                    ], function (err, data2) {
+                    }, {
+                        $project: {
+                            "_id": 1,
+                            "count": 1
+                        }
+                    }], function (err, data2) {
                         if (err) {
                             callback(err, null);
                         } else {
@@ -713,12 +720,89 @@ var model = {
             });
         } else {
             var Search = Model.find(data.filter)
-
                 .order(options)
                 .deepPopulate("postedAt grade")
                 .keyword(options)
                 .page(options, callback);
         }
-    }
+    },
+
+    getDashboardCount: function (data, callback) {
+        async.parallel([
+
+            // Orders
+            function (callback) {
+                Assignment.count({
+                    status: false
+                }, function (err, orders) {
+                    console.log("orders : ", orders);
+                    if (err) {
+                        console.log(err);
+                        callback(null, {
+                            orders: 0
+                        });
+                    } else {
+                        if (orders) {
+                            callback(null, {
+                                orders: orders
+                            });
+                        } else {
+                            callback(null, {
+                                orders: 0
+                            });
+                        }
+                    }
+                });
+            },
+
+            //Sellers 
+            function (callback) {
+                User.count({
+                    isSeller: true,
+                    readStatus: false
+                }, function (err, sellers) {
+                    if (err) {
+                        console.log(err);
+                        callback(null, {
+                            sellers: 0
+                        });
+                    } else {
+                        callback(null, {
+                            sellers: sellers
+                        });
+                    }
+                });
+            },
+
+            //Buyers
+            function (callback) {
+                User.count({
+                    isBuyer: true,
+                    readStatus: false
+                }, function (err, buyers) {
+                    if (err) {
+                        console.log(err);
+                        callback(null, {
+                            buyers: 0
+                        });
+                    } else {
+                        callback(null, {
+                            buyers: buyers
+                        });
+                    }
+                });
+            }
+
+        ], function (err, counts) {
+            if (err) {
+                console.log("error", err);
+            }
+            if (_.isEmpty(counts)) {
+                callback("No data found", null);
+            } else {
+                callback(null, counts);
+            }
+        });
+    },
 };
 module.exports = _.assign(module.exports, exports, model);
