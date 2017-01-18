@@ -624,6 +624,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.modalData = {};
         $scope.modalIndex = "";
         $scope.wholeObj = [];
+        $scope.ownerEmail = {};
         $scope.addModels = function (dataArray, data) {
             dataArray.push(data);
         };
@@ -692,18 +693,20 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         NavigationService.searchCompany({}, 1, function (data) {
             $scope.formData.company = data.data.results[0]._id;
         });
-
-        var owner = $.jStorage.get("profile").email;
-        console.log("owner : ", owner);
+        //$scope.ownerEmail = $.jStorage.get("profile").email;
+        // var owner = $.jStorage.get("profile").email;
+        // console.log("owner : ",  $scope.ownerEmail);
         // NavigationService.getEmployeeOfficeEmail({
-        //     officeEmail: owner
+        //     officeEmail:  $scope.ownerEmail 
         // }, 1, function (data) {
-        //     $scope.formData.ownerid = data.data._id;
+        //     // $scope.formData.ownerid = data.data._id;
         //     // $scope.formData.owner = data.data.name;
+        //     $scope.formData.owner = data.results.officeEmail;
+        // console.log("formdata : ",$scope.formData.owner);
             
         // });
-        $scope.formData.owner = owner;
-        console.log("formdata : ",$scope.formData.owner);
+        //$scope.formData.owner = $scope.ownerEmail;
+        // console.log("formdata : ",$scope.formData.owner);
 
         console.log($stateParams);
         if ($stateParams.emailId) {

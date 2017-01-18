@@ -2035,17 +2035,17 @@ var navigationservice = angular.module('navigationservice', [])
             }).success(callback);
         },
         getEmployeeOfficeEmail:  function (formData,i, callback) {
-
-            $http.post(adminurl + 'employee/getEmployeeByOfficeEmail',{
-                officeEmail: formData.filter.officeEmail
-            }).success(function(emailData){
+            console.log("email", formData); 
+            $http.post(adminurl + 'employee/getEmployeeByOfficeEmail',formData).success(function(emailData){
+                console.log("emailData", emailData); 
                   var data1 = {
-                        results: emailData,
+                        results: emailData.data,
                         options: {
                             count: 10
                         }
                     };
                     data1.total = 10;
+                     console.log("data1", data1); 
                     callback(data1,i);
             });
         },

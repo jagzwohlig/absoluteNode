@@ -527,7 +527,8 @@ var model = {
         Employee.findOne({
             officeEmail: data.officeEmail
         }, {
-            name: 1
+            name: 1,
+            officeEmail:1
         }).exec(function (err, employee) {
             if (err) {
                 callback(err, null);
