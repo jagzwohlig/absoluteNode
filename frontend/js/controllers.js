@@ -8738,7 +8738,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             formdata.surveyDate = date;
             formdata._id = $stateParams.id;
             NavigationService.assignmentSave(formdata, function (data) {
-                console.log("Survey Date Saved");
+                console.log("Survey Date Saved",data);
                 $scope.getAssignmentData();
             });
         };
@@ -8749,8 +8749,20 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
                 NavigationService.getNearestOffice(data.data, function (data) {
                     $scope.getAllSurveyors = data.data;
-                    console.log("Success On GetNearest Survayer", $scope.getAllSurveyors);
+                    console.log("Success On GetNearest Survayer", $scope.getAllSurveyors,data);
+                    var arr=[];
+                    _.each(data.data,function(n){
+                        var m={};
+                        m.ForDate=moment(new Date(n.date)).add(5, "hours").add(30, "minutes").format("DD/MM/YYYY"),
+                        m.Email=n.officeEmail,
+                        m._id=n._id,
+                        arr.push(m);
+                    });
+                    console.log("array to pass",arr);
                     //    Consider Api Reply
+                    NavigationService.thirdPartyApi(arr, function (data) {
+                    console.log("Data OUTPUT",data);
+                });
                     $scope.displayFinalSurveyor();
                 });
 
