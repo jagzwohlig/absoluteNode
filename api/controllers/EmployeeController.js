@@ -203,6 +203,18 @@ var controller = {
             })
         }
     },
+     getDashboardCount: function (req, res) {
+        if (req.body) {
+            Employee.getDashboardCount(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: "Invalid Request"
+                }
+            })
+        }
+    },
     mobileSubmit: function (req, res) {
       if (req.body) {
           Employee.mobileSubmit(req.body, res.callback);

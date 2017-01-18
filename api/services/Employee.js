@@ -792,25 +792,203 @@ var model = {
                     }
                 });
             },
+            // ILA done
+            function (callback) {
+                TemplateIla.count({
+                    status: true
+                }, function (err, ilaDone) {
+                    console.log("ilaDone : ", ilaDone);
+                    if (err) {
+                        console.log(err);
+                        callback(null, {
+                            ilaDone: 0
+                        });
+                    } else {
+                        if (ilaDone) {
+                            callback(null, {
+                                ilaDone: ilaDone
+                            });
+                        } else {
+                            callback(null, {
+                                ilaDone: 0
+                            });
+                        }
+                    }
+                });
+            },
 
-            //Buyers
-            // function (callback) {
-            //     User.count({
-            //         isBuyer: true,
-            //         readStatus: false
-            //     }, function (err, buyers) {
-            //         if (err) {
-            //             console.log(err);
-            //             callback(null, {
-            //                 buyers: 0
-            //             });
-            //         } else {
-            //             callback(null, {
-            //                 buyers: buyers
-            //             });
-            //         }
-            //     });
-            // }
+            // ILA pending
+            function (callback) {
+                TemplateIla.count({
+                    status: false
+                }, function (err, ilaPending) {
+                    console.log("ilaPending : ", ilaPending);
+                    if (err) {
+                        console.log(err);
+                        callback(null, {
+                            ilaPending: 0
+                        });
+                    } else {
+                        if (ilaPending) {
+                            callback(null, {
+                                ilaPending: ilaPending
+                            });
+                        } else {
+                            callback(null, {
+                                ilaPending: 0
+                            });
+                        }
+                    }
+                });
+            },
+            // Assignment done
+            function (callback) {
+                TemplateLor.count({
+                    status: true
+                }, function (err, lorDone) {
+                    console.log("lorDone : ", lorDone);
+                    if (err) {
+                        console.log(err);
+                        callback(null, {
+                            lorDone: 0
+                        });
+                    } else {
+                        if (lorDone) {
+                            callback(null, {
+                                lorDone: lorDone
+                            });
+                        } else {
+                            callback(null, {
+                                lorDone: 0
+                            });
+                        }
+                    }
+                });
+            },
+
+            // Assignment pending
+            function (callback) {
+                TemplateLor.count({
+                    status: false
+                }, function (err, lorPending) {
+                    console.log("lorPending : ", lorPending);
+                    if (err) {
+                        console.log(err);
+                        callback(null, {
+                            lorPending: 0
+                        });
+                    } else {
+                        if (lorPending) {
+                            callback(null, {
+                                lorPending: lorPending
+                            });
+                        } else {
+                            callback(null, {
+                                lorPending: 0
+                            });
+                        }
+                    }
+                });
+            },
+            // Assignment done
+            function (callback) {
+                TemplateIsr.count({
+                    status: true
+                }, function (err, isrDone) {
+                    console.log("isrDone : ", isrDone);
+                    if (err) {
+                        console.log(err);
+                        callback(null, {
+                            isrDone: 0
+                        });
+                    } else {
+                        if (isrDone) {
+                            callback(null, {
+                                isrDone: isrDone
+                            });
+                        } else {
+                            callback(null, {
+                                isrDone: 0
+                            });
+                        }
+                    }
+                });
+            },
+
+            // Assignment pending
+            function (callback) {
+                TemplateIsr.count({
+                    status: false
+                }, function (err, isrPending) {
+                    console.log("isrPending : ", isrPending);
+                    if (err) {
+                        console.log(err);
+                        callback(null, {
+                            isrPending: 0
+                        });
+                    } else {
+                        if (isrPending) {
+                            callback(null, {
+                                isrPending: isrPending
+                            });
+                        } else {
+                            callback(null, {
+                                isrPending: 0
+                            });
+                        }
+                    }
+                });
+            },
+            // Assignment done
+            function (callback) {
+                TemplateIsr.count({
+                    status: true
+                }, function (err, jirDone) {
+                    console.log("jirDone : ", jirDone);
+                    if (err) {
+                        console.log(err);
+                        callback(null, {
+                            jirDone: 0
+                        });
+                    } else {
+                        if (jirDone) {
+                            callback(null, {
+                                jirDone: jirDone
+                            });
+                        } else {
+                            callback(null, {
+                                jirDone: 0
+                            });
+                        }
+                    }
+                });
+            },
+
+            // Assignment pending
+            function (callback) {
+                TemplateIsr.count({
+                    status: false
+                }, function (err, jirPending) {
+                    console.log("jirPending : ", jirPending);
+                    if (err) {
+                        console.log(err);
+                        callback(null, {
+                            jirPending: 0
+                        });
+                    } else {
+                        if (jirPending) {
+                            callback(null, {
+                                jirPending: jirPending
+                            });
+                        } else {
+                            callback(null, {
+                                jirPending: 0
+                            });
+                        }
+                    }
+                });
+            },
+
 
         ], function (err, counts) {
             if (err) {
