@@ -742,68 +742,74 @@ var model = {
     getDashboardCount: function (data, callback) {
         async.parallel([
 
-            // Orders
+            // Assignment pending
             function (callback) {
                 Assignment.count({
                     status: false
-                }, function (err, orders) {
-                    console.log("orders : ", orders);
+                }, function (err, assignmentPending) {
+                    console.log("assignmentPending : ", assignmentPending);
                     if (err) {
                         console.log(err);
                         callback(null, {
-                            orders: 0
+                            assignmentPending: 0
                         });
                     } else {
-                        if (orders) {
+                        if (assignmentPending) {
                             callback(null, {
-                                orders: orders
+                                assignmentPending: assignmentPending
                             });
                         } else {
                             callback(null, {
-                                orders: 0
+                                assignmentPending: 0
                             });
                         }
                     }
                 });
             },
 
-            //Sellers 
+            // Assignment done
             function (callback) {
-                User.count({
-                    isSeller: true,
-                    readStatus: false
-                }, function (err, sellers) {
+                Assignment.count({
+                    status: false
+                }, function (err, assignmentPending) {
+                    console.log("assignmentPending : ", assignmentPending);
                     if (err) {
                         console.log(err);
                         callback(null, {
-                            sellers: 0
+                            assignmentPending: 0
                         });
                     } else {
-                        callback(null, {
-                            sellers: sellers
-                        });
+                        if (assignmentPending) {
+                            callback(null, {
+                                assignmentPending: assignmentPending
+                            });
+                        } else {
+                            callback(null, {
+                                assignmentPending: 0
+                            });
+                        }
                     }
                 });
             },
 
             //Buyers
-            function (callback) {
-                User.count({
-                    isBuyer: true,
-                    readStatus: false
-                }, function (err, buyers) {
-                    if (err) {
-                        console.log(err);
-                        callback(null, {
-                            buyers: 0
-                        });
-                    } else {
-                        callback(null, {
-                            buyers: buyers
-                        });
-                    }
-                });
-            }
+            // function (callback) {
+            //     User.count({
+            //         isBuyer: true,
+            //         readStatus: false
+            //     }, function (err, buyers) {
+            //         if (err) {
+            //             console.log(err);
+            //             callback(null, {
+            //                 buyers: 0
+            //             });
+            //         } else {
+            //             callback(null, {
+            //                 buyers: buyers
+            //             });
+            //         }
+            //     });
+            // }
 
         ], function (err, counts) {
             if (err) {

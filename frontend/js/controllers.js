@@ -698,10 +698,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         NavigationService.getEmployeeOfficeEmail({
             officeEmail: owner
         }, 1, function (data) {
+            $scope.formData.ownerid = data.data._id;
             $scope.formData.owner = data.data.name;
         });
         console.log("formdata : ",$scope.formData.owner);
-        
+
         console.log($stateParams);
         if ($stateParams.emailId) {
 
