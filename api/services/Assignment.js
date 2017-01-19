@@ -5,13 +5,25 @@ var schema = new Schema({
     type: Date
   },
   assignedTo: {
-    type: Schema.Types.ObjectId,
-    ref: "Employee",
-    index: true
+      type: Schema.Types.ObjectId,
+      ref: "Employee",
+      index: true
   },
+  assignedToo: [{
+    employee: {
+      type: Schema.Types.ObjectId,
+      ref: "Employee",
+      index: true
+    },
+    status: {
+      type: Boolean,
+      default:false
+    }
+  }],
   timelineStatus: {
     type: String,
-    default: "ILA Pending"
+    enum: ["Survoyer Pending","Jir Pending","Ila Pending"],
+    default:"Survoyer Pending"
   },
   brokerCompany: {
     type: Schema.Types.ObjectId,
@@ -266,25 +278,25 @@ var schema = new Schema({
       type: String
     }
   }],
-  locationArr:[{
-    locationString:{
-      type:String
+  locationArr: [{
+    locationString: {
+      type: String
     },
-    date:{
-      type:Date
+    date: {
+      type: Date
     }
   }],
-  product:[{
-    product:{
-      type:String
+  product: [{
+    product: {
+      type: String
     },
-    date:{
-      type:Date
+    date: {
+      type: Date
     }
   }],
   status: {
     type: Boolean,
-    default: true
+    default: false
   },
   ilaStatus: {
     type: Boolean,
