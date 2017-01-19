@@ -992,12 +992,38 @@ var model = {
 
         ], function (err, counts) {
             if (err) {
-                console.log("error", err);
+                console.log("error", err);  
             }
-            if (_.isEmpty(counts)) {
+            if (counts == []) {
                 callback("No data found", null);
             } else {
                 callback(null, counts);
+            }
+        });
+    },
+
+      getDashboardCounts: function (data, callback) {
+        var Search = Assignment.aggregate([{
+            $group: {
+                _id: "$timelineStatus",
+                count: {
+                    $sum: 1
+                }
+            }
+        }, {
+            $project: {
+                "_id": 1,
+                "count": 1
+            }
+        }], function (err, counts) {
+            if (err) {
+                callback(err, null);
+            } else {
+                if(counts == []){
+                    callback(null, counts);
+                } else {    
+                    callback(null, counts); 
+                }
             }
         });
     },
