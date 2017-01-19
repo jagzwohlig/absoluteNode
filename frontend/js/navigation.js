@@ -626,6 +626,11 @@ var navigationservice = angular.module('navigationservice', [])
                 callback(data);
             });
         },
+        getDashboardCounts:function (callback) {
+            $http.post(adminurl + 'Employee/getDashboardCounts').success(function (data) {
+                callback(data);
+            });
+        },
         getPolicyDoc: function (formData, i, callback) {
 
             $http.post(adminurl + 'PolicyDoc/getPolicyDoc', formData).success(function (data) {
@@ -1920,6 +1925,15 @@ var navigationservice = angular.module('navigationservice', [])
                 data: {
                     "_id": id
                 }
+            }).success(callback);
+        },
+        getOneEmployeeById: function (id, callback) {
+            // console.log('form data: ', formData);
+            $http({
+                url: adminurl + 'employee/getOne',
+                method: 'POST',
+                withCredentials: true,
+                data: id
             }).success(callback);
         },
         employeeEditSave: function (id, callback) {
