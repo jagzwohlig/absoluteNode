@@ -27,6 +27,36 @@ var controller = {
             });
         }
     },
+    updateSurveyor: function (req, res) {
+        if (req.body) {
+            req.model.updateSurveyor(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: "Invalid Request"
+            });
+        }
+    },
+    decline: function (req, res) {
+        if (req.body) {
+            req.model.decline(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: "Invalid Request"
+            });
+        }
+    },
+    taskList: function (req, res) {
+        if (req.body) {
+            req.model.taskList(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: "Invalid Request"
+            });
+        }
+    },
     getNearestSurveyor2: function (req, res) {
         if (req.body) {
             req.model.getNearestSurveyor2(req.body, res.callback);

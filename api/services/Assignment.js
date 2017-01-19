@@ -1,13 +1,13 @@
 var autoIncrement = require('mongoose-auto-increment');
-
+var objectid = require("mongodb").ObjectID;
 var schema = new Schema({
   surveyDate: {
     type: Date
   },
   assignedTo: {
-      type: Schema.Types.ObjectId,
-      ref: "Employee",
-      index: true
+    type: Schema.Types.ObjectId,
+    ref: "Employee",
+    index: true
   },
   survey: [{
     employee: {
@@ -16,24 +16,25 @@ var schema = new Schema({
       index: true
     },
     status: {
-      type:String,
-      enum: ["Pending","Completed","Declined"]
+      type: String,
+      enum: ["Pending", "Completed", "Declined"],
+      default: "Pending"
     },
     timestamp: {
-      type:Date,
-      default:Date.now()
+      type: Date,
+      default: Date.now()
     },
     completionTime: {
-      type:Date
+      type: Date
     },
     declineTime: {
-      type:Date
+      type: Date
     }
   }],
   timelineStatus: {
     type: String,
-    enum: ["Pending","JIR Pending","ILA Pending","LOR Pending"],
-    default:"Pending"
+    enum: ["Pending", "JIR Pending", "ILA Pending", "LOR Pending"],
+    default: "Pending"
   },
   brokerCompany: {
     type: Schema.Types.ObjectId,
@@ -1119,45 +1120,194 @@ var model = {
       .page(options, callback);
 
   },
-  getAssignmentSurvey: function (callback) {
-                _.each(data.doc, function (n) {
-                    n.fileName = Date.now(),
-                        n.employee = data.empId;
-                });
-                _.each(data.photos, function (n) {
-                    n.fileName = Date.now(),
-                        n.employee = data.empId;
-                });
-                _.each(data.jir, function (n) {
-                    n.fileName = Date.now(),
-                        n.employee = data.empId;
-                });
-                Assignment.update({
-                    _id: data.assignId
-                }, {
-                    $push: {
-                        docs: {
-                            $each: data.doc
-                        },
-                        photos: {
-                            $each: data.photos
-                        },
-                        jir: {
-                            $each: data.jir
+  updateSurveyor: function (data, callback) {
+    Assignment.update({
+      _id: data._id
+    }, {
+      timelineStatus: "JIR Pending",
+      $push: {
+        survey: data.survey
+      }
+    }).exec(function (err, found) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (found) {
+        console.log("Found", found);
+        callback(null, found);
+      } else {
+        callback(null, found);
+      }
+    });
+  },
+  //    TASK LIST
+  taskList: function (data, callback) {
+    Assignment.aggregate([{
+      $lookup: {
+                            from: "cities",
+                            localField: "city",
+                            foreignField: "_id",
+                            as: "city"
                         }
-                    }
-                }).exec(function (err, found) {
-                    if (err) {
-                        console.log(err);
-                        callback(err, null);
-                    } else if (found) {
-                        console.log("Found", found);
-                        callback(null, found);
-                    } else {
-                        callback(null, found);
-                    }
-                });
+    },{
+        $unwind: "$city"
+      },
+      // 
+      {
+                $lookup: {
+                    from: "districts",
+                    localField: "city.district",
+                    foreignField: "_id",
+                    as: "city.districts"
+                }
+            }, {
+                $unwind: "$city.districts"
+            }, {
+                $lookup: {
+                    from: "states",
+                    localField: "city.districts.state",
+                    foreignField: "_id",
+                    as: "city.districts.states"
+                }
+            }, {
+                $unwind: "$city.districts.states"
+            }, {
+                $lookup: {
+                    from: "zones",
+                    localField: "city.districts.states.zone",
+                    foreignField: "_id",
+                    as: "city.districts.states.zones"
+                }
+            }, {
+                $unwind: "$city.districts.states.zones"
+            }, {
+                $lookup: {
+                    from: "countries",
+                    localField: "city.districts.states.zones.country",
+                    foreignField: "_id",
+                    as: "city.districts.states.zones.country"
+                }
+            }, {
+                $unwind: "$city.districts.states.zones.country"
             },
+      
+      
+      
+      // 
+      {
+        $unwind: "$survey"
+      },
+      {
+        $match: {
+          "survey.employee": objectid(data.id),
+          "survey.status": "Pending"
+        }
+      },
+      {
+        $limit: 30
+      }, {
+        $project: {
+          name: 1,
+          surveyDate: 1,
+          address: 1,
+          city: "$city.name",
+          district:"$city.districts.name",
+          state:"$city.districts.states.name",
+          zone:"$city.districts.states.zones.name",
+          country:"$city.districts.states.zones.country.name",
+          pincode:1,
+          siteEmail:1,
+          siteMobile:1,
+          siteNumber:1,
+          survey: 1
+        }
+      }
+    ], function (err, data1) {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, data1);
+      }
+    });
+  },
+
+  // Declined
+  decline:function(data,callback){
+    Assignment.update({
+      "survey._id": data.surveyId   
+    },{
+       $set: {
+         "survey.$.status": "Declined",
+         "survey.$.declineTime":Date.now()
+
+       }
+    }).exec(function (err, found) {
+     
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else {
+         var newChat={};
+      newChat.employee=data.empId,
+      newChat.type="Normal",
+      newChat.title="Has Declined the Assignment"
+      Timeline.update({
+        assignment:data.assignId
+      },{
+          $push:{
+            chat:newChat
+          }
+      }).exec(function(err,data){
+        if(err){
+          callback(err,null);
+        }else{
+          green("Success");
+          callback(null,data);
+        }
+      });
+      }
+    });
+  },
+
+  getAssignmentSurvey: function (callback) {
+    _.each(data.doc, function (n) {
+      n.fileName = Date.now(),
+        n.employee = data.empId;
+    });
+    _.each(data.photos, function (n) {
+      n.fileName = Date.now(),
+        n.employee = data.empId;
+    });
+    _.each(data.jir, function (n) {
+      n.fileName = Date.now(),
+        n.employee = data.empId;
+    });
+    Assignment.update({
+      _id: data.assignId
+    }, {
+      $push: {
+        docs: {
+          $each: data.doc
+        },
+        photos: {
+          $each: data.photos
+        },
+        jir: {
+          $each: data.jir
+        }
+      }
+    }).exec(function (err, found) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (found) {
+        console.log("Found", found);
+        callback(null, found);
+      } else {
+        callback(null, found);
+      }
+    });
+  },
 };
 
 module.exports = _.assign(module.exports, exports, model);

@@ -473,6 +473,9 @@ var navigationservice = angular.module('navigationservice', [])
         saveEmployeeAssignment: function (data, callback) {
             $http.post(adminurl + 'Employee/saveEmployeeAssignment', data).success(callback);
         },
+        updateSurveyor: function (data, callback) {
+            $http.post(adminurl + 'Assignment/updateSurveyor', data).success(callback);
+        },
         searchModel: function (model, formData, i, callback) {
             $http.post(adminurl + model + '/search', formData).success(function (data) {
                 callback(data, i);

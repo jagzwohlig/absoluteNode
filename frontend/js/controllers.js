@@ -8705,6 +8705,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.surveyDate;
         $scope.getAllSurveyors = [];
         $scope.finalSurveyors = [];
+        $scope.assignment={};
         $scope.checker = 1;
         $scope.emailtos = [{
             name: 'Mahesh',
@@ -8758,6 +8759,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.getAssignmentData = function () {
             console.log("surveyDate", $scope.surveyDate);
             NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
+                $scope.assignment=data.data;
+                console.log("$scope.assignment",$scope.assignment);
                 NavigationService.getNearestOffice(data.data, function (data) {
                     $scope.getAllSurveyors = data.data;
                     console.log("Success On GetNearest Survayer", $scope.getAllSurveyors,data);
@@ -8814,10 +8817,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         $scope.updateAssignmentEmployee = function (empId) {
             var assignment = {};
-            assignment._id = $stateParams.id
-            assignment.assignedTo = empId;
-            NavigationService.assignmentSave(assignment, function (data) {
-                console.log("Success On Save AssignmentEmployee", data);
+            assignment._id = $stateParams.id,
+            assignment.survey={
+                employee:empId
+            }
+            
+            console.log("Assignment Survey",assignment);
+            NavigationService.updateSurveyor(assignment, function (data) {
+                console.log("Success Assignment Survey", data);
             });
 
         };
