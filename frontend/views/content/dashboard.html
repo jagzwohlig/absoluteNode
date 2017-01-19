@@ -22,55 +22,16 @@
         <div class="col-md-12">
             <div class="mini-stats-sec">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-3" ng-repeat="data in Arr">
                         <div class="widget">
                             <div class="widget-controls">
                                 <span class="refresh-content"><i class="fa fa-refresh"></i></span>
                             </div>
                             <!-- Widget Controls -->
                             <div class="mini-stats">
-                                <span class="red-skin"><i class="fa fa-area-chart"></i></span>
-                                <p><i class="fa  fa-arrow-up up"></i> Assignment <br>Completed</p>
-                                <h3>{{Arr[0].assignmentDone}}</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="widget">
-                            <div class="widget-controls">
-                                <span class="refresh-content"><i class="fa fa-refresh"></i></span>
-                            </div>
-                            <!-- Widget Controls -->
-                            <div class="mini-stats">
-                                <span class="red-skin"><i class="fa fa-area-chart"></i></span>
-                                <p><i class="fa  fa-arrow-down down"></i> Assignment <br>Pending</p>
-                                <h3>{{Arr[1].assignmentPending}}</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="widget">
-                            <div class="widget-controls">
-                                <span class="refresh-content"><i class="fa fa-refresh"></i></span>
-                            </div>
-                            <!-- Widget Controls -->
-                            <div class="mini-stats">
-                                <span class="pink-skin"><i class="fa fa-shopping-cart"></i></span>
-                                <p><i class="fa  fa-arrow-up up">   </i> ILA Completed</p>
-                                <h3>{{Arr[2].ilaDone}}</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="widget">
-                            <div class="widget-controls">
-                                <span class="refresh-content"><i class="fa fa-refresh"></i></span>
-                            </div>
-                            <!-- Widget Controls -->
-                            <div class="mini-stats">
-                                <span class="pink-skin"><i class="fa fa-shopping-cart"></i></span>
-                                <p><i class="fa  fa-arrow-down down"></i> ILA Pending</p>
-                                <h3>{{Arr[3].ilaPending}}</h3>
+                                <span class="{{ colors[$index]}}-skin"><i class="fa fa-area-chart"></i></span>
+                                <p><i class="fa  fa-arrow-up up"></i>{{ data._id}}</p>
+                                <h3>{{ data.count }}</h3>
                             </div>
                         </div>
                     </div>
@@ -79,110 +40,3 @@
             <!-- Mini stats Sec -->
         </div>
     </div>
-    <!-- Top Bar Chart -->
-<div class="panel-content">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="mini-stats-sec">
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="widget">
-                            <div class="widget-controls">
-                                <span class="refresh-content"><i class="fa fa-refresh"></i></span>
-                            </div>
-                            <!-- Widget Controls -->
-                            <div class="mini-stats">
-                                <span class="purple-skin"><i class="fa fa-bullhorn"></i></span>
-                                <p><i class="fa  fa-arrow-up up"></i> LOR Completed</p>
-                                <h3>{{Arr[4].lorDone}}</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="widget">
-                            <div class="widget-controls">
-                                <span class="refresh-content"><i class="fa fa-refresh"></i></span>
-                            </div>
-                            <!-- Widget Controls -->
-                            <div class="mini-stats">
-                                <span class="purple-skin"><i class="fa fa-bullhorn"></i></span>
-                                <p><i class="fa  fa-arrow-down down"></i> LOR Pending</p>
-                                <h3>{{Arr[5].lorPending}}</h3>
-                            </div>
-                        </div>
-                    </div>
-                     <div class="col-md-3">
-                        <div class="widget">
-                            <div class="widget-controls">
-                                <span class="refresh-content"><i class="fa fa-refresh"></i></span>
-                            </div>
-                            <!-- Widget Controls -->
-                            <div class="mini-stats">
-                                <span class="sky-skin"><i class="fa fa-usd"></i></span>
-                                <p><i class="fa  fa-arrow-up up"></i>ISR Completed</p>
-                                <h3>{{Arr[6].isrDone}}</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="widget">
-                            <div class="widget-controls">
-                                <span class="refresh-content"><i class="fa fa-refresh"></i></span>
-                            </div>
-                            <!-- Widget Controls -->
-                            <div class="mini-stats">
-                                <span class="sky-skin"><i class="fa fa-usd"></i></span>
-                                <p><i class="fa  fa-arrow-down down"></i> ISR Pending</p>
-                                <h3>{{Arr[7].isrPending}}</h3>
-                            </div>
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-            <!-- Mini stats Sec -->
-        </div>
-    </div>
-
-    <div ng-bind-html="(emailText|base64url)"></div>
-</div>
-<!-- Panel Content -->
-<div class="panel-content">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="mini-stats-sec">
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="widget">
-                            <div class="widget-controls">
-                                <span class="refresh-content"><i class="fa fa-refresh"></i></span>
-                            </div>
-                            <!-- Widget Controls -->
-                            <div class="mini-stats">
-                                <span class="red-skin"><i class="fa fa-pinterest"></i></span>
-                                <p><i class="fa  fa-arrow-up up"></i> JIR Completed</p>
-                                <h3>{{Arr[8].jirDone}}</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="widget">
-                            <div class="widget-controls">
-                                <span class="refresh-content"><i class="fa fa-refresh"></i></span>
-                            </div>
-                            <!-- Widget Controls -->
-                            <div class="mini-stats">
-                                <span class="red-skin"><i class="fa fa-pinterest"></i></span>
-                                <p><i class="fa  fa-arrow-down down"></i> JIR Pending</p>
-                                <h3>{{Arr[9].jirPending}}</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Mini stats Sec -->
-        </div>
-    </div>
-
-    <div ng-bind-html="(emailText|base64url)"></div>
-</div>

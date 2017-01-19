@@ -8,10 +8,15 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.menutitle = NavigationService.makeactive("Dashboard");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
-        NavigationService.getDashboardCount(function(data){
-            console.log("Dashboard",data);
+        // NavigationService.getDashboardCount(function(data){
+        //     console.log("Dashboard",data);
+        //     $scope.Arr=data.data;
+        // })
+        NavigationService.getDashboardCounts(function(data){
+            // console.log("Dashboard",data);
             $scope.Arr=data.data;
-        })
+        });
+        $scope.colors = ["red","pink","sky","purple","red","pink","sky","purple"];
 
     })
 
@@ -700,19 +705,19 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.formData.company = data.data.results[0]._id;
         });
         //$scope.ownerEmail = $.jStorage.get("profile").email;
-        // var owner = $.jStorage.get("profile").email;
-        // console.log("owner : ",  $scope.ownerEmail);
-        // NavigationService.getEmployeeOfficeEmail({
-        //     officeEmail:  $scope.ownerEmail 
-        // }, 1, function (data) {
-        //     // $scope.formData.ownerid = data.data._id;
-        //     // $scope.formData.owner = data.data.name;
-        //     $scope.formData.owner = data.results.officeEmail;
-        // console.log("formdata : ",$scope.formData.owner);
+        var owner = $.jStorage.get("profile").email;
+        console.log("owner : ",  $scope.ownerEmail);
+        NavigationService.getEmployeeOfficeEmail({
+            officeEmail:  $scope.ownerEmail 
+        }, 1, function (data) {
+            $scope.formData.ownerid = data.data._id;
+            // $scope.formData.owner = data.data.name;
+            $scope.formData.owner = data.data.officeEmail;
+            console.log("formdata : ",$scope.formData.owner);
             
-        // });
-        //$scope.formData.owner = $scope.ownerEmail;
-        // console.log("formdata : ",$scope.formData.owner);
+        });
+        // $scope.formData.owner = $scope.ownerEmail;
+        console.log("formdata ownerid : ",$scope.formData.ownerid);
 
         console.log($stateParams);
         if ($stateParams.emailId) {
