@@ -1470,6 +1470,8 @@ firstapp.filter('uploadpath', function () {
             } else {
                 return input;
             }
+        } else {
+            return 'frontend/img/placeholder.png';
         }
     };
 });

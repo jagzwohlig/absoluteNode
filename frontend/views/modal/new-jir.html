@@ -1,0 +1,38 @@
+<div class="modal-header green-bg with-button">
+    <div class="pull-right">
+        <button class="btn btn-clear" ng-click="$dismiss()">
+            <i class="ln-cross"></i>
+        </button>
+    </div>
+    <h5 class="modal-title">All Photos</h5>
+</div>
+<div class="modal-body">
+    <form name="companyForm" ng-submit="saveCompany(formData)">
+        <div class="form-group">
+            <label>Upload Photos</label>
+            <!--<upload-image ng-model="photo.file" ng-callback="onPhotoUploadCallback(photo)" no-view></upload-image>-->
+            
+            <upload-image-new ng-model="img" ng-callback="onPhotoUploadCallback(img,length)" multiple no-view></upload-image-new>
+        </div>
+    </form>
+    <div class="field">
+        <div class="custom-tabs">
+            <div>
+                Photos <span class="color-green">({{assignment.jir.length}})</span>
+                <div class="file-selector">
+                    <!-- <div class="text-center" ng-if="file.files.length==0">No files found.</div> -->
+                    <div class="scroll-x-max">
+                        <div class="row">
+                            <div class="col-md-3 mter" ng-repeat="photo in assignment.jir track by $index">
+                                <div class="photosbx">
+                                    <img ng-src="{{photo.file|uploadpath}}" alt="" class="img-responsive">
+                                    <p>{{photo.fileName | date:'ddMMMyy, hh:mm'}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1151,9 +1151,7 @@ var model = {
                         }
     },{
         $unwind: "$city"
-      },
-      // 
-      {
+      },{
                 $lookup: {
                     from: "districts",
                     localField: "city.district",
@@ -1190,10 +1188,6 @@ var model = {
             }, {
                 $unwind: "$city.districts.states.zones.country"
             },
-      
-      
-      
-      // 
       {
         $unwind: "$survey"
       },
@@ -1238,8 +1232,8 @@ var model = {
     },{
        $set: {
          "survey.$.status": "Declined",
-         "survey.$.declineTime":Date.now()
-
+         "survey.$.declineTime":Date.now(),
+         timelineStatus: "Pending",
        }
     }).exec(function (err, found) {
      
@@ -1259,9 +1253,10 @@ var model = {
           }
       }).exec(function(err,data){
         if(err){
+          red("Decline");
           callback(err,null);
         }else{
-          green("Success");
+          green("Decline");
           callback(null,data);
         }
       });
@@ -1269,22 +1264,54 @@ var model = {
     });
   },
 
-  getAssignmentSurvey: function (callback) {
+  // Doc  Photos JIR
+
+  mobileSubmit: function (data,callback) {
+    // var ila ="ILA Pending";
+    var fileArray=[];
+    var docCount=0;
+     if(!_.isEmpty(data.doc)){
+       console.log("In Doc");
     _.each(data.doc, function (n) {
       n.fileName = Date.now(),
-        n.employee = data.empId;
+        n.employee = data.empId,
+        fileArray[docCount]={ attachment:n.file,
+          message:"Document" },
+        docCount=docCount+1;
     });
+  }
+    if(!_.isEmpty(data.photos)){
+       console.log("In Photos",data.photos);      
     _.each(data.photos, function (n) {
       n.fileName = Date.now(),
-        n.employee = data.empId;
+        n.employee = data.empId,
+        fileArray[docCount]={ 
+          attachment:n.file,
+          message:"Photo" },
+        // console.log("aaaa",fileArray,n);
+        docCount=docCount+1;      
     });
+    }
+     if(!_.isEmpty(data.jir)){
+       console.log("In JIR",data.jir);
+       
     _.each(data.jir, function (n) {
       n.fileName = Date.now(),
-        n.employee = data.empId;
+        n.employee = data.empId,
+        // ila="ILA Pending",
+        fileArray[docCount]={ attachment:n.file,
+          message:"JIR" },
+        docCount=docCount+1;
     });
+     }
     Assignment.update({
-      _id: data.assignId
+     "survey._id": data.surveyId  
     }, {
+      timelineStatus: "ILA Pending",
+      $set: {
+         "survey.$.status": "Completed",
+         "survey.$.completionTime":Date.now()
+       },
       $push: {
         docs: {
           $each: data.doc
@@ -1295,17 +1322,41 @@ var model = {
         jir: {
           $each: data.jir
         }
-      }
-    }).exec(function (err, found) {
+      },
+  }).exec(function (err, found) {
       if (err) {
         console.log(err);
         callback(err, null);
-      } else if (found) {
-        console.log("Found", found);
-        callback(null, found);
-      } else {
-        callback(null, found);
-      }
+      } else  {
+        
+        var docArray=[];
+        var newChat={};
+      newChat.employee=data.empId,
+      newChat.type="Normal",
+      newChat.title="Survey Done"
+      _.each(fileArray,function(n){
+        n.employee=data.empId,
+        n.type="Normal",
+        n.title="Survey Done";
+      })
+      console.log("Final Count",fileArray);
+      Timeline.update({
+        assignment:data.assignId
+      },{
+          $push:{
+            chat:{
+              $each:fileArray
+            }
+          }
+      }).exec(function(err,data){
+        if(err){
+          callback(err,null);
+        }else{
+          green("Success");
+          callback(null,data);
+        }
+      });
+      } 
     });
   },
 };

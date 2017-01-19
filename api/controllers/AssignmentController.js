@@ -47,6 +47,16 @@ var controller = {
             });
         }
     },
+    mobileSubmit: function (req, res) {
+        if (req.body) {
+            req.model.mobileSubmit(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: "Invalid Request"
+            });
+        }
+    },
     taskList: function (req, res) {
         if (req.body) {
             req.model.taskList(req.body, res.callback);

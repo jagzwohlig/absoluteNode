@@ -8984,14 +8984,20 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 size: 'lg'
             });
         };
-
-        $scope.viewJIR = function () {
+         $scope.viewJIR = function () {
             var modalInstance = $uibModal.open({
                 scope: $scope,
-                templateUrl: '/frontend/views/modal/modal-files.html',
+                templateUrl: '/frontend/views/modal/new-jir.html',
                 size: 'md'
             });
         };
+        // $scope.viewJIR = function () {
+        //     var modalInstance = $uibModal.open({
+        //         scope: $scope,
+        //         templateUrl: '/frontend/views/modal/modal-files.html',
+        //         size: 'md'
+        //     });
+        // };
         var modalInstance = function () {};
         $scope.allTemplate = "";
         $scope.saveAssignmentTemplate = function (name, temp) {

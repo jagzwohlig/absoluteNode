@@ -4,10 +4,9 @@
             <div class="heading-profile ul-clas text-center">
                 <ul>
                     <li>
-                      <b>ILA:&nbsp;</b>
+                        <b>ILA:&nbsp;</b>
                         <toggle-switch ng-model="assignment.ilaStatus" class="switch-small switch-success pull-right" ng-change="saveILA(assignment)"></toggle-switch>
                     </li>
-
                 </ul>
             </div>
         </div>
@@ -31,7 +30,7 @@
                             <button class="btn btn-green btn-round pull-right mt-5" ng-click="newMessage();"><i class="ln-comments"></i> Send Message</button>
                         </div>
                         <div class="compny">
-                            <h3>Site:<span class="dif">({{assignment.city.name}},<b>{{assignment.city.district.name}}</b>,<br>{{assignment.city.district.state.name}},<b>{{assignment.city.district.state.zone.name}}</b>,{{assignment.city.district.state.zone.country.name}})</span></h3>
+                            <h3><span class="dif">{{assignment.city.name}},<b>{{assignment.city.district.name}}</b>,<br>{{assignment.city.district.state.name}},<b>{{assignment.city.district.state.zone.name}}</b>,{{assignment.city.district.state.zone.country.name}}</span></h3>
                             <p>{{assignment.name}}</p>
                             <p ng-if="assignment.causeOfLoss">{{assignment.causeOfLoss.name}} - <span ng-repeat="nl in assignment.natureOfLoss">{{nl.name}}<span ng-if="$index < assignment.natureOfLoss.length - 1">, </span></span>
                             </p>
@@ -75,7 +74,7 @@
                                         <li role="menuitem"><a href="">Invoicing</a></li>
                                     </ul>
                                 </div>-->
-                                  <span class="greenbg">{{assignment.timelineStatus}}</span>  
+                                <span class="greenbg">{{assignment.timelineStatus}}</span>
                             </div>
                         </div>
                     </div>
@@ -154,8 +153,14 @@
                                                             <i>{{chat.time|date:"ddMMMyyyy, EEEE, hh:mm"}}</i>
                                                         </div>
                                                     </div>
-                                                    <div class="post-content" ng-if="chat.type=='Normal'">
-                                                        <p ng-bind-html="chat.message"></p>
+                                                    <div class="post-content bg-join" ng-if="chat.type=='Normal'">
+                                                        <div class="img-view">
+                                                             <p ng-bind-html="chat.message"></p>
+                                                        <div ng-if="chat.attachment.length!==0">
+                                                            <img ng-src="{{chat.attachment|uploadpath:300:300}}" alt="{{chat.employee.name}}" />
+                                                        </div>
+                                                        </div>
+                                                       
                                                     </div>
                                                     <div class="post-content" ng-if="chat.type=='Template'">
                                                         <p>View Template <a ng-click="templateAttachment(chat.attachment)"><b>Here</b></a></p>
@@ -181,6 +186,7 @@
                                                     <span class="user-device"></span>
                                                     <div class="user-activity emailed mt-10">
                                                         <div class="who-post-this">
+                                                            
                                                             <span><img ng-src="{{chat.employee.photo|uploadpath:300:300}}" alt="{{chat.employee.name}}" /></span>
                                                             <div class="who-post-detail">
                                                                 <h3>{{chat.employee.name}} <span class="vsmall">{{chat.employee.func.name}}</span>
