@@ -9,21 +9,31 @@ var schema = new Schema({
       ref: "Employee",
       index: true
   },
-  assignedToo: [{
+  survey: [{
     employee: {
       type: Schema.Types.ObjectId,
       ref: "Employee",
       index: true
     },
     status: {
-      type: Boolean,
-      default:false
+      type:String,
+      enum: ["Pending","Completed","Declined"]
+    },
+    timestamp: {
+      type:Date,
+      default:Date.now()
+    },
+    completionTime: {
+      type:Date
+    },
+    declineTime: {
+      type:Date
     }
   }],
   timelineStatus: {
     type: String,
-    enum: ["Survoyer Pending","Jir Pending","Ila Pending"],
-    default:"Survoyer Pending"
+    enum: ["Pending","JIR Pending","ILA Pending","LOR Pending"],
+    default:"Pending"
   },
   brokerCompany: {
     type: Schema.Types.ObjectId,
@@ -1109,6 +1119,45 @@ var model = {
       .page(options, callback);
 
   },
+  getAssignmentSurvey: function (callback) {
+                _.each(data.doc, function (n) {
+                    n.fileName = Date.now(),
+                        n.employee = data.empId;
+                });
+                _.each(data.photos, function (n) {
+                    n.fileName = Date.now(),
+                        n.employee = data.empId;
+                });
+                _.each(data.jir, function (n) {
+                    n.fileName = Date.now(),
+                        n.employee = data.empId;
+                });
+                Assignment.update({
+                    _id: data.assignId
+                }, {
+                    $push: {
+                        docs: {
+                            $each: data.doc
+                        },
+                        photos: {
+                            $each: data.photos
+                        },
+                        jir: {
+                            $each: data.jir
+                        }
+                    }
+                }).exec(function (err, found) {
+                    if (err) {
+                        console.log(err);
+                        callback(err, null);
+                    } else if (found) {
+                        console.log("Found", found);
+                        callback(null, found);
+                    } else {
+                        callback(null, found);
+                    }
+                });
+            },
 };
 
 module.exports = _.assign(module.exports, exports, model);
