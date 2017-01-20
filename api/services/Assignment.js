@@ -36,20 +36,14 @@ var schema = new Schema({
     enum: ["Pending", "JIR Pending", "ILA Pending", "LOR Pending"],
     default: "Pending"
   },
-  brokerCompany: {
-    type: Schema.Types.ObjectId,
-    ref: "CustomerCompany",
-    index: true
+  brokerClaimId: {
+    type: String
   },
-  insurerCompany: {
-    type: Schema.Types.ObjectId,
-    ref: "CustomerCompany",
-    index: true
+  insurerClaimId: {
+    type: String
   },
-  insuredCompany: {
-    type: Schema.Types.ObjectId,
-    ref: "CustomerCompany",
-    index: true
+  insuredClaimId: {
+    type: String
   },
   name: {
     type: String
