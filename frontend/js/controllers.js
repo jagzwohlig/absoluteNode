@@ -646,24 +646,24 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $window.history.back();
         };
 
-        hotkeys.bindTo($scope).add({
-            combo: 'ctrl+enter',
-            callback: function (formData) {
-                $scope.hideSaveCancel = true;
-                NavigationService.assignmentSave($scope.formData, function (data) {
-                    console.log(data);
-                    if (data.value === true) {
+        // hotkeys.bindTo($scope).add({
+        //     combo: 'ctrl+enter',
+        //     callback: function (formData) {
+        //         $scope.hideSaveCancel = true;
+        //         NavigationService.assignmentSave($scope.formData, function (data) {
+        //             console.log(data);
+        //             if (data.value === true) {
 
-                        // $state.go('assignment-list');
-                        $window.history.back();
-                        toastr.success("Assignment " + data.data.name + " created successfully.", "Assignment Created");
-                    } else {
-                        $scope.hideSaveCancel = false;
-                        toastr.error("Assignment creation failed, " + data.error.message + ".", "Assignment creation error");
-                    }
-                });
-            }
-        });
+        //                 // $state.go('assignment-list');
+        //                 $window.history.back();
+        //                 toastr.success("Assignment " + data.data.name + " created successfully.", "Assignment Created");
+        //             } else {
+        //                 $scope.hideSaveCancel = false;
+        //                 toastr.error("Assignment creation failed, " + data.error.message + ".", "Assignment creation error");
+        //             }
+        //         });
+        //     }
+        // });
 
 
         $scope.populateAddress = function (data) {
