@@ -1194,8 +1194,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             callback: function (formData) {
                 if (formData.lat && formData.lng) {
                     formData.location = [];
-                    formData.location.push(formData.lat);
                     formData.location.push(formData.lng);
+                    formData.location.push(formData.lat);
                 }
                 NavigationService.officeSave($scope.formData, function (data) {
                     if (data.value === true) {
@@ -1211,8 +1211,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.saveOffice = function (formData) {
             if (formData.lat && formData.lng) {
                 formData.location = [];
-                formData.location.push(formData.lat);
                 formData.location.push(formData.lng);
+                formData.location.push(formData.lat);
             }
             NavigationService.officeSave($scope.formData, function (data) {
                 if (data.value === true) {
@@ -1252,8 +1252,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             callback: function (formData) {
                 if (formData.lat && formData.lng) {
                     formData.location = [];
-                    formData.location.push(formData.lat);
                     formData.location.push(formData.lng);
+                    formData.location.push(formData.lat);
                 }
                 NavigationService.officeSave($scope.formData, function (data) {
                     if (data.value === true) {
@@ -1269,8 +1269,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.saveOffice = function (formData) {
             if (formData.lat && formData.lng) {
                 formData.location = [];
-                formData.location.push(formData.lat);
                 formData.location.push(formData.lng);
+                formData.location.push(formData.lat);
             }
             NavigationService.officeSave($scope.formData, function (data) {
                 if (data.value === true) {
