@@ -678,7 +678,7 @@ var model = {
   },
 
   getNearestSurveyor2: function (data, callback) {
-    console.log("AAAAAAA", data);
+    // console.log("AAAAAAA", data);
     Employee.find({
       _id: {
         $in: data.ids
@@ -689,7 +689,7 @@ var model = {
       employeeCode: 1,
       officeEmail: 1
     }).lean().exec(function (err, data2) {
-      console.log("Data2", data2);
+      // console.log("Data2", data2);
       if (err) {
         callback(err, null);
       } else {
@@ -703,11 +703,11 @@ var model = {
       if (err) {
         callback(err, null);
       } else if (branchDetails) {
-        console.log("AAAAAAAAAA", branchDetails);
+        // console.log("AAAAAAAAAA", branchDetails);
         data.dateMOY = branchDetails.seriesFormat;
         data.brachCode = branchDetails.code;
         data.fourthDigit = Assignment.getFourthDigit(data);
-        console.log("Data Before ", data.fourthDigit);
+        // console.log("Data Before ", data.fourthDigit);
         Assignment.getSixthDigit(data, function (err, sixthDigit) {
           if (err) {
             callback(err, null)
@@ -768,278 +768,278 @@ var model = {
 
 
 
-  generateAssignmentNumber2: function (data, callback) {
-    var Model = this;
-    var num = 1;
-    var newNumber = 1;
-    Model.findOne({
-      _id: data._id
-    }).deepPopulate("company branch city.district.state.zone.country department typeOfClaim natureOfSurvey", "_id assignmentGeneration").exec(function (err, data2) {
-      if (err) {
-        callback(err);
-      } else {
-        Model.findOne({
-          company: data2.company._id,
-          _id: {
-            $ne: data._id
-          }
-        }).sort({
-          _id: -1
-        }).exec(function (err, data3) {
-          if (err) {
-            callback(err);
-          } else {
-            // if (data3 && moment(data3.createdAt).month() == moment(data2.createdAt).month() && moment(data3.createdAt).year() == moment(data2.createdAt).year() && data2.company.assignmentGeneration == "Monthly") {
-            //   newNumber = data3.assignmentNumber + 1;
-            // } else if (data3 && moment(data3.createdAt).year() == moment(data2.createdAt).year() && data2.company.assignmentGeneration == "Yearly") {
-            //   newNumber = data3.assignmentNumber + 1;
-            // }
-            // data2.assignmentNumber = newNumber;
-            // var num = parseInt(newNumber);
-            // len = 4;
-            // if (isNaN(num) || isNaN(len)) {
-            //   return n;
-            // }
-            // // num = '' + num;
-            // while (num.length < len) {
-            //   num = '0' + num;
-            // }
-            var nos = "";
-            var fourthDigit = "";
-            switch (data2.typeOfClaim + "-" + data2.isInsured) {
-              case "true-false":
-                {
-                  fourthDigit = "0";
-                  break;
-                }
-              case "true-true":
-                {
-                  fourthDigit = "1";
-                  break;
-                }
-              case "false-false":
-                {
-                  fourthDigit = "2";
-                  break;
-                }
-              case "false-true":
-                {
-                  fourthDigit = "3";
-                  break;
-                }
-            }
-            switch (data2.typeOfClaim + "-" + data2.department.name) {
-              case "false-Engineering":
-                {
-                  nos = "40";
-                  break;
-                }
-              case "false-Motor":
-                {
-                  nos = "30";
-                  break;
-                }
-              case "false-Pre Dispatch":
-                {
-                  nos = "20";
-                  break;
-                }
-              case "false-Pre Acceptance - Fire":
-                {
-                  nos = "10";
-                  break;
-                }
-              case "true-Engineering":
-                {
-                  nos = "44";
-                  break;
-                }
-              case "true-Fire":
-                {
-                  nos = "11";
-                  break;
-                }
-              case "true-Marine Cargo":
-                {
-                  nos = "21";
-                  break;
-                }
-              case "true-Misc":
-                {
-                  nos = "48";
-                  break;
-                }
-              case "true-Motor":
-                {
-                  nos = "31";
-                  break;
-                }
-              default:
-                {
-                  nos = "00";
-                  break;
-                }
-            }
-            Branch.findOne({
-              code: data2.branch.code
-            }).exec(function (err, data9) {
-              if (err) {
-                callback(err, null);
-              } else {
-                console.log("Branch", data9);
-                if (data9.seriesFormat == "yearly") {
-                  var lastDay;
-                  var firstDay;
-                  var currentDateMonth = moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM");
-                  green(currentDateMonth);
-                  if (currentDateMonth > 3) {
-                    lastDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").add(1, "year").format("YYYY"), "MM YYYY").toDate();
-                    firstDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YYYY"), "MM YYYY").toDate();
-                    firstDay = moment(new Date(firstDay)).subtract(5, "hours").subtract(30, "minutes");
-                    lastDay = moment(new Date(lastDay)).subtract(5, "hours").subtract(30, "minutes");
+  // generateAssignmentNumber2: function (data, callback) {
+  //   var Model = this;
+  //   var num = 1;
+  //   var newNumber = 1;
+  //   Model.findOne({
+  //     _id: data._id
+  //   }).deepPopulate("company branch city.district.state.zone.country department typeOfClaim natureOfSurvey", "_id assignmentGeneration").exec(function (err, data2) {
+  //     if (err) {
+  //       callback(err);
+  //     } else {
+  //       Model.findOne({
+  //         company: data2.company._id,
+  //         _id: {
+  //           $ne: data._id
+  //         }
+  //       }).sort({
+  //         _id: -1
+  //       }).exec(function (err, data3) {
+  //         if (err) {
+  //           callback(err);
+  //         } else {
+  //           // if (data3 && moment(data3.createdAt).month() == moment(data2.createdAt).month() && moment(data3.createdAt).year() == moment(data2.createdAt).year() && data2.company.assignmentGeneration == "Monthly") {
+  //           //   newNumber = data3.assignmentNumber + 1;
+  //           // } else if (data3 && moment(data3.createdAt).year() == moment(data2.createdAt).year() && data2.company.assignmentGeneration == "Yearly") {
+  //           //   newNumber = data3.assignmentNumber + 1;
+  //           // }
+  //           // data2.assignmentNumber = newNumber;
+  //           // var num = parseInt(newNumber);
+  //           // len = 4;
+  //           // if (isNaN(num) || isNaN(len)) {
+  //           //   return n;
+  //           // }
+  //           // // num = '' + num;
+  //           // while (num.length < len) {
+  //           //   num = '0' + num;
+  //           // }
+  //           var nos = "";
+  //           var fourthDigit = "";
+  //           switch (data2.typeOfClaim + "-" + data2.isInsured) {
+  //             case "true-false":
+  //               {
+  //                 fourthDigit = "0";
+  //                 break;
+  //               }
+  //             case "true-true":
+  //               {
+  //                 fourthDigit = "1";
+  //                 break;
+  //               }
+  //             case "false-false":
+  //               {
+  //                 fourthDigit = "2";
+  //                 break;
+  //               }
+  //             case "false-true":
+  //               {
+  //                 fourthDigit = "3";
+  //                 break;
+  //               }
+  //           }
+  //           switch (data2.typeOfClaim + "-" + data2.department.name) {
+  //             case "false-Engineering":
+  //               {
+  //                 nos = "40";
+  //                 break;
+  //               }
+  //             case "false-Motor":
+  //               {
+  //                 nos = "30";
+  //                 break;
+  //               }
+  //             case "false-Pre Dispatch":
+  //               {
+  //                 nos = "20";
+  //                 break;
+  //               }
+  //             case "false-Pre Acceptance - Fire":
+  //               {
+  //                 nos = "10";
+  //                 break;
+  //               }
+  //             case "true-Engineering":
+  //               {
+  //                 nos = "44";
+  //                 break;
+  //               }
+  //             case "true-Fire":
+  //               {
+  //                 nos = "11";
+  //                 break;
+  //               }
+  //             case "true-Marine Cargo":
+  //               {
+  //                 nos = "21";
+  //                 break;
+  //               }
+  //             case "true-Misc":
+  //               {
+  //                 nos = "48";
+  //                 break;
+  //               }
+  //             case "true-Motor":
+  //               {
+  //                 nos = "31";
+  //                 break;
+  //               }
+  //             default:
+  //               {
+  //                 nos = "00";
+  //                 break;
+  //               }
+  //           }
+  //           Branch.findOne({
+  //             code: data2.branch.code
+  //           }).exec(function (err, data9) {
+  //             if (err) {
+  //               callback(err, null);
+  //             } else {
+  //               console.log("Branch", data9);
+  //               if (data9.seriesFormat == "yearly") {
+  //                 var lastDay;
+  //                 var firstDay;
+  //                 var currentDateMonth = moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM");
+  //                 green(currentDateMonth);
+  //                 if (currentDateMonth > 3) {
+  //                   lastDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").add(1, "year").format("YYYY"), "MM YYYY").toDate();
+  //                   firstDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YYYY"), "MM YYYY").toDate();
+  //                   firstDay = moment(new Date(firstDay)).subtract(5, "hours").subtract(30, "minutes");
+  //                   lastDay = moment(new Date(lastDay)).subtract(5, "hours").subtract(30, "minutes");
 
 
-                    console.log(".2....", lastDay, firstDay, data2.dateOfAppointment);
-                  } else {
+  //                   console.log(".2....", lastDay, firstDay, data2.dateOfAppointment);
+  //                 } else {
 
-                    lastDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YYYY"), "MM YYYY").toDate();
-                    firstDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").subtract(1, "year").format("YYYY"), "MM YYYY").toDate();
-                    firstDay = moment(new Date(firstDay)).subtract(5, "hours").subtract(30, "minutes");
-                    lastDay = moment(new Date(lastDay)).subtract(5, "hours").subtract(30, "minutes");
+  //                   lastDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YYYY"), "MM YYYY").toDate();
+  //                   firstDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").subtract(1, "year").format("YYYY"), "MM YYYY").toDate();
+  //                   firstDay = moment(new Date(firstDay)).subtract(5, "hours").subtract(30, "minutes");
+  //                   lastDay = moment(new Date(lastDay)).subtract(5, "hours").subtract(30, "minutes");
 
-                    console.log("......", lastDay, firstDay, data2.dateOfAppointment);
-                  }
+  //                   console.log("......", lastDay, firstDay, data2.dateOfAppointment);
+  //                 }
 
-                  Assignment.find({
-                    branch: data9._id,
-                    dateOfAppointment: {
-                      $lt: lastDay,
-                      $gte: firstDay
-                    }
-                  }).sort({
-                    createdAt: -1
-                  }).limit(2).exec(function (err, data8) {
-                    if (err) {
-                      console.log("EEEEEEEEroo");
-                      callback(err, null);
-                    } else if (data8[1] != undefined) {
-                      green(data8[1].assignmentNumber);
-                      var len = 4;
-                      num = data8[1].assignmentNumber + 1;
-                      green(num);
-                      data2.assignmentNumber = num
-                      num = '' + num;
-                      while (num.length < len) {
-                        num = '0' + num;
-                      }
-                      data2.name = "IN" + data2.company.companyCode + fourthDigit + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
-                      data2.name1 = data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
-                      data2.save(function (err, data) {
-                        if (err) {
-                          callback(err, data);
-                        } else {
-                          callback(null, data);
-                        }
-                      });
-                    } else {
-                      console.log("Data", data8);
-                      green("HIIIIIIIIIIIIIIIII");
-                      var len = 4;
-                      data2.assignmentNumber = num
-                      num = '' + num;
-                      while (num.length < len) {
-                        num = '0' + num;
-                      }
-                      data2.name = "IN" + data2.company.companyCode + fourthDigit + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
-                      data2.name1 = data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
-                      data2.save(function (err, data) {
-                        if (err) {
-                          callback(err, data);
-                        } else {
-                          callback(null, data);
-                        }
-                      });
-                    }
-                  });
-                } else {
-                  // Changes for Monthly
-                  var dateOfApp = moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").toDate();
-                  console.log("dateOfAppointment", data2.dateOfAppointment, dateOfApp);
-                  var firstDay = new Date(dateOfApp.getFullYear(), dateOfApp.getMonth(), 1);
-                  var lastDay = new Date(dateOfApp.getFullYear(), dateOfApp.getMonth() + 1, 0);
-                  console.log(firstDay, lastDay);
-                  lastDay = moment(new Date(lastDay)).subtract(5, "hours").subtract(30, "minutes");
-                  firstDay = moment(new Date(firstDay)).subtract(5, "hours").subtract(30, "minutes");
-                  console.log(firstDay, lastDay);
-                  Assignment.find({
-                    branch: data9._id,
-                    dateOfAppointment: {
-                      $gte: firstDay,
-                      $lte: lastDay
-                    }
-                  }).sort({
-                    createdAt: -1
-                  }).limit(2).exec(function (err, data8) {
-                    if (err) {
-                      console.log("EEEEEEEEroo");
-                      callback(err, null);
-                    } else if (data8[1] != undefined) {
-                      green("data8[1]")
-                      var len = 4;
-                      console.log("data8[1].name", data8[1]);
-                      var prevDate = moment(new Date(data8[1].dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM YYYY");
-                      var currentDate = moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM YYYY");
-                      green("Date");
-                      console.log(prevDate, currentDate);
-                      if (prevDate == currentDate) {
-                        num = data8[1].assignmentNumber + 1;
-                      }
-                      console.log(num, "NUM");
-                      data2.assignmentNumber = num
-                      num = '' + num;
-                      while (num.length < len) {
-                        num = '0' + num;
-                      }
-                      data2.name = "In" + data2.company.companyCode + fourthDigit + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
+  //                 Assignment.find({
+  //                   branch: data9._id,
+  //                   dateOfAppointment: {
+  //                     $lt: lastDay,
+  //                     $gte: firstDay
+  //                   }
+  //                 }).sort({
+  //                   createdAt: -1
+  //                 }).limit(2).exec(function (err, data8) {
+  //                   if (err) {
+  //                     console.log("EEEEEEEEroo");
+  //                     callback(err, null);
+  //                   } else if (data8[1] != undefined) {
+  //                     green(data8[1].assignmentNumber);
+  //                     var len = 4;
+  //                     num = data8[1].assignmentNumber + 1;
+  //                     green(num);
+  //                     data2.assignmentNumber = num
+  //                     num = '' + num;
+  //                     while (num.length < len) {
+  //                       num = '0' + num;
+  //                     }
+  //                     data2.name = "IN" + data2.company.companyCode + fourthDigit + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
+  //                     data2.name1 = data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
+  //                     data2.save(function (err, data) {
+  //                       if (err) {
+  //                         callback(err, data);
+  //                       } else {
+  //                         callback(null, data);
+  //                       }
+  //                     });
+  //                   } else {
+  //                     console.log("Data", data8);
+  //                     green("HIIIIIIIIIIIIIIIII");
+  //                     var len = 4;
+  //                     data2.assignmentNumber = num
+  //                     num = '' + num;
+  //                     while (num.length < len) {
+  //                       num = '0' + num;
+  //                     }
+  //                     data2.name = "IN" + data2.company.companyCode + fourthDigit + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
+  //                     data2.name1 = data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
+  //                     data2.save(function (err, data) {
+  //                       if (err) {
+  //                         callback(err, data);
+  //                       } else {
+  //                         callback(null, data);
+  //                       }
+  //                     });
+  //                   }
+  //                 });
+  //               } else {
+  //                 // Changes for Monthly
+  //                 var dateOfApp = moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").toDate();
+  //                 console.log("dateOfAppointment", data2.dateOfAppointment, dateOfApp);
+  //                 var firstDay = new Date(dateOfApp.getFullYear(), dateOfApp.getMonth(), 1);
+  //                 var lastDay = new Date(dateOfApp.getFullYear(), dateOfApp.getMonth() + 1, 0);
+  //                 console.log(firstDay, lastDay);
+  //                 lastDay = moment(new Date(lastDay)).subtract(5, "hours").subtract(30, "minutes");
+  //                 firstDay = moment(new Date(firstDay)).subtract(5, "hours").subtract(30, "minutes");
+  //                 console.log(firstDay, lastDay);
+  //                 Assignment.find({
+  //                   branch: data9._id,
+  //                   dateOfAppointment: {
+  //                     $gte: firstDay,
+  //                     $lte: lastDay
+  //                   }
+  //                 }).sort({
+  //                   createdAt: -1
+  //                 }).limit(2).exec(function (err, data8) {
+  //                   if (err) {
+  //                     console.log("EEEEEEEEroo");
+  //                     callback(err, null);
+  //                   } else if (data8[1] != undefined) {
+  //                     green("data8[1]")
+  //                     var len = 4;
+  //                     console.log("data8[1].name", data8[1]);
+  //                     var prevDate = moment(new Date(data8[1].dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM YYYY");
+  //                     var currentDate = moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM YYYY");
+  //                     green("Date");
+  //                     console.log(prevDate, currentDate);
+  //                     if (prevDate == currentDate) {
+  //                       num = data8[1].assignmentNumber + 1;
+  //                     }
+  //                     console.log(num, "NUM");
+  //                     data2.assignmentNumber = num
+  //                     num = '' + num;
+  //                     while (num.length < len) {
+  //                       num = '0' + num;
+  //                     }
+  //                     data2.name = "In" + data2.company.companyCode + fourthDigit + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
 
-                      data2.name1 = data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
-                      data2.save(function (err, data) {
-                        if (err) {
-                          callback(err, data);
-                        } else {
-                          callback(null, data);
-                        }
-                      });
+  //                     data2.name1 = data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
+  //                     data2.save(function (err, data) {
+  //                       if (err) {
+  //                         callback(err, data);
+  //                       } else {
+  //                         callback(null, data);
+  //                       }
+  //                     });
 
-                    } else {
+  //                   } else {
 
-                      green("HIIIIIIIIIIIIIIIII");
-                      var len = 4;
-                      data2.assignmentNumber = num
-                      num = '' + num;
-                      while (num.length < len) {
-                        num = '0' + num;
-                      }
-                      data2.name = "In" + data2.company.companyCode + fourthDigit + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
+  //                     green("HIIIIIIIIIIIIIIIII");
+  //                     var len = 4;
+  //                     data2.assignmentNumber = num
+  //                     num = '' + num;
+  //                     while (num.length < len) {
+  //                       num = '0' + num;
+  //                     }
+  //                     data2.name = "In" + data2.company.companyCode + fourthDigit + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
 
-                      data2.name1 = data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
-                      data2.save(function (err, data) {
-                        if (err) {
-                          callback(err, data);
-                        } else {
-                          callback(null, data);
-                        }
-                      });
-                    }
-                  });
-                }
-              }
-            });
-          }
-        });
-      }
-    });
-  },
+  //                     data2.name1 = data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
+  //                     data2.save(function (err, data) {
+  //                       if (err) {
+  //                         callback(err, data);
+  //                       } else {
+  //                         callback(null, data);
+  //                       }
+  //                     });
+  //                   }
+  //                 });
+  //               }
+  //             }
+  //           });
+  //         }
+  //       });
+  //     }
+  //   });
+  // },
   getAssignmentTemplate: function (type, id, callback) {
     var Model = this;
 
@@ -1342,7 +1342,7 @@ var model = {
     var fileArray = [];
     var docCount = 0;
     if (!_.isEmpty(data.doc)) {
-      console.log("In Doc");
+      // console.log("In Doc");
       _.each(data.doc, function (n) {
         n.fileName = Date.now(),
           n.employee = data.empId,
@@ -1476,6 +1476,7 @@ var model = {
       return newDate;
     } else {
       var currentDateMonth = moment(new Date(data.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM-YYYY");
+      console.log("New Date", currentDateMonth);
       return currentDateMonth;
     }
   },
