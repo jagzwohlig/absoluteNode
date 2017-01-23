@@ -37,8 +37,16 @@
                                         #
                                     </th>
                                     <th>MR Number</th>
+                                    <th>Owner</th>                                    
+                                    <th>Insurer</th>
+                                    <th>Insured</th>
+                                    <th>Site City</th>
+                                    <th>Nature Of Survey</th>
+                                    <th>Estimated Loss</th>                                    
                                     <th>Status</th>
+                                    
                                     <th>Actions</th>
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -47,8 +55,15 @@
                                         {{($index + 1)+((currentPage-1)*maxRow)}}
                                     </td>
                                     <td>{{data.name}}</td>
+                                    <td>{{data.owner.name}}</td>
+                                    <td>{{data.insurer.name}}</td>
+                                    <td>{{data.insured.name}}</td>
+                                    <td>{{data.city.name}}</td>
+                                    <td>{{data.department.name}}</td>
+                                    <td>{{data.intimatedLoss}}</td>                                    
                                     <td>
-                                        <toggle-switch ng-model="data.status" class="switch-mini switch-success" ng-change="changeStatus(data)"></toggle-switch>
+                                        {{data.timelineStatus}}
+                                        <!--<toggle-switch ng-model="data.status" class="switch-mini switch-success" ng-change="changeStatus(data)"></toggle-switch>-->
                                     </td>
                                     <td>
                                         <a class="btn btn-primary" ui-sref="editassignment({id:data._id})">
@@ -60,6 +75,7 @@
                                         <a class="btn btn-danger" ui-sref="timeline({id:data._id})">
                                             Timeline
                                         </a>
+                                        <!--Clone-->
                                         <!--<a class="btn btn-danger" ui-sref="createassignment({assignment:data._id})">
                                             Clone
                                         </a>-->

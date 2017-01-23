@@ -27,6 +27,16 @@ var controller = {
             });
         }
     },
+    // assignmentNumberDetail: function (req, res) {
+    //     if (req.body) {
+    //         req.model.assignmentNumberDetail(req.body, res.callback);
+    //     } else {
+    //         res.json({
+    //             value: false,
+    //             data: "Invalid Request"
+    //         });
+    //     }
+    // },
     updateSurveyor: function (req, res) {
         if (req.body) {
             req.model.updateSurveyor(req.body, res.callback);

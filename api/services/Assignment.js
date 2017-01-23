@@ -1,6 +1,21 @@
 var autoIncrement = require('mongoose-auto-increment');
 var objectid = require("mongodb").ObjectID;
 var schema = new Schema({
+  sixthDigit: {
+    type: String
+  },
+  dateMOY: {
+    type: String
+  },
+  brachCode: {
+    type: String
+  },
+  billingPeriod: {
+    type: String
+  },
+  fourthDigit: {
+    type: String
+  },
   surveyDate: {
     type: Date
   },
@@ -33,8 +48,8 @@ var schema = new Schema({
   }],
   timelineStatus: {
     type: String,
-    enum: ["Pending", "JIR Pending", "ILA Pending", "LOR Pending"],
-    default: "Pending"
+    enum: ["Survey Pending", "JIR Pending", "ILA Pending", "LOR Pending"],
+    default: "Survey Pending"
   },
   brokerClaimId: {
     type: String
@@ -683,8 +698,77 @@ var model = {
     });
   },
 
-
   generateAssignmentNumber: function (data, callback) {
+    Branch.getBillingType(data.branch, function (err, branchDetails) {
+      if (err) {
+        callback(err, null);
+      } else if (branchDetails) {
+        console.log("AAAAAAAAAA", branchDetails);
+        data.dateMOY = branchDetails.seriesFormat;
+        data.brachCode = branchDetails.code;
+        data.fourthDigit = Assignment.getFourthDigit(data);
+        console.log("Data Before ", data.fourthDigit);
+        Assignment.getSixthDigit(data, function (err, sixthDigit) {
+          if (err) {
+            callback(err, null)
+          } else {
+            data.sixthDigit = sixthDigit;
+            data.billingPeriod = Assignment.getDate(data);
+            Assignment.find({
+              dateMOY: data.dateMOY,
+              brachCode: data.brachCode,
+              fourthDigit: data.fourthDigit,
+              nos: data.nos,
+              billingPeriod: data.billingPeriod
+            }).sort({
+                    assignmentNumber: -1
+                }).exec(function (err, assignmentNo) {
+              if (err) {
+                callback(err, null);
+              } else if (assignmentNo.length == 0) {
+                data.assignmentNumber = 1;
+                var num = data.assignmentNumber;
+                num = '' + num;
+                while (num.length < 4) {
+                  num = '0' + num;
+                }
+                data.name = "IN1" + data.fourthDigit + "-" + sixthDigit + data.brachCode + "-" + moment(new Date(data.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
+                data.save(function (err, data) {
+                  if (err) {
+                    callback(err, data);
+                  } else {
+                    callback(null, data);
+                  }
+                });
+              } else {
+                data.assignmentNumber=assignmentNo[0].assignmentNumber+1
+                var num = data.assignmentNumber;
+                num = '' + num;
+                while (num.length < 4) {
+                  num = '0' + num;
+                }
+                data.name = "IN1" + data.fourthDigit + "-" + sixthDigit + data.brachCode + "-" + moment(new Date(data.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
+                data.save(function (err, data) {
+                  if (err) {
+                    callback(err, data);
+                  } else {
+                    callback(null, data);
+                  }
+                });
+
+              }
+            });
+          }
+        });
+      } else {
+        callback(err, null);
+      }
+    });
+  },
+
+
+
+  generateAssignmentNumber2: function (data, callback) {
     var Model = this;
     var num = 1;
     var newNumber = 1;
@@ -705,12 +789,12 @@ var model = {
           if (err) {
             callback(err);
           } else {
-            if (data3 && moment(data3.createdAt).month() == moment(data2.createdAt).month() && moment(data3.createdAt).year() == moment(data2.createdAt).year() && data2.company.assignmentGeneration == "Monthly") {
-              newNumber = data3.assignmentNumber + 1;
-            } else if (data3 && moment(data3.createdAt).year() == moment(data2.createdAt).year() && data2.company.assignmentGeneration == "Yearly") {
-              newNumber = data3.assignmentNumber + 1;
-            }
-            data2.assignmentNumber = newNumber;
+            // if (data3 && moment(data3.createdAt).month() == moment(data2.createdAt).month() && moment(data3.createdAt).year() == moment(data2.createdAt).year() && data2.company.assignmentGeneration == "Monthly") {
+            //   newNumber = data3.assignmentNumber + 1;
+            // } else if (data3 && moment(data3.createdAt).year() == moment(data2.createdAt).year() && data2.company.assignmentGeneration == "Yearly") {
+            //   newNumber = data3.assignmentNumber + 1;
+            // }
+            // data2.assignmentNumber = newNumber;
             // var num = parseInt(newNumber);
             // len = 4;
             // if (isNaN(num) || isNaN(len)) {
@@ -802,20 +886,13 @@ var model = {
               if (err) {
                 callback(err, null);
               } else {
+                console.log("Branch", data9);
                 if (data9.seriesFormat == "yearly") {
                   var lastDay;
                   var firstDay;
-                  // .add(5, "hours").add(30, "minutes") On local Add 5:30 
-                  // var currentDateMonth = moment(new Date(data2.dateOfAppointment)).format("MM");                  
-                  // On Server
                   var currentDateMonth = moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM");
                   green(currentDateMonth);
                   if (currentDateMonth > 3) {
-                    // on Local 
-                    // lastDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).add(1, "year").format("YYYY"), "MM YYYY").toDate();
-                    // firstDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).format("YYYY"), "MM YYYY").toDate();
-
-                    // on Server
                     lastDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").add(1, "year").format("YYYY"), "MM YYYY").toDate();
                     firstDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YYYY"), "MM YYYY").toDate();
                     firstDay = moment(new Date(firstDay)).subtract(5, "hours").subtract(30, "minutes");
@@ -824,11 +901,6 @@ var model = {
 
                     console.log(".2....", lastDay, firstDay, data2.dateOfAppointment);
                   } else {
-                    // on Local 
-                    // lastDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).format("YYYY"), "MM YYYY").toDate();
-                    // firstDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).subtract(1, "year").format("YYYY"), "MM YYYY").toDate();
-
-                    // on Server
 
                     lastDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YYYY"), "MM YYYY").toDate();
                     firstDay = moment("04 " + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").subtract(1, "year").format("YYYY"), "MM YYYY").toDate();
@@ -851,6 +923,7 @@ var model = {
                       console.log("EEEEEEEEroo");
                       callback(err, null);
                     } else if (data8[1] != undefined) {
+                      green(data8[1].assignmentNumber);
                       var len = 4;
                       num = data8[1].assignmentNumber + 1;
                       green(num);
@@ -859,7 +932,7 @@ var model = {
                       while (num.length < len) {
                         num = '0' + num;
                       }
-                      data2.name = "In" + data2.company.companyCode + fourthDigit + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
+                      data2.name = "IN" + data2.company.companyCode + fourthDigit + "-" + nos + data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
                       data2.name1 = data2.branch.code + "-" + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YY") + moment(new Date(data2.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM") + "-" + num;
                       data2.save(function (err, data) {
                         if (err) {
@@ -869,6 +942,7 @@ var model = {
                         }
                       });
                     } else {
+                      console.log("Data", data8);
                       green("HIIIIIIIIIIIIIIIII");
                       var len = 4;
                       data2.assignmentNumber = num
@@ -910,6 +984,7 @@ var model = {
                       console.log("EEEEEEEEroo");
                       callback(err, null);
                     } else if (data8[1] != undefined) {
+                      green("data8[1]")
                       var len = 4;
                       console.log("data8[1].name", data8[1]);
                       var prevDate = moment(new Date(data8[1].dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM YYYY");
@@ -935,7 +1010,9 @@ var model = {
                           callback(null, data);
                         }
                       });
+
                     } else {
+
                       green("HIIIIIIIIIIIIIIIII");
                       var len = 4;
                       data2.assignmentNumber = num
@@ -1108,7 +1185,7 @@ var model = {
     var Search = Model.find(data.filter)
 
       .order(options)
-      .deepPopulate()
+      .deepPopulate("owner insurer insured city department")
       .keyword(options)
 
       .page(options, callback);
@@ -1137,51 +1214,51 @@ var model = {
   //    TASK LIST
   taskList: function (data, callback) {
     Assignment.aggregate([{
-      $lookup: {
-                            from: "cities",
-                            localField: "city",
-                            foreignField: "_id",
-                            as: "city"
-                        }
-    },{
+        $lookup: {
+          from: "cities",
+          localField: "city",
+          foreignField: "_id",
+          as: "city"
+        }
+      }, {
         $unwind: "$city"
-      },{
-                $lookup: {
-                    from: "districts",
-                    localField: "city.district",
-                    foreignField: "_id",
-                    as: "city.districts"
-                }
-            }, {
-                $unwind: "$city.districts"
-            }, {
-                $lookup: {
-                    from: "states",
-                    localField: "city.districts.state",
-                    foreignField: "_id",
-                    as: "city.districts.states"
-                }
-            }, {
-                $unwind: "$city.districts.states"
-            }, {
-                $lookup: {
-                    from: "zones",
-                    localField: "city.districts.states.zone",
-                    foreignField: "_id",
-                    as: "city.districts.states.zones"
-                }
-            }, {
-                $unwind: "$city.districts.states.zones"
-            }, {
-                $lookup: {
-                    from: "countries",
-                    localField: "city.districts.states.zones.country",
-                    foreignField: "_id",
-                    as: "city.districts.states.zones.country"
-                }
-            }, {
-                $unwind: "$city.districts.states.zones.country"
-            },
+      }, {
+        $lookup: {
+          from: "districts",
+          localField: "city.district",
+          foreignField: "_id",
+          as: "city.districts"
+        }
+      }, {
+        $unwind: "$city.districts"
+      }, {
+        $lookup: {
+          from: "states",
+          localField: "city.districts.state",
+          foreignField: "_id",
+          as: "city.districts.states"
+        }
+      }, {
+        $unwind: "$city.districts.states"
+      }, {
+        $lookup: {
+          from: "zones",
+          localField: "city.districts.states.zone",
+          foreignField: "_id",
+          as: "city.districts.states.zones"
+        }
+      }, {
+        $unwind: "$city.districts.states.zones"
+      }, {
+        $lookup: {
+          from: "countries",
+          localField: "city.districts.states.zones.country",
+          foreignField: "_id",
+          as: "city.districts.states.zones.country"
+        }
+      }, {
+        $unwind: "$city.districts.states.zones.country"
+      },
       {
         $unwind: "$survey"
       },
@@ -1199,14 +1276,14 @@ var model = {
           surveyDate: 1,
           address: 1,
           city: "$city.name",
-          district:"$city.districts.name",
-          state:"$city.districts.states.name",
-          zone:"$city.districts.states.zones.name",
-          country:"$city.districts.states.zones.country.name",
-          pincode:1,
-          siteEmail:1,
-          siteMobile:1,
-          siteNumber:1,
+          district: "$city.districts.name",
+          state: "$city.districts.states.name",
+          zone: "$city.districts.states.zones.name",
+          country: "$city.districts.states.zones.country.name",
+          pincode: 1,
+          siteEmail: 1,
+          siteMobile: 1,
+          siteNumber: 1,
           survey: 1
         }
       }
@@ -1220,92 +1297,97 @@ var model = {
   },
 
   // Declined
-  decline:function(data,callback){
+  decline: function (data, callback) {
     Assignment.update({
-      "survey._id": data.surveyId   
-    },{
-       $set: {
-         "survey.$.status": "Declined",
-         "survey.$.declineTime":Date.now(),
-         timelineStatus: "Pending",
-       }
+      "survey._id": data.surveyId
+    }, {
+      $set: {
+        "survey.$.status": "Declined",
+        "survey.$.declineTime": Date.now(),
+        timelineStatus: "Survey Pending",
+      }
     }).exec(function (err, found) {
-     
+
       if (err) {
         console.log(err);
         callback(err, null);
       } else {
-         var newChat={};
-      newChat.employee=data.empId,
-      newChat.type="Normal",
-      newChat.title="Has Declined the Assignment"
-      Timeline.update({
-        assignment:data.assignId
-      },{
-          $push:{
-            chat:newChat
+        var newChat = {};
+        newChat.employee = data.empId,
+          newChat.type = "Normal",
+          newChat.title = "Has Declined the Assignment"
+        Timeline.update({
+          assignment: data.assignId
+        }, {
+          $push: {
+            chat: newChat
           }
-      }).exec(function(err,data){
-        if(err){
-          red("Decline");
-          callback(err,null);
-        }else{
-          green("Decline");
-          callback(null,data);
-        }
-      });
+        }).exec(function (err, data) {
+          if (err) {
+            red("Decline");
+            callback(err, null);
+          } else {
+            green("Decline");
+            callback(null, data);
+          }
+        });
       }
     });
   },
 
   // Doc  Photos JIR
 
-  mobileSubmit: function (data,callback) {
+  mobileSubmit: function (data, callback) {
     // var ila ="ILA Pending";
-    var fileArray=[];
-    var docCount=0;
-     if(!_.isEmpty(data.doc)){
-       console.log("In Doc");
-    _.each(data.doc, function (n) {
-      n.fileName = Date.now(),
-        n.employee = data.empId,
-        fileArray[docCount]={ attachment:n.file,
-          message:"Document" },
-        docCount=docCount+1;
-    });
-  }
-    if(!_.isEmpty(data.photos)){
-       console.log("In Photos",data.photos);      
-    _.each(data.photos, function (n) {
-      n.fileName = Date.now(),
-        n.employee = data.empId,
-        fileArray[docCount]={ 
-          attachment:n.file,
-          message:"Photo" },
-        // console.log("aaaa",fileArray,n);
-        docCount=docCount+1;      
-    });
+    var fileArray = [];
+    var docCount = 0;
+    if (!_.isEmpty(data.doc)) {
+      console.log("In Doc");
+      _.each(data.doc, function (n) {
+        n.fileName = Date.now(),
+          n.employee = data.empId,
+          fileArray[docCount] = {
+            attachment: n.file,
+            message: "Document"
+          },
+          docCount = docCount + 1;
+      });
     }
-     if(!_.isEmpty(data.jir)){
-       console.log("In JIR",data.jir);
-       
-    _.each(data.jir, function (n) {
-      n.fileName = Date.now(),
-        n.employee = data.empId,
-        // ila="ILA Pending",
-        fileArray[docCount]={ attachment:n.file,
-          message:"JIR" },
-        docCount=docCount+1;
-    });
-     }
+    if (!_.isEmpty(data.photos)) {
+      console.log("In Photos", data.photos);
+      _.each(data.photos, function (n) {
+        n.fileName = Date.now(),
+          n.employee = data.empId,
+          fileArray[docCount] = {
+            attachment: n.file,
+            message: "Photo"
+          },
+          // console.log("aaaa",fileArray,n);
+          docCount = docCount + 1;
+      });
+    }
+    if (!_.isEmpty(data.jir)) {
+      console.log("In JIR", data.jir);
+
+      _.each(data.jir, function (n) {
+        n.fileName = Date.now(),
+          n.employee = data.empId,
+          // ila="ILA Pending",
+          fileArray[docCount] = {
+            attachment: n.file,
+            message: "JIR"
+          },
+          docCount = docCount + 1;
+      });
+    }
     Assignment.update({
-     "survey._id": data.surveyId  
+      "survey._id": data.surveyId
     }, {
       timelineStatus: "ILA Pending",
       $set: {
-         "survey.$.status": "Completed",
-         "survey.$.completionTime":Date.now()
-       },
+        "survey.$.status": "Completed",
+        "survey.$.completionTime": Date.now()
+      },
       $push: {
         docs: {
           $each: data.doc
@@ -1317,42 +1399,154 @@ var model = {
           $each: data.jir
         }
       },
-  }).exec(function (err, found) {
+    }).exec(function (err, found) {
       if (err) {
         console.log(err);
         callback(err, null);
-      } else  {
-        
-        var docArray=[];
-        var newChat={};
-      newChat.employee=data.empId,
-      newChat.type="Normal",
-      newChat.title="Survey Done"
-      _.each(fileArray,function(n){
-        n.employee=data.empId,
-        n.type="Normal",
-        n.title="Survey Done";
-      })
-      console.log("Final Count",fileArray);
-      Timeline.update({
-        assignment:data.assignId
-      },{
-          $push:{
-            chat:{
-              $each:fileArray
+      } else {
+
+        var docArray = [];
+        var newChat = {};
+        newChat.employee = data.empId,
+          newChat.type = "Normal",
+          newChat.title = "Survey Done"
+        _.each(fileArray, function (n) {
+          n.employee = data.empId,
+            n.type = "Normal",
+            n.title = "Survey Done";
+        })
+        console.log("Final Count", fileArray);
+        Timeline.update({
+          assignment: data.assignId
+        }, {
+          $push: {
+            chat: {
+              $each: fileArray
             }
           }
-      }).exec(function(err,data){
-        if(err){
-          callback(err,null);
-        }else{
-          green("Success");
-          callback(null,data);
-        }
-      });
-      } 
+        }).exec(function (err, data) {
+          if (err) {
+            callback(err, null);
+          } else {
+            green("Success");
+            callback(null, data);
+          }
+        });
+      }
     });
   },
+  getFourthDigit: function (data) {
+    var fourthDigit = "";
+    switch (data.typeOfClaim + "-" + data.isInsured) {
+      case "true-false":
+        {
+          fourthDigit = "0";
+          break;
+        }
+      case "true-true":
+        {
+          fourthDigit = "1";
+          break;
+        }
+      case "false-false":
+        {
+          fourthDigit = "2";
+          break;
+        }
+      case "false-true":
+        {
+          fourthDigit = "3";
+          break;
+        }
+    }
+    return fourthDigit;
+  },
+  getDate: function (data) {
+    if (data.dateMOY == "yearly") {
+      var newDate = "";
+      var currentDateMonth = moment(new Date(data.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM");
+      green(currentDateMonth);
+      if (currentDateMonth > 3) {
+        newDate = moment(new Date(data.dateOfAppointment)).add(5, "hours").add(30, "minutes").add(1, "year").format("YYYY");
+        console.log("New Date", newDate);
+      } else {
+        newDate = moment(new Date(data.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YYYY");
+        console.log("New Date", newDate);
+      }
+      return newDate;
+    } else {
+      var currentDateMonth = moment(new Date(data.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM-YYYY");
+      return currentDateMonth;
+    }
+  },
+
+  getSixthDigit: function (data, callback) {
+    Department.findOne({
+      _id: data.department
+    }, {
+      name: 1
+    }).exec(function (err, data2) {
+      if (err) {
+        return 0;
+      } else {
+        var sixthDigit = "";
+        switch (data.typeOfClaim + "-" + data2.name) {
+          case "false-Engineering":
+            {
+              sixthDigit = "40";
+              break;
+            }
+          case "false-Motor":
+            {
+              sixthDigit = "30";
+              break;
+            }
+          case "false-Pre Dispatch":
+            {
+              sixthDigit = "20";
+              break;
+            }
+          case "false-Pre Acceptance - Fire":
+            {
+              sixthDigit = "10";
+              break;
+            }
+          case "true-Engineering":
+            {
+              sixthDigit = "44";
+              break;
+            }
+          case "true-Fire":
+            {
+              sixthDigit = "11";
+              break;
+            }
+          case "true-Marine Cargo":
+            {
+              sixthDigit = "21";
+              break;
+            }
+          case "true-Misc":
+            {
+              sixthDigit = "48";
+              break;
+            }
+          case "true-Motor":
+            {
+              sixthDigit = "31";
+              break;
+            }
+          default:
+            {
+              sixthDigit = "00";
+              break;
+            }
+        }
+        callback(null, sixthDigit);
+      }
+    })
+  },
+
 };
 
 module.exports = _.assign(module.exports, exports, model);

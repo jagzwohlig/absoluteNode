@@ -99,6 +99,19 @@ var model = {
         }
 
     },
+    getBillingType: function (data, callback) {
+        Branch.findOne({
+            _id: data
+        }).exec(function (err, found) {
+            if (err) {
+                console.log(err);
+                callback(err, null);
+            } else {
+                console.log("Found Result ", found);
+                callback(err,found);
+            }
+        });
+    },
 };
 
 module.exports = _.assign(module.exports, exports, model);
