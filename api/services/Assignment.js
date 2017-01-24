@@ -48,7 +48,7 @@ var schema = new Schema({
   }],
   timelineStatus: {
     type: String,
-    enum: ["Survey Pending", "JIR Pending", "ILA Pending", "LOR Pending"],
+    enum: ["Survey Pending","Survey Assigned","ILA Pending", "LOR Pending"],
     default: "Survey Pending"
   },
   brokerClaimId: {
@@ -922,7 +922,7 @@ var model = {
     Assignment.update({
       _id: data._id
     }, {
-      timelineStatus: "JIR Pending",
+      timelineStatus: "Survey Assigned",
       $push: {
         survey: data.survey
       }
@@ -1042,7 +1042,8 @@ var model = {
         var newChat = {};
         newChat.employee = data.empId,
           newChat.type = "Normal",
-          newChat.title = "Has Declined the Assignment"
+          newChat.title = "Has Declined the Assignment",
+          newChat.message =data.message
         Timeline.update({
           assignment: data.assignId
         }, {
@@ -1065,6 +1066,7 @@ var model = {
   // Doc  Photos JIR
 
   mobileSubmit: function (data, callback) {
+    console.log("Data ",data);
     var fileArray = [];
     var docCount = 0;
     if (!_.isEmpty(data.doc)) {
@@ -1134,10 +1136,10 @@ var model = {
         newChat.employee = data.empId,
           newChat.type = "SurveyDone",
           newChat.title = "Survey Done",
-          newChat.surveyEndTime=data.surveyEndTime,
-          newChat.surveyStartTime=data.surveyStartTime,
-          newChat.surveyDate=data.surveyDate,
-          newChat.address=data.address
+          newChat.surveyEndTime=new Date(data.endTime),
+          newChat.surveyStartTime=new Date(data.startTime),
+          newChat.surveyDate=new Date(data.surveyDate),
+          newChat.address=data.address,
         _.each(fileArray, function (n) {
           n.employee = data.empId,
             n.type = "Normal",
