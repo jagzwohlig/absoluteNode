@@ -22,12 +22,6 @@ var schema = new Schema({
             ref: "Employee",
             index: true
         },
-        // employee: {
-        //     type: Schema.Types.ObjectId,
-        //     ref: "User",
-        //     index: true,
-        //     key: "timeline"
-        // },
         title: {
             type: String
         },
@@ -37,7 +31,7 @@ var schema = new Schema({
         },
         type: {
             type: String,
-            enum: ["Email", "Normal"]
+            enum: ["Email", "Normal","SurveyDone"]
         },
         message: {
             type: String
@@ -47,6 +41,18 @@ var schema = new Schema({
         },
         attachment: {
             type: []
+        },
+        surveyEndTime:{
+            type:Date
+        },
+        surveyStartTime:{
+            type:Date
+        },
+        surveyDate:{
+            type:Date
+        },
+        address:{
+            type:String
         }
     }]
 });
