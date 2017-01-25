@@ -722,8 +722,8 @@ var model = {
               nos: data.nos,
               billingPeriod: data.billingPeriod
             }).sort({
-                    assignmentNumber: -1
-                }).exec(function (err, assignmentNo) {
+              assignmentNumber: -1
+            }).exec(function (err, assignmentNo) {
               if (err) {
                 callback(err, null);
               } else if (assignmentNo.length == 0) {
@@ -742,7 +742,7 @@ var model = {
                   }
                 });
               } else {
-                data.assignmentNumber=assignmentNo[0].assignmentNumber+1
+                data.assignmentNumber = assignmentNo[0].assignmentNumber + 1
                 var num = data.assignmentNumber;
                 num = '' + num;
                 while (num.length < 4) {
@@ -917,12 +917,11 @@ var model = {
       }
     });
     var Search = Model.find(data.filter)
-
       .order(options)
       .deepPopulate("owner insuredOffice insurerOffice city department")
       .keyword(options)
 
-      .page(options, callback);
+    .page(options, callback);
 
   },
   updateSurveyor: function (data, callback) {
@@ -948,80 +947,76 @@ var model = {
   //    TASK LIST
   taskList: function (data, callback) {
     Assignment.aggregate([{
-        $lookup: {
-          from: "cities",
-          localField: "city",
-          foreignField: "_id",
-          as: "city"
-        }
-      }, {
-        $unwind: "$city"
-      }, {
-        $lookup: {
-          from: "districts",
-          localField: "city.district",
-          foreignField: "_id",
-          as: "city.districts"
-        }
-      }, {
-        $unwind: "$city.districts"
-      }, {
-        $lookup: {
-          from: "states",
-          localField: "city.districts.state",
-          foreignField: "_id",
-          as: "city.districts.states"
-        }
-      }, {
-        $unwind: "$city.districts.states"
-      }, {
-        $lookup: {
-          from: "zones",
-          localField: "city.districts.states.zone",
-          foreignField: "_id",
-          as: "city.districts.states.zones"
-        }
-      }, {
-        $unwind: "$city.districts.states.zones"
-      }, {
-        $lookup: {
-          from: "countries",
-          localField: "city.districts.states.zones.country",
-          foreignField: "_id",
-          as: "city.districts.states.zones.country"
-        }
-      }, {
-        $unwind: "$city.districts.states.zones.country"
-      },
-      {
-        $unwind: "$survey"
-      },
-      {
-        $match: {
-          "survey.employee": objectid(data.id),
-          "survey.status": "Pending"
-        }
-      },
-      {
-        $limit: 30
-      }, {
-        $project: {
-          name: 1,
-          surveyDate: 1,
-          address: 1,
-          city: "$city.name",
-          district: "$city.districts.name",
-          state: "$city.districts.states.name",
-          zone: "$city.districts.states.zones.name",
-          country: "$city.districts.states.zones.country.name",
-          pincode: 1,
-          siteEmail: 1,
-          siteMobile: 1,
-          siteNumber: 1,
-          survey: 1
-        }
+      $lookup: {
+        from: "cities",
+        localField: "city",
+        foreignField: "_id",
+        as: "city"
       }
-    ], function (err, data1) {
+    }, {
+      $unwind: "$city"
+    }, {
+      $lookup: {
+        from: "districts",
+        localField: "city.district",
+        foreignField: "_id",
+        as: "city.districts"
+      }
+    }, {
+      $unwind: "$city.districts"
+    }, {
+      $lookup: {
+        from: "states",
+        localField: "city.districts.state",
+        foreignField: "_id",
+        as: "city.districts.states"
+      }
+    }, {
+      $unwind: "$city.districts.states"
+    }, {
+      $lookup: {
+        from: "zones",
+        localField: "city.districts.states.zone",
+        foreignField: "_id",
+        as: "city.districts.states.zones"
+      }
+    }, {
+      $unwind: "$city.districts.states.zones"
+    }, {
+      $lookup: {
+        from: "countries",
+        localField: "city.districts.states.zones.country",
+        foreignField: "_id",
+        as: "city.districts.states.zones.country"
+      }
+    }, {
+      $unwind: "$city.districts.states.zones.country"
+    }, {
+      $unwind: "$survey"
+    }, {
+      $match: {
+        "survey.employee": objectid(data.id),
+        "survey.status": "Pending"
+      }
+    }, {
+      $limit: 30
+    }, {
+      $project: {
+        name: 1,
+        surveyDate: 1,
+        address: 1,
+        city: "$city.name",
+        district: "$city.districts.name",
+        state: "$city.districts.states.name",
+        zone: "$city.districts.states.zones.name",
+        country: "$city.districts.states.zones.country.name",
+        pincode: 1,
+        siteEmail: 1,
+        siteMobile: 1,
+        siteNumber: 1,
+        survey: 1
+      }
+    }], function (err, data1) {
       if (err) {
         callback(err, null);
       } else {
@@ -1284,6 +1279,185 @@ var model = {
         callback(null, sixthDigit);
       }
     })
+  },
+
+  getAll: function (data, callback) {
+    if (data.timelineStatus == "All") {
+      data.timelineStatus = {
+        $regex: ''
+      }
+    }
+
+    if (data.ownerStatus == "My files") {
+      var ownerStatus = {
+        'owner._id': objectid(data.owner)
+      };
+    } else if (data.ownerStatus == "Shared with me") {
+
+    } else if (data.ownerStatus == "All files") {
+      var ownerStatus = undefined
+    }
+    console.log("owner", data.ownerStatus, ownerStatus);
+
+    var pageStartFrom = (data.pagenumber - 1) * data.pagelimit;
+    async.parallel([
+
+      //get assignment
+      function (callback) {
+        Assignment.aggregate([{
+          $lookup: {
+            from: "employees",
+            localField: "owner",
+            foreignField: "_id",
+            as: "owner"
+          }
+        }, {
+          $unwind: "$owner"
+        }, {
+          $lookup: {
+            from: "cities",
+            localField: "city",
+            foreignField: "_id",
+            as: "city"
+          }
+        }, {
+          $unwind: "$city"
+        }, {
+          $lookup: {
+            from: "customers",
+            localField: "insurerOffice",
+            foreignField: "_id",
+            as: "insurer"
+          }
+        }, {
+          $unwind: "$insurer"
+        }, {
+          $lookup: {
+            from: "customers",
+            localField: "insuredOffice",
+            foreignField: "_id",
+            as: "insurerd"
+          }
+        }, {
+          $unwind: "$insurerd"
+        }, {
+          $lookup: {
+            from: "departments",
+            localField: "department",
+            foreignField: "_id",
+            as: "department"
+          }
+        }, {
+          $unwind: "$department"
+        }, {
+          $match: {
+            $and:[{
+              timelineStatus: data.timelineStatus,
+              ownerStatus,
+            }]
+            
+          }
+        }, {
+          $sort: {
+            createdAt: -1
+          }
+        }, {
+          $skip: parseInt(pageStartFrom)
+        }, {
+          $limit: data.pagelimit
+        }, {
+          $project: {
+            _id: 1,
+            name: 1,
+            insurerName: "$insurer.name",
+            insurerdName: "$insurerd.name",
+            depratment: "$department.name",
+            city: "$city.name",
+            intimatedLoss: 1,
+            timelineStatus: 1,
+            status: 1
+          }
+        }], function (err, data1) {
+          if (err) {
+            console.log("err", err);
+            callback(null, data1);
+          } else {
+            callback(null, data1);
+          }
+        });
+      },
+
+      //get all assignment count
+      function (callback) {
+        Assignment.aggregate([{
+          $lookup: {
+            from: "cities",
+            localField: "city",
+            foreignField: "_id",
+            as: "city"
+          }
+        }, {
+          $unwind: "$city"
+        }, {
+          $lookup: {
+            from: "customers",
+            localField: "insurerOffice",
+            foreignField: "_id",
+            as: "insurer"
+          }
+        }, {
+          $unwind: "$insurer"
+        }, {
+          $lookup: {
+            from: "customers",
+            localField: "insuredOffice",
+            foreignField: "_id",
+            as: "insurerd"
+          }
+        }, {
+          $unwind: "$insurerd"
+        }, {
+          $lookup: {
+            from: "departments",
+            localField: "department",
+            foreignField: "_id",
+            as: "department"
+          }
+        }, {
+          $unwind: "$department"
+        }, {
+          $group: {
+            _id: null,
+            count: {
+              $sum: 1
+            }
+          }
+        }], function (err, data1) {
+          if (err) {
+            console.log("err", err);
+            callback(null, data1);
+          } else {
+            callback(null, data1);
+          }
+        });
+      },
+
+    ], function (err, data3) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else {
+        if (_.isEmpty(data3[0])) {
+          callback(null, []);
+        } else {
+          var data4 = {};
+          data4.results = data3[0];
+          data4.total = data3[1][0].count;
+          callback(null, data4);
+        }
+      }
+    });
+
   },
 
 };
