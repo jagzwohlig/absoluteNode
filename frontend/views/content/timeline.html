@@ -30,7 +30,7 @@
                             <button class="btn btn-green btn-round pull-right mt-5" ng-click="newMessage();"><i class="ln-comments"></i> Send Message</button>
                         </div>
                         <div class="compny">
-                            <h3><span class="dif">{{assignment.city.name}},<b>{{assignment.city.district.name}}</b>,<br>{{assignment.city.district.state.name}},<b>{{assignment.city.district.state.zone.name}}</b>,{{assignment.city.district.state.zone.country.name}}</span></h3>
+                            <h3><span class="dif">{{assignment.city.name}},<b>{{assignment.city.district.name}}</b>,<br>{{assignment.city.district.state.name}},<b>{{assignment.city.district.state.zone.name}}</b>,{{assignment.city.district.state.zone.country.name}}-{{assignment.pincode}}</span></h3>
                             <p>{{assignment.name}}</p>
                             <p ng-if="assignment.causeOfLoss">{{assignment.causeOfLoss.name}} - <span ng-repeat="nl in assignment.natureOfLoss">{{nl.name}}<span ng-if="$index < assignment.natureOfLoss.length - 1">, </span></span>
                             </p>
@@ -155,12 +155,31 @@
                                                     </div>
                                                     <div class="post-content bg-join" ng-if="chat.type=='Normal'">
                                                         <div class="img-view">
-                                                             <p ng-bind-html="chat.message"></p>
-                                                        <div ng-if="chat.attachment.length!==0">
-                                                            <img ng-src="{{chat.attachment|uploadpath:300:300}}" alt="{{chat.employee.name}}" />
+                                                            <p ng-bind-html="chat.message"></p>
+                                                            <div ng-if="chat.attachment.length!==0">
+                                                                <img ng-src="{{chat.attachment|uploadpath:300:300}}" alt="{{chat.employee.name}}" />
+                                                            </div>
                                                         </div>
-                                                        </div>
-                                                       
+                                                    </div>
+                                                    <div class="post-content bg-join" ng-if="chat.type=='SurveyDone'">
+                                                        <table class="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="text-center">Date Of Survey</th>
+                                                                    <th class="text-center">Start Time</th>
+                                                                    <th class="text-center">End Time</th>
+                                                                    <th class="text-center">Address</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>{{chat.surveyDate|date:"ddMMMyyyy, EEEE"}}</td>
+                                                                    <td>{{chat.surveyStartTime|date:"hh:mm a"}}</td>
+                                                                    <td>{{chat.surveyEndTime|date:"hh:mm a"}}</td>                                                                    
+                                                                    <td>{{chat.address}}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
                                                     </div>
                                                     <div class="post-content" ng-if="chat.type=='Template'">
                                                         <p>View Template <a ng-click="templateAttachment(chat.attachment)"><b>Here</b></a></p>
@@ -186,7 +205,6 @@
                                                     <span class="user-device"></span>
                                                     <div class="user-activity emailed mt-10">
                                                         <div class="who-post-this">
-                                                            
                                                             <span><img ng-src="{{chat.employee.photo|uploadpath:300:300}}" alt="{{chat.employee.name}}" /></span>
                                                             <div class="who-post-detail">
                                                                 <h3>{{chat.employee.name}} <span class="vsmall">{{chat.employee.func.name}}</span>
