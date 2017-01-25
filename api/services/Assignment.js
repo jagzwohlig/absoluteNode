@@ -48,7 +48,7 @@ var schema = new Schema({
   }],
   timelineStatus: {
     type: String,
-    enum: ["Survey Pending","Survey Assigned","ILA Pending", "LOR Pending"],
+    enum: ["Survey Pending","Survey Assigned","ILA Pending", "LOR Pending","Dox Pending","Assessment Pending"],
     default: "Survey Pending"
   },
   brokerClaimId: {
@@ -805,6 +805,12 @@ var model = {
   },
   editAssignmentTemplate: function (body, callback) {
     var Model = this;
+    var timelStatus="";    
+    if(body.type=="templateIla"){
+      timelStatus="LOR Pending";
+    }else if(body.type=="templateLor"){
+      timelStatus="Dox Pending";      
+    }
     var $scope = {};
     var data2 = _.cloneDeep(body);
     delete data2.assignment;
@@ -825,7 +831,8 @@ var model = {
     var setObj = {};
     setObj[body.type + ".$"] = data2;
     Model.update(findObj, {
-      "$set": setObj
+      "$set": setObj,
+      timelineStatus:timelStatus
     }, function (err, data3) {
       if (err) {
         callback(err, null);
@@ -912,7 +919,7 @@ var model = {
     var Search = Model.find(data.filter)
 
       .order(options)
-      .deepPopulate("owner insurer insured city department")
+      .deepPopulate("owner insuredOffice insurerOffice city department")
       .keyword(options)
 
       .page(options, callback);
