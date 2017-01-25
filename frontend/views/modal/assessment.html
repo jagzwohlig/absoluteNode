@@ -11,7 +11,8 @@
     <form name="companyForm" ng-submit="saveCompany(formData)" ng-if="showCreate">
         <div class="form-group">
             <label>Upload Assessment</label>
-            <upload-image ng-model="assessment.file" ng-callback="onFileUploadCallback(assessment)" no-view></upload-image>
+            <upload-image-new ng-model="img" ng-callback="onAssessmentUploadCallback(img,length)" multiple no-view></upload-image-new>
+            <!--<upload-image ng-model="assessment.file" ng-callback="onFileUploadCallback(assessment)" no-view></upload-image>-->
         </div>
     </form>
     <div class="field">

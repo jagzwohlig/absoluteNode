@@ -48,7 +48,7 @@ var schema = new Schema({
   }],
   timelineStatus: {
     type: String,
-    enum: ["Survey Pending","Survey Assigned","ILA Pending", "LOR Pending","Dox Pending","Assessment Pending"],
+    enum: ["Survey Pending","Survey Assigned","ILA Pending", "LOR Pending","Dox Pending","Assessment Pending","Consent Pending"],
     default: "Survey Pending"
   },
   brokerClaimId: {

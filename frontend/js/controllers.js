@@ -9227,6 +9227,12 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
         $scope.saveAssignment = function (otherInfo) {
+            if(otherInfo==="Assessment"){
+                $scope.assignment.timelineStatus="Consent Pending";
+            }else if(otherInfo==="Docs"){
+                console.log("In Docs")
+                $scope.assignment.timelineStatus="Assessment Pending";
+            }
             NavigationService.assignmentSave($scope.assignment, function (data) {
                 if (data.value === true) {
                     $scope.message.title = otherInfo + " Uploaded.";
@@ -9238,7 +9244,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
-        $scope.onFileUploadCallback = function (data) {
+        $scope.onFileUploadCallback1 = function (data) {
             if (data.file) {
                 if (!$scope.assignment.assessment) {
                     $scope.assignment.assessment = [];
@@ -9318,6 +9324,33 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 });
                 $scope.arr = [];
                 $scope.saveAssignment("Photo");
+                console.log("After Save", $scope.arr);
+
+            } else {
+                $scope.arr.push(data);
+                $scope.checker++;
+            }
+        };
+        $scope.onAssessmentUploadCallback= function (data, length) {
+            if ($scope.checker === length) {
+                $scope.arr.push(data);
+                $scope.checker = 1;
+                // if (!$scope.assignment.photos) {
+                //     console.log("As blank");
+                //     $scope.assignment.photos = [];
+                // }
+
+                // $scope.message.attachment = [];
+                var array = _.cloneDeep($scope.arr);
+                var newArray = _.each($scope.arr, function (n) {
+                    a.employee = $scope.assessment.employee,
+                        a.file = n,
+                        a.fileName = Date.now();
+                    $scope.assignment.assessment.push(_.cloneDeep(a));
+
+                });
+                $scope.arr = [];
+                $scope.saveAssignment("Assessment");
                 console.log("After Save", $scope.arr);
 
             } else {
