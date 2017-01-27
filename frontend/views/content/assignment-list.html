@@ -5,6 +5,23 @@
                 <h2>Assignment List</h2>
             </div>
         </div>
+        <div>
+            
+            <label>
+                
+    <input type="radio" ng-model="accessLevel.name" value="allAssignment" ng-click="showAll(true)">
+    All Assignment
+  </label>
+            <label>
+    <input type="radio" ng-model="accessLevel.name" value="green" ng-click="MyFiles()">
+    My Assignment
+  </label>
+            <label>
+    <!--<input type="radio" ng-model="accessLevel.name" value="blue">
+    ShareWith Me
+  </label>-->
+ 
+        </div>
     </div>
 </div>
 <!-- Top Bar Chart -->
@@ -37,16 +54,14 @@
                                         #
                                     </th>
                                     <th>MR Number</th>
-                                    <th>Owner</th>                                    
+                                    <th>Owner</th>
                                     <th>Insurer</th>
                                     <th>Insured</th>
                                     <th>Site City</th>
                                     <th>Nature Of Survey</th>
-                                    <th>Estimated Loss</th>                                    
+                                    <th>Estimated Loss</th>
                                     <th>Status</th>
-                                    
                                     <th>Actions</th>
-
                                 </tr>
                             </thead>
                             <tbody>
@@ -60,7 +75,7 @@
                                     <td>{{data.insuredOffice.name}}</td>
                                     <td>{{data.city.name}}</td>
                                     <td>{{data.department.name}}</td>
-                                    <td>{{data.intimatedLoss}}</td>                                    
+                                    <td>{{data.intimatedLoss}}</td>
                                     <td>
                                         {{data.timelineStatus}}
                                         <!--<toggle-switch ng-model="data.status" class="switch-mini switch-success" ng-change="changeStatus(data)"></toggle-switch>-->

@@ -372,14 +372,12 @@ var model = {
 
     // End
      getLoginEmployee: function (data, callback) {
-         console.log("Email",data);
         Employee.findOne({
             officeEmail: data.email
         }).exec(function (err, found) {
             if (err) {
                 callback(err, null);
             } else {
-                console.log("OUTPUT",found);
                 callback(null, found);
             }
         })

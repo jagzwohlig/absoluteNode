@@ -153,12 +153,17 @@
                                                             <i>{{chat.time|date:"ddMMMyyyy, EEEE, hh:mm"}}</i>
                                                         </div>
                                                     </div>
-                                                    <div class="post-content bg-join" ng-if="chat.type=='Normal'">
+                                                    <div class="post-content bg-join" ng-if="chat.type=='Normal' && (chat.attachment.length!==0 || chat.message)">
                                                         <div class="img-view">
                                                             <p ng-bind-html="chat.message"></p>
                                                             <div ng-if="chat.attachment.length!==0">
                                                                 <img ng-src="{{chat.attachment|uploadpath:300:300}}" alt="{{chat.employee.name}}" />
                                                             </div>
+                                                            <div ng-if="chat.attachment.length!==0">
+                                                            <a class="btn btn-primary" download="{{chat.attachment}}" ng-href="{{chat.attachment|downloadImage}}">
+                                                                <i class="ln-download"></i>
+                                                            </a>
+                                                </div>
                                                         </div>
                                                     </div>
                                                     <div class="post-content bg-join" ng-if="chat.type=='SurveyDone'">
@@ -175,7 +180,7 @@
                                                                 <tr>
                                                                     <td>{{chat.surveyDate|date:"ddMMMyyyy, EEEE"}}</td>
                                                                     <td>{{chat.surveyStartTime|date:"hh:mm a"}}</td>
-                                                                    <td>{{chat.surveyEndTime|date:"hh:mm a"}}</td>                                                                    
+                                                                    <td>{{chat.surveyEndTime|date:"hh:mm a"}}</td>
                                                                     <td>{{chat.address}}</td>
                                                                 </tr>
                                                             </tbody>

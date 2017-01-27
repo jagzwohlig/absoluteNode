@@ -3,7 +3,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     .controller('DashboardCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64) {
         //Used to name the .html file
-        $scope.Arr=[];
+        $scope.Arr = [];
         $scope.template = TemplateService.changecontent("dashboard");
         $scope.menutitle = NavigationService.makeactive("Dashboard");
         TemplateService.title = $scope.menutitle;
@@ -12,11 +12,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         //     console.log("Dashboard",data);
         //     $scope.Arr=data.data;
         // })
-        NavigationService.getDashboardCounts(function(data){
+        NavigationService.getDashboardCounts(function (data) {
             // console.log("Dashboard",data);
-            $scope.Arr=data.data;
+            $scope.Arr = data.data;
         });
-        $scope.colors = ["red","pink","sky","purple","red","pink","sky","purple"];
+        $scope.colors = ["red", "pink", "sky", "purple", "red", "pink", "sky", "purple"];
 
     })
 
@@ -182,8 +182,28 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         _.each(a, function (n) {
             $scope.ModelApi = $scope.ModelApi + n;
         });
-
-
+        var ownerId = "";
+        NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
+            ownerId = data.data._id;
+        });
+   
+        $scope.MyFiles = function(){
+            console.log("In MyFiles",ownerId);
+            NavigationService.searchModel($scope.ModelApi, {
+                page: $scope.currentPage,
+                keyword: $scope.search.keyword,
+                filter:{
+                    owner:ownerId
+                }
+            }, ++i, function (data, ini) {
+                if (ini == i) {
+                    $scope.modelList = data.data.results;
+                    $scope.totalItems = data.data.total;
+                    $scope.maxRow = data.data.options.count;
+                    console.log("modelList", $scope.modelList);
+                }
+            });
+        };
         hotkeys.bindTo($scope).add({
             combo: 'enter',
             description: 'This one goes to 11',
@@ -191,10 +211,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $state.go("create" + $scope.modelCamel);
             }
         });
-
         $scope.modelCap = _.capitalize($stateParams.model);
         $scope.modelLow = _.lowerCase($stateParams.model);
-
         $scope.template = TemplateService.changecontent($scope.modelCamel + "-list");
         $scope.menutitle = NavigationService.makeactive($scope.modelCap + " List");
         TemplateService.title = $scope.menutitle;
@@ -211,6 +229,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         }
 
         // 
+            console.log("OwnerId",ownerId);
+        
         $scope.showAll = function (keywordChange) {
             $scope.totalItems = undefined;
             if (keywordChange) {
@@ -218,7 +238,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             }
             NavigationService.searchModel($scope.ModelApi, {
                 page: $scope.currentPage,
-                keyword: $scope.search.keyword
+                keyword: $scope.search.keyword,
             }, ++i, function (data, ini) {
                 if (ini == i) {
                     $scope.modelList = data.data.results;
@@ -630,8 +650,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.formData.vehicleNumber = [];
         $scope.formData.others = [];
         $scope.formData.shareWith = [];
-        $scope.formData.locationArr = []; 
-        $scope.formData.product = [];         
+        $scope.formData.locationArr = [];
+        $scope.formData.product = [];
         $scope.modalData = {};
         $scope.modalIndex = "";
         $scope.wholeObj = [];
@@ -692,7 +712,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.formData.vehicleNumber = [];
                 $scope.formData.others = [];
                 $scope.formData.product = [];
-                $scope.formData.locationArr = [];                
+                $scope.formData.locationArr = [];
                 delete $scope.formData.siteNumber;
                 delete $scope.formData.siteMobile;
                 delete $scope.formData.siteEmail;
@@ -706,18 +726,18 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
         //$scope.ownerEmail = $.jStorage.get("profile").email;
         var owner = $.jStorage.get("profile").email;
-        console.log("owner : ",  $scope.ownerEmail);
+        console.log("owner : ", $scope.ownerEmail);
         NavigationService.getEmployeeOfficeEmail({
-            officeEmail:  $scope.ownerEmail 
+            officeEmail: owner
         }, 1, function (data) {
             $scope.formData.ownerid = data.data._id;
             // $scope.formData.owner = data.data.name;
             $scope.formData.owner = data.data.officeEmail;
-            console.log("formdata : ",$scope.formData.owner);
-            
+            console.log("formdata : ", $scope.formData.owner);
+
         });
         // $scope.formData.owner = $scope.ownerEmail;
-        console.log("formdata ownerid : ",$scope.formData.ownerid);
+        console.log("formdata ownerid : ", $scope.formData.ownerid);
 
         console.log($stateParams);
         if ($stateParams.emailId) {
@@ -785,7 +805,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             } else {
                 console.log("In Assignment else", moddata);
                 $scope.newjson = moddata;
-                console.log("$scope.newjson",$scope.newjson);
+                console.log("$scope.newjson", $scope.newjson);
                 var a = moddata;
                 switch ($scope.holdObject) {
                     case "invoice":
@@ -825,7 +845,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         break;
                     case "Product":
                         $scope.formData.product.push(moddata);
-                        break;    
+                        break;
                     default:
                         {
                             $scope.wholeObj.push($scope.newjson);
@@ -1014,7 +1034,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         break;
                     case "Product":
                         $scope.formData.product.push(moddata);
-                        break;    
+                        break;
                     default:
                         {
                             $scope.wholeObj.push($scope.newjson);
@@ -8594,7 +8614,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.tempt = $stateParams.type;
         NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
             $scope.message.employee = data.data;
-            console.log("In Employee",$scope.employee,data);
+            console.log("In Employee", $scope.employee, data);
         });
         if ($stateParams.assignmentTemplate === "") {
             NavigationService.getOneModel($stateParams.type, $stateParams.template, function (data) {
@@ -8710,7 +8730,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.surveyDate;
         $scope.getAllSurveyors = [];
         $scope.finalSurveyors = [];
-        $scope.assignment={};
+        $scope.assignment = {};
         $scope.checker = 1;
         $scope.emailtos = [{
             name: 'Mahesh',
@@ -8755,7 +8775,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             formdata.surveyDate = date;
             formdata._id = $stateParams.id;
             NavigationService.assignmentSave(formdata, function (data) {
-                console.log("Survey Date Saved",data);
+                console.log("Survey Date Saved", data);
                 $scope.getAssignmentData();
             });
         };
@@ -8764,24 +8784,24 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.getAssignmentData = function () {
             console.log("surveyDate", $scope.surveyDate);
             NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
-                $scope.assignment=data.data;
-                console.log("$scope.assignment",$scope.assignment);
+                $scope.assignment = data.data;
+                console.log("$scope.assignment", $scope.assignment);
                 NavigationService.getNearestOffice(data.data, function (data) {
                     $scope.getAllSurveyors = data.data;
-                    console.log("Success On GetNearest Survayer", $scope.getAllSurveyors,data);
-                    var arr=[];
-                    _.each(data.data,function(n){
-                        var m={};
-                        m.ForDate=moment(new Date(n.date)).add(5, "hours").add(30, "minutes").format("DD/MM/YYYY"),
-                        m.Email=n.officeEmail,
-                        m._id=n._id,
-                        arr.push(m);
+                    console.log("Success On GetNearest Survayer", $scope.getAllSurveyors, data);
+                    var arr = [];
+                    _.each(data.data, function (n) {
+                        var m = {};
+                        m.ForDate = moment(new Date(n.date)).add(5, "hours").add(30, "minutes").format("DD/MM/YYYY"),
+                            m.Email = n.officeEmail,
+                            m._id = n._id,
+                            arr.push(m);
                     });
-                    console.log("array to pass",arr);
+                    console.log("array to pass", arr);
                     //    Consider Api Reply
                     NavigationService.thirdPartyApi(arr, function (data) {
-                    console.log("Data OUTPUT",data);
-                });
+                        console.log("Data OUTPUT", data);
+                    });
                     $scope.displayFinalSurveyor();
                 });
 
@@ -8823,11 +8843,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.updateAssignmentEmployee = function (empId) {
             var assignment = {};
             assignment._id = $stateParams.id,
-            assignment.survey={
-                employee:empId
-            }
-            
-            console.log("Assignment Survey",assignment);
+                assignment.survey = {
+                    employee: empId
+                }
+
+            console.log("Assignment Survey", assignment);
             NavigationService.updateSurveyor(assignment, function (data) {
                 console.log("Success Assignment Survey", data);
             });
@@ -8835,15 +8855,15 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         $scope.surveyorAssigned = false;
         $scope.afterSurveyAssign = function (employee) {
-            console.log("BEFORE",$scope.message.employee,$scope.message.title);            
-            $scope.message.employee=employee;
-            $scope.message.title="Assigned To";
-            console.log("AFTER",$scope.message.employee,$scope.message.title);
-           
+            console.log("BEFORE", $scope.message.employee, $scope.message.title);
+            $scope.message.employee = employee;
+            $scope.message.title = "Assigned To";
+            console.log("AFTER", $scope.message.employee, $scope.message.title);
+
             $scope.surveyorAssigned = true;
             $scope.modalInstance.close();
             $timeout(function () {
-                 $scope.sendMessage("Normal");
+                $scope.sendMessage("Normal");
                 $state.reload();
             }, 1000);
         };
@@ -8984,7 +9004,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 size: 'lg'
             });
         };
-         $scope.viewJIR = function () {
+        $scope.viewJIR = function () {
             var modalInstance = $uibModal.open({
                 scope: $scope,
                 templateUrl: '/frontend/views/modal/new-jir.html',
@@ -9128,9 +9148,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.photo = {};
         $scope.showCreate = false;
         NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
-        // NavigationService.getOneModel("User", $.jStorage.get("profile")._id, function (data) {
+            // NavigationService.getOneModel("User", $.jStorage.get("profile")._id, function (data) {
             $scope.message.employee = data.data;
-            console.log("In Employee",$scope.employee,data);
+            console.log("In Employee", $scope.employee, data);
             $scope.assessment.employee = $scope.employee.employee;
             $scope.photo.employee = $scope.employee.employee;
             $scope.doc.employee = $scope.employee.employee;
@@ -9138,15 +9158,15 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.getTimeline = function () {
             NavigationService.getOneModel("Timeline", $scope.timelineID, function (data) {
                 $scope.timeline = data.data;
-                console.log("ABCD", data.data,$scope.timelineID);
+                console.log("ABCD", data.data, $scope.timelineID);
             });
         };
         $scope.sendMessage = function (type) {
-            console.log("ABC",$scope.timeline);
+            console.log("ABC", $scope.timeline);
             $scope.message.type = type;
             $scope.timeline.chat.push($scope.message);
             NavigationService.saveChat($scope.timeline, function (data) {
-                console.log("FFFFF",data);
+                console.log("FFFFF", data);
                 $scope.getTimeline();
             });
         };
@@ -9227,11 +9247,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
         $scope.saveAssignment = function (otherInfo) {
-            if(otherInfo==="Assessment"){
-                $scope.assignment.timelineStatus="Consent Pending";
-            }else if(otherInfo==="Docs"){
+            if (otherInfo === "Assessment") {
+                $scope.assignment.timelineStatus = "Consent Pending";
+            } else if (otherInfo === "Docs") {
                 console.log("In Docs")
-                $scope.assignment.timelineStatus="Assessment Pending";
+                $scope.assignment.timelineStatus = "Assessment Pending";
             }
             NavigationService.assignmentSave($scope.assignment, function (data) {
                 if (data.value === true) {
@@ -9331,7 +9351,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.checker++;
             }
         };
-        $scope.onAssessmentUploadCallback= function (data, length) {
+        $scope.onAssessmentUploadCallback = function (data, length) {
             if ($scope.checker === length) {
                 $scope.arr.push(data);
                 $scope.checker = 1;

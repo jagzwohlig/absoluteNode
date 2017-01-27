@@ -794,7 +794,6 @@ var navigationservice = angular.module('navigationservice', [])
         },
         
         getLoginEmployee: function (email, callback) {
-            console.log("Data",email);
             var data={};
             data.email=email;
             $http.post(adminurl + 'Employee/getLoginEmployee',data).success(callback);
