@@ -9139,7 +9139,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         //  INTEGRATION STARTS
         $scope.assignment = {};
         $scope.message = {};
-        $scope.message.employee = $.jStorage.get("profile")._id;
+        $scope.message.employee = "";
         $scope.timeline = {};
         console.log(new Date());
         $scope.message.title = "Sent a new message";
@@ -9165,6 +9165,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             console.log("ABC", $scope.timeline);
             $scope.message.type = type;
             $scope.timeline.chat.push($scope.message);
+            NavigationService.saveChat($scope.timeline, function (data) {
+                console.log("FFFFF", data);
+                $scope.getTimeline();
+            });
+        };
+        $scope.sendMessageFromPhoto = function (type) {
+            $scope.timeline.chat.push(type);
             NavigationService.saveChat($scope.timeline, function (data) {
                 console.log("FFFFF", data);
                 $scope.getTimeline();
@@ -9255,8 +9262,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             }
             NavigationService.assignmentSave($scope.assignment, function (data) {
                 if (data.value === true) {
-                    $scope.message.title = otherInfo + " Uploaded.";
-                    $scope.sendMessage("File");
+                    // $scope.message.title = otherInfo + " Uploaded.";
+                    // $scope.sendMessage("File");
                     toastr.success($scope.assignment.name + " Updated", "Assignment " + $scope.assignment.name);
                 } else {
                     toastr.error("Error in updating " + $scope.assignment.name + ".", "Assignment " + $scope.assignment.name);
@@ -9298,54 +9305,29 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             }
         };
 
-
-        // $scope.onPhotoUploadCallback = function (data) {
-        //     if (data.file) {
-        //         if (!$scope.assignment.photos) {
-        //             $scope.assignment.photos = [];
-        //         }
-        //         data.fileName = Date.now();
-        //         $scope.message.attachment = [];
-        //         var a = {
-        //             type: "Photo",
-        //             url: data.file[0]
-        //         };
-
-        //         console.log("Data to Push",data,$scope.assignment.photos);
-
-        //         $scope.assignment.photos.push(_.cloneDeep(data));
-        //         console.log("Data to Push",data,$scope.assignment.photos);
-
-        //         // console.log("Photo","Photo");
-        //         $scope.saveAssignment("Photo");
-        //     }
-        // };
         var a = {};
         var b = 0;
         $scope.arr = [];
 
         $scope.onPhotoUploadCallback = function (data, length) {
+            console.log("Photo Data",data,$scope.timeline,$scope.timelineID);
             if ($scope.checker === length) {
                 $scope.arr.push(data);
                 $scope.checker = 1;
-                // if (!$scope.assignment.photos) {
-                //     console.log("As blank");
-                //     $scope.assignment.photos = [];
-                // }
-
-                // $scope.message.attachment = [];
                 var array = _.cloneDeep($scope.arr);
                 var newArray = _.each($scope.arr, function (n) {
-                    a.employee = $scope.photo.employee,
+                    a.employee = $scope.message.employee,
                         a.file = n,
                         a.fileName = Date.now();
+                        a.type="Normal",
+                        a.title="Photo Uploaded",  
+                        a.attachment=n;                      
                     $scope.assignment.photos.push(_.cloneDeep(a));
-
+                    $scope.sendMessageFromPhoto(_.cloneDeep(a));
+                      console.log("Array to be Passed",a);
                 });
                 $scope.arr = [];
                 $scope.saveAssignment("Photo");
-                console.log("After Save", $scope.arr);
-
             } else {
                 $scope.arr.push(data);
                 $scope.checker++;
@@ -9355,19 +9337,16 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             if ($scope.checker === length) {
                 $scope.arr.push(data);
                 $scope.checker = 1;
-                // if (!$scope.assignment.photos) {
-                //     console.log("As blank");
-                //     $scope.assignment.photos = [];
-                // }
-
-                // $scope.message.attachment = [];
                 var array = _.cloneDeep($scope.arr);
                 var newArray = _.each($scope.arr, function (n) {
-                    a.employee = $scope.assessment.employee,
+                    a.employee = $scope.message.employee,
                         a.file = n,
                         a.fileName = Date.now();
+                        a.type="File",
+                        a.title="Assessment Uploaded",  
+                        a.attachment=n;  
                     $scope.assignment.assessment.push(_.cloneDeep(a));
-
+                    $scope.sendMessageFromPhoto(_.cloneDeep(a));
                 });
                 $scope.arr = [];
                 $scope.saveAssignment("Assessment");

@@ -48,7 +48,7 @@ var schema = new Schema({
   }],
   timelineStatus: {
     type: String,
-    enum: ["Survey Pending","Survey Assigned","ILA Pending", "LOR Pending","Dox Pending","Assessment Pending","Consent Pending"],
+    enum: ["Pending","Survey Pending","Survey Assigned","ILA Pending", "LOR Pending","Dox Pending","Assessment Pending","Consent Pending","JIR Pending"],
     default: "Survey Pending"
   },
   brokerClaimId: {
@@ -697,6 +697,32 @@ var model = {
         callback(err, data2);
       }
     });
+  },
+  generateAssignmentNumberForAll:function(data,callback){
+    Assignment.find({}).sort({_id:1}).exec(function(err,data){
+      if(err){
+        callback(err,null);
+      }else{
+        async.eachSeries(data,function(n,callback1){
+          console.log("NNNNN",n);
+          Assignment.generateAssignmentNumber(n,function(err,data3){
+            if(err){
+              callback1(err,null)
+            }else{
+              console.log(data3);
+              callback1(null,data3);
+            }
+          });
+
+        }, function (err, data2) {
+            if (err) {
+                callback(err, data2);
+            } else {
+                callback(null, data2);
+            }
+        });
+      }
+    })
   },
 
   generateAssignmentNumber: function (data, callback) {

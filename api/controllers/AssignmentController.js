@@ -98,6 +98,22 @@ var controller = {
             });
         }
     },
+    generateAssignmentNumberForAll: function(req,res) {
+        // first make all the new params of assignment as null
+        // get all assignements id ascending 
+        // async.eachSeries(allassignement, function(n,callback) {
+        //     assignement ka generate Assignment number for n element 
+        //}, final callback {}) 
+        if (req.body) {
+            req.model.generateAssignmentNumberForAll(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: "Invalid Request"
+            });
+        }
+
+    },
     getAssignmentTemplate: function (req, res) {
         if (req.body) {
             req.model.getAssignmentTemplate(req.body.type, req.body._id, res.callback);

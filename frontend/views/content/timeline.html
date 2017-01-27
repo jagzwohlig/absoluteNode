@@ -196,9 +196,10 @@
                                                                 <div class="col-xs-6 col-md-3">
                                                                     <div class="filebx">
                                                                         <div class="dl-bx">
-                                                                            <a download="absolute" href="{{chat.attachment[0].url|uploadpath}}"><i class="ln-download"></i></a>
+                                                                            <a download="{{chat.attachment}}" href="{{chat.attachment|downloadImage}}"><i class="ln-download"></i></a>
                                                                         </div>
                                                                         <i class="ln-document"></i>
+                                                                        {{chat.attachment.length}}
                                                                         <p>{{chat.time|date:"ddMMMyyyy, EEEE, hh:mm"}}</p>
                                                                     </div>
                                                                 </div>
