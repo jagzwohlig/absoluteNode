@@ -246,12 +246,13 @@ var navigationservice = angular.module('navigationservice', [])
             //     anchor: "template-list",
             //     icon: "file-text"
             // }, 
+            // {
+            //     name: "JIR Templates",
+            //     classis: "active",
+            //     anchor: "templateJir-list",
+            //     icon: "file-text"
+            // }, 
             {
-                name: "JIR Templates",
-                classis: "active",
-                anchor: "templateJir-list",
-                icon: "file-text"
-            }, {
                 name: "LOR Templates",
                 classis: "active",
                 anchor: "templateLor-list",
