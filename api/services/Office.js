@@ -121,7 +121,7 @@ var model = {
             }
         }, {
             name: 1
-        }).limit(20).lean().exec(function (err, data2) {
+        }).lean().exec(function (err, data2) {
             // Please Ask And Change Office Limit (Multiple Confirmed All)
             if (err) {
                 callback(err, null);
