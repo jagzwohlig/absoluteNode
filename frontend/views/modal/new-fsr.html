@@ -11,12 +11,13 @@
     <form name="companyForm" ng-submit="saveCompany(formData)" ng-if="showCreate">
         <div class="form-group">
             <label>Upload FSR</label>
-            <upload-image ng-model="fsrs.file" ng-callback="onFileUploadCallback(fsrs)" no-view></upload-image>
+            <upload-image-new ng-model="img" ng-callback="onFileUploadCallback(img,length)" multiple no-view></upload-image-new>
+            <!--<upload-image ng-model="fsrs.file" ng-callback="onFileUploadCallback(fsrs)" no-view></upload-image>-->
         </div>
     </form>
     <div class="field">
         <div class="custom-tabs">
-            <div>FSR's' <span class="color-green">({{assignment.fsrs.length}})</span>
+            <div>FSR's <span class="color-green">({{assignment.fsrs.length}})</span>
                 <div class="file-border" ng-if="assignment.fsrs.length !== 0">
                     <div class="scroll-x-max">
                         <table class="file-list table">
@@ -36,7 +37,11 @@
                                         </div>
                                     </td>
                                     <td>{{fsr.fileName | date:'ddMMMyy, hh:mm'}}</td>
-                                    <td><button class="btn btn-clear"><i class="ln-trash2"></i></button><button class="btn btn-clear"><i class="ln-download"></i></button></td>
+                                    <td><button class="btn btn-clear"><i class="ln-trash2"></i></button>
+                                    <button class="btn btn-clear">
+                                        <a class="btn btn-primary" download="{{fsr.file}}" ng-href="{{fsr.file|downloadImage}}">
+                                        <i class="ln-download"></i>
+                                    </a></button></td>
                                 </tr>
                             </tbody>
                         </table>

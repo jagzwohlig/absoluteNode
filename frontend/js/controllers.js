@@ -911,7 +911,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.addModels = function (dataArray, data) {
             dataArray.push(data);
         };
-        
+
         $scope.dateOfAppointmentLimit = {
             maxDate:new Date()
         };
@@ -9265,6 +9265,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             } else if (otherInfo === "Docs") {
                 console.log("In Docs")
                 $scope.assignment.timelineStatus = "Assessment Pending";
+            }else if (otherInfo === "FSR") {
+                $scope.assignment.timelineStatus = "Dispatched";
             }
             NavigationService.assignmentSave($scope.assignment, function (data) {
                 if (data.value === true) {
@@ -9294,26 +9296,51 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             }
         };
 
-        $scope.onFileUploadCallback = function (data) {
-            if (data.file) {
-                if (!$scope.assignment.fsrs) {
-                    $scope.assignment.fsrs = [];
-                }
-                data.fileName = Date.now();
-                $scope.message.attachment = [];
-                var a = {
-                    type: "FSR",
-                    url: data.file[0]
-                };
-                $scope.message.attachment.push(a);
-                $scope.assignment.fsrs.push(data);
-                $scope.saveAssignment("FSR");
-            }
-        };
+        // $scope.onFileUploadCallback = function (data) {
+        //     if (data.file) {
+        //         if (!$scope.assignment.fsrs) {
+        //             $scope.assignment.fsrs = [];
+        //         }
+        //         data.fileName = Date.now();
+        //         $scope.message.attachment = [];
+        //         var a = {
+        //             type: "FSR",
+        //             url: data.file[0]
+        //         };
+        //         $scope.message.attachment.push(a);
+        //         $scope.assignment.fsrs.push(data);
+        //         $scope.saveAssignment("FSR");
+        //     }
+        // };
 
         var a = {};
         var b = 0;
         $scope.arr = [];
+
+        $scope.onFileUploadCallback = function (data, length) {
+            console.log("Photo Data",data,$scope.timeline,$scope.timelineID);
+            if ($scope.checker === length) {
+                $scope.arr.push(data);
+                $scope.checker = 1;
+                var array = _.cloneDeep($scope.arr);
+                var newArray = _.each($scope.arr, function (n) {
+                    a.employee = $scope.message.employee,
+                        a.file = n,
+                        a.fileName = Date.now();
+                        a.type="File",
+                        a.title="FSR Uploaded",  
+                        a.attachment=n;                      
+                    $scope.assignment.fsrs.push(_.cloneDeep(a));
+                    $scope.sendMessageFromPhoto(_.cloneDeep(a));
+                      console.log("Array to be Passed",a);
+                });
+                $scope.arr = [];
+                $scope.saveAssignment("FSR");
+            } else {
+                $scope.arr.push(data);
+                $scope.checker++;
+            }
+        };
 
         $scope.onPhotoUploadCallback = function (data, length) {
             console.log("Photo Data",data,$scope.timeline,$scope.timelineID);
@@ -9363,22 +9390,47 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.checker++;
             }
         };
-
-        $scope.onDocsUploadCallback = function (data) {
-            if (data.file) {
-                if (!$scope.assignment.docs) {
-                    $scope.assignment.docs = [];
-                }
-                data.fileName = Date.now();
-                $scope.message.attachment = [];
-                var a = {
-                    type: "Docs",
-                    url: data.file[0]
-                };
-                $scope.assignment.docs.push(data);
+         $scope.onDocsUploadCallback = function (data, length) {
+             console.log("In Doc");
+            if ($scope.checker === length) {
+                $scope.arr.push(data);
+                $scope.checker = 1;
+                var array = _.cloneDeep($scope.arr);
+                var newArray = _.each($scope.arr, function (n) {
+                    a.employee = $scope.message.employee,
+                        a.file = n,
+                        a.fileName = Date.now();
+                        a.type="File",
+                        a.title="Document Uploaded",  
+                        a.attachment=n;  
+                    $scope.assignment.docs.push(_.cloneDeep(a));
+                    $scope.sendMessageFromPhoto(_.cloneDeep(a));
+                });
+                $scope.arr = [];
                 $scope.saveAssignment("Docs");
+                console.log("After Save", $scope.arr);
+
+            } else {
+                $scope.arr.push(data);
+                $scope.checker++;
             }
         };
+
+        // $scope.onDocsUploadCallback = function (data) {
+        //     if (data.file) {
+        //         if (!$scope.assignment.docs) {
+        //             $scope.assignment.docs = [];
+        //         }
+        //         data.fileName = Date.now();
+        //         $scope.message.attachment = [];
+        //         var a = {
+        //             type: "Docs",
+        //             url: data.file[0]
+        //         };
+        //         $scope.assignment.docs.push(data);
+        //         $scope.saveAssignment("Docs");
+        //     }
+        // };
     })
 
     .controller('EmailInboxCtrl', function ($scope, $window, $uibModal, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, base64) {

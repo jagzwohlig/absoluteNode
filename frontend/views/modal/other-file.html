@@ -10,7 +10,8 @@
     <form name="companyForm">
         <div class="form-group">
             <label>Upload Files</label>
-            <upload-image ng-model="doc.file" ng-callback="onDocsUploadCallback(doc)" no-view></upload-image>
+             <upload-image-new ng-model="img" ng-callback="onDocsUploadCallback(img,length)" multiple no-view></upload-image-new>
+            <!--<upload-image ng-model="doc.file" ng-callback="onDocsUploadCallback(doc)" no-view></upload-image>-->
         </div>
     </form>
     <div class="field">

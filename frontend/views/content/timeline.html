@@ -4,7 +4,7 @@
             <div class="heading-profile ul-clas text-center">
                 <ul>
                     <li>
-                        <b>ILA:&nbsp;</b>
+                        <b>ILA:</b>
                         <toggle-switch ng-model="assignment.ilaStatus" class="switch-small switch-success pull-right" ng-change="saveILA(assignment)"></toggle-switch>
                     </li>
                 </ul>
@@ -193,13 +193,13 @@
                                                         <!--<p>View Template <a ng-click="templateAttachment(chat.attachment)"><b>Here</b></a></p>-->
                                                         <div class="e-attachments">
                                                             <div class="row">
+                                                                <div class="col-md-4"></div>
                                                                 <div class="col-xs-6 col-md-3">
                                                                     <div class="filebx">
                                                                         <div class="dl-bx">
                                                                             <a download="{{chat.attachment}}" href="{{chat.attachment|downloadImage}}"><i class="ln-download"></i></a>
                                                                         </div>
                                                                         <i class="ln-document"></i>
-                                                                        {{chat.attachment.length}}
                                                                         <p>{{chat.time|date:"ddMMMyyyy, EEEE, hh:mm"}}</p>
                                                                     </div>
                                                                 </div>
