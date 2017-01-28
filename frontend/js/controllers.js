@@ -9030,7 +9030,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             console.log(temp);
             NavigationService.modelSave('assignment', temp, function (data) {
                 if (data.value === true) {
-                    $scope.message.title = name + " Uploaded.";
+                    $scope.message.title = name + " Deleted.";
                     $scope.sendMessage("Normal");
                     toastr.success($scope.assignment.name + " Updated", "Assignment " + $scope.assignment.name);
                 } else {
