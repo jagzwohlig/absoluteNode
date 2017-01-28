@@ -222,7 +222,7 @@
                                         <div class="input-group">
                                             <input type="text" name="dateOfAppointment" required class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.dateOfAppointment"
                                                 is-open="popup.dateOfAppointment" ng-change="chageDOB(formData.birthDate);newDateOfIntimation(formData.dateOfAppointment)"
-                                                datepicker-options="dateOptions" readonly/>
+                                                datepicker-options="dateOfAppointmentLimit" readonly/>
                                             <span class="input-group-btn">
                                             <button type="button" class="btn btn-default" ng-click="popup.dateOfAppointment=true">
                                                 <i class="fa fa-calendar"></i>
@@ -425,7 +425,7 @@
                                         <div class="input-group">
                                             <input type="text" name="dateOfAppointment" required class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.dateOfAppointment"
                                                 is-open="popup.dateOfAppointment" ng-change="chageDOB(formData.birthDate);newDateOfIntimation(formData.dateOfAppointment)"
-                                                datepicker-options="dateOptions" readonly/>
+                                                datepicker-options="dateOfAppointmentLimit" readonly/>
                                             <span class="input-group-btn">
                                             <button type="button" class="btn btn-default" ng-click="popup.dateOfAppointment=true">
                                                 <i class="fa fa-calendar"></i>
@@ -599,7 +599,7 @@
                                         <div class="input-group">
                                             <input type="text" name="dateOfAppointment" required class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.dateOfAppointment"
                                                 is-open="popup.dateOfAppointment" ng-change="chageDOB(formData.birthDate);newDateOfIntimation(formData.dateOfAppointment)"
-                                                datepicker-options="dateOptions" readonly/>
+                                                datepicker-options="dateOfAppointmentLimit" readonly/>
                                             <span class="input-group-btn">
                                               <button type="button" class="btn btn-default" ng-click="popup.dateOfAppointment=true">
                                                   <i class="fa fa-calendar"></i>
@@ -706,7 +706,7 @@
                                         <div class="input-group">
                                             <input type="text" name="dateOfAppointment" required class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.dateOfAppointment"
                                                 is-open="popup.dateOfAppointment" ng-change="chageDOB(formData.birthDate);newDateOfIntimation(formData.dateOfAppointment)"
-                                                datepicker-options="dateOptions" readonly/>
+                                                datepicker-options="dateOfAppointmentLimit" readonly/>
                                             <span class="input-group-btn">
                                             <button type="button" class="btn btn-default" ng-click="popup.dateOfAppointment=true">
                                                 <i class="fa fa-calendar"></i>
@@ -1014,7 +1014,7 @@
                         <div class="widget-title">
                             <a class="btn btn-primary pull-right" ng-click="addModal( 'modal-assignment', '', 'Location',
                         '', '',formData.locationArr)">Add New</a>
-                                <h3>Location</h3>
+                                <h3>Location ID</h3>
                         </div>
                         <div class="sec">
                             <div class="table-responsive">
@@ -1050,7 +1050,7 @@
                         <div class="widget-title">
                             <a class="btn btn-primary pull-right" ng-click="addModal( 'modal-assignment', '', 'Product',
                         '', '',formData.product)">Add New</a>
-                                <h3>Product</h3>
+                                <h3>Product ID</h3>
                         </div>
                         <div class="sec">
                             <div class="table-responsive">

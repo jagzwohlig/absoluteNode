@@ -665,6 +665,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.cancel = function () {
             $window.history.back();
         };
+        $scope.dateOfAppointmentLimit = {
+            maxDate:new Date()
+        };
 
         hotkeys.bindTo($scope).add({
             combo: 'ctrl+enter',
@@ -908,7 +911,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.addModels = function (dataArray, data) {
             dataArray.push(data);
         };
-
+        
+        $scope.dateOfAppointmentLimit = {
+            maxDate:new Date()
+        };
         // 
         hotkeys.bindTo($scope).add({
             combo: 'ctrl+enter',
