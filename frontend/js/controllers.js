@@ -8684,6 +8684,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.cancel = function () {
             $window.history.back();
         }
+        $scope.sendMessage2 = function (type) {
+            $scope.timeline.chat.push(type);
+            NavigationService.saveChat($scope.timeline, function (data) {
+                console.log("FFFFF", data);
+                $scope.getTimeline();
+            });
+        };
 
         $scope.saveModel = function (templateObj) {
 
@@ -8708,11 +8715,19 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 });
             } else {
                 $scope.Saved = true;
+                console.log("Data To Saveeee",$scope.forms);
                 NavigationService.editAssignmentTemplate($scope.forms, function (data) {
 
                     if (data.value) {
+                        var a={};
                         $scope.message.title = "Updated " + $stateParams.type;
-                        $scope.sendMessage("Template");
+                        // $scope.sendMessage("Template");
+                        a.type = "File",
+                        a.employee = $scope.message.employee,
+                        a.title =$scope.message.title,
+                        a.attachment = data.data.name;
+                        $scope.sendMessage2(_.cloneDeep(a));
+                        console.log("YZ",a);
                         toastr.success("Updated " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
                         $state.go('timeline', {
                             id: $scope.assignment._id
@@ -9330,7 +9345,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     a.employee = $scope.message.employee,
                         a.file = n,
                         a.fileName = Date.now();
-                    a.type = "File",
+                        a.type = "File",
                         a.title = "FSR Uploaded",
                         a.attachment = n;
                     $scope.assignment.fsrs.push(_.cloneDeep(a));

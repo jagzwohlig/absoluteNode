@@ -1396,8 +1396,13 @@ img.uploadingImage {
         box-shadow: inset 0px 1px 6px -4px #000;
 }
 
-
+.img-width{
+    width: 300px;
+    img{
+        width: 100%;
+    }
+}
 /* Start writing sass here */
 
 @import "fancybox-override";
-@import "other/mobile";
+@import "other/mobile"

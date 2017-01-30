@@ -48,7 +48,7 @@ var schema = new Schema({
   }],
   timelineStatus: {
     type: String,
-    enum: ["Pending","Survey Pending","Survey Assigned","ILA Pending", "LOR Pending","Dox Pending","Assessment Pending","Consent Pending","JIR Pending","Dispatched"],
+    enum: ["Pending", "Survey Pending", "Survey Assigned", "ILA Pending", "LOR Pending", "Dox Pending", "Assessment Pending", "Consent Pending", "JIR Pending", "Dispatched"],
     default: "Survey Pending"
   },
   brokerClaimId: {
@@ -62,7 +62,7 @@ var schema = new Schema({
   },
   name: {
     type: String,
-    unique:true
+    unique: true
   },
   name1: {
     type: String
@@ -702,28 +702,30 @@ var model = {
       }
     });
   },
-  generateAssignmentNumberForAll:function(data,callback){
-    Assignment.find({}).sort({_id:1}).exec(function(err,data){
-      if(err){
-        callback(err,null);
-      }else{
-        async.eachSeries(data,function(n,callback1){
-          console.log("NNNNN",n);
-          Assignment.generateAssignmentNumber(n,function(err,data3){
-            if(err){
-              callback1(err,null)
-            }else{
+  generateAssignmentNumberForAll: function (data, callback) {
+    Assignment.find({}).sort({
+      _id: 1
+    }).exec(function (err, data) {
+      if (err) {
+        callback(err, null);
+      } else {
+        async.eachSeries(data, function (n, callback1) {
+          console.log("NNNNN", n);
+          Assignment.generateAssignmentNumber(n, function (err, data3) {
+            if (err) {
+              callback1(err, null)
+            } else {
               console.log(data3);
-              callback1(null,data3);
+              callback1(null, data3);
             }
           });
 
         }, function (err, data2) {
-            if (err) {
-                callback(err, data2);
-            } else {
-                callback(null, data2);
-            }
+          if (err) {
+            callback(err, data2);
+          } else {
+            callback(null, data2);
+          }
         });
       }
     })
@@ -835,17 +837,16 @@ var model = {
   },
   editAssignmentTemplate: function (body, callback) {
     var Model = this;
-    var timelStatus="";    
-    if(body.type=="templateIla"){
-      timelStatus="LOR Pending";
-    }else if(body.type=="templateLor"){
-      timelStatus="Dox Pending";      
+    if (body.type == "templateIla") {
+      timelStatus = "LOR Pending";
+    } else if (body.type == "templateLor") {
+      timelStatus = "Dox Pending";
     }
     var $scope = {};
     var data2 = _.cloneDeep(body);
     delete data2.assignment;
-    delete data2.type;
     $scope.data = data2;
+    
     _.each($scope.data.forms, function (n) {
       _.each(n.items, function (m) {
         if (m.value == "Date") {
@@ -867,6 +868,8 @@ var model = {
       if (err) {
         callback(err, null);
       } else {
+        $scope.assignment=findObj._id;
+        // console.log("...................................$scope",$scope);
         Config.generatePdf("pdf/abs-synopsis", $scope, callback);
       }
     });
@@ -951,7 +954,7 @@ var model = {
       .deepPopulate("owner insuredOffice insurerOffice city department")
       .keyword(options)
 
-    .page(options, callback);
+      .page(options, callback);
 
   },
   updateSurveyor: function (data, callback) {
@@ -1075,7 +1078,7 @@ var model = {
         newChat.employee = data.empId,
           newChat.type = "Normal",
           newChat.title = "Has Declined the Assignment",
-          newChat.message =data.message
+          newChat.message = data.message
         Timeline.update({
           assignment: data.assignId
         }, {
@@ -1098,7 +1101,7 @@ var model = {
   // Doc  Photos JIR
 
   mobileSubmit: function (data, callback) {
-    console.log("Data ",data);
+    console.log("Data ", data);
     var fileArray = [];
     var docCount = 0;
     if (!_.isEmpty(data.doc)) {
@@ -1144,7 +1147,7 @@ var model = {
       $set: {
         "survey.$.status": "Completed",
         // "survey.$.dateOfSurvey": new Date(data.dateOfSurvey),
-        "survey.$.completionTime": Date.now()        
+        "survey.$.completionTime": Date.now()
         // "survey.$.surveyEndTime":new Date(data.surveyEndTime),
         // "survey.$.surveyStartTime": new Date(data.surveyStartTime)
       },
@@ -1168,15 +1171,15 @@ var model = {
         newChat.employee = data.empId,
           newChat.type = "SurveyDone",
           newChat.title = "Survey Done",
-          newChat.surveyEndTime=new Date(data.endTime),
-          newChat.surveyStartTime=new Date(data.startTime),
-          newChat.surveyDate=new Date(data.surveyDate),
-          newChat.address=data.address,
-        _.each(fileArray, function (n) {
-          n.employee = data.empId,
-            n.type = "Normal",
-            n.title = "Survey Done";
-        })
+          newChat.surveyEndTime = new Date(data.endTime),
+          newChat.surveyStartTime = new Date(data.startTime),
+          newChat.surveyDate = new Date(data.surveyDate),
+          newChat.address = data.address,
+          _.each(fileArray, function (n) {
+            n.employee = data.empId,
+              n.type = "Normal",
+              n.title = "Survey Done";
+          })
         console.log("Final Count", fileArray);
         fileArray.push(newChat);
         Timeline.update({
@@ -1381,11 +1384,11 @@ var model = {
           $unwind: "$department"
         }, {
           $match: {
-            $and:[{
+            $and: [{
               timelineStatus: data.timelineStatus,
               ownerStatus,
             }]
-            
+
           }
         }, {
           $sort: {

@@ -142,8 +142,8 @@
                                                     <div class="post-content bg-join" ng-if="chat.type=='Normal' && (chat.attachment.length!==0 || chat.message)">
                                                         <div class="img-view">
                                                             <p ng-bind-html="chat.message"></p>
-                                                            <div ng-if="chat.attachment.length!==0">
-                                                                <img ng-src="{{chat.attachment|uploadpath:300:300}}" alt="{{chat.employee.name}}" />
+                                                            <div ng-if="chat.attachment.length!==0" class="img-width">
+                                                                <img ng-src="{{chat.attachment|uploadpath}}" alt="{{chat.employee.name}}" />
                                                             </div>
                                                             <div ng-if="chat.attachment.length!==0">
                                                                 <a class="btn btn-primary" download="{{chat.attachment}}" ng-href="{{chat.attachment|downloadImage}}">
