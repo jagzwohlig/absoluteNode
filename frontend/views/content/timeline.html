@@ -259,13 +259,13 @@
                             </div>
                         </div>
                         <div class="col-sm-4 hidden-xs">
-                            <div class="widget">
+                            <div class="widget" ng-if="assignment.dateOfLoss && assignment.brokerClaimId && assignment.insuredClaimId && assignment.insurerClaimId">
                                 <div class="padding-border folder">
                                     <div class="row">
                                         <div class="col-xs-4 pointer" ng-click="viewJIR();"><img src="frontend/img/folder.png">
                                             <h6>JIR</h6>
                                         </div>
-                                        <div class="col-xs-4 pointer" ng-click="viewILA();"><img src="frontend/img/folder.png">
+                                        <div class="col-xs-4 pointer" ng-click="viewILA();" ng-hide="assignment.typeOfClaim && assignment.isInsured && !assignment.policyDoc"><img src="frontend/img/folder.png">
                                             <h6>ILA</h6>
                                         </div>
                                         <div class="col-xs-4 pointer" ng-click="viewISR();"><img src="frontend/img/folder.png">
@@ -273,7 +273,7 @@
                                         </div>
                                     </div>
                                     <div class="row mt20">
-                                        <div class="col-xs-4 pointer" ng-click="viewLOR();"><img src="frontend/img/folder.png">
+                                        <div class="col-xs-4 pointer" ng-click="viewLOR();" ng-hide="assignment.typeOfClaim && assignment.isInsured && !assignment.policyDoc"><img src="frontend/img/folder.png">
                                             <h6>LOR</h6>
                                         </div>
                                         <div class="col-xs-4 pointer" ng-click="allAssessment(false);"><img src="frontend/img/folder.png">

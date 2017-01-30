@@ -837,6 +837,7 @@ var model = {
   },
   editAssignmentTemplate: function (body, callback) {
     var Model = this;
+    var timelStatus=body.assignment.timelineStatus;
     if (body.type == "templateIla") {
       timelStatus = "LOR Pending";
     } else if (body.type == "templateLor") {
