@@ -323,6 +323,10 @@ var schema = new Schema({
     type: Boolean,
     default: true
   },
+  lorStatus: {
+    type: Boolean,
+    default: true
+  },
   timeline: {
     type: [{
       type: Schema.Types.ObjectId,

@@ -186,14 +186,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
             ownerId = data.data._id;
         });
-   
-        $scope.MyFiles = function(){
-            console.log("In MyFiles",ownerId);
+
+        $scope.MyFiles = function () {
+            console.log("In MyFiles", ownerId);
             NavigationService.searchModel($scope.ModelApi, {
                 page: $scope.currentPage,
                 keyword: $scope.search.keyword,
-                filter:{
-                    owner:ownerId
+                filter: {
+                    owner: ownerId
                 }
             }, ++i, function (data, ini) {
                 if (ini == i) {
@@ -229,8 +229,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         }
 
         // 
-            console.log("OwnerId",ownerId);
-        
+        console.log("OwnerId", ownerId);
+
         $scope.showAll = function (keywordChange) {
             $scope.totalItems = undefined;
             if (keywordChange) {
@@ -666,7 +666,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $window.history.back();
         };
         $scope.dateOfAppointmentLimit = {
-            maxDate:new Date()
+            maxDate: new Date()
         };
 
         hotkeys.bindTo($scope).add({
@@ -913,7 +913,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
         $scope.dateOfAppointmentLimit = {
-            maxDate:new Date()
+            maxDate: new Date()
         };
         // 
         hotkeys.bindTo($scope).add({
@@ -8759,8 +8759,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         }];
 
         $scope.saveILA = function (assignment) {
-            if (!assignment.ilaStatus) {
+
+            if (!assignment.ilaStatus && assignment.lorStatus) {
                 assignment.timelineStatus = "LOR Pending";
+            } else if (!assignment.ilaStatus && !assignment.lorStatus) {
+                assignment.timelineStatus = "Dox Pending";
             } else {
                 assignment.timelineStatus = "ILA Pending";
             }
@@ -9265,7 +9268,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             } else if (otherInfo === "Docs") {
                 console.log("In Docs")
                 $scope.assignment.timelineStatus = "Assessment Pending";
-            }else if (otherInfo === "FSR") {
+            } else if (otherInfo === "FSR") {
                 $scope.assignment.timelineStatus = "Dispatched";
             }
             NavigationService.assignmentSave($scope.assignment, function (data) {
@@ -9318,7 +9321,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.arr = [];
 
         $scope.onFileUploadCallback = function (data, length) {
-            console.log("Photo Data",data,$scope.timeline,$scope.timelineID);
+            console.log("Photo Data", data, $scope.timeline, $scope.timelineID);
             if ($scope.checker === length) {
                 $scope.arr.push(data);
                 $scope.checker = 1;
@@ -9327,12 +9330,12 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     a.employee = $scope.message.employee,
                         a.file = n,
                         a.fileName = Date.now();
-                        a.type="File",
-                        a.title="FSR Uploaded",  
-                        a.attachment=n;                      
+                    a.type = "File",
+                        a.title = "FSR Uploaded",
+                        a.attachment = n;
                     $scope.assignment.fsrs.push(_.cloneDeep(a));
                     $scope.sendMessageFromPhoto(_.cloneDeep(a));
-                      console.log("Array to be Passed",a);
+                    console.log("Array to be Passed", a);
                 });
                 $scope.arr = [];
                 $scope.saveAssignment("FSR");
@@ -9343,7 +9346,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
         $scope.onPhotoUploadCallback = function (data, length) {
-            console.log("Photo Data",data,$scope.timeline,$scope.timelineID);
+            console.log("Photo Data", data, $scope.timeline, $scope.timelineID);
             if ($scope.checker === length) {
                 $scope.arr.push(data);
                 $scope.checker = 1;
@@ -9352,12 +9355,12 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     a.employee = $scope.message.employee,
                         a.file = n,
                         a.fileName = Date.now();
-                        a.type="Normal",
-                        a.title="Photo Uploaded",  
-                        a.attachment=n;                      
+                    a.type = "Normal",
+                        a.title = "Photo Uploaded",
+                        a.attachment = n;
                     $scope.assignment.photos.push(_.cloneDeep(a));
                     $scope.sendMessageFromPhoto(_.cloneDeep(a));
-                      console.log("Array to be Passed",a);
+                    console.log("Array to be Passed", a);
                 });
                 $scope.arr = [];
                 $scope.saveAssignment("Photo");
@@ -9375,9 +9378,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     a.employee = $scope.message.employee,
                         a.file = n,
                         a.fileName = Date.now();
-                        a.type="File",
-                        a.title="Assessment Uploaded",  
-                        a.attachment=n;  
+                    a.type = "File",
+                        a.title = "Assessment Uploaded",
+                        a.attachment = n;
                     $scope.assignment.assessment.push(_.cloneDeep(a));
                     $scope.sendMessageFromPhoto(_.cloneDeep(a));
                 });
@@ -9390,8 +9393,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.checker++;
             }
         };
-         $scope.onDocsUploadCallback = function (data, length) {
-             console.log("In Doc");
+        $scope.onDocsUploadCallback = function (data, length) {
+            console.log("In Doc");
             if ($scope.checker === length) {
                 $scope.arr.push(data);
                 $scope.checker = 1;
@@ -9400,9 +9403,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     a.employee = $scope.message.employee,
                         a.file = n,
                         a.fileName = Date.now();
-                        a.type="File",
-                        a.title="Document Uploaded",  
-                        a.attachment=n;  
+                    a.type = "File",
+                        a.title = "Document Uploaded",
+                        a.attachment = n;
                     $scope.assignment.docs.push(_.cloneDeep(a));
                     $scope.sendMessageFromPhoto(_.cloneDeep(a));
                 });

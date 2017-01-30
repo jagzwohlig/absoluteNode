@@ -1,17 +1,3 @@
-<div class="heading-sec">
-    <div class="row">
-        <div class="col-md-12 column">
-            <div class="heading-profile ul-clas text-center">
-                <ul>
-                    <li>
-                        <b>ILA:</b>
-                        <toggle-switch ng-model="assignment.ilaStatus" class="switch-small switch-success pull-right" ng-change="saveILA(assignment)"></toggle-switch>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
 <div class="panel-content">
     <div class="row">
         <div class="col-md-12">
@@ -160,10 +146,10 @@
                                                                 <img ng-src="{{chat.attachment|uploadpath:300:300}}" alt="{{chat.employee.name}}" />
                                                             </div>
                                                             <div ng-if="chat.attachment.length!==0">
-                                                            <a class="btn btn-primary" download="{{chat.attachment}}" ng-href="{{chat.attachment|downloadImage}}">
-                                                                <i class="ln-download"></i>
-                                                            </a>
-                                                </div>
+                                                                <a class="btn btn-primary" download="{{chat.attachment}}" ng-href="{{chat.attachment|downloadImage}}">
+                                                                    <i class="ln-download"></i>
+                                                                </a>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="post-content bg-join" ng-if="chat.type=='SurveyDone'">
@@ -315,6 +301,22 @@
                                     <div class="form-group">
                                         <label class="ml-4">Only email</label>
                                         <toggle-switch on-label="Yes" off-label="No" ng-model="formName.onlyEmail" class="switch-mini switch-success"></toggle-switch>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget cust-widg">
+                                <div class="only-email">
+                                    <div class="form-group">
+                                        <label class="ml-4">ILA </label>
+                                        <toggle-switch ng-model="assignment.ilaStatus" class="switch-small switch-success pull-right" ng-change="saveILA(assignment)"></toggle-switch>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget cust-widg" ng-hide="assignment.ilaStatus">
+                                <div class="only-email">
+                                    <div class="form-group">
+                                        <label class="ml-4">LOR </label>
+                                        <toggle-switch ng-model="assignment.lorStatus" class="switch-small switch-success pull-right" ng-change="saveILA(assignment)"></toggle-switch>
                                     </div>
                                 </div>
                             </div>
