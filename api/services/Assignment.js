@@ -840,7 +840,7 @@ var model = {
   },
   editAssignmentTemplate: function (body, callback) {
     var Model = this;
-    var timelStatus=body.assignment.timelineStatus;
+    var timelStatus = body.assignment.timelineStatus;
     if (body.type == "templateIla") {
       timelStatus = "LOR Pending";
     } else if (body.type == "templateLor") {
@@ -850,7 +850,7 @@ var model = {
     var data2 = _.cloneDeep(body);
     delete data2.assignment;
     $scope.data = data2;
-    
+
     _.each($scope.data.forms, function (n) {
       _.each(n.items, function (m) {
         if (m.value == "Date") {
@@ -867,12 +867,12 @@ var model = {
     setObj[body.type + ".$"] = data2;
     Model.update(findObj, {
       "$set": setObj,
-      timelineStatus:timelStatus
+      timelineStatus: timelStatus
     }, function (err, data3) {
       if (err) {
         callback(err, null);
       } else {
-        $scope.assignment=findObj._id;
+        $scope.assignment = findObj._id;
         // console.log("...................................$scope",$scope);
         Config.generatePdf("pdf/abs-synopsis", $scope, callback);
       }
@@ -958,7 +958,7 @@ var model = {
       .deepPopulate("owner insuredOffice insurerOffice city department")
       .keyword(options)
 
-      .page(options, callback);
+    .page(options, callback);
 
   },
   updateSurveyor: function (data, callback) {
@@ -1152,8 +1152,8 @@ var model = {
         "survey.$.status": "Completed",
         // "survey.$.dateOfSurvey": new Date(data.dateOfSurvey),
         "survey.$.completionTime": Date.now()
-        // "survey.$.surveyEndTime":new Date(data.surveyEndTime),
-        // "survey.$.surveyStartTime": new Date(data.surveyStartTime)
+          // "survey.$.surveyEndTime":new Date(data.surveyEndTime),
+          // "survey.$.surveyStartTime": new Date(data.surveyStartTime)
       },
       $push: {
         docs: {
@@ -1319,6 +1319,7 @@ var model = {
   },
 
   getAll: function (data, callback) {
+
     if (data.timelineStatus == "All") {
       data.timelineStatus = {
         $regex: ''
@@ -1327,85 +1328,155 @@ var model = {
 
     if (data.ownerStatus == "My files") {
       var ownerStatus = {
-        'owner': objectid(data.owner)
+        timelineStatus: data.timelineStatus,
+        owner: objectid(data.owner)
       };
+
     } else if (data.ownerStatus == "Shared with me") {
+      var ownerStatus = {
+        timelineStatus: data.timelineStatus,
+        'shareWith.persons': objectid(data.owner)
+      };
 
     } else if (data.ownerStatus == "All files") {
-      var ownerStatus = undefined
+      var ownerStatus = {
+        timelineStatus: data.timelineStatus
+      }
+
     }
     console.log("owner", data.ownerStatus, ownerStatus);
 
     var pageStartFrom = (data.pagenumber - 1) * data.pagelimit;
+
+    var allTable = [{
+      $lookup: {
+        from: "cities",
+        localField: "city",
+        foreignField: "_id",
+        as: "city"
+      }
+    }, {
+      $unwind: "$city"
+    }, {
+      $lookup: {
+        from: "customers",
+        localField: "insurerOffice",
+        foreignField: "_id",
+        as: "insurer"
+      }
+    }, {
+      $unwind: "$insurer"
+    }, {
+      $lookup: {
+        from: "customers",
+        localField: "insuredOffice",
+        foreignField: "_id",
+        as: "insurerd"
+      }
+    }, {
+      $unwind: "$insurerd"
+    }, {
+      $lookup: {
+        from: "departments",
+        localField: "department",
+        foreignField: "_id",
+        as: "department"
+      }
+    }, {
+      $unwind: "$department"
+    }, {
+      $match: {
+        $and: [ownerStatus]
+      }
+    }, {
+      $sort: {
+        createdAt: -1
+      }
+    }, {
+      $skip: parseInt(pageStartFrom)
+    }, {
+      $limit: data.pagelimit
+    }, {
+      $project: {
+        _id: 1,
+        name: 1,
+        insurerName: "$insurer.name",
+        insurerdName: "$insurerd.name",
+        depratment: "$department.name",
+        city: "$city.name",
+        intimatedLoss: 1,
+        timelineStatus: 1,
+        status: 1
+      }
+    }];
+
+    var countAllData = [{
+      $lookup: {
+        from: "cities",
+        localField: "city",
+        foreignField: "_id",
+        as: "city"
+      }
+    }, {
+      $unwind: "$city"
+    }, {
+      $lookup: {
+        from: "customers",
+        localField: "insurerOffice",
+        foreignField: "_id",
+        as: "insurer"
+      }
+    }, {
+      $unwind: "$insurer"
+    }, {
+      $lookup: {
+        from: "customers",
+        localField: "insuredOffice",
+        foreignField: "_id",
+        as: "insurerd"
+      }
+    }, {
+      $unwind: "$insurerd"
+    }, {
+      $lookup: {
+        from: "departments",
+        localField: "department",
+        foreignField: "_id",
+        as: "department"
+      }
+    }, {
+      $unwind: "$department"
+    }, {
+      $match: {
+        $and: [ownerStatus]
+      }
+    }, {
+      $group: {
+        _id: null,
+        count: {
+          $sum: 1
+        }
+      }
+    }];
+
+    if (data.ownerStatus == "Shared with me") {
+      var unwindEmp = {
+        $unwind: "$shareWith.persons"
+      };
+      allTable.unshift(unwindEmp);
+      countAllData.unshift(unwindEmp);
+      var unwindSharewith = {
+        $unwind: "$shareWith"
+      }
+      allTable.unshift(unwindSharewith);
+      countAllData.unshift(unwindSharewith);
+    }
+    console.log("all table", countAllData);
     async.parallel([
 
       //get assignment
       function (callback) {
-        Assignment.aggregate([{
-          $lookup: {
-            from: "cities",
-            localField: "city",
-            foreignField: "_id",
-            as: "city"
-          }
-        }, {
-          $unwind: "$city"
-        }, {
-          $lookup: {
-            from: "customers",
-            localField: "insurerOffice",
-            foreignField: "_id",
-            as: "insurer"
-          }
-        }, {
-          $unwind: "$insurer"
-        }, {
-          $lookup: {
-            from: "customers",
-            localField: "insuredOffice",
-            foreignField: "_id",
-            as: "insurerd"
-          }
-        }, {
-          $unwind: "$insurerd"
-        }, {
-          $lookup: {
-            from: "departments",
-            localField: "department",
-            foreignField: "_id",
-            as: "department"
-          }
-        }, {
-          $unwind: "$department"
-        }, {
-          $match: {
-            $and: [{
-              timelineStatus: data.timelineStatus,
-              ownerStatus,
-            }]
-
-          }
-        }, {
-          $sort: {
-            createdAt: -1
-          }
-        }, {
-          $skip: parseInt(pageStartFrom)
-        }, {
-          $limit: data.pagelimit
-        }, {
-          $project: {
-            _id: 1,
-            name: 1,
-            insurerName: "$insurer.name",
-            insurerdName: "$insurerd.name",
-            depratment: "$department.name",
-            city: "$city.name",
-            intimatedLoss: 1,
-            timelineStatus: 1,
-            status: 1
-          }
-        }], function (err, data1) {
+        Assignment.aggregate(allTable, function (err, data1) {
           if (err) {
             console.log("err", err);
             callback(null, data1);
@@ -1417,55 +1488,12 @@ var model = {
 
       //get all assignment count
       function (callback) {
-        Assignment.aggregate([{
-          $lookup: {
-            from: "cities",
-            localField: "city",
-            foreignField: "_id",
-            as: "city"
-          }
-        }, {
-          $unwind: "$city"
-        }, {
-          $lookup: {
-            from: "customers",
-            localField: "insurerOffice",
-            foreignField: "_id",
-            as: "insurer"
-          }
-        }, {
-          $unwind: "$insurer"
-        }, {
-          $lookup: {
-            from: "customers",
-            localField: "insuredOffice",
-            foreignField: "_id",
-            as: "insurerd"
-          }
-        }, {
-          $unwind: "$insurerd"
-        }, {
-          $lookup: {
-            from: "departments",
-            localField: "department",
-            foreignField: "_id",
-            as: "department"
-          }
-        }, {
-          $unwind: "$department"
-        }, {
-          $group: {
-            _id: null,
-            count: {
-              $sum: 1
-            }
-          }
-        }], function (err, data1) {
+        Assignment.aggregate(countAllData, function (err, data2) {
           if (err) {
             console.log("err", err);
-            callback(null, data1);
+            callback(null, data2);
           } else {
-            callback(null, data1);
+            callback(null, data2);
           }
         });
       },
@@ -1475,7 +1503,7 @@ var model = {
         console.log(err);
         callback(err, null);
       } else {
-        if (_.isEmpty(data3[0])) {
+        if (_.isEmpty(data3[0]) || _.isEmpty(data3[1])) {
           callback(null, []);
         } else {
           var data4 = {};
