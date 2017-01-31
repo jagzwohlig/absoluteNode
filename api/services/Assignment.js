@@ -1324,7 +1324,7 @@ var model = {
 
     if (data.ownerStatus == "My files") {
       var ownerStatus = {
-        'owner._id': objectid(data.owner)
+        'owner': objectid(data.owner)
       };
     } else if (data.ownerStatus == "Shared with me") {
 
@@ -1339,15 +1339,6 @@ var model = {
       //get assignment
       function (callback) {
         Assignment.aggregate([{
-          $lookup: {
-            from: "employees",
-            localField: "owner",
-            foreignField: "_id",
-            as: "owner"
-          }
-        }, {
-          $unwind: "$owner"
-        }, {
           $lookup: {
             from: "cities",
             localField: "city",
