@@ -983,6 +983,35 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
                 model: "tag"
             }
         })
+        .state('tax-list', {
+            url: "/tax-list/{page:.*}/{keyword:.*}/{model:.*}",
+            templateUrl: "frontend/views/template.html",
+            controller: 'ModelViewCtrl',
+            params: {
+                page: "1",
+                keyword: "",
+                model: "tax"
+            }
+        })
+        .state('createtax', {
+            url: "/tax-detail/{id:.*}/{model:.*}",
+            templateUrl: "frontend/views/template.html",
+            controller: 'CreateModelCtrl',
+            params: {
+                id: "",
+                model: "tax"
+            }
+        })
+        .state('edittax', {
+            url: "/tax-edit/{id:.*}/{model:.*}",
+            templateUrl: "frontend/views/template.html",
+            controller: 'EditModelCtrl',
+            params: {
+                page: "1",
+                keyword: "",
+                model: "tax"
+            }
+        })
         .state('customer-list', {
             url: "/customer-list/{page:.*}/{keyword:.*}/{model:.*}",
             templateUrl: "frontend/views/template.html",

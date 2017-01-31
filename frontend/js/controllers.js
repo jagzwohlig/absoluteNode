@@ -9360,6 +9360,31 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             }
         };
 
+        //         $scope.onInvoiceUploadCallback = function (data, length) {
+        //     console.log("Photo Data", data, $scope.timeline, $scope.timelineID);
+        //     if ($scope.checker === length) {
+        //         $scope.arr.push(data);
+        //         $scope.checker = 1;
+        //         var array = _.cloneDeep($scope.arr);
+        //         var newArray = _.each($scope.arr, function (n) {
+        //             a.employee = $scope.message.employee,
+        //                 a.file = n,
+        //                 a.fileName = Date.now();
+        //                 a.type = "File",
+        //                 a.title = "FSR Uploaded",
+        //                 a.attachment = n;
+        //             $scope.assignment.invoice.push(_.cloneDeep(a));
+        //             $scope.sendMessageFromPhoto(_.cloneDeep(a));
+        //             console.log("Array to be Passed", a);
+        //         });
+        //         $scope.arr = [];
+        //         $scope.saveAssignment("FSR");
+        //     } else {
+        //         $scope.arr.push(data);
+        //         $scope.checker++;
+        //     }
+        // };
+
         $scope.onPhotoUploadCallback = function (data, length) {
             console.log("Photo Data", data, $scope.timeline, $scope.timelineID);
             if ($scope.checker === length) {
