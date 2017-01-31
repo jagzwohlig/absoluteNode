@@ -25,7 +25,6 @@
                                 <tr>
                                     <th>User Name</th>
                                     <th>File Name</th>
-                                    <th>Date</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -37,10 +36,9 @@
                                             <span>{{assessment.employee.name}}</span>
                                         </div>
                                     </td>
-                                    <td>{{assessment.file}}</td>
-                                    <td>{{assessment.fileName | date:'ddMMMyy'}}</td>
+                                    <td>{{assessment.fileName | date:'ddMMMyy, hh:mm'}}</td>
                                     <td>
-                                        <!--<button class="btn btn-clear"><i class="ln-trash2"></i></button>-->
+                                    <button class="btn btn-clear" ng-click="deleteTemplate('assessment',$index)"><i class="ln-trash2"></i></button>
                                     <button class="btn btn-clear"> 
                                         <a class="btn btn-primary" download="{{assessment.file}}" ng-href="{{assessment.file|downloadImage}}">
                                             <i class="ln-download"></i>
