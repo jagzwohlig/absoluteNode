@@ -1313,8 +1313,10 @@ img.uploadingImage {
 }
 
 .cust-widg {
-    width: auto !important;
+    width: 65% !important;
     padding: 4px 25px 0;
+    display: flex;
+    flex-direction: column;
 }
 
 .cl-pro {
