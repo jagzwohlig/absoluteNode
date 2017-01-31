@@ -276,6 +276,37 @@ var schema = new Schema({
     },
     invoiceNumberDate: {
       type: Date
+    },
+    employee: {
+      type: Schema.Types.ObjectId,
+      ref: "Employee",
+      index: true,
+      required: true,
+      key: "assignment"
+    },
+    invoiceList:[{
+      description:String,
+      quantity:Number,
+      unit:String,
+      rate:Number,
+      amount:Number
+    }],
+    subTotal:{
+      type:Number
+    },
+    tax: [{
+      taxName:{
+      type: Schema.Types.ObjectId,
+      ref: "Tax",
+      index: true
+    },
+    amount:Number
+    }],
+    roundOff:{
+      type:Number
+    },
+    grandTotal:{
+      type:Number
     }
   }],
   LRs: [{
