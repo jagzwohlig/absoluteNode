@@ -1548,7 +1548,11 @@ var model = {
   },
 
   assignmentFilter: function (data, callback) {
-
+    var Model = this;
+        var Const = this(data);
+        var maxRow = Config.maxRow;
+        var pagestartfrom = (data.page - 1) * maxRow;
+        var page = 1;
     var aggText = [];
     var arr = [];
     if (data.name !== "") {
@@ -1587,7 +1591,7 @@ var model = {
       }
       arr.push(city);
     }
-     if (data.insurer !== "") {
+    if (data.insurer !== "") {
       var insurer = {
         "insurer.name": {
           $regex: data.insurer,
@@ -1596,7 +1600,7 @@ var model = {
       }
       arr.push(insurer);
     }
-     if (data.insured !== "") {
+    if (data.insured !== "") {
       var insured = {
         "insured.name": {
           $regex: data.insured,
@@ -1632,65 +1636,81 @@ var model = {
       }
       arr.push(timelineStatus);
     }
-       
-     aggText = [{
-      $lookup: {
-        from: "cities",
-        localField: "city",
-        foreignField: "_id",
-        as: "city"
+
+    aggText = [{
+        $lookup: {
+          from: "cities",
+          localField: "city",
+          foreignField: "_id",
+          as: "city"
+        }
+      }, {
+        $unwind: "$city"
+      }, {
+        $lookup: {
+          from: "customers",
+          localField: "insurerOffice",
+          foreignField: "_id",
+          as: "insurer"
+        }
+      }, {
+        $unwind: "$insurer"
+      }, {
+        $lookup: {
+          from: "customers",
+          localField: "insuredOffice",
+          foreignField: "_id",
+          as: "insured"
+        }
+      }, {
+        $unwind: "$insured"
+      }, {
+        $lookup: {
+          from: "employees",
+          localField: "owner",
+          foreignField: "_id",
+          as: "owner"
+        }
+      }, {
+        $unwind: "$owner"
+      }, {
+        $lookup: {
+          from: "departments",
+          localField: "department",
+          foreignField: "_id",
+          as: "department"
+        }
+      }, {
+        $unwind: "$department"
+      },
+      {
+        $match: {
+          $and: arr
+        }
+      }, {
+        $project: {
+          name: 1,
+          timelineStatus: 1,
+          intimatedLoss: 1,
+          city: "$city.name",
+          insurer: "$insurer.name",
+          insured: "$insured.name",
+          owner: "$owner.name",
+          department: "$department.name"
+        }
+      }, {
+        $skip: parseInt(pagestartfrom)
+      }, {
+        $limit: maxRow
       }
-    }, {
-      $unwind: "$city"
-    }, {
-      $lookup: {
-        from: "customers",
-        localField: "insurerOffice",
-        foreignField: "_id",
-        as: "insurer"
-      }
-    },{
-      $unwind: "$insurer"
-    },{
-      $lookup: {
-        from: "customers",
-        localField: "insuredOffice",
-        foreignField: "_id",
-        as: "insured"
-      }
-    },{
-      $unwind: "$insured"
-    }, {
-      $lookup: {
-        from: "employees",
-        localField: "owner",
-        foreignField: "_id",
-        as: "owner"
-      }
-    },{
-      $unwind: "$owner"
-    },{
-      $lookup: {
-        from: "departments",
-        localField: "department",
-        foreignField: "_id",
-        as: "department"
-      }
-    }, {
-      $unwind: "$department"
-    },
-     {
-      $match: {
-         $and: arr
-      }
-    }]
+    ]
     Assignment.aggregate(aggText).exec(function (err, found) {
 
       if (err) {
         console.log(err);
         callback(err, null);
       } else {
-        callback(null,found);
+        callback(null, found);
       }
     });
   },
