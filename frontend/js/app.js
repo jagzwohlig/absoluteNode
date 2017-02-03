@@ -1012,25 +1012,25 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
                 model: "tax"
             }
         })
-        .state('createInvoiceExpenditure', {
-            url: "/invoiceExpenditure-detail/{id:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateModelCtrl',
-            params: {
-                id: "",
-                model: "invoice expenditure"
-            }
-        })
-        .state('editInvoiceExpenditure', {
-            url: "/invoiceExpenditure-edit/{id:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditModelCtrl',
-            params: {
-                page: "1",
-                keyword: "",
-                model: "invoice expenditure"
-            }
-        })
+        // .state('createInvoiceExpenditure', {
+        //     url: "/invoiceExpenditure-detail/{id:.*}/{model:.*}",
+        //     templateUrl: "frontend/views/template.html",
+        //     controller: 'CreateModelCtrl',
+        //     params: {
+        //         id: "",
+        //         model: "invoice expenditure"
+        //     }
+        // })
+        // .state('editInvoiceExpenditure', {
+        //     url: "/invoiceExpenditure-edit/{id:.*}/{model:.*}",
+        //     templateUrl: "frontend/views/template.html",
+        //     controller: 'EditModelCtrl',
+        //     params: {
+        //         page: "1",
+        //         keyword: "",
+        //         model: "invoice expenditure"
+        //     }
+        // })
         .state('customer-list', {
             url: "/customer-list/{page:.*}/{keyword:.*}/{model:.*}",
             templateUrl: "frontend/views/template.html",
@@ -1263,6 +1263,16 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
             controller: 'EditTransferOfficerCtrl'
         })
 
+        .state('createassignmentemail', {
+            url: "/assignmentemail-create/{emailId:.*}/{model:.*}/{pdf:.*}",
+            templateUrl: "frontend/views/template.html",
+            controller: 'CreateAssignmentCtrl',
+            params: {
+                emailId: "",
+                model: "assignment"
+            }
+        })
+
         .state('createassignment', {
             url: "/assignment-create/{id:.*}/{model:.*}/{assignment:.*}",
             templateUrl: "frontend/views/template.html",
@@ -1271,16 +1281,6 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
                 id: "",
                 model: "assignment",
                 assignment: ""
-            }
-        })
-
-        .state('createassignmentemail', {
-            url: "/assignmentemail-create/{emailId:.*}/{model:.*}/{pdf:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateAssignmentCtrl',
-            params: {
-                emailId: "",
-                model: "assignment"
             }
         })
 
@@ -1293,6 +1293,26 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
                 model: "assignment"
             }
         })
+        .state('createInvoiceExpenditure', {
+            url: "/invoiceExpenditure-create/{id:.*}/{model:.*}/{assignment:.*}",
+            templateUrl: "frontend/views/template.html",
+            controller: 'CreateInvoiceExpenditureCtrl',
+            params: {
+                id: "",
+                model: "invoice expenditure",
+                assignment: ""
+            }
+        })
+        .state('editInvoiceExpenditure', {
+            url: "/invoiceExpenditure-edit/{id:.*}/{model:.*}",
+            templateUrl: "frontend/views/template.html",
+            controller: 'EditInvoiceExpenditureCtrl',
+            params: {
+                id: "",
+                model: "invoice expenditure"
+            }
+        })
+        
 
         .state('assignment-list', {
             url: "/assignment-list",
@@ -1471,11 +1491,7 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
             }
         })
 
-        .state('editinvoiceExpenditure', {
-            url: "/invoiceExpenditure-edit/:id",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditInvoiceExpenditureCtrl'
-        })
+        
 
        
 

@@ -627,6 +627,119 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
+
+    .controller('CreateInvoiceExpenditureCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $state, toastr) {
+        //Used to name the .html file
+
+        $scope.template = TemplateService.changecontent("invoiceExpenditure-detail");
+        $scope.menutitle = NavigationService.makeactive("InvoiceExpenditure");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+
+        $scope.header = {
+            "name": "Create Invoice Expenditure"
+        };
+        $scope.formData = {};
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+        hotkeys.bindTo($scope).add({
+            combo: 'ctrl+enter',
+            callback: function (formData) {
+                NavigationService.invoiceExpenditureSave($scope.formData, function (data) {
+                    if (data.value === true) {
+                        $window.history.back();
+                        toastr.success("InvoiceExpenditure " + formData.name + " created successfully.", "InvoiceExpenditure Created");
+                    } else {
+                        toastr.error("InvoiceExpenditure creation failed.", "InvoiceExpenditure creation error");
+                    }
+                });
+            }
+        });
+        $scope.saveInvoiceExpenditure = function (formData) {
+            console.log($scope.formData);
+            NavigationService.invoiceExpenditureSave($scope.formData, function (data) {
+                if (data.value === true) {
+                    $window.history.back();
+                    toastr.success("InvoiceExpenditure " + formData.name + " created successfully.", "InvoiceExpenditure Created");
+                } else {
+                    toastr.error("InvoiceExpenditure creation failed.", "InvoiceExpenditure creation error");
+                }
+            });
+        };
+
+    })
+
+    .controller('EditInvoiceExpenditureCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+        //Used to name the .html file
+
+        $scope.template = TemplateService.changecontent("invoiceExpenditure-detail");
+        $scope.menutitle = NavigationService.makeactive("InvoiceExpenditure");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.formData = {};
+        $scope.formData.rateArray = [];
+
+        $scope.header = {
+            "name": "Edit Country"
+        };
+
+        NavigationService.getOneinvoiceExpenditure($stateParams.id, function (data) {
+            $scope.formData = data.data;
+            console.log('$scope.oneCountry', $scope.oneCountry);
+
+        });
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+
+        $scope.addModal = function (filename, index, holdobj, data, current, wholeObj) {
+            if (index !== "") {
+                $scope.modalData = data;
+                $scope.modalIndex = index;
+            } else {
+                $scope.modalData = {};
+                $scope.modalIndex = "";
+            }
+            $scope.wholeObj = wholeObj;
+            $scope.current = current;
+            $scope.holdObject = holdobj;
+            var modalInstance = $uibModal.open({
+                scope: $scope,
+                templateUrl: '/frontend/views/modal/' + filename + '.html',
+                size: 'lg'
+            });
+        };
+        hotkeys.bindTo($scope).add({
+            combo: 'ctrl+enter',
+            callback: function (formData) {
+                NavigationService.invoiceExpenditureSave($scope.formData, function (data) {
+                    if (data.value === true) {
+                        $window.history.back();
+                        console.log("Check this one");
+                        toastr.success("InvoiceExpenditure " + $scope.formData.name + " edited successfully.", "InvoiceExpenditure Edited");
+                    } else {
+                        toastr.error("InvoiceExpenditure edition failed.", "InvoiceExpenditure editing error");
+                    }
+                });
+            }
+        });
+
+        $scope.saveInvoiceExpenditure = function (formValid) {
+            NavigationService.invoiceExpenditureSave($scope.formData, function (data) {
+                if (data.value === true) {
+                    $window.history.back();
+                    console.log("Check this one");
+                    toastr.success("InvoiceExpenditure " + $scope.formData.name + " edited successfully.", "InvoiceExpenditure Edited");
+                } else {
+                    toastr.error("InvoiceExpenditure edition failed.", "InvoiceExpenditure editing error");
+                }
+            });
+        };
+
+    })
+
+
     .controller('CreateAssignmentCtrl', function ($scope, $window, TemplateService, hotkeys, NavigationService, $filter, $timeout, $state, toastr, $stateParams, $uibModal) {
         //Used to name the .html file
 
@@ -8600,7 +8713,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             } else {
                 $scope.formData.forms = [{
                     name: '',
-                    order:''
+                    order: ''
                 }];
             }
         };
@@ -8644,7 +8757,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.formData.status = true;
         $scope.formData.forms = [{
             name: '',
-            order:''
+            order: ''
         }];
 
         $scope.required = true;
@@ -8660,8 +8773,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.formData.forms.splice(index, 1);
             } else {
                 $scope.formData.forms = [{
-                     name: '',
-                     order: ''
+                    name: '',
+                    order: ''
                 }];
             }
         };
@@ -8842,19 +8955,19 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 });
             } else {
                 $scope.Saved = true;
-                console.log("Data To Saveeee",$scope.forms);
+                console.log("Data To Saveeee", $scope.forms);
                 NavigationService.editAssignmentTemplate($scope.forms, function (data) {
 
                     if (data.value) {
-                        var a={};
+                        var a = {};
                         $scope.message.title = "Updated " + $stateParams.type;
                         // $scope.sendMessage("Template");
                         a.type = "File",
-                        a.employee = $scope.message.employee,
-                        a.title =$scope.message.title,
-                        a.attachment = data.data.name;
+                            a.employee = $scope.message.employee,
+                            a.title = $scope.message.title,
+                            a.attachment = data.data.name;
                         $scope.sendMessage2(_.cloneDeep(a));
-                        console.log("YZ",a);
+                        console.log("YZ", a);
                         toastr.success("Updated " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
                         $state.go('timeline', {
                             id: $scope.assignment._id
@@ -9472,7 +9585,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     a.employee = $scope.message.employee,
                         a.file = n,
                         a.fileName = Date.now();
-                        a.type = "File",
+                    a.type = "File",
                         a.title = "FSR Uploaded",
                         a.attachment = n;
                     $scope.assignment.fsrs.push(_.cloneDeep(a));

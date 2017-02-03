@@ -764,6 +764,11 @@ var navigationservice = angular.module('navigationservice', [])
                 callback(data, i);
             });
         },
+        searchInvoiceExpenditure: function (formData, i, callback) {
+            $http.post(adminurl + 'invoiceExpenditure/search', formData).success(function (data) {
+                callback(data, i);
+            });
+        },
         allSearch: function (api, formData, callback) {
             $http.post(adminurl + api, formData).success(function (data) {
                 callback(data);
@@ -771,6 +776,9 @@ var navigationservice = angular.module('navigationservice', [])
         },
         countrySave: function (formData, callback) {
             $http.post(adminurl + 'country/save', formData).success(callback);
+        },
+        invoiceExpenditureSave: function (formData, callback) {
+            $http.post(adminurl + 'invoiceExpenditure/save', formData).success(callback);
         },
         claimSave: function (formData, callback) {
             $http.post(adminurl + 'Claims/save', formData).success(callback);
@@ -795,6 +803,11 @@ var navigationservice = angular.module('navigationservice', [])
         },
         getOneCountry: function (id, callback) {
             $http.post(adminurl + 'country/getOne', {
+                _id: id
+            }).success(callback);
+        },
+        getOneinvoiceExpenditure: function (id, callback) {
+            $http.post(adminurl + 'invoiceExpenditure/getOne', {
                 _id: id
             }).success(callback);
         },

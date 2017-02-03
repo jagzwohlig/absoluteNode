@@ -8,12 +8,12 @@
         </li>
     </ul>
 </div>
-<form name="policyTypeForm" ng-submit="saveModel(formData)">
+<form name="policyTypeForm" ng-submit="saveInvoiceExpenditure(formData)">
     <div class="heading-sec">
         <div class="row">
             <div class="col-md-12 column">
                 <div class="heading-profile">
-                     <toggle-switch ng-model="formData.status" class="switch-small switch-success pull-right"></toggle-switch> 
+                    <toggle-switch ng-model="formData.status" class="switch-small switch-success pull-right"></toggle-switch>
                     <h2>Document Type</h2>
                 </div>
             </div>
@@ -52,14 +52,54 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="text-center mt20 odd-even-button">
-                                <button class="btn btn-default" type="submit" ng-disabled="policyTypeForm.$invalid">Save</button>
-                                <a class="btn btn-default" ng-click="cancel()">Cancel</a>
-                            </div>
+                           
                         </div>
                     </div>
                 </div>
             </div>
+             <div class="widget">
+                                <div class="form-elements-sec">
+                                    <div class="widget-title">
+                                        <a class="btn btn-primary pull-right" ng-click="addModal( 'modal-assignment', '',
+                        'rateArray', '', '',formData.rateArray)">Add New</a>
+                                            <h3>All Rate</h3>
+                                    </div>
+                                    <div class="error-msg" ng-show="formData.rateArray.length==0">At least one Product is compulsory.</div>
+                                    <div class="sec">
+                                        <div class="table-responsive">
+                                            <table class="table table-input" ng-if="formData.rateArray.length!=0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Product</th>
+                                                        <th>Item</th>
+                                                        <th width="150px">Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="data in formData.rateArray track by $index">
+                                                        <td>{{data.name}}</td>
+                                                        <td>{{data.item}}</td>
+                                                        <td>
+                                                            <a class="btn btn-primary" ng-click="addModal( 'modal-assignment',$index,
+                        'products',data, '',formData.products)">
+                                                                <i class="fa fa-pencil"></i>
+                                                                </a>
+                                                                <a class="btn btn-danger" ng-click="deleteElements($index, formData.products)">
+                                                                    <i class="fa fa-trash"></i>
+                                                                </a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="text-center mt20 odd-even-button" ng-hide="hideSaveCancel">
+            <button class="btn btn-default" type="submit" ng-disabled="policyTypeForm.$invalid">Save</button>
+            <a class="btn btn-default" ng-click="cancel()">Cancel</a>
         </div>
     </div>
 </form>
