@@ -284,29 +284,29 @@ var schema = new Schema({
       required: true,
       key: "assignment"
     },
-    invoiceList:[{
-      description:String,
-      quantity:Number,
-      unit:String,
-      rate:Number,
-      amount:Number
+    invoiceList: [{
+      description: String,
+      quantity: Number,
+      unit: String,
+      rate: Number,
+      amount: Number
     }],
-    subTotal:{
-      type:Number
+    subTotal: {
+      type: Number
     },
     tax: [{
-      taxName:{
-      type: Schema.Types.ObjectId,
-      ref: "Tax",
-      index: true
-    },
-    amount:Number
+      taxName: {
+        type: Schema.Types.ObjectId,
+        ref: "Tax",
+        index: true
+      },
+      amount: Number
     }],
-    roundOff:{
-      type:Number
+    roundOff: {
+      type: Number
     },
-    grandTotal:{
-      type:Number
+    grandTotal: {
+      type: Number
     }
   }],
   LRs: [{
@@ -989,7 +989,7 @@ var model = {
       .deepPopulate("owner insuredOffice insurerOffice city department")
       .keyword(options)
 
-    .page(options, callback);
+      .page(options, callback);
 
   },
   updateSurveyor: function (data, callback) {
@@ -1183,8 +1183,8 @@ var model = {
         "survey.$.status": "Completed",
         // "survey.$.dateOfSurvey": new Date(data.dateOfSurvey),
         "survey.$.completionTime": Date.now()
-          // "survey.$.surveyEndTime":new Date(data.surveyEndTime),
-          // "survey.$.surveyStartTime": new Date(data.surveyStartTime)
+        // "survey.$.surveyEndTime":new Date(data.surveyEndTime),
+        // "survey.$.surveyStartTime": new Date(data.surveyStartTime)
       },
       $push: {
         docs: {
@@ -1546,6 +1546,156 @@ var model = {
     });
 
   },
+
+  assignmentFilter: function (data, callback) {
+
+    var aggText = [];
+    var arr = [];
+    if (data.name !== "") {
+      var name = {
+        "name": {
+          $regex: data.name,
+          $options: 'i'
+        }
+      }
+      arr.push(name);
+    }
+    if (data.intimatedLoss !== "") {
+      var intimatedLoss = {
+        "intimatedLoss": {
+          $regex: data.intimatedLoss,
+          $options: 'i'
+        }
+      }
+      arr.push(intimatedLoss);
+    }
+    if (data.city !== "") {
+      var name = {
+        "city.name": {
+          $regex: data.city,
+          $options: 'i'
+        }
+      }
+      arr.push(name);
+    }
+    if (data.city !== "") {
+      var city = {
+        "city.name": {
+          $regex: data.city,
+          $options: 'i'
+        }
+      }
+      arr.push(city);
+    }
+     if (data.insurer !== "") {
+      var insurer = {
+        "insurer.name": {
+          $regex: data.insurer,
+          $options: 'i'
+        }
+      }
+      arr.push(insurer);
+    }
+     if (data.insured !== "") {
+      var insured = {
+        "insured.name": {
+          $regex: data.insured,
+          $options: 'i'
+        }
+      }
+      arr.push(insured);
+    }
+    if (data.owner !== "") {
+      var owner = {
+        "owner.name": {
+          $regex: data.owner,
+          $options: 'i'
+        }
+      }
+      arr.push(owner);
+    }
+    if (data.department !== "") {
+      var department = {
+        "department.name": {
+          $regex: data.department,
+          $options: 'i'
+        }
+      }
+      arr.push(department);
+    }
+    if (data.timelineStatus !== "") {
+      var timelineStatus = {
+        "timelineStatus": {
+          $regex: data.timelineStatus,
+          $options: 'i'
+        }
+      }
+      arr.push(timelineStatus);
+    }
+       
+     aggText = [{
+      $lookup: {
+        from: "cities",
+        localField: "city",
+        foreignField: "_id",
+        as: "city"
+      }
+    }, {
+      $unwind: "$city"
+    }, {
+      $lookup: {
+        from: "customers",
+        localField: "insurerOffice",
+        foreignField: "_id",
+        as: "insurer"
+      }
+    },{
+      $unwind: "$insurer"
+    },{
+      $lookup: {
+        from: "customers",
+        localField: "insuredOffice",
+        foreignField: "_id",
+        as: "insured"
+      }
+    },{
+      $unwind: "$insured"
+    }, {
+      $lookup: {
+        from: "employees",
+        localField: "owner",
+        foreignField: "_id",
+        as: "owner"
+      }
+    },{
+      $unwind: "$owner"
+    },{
+      $lookup: {
+        from: "departments",
+        localField: "department",
+        foreignField: "_id",
+        as: "department"
+      }
+    }, {
+      $unwind: "$department"
+    },
+     {
+      $match: {
+         $and: arr
+      }
+    }]
+    Assignment.aggregate(aggText).exec(function (err, found) {
+
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else {
+        callback(null,found);
+      }
+    });
+  },
+
+
 
 };
 
