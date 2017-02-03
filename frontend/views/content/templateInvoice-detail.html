@@ -17,7 +17,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>LOR Name*</label>
+                                <label>Invoice Name*</label>
                                 <input type="text" name="name" class="form-control" ng-model="formData.name" required>
                                 <div class="error-msg" ng-show="formName.name.$invalid && formName.name.$touched">Please Enter Name</div>
                             </div>
@@ -33,10 +33,10 @@
                     <div class="form-builder">
                         <div class="form-repeater" ng-repeat="form in formData.forms">
                             <div class="form-builder-head">
-                                <div class="mark-float">
+                                <!--<div class="mark-float">
                                     <i class="fa fa-plus-circle success" ng-click="addHead();"></i>
                                     <i class="fa fa-minus-circle danger" ng-click="removeHead($index);"></i>
-                                </div>
+                                </div>-->
                                 <input type="text" ng-model="form.name" placeholder="Enter Heading" class="form-control">
                             </div>
                             <div class="form-builder-hr" id="sortable-ul-selector-id" ui-sortable="sortableOptions" ng-model="form.items">

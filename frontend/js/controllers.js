@@ -8565,6 +8565,187 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     })
 
+    .controller('EditTemplateInvoiceCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("templateLor-detail");
+        $scope.menutitle = NavigationService.makeactive("Edit LOR Template");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+
+        $scope.header = {
+            "name": "Edit LOR Template"
+        };
+
+        $scope.formData = {};
+        NavigationService.getOneModel("TemplateLor", $stateParams.id, function (data) {
+            $scope.formData = data.data;
+        });
+        $scope.itemTypes = [{
+            value: '',
+            name: 'Select Status'
+        }, {
+            value: 'Copy',
+            name: 'Copy'
+        }, {
+            value: 'Original',
+            name: 'Original'
+        }];
+
+        $scope.formData.forms = [{
+            head: '',
+            items: [{}, {}]
+        }];
+
+        $scope.required = true;
+
+        $scope.addHead = function () {
+            $scope.formData.forms.push({
+                head: $scope.formData.forms.length + 1,
+                items: [{}]
+            });
+        };
+        $scope.removeHead = function (index) {
+            if ($scope.formData.forms.length > 1) {
+                $scope.formData.forms.splice(index, 1);
+            } else {
+                $scope.formData.forms = [{
+                    head: '',
+                    items: [{}, {}]
+                }];
+            }
+        };
+
+        $scope.addItem = function (obj) {
+            var index = $scope.formData.forms.indexOf(obj);
+            $scope.formData.forms[index].items.push({});
+        };
+
+        $scope.removeItem = function (obj, indexItem) {
+            var indexHead = $scope.formData.forms.indexOf(obj);
+            if ($scope.formData.forms[indexHead].items.length > 1) {
+                $scope.formData.forms[indexHead].items.splice(indexItem, 1);
+            } else {
+                $scope.formData.forms[indexHead].items = [{}];
+            }
+        };
+
+        $scope.sortableOptions = {
+            handle: ' .handleBar',
+            axis: 'y',
+            'ui-floating': true,
+            start: function (e, ui) {
+                $('#sortable-ul-selector-id').sortable("refreshPositions");
+                $('#sortable-ul-selector-id').sortable("refresh");
+            }
+        };
+        $scope.cancel = function () {
+            $window.history.back();
+        }
+        $scope.saveModel = function (data) {
+            $scope.saveModel = function (formData) {
+                NavigationService.modelSave("TemplateLor", $scope.formData, function (data) {
+                    if (data.value === true) {
+                        // $state.go('templateLor-list');
+                        $window.history.back();
+                        toastr.success("LOR Template " + formData.name + " edited successfully.", "LOR Template Edited");
+                    } else {
+                        toastr.error("LOR Template edition failed.", "LOr Template edition error");
+                    }
+                });
+            };
+        };
+    })
+
+    .controller('CreateTemplateInvoiceCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("templateInvoice-detail");
+        $scope.menutitle = NavigationService.makeactive("Create Invoice Template");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+
+        $scope.header = {
+            "name": "Create Invoice Template"
+        };
+
+        $scope.itemTypes = [{
+            value: '',
+            name: 'Select Status'
+        }, {
+            value: 'Copy',
+            name: 'Copy'
+        }, {
+            value: 'Original',
+            name: 'Original'
+        }];
+
+        $scope.formData = {};
+        $scope.formData.status = true;
+        $scope.formData.forms = [{
+            head: '',
+            items: [{}, {}]
+        }];
+
+        $scope.required = true;
+
+        $scope.addHead = function () {
+            $scope.formData.forms.push({
+                head: $scope.formData.forms.length + 1,
+                items: [{},{}]
+            });
+        };
+        $scope.removeHead = function (index) {
+            if ($scope.formData.forms.length > 1) {
+                $scope.formData.forms.splice(index, 1);
+            } else {
+                $scope.formData.forms = [{
+                    head: '',
+                    items: [{}, {}]
+                }];
+            }
+        };
+
+        $scope.addItem = function (obj) {
+            var index = $scope.formData.forms.indexOf(obj);
+            $scope.formData.forms[index].items.push({});
+        };
+
+        $scope.removeItem = function (obj, indexItem) {
+            var indexHead = $scope.formData.forms.indexOf(obj);
+            if ($scope.formData.forms[indexHead].items.length > 1) {
+                $scope.formData.forms[indexHead].items.splice(indexItem, 1);
+            } else {
+                $scope.formData.forms[indexHead].items = [{}];
+            }
+        };
+
+        $scope.sortableOptions = {
+            handle: ' .handleBar',
+            axis: 'y',
+            'ui-floating': true,
+            start: function (e, ui) {
+                $('#sortable-ul-selector-id').sortable("refreshPositions");
+                $('#sortable-ul-selector-id').sortable("refresh");
+            }
+        };
+        $scope.cancel = function () {
+            $window.history.back();
+        }
+        $scope.saveModel = function (data) {
+            $scope.saveModel = function (formData) {
+                NavigationService.modelSave("TemplateLor", $scope.formData, function (data) {
+                    if (data.value === true) {
+                        // $state.go('templateLor-list');
+                        $window.history.back();
+                        toastr.success("LOR Template " + formData.name + " created successfully.", "LOR Template Created");
+                    } else {
+                        toastr.error("LOR Template creation failed.", "LOr Template creation error");
+                    }
+                });
+            };
+        };
+
+    })
+
     .controller('TemplateLORCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("template-lor-list");

@@ -1407,6 +1407,17 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
                 model: "template lor"
             }
         })
+         .state('createtemplateLor', {
+            url: "/templateLor-create",
+            templateUrl: "frontend/views/template.html",
+            controller: 'CreateTemplateLORCtrl'
+        })
+
+        .state('edittemplateLor', {
+            url: "/templateLor-edit/:id",
+            templateUrl: "frontend/views/template.html",
+            controller: 'EditTemplateLORCtrl'
+        })
 
         .state('templateInvoice-list', {
             url: "/templateInvoice-list/{page:.*}/{keyword:.*}/{model:.*}",
@@ -1418,18 +1429,19 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
                 model: "template invoice"
             }
         })
-
-        .state('createtemplateLor', {
-            url: "/templateLor-create",
+        .state('createtemplateInvoice', {
+            url: "/templateInvoice-create",
             templateUrl: "frontend/views/template.html",
-            controller: 'CreateTemplateLORCtrl'
+            controller: 'CreateTemplateInvoiceCtrl'
         })
 
-        .state('edittemplateLor', {
-            url: "/templateLor-edit/:id",
+        .state('edittemplateInvoice', {
+            url: "/templateInvoice-edit/:id",
             templateUrl: "frontend/views/template.html",
-            controller: 'EditTemplateLORCtrl'
+            controller: 'EditTemplateInvoiceCtrl'
         })
+
+       
 
         //  lor state
 

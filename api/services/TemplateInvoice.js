@@ -15,10 +15,6 @@ var schema = new Schema({
         unique: true,
         uniqueCaseInsensitive: true
     },
-    sequence:{
-        type:Number,
-        default:0
-    },
     status: {
         type: Boolean,
         default: true
