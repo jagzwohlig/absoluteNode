@@ -1012,6 +1012,25 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
                 model: "tax"
             }
         })
+        .state('createInvoiceExpenditure', {
+            url: "/invoiceExpenditure-detail/{id:.*}/{model:.*}",
+            templateUrl: "frontend/views/template.html",
+            controller: 'CreateModelCtrl',
+            params: {
+                id: "",
+                model: "invoice expenditure"
+            }
+        })
+        .state('editInvoiceExpenditure', {
+            url: "/invoiceExpenditure-edit/{id:.*}/{model:.*}",
+            templateUrl: "frontend/views/template.html",
+            controller: 'EditModelCtrl',
+            params: {
+                page: "1",
+                keyword: "",
+                model: "invoice expenditure"
+            }
+        })
         .state('customer-list', {
             url: "/customer-list/{page:.*}/{keyword:.*}/{model:.*}",
             templateUrl: "frontend/views/template.html",
@@ -1439,6 +1458,23 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
             url: "/templateInvoice-edit/:id",
             templateUrl: "frontend/views/template.html",
             controller: 'EditTemplateInvoiceCtrl'
+        })
+
+        .state('invoiceExpenditure-list', {
+            url: "/invoiceExpenditure-list/{page:.*}/{keyword:.*}/{model:.*}",
+            templateUrl: "frontend/views/template.html",
+            controller: 'ModelViewCtrl',
+            params: {
+                page: "1",
+                keyword: "",
+                model: "invoice expenditure"
+            }
+        })
+
+        .state('editinvoiceExpenditure', {
+            url: "/invoiceExpenditure-edit/:id",
+            templateUrl: "frontend/views/template.html",
+            controller: 'EditInvoiceExpenditureCtrl'
         })
 
        

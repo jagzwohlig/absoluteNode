@@ -4,7 +4,19 @@ var schema = new Schema({
         required: true,
         unique: true,
         uniqueCaseInsensitive: true
-    }
+    },
+    description:String,
+    unit:String,
+    rate:Number,
+    status: {
+        type: Boolean,
+        default: true
+    },
+    rateArray:[{
+        rate:Number,
+        validFrom:Date,
+        validTo:Date
+    }]
 });
 
 schema.plugin(deepPopulate, {});
