@@ -1,6 +1,6 @@
 <div class="modal-header green-bg with-button">
     <div class="pull-right">
-        <button class="btn btn-darker btn-round btn-nopad" ng-click="showCreate = true">Create new</button>
+        <button class="btn btn-darker btn-round btn-nopad" ng-if="assignment.dateOfLoss" ng-click="showCreate = true">Create new</button>
         <button class="btn btn-clear" ng-click="$dismiss();showCreate=false">
             <i class="ln-cross"></i>
         </button>

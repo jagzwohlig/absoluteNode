@@ -6,13 +6,13 @@
     </div>
     <h5 class="modal-title">All Photos</h5>
 </div>
-<div class="modal-body">
+<div class="modal-body" >
     <form name="companyForm" ng-submit="saveCompany(formData)">
         <div class="form-group">
-            <label>Upload Photos</label>
+            <!--<label>Upload Photos</label>-->
             <!--<upload-image ng-model="photo.file" ng-callback="onPhotoUploadCallback(photo)" no-view></upload-image>-->
             
-            <upload-image-new ng-model="img" ng-callback="onPhotoUploadCallback(img,length)" multiple no-view></upload-image-new>
+            <upload-image-new ng-model="img" ng-if="assignment.dateOfLoss" ng-callback="onPhotoUploadCallback(img,length)" multiple no-view></upload-image-new>
         </div>
     </form>
     <div class="field">

@@ -9,8 +9,8 @@
 <div class="modal-body">
     <form name="companyForm">
         <div class="form-group">
-            <label>Upload Files</label>
-             <upload-image-new ng-model="img" ng-callback="onDocsUploadCallback(img,length)" multiple no-view></upload-image-new>
+            <label  ng-if="assignment.dateOfLoss">Upload Files</label>
+             <upload-image-new ng-model="img" ng-if="assignment.dateOfLoss" ng-callback="onDocsUploadCallback(img,length)" multiple no-view></upload-image-new>
             <!--<upload-image ng-model="doc.file" ng-callback="onDocsUploadCallback(doc)" no-view></upload-image>-->
         </div>
     </form>
