@@ -15,6 +15,7 @@ var schema = new Schema({
         unique: true,
         uniqueCaseInsensitive: true
     },
+    formName:String,
     status: {
         type: Boolean,
         default: true

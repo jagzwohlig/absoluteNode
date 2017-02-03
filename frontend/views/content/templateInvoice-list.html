@@ -31,16 +31,14 @@
                             <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Sequence</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr ng-repeat="template in modelList">
                                     <td>{{template.name}}</td>
-                                    <td>{{template.sequence}}</td>
                                     <td>
-                                        <a class="btn btn-primary" ui-sref="edittemplateLor({id:template._id})"><i class="fa fa-pencil"></i></a>
+                                        <a class="btn btn-primary" ui-sref="edittemplateInvoice({id:template._id})"><i class="fa fa-pencil"></i></a>
                                         <a class="btn btn-danger" ng-click="deleteModel(template._id)"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>
