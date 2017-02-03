@@ -272,6 +272,11 @@ var navigationservice = angular.module('navigationservice', [])
                 classis: "active",
                 anchor: "templateIsr-list",
                 icon: "file-text"
+            },{
+                name: "Invoice Templates",
+                classis: "active",
+                anchor: "templateInvoice-list",
+                icon: "file-text"
             }
         ]
     },

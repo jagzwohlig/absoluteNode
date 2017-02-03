@@ -1408,6 +1408,17 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
             }
         })
 
+        .state('templateInvoice-list', {
+            url: "/templateInvoice-list/{page:.*}/{keyword:.*}/{model:.*}",
+            templateUrl: "frontend/views/template.html",
+            controller: 'ModelViewCtrl',
+            params: {
+                page: "1",
+                keyword: "",
+                model: "template invoice"
+            }
+        })
+
         .state('createtemplateLor', {
             url: "/templateLor-create",
             templateUrl: "frontend/views/template.html",
