@@ -680,12 +680,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
                 $scope.addElements = function (moddata) {
             if ($scope.modalIndex !== "") {
+                $scope.formData.rate=moddata.rate;
                 $scope.wholeObj[$scope.modalIndex] = moddata;
             } else {
                 $scope.newjson = moddata;
                 var a = moddata;
                 switch ($scope.holdObject) {
                     case "rateArray":
+                        $scope.formData.rate=moddata.rate;
                         $scope.formData.rateArray.push(moddata);
                         break;
                     default:
@@ -759,12 +761,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
                 $scope.addElements = function (moddata) {
             if ($scope.modalIndex !== "") {
+                $scope.formData.rate=moddata.rate;
                 $scope.wholeObj[$scope.modalIndex] = moddata;
             } else {
                 $scope.newjson = moddata;
                 var a = moddata;
                 switch ($scope.holdObject) {
                     case "rateArray":
+                        $scope.formData.rate=moddata.rate;
                         $scope.formData.rateArray.push(moddata);
                         break;
                     default:
