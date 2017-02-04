@@ -1,0 +1,27 @@
+<div class="modal-header blue-bg">
+    <div class="pull-right">
+        <a class="btn btn-clear" ng-click="$dismiss()">
+            <i class="ln-cross"></i>
+        </a>
+    </div>
+    <h5 class="modal-title"><i class="fa fa-filter"></i> Filter</h5>
+</div>
+<div class="modal-body">
+    <form name="filterForm">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Data 1</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" ng-model="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Data 2</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" ng-model="">
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary btn-outline btn-small" type="button" ng-click="doFilter(filterData)">Apply</button>
+</div>
