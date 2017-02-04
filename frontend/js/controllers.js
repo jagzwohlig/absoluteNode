@@ -8766,7 +8766,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
 
         $scope.formData.forms = [{
-            name: '',
+            invoiceExpenditure: '',
             order: ''
         }];
 
@@ -8774,7 +8774,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
         $scope.addHead = function () {
             $scope.formData.forms.push({
-                name: '',
+                invoiceExpenditure: '',
                 order: ''
             });
         };
@@ -8783,7 +8783,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.formData.forms.splice(index, 1);
             } else {
                 $scope.formData.forms = [{
-                    name: '',
+                    invoiceExpenditure: '',
                     order: ''
                 }];
             }
@@ -8827,7 +8827,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.formData = {};
         $scope.formData.status = true;
         $scope.formData.forms = [{
-            name: '',
+            invoiceExpenditure: '',
             order: ''
         }];
 
@@ -8835,7 +8835,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
         $scope.addHead = function () {
             $scope.formData.forms.push({
-                name: '',
+                invoiceExpenditure: '',
                 order: ''
             });
         };
@@ -8844,7 +8844,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.formData.forms.splice(index, 1);
             } else {
                 $scope.formData.forms = [{
-                    name: '',
+                    invoiceExpenditure: '',
                     order: ''
                 }];
             }
@@ -9378,11 +9378,15 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.createTemplate = function (tmp) {
             console.log("In createTemplate", tmp);
             delete tmp._id;
-            $scope.assignment[_.camelCase($scope.api)].push(tmp);
+            // if($scope.api==="TemplateInvoice"){
+
+            //     $scope.assignment[_.camelCase($scope.api)].push(tmp);
+            // }else{
+                $scope.assignment[_.camelCase($scope.api)].push(tmp);
+            // }
 
             NavigationService.modelSave("Assignment", $scope.assignment, function (data) {
                 if (data.value) {
-
                     toastr.success("Created " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
                     $scope.assignmentRefresh();
                 } else {
@@ -9391,10 +9395,12 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         }
         $scope.viewTemplates = function (temp, getApi, data) {
+            console.log("HI SANKET",data);            
             $scope.allTemplate = temp;
             $scope.api = getApi;
             console.log("$scope.api", $scope.api);
             if (data === "") {
+            console.log("In If");            
                 NavigationService.searchModel(getApi, {
                     page: "1",
                     keyword: ""
@@ -9407,6 +9413,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     size: 'md'
                 });
             } else {
+            console.log("In Else");                            
                 $state.go("template-view", {
                     "assignmentTemplate": data._id,
                     "type": getApi

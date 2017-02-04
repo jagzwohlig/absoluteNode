@@ -270,45 +270,6 @@ var schema = new Schema({
       type: String
     }
   }],
-  invoice: [{
-    invoiceNumber: {
-      type: String
-    },
-    invoiceNumberDate: {
-      type: Date
-    },
-    employee: {
-      type: Schema.Types.ObjectId,
-      ref: "Employee",
-      index: true,
-      required: true,
-      key: "assignment"
-    },
-    invoiceList: [{
-      description: String,
-      quantity: Number,
-      unit: String,
-      rate: Number,
-      amount: Number
-    }],
-    subTotal: {
-      type: Number
-    },
-    tax: [{
-      taxName: {
-        type: Schema.Types.ObjectId,
-        ref: "Tax",
-        index: true
-      },
-      amount: Number
-    }],
-    roundOff: {
-      type: Number
-    },
-    grandTotal: {
-      type: Number
-    }
-  }],
   LRs: [{
     lrNumber: {
       type: String
@@ -438,6 +399,52 @@ var schema = new Schema({
       index: true,
       required: true,
       key: "assignment"
+    }
+  }],
+    templateInvoice: [{
+    invoiceNumber: {
+      type: String
+    },
+    invoiceNumberDate: {
+      type: Date
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    employee: {
+      type: Schema.Types.ObjectId,
+      ref: "Employee",
+      index: true,
+      required: true,
+      key: "assignment"
+    },
+    forms: {
+      type: []
+    },
+    invoiceList: [{
+      description: String,
+      quantity: Number,
+      unit: String,
+      rate: Number,
+      amount: Number
+    }],
+    subTotal: {
+      type: Number
+    },
+    tax: [{
+      taxName: {
+        type: Schema.Types.ObjectId,
+        ref: "Tax",
+        index: true
+      },
+      amount: Number
+    }],
+    roundOff: {
+      type: Number
+    },
+    grandTotal: {
+      type: Number
     }
   }],
   templateIla: [{
