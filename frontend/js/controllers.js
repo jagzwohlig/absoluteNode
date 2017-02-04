@@ -174,7 +174,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
     })
-    .controller('ModelViewCtrl', function ($scope, $window, hotkeys, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
+    .controller('ModelViewCtrl', function ($scope, $window, hotkeys, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr, $uibModal) {
         //Used to name the .html file        
         $scope.modelCamel = _.camelCase($stateParams.model);
         var a = _.startCase($scope.modelCamel).split(" ");
@@ -290,6 +290,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 if (data.value === true) {}
             });
         };
+
+        $scope.assignmentFilter = function () {
+            var modalInstance = $uibModal.open({
+                scope: $scope,
+                templateUrl: '/frontend/views/modal/assignment-filter.html',
+                size: 'lg'
+            });
+        }
     })
 
 
@@ -658,7 +666,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             }
         });
 
-            $scope.addModal = function (filename, index, holdobj, data, current, wholeObj) {
+        $scope.addModal = function (filename, index, holdobj, data, current, wholeObj) {
             if (index !== "") {
                 $scope.modalData = data;
                 $scope.modalIndex = index;
@@ -678,16 +686,16 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
-                $scope.addElements = function (moddata) {
+        $scope.addElements = function (moddata) {
             if ($scope.modalIndex !== "") {
-                $scope.formData.rate=moddata.rate;
+                $scope.formData.rate = moddata.rate;
                 $scope.wholeObj[$scope.modalIndex] = moddata;
             } else {
                 $scope.newjson = moddata;
                 var a = moddata;
                 switch ($scope.holdObject) {
                     case "rateArray":
-                        $scope.formData.rate=moddata.rate;
+                        $scope.formData.rate = moddata.rate;
                         $scope.formData.rateArray.push(moddata);
                         break;
                     default:
@@ -759,16 +767,16 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
-                $scope.addElements = function (moddata) {
+        $scope.addElements = function (moddata) {
             if ($scope.modalIndex !== "") {
-                $scope.formData.rate=moddata.rate;
+                $scope.formData.rate = moddata.rate;
                 $scope.wholeObj[$scope.modalIndex] = moddata;
             } else {
                 $scope.newjson = moddata;
                 var a = moddata;
                 switch ($scope.holdObject) {
                     case "rateArray":
-                        $scope.formData.rate=moddata.rate;
+                        $scope.formData.rate = moddata.rate;
                         $scope.formData.rateArray.push(moddata);
                         break;
                     default:
@@ -9386,7 +9394,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
             //     $scope.assignment[_.camelCase($scope.api)].push(tmp);
             // }else{
-                $scope.assignment[_.camelCase($scope.api)].push(tmp);
+            $scope.assignment[_.camelCase($scope.api)].push(tmp);
             // }
 
             NavigationService.modelSave("Assignment", $scope.assignment, function (data) {
@@ -9399,12 +9407,12 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         }
         $scope.viewTemplates = function (temp, getApi, data) {
-            console.log("HI SANKET",data);            
+            console.log("HI SANKET", data);
             $scope.allTemplate = temp;
             $scope.api = getApi;
             console.log("$scope.api", $scope.api);
             if (data === "") {
-            console.log("In If");            
+                console.log("In If");
                 NavigationService.searchModel(getApi, {
                     page: "1",
                     keyword: ""
@@ -9417,7 +9425,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     size: 'md'
                 });
             } else {
-            console.log("In Else");                            
+                console.log("In Else");
                 $state.go("template-view", {
                     "assignmentTemplate": data._id,
                     "type": getApi
