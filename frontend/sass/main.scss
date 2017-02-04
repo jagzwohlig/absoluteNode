@@ -157,9 +157,15 @@ a {
     color: #777777;
 }
 
-.admin-details>i {
-    color: #777777;
-    text-transform: capitalize;
+.admin-details {
+    padding: 40px 15px 115px;
+    >span {
+        margin-right: 10px;
+    }
+    >i {
+        color: #777777;
+        text-transform: capitalize;
+    }
 }
 
 .post-content p {
