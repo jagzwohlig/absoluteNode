@@ -670,7 +670,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     })
 
-    .controller('EditInvoiceExpenditureCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+    .controller('EditInvoiceExpenditureCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $uibModal) {
         //Used to name the .html file
 
         $scope.template = TemplateService.changecontent("invoiceExpenditure-detail");
@@ -697,6 +697,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             if (index !== "") {
                 $scope.modalData = data;
                 $scope.modalIndex = index;
+                $scope.modalData.validFrom = new Date(data.validFrom);
+                $scope.modalData.validTo = new Date(data.validTo);
             } else {
                 $scope.modalData = {};
                 $scope.modalIndex = "";
@@ -724,6 +726,28 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 });
             }
         });
+
+        $scope.addElements = function (moddata) {
+            if ($scope.modalIndex !== "") {
+                $scope.wholeObj[$scope.modalIndex] = moddata;
+            } else {
+                $scope.newjson = moddata;
+                var a = moddata;
+                switch ($scope.holdObject) {
+                    case "rateArray":
+                        $scope.formData.rateArray.push(moddata);
+                        break;
+                    default:
+                        {
+                            $scope.wholeObj.push($scope.newjson);
+                        }
+                }
+            }
+        };
+
+        $scope.deleteElements = function (index, data) {
+            data.splice(index, 1);
+        };
 
         $scope.saveInvoiceExpenditure = function (formValid) {
             NavigationService.invoiceExpenditureSave($scope.formData, function (data) {
