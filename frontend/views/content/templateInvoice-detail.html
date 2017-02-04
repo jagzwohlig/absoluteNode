@@ -30,11 +30,12 @@
                 <div class="sec">
                     <div class="clearfix"></div>
                     <div class="form-builder">
-                        <div class="form-builder-head">
-                            <input type="text" ng-model="formData.formName" placeholder="Enter Heading" class="form-control">
-                        </div>
-                        <div class="form-repeater" ng-repeat="form in formData.forms">
-                           <div class="form-builder-item row-item" >
+                        <div class="form-repeater">
+                            <div class="form-builder-head">
+                                <input type="text" ng-model="formData.formName" placeholder="Enter Heading" class="form-control">
+                            </div>
+                            <div class="form-builder-hr">
+                                <div class="form-builder-item no-pad-left row-item" ng-repeat="form in formData.forms">
                                     <div class="col-item col-item-50">
                                         <multiple-select my-enter name="insuredOffice" ng-model="form.invoiceExpenditure" ng-name="name.office" api="searchInvoiceExpenditure"></multiple-select>
                                     </div>
@@ -46,6 +47,7 @@
                                         <i class="fa fa-minus-circle danger" ng-click="removeHead($index);"></i>
                                     </div>
                                 </div>
+                            </div>
                         </div>
                     </div>
                 </div>
