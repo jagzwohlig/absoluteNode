@@ -1,22 +1,14 @@
 <div class="modal-header green-bg">
     <div class="pull-right">
-    <button class="btn btn-darker btn-round btn-nopad" ng-if="assignment.dateOfLoss" ng-click="viewTemplates('Invoices','TemplateInvoice','')">Create new</button>
+        <button class="btn btn-darker btn-round btn-nopad" ng-if="assignment.dateOfLoss" ng-click="viewTemplates('Invoices','TemplateInvoice','')">Create new</button>
         <button class="btn btn-clear" ng-click="$dismiss()">
             <i class="ln-cross"></i>
         </button>
     </div>
     <h5 class="modal-title">View Invoice</h5>
 </div>
-<div class="modal-body">
-  <!--<form name="companyForm" ng-submit="saveCompany(formData)">
-      <div class="form-group">
-          <label>Upload Invoice</label>
-          <upload-image ng-model="companyForm.logo"></upload-image>
-          <upload-image-new ng-model="img" ng-callback="onInvoiceUploadCallback(img,length)" multiple no-view></upload-image-new>
-      </div>-->
-  </form>
+<!--<div class="modal-body">
     <div class="file-border">
-        <!-- <div class="text-center" ng-if="file.files.length==0">No files found.</div> -->
         <div class="scroll-x-max">
             <table class="file-list table">
                 <thead>
@@ -41,7 +33,7 @@
                         <td>
                             <button class="btn btn-clear" ng-click="viewTemplates('Invoices','TemplateInvoice',Invoice)"><i class="ln-pencil"></i></button>
                             <button class="btn btn-clear"><i class="ln-trash2"></i></button>
-                            <!--<button class="btn btn-clear"><i class="ln-download"></i></button>-->
+                            <button class="btn btn-clear"><i class="ln-download"></i></button>
                         </td>
                     </tr>
                 </tbody>
@@ -49,4 +41,32 @@
 
         </div>
     </div>
+</div>-->
+<div class="modal-body">
+    <table class="file-list table" ng-if="assignment.templateInvoice != ''">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Invoice Template</th>
+                <th>Template Name</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="Invoice in assignment.templateInvoice track by $index">
+                <td>{{$index + 1}}</td>
+                <td>{{Invoice.name}}</td>
+                <td>{{Invoice.templateName}}</td>
+                <td>{{Invoice.timestamp|date:'dd-MM-yyyy'}}</td>
+                <td>
+                    <button class="btn btn-clear" ng-click="viewTemplates('Invoices','TemplateInvoice',Invoice)"><i class="ln-pencil"></i></button>
+                    <button class="btn btn-clear"><i class="ln-trash2"></i></button>
+                    <!--<button class="btn btn-clear" ng-click="viewTemplates('LORs','TemplateLor',lor)"><i class="ln-pencil"></i></button>
+          <button class="btn btn-clear" ng-click="deleteTemplate('templateLor',$index)"><i class="ln-trash2"></i></button>-->
+                    <!--<button class="btn btn-clear"><i class="ln-download"></i></button>-->
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
