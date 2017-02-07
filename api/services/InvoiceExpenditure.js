@@ -5,17 +5,17 @@ var schema = new Schema({
         unique: true,
         uniqueCaseInsensitive: true
     },
-    description:String,
-    unit:String,
-    rate:Number,
+    description: String,
+    unit: String,
+    rate: Number,
     status: {
         type: Boolean,
         default: true
     },
-    rateArray:[{
-        rate:Number,
-        validFrom:Date,
-        validTo:Date
+    rateArray: [{
+        rate: Number,
+        validFrom: Date,
+        validTo: Date
     }]
 });
 

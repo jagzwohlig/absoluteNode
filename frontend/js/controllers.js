@@ -8777,26 +8777,23 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.formData = data.data;
         });
 
-        $scope.formData.forms = [{
+        $scope.formData.invoiceExpenditure = [{
             invoiceExpenditure: '',
-            order: ''
         }];
 
         $scope.required = true;
 
         $scope.addHead = function () {
-            $scope.formData.forms.push({
-                invoiceExpenditure: '',
-                order: ''
+            $scope.formData.invoiceExpenditure.push({
+                invoiceExpenditure: ''
             });
         };
         $scope.removeHead = function (index) {
-            if ($scope.formData.forms.length > 1) {
-                $scope.formData.forms.splice(index, 1);
+            if ($scope.formData.invoiceExpenditure.length > 1) {
+                $scope.formData.invoiceExpenditure.splice(index, 1);
             } else {
-                $scope.formData.forms = [{
-                    invoiceExpenditure: '',
-                    order: ''
+                $scope.formData.invoiceExpenditure = [{
+                    invoiceExpenditure: ''
                 }];
             }
         };
@@ -8838,27 +8835,18 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         $scope.formData = {};
         $scope.formData.status = true;
-        $scope.formData.forms = [{
-            invoiceExpenditure: '',
-            order: ''
-        }];
+        $scope.formData.invoiceExpenditure = [{}];
 
         $scope.required = true;
 
         $scope.addHead = function () {
-            $scope.formData.forms.push({
-                invoiceExpenditure: '',
-                order: ''
-            });
+            $scope.formData.invoiceExpenditure.push({});
         };
         $scope.removeHead = function (index) {
-            if ($scope.formData.forms.length > 1) {
-                $scope.formData.forms.splice(index, 1);
+            if ($scope.formData.invoiceExpenditure.length > 1) {
+                $scope.formData.invoiceExpenditure.splice(index, 1);
             } else {
-                $scope.formData.forms = [{
-                    invoiceExpenditure: '',
-                    order: ''
-                }];
+                $scope.formData.invoiceExpenditure = [{}];
             }
         };
         $scope.sortableOptions = {
@@ -8888,6 +8876,82 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     })
 
+    .controller('CreateInvoiceCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("invoice-detail");
+        $scope.menutitle = NavigationService.makeactive("Create Invoice");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.assignment = {};
+        NavigationService.getOneModel("Assignment", $stateParams.assignmentId, function (data) {
+            $scope.assignment = data.data;
+            console.log("AAAAAAB", $scope.assignment);
+        });
+
+        $scope.formData = {};
+        $scope.formData.invoiceList = [];
+        $scope.formData.tax = [];
+        $scope.formData.status = true;
+        $scope.required = true;
+        $scope.formData.subTotal = 0;
+        $scope.showForm = false;
+        $scope.formData.grandTotal=0;
+        $scope.cancel = function () {
+            $window.history.back();
+        }
+        NavigationService.getTax(function (data) {
+            $scope.formData.tax = data.data.results;
+            console.log("Tax", $scope.formData.tax);
+        });
+        $scope.getTemplateDetails = function (data) {
+            NavigationService.getTemplate("TemplateInvoice", data, function (data) {
+                if (data.value === true) {
+                    $scope.showForm = true;
+                    console.log("Data Data", data.data);
+                    $scope.formData.invoiceList = data.data;
+                } else {
+                    toastr.error("Template Access failed.");
+                }
+            });
+            console.log("In getTemplateDetails");
+        }
+        $scope.calAmt = function (a, b, index) {
+            $scope.formData.subTotal=0;
+            $scope.formData.grandTotal=0;
+            $scope.formData.invoiceList[index].amount = a * b;
+            _.each($scope.formData.invoiceList, function (n) {
+                if (!isNaN(n.amount)) {
+                    $scope.formData.subTotal = $scope.formData.subTotal + n.amount;
+                }
+            })
+            $scope.formData.grandTotal=$scope.formData.subTotal;
+            _.each($scope.formData.tax, function (n) {
+                n.amount = n.percent * $scope.formData.subTotal / 100;
+                $scope.formData.grandTotal=n.amount+$scope.formData.grandTotal;
+            })
+        }
+        $scope.saveModel = function (data) {
+            $scope.saveModel = function (formData) {
+                NavigationService.modelSave("Invoice", $scope.formData, function (data) {
+                    if (data.value === true) {
+                        $scope.assignment.invoice.push(data.data._id);
+                        NavigationService.modelSave("Assignment", $scope.assignment, function (data) {
+                            if (data.value === true) {
+                                $window.history.back();
+                                toastr.success("Invoice Template " + formData.name + " created successfully.", "Invoice Template Created");
+                            } else {
+                                toastr.error("Invoice Template creation failed.", "Invoice Template creation error");
+                            }
+                        });
+                    } else {
+                        toastr.error("Invoice Template creation failed.", "Invoice Template creation error");
+                    }
+                });
+            };
+        };
+
+    })
+
     .controller('TemplateLORCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("template-lor-list");
@@ -8898,6 +8962,29 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.header = {
             "name": "LOR Template List"
         };
+    })
+
+    .controller('TemplateInvoiceCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("template-invoice");
+        $scope.menutitle = NavigationService.makeactive("Template Invoice");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+
+        $scope.header = {
+            "name": "Invoice Template"
+        };
+        $scope.assignment = {};
+        $scope.assignment.templateInvoice = [];
+        $scope.templateArray = [];
+        NavigationService.getOneModel("Assignment", $stateParams.assignment, function (data) {
+            $scope.assignment = data;
+            console.log("AAAAAA", $scope.assignment);
+        });
+        NavigationService.getExpenditure($stateParams.assignmentTemplate, function (data) {
+            $scope.templateArray = data.data[0];
+            console.log("AAAAAA", $scope.templateArray);
+        });
     })
 
     .controller('TemplateViewCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, AssignmentTemplate) {
@@ -9390,12 +9477,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.createTemplate = function (tmp) {
             console.log("In createTemplate", tmp);
             delete tmp._id;
-            // if($scope.api==="TemplateInvoice"){
+            if ($scope.api === "TemplateInvoice") {
+                var newObj = {};
 
-            //     $scope.assignment[_.camelCase($scope.api)].push(tmp);
-            // }else{
-            $scope.assignment[_.camelCase($scope.api)].push(tmp);
-            // }
+                $scope.assignment[_.camelCase($scope.api)].push(tmp);
+            } else {
+                $scope.assignment[_.camelCase($scope.api)].push(tmp);
+            }
 
             NavigationService.modelSave("Assignment", $scope.assignment, function (data) {
                 if (data.value) {
@@ -9406,8 +9494,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 }
             });
         }
+
         $scope.viewTemplates = function (temp, getApi, data) {
-            console.log("HI SANKET", data);
             $scope.allTemplate = temp;
             $scope.api = getApi;
             console.log("$scope.api", $scope.api);
@@ -9429,6 +9517,21 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $state.go("template-view", {
                     "assignmentTemplate": data._id,
                     "type": getApi
+                });
+            }
+        };
+        $scope.viewInvoice = function (assignment, invoice) {
+            if (invoice === '') {
+                $state.go("createInvoice", {
+                    "invoiceId": invoice._id,
+                    "assignmentId": assignment._id,
+                    "type": "InvoiceExpenditure"
+                });
+            } else {
+                $state.go("editInvoice", {
+                    "invoiceId": invoice._id,
+                    "assignmentId": assignment._id,
+                    "type": "InvoiceExpenditure"
                 });
             }
         };

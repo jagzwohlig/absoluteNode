@@ -31,16 +31,13 @@
                     <div class="clearfix"></div>
                     <div class="form-builder">
                         <div class="form-repeater">
-                            <div class="form-builder-head">
-                                <input type="text" ng-model="formData.formName" placeholder="Enter Heading" class="form-control">
-                            </div>
                             <div class="form-builder-hr">
-                                <div class="form-builder-item no-pad-left row-item" ng-repeat="form in formData.forms">
+                                <div class="form-builder-item no-pad-left row-item" ng-repeat="form1 in formData.invoiceExpenditure">
                                     <div class="col-item col-item-50">
-                                        <multiple-select my-enter name="insuredOffice" ng-model="form.invoiceExpenditure" ng-name="name.office" api="searchInvoiceExpenditure"></multiple-select>
+                                        <multiple-select my-enter name="insuredOffice" ng-model="form1.invoiceExpenditure" ng-name="name.office" api="searchInvoiceExpenditure"></multiple-select>
                                     </div>
                                     <div class="col-item col-item-50">
-                                        <input type="text" ng-model="form.order" placeholder="Enter Sequence Number" class="form-control">
+                                        <input type="text" ng-model="form1.order" placeholder="Enter Sequence Number" class="form-control">
                                     </div>
                                     <div class="mark-float">
                                         <i class="fa fa-plus-circle success" ng-click="addHead();"></i>

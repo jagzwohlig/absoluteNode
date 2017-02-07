@@ -401,51 +401,12 @@ var schema = new Schema({
       key: "assignment"
     }
   }],
-    templateInvoice: [{
-    invoiceNumber: {
-      type: String
-    },
-    invoiceNumberDate: {
-      type: Date
-    },
-    name: {
-      type: String,
-      required: true,
-    },
-    employee: {
-      type: Schema.Types.ObjectId,
-      ref: "Employee",
-      index: true,
-      required: true,
-      key: "assignment"
-    },
-    forms: {
-      type: []
-    },
-    invoiceList: [{
-      description: String,
-      quantity: Number,
-      unit: String,
-      rate: Number,
-      amount: Number
-    }],
-    subTotal: {
-      type: Number
-    },
-    tax: [{
-      taxName: {
-        type: Schema.Types.ObjectId,
-        ref: "Tax",
-        index: true
-      },
-      amount: Number
-    }],
-    roundOff: {
-      type: Number
-    },
-    grandTotal: {
-      type: Number
-    }
+  invoice: [{
+    type: Schema.Types.ObjectId,
+    ref: "Invoice",
+    index: true,
+    required: true,
+    key: "assignment"
   }],
   templateIla: [{
     templateName: {
@@ -612,6 +573,9 @@ schema.plugin(deepPopulate, {
       select: 'name _id industry'
     },
     'products.product.category.industry': {
+      select: 'name _id'
+    },
+    'templateInvoice.forms.invoiceExpenditure': {
       select: 'name _id'
     },
     'assessment.employee': {
@@ -1556,10 +1520,10 @@ var model = {
 
   assignmentFilter: function (data, callback) {
     var Model = this;
-        var Const = this(data);
-        var maxRow = Config.maxRow;
-        var pagestartfrom = (data.page - 1) * maxRow;
-        var page = 1;
+    var Const = this(data);
+    var maxRow = Config.maxRow;
+    var pagestartfrom = (data.page - 1) * maxRow;
+    var page = 1;
     var aggText = [];
     var arr = [];
     if (data.name !== "") {
@@ -1718,6 +1682,66 @@ var model = {
         callback(err, null);
       } else {
         callback(null, found);
+      }
+    });
+  },
+
+
+  getExpenditure: function (data, callback) {
+    Assignment.aggregate([{
+        $unwind: "$templateInvoice"
+      }, {
+        $unwind: "$templateInvoice.forms"
+      },
+      {
+        $lookup: {
+          from: "invoiceexpenditures",
+          localField: "templateInvoice.forms.invoiceExpenditure",
+          foreignField: "_id",
+          as: "templateInvoice.forms.InvoiceExpenditure"
+        }
+      }, {
+        $unwind: "$templateInvoice.forms.InvoiceExpenditure"
+      }, {
+        $match: {
+          'templateInvoice._id': objectid(data._id)
+        }
+      }, {
+        $group: {
+          _id: "$_id",
+          forms: {
+            $addToSet: "$templateInvoice.forms"
+          },
+          tax: {
+            $addToSet: "$templateInvoice.tax"
+          },
+          templateId: {
+            $addToSet: "$templateInvoice._id"
+          },
+          name: {
+            $addToSet: "$templateInvoice.name"
+          }
+        }
+      }, {
+        $unwind: "$templateId"
+      }, {
+        $unwind: "$name"
+      }
+      // , {
+      //   $project: {
+      //     name: 1,
+      //     surveyDate: 1,
+      //     address: 1,
+      //     InvoiceExpenditure: "$templateInvoice.forms.InvoiceExpenditure.name"
+      //     }
+      // }
+    ], function (err, data1) {
+      if (err) {
+        callback(err, null);
+      } else if (data1 && data1.length > 0) {
+        callback(null, data1);
+      } else {
+        callback(null, []);
       }
     });
   },

@@ -1,0 +1,120 @@
+<form name="formName" ng-submit="saveModel(formData)">
+    <div class="heading-sec">
+        <div class="row">
+            <div class="col-md-12 column">
+                <div class="heading-profile">
+                    <toggle-switch ng-model="formData.status" class="switch-small switch-success pull-right"></toggle-switch>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-content">
+        <div class="widget">
+            <div class="form-elements-sec">
+                <div class="sec">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label>Select Invoice Template*</label>
+                                <multiple-select my-enter name="templateInvoice" required ng-model="formData.templateInvoice" ng-name="templateInvoice" api="searchTemplateInvoice"></multiple-select>
+                                <div class="error-msg" ng-show="formName.templateInvoice.$invalid">Please Enter Template</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4" ng-if="formData.templateInvoice">
+                            <button class="btn btn-default" type="submit" ng-click="getTemplateDetails(formData.templateInvoice)">GO</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Name*</label>
+                                <input type="text" ng-model="formData.name" placeholder="Enter Name" class="form-control">
+                                <div class="error-msg" ng-show="formName.name.$invalid">Please Enter Name</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Number</label>
+                            <input type="text" ng-model="formData.number" placeholder="Enter Number" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="widget" ng-if="showForm">
+            <div class="form-elements-sec">
+                <div class="sec">
+                    <div class="clearfix"></div>
+                    <div class="form-builder">
+                        <div class="form-repeater">
+                            <div class="form-builder-hr">
+                                <div class="form-builder-item no-pad-left row-item">
+                                    <div class="col-item col-item-50">
+                                        Name
+                                    </div>
+                                    <div class="col-item col-item-50">
+                                        Unit
+                                    </div>
+                                    <div class="col-item col-item-50">
+                                        Rate
+                                    </div>
+                                    <div class="col-item col-item-50">
+                                        Quantity
+                                    </div>
+                                    <div class="col-item col-item-50">
+                                        Amount
+                                    </div>
+                                </div>
+                                <div class="form-builder-item no-pad-left row-item" ng-repeat="form in formData.invoiceList track by $index">
+                                    <div class="col-item col-item-50">
+                                        <input type="text" ng-model="form.name" placeholder="Enter Name" class="form-control">
+                                    </div>
+                                    <div class="col-item col-item-50">
+                                        <input type="text" ng-model="form.unit" placeholder="Enter Unit" class="form-control" readonly>
+                                    </div>
+                                    <div class="col-item col-item-50">
+                                        <input type="number" ng-model="form.rate" placeholder="Enter Rate" class="form-control" ng-change="calAmt(form.rate,form.quantity,$index)">
+                                    </div>
+                                    <div class="col-item col-item-50">
+                                        <input type="number" step="1" min="0" ng-model="form.quantity" placeholder="Enter Quantity" class="form-control" ng-change="calAmt(form.rate,form.quantity,$index)">
+                                    </div>
+                                    <div class="col-item col-item-50">
+                                        <input type="number" ng-model="form.amount" placeholder="Total" class="form-control" readonly>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Sub-Total</label>
+                                            <input type="text" ng-model="formData.subTotal" placeholder="" class="form-control" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" ng-repeat="form1 in formData.tax track by $index">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>{{form1.name}}{{form1.percent}}</label>
+                                            <input type="text" ng-model="form1.amount" placeholder="" class="form-control" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Grand-Total</label>
+                                            <input type="text" ng-model="formData.grandTotal" placeholder="" class="form-control" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="text-center mt20 odd-even-button">
+            <button class="btn btn-default" type="submit" ng-disabled="formName.$invalid">Save</button>
+            <a class="btn btn-default" ng-click="cancel()">Cancel</a>
+        </div>
+    </div>
+</form>

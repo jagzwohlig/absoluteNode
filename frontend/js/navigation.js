@@ -769,6 +769,11 @@ var navigationservice = angular.module('navigationservice', [])
                 callback(data, i);
             });
         },
+        searchTemplateInvoice: function (formData, i, callback) {
+            $http.post(adminurl + 'TemplateInvoice/search', formData).success(function (data) {
+                callback(data, i);
+            });
+        },
         allSearch: function (api, formData, callback) {
             $http.post(adminurl + api, formData).success(function (data) {
                 callback(data);
@@ -833,6 +838,11 @@ var navigationservice = angular.module('navigationservice', [])
                 _id: id
             }).success(callback);
         },
+        getTemplate: function (model, id, callback) {
+            $http.post(adminurl + model + '/getTemplate', {
+                _id: id
+            }).success(callback);
+        },
         getOneModelPopulate: function (model, id, callback) {
             $http.post(adminurl + model + '/getOne', {
                 city: id
@@ -840,6 +850,11 @@ var navigationservice = angular.module('navigationservice', [])
         },
         getOneBranch: function (id, callback) {
             $http.post(adminurl + 'branch/getOne', {
+                _id: id
+            }).success(callback);
+        },
+        getExpenditure: function (id, callback) {
+            $http.post(adminurl + 'assignment/getExpenditure', {
                 _id: id
             }).success(callback);
         },
@@ -855,7 +870,6 @@ var navigationservice = angular.module('navigationservice', [])
             $http.post(adminurl + 'country/delete', {
                 _id: id
             }).success(callback);
-
         },
         deleteBranch: function (id, callback) {
             $http.post(adminurl + 'branch/delete', {
@@ -873,7 +887,7 @@ var navigationservice = angular.module('navigationservice', [])
             $http.post(adminurl + 'zone/search', formData).success(function (data) {
                 callback(data, i);
             });
-        },
+        },        
         searchState: function (formData, i, callback) {
             $http.post(adminurl + 'state/search', formData).success(function (data) {
                 callback(data, i);
@@ -889,7 +903,11 @@ var navigationservice = angular.module('navigationservice', [])
                 callback(data, i);
             });
         },
-
+        getTax:function(callback){
+            $http.post(adminurl + 'tax/search').success(function (data) {
+                callback(data);
+            });
+        },
         getNearerSurveyor:function (formData, callback) {
             $http.post(adminurl + 'Assignment/getNearestSurveyor', formData).success(callback);
         },

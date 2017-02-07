@@ -15,14 +15,18 @@ var schema = new Schema({
         unique: true,
         uniqueCaseInsensitive: true
     },
-    formName:String,
+    formName: String,
     status: {
         type: Boolean,
         default: true
     },
-    forms: {
-        type: []
-    }
+    invoiceExpenditure: [{
+        invoiceExpenditure: {
+            type: Schema.Types.ObjectId,
+            ref: "InvoiceExpensiture"
+        },
+        order: Number
+    }]
 });
 
 schema.plugin(deepPopulate, {});
@@ -31,5 +35,47 @@ schema.plugin(timestamps);
 module.exports = mongoose.model('TemplateInvoice', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
-var model = {};
+var model = {
+    getTemplate: function (data, callback) {
+        TemplateInvoice.aggregate([{
+                $unwind: "$invoiceExpenditure"
+            },
+            {
+                $lookup: {
+                    from: "invoiceexpenditures",
+                    localField: "invoiceExpenditure.invoiceExpenditure",
+                    foreignField: "_id",
+                    as: "InvoiceExpenditure"
+                }
+            }, {
+                $unwind: "$InvoiceExpenditure"
+            }, {
+                $sort: {
+                    'invoiceExpenditure.order': 1
+                }
+            }, {
+                $project: {
+                    name: 1,
+                    InvoiceExpenditure: '$InvoiceExpenditure'
+                }
+            }
+        ], function (err, data1) {
+            if (err) {
+                callback(err, null);
+            } else if (data1 && data1.length > 0) {
+                var arr=[];
+                _.each(data1,function(n){
+                    var a={};
+                    a.name=n.InvoiceExpenditure.name;
+                    a.unit=n.InvoiceExpenditure.unit;
+                    a.rate=n.InvoiceExpenditure.rate;                    
+                    arr.push(a);
+                })
+                callback(null, arr);
+            } else {
+                callback(null, []);
+            }
+        });
+    },
+};
 module.exports = _.assign(module.exports, exports, model);

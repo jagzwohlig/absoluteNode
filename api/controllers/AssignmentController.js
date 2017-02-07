@@ -144,6 +144,16 @@ var controller = {
             });
         }
     },
+    getExpenditure:function (req, res) {
+        if (req.body) {
+            req.model.getExpenditure(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: "Invalid Request"
+            });
+        }
+    },
     assignmentFilter: function (req, res) {
         if (req.body) {
             req.model.assignmentFilter(req.body, res.callback);

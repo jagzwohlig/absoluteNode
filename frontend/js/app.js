@@ -1473,6 +1473,16 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
             templateUrl: "frontend/views/template.html",
             controller: 'CreateTemplateInvoiceCtrl'
         })
+        .state('createInvoice', {
+            url: "/Invoice-create/:assignmentId",
+            templateUrl: "frontend/views/template.html",
+            controller: 'CreateInvoiceCtrl'
+        })
+        .state('editInvoice', {
+            url: "/Invoice-create/:assignmentId/:invoiceId",
+            templateUrl: "frontend/views/template.html",
+            controller: 'EditInvoiceCtrl'
+        })
 
         .state('edittemplateInvoice', {
             url: "/templateInvoice-edit/:id",
@@ -1502,6 +1512,11 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
             url: "/template-view/:template/:assignmentTemplate/:assignment/:type",
             templateUrl: "frontend/views/template.html",
             controller: 'TemplateViewCtrl'
+        })
+        .state('template-invoice', {
+            url: "/template-invoice/:assignmentTemplate/:assignment/:type",
+            templateUrl: "frontend/views/template.html",
+            controller: 'TemplateInvoiceCtrl'
         })
 
         .state('email-inbox', {
