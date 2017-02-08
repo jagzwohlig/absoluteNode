@@ -31,7 +31,7 @@ var schema = new Schema({
         },
         type: {
             type: String,
-            enum: ["Email", "Normal","SurveyDone"]
+            enum: ["Email", "Normal", "SurveyDone"]
         },
         message: {
             type: String
@@ -42,17 +42,17 @@ var schema = new Schema({
         attachment: {
             type: []
         },
-        surveyEndTime:{
-            type:Date
+        surveyEndTime: {
+            type: Date
         },
-        surveyStartTime:{
-            type:Date
+        surveyStartTime: {
+            type: Date
         },
-        surveyDate:{
-            type:Date
+        surveyDate: {
+            type: Date
         },
-        address:{
-            type:String
+        address: {
+            type: String
         }
     }]
 });
@@ -75,5 +75,17 @@ schema.plugin(timestamps);
 module.exports = mongoose.model('Timeline', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "chat.employee  chat.employee.func", "chat.employee"));
-var model = {};
+var model = {
+    getTimeline: function (data, callback) {
+        Timeline.findOne({
+           assignment:data.assignment
+        }).limit(10).lean().exec(function (err, data2) {
+            if (err) {
+                callback(err, null);
+            } else {
+                callback(err, data2);
+            }
+        });
+    },
+};
 module.exports = _.assign(module.exports, exports, model);

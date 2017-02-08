@@ -8885,20 +8885,49 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.assignment = {};
         NavigationService.getOneModel("Assignment", $stateParams.assignmentId, function (data) {
             $scope.assignment = data.data;
-            console.log("AAAAAAB", $scope.assignment);
         });
 
         $scope.formData = {};
+        $scope.formData.assignment = $scope.assignment._id;
         $scope.formData.invoiceList = [];
+        $scope.addHead = function () {
+            $scope.formData.invoiceList.push({});
+        };
+        $scope.removeHead = function (index) {
+            if ($scope.formData.invoiceList.length > 1) {
+                $scope.formData.invoiceList.splice(index, 1);
+            } else {
+                $scope.formData.invoiceList = [{}];
+            }
+        };
         $scope.formData.tax = [];
         $scope.formData.status = true;
         $scope.required = true;
         $scope.formData.subTotal = 0;
         $scope.showForm = false;
+        $scope.message = {};
+        $scope.timeline = {};
         $scope.formData.grandTotal = 0;
         $scope.cancel = function () {
             $window.history.back();
         }
+        $scope.sendMessage = function () {
+            console.log("In Send MSG", $scope.timeline);
+            $scope.message.type = "File";
+            $scope.message.title = "Updated Invoice";
+            $scope.timeline.chat.push($scope.message);
+            NavigationService.saveChat($scope.timeline, function (data) {
+                console.log("FFFFF", data);
+            });
+        };
+        NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
+            $scope.message.employee = data.data._id;
+            console.log("In Employee", $scope.message.employee);
+        });
+        NavigationService.getTimeline($stateParams.assignmentId, function (data) {
+            $scope.timeline = data.data;
+            console.log("In Employee", $scope.timeline);
+        });
         NavigationService.getTax(function (data) {
             $scope.formData.tax = data.data.results;
             console.log("Tax", $scope.formData.tax);
@@ -8929,16 +8958,19 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 n.amount = n.percent * $scope.formData.subTotal / 100;
                 $scope.formData.grandTotal = n.amount + $scope.formData.grandTotal;
             })
-            $scope.formData.roundOff = $scope.formData.grandTotal - Math.floor($scope.formData.grandTotal);
-            $scope.formData.grandTotal = $scope.formData.grandTotal - $scope.formData.roundOff;
+            var round = $scope.formData.grandTotal - Math.floor($scope.formData.grandTotal);
+            $scope.formData.grandTotal = $scope.formData.grandTotal - round;
+            $scope.formData.roundOff = round.toFixed(2);
         }
         $scope.saveModel = function (data) {
             $scope.saveModel = function (formData) {
                 NavigationService.modelSave("Invoice", $scope.formData, function (data) {
                     if (data.value === true) {
                         $scope.assignment.invoice.push(data.data._id);
+                        $scope.assignment.timelineStatus = "BBND";
                         NavigationService.modelSave("Assignment", $scope.assignment, function (data) {
                             if (data.value === true) {
+                                $scope.sendMessage();
                                 $window.history.back();
                                 toastr.success("Invoice Template " + formData.name + " created successfully.", "Invoice Template Created");
                             } else {
@@ -8974,6 +9006,16 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.cancel = function () {
             $window.history.back();
         }
+        $scope.addHead = function () {
+            $scope.formData.invoiceList.push({});
+        };
+        $scope.removeHead = function (index) {
+            if ($scope.formData.invoiceList.length > 1) {
+                $scope.formData.invoiceList.splice(index, 1);
+            } else {
+                $scope.formData.invoiceList = [{}];
+            }
+        };
         $scope.calAmt = function (a, b, index) {
             $scope.formData.subTotal = 0;
             $scope.formData.grandTotal = 0;
@@ -8988,8 +9030,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 n.amount = n.percent * $scope.formData.subTotal / 100;
                 $scope.formData.grandTotal = n.amount + $scope.formData.grandTotal;
             })
-            $scope.formData.roundOff = $scope.formData.grandTotal - Math.floor($scope.formData.grandTotal);
-            $scope.formData.grandTotal = $scope.formData.grandTotal - $scope.formData.roundOff;
+            var round = $scope.formData.grandTotal - Math.floor($scope.formData.grandTotal);
+            $scope.formData.grandTotal = $scope.formData.grandTotal - round;
+            $scope.formData.roundOff = round.toFixed(2);
         }
         $scope.saveModel = function (data) {
             $scope.saveModel = function (formData) {

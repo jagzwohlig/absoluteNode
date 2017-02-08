@@ -48,7 +48,7 @@ var schema = new Schema({
   }],
   timelineStatus: {
     type: String,
-    enum: ["Pending", "Survey Pending", "Survey Assigned", "ILA Pending", "LOR Pending", "Dox Pending", "Assessment Pending", "Consent Pending", "JIR Pending", "Dispatched"],
+    enum: ["Pending", "Survey Pending", "Survey Assigned", "ILA Pending", "LOR Pending", "Dox Pending", "Assessment Pending", "Consent Pending", "JIR Pending", "BBND" , "Dispatched"],
     default: "Survey Pending"
   },
   brokerClaimId: {
@@ -878,7 +878,6 @@ var model = {
         callback(err, null);
       } else {
         $scope.assignment = findObj._id;
-        // console.log("...................................$scope",$scope);
         Config.generatePdf("pdf/abs-synopsis", $scope, callback);
       }
     });

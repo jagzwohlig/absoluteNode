@@ -908,6 +908,7 @@ var navigationservice = angular.module('navigationservice', [])
                 callback(data);
             });
         },
+        
         getNearerSurveyor:function (formData, callback) {
             $http.post(adminurl + 'Assignment/getNearestSurveyor', formData).success(callback);
         },
@@ -924,6 +925,11 @@ var navigationservice = angular.module('navigationservice', [])
         getOneZone: function (id, callback) {
             $http.post(adminurl + 'zone/getOne', {
                 "_id": id
+            }).success(callback);
+        },
+        getTimeline: function (id, callback) {
+            $http.post(adminurl + 'timeline/getTimeline', {
+                "assignment": id
             }).success(callback);
         },
         zoneEditSave: function (id, callback) {
