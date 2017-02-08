@@ -1418,7 +1418,9 @@ img.uploadingImage {
 .invoice--go {
     margin: 25px 0px 0;
 }
-
+.sec-total{
+    text-align: right;
+}
 /* Start writing sass here */
 
 @import "fancybox-override";

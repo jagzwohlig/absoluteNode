@@ -522,7 +522,7 @@ schema.plugin(deepPopulate, {
 
   populate: {
     'invoice': {
-      select: 'name invoiceNumber _id'
+      select: 'name invoiceNumber _id grandTotal'
     },
     'assignedTo': {
       select: 'name _id'
