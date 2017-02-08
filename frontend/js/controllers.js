@@ -8929,6 +8929,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 n.amount = n.percent * $scope.formData.subTotal / 100;
                 $scope.formData.grandTotal = n.amount + $scope.formData.grandTotal;
             })
+            $scope.formData.roundOff = $scope.formData.grandTotal - Math.floor($scope.formData.grandTotal);
+            $scope.formData.grandTotal = $scope.formData.grandTotal - $scope.formData.roundOff;
         }
         $scope.saveModel = function (data) {
             $scope.saveModel = function (formData) {
@@ -8986,6 +8988,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 n.amount = n.percent * $scope.formData.subTotal / 100;
                 $scope.formData.grandTotal = n.amount + $scope.formData.grandTotal;
             })
+            $scope.formData.roundOff = $scope.formData.grandTotal - Math.floor($scope.formData.grandTotal);
+            $scope.formData.grandTotal = $scope.formData.grandTotal - $scope.formData.roundOff;
         }
         $scope.saveModel = function (data) {
             $scope.saveModel = function (formData) {
@@ -9654,8 +9658,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.doc = {};
         $scope.photo = {};
         $scope.showCreate = false;
-        $scope.showCreateTrue=function(){
-            $scope.showCreate=true;
+        $scope.showCreateTrue = function () {
+            $scope.showCreate = true;
         }
         NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
             // NavigationService.getOneModel("User", $.jStorage.get("profile")._id, function (data) {
