@@ -8,23 +8,25 @@
     <h5 class="modal-title">View Invoice</h5>
 </div>
 <div class="modal-body">
-    <table class="file-list table" ng-if="assignment.templateInvoice != ''">
+    <table class="file-list table" ng-if="assignment.invoice != ''">
         <thead>
             <tr>
                 <th>#</th>
-                <th>Template Name</th>
-                <th>Date</th>
+                <th>Invoice Name</th>
+                <th>InvoiceNumber</th>
+                <th>GrandTotal</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="Invoice in assignment.templateInvoice track by $index">
+            <tr ng-repeat="Invoice in assignment.invoice track by $index">
                 <td>{{$index + 1}}</td>
                 <td>{{Invoice.name}}</td>
-                <td>{{Invoice.timestamp|date:'dd-MM-yyyy'}}</td>
+                <td>{{Invoice.invoiceNumber}}</td>
+                <td>{{Invoice.grandTotal}}</td>
                 <td>
-                    <button class="btn btn-clear" ng-click="viewInvoice(Invoice)"><i class="ln-pencil"></i></button>
-                    <button class="btn btn-clear"><i class="ln-trash2"></i></button>
+                    <button class="btn btn-clear" ng-click="viewInvoice(assignment,Invoice)"><i class="ln-pencil"></i></button>
+                    <button class="btn btn-clear" ng-click="deleteTemplate('invoice',$index)"><i class="ln-trash2"></i></button>
                 </td>
             </tr>
         </tbody>

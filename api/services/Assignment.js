@@ -521,6 +521,9 @@ var schema = new Schema({
 schema.plugin(deepPopulate, {
 
   populate: {
+    'invoice': {
+      select: 'name invoiceNumber _id'
+    },
     'assignedTo': {
       select: 'name _id'
     },
@@ -602,7 +605,7 @@ schema.plugin(timestamps);
 
 module.exports = mongoose.model('Assignment', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer owner owner.func company company.city assessment.employee docs.employee fsrs.employee photos.employee causeOfLoss insurer assignedTo", "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer assignedTo"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss invoice insuredOfficer owner owner.func company company.city assessment.employee docs.employee fsrs.employee photos.employee causeOfLoss insurer assignedTo", "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss invoice insuredOfficer assignedTo"));
 
 var model = {
   saveData: function (data, callback) {

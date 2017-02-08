@@ -13,15 +13,15 @@
             <div class="form-elements-sec">
                 <div class="sec">
                     <div class="row">
-                        <div class="col-md-8">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label>Select Invoice Template*</label>
                                 <multiple-select my-enter name="templateInvoice" required ng-model="formData.templateInvoice" ng-name="templateInvoice" api="searchTemplateInvoice"></multiple-select>
                                 <div class="error-msg" ng-show="formName.templateInvoice.$invalid">Please Enter Template</div>
                             </div>
                         </div>
-                        <div class="col-md-4" ng-if="formData.templateInvoice">
-                            <button class="btn btn-default" type="submit" ng-click="getTemplateDetails(formData.templateInvoice)">GO</button>
+                        <div class="col-md-6" ng-if="formData.templateInvoice && !formData._id">
+                            <button class="btn btn-default invoice--go" type="submit" ng-click="getTemplateDetails(formData.templateInvoice)">GO</button>
                         </div>
                     </div>
                     <div class="row">
@@ -33,8 +33,8 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label>Number</label>
-                            <input type="text" ng-model="formData.number" placeholder="Enter Number" class="form-control">
+                            <label>Number*</label>
+                            <input type="text" ng-model="formData.invoiceNumber" placeholder="Enter Number" class="form-control">
                         </div>
                     </div>
                 </div>
@@ -81,30 +81,30 @@
                                         <input type="number" ng-model="form.amount" placeholder="Total" class="form-control" readonly>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Sub-Total</label>
-                                            <input type="text" ng-model="formData.subTotal" placeholder="" class="form-control" readonly>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row" ng-repeat="form1 in formData.tax track by $index">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>{{form1.name}}{{form1.percent}}</label>
-                                            <input type="text" ng-model="form1.amount" placeholder="" class="form-control" readonly>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Grand-Total</label>
-                                            <input type="text" ng-model="formData.grandTotal" placeholder="" class="form-control" readonly>
-                                        </div>
-                                    </div>
-                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Sub-Total</label>
+                                <input type="text" ng-model="formData.subTotal" placeholder="" class="form-control" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" ng-repeat="form1 in formData.tax track by $index">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>{{form1.name}}@{{form1.percent}}%</label>
+                                <input type="text" ng-model="form1.amount" placeholder="" class="form-control" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Grand-Total</label>
+                                <input type="text" ng-model="formData.grandTotal" placeholder="" class="form-control" readonly>
                             </div>
                         </div>
                     </div>

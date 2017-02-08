@@ -8895,7 +8895,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.required = true;
         $scope.formData.subTotal = 0;
         $scope.showForm = false;
-        $scope.formData.grandTotal=0;
+        $scope.formData.grandTotal = 0;
         $scope.cancel = function () {
             $window.history.back();
         }
@@ -8916,18 +8916,18 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             console.log("In getTemplateDetails");
         }
         $scope.calAmt = function (a, b, index) {
-            $scope.formData.subTotal=0;
-            $scope.formData.grandTotal=0;
+            $scope.formData.subTotal = 0;
+            $scope.formData.grandTotal = 0;
             $scope.formData.invoiceList[index].amount = a * b;
             _.each($scope.formData.invoiceList, function (n) {
                 if (!isNaN(n.amount)) {
                     $scope.formData.subTotal = $scope.formData.subTotal + n.amount;
                 }
             })
-            $scope.formData.grandTotal=$scope.formData.subTotal;
+            $scope.formData.grandTotal = $scope.formData.subTotal;
             _.each($scope.formData.tax, function (n) {
                 n.amount = n.percent * $scope.formData.subTotal / 100;
-                $scope.formData.grandTotal=n.amount+$scope.formData.grandTotal;
+                $scope.formData.grandTotal = n.amount + $scope.formData.grandTotal;
             })
         }
         $scope.saveModel = function (data) {
@@ -8943,6 +8943,56 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                                 toastr.error("Invoice Template creation failed.", "Invoice Template creation error");
                             }
                         });
+                    } else {
+                        toastr.error("Invoice Template creation failed.", "Invoice Template creation error");
+                    }
+                });
+            };
+        };
+
+    })
+
+
+    .controller('EditInvoiceCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("invoice-detail");
+        $scope.menutitle = NavigationService.makeactive("Create Invoice");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.formData = {};
+        $scope.formData.invoiceList = [];
+        $scope.formData.tax = [];
+        NavigationService.getOneModel("Invoice", $stateParams.invoiceId, function (data) {
+            $scope.formData = data.data;
+            console.log("ABCDEF", $scope.formData);
+        });
+        $scope.formData.status = true;
+        $scope.required = true;
+        $scope.showForm = true;
+        $scope.cancel = function () {
+            $window.history.back();
+        }
+        $scope.calAmt = function (a, b, index) {
+            $scope.formData.subTotal = 0;
+            $scope.formData.grandTotal = 0;
+            $scope.formData.invoiceList[index].amount = a * b;
+            _.each($scope.formData.invoiceList, function (n) {
+                if (!isNaN(n.amount)) {
+                    $scope.formData.subTotal = $scope.formData.subTotal + n.amount;
+                }
+            })
+            $scope.formData.grandTotal = $scope.formData.subTotal;
+            _.each($scope.formData.tax, function (n) {
+                n.amount = n.percent * $scope.formData.subTotal / 100;
+                $scope.formData.grandTotal = n.amount + $scope.formData.grandTotal;
+            })
+        }
+        $scope.saveModel = function (data) {
+            $scope.saveModel = function (formData) {
+                NavigationService.modelSave("Invoice", $scope.formData, function (data) {
+                    if (data.value === true) {
+                        $window.history.back();
+                        toastr.success("Invoice Template " + formData.name + " created successfully.", "Invoice Template Created");
                     } else {
                         toastr.error("Invoice Template creation failed.", "Invoice Template creation error");
                     }
