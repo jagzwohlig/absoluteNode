@@ -9654,6 +9654,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.doc = {};
         $scope.photo = {};
         $scope.showCreate = false;
+        $scope.showCreateTrue=function(){
+            $scope.showCreate=true;
+        }
         NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
             // NavigationService.getOneModel("User", $.jStorage.get("profile")._id, function (data) {
             $scope.message.employee = data.data;
