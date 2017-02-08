@@ -882,6 +882,11 @@ var model = {
       }
     });
   },
+   generateInvoicePdf: function (data, callback) {
+     $scope={};
+     $scope.data=data;
+    Config.generatePdf("pdf/abs-invoice", $scope, callback);    
+  },
   getPerson: function (data, callback) {
     var Model = this;
     var Const = this(data);
@@ -905,7 +910,6 @@ var model = {
       start: (page - 1) * maxRow,
       count: maxRow
     };
-
     var Search = Employee.find({
         isSBC: false
       })
@@ -921,10 +925,7 @@ var model = {
           }), 0, Config.maxRow);
           callback(err, company2);
         }
-
       });
-
-
   },
 
   search: function (data, callback) {

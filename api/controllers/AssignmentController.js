@@ -17,6 +17,16 @@ var controller = {
             });
         }
     },
+   generateInvoicePdf: function (req, res) {
+        if (req.body) {
+            req.model.generateInvoicePdf(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: "Invalid Request"
+            });
+        }
+    },
     getNearestSurveyor: function (req, res) {
         if (req.body) {
             req.model.getNearestSurveyor(req.body, res.callback);

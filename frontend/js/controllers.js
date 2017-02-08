@@ -8906,15 +8906,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.formData.subTotal = 0;
         $scope.showForm = false;
         $scope.message = {};
+        $scope.message.attachment=[];
         $scope.timeline = {};
         $scope.formData.grandTotal = 0;
         $scope.cancel = function () {
             $window.history.back();
         }
-        $scope.sendMessage = function () {
-            console.log("In Send MSG", $scope.timeline);
+        $scope.sendMessage = function (fileName) {
+            console.log("In Send MSG", fileName);
             $scope.message.type = "File";
             $scope.message.title = "Updated Invoice";
+            $scope.message.attachment.push(fileName);
             $scope.timeline.chat.push($scope.message);
             NavigationService.saveChat($scope.timeline, function (data) {
                 console.log("FFFFF", data);
@@ -8970,9 +8972,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         $scope.assignment.timelineStatus = "BBND";
                         NavigationService.modelSave("Assignment", $scope.assignment, function (data) {
                             if (data.value === true) {
-                                $scope.sendMessage();
-                                $window.history.back();
-                                toastr.success("Invoice Template " + formData.name + " created successfully.", "Invoice Template Created");
+                                NavigationService.generateInvoicePdf($scope.formData, function (data) {
+                                    if (data) {
+                                        console.log("Data of Pdf",data.data.name);
+                                        $scope.sendMessage(data.data.name);
+                                        $window.history.back();
+                                        toastr.success("Invoice Template " + formData.name + " created successfully.", "Invoice Template Created");
+                                    }
+                                });
                             } else {
                                 toastr.error("Invoice Template creation failed.", "Invoice Template creation error");
                             }
