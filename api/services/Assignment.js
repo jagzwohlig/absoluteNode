@@ -558,13 +558,19 @@ schema.plugin(deepPopulate, {
       select: 'name countryCode _id'
     },
     'insurer': {
-      select: 'name _id'
+      select: ''
     },
     'company': {
       select: ''
     },
     'company.city': {
-      select: 'name'
+      select: 'name district'
+    },
+    'company.city.district': {
+      select: 'name state _id'
+    },
+     'company.city.district.state': {
+      select: 'name _id'
     },
     'bank': {
       select: 'name _id'
@@ -573,6 +579,9 @@ schema.plugin(deepPopulate, {
       select: 'name _id'
     },
     'shareWith.persons': {
+      select: 'name _id'
+    },
+    'insured': {
       select: 'name _id'
     },
     'insuredOfficer': {
@@ -604,6 +613,9 @@ schema.plugin(deepPopulate, {
     },
     'causeOfLoss': {
       select: 'name _id'
+    },
+    'policyType': {
+      select: 'name _id'
     }
   }
 });
@@ -613,7 +625,7 @@ schema.plugin(timestamps);
 
 module.exports = mongoose.model('Assignment', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country products.product.category.industry department shareWith.persons natureOfLoss invoice invoice.createdBy insuredOfficer owner owner.func company company.city assessment.employee docs.employee fsrs.employee photos.employee causeOfLoss insurer assignedTo", "city.district.state.zone.country products.product.category.industry department shareWith.persons natureOfLoss invoice invoice.createdBy insuredOfficer assignedTo"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country products.product.category.industry department shareWith.persons policyType natureOfLoss invoice invoice.createdBy insured insuredOfficer owner owner.func company company.city company.city.district.state assessment.employee docs.employee fsrs.employee photos.employee causeOfLoss insurer assignedTo", "city.district.state.zone.country products.product.category.industry department shareWith.persons natureOfLoss invoice invoice.createdBy insuredOfficer assignedTo"));
 
 var model = {
   saveData: function (data, callback) {
@@ -895,7 +907,7 @@ var model = {
     $scope.data = data;
     Assignment.findOne({
       _id: data.assignment
-    }).deepPopulate("city.district.state.zone.country branch department products.product.category.industry shareWith.persons natureOfLoss insuredOfficer owner owner.func company company.city assessment.employee docs.employee fsrs.employee photos.employee causeOfLoss insurer", "city.district.state.zone.country branch department products.product.category.industry shareWith.persons natureOfLoss insuredOfficer").lean().exec(function (err, found) {
+    }).deepPopulate("city.district.state.zone.country branch department products.product.category.industry insured policyType shareWith.persons natureOfLoss insuredOfficer owner owner.func company company.city company.city.district.state assessment.employee docs.employee fsrs.employee photos.employee causeOfLoss insurer", "city.district.state.zone.country branch department products.product.category.industry shareWith.persons natureOfLoss insuredOfficer").lean().exec(function (err, found) {
       if (err) {
         console.log(err);
         callback(err, null);
@@ -903,6 +915,7 @@ var model = {
         console.log("Found", found);
         $scope.assignment = found;
         console.log("$scope", $scope);
+        // Config.generatePdf("pdf/table", $scope, callback);
         Config.generatePdf("pdf/abs-invoice", $scope, callback);
       } else {
         callback(null, found);
