@@ -23,13 +23,12 @@
 </head>
 
 <body>
-    <div style="width: 600px; margin: 0 auto;">
+    <div>
         <h2>Invoice</h2>
-        <h4>Invoice Name:</h4>
-        <h4>Invoice Number:</h4>
+        <h4>Invoice Name:<%= data.name %></h4>
+        <h4>Invoice Number:<%= data.invoiceNumber %></h4>
     </div>
-    <div><img src="" alt="Smiley face" height="42" width="42"></div>
-    <table style="width:600px; margin: 0 auto;">
+    <table style="width:100%">
         <tr>
             <th>Sr #</th>
             <th>Description</th>
@@ -38,61 +37,33 @@
             <th>Rate</th>
             <th>Amount</th>
         </tr>
+         <% for(var i=0; i<data.invoiceList.length; i++) {%>
         <tr>
-            <td>1</td>
-            <td>Serve fees for Visit on 11/06/2016</td>
-            <td>1.00</td>
-            <td>Per</td>
-            <td>3000.00</td>
-            <td>3000</td>
+            <td><%=i+1%></td>
+            <td><%=data.invoiceList[i].name%></td>
+            <td><%=data.invoiceList[i].quantity%></td>
+            <td><%=data.invoiceList[i].unit%></td>
+            <td><%=data.invoiceList[i].rate%></td>
+            <td><%=data.invoiceList[i].amount%></td>
         </tr>
-        <tr>
-            <td>2</td>
-            <td>Local Conveyance</td>
-            <td>1.00</td>
-            <td>Visit</td>
-            <td>500.00</td>
-            <td>500</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>Photographs</td>
-            <td>12.00</td>
-            <td>Copy</td>
-            <td>10.00</td>
-            <td>120</td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>Mice expences like telephone,email,photocopy,courier,etc.</td>
-            <td>1.00</td>
-            <td>Per</td>
-            <td>25.00</td>
-            <td>250</td>
-        </tr>
+        <%}%>
         <tr>
             <td colspan="5" class="table-data">Sub Total</td>
-            <td>3870.00</td>
+            <td><%=data.subTotal%></td>
         </tr>
+         <% for(var i=0; i<data.tax.length; i++) {%>
         <tr>
-            <td colspan="5" class="table-data">Service Tag @ 14.00%</td>
-            <td>541.80</td>
+            <td colspan="5" class="table-data"><%=data.tax[i].name%> @ <%=data.tax[i].percent%>%</td>
+            <td><%=data.tax[i].amount%></td>
         </tr>
-        <tr>
-            <td colspan="5" class="table-data">Swashh Bharat Cess @ 0.50%</td>
-            <td>19.35</td>
-        </tr>
-        <tr>
-            <td colspan="5" class="table-data">Krishi Kalyan Cess @ 0.50%</td>
-            <td>19.35</td>
-        </tr>
+        <%}%>
         <tr>
             <td colspan="5" class="table-data">Rounding Off </td>
-            <td>-0.50</td>
+            <td>-<%=data.roundOff%></td>
         </tr>
         <tr>
             <td colspan="5" class="table-data">Grand Total</td>
-            <td>4,450.00</td>
+            <td><%=data.grandTotal%></td>
         </tr>
     </table>
 </body>
