@@ -1417,6 +1417,18 @@ var model = {
       }
     }
 
+    // if (_.isEmpty(data.fromDate) && _.isEmpty(data.toDate)) {
+    //   var createdDate = {
+    //     $regex: "",
+    //     $options: 'i'
+    //   }
+    // } else {
+    //   var createdDate = {
+    //     "$gte": new Date(data.fromDate),
+    //     "$lte": new Date(data.toDate)
+    //   }
+    // }
+
     if (_.isEmpty(data.surveyDepartment)) {
       var surveyDepartment = {
         $regex: "",
@@ -1438,27 +1450,29 @@ var model = {
     if (data.ownerStatus == "My files") {
       var ownerStatus = {
         timelineStatus: data.timelineStatus,
-        'owner._id': objectid(data.owner),
+        'owner._id': objectid(data.ownerId),
         name: name,
         'owner.name': owner,
         'city.name': city,
         'insurer.name': insurer,
         'insurerd.name': insurerd,
         intimatedLoss: intimatedLoss,
-        'department.name': surveyDepartment
+        'department.name': surveyDepartment,
+       // createdAt: createdDate
       };
 
     } else if (data.ownerStatus == "Shared with me") {
       var ownerStatus = {
         timelineStatus: data.timelineStatus,
-        'shareWith.persons': objectid(data.owner),
+        'shareWith.persons': objectid(data.ownerId),
         name: name,
         'owner.name': owner,
         'city.name': city,
         'insurer.name': insurer,
         'insurerd.name': insurerd,
         intimatedLoss: intimatedLoss,
-        'department.name': surveyDepartment
+        'department.name': surveyDepartment,
+       // createdAt: createdDate
       };
 
     } else if (data.ownerStatus == "All files") {
@@ -1470,7 +1484,8 @@ var model = {
         'insurer.name': insurer,
         'insurerd.name': insurerd,
         intimatedLoss: intimatedLoss,
-        'department.name': surveyDepartment
+        'department.name': surveyDepartment,
+       // createdAt: createdDate
       }
 
     }

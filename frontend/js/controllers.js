@@ -183,19 +183,26 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.ModelApi = $scope.ModelApi + n;
         });
         var ownerId = "";
+        $scope.ownersId = "";
         NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
             ownerId = data.data._id;
+            $scope.ownersId = data.data._id;
+            console.log("In $scope.ownersId", $scope.ownersId);
         });
-        $scope.timelineStatus = "All";
-        $scope.owner = "";
-        $scope.ownerStatus = "All files";
-        $scope.name = "";
-        $scope.city = "";
-        $scope.insurer = "";
-        $scope.insurerd = "";
-        $scope.from = "";
-        $scope.to = "";
-        $scope.department = "";
+        $scope.filter = {};
+        $scope.filter.timelineStatus = "All";
+        $scope.filter.owner = "";
+        $scope.filter.ownerId = ownerId;
+        $scope.filter.ownerStatus = "All files";
+        $scope.filter.name = "";
+        $scope.filter.city = "";
+        $scope.filter.insurer = "";
+        $scope.filter.insurerd = "";
+        $scope.filter.from = "";
+        $scope.filter.to = "";
+        $scope.filter.fromDate = "";
+        $scope.filter.toDate = "";
+        $scope.filter.department = "";
 
         $scope.MyFiles = function () {
             console.log("In MyFiles", ownerId);
@@ -263,27 +270,35 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             if (keywordChange) {
                 $scope.currentPage = 1;
             }
-            NavigationService.getAllAssignment($scope.ModelApi, {
-                pagenumber: $scope.currentPage,
-                pagelimit: 10,
-                timelineStatus: $scope.timelineStatus,
-                ownerStatus: $scope.ownerStatus,
-                name: $scope.name,
-                owner: $scope.owner,
-                city: $scope.city,
-                insurer: $scope.insurer,
-                insurerd: $scope.insurerd,
-                from: $scope.from,
-                to: $scope.to,
-                department: $scope.department
-            }, ++i, function (data, ini) {
-                if (ini == i) {
-                    $scope.modelList = data.data.results;
-                    $scope.totalItems = data.data.total;
-                    $scope.maxRow = 10;
-                    console.log("modelList", $scope.modelList,$scope.totalItems);
-                }
+            console.log("$scope.timelineStatus", $scope.filter.timelineStatus);
+            NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
+                ownerId = data.data._id;
+                // $scope.ownersId = data.data._id;
+                console.log("In $scope.ownersId", ownerId);
+                NavigationService.getAllAssignment($scope.ModelApi, {
+                    pagenumber: $scope.currentPage,
+                    pagelimit: 10,
+                    timelineStatus: $scope.filter.timelineStatus,
+                    ownerStatus: $scope.filter.ownerStatus,
+                    name: $scope.filter.name,
+                    owner: $scope.filter.owner,
+                    ownerId: ownerId,
+                    city: $scope.filter.city,
+                    insurer: $scope.filter.insurer,
+                    insurerd: $scope.filter.insurerd,
+                    from: $scope.filter.from,
+                    to: $scope.filter.to,
+                    department: $scope.department
+                }, ++i, function (data, ini) {
+                    if (ini == i) {
+                        $scope.modelList = data.data.results;
+                        $scope.totalItems = data.data.total;
+                        $scope.maxRow = 10;
+                        console.log("modelList", $scope.modelList, $scope.totalItems);
+                    }
+                });
             });
+
         };
         $scope.cancel = function () {
             console.log("Model");

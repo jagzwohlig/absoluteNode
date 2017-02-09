@@ -9,33 +9,33 @@
 <div class="modal-body">
     <form name="filterForm" class="form-horizontal">
         <div class="form-group">
-            <label class="col-sm-2 control-label">Owner</label>
+            <label class="col-sm-2 control-label">Owner Name</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" ng-model="formData.owner">
+                <input type="text" class="form-control" ng-model="filter.owner">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">Insurer</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" ng-model="formData.insurer">
+                <input type="text" class="form-control" ng-model="filter.insurer">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">Insured</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" ng-model="formData.insured">
+                <input type="text" class="form-control" ng-model="filter.insurerd">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">City</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" ng-model="formData.city">
+                <input type="text" class="form-control" ng-model="filter.city">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">Nature Of Survey</label>
             <div class="col-sm-9">
-                <input type="text" class="form-control" ng-model="formData.department">
+                <input type="text" class="form-control" ng-model="filter.department">
             </div>
         </div>
         <div class="form-group">
@@ -44,17 +44,50 @@
                 <label>From  </label>
             </div>
             <div class="col-sm-3">
-                <input type="number" class="form-control" ng-model="formData.from">
+                <input type="number" class="form-control" ng-model="filter.from">
             </div>
             <div class="col-sm-2 control-label">
                 <label>To  </label>
             </div>
             <div class="col-sm-3">
-                <input type="number" class="form-control" ng-model="formData.to">
+                <input type="number" class="form-control" ng-model="filter.to">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Date</label>
+            <div class="col-sm-2 control-label">
+                <label>From Date  </label>
+            </div>
+            <div class="col-sm-3">
+                <input type="date" class="form-control" ng-model="filter.fromDate">
+            </div>
+            <div class="col-sm-2 control-label">
+                <label>To Date</label>
+            </div>
+            <div class="col-sm-3">
+                <input type="date" class="form-control" ng-model="filter.toDate">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Timeline Status</label>
+            <div class="col-sm-4">
+                <select name="timelineStatus" ng-model="filter.timelineStatus" class="form-control">
+                                <option value="All">All</option>
+                                <option value="Survey Pending">Survey Pending</option>
+                                <option value="Survoyer Pending">Survoyer Pending</option>
+                                <option value="ILA Pending">ILA Pending</option>
+                                <option value="LOR Pending">LOR Pending</option>
+                                <option value="Dox Pending">Dox Pending</option>
+                                <option value="Assessment Pending">Assessment Pending</option>
+                                <option value="Consent Pending">Consent Pending</option>
+                                <option value="JIR Pending">JIR Pending</option>
+                                <option value="BBND">BBND</option>
+                                <option value="Dispatched">Dispatched</option>
+                            </select>
             </div>
         </div>
     </form>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary btn-outline btn-small" type="button" ng-click="doFilter(formData)">Apply</button>
+    <button class="btn btn-primary btn-outline btn-small" type="button" ng-click="showAll(filter);$dismiss() ">Apply</button>
 </div>

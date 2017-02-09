@@ -1,21 +1,19 @@
 <div class="heading-sec">
+          <div class="btn-group pull-right">
+  <button type="button" class="btn btn-default" ng-class="{'btn-primary': filter.ownerStatus=='All files'}" ng-click="filter.ownerStatus='All files';showAll(true);">All Assignment</button>
+  <button type="button" class="btn btn-default" ng-class="{'btn-primary': filter.ownerStatus=='My files'}" ng-click="filter.ownerStatus='My files';showAll(true)">My Assignment</button>
+  <button type="button" class="btn btn-default" ng-class="{'btn-primary': filter.ownerStatus=='Shared with me'}" ng-click="filter.ownerStatus='Shared with me';showAll(true)">Shared With Me</button>
+</div>
     <div class="row">
         <div class="col-md-4 column">
             <div class="heading-profile">
+               
                 <h2>Assignment List</h2>
             </div>
         </div>
-        <div>
-            <label>
-                
-    <input type="radio" ng-model="accessLevel.name" value="allAssignment" ng-click="showAll(true)">
-    All Assignment
-  </label>
-            <label>
-    <input type="radio" ng-model="accessLevel.name" value="green" ng-click="MyFiles()">
-    My Assignment
-  </label>
+
         </div>
+   
     </div>
 </div>
 <!-- Top Bar Chart -->
@@ -27,7 +25,7 @@
                     <div class="widget-title">
                         <div class="pull-right">
                             <form class="search-form mr-form">
-                                <input type="text" ng-change="showAll(true)" placeholder="Search Here..." ng-model="search.keyword" />
+                                <input type="text" ng-change="showAll(true)" placeholder="Search Here..." ng-model="filter.name" />
                                 <button type="submit">
                                     <i class="fa fa-search"></i>
                                 </button>
@@ -94,12 +92,12 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="tableData" ng-show="totalItems == 0">
+                    <div class="tableData" ng-show="totalItems == 0 || totalItems == undefined ">
                         <h5>No data found</h5>
                     </div>
-                    <div class="tableData" ng-show="totalItems == undefined">
+                    <!--<div class="tableData" ng-show="totalItems == undefined">
                         <h5>Loading Data</h5>
-                    </div>
+                    </div>-->
                     <ul ng-if="totalItems" ng-change="changePage(currentPage);" uib-pagination total-items="totalItems" items-per-page="maxRow"
                         ng-model="currentPage" max-size="template.pageMax" class="pagination-sm" boundary-links="true" force-ellipses="true"></ul>
                 </div>
