@@ -1555,7 +1555,7 @@ var model = {
         owner: "$owner.name",
         insurerName: "$insurer.name",
         insurerdName: "$insurerd.name",
-        depratment: "$department.name",
+        department: "$department.name",
         city: "$city.name",
         intimatedLoss: 1,
         timelineStatus: 1,

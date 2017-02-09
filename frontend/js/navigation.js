@@ -492,8 +492,13 @@ var navigationservice = angular.module('navigationservice', [])
         updateSurveyor: function (data, callback) {
             $http.post(adminurl + 'Assignment/updateSurveyor', data).success(callback);
         },
-        searchModel: function (model, formData, i, callback) {
-            $http.post(adminurl + model + '/search', formData).success(function (data) {
+        // searchModel: function (model, formData, i, callback) {
+        //     $http.post(adminurl + model + '/search', formData).success(function (data) {
+        //         callback(data, i);
+        //     });
+        // },
+        getAllAssignment: function (model, formData, i, callback) {
+            $http.post(adminurl + model + '/getAll', formData).success(function (data) {
                 callback(data, i);
             });
         },
