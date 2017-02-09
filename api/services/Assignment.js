@@ -521,6 +521,12 @@ var schema = new Schema({
 schema.plugin(deepPopulate, {
 
   populate: {
+    department:{
+      select: 'name _id'
+    },
+    'branch':{
+      select: 'name _id'
+    },
     'invoice': {
       select: 'name invoiceNumber _id grandTotal createdBy'
     },
@@ -607,7 +613,7 @@ schema.plugin(timestamps);
 
 module.exports = mongoose.model('Assignment', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss invoice invoice.createdBy insuredOfficer owner owner.func company company.city assessment.employee docs.employee fsrs.employee photos.employee causeOfLoss insurer assignedTo", "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss invoice invoice.createdBy insuredOfficer assignedTo"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country products.product.category.industry department shareWith.persons natureOfLoss invoice invoice.createdBy insuredOfficer owner owner.func company company.city assessment.employee docs.employee fsrs.employee photos.employee causeOfLoss insurer assignedTo", "city.district.state.zone.country products.product.category.industry department shareWith.persons natureOfLoss invoice invoice.createdBy insuredOfficer assignedTo"));
 
 var model = {
   saveData: function (data, callback) {
@@ -889,7 +895,7 @@ var model = {
      $scope.data=data;
      Assignment.findOne({
        _id:data.assignment
-     }).lean().exec(function (err, found) {
+     }).deepPopulate("city.district.state.zone.country branch department products.product.category.industry shareWith.persons natureOfLoss insuredOfficer owner owner.func company company.city assessment.employee docs.employee fsrs.employee photos.employee causeOfLoss insurer", "city.district.state.zone.country branch department products.product.category.industry shareWith.persons natureOfLoss insuredOfficer").lean().exec(function (err, found) {
       if (err) {
         console.log(err);
         callback(err, null);

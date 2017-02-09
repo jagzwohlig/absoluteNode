@@ -9,19 +9,52 @@
 <div class="modal-body">
     <form name="filterForm" class="form-horizontal">
         <div class="form-group">
-            <label class="col-sm-2 control-label">Data 1</label>
+            <label class="col-sm-2 control-label">Owner</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" ng-model="">
+                <input type="text" class="form-control" ng-model="formData.owner">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">Data 2</label>
+            <label class="col-sm-2 control-label">Insurer</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" ng-model="">
+                <input type="text" class="form-control" ng-model="formData.insurer">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Insured</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" ng-model="formData.insured">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">City</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" ng-model="formData.city">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Nature Of Survey</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" ng-model="formData.department">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Estimated Loss</label>
+            <div class="col-sm-2 control-label">
+                <label>From  </label>
+            </div>
+            <div class="col-sm-3">
+                <input type="number" class="form-control" ng-model="formData.from">
+            </div>
+            <div class="col-sm-2 control-label">
+                <label>To  </label>
+            </div>
+            <div class="col-sm-3">
+                <input type="number" class="form-control" ng-model="formData.to">
             </div>
         </div>
     </form>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary btn-outline btn-small" type="button" ng-click="doFilter(filterData)">Apply</button>
+    <button class="btn btn-primary btn-outline btn-small" type="button" ng-click="doFilter(formData)">Apply</button>
 </div>

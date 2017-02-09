@@ -298,6 +298,16 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 size: 'lg'
             });
         }
+        $scope.doFilter =function(data){
+            console.log("Form Data To Filter",data);
+            // NavigationService.filterAssignment(data,function(data){
+            //     if(data.value === true){
+
+            //     }else{
+
+            //     }
+            // })
+        }
     })
 
 
