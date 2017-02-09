@@ -54,7 +54,7 @@
          <% for(var i=0; i<data.tax.length; i++) {%>
         <tr>
             <td colspan="5" class="table-data"><%=data.tax[i].name%> @ <%=data.tax[i].percent%>%</td>
-            <td>541.80</td>
+            <td><%=data.tax[i].amount%></td>
         </tr>
         <%}%>
         <tr>
