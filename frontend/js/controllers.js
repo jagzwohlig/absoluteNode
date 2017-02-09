@@ -8922,14 +8922,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 console.log("FFFFF", data);
             });
         };
+        
         NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
             $scope.message.employee = data.data._id;
             console.log("In Employee", $scope.message.employee);
         });
+        
         NavigationService.getTimeline($stateParams.assignmentId, function (data) {
             $scope.timeline = data.data;
             console.log("In Employee", $scope.timeline);
         });
+
         NavigationService.getTax(function (data) {
             $scope.formData.tax = data.data.results;
             console.log("Tax", $scope.formData.tax);
@@ -8965,6 +8968,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.formData.roundOff = round.toFixed(2);
         }
         $scope.saveModel = function (data) {
+            $scope.formData.createdBy=$scope.message.employee;
             $scope.saveModel = function (formData) {
                 NavigationService.modelSave("Invoice", $scope.formData, function (data) {
                     if (data.value === true) {

@@ -522,7 +522,10 @@ schema.plugin(deepPopulate, {
 
   populate: {
     'invoice': {
-      select: 'name invoiceNumber _id grandTotal'
+      select: 'name invoiceNumber _id grandTotal createdBy'
+    },
+    'invoice.createdBy': {
+      select: 'name _id'
     },
     'assignedTo': {
       select: 'name _id'
@@ -596,7 +599,6 @@ schema.plugin(deepPopulate, {
     'causeOfLoss': {
       select: 'name _id'
     }
-
   }
 });
 autoIncrement.initialize(mongoose.connection);
@@ -605,7 +607,7 @@ schema.plugin(timestamps);
 
 module.exports = mongoose.model('Assignment', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss invoice insuredOfficer owner owner.func company company.city assessment.employee docs.employee fsrs.employee photos.employee causeOfLoss insurer assignedTo", "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss invoice insuredOfficer assignedTo"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss invoice invoice.createdBy insuredOfficer owner owner.func company company.city assessment.employee docs.employee fsrs.employee photos.employee causeOfLoss insurer assignedTo", "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss invoice invoice.createdBy insuredOfficer assignedTo"));
 
 var model = {
   saveData: function (data, callback) {
