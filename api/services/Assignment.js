@@ -1347,6 +1347,88 @@ var model = {
 
   getAll: function (data, callback) {
 
+    if(_.isEmpty(data.name)){
+      var name = {
+          $regex: "",
+          $options: 'i'
+        }
+    } else {
+        var name = {
+          $regex: data.name,
+          $options: 'i'
+        }
+    }
+
+    if(_.isEmpty(data.owner)){
+      var owner = {
+          $regex: "",
+          $options: 'i'
+        }
+    } else {
+        var owner = {
+          $regex: data.owner,
+          $options: 'i'
+        }
+    }
+
+    if(_.isEmpty(data.city)){
+      var city = {
+          $regex: "",
+          $options: 'i'
+        }
+    } else {
+        var city = {
+          $regex: data.city,
+          $options: 'i'
+        }
+    }
+    if(_.isEmpty(data.insurer)){
+      var insurer = {
+          $regex: "",
+          $options: 'i'
+        }
+    } else {
+        var insurer = {
+          $regex: data.insurer,
+          $options: 'i'
+        }
+    }
+    if(_.isEmpty(data.insurerd)){
+      var insurerd = {
+          $regex: "",
+          $options: 'i'
+        }
+    } else {
+        var insurerd = {
+          $regex: data.insurerd,
+          $options: 'i'
+        }
+    }
+    
+    if(_.isEmpty(data.intimatedLoss)){
+      var intimatedLoss = {
+          $regex: "",
+          $options: 'i'
+        }
+    } else {
+        var intimatedLoss = {
+          $regex: data.intimatedLoss,
+          $options: 'i'
+        }
+    }
+    
+    if(_.isEmpty(data.surveyDepartment)){
+      var surveyDepartment = {
+          $regex: "",
+          $options: 'i'
+        }
+    } else {
+        var surveyDepartment = {
+          $regex: data.surveyDepartment,
+          $options: 'i'
+        }
+    }
+
     if (data.timelineStatus == "All") {
       data.timelineStatus = {
         $regex: ''
@@ -1356,18 +1438,39 @@ var model = {
     if (data.ownerStatus == "My files") {
       var ownerStatus = {
         timelineStatus: data.timelineStatus,
-        owner: objectid(data.owner)
+        'owner._id': objectid(data.owner),
+        name: name,
+        'owner.name': owner,
+        'city.name': city,
+        'insurer.name':insurer,
+        'insurerd.name': insurerd,
+        intimatedLoss: intimatedLoss,
+        'department.name':surveyDepartment
       };
 
     } else if (data.ownerStatus == "Shared with me") {
       var ownerStatus = {
         timelineStatus: data.timelineStatus,
-        'shareWith.persons': objectid(data.owner)
+        'shareWith.persons': objectid(data.owner),
+        name: name,
+        'owner.name': owner,
+        'city.name': city,
+        'insurer.name':insurer,
+        'insurerd.name': insurerd,
+        intimatedLoss: intimatedLoss,
+        'department.name':surveyDepartment
       };
 
     } else if (data.ownerStatus == "All files") {
       var ownerStatus = {
-        timelineStatus: data.timelineStatus
+        timelineStatus: data.timelineStatus,
+        name: name,
+        'owner.name': owner,
+        'city.name': city,
+        'insurer.name':insurer,
+        'insurerd.name': insurerd,
+        intimatedLoss: intimatedLoss,
+        'department.name':surveyDepartment
       }
 
     }
@@ -1394,6 +1497,15 @@ var model = {
     }, {
       $unwind: "$insurer"
     }, {
+      $lookup: {
+        from: "employees",
+        localField: "owner",
+        foreignField: "_id",
+        as: "owner"
+      }
+    }, {
+      $unwind: "$owner"
+    },{
       $lookup: {
         from: "customers",
         localField: "insuredOffice",
@@ -1427,6 +1539,7 @@ var model = {
       $project: {
         _id: 1,
         name: 1,
+        owner:"$owner.name",
         insurerName: "$insurer.name",
         insurerdName: "$insurerd.name",
         depratment: "$department.name",
@@ -1455,6 +1568,15 @@ var model = {
       }
     }, {
       $unwind: "$insurer"
+    },{
+      $lookup: {
+        from: "employees",
+        localField: "owner",
+        foreignField: "_id",
+        as: "owner"
+      }
+    }, {
+      $unwind: "$owner"
     }, {
       $lookup: {
         from: "customers",
