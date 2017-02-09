@@ -887,7 +887,21 @@ var model = {
    generateInvoicePdf: function (data, callback) {
      $scope={};
      $scope.data=data;
-    Config.generatePdf("pdf/abs-invoice", $scope, callback);    
+     Assignment.findOne({
+       _id:data.assignment
+     }).lean().exec(function (err, found) {
+      if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (found) {
+        console.log("Found", found);
+        $scope.assignment=found;
+        console.log("$scope", $scope);
+        Config.generatePdf("pdf/abs-invoice", $scope, callback); 
+      } else {
+        callback(null, found);
+      }
+    });   
   },
   getPerson: function (data, callback) {
     var Model = this;

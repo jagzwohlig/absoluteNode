@@ -8888,7 +8888,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
 
         $scope.formData = {};
-        $scope.formData.assignment = $scope.assignment._id;
         $scope.formData.invoiceList = [];
         $scope.addHead = function () {
             $scope.formData.invoiceList.push({});
@@ -8905,6 +8904,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.required = true;
         $scope.formData.subTotal = 0;
         $scope.showForm = false;
+
         $scope.message = {};
         $scope.message.attachment = [];
         $scope.timeline = {};
@@ -8976,6 +8976,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         $scope.assignment.timelineStatus = "BBND";
                         NavigationService.modelSave("Assignment", $scope.assignment, function (data) {
                             if (data.value === true) {
+                                $scope.formData.assignment = $stateParams.assignmentId;
+                                console.log($scope.formData.assignment,$scope.formData,"$scope.formData.assignment");
                                 NavigationService.generateInvoicePdf($scope.formData, function (data) {
                                     if (data) {
                                         console.log("Data of Pdf", data.data.name);
@@ -9072,6 +9074,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.saveModel = function (formData) {
                 NavigationService.modelSave("Invoice", $scope.formData, function (data) {
                     if (data.value === true) {
+                        $scope.formData.assignment = $stateParams.assignmentId;
+                        console.log($scope.formData.assignment,$scope.formData,"$scope.formData.assignment");
                         NavigationService.generateInvoicePdf($scope.formData, function (data) {
                             if (data) {
                                 console.log("Data of Pdf", data.data.name);
