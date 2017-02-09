@@ -133,7 +133,6 @@ var schema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Customer",
     index: true,
-    required: true,
     key: "assignment"
   },
   segment: {
@@ -915,8 +914,8 @@ var model = {
         console.log("Found", found);
         $scope.assignment = found;
         console.log("$scope", $scope);
-        // Config.generatePdf("pdf/table", $scope, callback);
-        Config.generatePdf("pdf/abs-invoice", $scope, callback);
+        Config.generatePdf("pdf/table", $scope, callback);
+        // Config.generatePdf("pdf/abs-invoice", $scope, callback);
       } else {
         callback(null, found);
       }

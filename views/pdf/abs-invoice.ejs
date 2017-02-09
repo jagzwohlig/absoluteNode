@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <%
-var th = ['','thousand','million', 'billion','trillion'];
-var dg = ['zero','one','two','three','four', 'five','six','seven','eight','nine']; 
-var tn = ['ten','eleven','twelve','thirteen', 'fourteen','fifteen','sixteen', 'seventeen','eighteen','nineteen'];
-var tw = ['twenty','thirty','forty','fifty', 'sixty','seventy','eighty','ninety']; 
+var th = ['','Thousand','Million', 'Billion','Trillion'];
+var dg = ['Zero','One','Two','Three','Four', 'Five','Six','Seven','Eight','Nine']; 
+var tn = ['Ten','Eleven','Twelve','Thirteen', 'Fourteen','Fifteen','Sixteen', 'Seventeen','Eighteen','Nineteen'];
+var tw = ['Twenty','Thirty','Forty','Fifty', 'Sixty','Seventy','Eighty','Ninety']; 
 
 
 function toWords(s)
@@ -184,14 +184,14 @@ function toWords(s)
         </tr>
         <tr>
             <td colspan="5" class="table-data size">Grand Total</td>
-            <td class="size"><%=toWords(data.grandTotal)%></td>
+            <td class="size"><%=data.grandTotal%></td>
         
         </tr>
         </table>
     </div>
     </div>
     <div style="width:600px; margin: 0 auto;padding-top:30px;">
-         <h5 class="size">INR Four Thousand Four Hundred Fifty Only </h5>
+         <h5 class="size">INR <%=toWords(data.grandTotal)%> </h5>
         <div style="width:200px;text-align:left;display:inline-block;vertical-align:middle;">
            
             <address class="size">E. and O.E. Subjected to Ahmedabad Jurisdiction Service 

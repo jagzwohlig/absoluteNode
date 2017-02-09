@@ -1,6 +1,21 @@
 <!DOCTYPE html>
 <html>
+<%
+var a = ['','one ','two ','three ','four ', 'five ','six ','seven ','eight ','nine ','ten ','eleven ','twelve ','thirteen ','fourteen ','fifteen ','sixteen ','seventeen ','eighteen ','nineteen '];
+var b = ['', '', 'twenty','thirty','forty','fifty', 'sixty','seventy','eighty','ninety'];
 
+function toWords (num) {
+    if ((num = num.toString()).length > 9) return 'overflow';
+    n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+    if (!n) return; var str = '';
+    str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'crore ' : '';
+    str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'lakh ' : '';
+    str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'thousand ' : '';
+    str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'hundred ' : '';
+    str += (n[5] != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) + 'only ' : '';
+    return str;
+}
+%>
 <head>
     <style>
         body {
@@ -59,8 +74,8 @@
         </div>
         <div>
             <div style="width: 190px;">
-                <p>33, Swastik Chambers, Nr Navjivan Press, Income-tax, Ahmedabad, Gujarat. Phone #: 91 79 27540816 FAX #: 91
-                    79 27540715 accounts@absolutesurveyors.co.in www.absolutesurveyors.co.in
+                <p><%=assignment.company.address%><%=assignment.company.city.name%>,<%=assignment.company.city.district.state.name%>. Phone #: <%=assignment.company.phone%> FAX #: <%=assignment.company.fax%>
+                 <%=assignment.company.email%> www.absolutesurveyors.co.in
                 </p>
             </div>
         </div>
@@ -72,14 +87,14 @@
     margin: 5px 0;
 ">INVOICE</h2>
         <div class="clearfix" style="margin:0 auto;padding-bottom: 10px;">
-            <h4 class="size" style="margin:0;">TAG BO Hyderabad</h4>
+            <h4 class="size" style="margin:0;"><%=assignment.insurer.shortName%></h4>
             <div style="width:49%;text-align:left;display:inline-block;vertical-align:middle;">
-                <p class="size" style="margin: 5px 0;padding-right: 40px;">Tata AIG General Insurance Co Ltd Branch Office 4th Floor, A Block,My Home Tycoon, Kundanbagh, Begumpet,
+                <p class="size" style="margin: 5px 0;padding-right: 40px;"><%=assignment.insurer.name%> Branch Office 4th Floor, A Block,My Home Tycoon, Kundanbagh, Begumpet,
                     Hyderabad 500016, Andhra Pradesh, India</p>
             </div>
             <div style="width: 49%;display: inline-block;margin-left: 0;">
-                <div class="size"><i style="padding:0 5px;">Invoice No</i><span style="padding:0 12px;">1106-1606-0532</span></div>
-                <div class="size"> <i style="padding:0 5px;">Invoice Date</i><span style="padding:0 3px;">18/06/2016</span></div>
+                <div class="size"><i style="padding:0 5px;">Invoice No</i><span style="padding:0 12px;"><%= data.invoiceNumber%></span></div>
+                <div class="size"> <i style="padding:0 5px;">Invoice Date</i><span style="padding:0 3px;"><%= moment(new Date(data.createdAt)).format("L")%></span></div>
             </div>
         </div>
         <div style="clear:both;"></div>
@@ -93,19 +108,19 @@
                 </tr>
                 <tr>
                     <td class="noborder">Insurer</td>
-                    <td class="noborder">TAG BO Hyderabad</td>
+                    <td class="noborder"><%=assignment.insurer.name%></td>
                     <td class="noborder">NOL</td>
                     <td class="noborder">Stolen</td>
                 </tr>
                 <tr>
                     <td class="noborder">Insured</td>
-                    <td class="noborder">Amara Raja Batteries Limited/Bhubaneshwar</td>
+                    <td class="noborder"><%=assignment.insured.name%></td>
                     <td class="noborder">Classification</td>
                     <td class="noborder">Goods Vehicles</td>
                 </tr>
                 <tr>
                     <td class="noborder">Policy Type</td>
-                    <td class="noborder">Marine Cargo Open Policy</td>
+                    <td class="noborder"><%=assignment.policyType.name%></td>
                     <td class="noborder">Product</td>
                     <td class="noborder">Refuse/Garbage Collection</td>
                 </tr>
@@ -117,13 +132,13 @@
                 </tr>
                 <tr>
                     <td class="noborder">Insurer Claim No</td>
-                    <td class="noborder">0000000</td>
+                    <td class="noborder"><%=assignment.insurerClaimId%></td>
                     <td class="noborder">Invoice # &amp; Date</td>
                     <td class="noborder">28/00034</td>
                 </tr>
                 <tr>
                     <td class="noborder">Insured Claim No</td>
-                    <td class="noborder"></td>
+                    <td class="noborder"><%=assignment.insuredClaimId%></td>
                     <td class="noborder">LR # &amp; Date</td>
                     <td class="noborder">OR0XREW</td>
                 </tr>
@@ -147,61 +162,33 @@
                             <th>Rate</th>
                             <th>Amount</th>
                         </tr>
+                        <% for(var i=0; i<data.invoiceList.length; i++) {%>
                         <tr>
-                            <td class="text-center">1</td>
-                            <td>Serve fees for Visit on 11/06/2016</td>
-                            <td class="text-right">1.00</td>
-                            <td class="text-center">Per</td>
-                            <td class="text-right">3000.00</td>
-                            <td class="text-right">3000</td>
+                            <td class="text-center"><%=i+1%></td>
+                            <td><%=data.invoiceList[i].name%></td>
+                            <td class="text-right"><%=data.invoiceList[i].quantity%></td>
+                            <td class="text-center"><%=data.invoiceList[i].unit%></td>
+                            <td class="text-right"><%=data.invoiceList[i].rate%></td>
+                            <td class="text-right"><%=data.invoiceList[i].amount%></td>
                         </tr>
-                        <tr>
-                            <td class="text-center">2</td>
-                            <td>Local Conveyance</td>
-                            <td class="text-right">1.00</td>
-                            <td class="text-center">Visit</td>
-                            <td class="text-right">500.00</td>
-                            <td class="text-right">500</td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">3</td>
-                            <td>Photographs</td>
-                            <td class="text-right">12.00</td>
-                            <td class="text-center">Copy</td>
-                            <td class="text-right">10.00</td>
-                            <td class="text-right">120</td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">4</td>
-                            <td>Mice expences like telephone,email,photocopy,courier,etc.</td>
-                            <td class="text-right">1.00</td>
-                            <td class="text-center">Per</td>
-                            <td class="text-right">25.00</td>
-                            <td class="text-right">250</td>
-                        </tr>
+                        <%}%>
                         <tr>
                             <td colspan="5" class="table-data">Sub Total</td>
-                            <td class="text-right">3870.00</td>
+                            <td class="text-right"><%=data.subTotal%></td>
                         </tr>
+                        <% for(var i=0; i<data.tax.length; i++) {%>
                         <tr>
-                            <td colspan="5" class="table-data">Service Tag @ 14.00%</td>
-                            <td class="text-right">541.80</td>
+                            <td colspan="5" class="table-data"><%=data.tax[i].name%> @ <%=data.tax[i].percent%>%</td>
+                            <td class="text-right"><%=data.tax[i].amount%></td>
                         </tr>
-                        <tr>
-                            <td colspan="5" class="table-data">Swashh Bharat Cess @ 0.50%</td>
-                            <td class="text-right">19.35</td>
-                        </tr>
-                        <tr>
-                            <td colspan="5" class="table-data">Krishi Kalyan Cess @ 0.50%</td>
-                            <td class="text-right">19.35</td>
-                        </tr>
+                        <%}%>
                         <tr>
                             <td colspan="5" class="table-data">Rounding Off </td>
-                            <td class="text-right">-0.50</td>
+                            <td class="text-right">-<%=data.roundOff%></td>
                         </tr>
                         <tr>
                             <td colspan="5" class="table-data">Grand Total</td>
-                            <td class="text-right">4,450.00</td>
+                            <td class="text-right"><%=data.grandTotal%></td>
                         </tr>
                     </tbody>
                 </table>
@@ -210,7 +197,7 @@
         <div style="padding-top: 15px;">
             <b class="size" style="float:right;">For, Absolute Insurance Surveyors &amp; Loss Assessors Pvt Ltd</b>
             <div style="width:44%;text-align:left;display:inline-block;vertical-align:middle;">
-                <b class="size">INR Four Thousand Four Hundred Fifty Only </b>
+                <b class="size">INR <%=toWords(data.grandTotal)%> </b>
                 <p class="size" style="margin: 5px 0 0;padding-right: 55px;">E. and O.E. Subjected to Ahmedabad Jurisdiction Service Tax No: AAGCA3986L ST001 (Insurance Auxiliary Services)
                     PAN No: AAGCA3986L. CIN: U93000GJ2007 PTC051 168</p>
             </div>
