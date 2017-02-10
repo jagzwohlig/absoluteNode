@@ -248,24 +248,24 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         // 
         console.log("OwnerId", ownerId);
 
-        // $scope.showAll = function (keywordChange) {
-        //     $scope.totalItems = undefined;
-        //     if (keywordChange) {
-        //         $scope.currentPage = 1;
-        //     }
-        //     NavigationService.searchModel($scope.ModelApi, {
-        //         page: $scope.currentPage,
-        //         keyword: $scope.search.keyword,
-        //     }, ++i, function (data, ini) {
-        //         if (ini == i) {
-        //             $scope.modelList = data.data.results;
-        //             $scope.totalItems = data.data.total;
-        //             $scope.maxRow = data.data.options.count;
-        //             console.log("modelList", $scope.modelList);
-        //         }
-        //     });
-        // };
         $scope.showAll = function (keywordChange) {
+            $scope.totalItems = undefined;
+            if (keywordChange) {
+                $scope.currentPage = 1;
+            }
+            NavigationService.searchModel($scope.ModelApi, {
+                page: $scope.currentPage,
+                keyword: $scope.search.keyword,
+            }, ++i, function (data, ini) {
+                if (ini == i) {
+                    $scope.modelList = data.data.results;
+                    $scope.totalItems = data.data.total;
+                    $scope.maxRow = data.data.options.count;
+                    console.log("modelList", $scope.modelList);
+                }
+            });
+        };
+        $scope.showAssignment = function (keywordChange) {
             $scope.totalItems = undefined;
             if (keywordChange) {
                 $scope.currentPage = 1;

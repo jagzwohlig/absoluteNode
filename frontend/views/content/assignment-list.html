@@ -1,8 +1,8 @@
 <div class="heading-sec">
           <div class="btn-group pull-right">
-  <button type="button" class="btn btn-default" ng-class="{'btn-primary': filter.ownerStatus=='All files'}" ng-click="filter.ownerStatus='All files';showAll(true);">All Assignment</button>
-  <button type="button" class="btn btn-default" ng-class="{'btn-primary': filter.ownerStatus=='My files'}" ng-click="filter.ownerStatus='My files';showAll(true)">My Assignment</button>
-  <button type="button" class="btn btn-default" ng-class="{'btn-primary': filter.ownerStatus=='Shared with me'}" ng-click="filter.ownerStatus='Shared with me';showAll(true)">Shared With Me</button>
+  <button type="button" class="btn btn-default" ng-class="{'btn-primary': filter.ownerStatus=='All files'}" ng-click="filter.ownerStatus='All files';showAssignment(true);">All Assignment</button>
+  <button type="button" class="btn btn-default" ng-class="{'btn-primary': filter.ownerStatus=='My files'}" ng-click="filter.ownerStatus='My files';showAssignment(true)">My Assignment</button>
+  <button type="button" class="btn btn-default" ng-class="{'btn-primary': filter.ownerStatus=='Shared with me'}" ng-click="filter.ownerStatus='Shared with me';showAssignment(true)">Shared With Me</button>
 </div>
     <div class="row">
         <div class="col-md-4 column">
@@ -25,7 +25,7 @@
                     <div class="widget-title">
                         <div class="pull-right">
                             <form class="search-form mr-form">
-                                <input type="text" ng-change="showAll(true)" placeholder="Search Here..." ng-model="filter.name" />
+                                <input type="text" ng-change="showAssignment(true)" placeholder="Search Here..." ng-model="filter.name" />
                                 <button type="submit">
                                     <i class="fa fa-search"></i>
                                 </button>
