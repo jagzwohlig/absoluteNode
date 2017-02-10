@@ -1429,18 +1429,6 @@ var model = {
       }
     }
 
-    // if (_.isEmpty(data.fromDate) && _.isEmpty(data.toDate)) {
-    //   var createdDate = {
-    //     $regex: "",
-    //     $options: 'i'
-    //   }
-    // } else {
-    //   var createdDate = {
-    //     "$gte": new Date(data.fromDate),
-    //     "$lte": new Date(data.toDate)
-    //   }
-    // }
-
     if (_.isEmpty(data.surveyDepartment)) {
       var surveyDepartment = {
         $regex: "",
@@ -1501,7 +1489,6 @@ var model = {
       }
 
     }
-    console.log("owner", data.ownerStatus, ownerStatus);
 
     var pageStartFrom = (data.pagenumber - 1) * data.pagelimit;
 
@@ -1647,7 +1634,6 @@ var model = {
       allTable.unshift(unwindSharewith);
       countAllData.unshift(unwindSharewith);
     }
-    console.log("all table", countAllData);
     async.parallel([
 
       //get assignment
