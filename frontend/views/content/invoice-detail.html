@@ -27,12 +27,12 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Name*</label>
-                                <input type="text" ng-model="formData.name" placeholder="Enter Name" class="form-control">
-                                <div class="error-msg" ng-show="formName.name.$invalid">Please Enter Name</div>
+                                <label>Billed To*</label>
+                                <multiple-select my-enter name="billedTo" required ng-model="formData.billedTo" ng-name="billedTo" api="searchCustomer" novalidate></multiple-select>
+                                <div class="error-msg" ng-show="formName.billedTo.$invalid">Please Select Insurer Office</div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6" ng-if="formData._id">
                             <label>Number*</label>
                             <input type="text" ng-model="formData.invoiceNumber" placeholder="Enter Number" class="form-control">
                         </div>

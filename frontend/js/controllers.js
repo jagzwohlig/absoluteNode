@@ -266,9 +266,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
         $scope.showAssignment = function (keywordChange) {
+            console.log("keywordChange", keywordChange);
             $scope.totalItems = undefined;
             if (keywordChange) {
                 $scope.currentPage = 1;
+                $scope.filter.timelineStatus = keywordChange.timelineStatus;
             }
             console.log("$scope.timelineStatus", $scope.filter.timelineStatus);
             NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
@@ -305,6 +307,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $window.history.back();
         };
         $scope.changePage = function (page) {
+            console.log("In Change Page", $scope.filter);
             var goTo = $scope.modelCamel + "-list";
             if ($scope.search.keyword) {
                 goTo = $scope.modelCamel + "-list";
@@ -9036,35 +9039,38 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.formData.roundOff = round.toFixed(2);
         }
         $scope.saveModel = function (data) {
+            console.log("Data of Pdf");
             $scope.formData.createdBy = $scope.message.employee;
-            $scope.saveModel = function (formData) {
-                NavigationService.modelSave("Invoice", $scope.formData, function (data) {
-                    if (data.value === true) {
-                        $scope.assignment.invoice.push(data.data._id);
-                        $scope.assignment.timelineStatus = "BBND";
-                        NavigationService.modelSave("Assignment", $scope.assignment, function (data) {
-                            if (data.value === true) {
-                                $scope.formData.assignment = $stateParams.assignmentId;
-                                console.log($scope.formData.assignment, $scope.formData, "$scope.formData.assignment");
-                                NavigationService.generateInvoicePdf($scope.formData, function (data) {
-                                    if (data) {
-                                        console.log("Data of Pdf", data.data.name);
-                                        $scope.sendMessage(data.data.name);
-                                        $window.history.back();
-                                        toastr.success("Invoice Template " + formData.name + " created successfully.", "Invoice Template Created");
-                                    } else {
-                                        toastr.error("Invoice Template creation failed.", "Invoice Template creation error");
-                                    }
-                                });
-                            } else {
-                                toastr.error("Invoice Template creation failed.", "Invoice Template creation error");
-                            }
-                        });
-                    } else {
-                        toastr.error("Invoice Template creation failed.", "Invoice Template creation error");
-                    }
-                });
-            };
+            $scope.formData.assignment = $stateParams.assignmentId;
+            NavigationService.modelSave("Invoice", $scope.formData, function (data) {
+                if (data.value === true) {
+                    console.log("Data of Pdf");
+                    var invoice = {
+                        _id: data.data._id
+                    };
+                    $scope.assignment.invoice.push(data.data._id);
+                    $scope.assignment.timelineStatus = "BBND";
+                    NavigationService.modelSave("Assignment", $scope.assignment, function (data) {
+                        if (data.value === true) {
+                            console.log("Data of Pdf");
+                            NavigationService.generateInvoicePdf(invoice, function (data) {
+                                if (data.value === true) {
+                                    console.log("Data of Pdf", data.data.name);
+                                    $scope.sendMessage(data.data.name);
+                                    $window.history.back();
+                                    toastr.success("Invoice Template " + formData.name + " created successfully.", "Invoice Template Created");
+                                } else {
+                                    toastr.error("Invoice Template creation failed.", "Invoice Template creation error");
+                                }
+                            });
+                        } else {
+                            toastr.error("Invoice Template creation failed.", "Invoice Template creation error");
+                        }
+                    });
+                } else {
+                    toastr.error("Invoice Template creation failed.", "Invoice Template creation error");
+                }
+            });
         };
 
     })
@@ -9145,7 +9151,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         $scope.formData.assignment = $stateParams.assignmentId;
                         console.log($scope.formData.assignment, $scope.formData, "$scope.formData.assignment");
                         NavigationService.generateInvoicePdf($scope.formData, function (data) {
-                            if (data) {
+                            if (data.value === true) {
                                 console.log("Data of Pdf", data.data.name);
                                 $scope.sendMessage(data.data.name);
                                 $window.history.back();

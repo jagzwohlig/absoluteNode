@@ -853,19 +853,19 @@
                     <div class="form-elements-sec">
                         <div class="widget-title" ng-if="!formData.postLoss">
                             <a class="btn btn-primary pull-right" ng-click="addModal( 'modal-assignment', '',
-                        'invoice', 'datefilter', '',formData.invoice)">Add New</a>
+                        'invoice', 'datefilter', '',formData.invoices)">Add New</a>
                                 <!-- <button class="btn btn-primary pull-right" type="submit" ng-disabled="modelData.$invalid">Add New</button> -->
                                 <h3>Invoices</h3>
                         </div>
                         <div class="widget-title" ng-if="formData.postLoss">
                             <a class="btn btn-primary pull-right" ng-click="addModal( 'modal-assignment', '',
-                        'invoice', '', '',formData.invoice)">Add New</a>
+                        'invoice', '', '',formData.invoices)">Add New</a>
                                 <!-- <button class="btn btn-primary pull-right" type="submit" ng-disabled="modelData.$invalid">Add New</button> -->
                                 <h3>Invoices</h3>
                         </div>
                         <div class="sec">
                             <div class="table-responsive">
-                                <table class="table table-input" ng-if="formData.invoice.length!=0">
+                                <table class="table table-input" ng-if="formData.invoices.length!=0">
                                     <thead>
                                         <tr>
                                             <th>Invoice #</th>
@@ -874,15 +874,15 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="data in formData.invoice track by $index">
+                                        <tr ng-repeat="data in formData.invoices track by $index">
                                             <td>{{data.invoiceNumber}} </td>
                                             <td>{{data.invoiceNumberDate| date:'dd MMM yyyy'}}</td>
                                             <td>
                                                 <a class="btn btn-primary" ng-click="addModal( 'modal-assignment',$index,
-                        'invoice',data, '',formData.invoice)">
+                        'invoice',data, '',formData.invoices)">
                                                     <i class="fa fa-pencil"></i>
                                                     </a>
-                                                    <a class="btn btn-danger" ng-click="deleteElements($index, formData.invoice)">
+                                                    <a class="btn btn-danger" ng-click="deleteElements($index, formData.invoices)">
                                                         <i class="fa fa-trash"></i>
                                                     </a>
                                             </td>

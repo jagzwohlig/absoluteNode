@@ -859,6 +859,7 @@ var navigationservice = angular.module('navigationservice', [])
             }).success(callback);
         },
         generateInvoicePdf: function (data, callback) {
+            console.log(data);
             $http.post(adminurl + 'assignment/generateInvoicePdf', data).success(callback);
         },
         getExpenditure: function (id, callback) {

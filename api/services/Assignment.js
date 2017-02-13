@@ -269,6 +269,14 @@ var schema = new Schema({
       type: String
     }
   }],
+  invoices: [{
+    invoiceNumber: {
+      type: String
+    },
+    invoiceNumberDate: {
+      type: Date
+    }
+  }],
   LRs: [{
     lrNumber: {
       type: String
@@ -737,12 +745,12 @@ var model = {
         callback(err, null);
       } else {
         async.eachSeries(data, function (n, callback1) {
-          console.log("NNNNN", n);
+          // console.log("NNNNN", n);
           Assignment.generateAssignmentNumber(n, function (err, data3) {
             if (err) {
               callback1(err, null)
             } else {
-              console.log(data3);
+              // console.log(data3);
               callback1(null, data3);
             }
           });
@@ -901,25 +909,57 @@ var model = {
       }
     });
   },
-  generateInvoicePdf: function (data, callback) {
+ 
+generateInvoicePdfb: function (data, callback) {
     $scope = {};
     $scope.data = data;
     Assignment.findOne({
       _id: data.assignment
     }).deepPopulate("city.district.state.zone.country branch department products.product.category.industry insured policyType shareWith.persons natureOfLoss insuredOfficer owner owner.func company company.city company.city.district.state assessment.employee docs.employee fsrs.employee photos.employee causeOfLoss insurer", "city.district.state.zone.country branch department products.product.category.industry shareWith.persons natureOfLoss insuredOfficer").lean().exec(function (err, found) {
       if (err) {
-        console.log(err);
+        // console.log(err);
         callback(err, null);
       } else if (found) {
-        console.log("Found", found);
+        // console.log("Found", found);
         $scope.assignment = found;
-        console.log("$scope", $scope);
+        // console.log("$scope", $scope);
         Config.generatePdf("pdf/table", $scope, callback);
         // Config.generatePdf("pdf/abs-invoice", $scope, callback);
       } else {
         callback(null, found);
       }
     });
+  },
+  generateInvoicePdf: function (data, callback) {
+    green(data);
+    $scope = {};
+    Invoice.findOne({
+      _id:data._id
+    }).lean().deepPopulate("assignment assignment.department assignment.products.product.category assignment.natureOfLoss assignment.causeOfLoss assignment.policyType assignment.customer assignment.insurerOffice assignment.insuredOffice billedTo.customerCompany billedTo.city.district.state.zone.country assignment.city.district.state.zone.country assignment.company.city.district.state").exec(function(err,data2){
+      if(err){
+        callback(err,null);
+      }else{
+        console.log("AAAAAAAAAAAAA",data2,data2.assignment.products[0].item);
+        $scope.data = data2; 
+        Config.generatePdf("pdf/table", $scope, callback); 
+      }
+    });
+    // Assignment.findOne({
+    //   _id: data.assignment
+    // }).deepPopulate("city.district.state.zone.country branch department products.product.category.industry insured policyType shareWith.persons natureOfLoss insuredOfficer owner owner.func company company.city company.city.district.state assessment.employee docs.employee fsrs.employee photos.employee causeOfLoss insurer", "city.district.state.zone.country branch department products.product.category.industry shareWith.persons natureOfLoss insuredOfficer").lean().exec(function (err, found) {
+    //   if (err) {
+    //     // console.log(err);
+    //     callback(err, null);
+    //   } else if (found) {
+    //     // console.log("Found", found);
+    //     $scope.assignment = found;
+    //     // console.log("$scope", $scope);
+    //     Config.generatePdf("pdf/table", $scope, callback);
+    //     // Config.generatePdf("pdf/abs-invoice", $scope, callback);
+    //   } else {
+    //     callback(null, found);
+    //   }
+    // });
   },
   getPerson: function (data, callback) {
     var Model = this;
@@ -1010,10 +1050,10 @@ var model = {
       }
     }).exec(function (err, found) {
       if (err) {
-        console.log(err);
+        // console.log(err);
         callback(err, null);
       } else if (found) {
-        console.log("Found", found);
+        // console.log("Found", found);
         callback(null, found);
       } else {
         callback(null, found);
@@ -1114,7 +1154,7 @@ var model = {
     }).exec(function (err, found) {
 
       if (err) {
-        console.log(err);
+        // console.log(err);
         callback(err, null);
       } else {
         var newChat = {};
@@ -1144,7 +1184,7 @@ var model = {
   // Doc  Photos JIR
 
   mobileSubmit: function (data, callback) {
-    console.log("Data ", data);
+    // console.log("Data ", data);
     var fileArray = [];
     var docCount = 0;
     if (!_.isEmpty(data.doc)) {
@@ -1159,7 +1199,7 @@ var model = {
       });
     }
     if (!_.isEmpty(data.photos)) {
-      console.log("In Photos", data.photos);
+      // console.log("In Photos", data.photos);
       _.each(data.photos, function (n) {
         n.fileName = Date.now(),
           n.employee = data.empId,
@@ -1171,7 +1211,7 @@ var model = {
       });
     }
     if (!_.isEmpty(data.jir)) {
-      console.log("In JIR", data.jir);
+      // console.log("In JIR", data.jir);
 
       _.each(data.jir, function (n) {
         n.fileName = Date.now(),
@@ -1207,7 +1247,7 @@ var model = {
       },
     }).exec(function (err, found) {
       if (err) {
-        console.log(err);
+        // console.log(err);
         callback(err, null);
       } else {
         var newChat = {};
@@ -1223,7 +1263,7 @@ var model = {
               n.type = "Normal",
               n.title = "Survey Done";
           })
-        console.log("Final Count", fileArray);
+        // console.log("Final Count", fileArray);
         fileArray.push(newChat);
         Timeline.update({
           assignment: data.assignId
@@ -1277,15 +1317,15 @@ var model = {
       green(currentDateMonth);
       if (currentDateMonth > 3) {
         newDate = moment(new Date(data.dateOfAppointment)).add(5, "hours").add(30, "minutes").add(1, "year").format("YYYY");
-        console.log("New Date", newDate);
+        // console.log("New Date", newDate);
       } else {
         newDate = moment(new Date(data.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YYYY");
-        console.log("New Date", newDate);
+        // console.log("New Date", newDate);
       }
       return newDate;
     } else {
       var currentDateMonth = moment(new Date(data.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM-YYYY");
-      console.log("New Date", currentDateMonth);
+      // console.log("New Date", currentDateMonth);
       return currentDateMonth;
     }
   },
@@ -1640,7 +1680,7 @@ var model = {
       function (callback) {
         Assignment.aggregate(allTable, function (err, data1) {
           if (err) {
-            console.log("err", err);
+            // console.log("err", err);
             callback(null, data1);
           } else {
             callback(null, data1);
@@ -1652,7 +1692,7 @@ var model = {
       function (callback) {
         Assignment.aggregate(countAllData, function (err, data2) {
           if (err) {
-            console.log("err", err);
+            // console.log("err", err);
             callback(null, data2);
           } else {
             callback(null, data2);
@@ -1662,7 +1702,7 @@ var model = {
 
     ], function (err, data3) {
       if (err) {
-        console.log(err);
+        // console.log(err);
         callback(err, null);
       } else {
         if (_.isEmpty(data3[0]) || _.isEmpty(data3[1])) {
@@ -1836,7 +1876,7 @@ var model = {
     Assignment.aggregate(aggText).exec(function (err, found) {
 
       if (err) {
-        console.log(err);
+        // console.log(err);
         callback(err, null);
       } else {
         callback(null, found);
