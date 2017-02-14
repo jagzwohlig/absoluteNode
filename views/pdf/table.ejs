@@ -82,7 +82,8 @@ function toWords (num) {
                                 <%=data.assignment.company.city.district.state.name%>.<br> Phone #:
                                     <%=data.assignment.company.phone%> <br>FAX #:
                                         <%=data.assignment.company.fax%>
-                                            <%=data.assignment.company.email%> www.absolutesurveyors.co.in
+                                            <%=data.assignment.company.email%>
+                                                <%=data.assignment.company.website%>
                     </p>
                 </div>
             </div>
@@ -99,12 +100,12 @@ function toWords (num) {
                 </h4>
                 <div style="width:49%;text-align:left;display:inline-block;vertical-align:middle;">
                     <p class="size" style="margin: 5px 0;padding-right: 40px;">
-                        <%=data.billedTo.customerCompany.name%>,
-                            <%=data.billedTo.address%>
+                        <%=data.billedTo.customerCompany.name%>,<br>
+                            <%=data.billedTo.address%><br>
                                 <%=data.billedTo.city.name%>,
                                     <%=data.billedTo.city.district.name%>,
                                         <%=data.billedTo.pincode%>,
-                                            <%=data.billedTo.city.district.state.name%>,
+                                            <%=data.billedTo.city.district.state.name%>,<br>
                                                 <%=data.billedTo.city.district.state.zone.country.name%>
                     </p>
                 </div>
@@ -170,7 +171,9 @@ function toWords (num) {
                     </tr>
                     <tr>
                         <td class="noborder">Policy Number</td>
-                        <td class="noborder">12345</td>
+                        <td class="noborder">
+                            <%=data.assignment.policyNumber%>
+                        </td>
                         <td class="noborder">Item</td>
                         <td class="noborder">
                             <% for(var i=0; i<data.assignment.products.length; i++) {%>
@@ -188,7 +191,10 @@ function toWords (num) {
                         </td>
                         <%if(data.assignment.department.name==="Marine Cargo"){%>
                             <td class="noborder">Invoice # &amp; Date</td>
-                            <td class="noborder"><%=data.assignment.invoices[0].invoiceNumber%> & <%= moment(new Date(data.assignment.invoices[0].invoiceNumberDate)).format("L")%></td>
+                            <td class="noborder">
+                                <%=data.assignment.invoices[0].invoiceNumber%> &
+                                    <%= moment(new Date(data.assignment.invoices[0].invoiceNumberDate)).format("L")%>
+                            </td>
                             <%}else{%>
                                 <td class="noborder">Product ID</td>
                                 <td class="noborder">
@@ -207,7 +213,10 @@ function toWords (num) {
                         </td>
                         <%if(data.assignment.department.name==="Marine Cargo"){%>
                             <td class="noborder">LR # &amp; Date</td>
-                            <td class="noborder"><%=data.assignment.LRs[0].lrNumber%> & <%= moment(new Date(data.assignment.LRs[0].lrNumberDate)).format("L")%></td>
+                            <td class="noborder">
+                                <%=data.assignment.LRs[0].lrNumber%> &
+                                    <%= moment(new Date(data.assignment.LRs[0].lrNumberDate)).format("L")%>
+                            </td>
                             <%}else{%>
                                 <td class="noborder">Location ID</td>
                                 <td class="noborder">
@@ -224,7 +233,9 @@ function toWords (num) {
                             <td class="noborder"></td>
                             <td class="noborder"></td>
                             <td class="noborder">Vehicle</td>
-                            <td class="noborder"><%=data.assignment.vehicleNumber[0].vehicleNumber%></td>
+                            <td class="noborder">
+                                <%=data.assignment.vehicleNumber[0].vehicleNumber%>
+                            </td>
                         </tr>
                         <%}%>
                 </tbody>
@@ -299,8 +310,11 @@ function toWords (num) {
                 <b class="size" style="float:right;">For, Absolute Insurance Surveyors &amp; Loss Assessors Pvt Ltd</b>
                 <div style="width:44%;text-align:left;display:inline-block;vertical-align:middle;">
                     <b class="size">INR <%=toWords(data.grandTotal)%> </b>
-                    <p class="size" style="margin: 5px 0 0;padding-right: 55px;">E. and O.E.<br> Subjected to Ahmedabad Jurisdiction Service Tax No: AAGCA3986L ST001 (Insurance Auxiliary
-                        Services) PAN No: AAGCA3986L. CIN: U93000GJ2007 PTC051 168</p>
+                    <p class="size" style="margin: 5px 0 0;padding-right: 55px;">E. and O.E.<br> Subjected to Ahmedabad Jurisdiction <br>Service Tax No:
+                        <%=data.assignment.company.serviceTax%> <br>(Insurance Auxiliary Services)<br> PAN No:
+                            <%=data.assignment.company.pan%>.<br> CIN:
+                                <%=data.assignment.company.cin%>
+                    </p>
                 </div>
                 <p class="size" style="margin-top: 10px;margin-bottom: 0;text-align: right;"> Authorized Signatory</p>
             </div>

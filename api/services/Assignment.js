@@ -48,7 +48,7 @@ var schema = new Schema({
   }],
   timelineStatus: {
     type: String,
-    enum: ["Pending", "Survey Pending", "Survey Assigned", "ILA Pending", "LOR Pending", "Dox Pending", "Assessment Pending", "Consent Pending", "JIR Pending", "BBND", "Dispatched","Force Closed","Reopened",""],
+    enum: ["Pending", "Survey Pending", "Survey Assigned", "ILA Pending", "LOR Pending", "Dox Pending", "Assessment Pending", "Consent Pending", "JIR Pending", "BBND", "Dispatched", "Force Closed", "Reopened", ""],
     default: "Survey Pending"
   },
   brokerClaimId: {
@@ -576,7 +576,7 @@ schema.plugin(deepPopulate, {
     'company.city.district': {
       select: 'name state _id'
     },
-     'company.city.district.state': {
+    'company.city.district.state': {
       select: 'name _id'
     },
     'bank': {
@@ -909,8 +909,8 @@ var model = {
       }
     });
   },
- 
-generateInvoicePdfb: function (data, callback) {
+
+  generateInvoicePdfb: function (data, callback) {
     $scope = {};
     $scope.data = data;
     Assignment.findOne({
@@ -934,32 +934,30 @@ generateInvoicePdfb: function (data, callback) {
     green(data);
     $scope = {};
     Invoice.findOne({
-      _id:data._id
-    }).lean().deepPopulate("assignment assignment.department assignment.products.product.category assignment.natureOfLoss assignment.causeOfLoss assignment.policyType assignment.customer assignment.insurerOffice assignment.insuredOffice billedTo.customerCompany billedTo.city.district.state.zone.country assignment.city.district.state.zone.country assignment.company.city.district.state").exec(function(err,data2){
-      if(err){
-        callback(err,null);
-      }else{
-        console.log("AAAAAAAAAAAAA",data2,data2.assignment.products[0].item);
-        $scope.data = data2; 
-        Config.generatePdf("pdf/table", $scope, callback); 
+      _id: data._id
+    }).lean().deepPopulate("assignment assignment.department assignment.products.product.category assignment.natureOfLoss assignment.causeOfLoss assignment.policyType assignment.customer assignment.insurerOffice assignment.insuredOffice billedTo.customerCompany billedTo.city.district.state.zone.country assignment.city.district.state.zone.country assignment.company.city.district.state").exec(function (err, data2) {
+      if (err) {
+        callback(err, null);
+      } else {
+        $scope.data = data2;
+        console.log("AAAAAAAAAAAAA", data2, data2.assignment.policyDoc);
+          var filter = {
+            _id: data2.assignment.policyDoc
+          }
+        console.log("Filter", filter._id);
+        // For policyNumber
+        PolicyDoc.getPolicyDoc({filter}, function (err, data4) {
+          if (err) {
+            callback(err, null);
+          } else {
+            console.log("Data 4",data4);
+            $scope.data.assignment.policyNumber = data4.results[0].policyNo;
+            console.log("$scope",$scope);
+            Config.generatePdf("pdf/table", $scope, callback);
+          }
+        });
       }
     });
-    // Assignment.findOne({
-    //   _id: data.assignment
-    // }).deepPopulate("city.district.state.zone.country branch department products.product.category.industry insured policyType shareWith.persons natureOfLoss insuredOfficer owner owner.func company company.city company.city.district.state assessment.employee docs.employee fsrs.employee photos.employee causeOfLoss insurer", "city.district.state.zone.country branch department products.product.category.industry shareWith.persons natureOfLoss insuredOfficer").lean().exec(function (err, found) {
-    //   if (err) {
-    //     // console.log(err);
-    //     callback(err, null);
-    //   } else if (found) {
-    //     // console.log("Found", found);
-    //     $scope.assignment = found;
-    //     // console.log("$scope", $scope);
-    //     Config.generatePdf("pdf/table", $scope, callback);
-    //     // Config.generatePdf("pdf/abs-invoice", $scope, callback);
-    //   } else {
-    //     callback(null, found);
-    //   }
-    // });
   },
   getPerson: function (data, callback) {
     var Model = this;
@@ -1037,7 +1035,7 @@ generateInvoicePdfb: function (data, callback) {
       .deepPopulate("owner insuredOffice insurerOffice city department")
       .keyword(options)
 
-    .page(options, callback);
+      .page(options, callback);
 
   },
   updateSurveyor: function (data, callback) {
@@ -1231,8 +1229,8 @@ generateInvoicePdfb: function (data, callback) {
         "survey.$.status": "Completed",
         // "survey.$.dateOfSurvey": new Date(data.dateOfSurvey),
         "survey.$.completionTime": Date.now()
-          // "survey.$.surveyEndTime":new Date(data.surveyEndTime),
-          // "survey.$.surveyStartTime": new Date(data.surveyStartTime)
+        // "survey.$.surveyEndTime":new Date(data.surveyEndTime),
+        // "survey.$.surveyStartTime": new Date(data.surveyStartTime)
       },
       $push: {
         docs: {
@@ -1498,7 +1496,7 @@ generateInvoicePdfb: function (data, callback) {
         'insurerd.name': insurerd,
         intimatedLoss: intimatedLoss,
         'department.name': surveyDepartment,
-       // createdAt: createdDate
+        // createdAt: createdDate
       };
 
     } else if (data.ownerStatus == "Shared with me") {
@@ -1512,7 +1510,7 @@ generateInvoicePdfb: function (data, callback) {
         'insurerd.name': insurerd,
         intimatedLoss: intimatedLoss,
         'department.name': surveyDepartment,
-       // createdAt: createdDate
+        // createdAt: createdDate
       };
 
     } else if (data.ownerStatus == "All files") {
@@ -1525,7 +1523,7 @@ generateInvoicePdfb: function (data, callback) {
         'insurerd.name': insurerd,
         intimatedLoss: intimatedLoss,
         'department.name': surveyDepartment,
-       // createdAt: createdDate
+        // createdAt: createdDate
       }
 
     }
