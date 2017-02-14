@@ -774,6 +774,11 @@ var navigationservice = angular.module('navigationservice', [])
                 callback(data, i);
             });
         },
+        searchInvoiceExpenditure1: function (formData, callback) {
+            $http.post(adminurl + 'invoiceExpenditure/search', formData).success(function (data) {
+                callback(data);
+            });
+        },
         searchTemplateInvoice: function (formData, i, callback) {
             $http.post(adminurl + 'TemplateInvoice/search', formData).success(function (data) {
                 callback(data, i);

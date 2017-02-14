@@ -74,6 +74,7 @@ var model = {
                 var arr = [];
                 _.each(data1, function (n) {
                     var a = {};
+                    a.description=n.InvoiceExpenditure._id;
                     a.name = n.InvoiceExpenditure.name;
                     a.unit = n.InvoiceExpenditure.unit;
                     a.rate = n.InvoiceExpenditure.rate;

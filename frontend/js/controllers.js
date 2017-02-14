@@ -9008,6 +9008,22 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.formData.tax = data.data.results;
             console.log("Tax", $scope.formData.tax);
         });
+         $scope.getdescriptions=function(){
+            NavigationService.searchInvoiceExpenditure1({},function (data) {
+            $scope.descriptions = data.data.results;
+            console.log("Tax", $scope.descriptions);
+        });
+        }
+        $scope.getAll=function(invoice,$index){
+            console.log("Invoice",invoice);
+            $scope.formData.invoiceList[$index].name=invoice.selected.name;
+            $scope.formData.invoiceList[$index].unit=invoice.selected.unit;
+            $scope.formData.invoiceList[$index].rate=invoice.selected.rate;
+        }
+        $scope.change=function(form,$index){
+            console.log("ABC",form);
+            // $scope.formData.invoiceList[$index].name=form.name;
+        }
         $scope.getTemplateDetails = function (data) {
             NavigationService.getTemplate("TemplateInvoice", data, function (data) {
                 if (data.value === true) {
