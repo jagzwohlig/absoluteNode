@@ -33,6 +33,7 @@ module.exports = [
   "bower_components/html2canvas/build/html2canvas.min.js",
   "bower_components/ngInfiniteScroll/build/ng-infinite-scroll.min.js",
   'bower_components/lodash/lodash.js',
+  'bower_components/dragular/dist/dragular.js',
   "frontend/js/app.js",
   "frontend/js/controllers.js",
   "frontend/js/language.js",

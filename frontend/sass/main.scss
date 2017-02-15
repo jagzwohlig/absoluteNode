@@ -8,6 +8,7 @@
 @import "../../bower_components/angular-ui-select/dist/select.min";
 @import "../../bower_components/angular-toastr/dist/angular-toastr";
 @import "../../bower_components/angular-hotkeys/build/hotkeys";
+@import "../../bower_components/dragular/dist/dragular";
 @import "icons";
 $blue: #1fc8ec;
 $orange: #f29c2c;
@@ -944,6 +945,9 @@ img.uploadingImage {
 .form-builder {
     border: 1px solid $body-color-font;
     position: relative;
+    .ui-select-match-text {
+        margin-top: 7px;
+    }
     p {
         color: $body-color-font;
         height: 34px;
@@ -1014,12 +1018,17 @@ img.uploadingImage {
     .col-item {
         @include flex(1);
         width: 100%;
+        overflow: hidden;
         +.col-item {
             border-left: 1px solid $body-color-font;
         }
         &.col-item-25 {
             @include flex(0 0 25%);
             width: 25%;
+        }
+        &.col-item-20 {
+            @include flex(0 0 20%);
+            width: 20%;
         }
         &.col-item-35 {
             @include flex(0 0 35%);
@@ -1414,13 +1423,19 @@ img.uploadingImage {
     }
 }
 
-
 .invoice--go {
     margin: 25px 0px 0;
 }
-.sec-total{
+
+.sec-total {
     text-align: right;
 }
+
+.form-builder-head .col-item p {
+    padding: 6px 5px;
+}
+
+
 /* Start writing sass here */
 
 @import "fancybox-override";

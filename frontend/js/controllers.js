@@ -1,5 +1,5 @@
 var globalfunction = {};
-angular.module('phonecatControllers', ['templateservicemod', 'navigationservice', 'assignmenttemplate', 'ui.bootstrap', 'ui.select', 'ngAnimate', 'toastr', 'ngSanitize', 'angular-flexslider', 'ui.tinymce', 'imageupload', 'ngMap', 'toggle-switch', 'cfp.hotkeys', 'ui.sortable', 'infinite-scroll'])
+angular.module('phonecatControllers', ['templateservicemod', 'navigationservice', 'assignmenttemplate', 'ui.bootstrap', 'ui.select', 'ngAnimate', 'toastr', 'ngSanitize', 'angular-flexslider', 'ui.tinymce', 'imageupload', 'ngMap', 'toggle-switch', 'cfp.hotkeys', 'ui.sortable', 'infinite-scroll', 'dragularModule'])
 
 .controller('DashboardCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64) {
     //Used to name the .html file
@@ -8346,49 +8346,49 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('EditActivityTypeCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
-        //Used to name the .html file
-        $scope.template = TemplateService.changecontent("activityType-detail");
-        $scope.menutitle = NavigationService.makeactive("Activity Type");
-        TemplateService.title = $scope.menutitle;
-        $scope.navigation = NavigationService.getnav();
+  .controller('EditActivityTypeCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+       //Used to name the .html file
+       $scope.template = TemplateService.changecontent("activityType-detail");
+       $scope.menutitle = NavigationService.makeactive("Activity Type");
+       TemplateService.title = $scope.menutitle;
+       $scope.navigation = NavigationService.getnav();
 
-        $scope.header = {
-            "name": "Edit Activity Type"
-        };
+       $scope.header = {
+           "name": "Edit Activity Type"
+       };
 
-        NavigationService.getOneTypeOfOffice($stateParams.id, function (data) {
-            $scope.formData = data.data;
-        });
-        $scope.cancel = function () {
-            $window.history.back();
-        };
-        hotkeys.bindTo($scope).add({
-            combo: 'ctrl+enter',
-            callback: function (formData) {
-                NavigationService.typeofofficeSave($scope.formData, function (data) {
-                    if (data.value === true) {
-                        $window.history.back();
-                        toastr.success("Type Of Office " + $scope.formData.name + " created successfully.", "Type Of Office Created");
-                    } else {
-                        toastr.error("Type Of Office creation failed.", "Type Of Office creation error");
-                    }
-                });
-            }
-        });
-        $scope.savetypeOfOffice = function (formValid) {
-            NavigationService.typeofofficeSave($scope.formData, function (data) {
-                if (data.value === true) {
-                    $window.history.back();
-                    toastr.success("Type Of Office " + $scope.formData.name + " created successfully.", "Type Of Office Created");
-                } else {
-                    toastr.error("Type Of Office creation failed.", "Type Of Office creation error");
-                }
-            });
-            //  }
-        };
+       NavigationService.getOneTypeOfOffice($stateParams.id, function (data) {
+           $scope.formData = data.data;
+       });
+       $scope.cancel = function () {
+           $window.history.back();
+       };
+       hotkeys.bindTo($scope).add({
+           combo: 'ctrl+enter',
+           callback: function (formData) {
+               NavigationService.typeofofficeSave($scope.formData, function (data) {
+                   if (data.value === true) {
+                       $window.history.back();
+                       toastr.success("Type Of Office " + $scope.formData.name + " created successfully.", "Type Of Office Created");
+                   } else {
+                       toastr.error("Type Of Office creation failed.", "Type Of Office creation error");
+                   }
+               });
+           }
+       });
+       $scope.savetypeOfOffice = function (formValid) {
+           NavigationService.typeofofficeSave($scope.formData, function (data) {
+               if (data.value === true) {
+                   $window.history.back();
+                   toastr.success("Type Of Office " + $scope.formData.name + " created successfully.", "Type Of Office Created");
+               } else {
+                   toastr.error("Type Of Office creation failed.", "Type Of Office creation error");
+               }
+           });
+           //  }
+       };
 
-    })
+   })
     .controller('ExpenseCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("expense-list");

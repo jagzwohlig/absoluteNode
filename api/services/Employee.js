@@ -310,23 +310,6 @@ module.exports = mongoose.model('Employee', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country func grade department IIISLACertificate.department", "city.district.state.zone.country  func grade postedAt"));
 var model = {
-
-    //      getBackendEmployee: function (data, callback) {
-    //          console.log("..............................................",data);
-    //     Employee.find({
-    //       isSBC:false,
-    //       isField:false,
-    //       isSurveyor:false
-    //     }).populate("postedAt").exec(function (err, found) {
-    //       if (err) {
-    //         callback(err, null);
-    //       } else {
-    //           callback(null, found);
-    //       }
-    //       })
-    //   },
-
-
     // Start
     getBackendEmployee: function (data, callback) {
         var Model = this;
@@ -344,7 +327,10 @@ var model = {
                 keyword: {
                     fields: ['name'],
                     term: data.keyword
-                }
+                },
+                isSBC: false,
+                isField: false,
+                isSurveyor: false
             },
 
             sort: {
@@ -358,11 +344,6 @@ var model = {
                 n = undefined;
             }
         });
-        data.filter = {
-            isSBC: false,
-            isField: false,
-            isSurveyor: false
-        }
         var Search = Model.find(data.filter)
             .order(options)
             .deepPopulate("postedAt")
@@ -371,7 +352,7 @@ var model = {
     },
 
     // End
-     getLoginEmployee: function (data, callback) {
+    getLoginEmployee: function (data, callback) {
         Employee.findOne({
             officeEmail: data.email
         }).exec(function (err, found) {
@@ -526,7 +507,7 @@ var model = {
             officeEmail: data.officeEmail
         }, {
             name: 1,
-            officeEmail:1
+            officeEmail: 1
         }).exec(function (err, employee) {
             if (err) {
                 callback(err, null);
@@ -739,7 +720,7 @@ var model = {
     },
 
 
-      getDashboardCounts: function (data, callback) {
+    getDashboardCounts: function (data, callback) {
         var Search = Assignment.aggregate([{
             $group: {
                 _id: "$timelineStatus",
@@ -756,10 +737,10 @@ var model = {
             if (err) {
                 callback(err, null);
             } else {
-                if(counts == []){
+                if (counts == []) {
                     callback(null, counts);
-                } else {    
-                    callback(null, counts); 
+                } else {
+                    callback(null, counts);
                 }
             }
         });
