@@ -395,6 +395,7 @@ var navigationservice = angular.module('navigationservice', [])
         },
         getBackendEmployee: function (formData, i, callback) {
             console.log("FormData in search", formData);
+            // $http.post(adminurl + 'Employee/getBackendEmployee', formData).success(function (data) {
             $http.post(adminurl + 'Employee/getBackendEmployee', formData).success(function (data) {
                 console.log("FormData in search", data);
                 callback(data, i);
