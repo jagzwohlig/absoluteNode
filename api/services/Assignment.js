@@ -857,7 +857,7 @@ var model = {
 
         Model.findOne({
           _id: data[0]._id
-        }).deepPopulate("city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer owner owner.func company company.city assessment.employee docs.employee fsrs.employee photos.employee causeOfLoss insurer", "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer").exec(function (err, data3) {
+        }).deepPopulate("city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insurerOfficer insuredOfficer owner owner.func company company.city assessment.employee docs.employee fsrs.employee photos.employee causeOfLoss insurer insured", "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer").exec(function (err, data3) {
           if (err) {
             callback(err, data3);
           } else {
@@ -940,19 +940,19 @@ var model = {
         callback(err, null);
       } else {
         $scope.data = data2;
-        console.log("AAAAAAAAAAAAA", data2, data2.assignment.policyDoc);
+        // console.log("AAAAAAAAAAAAA", data2, data2.assignment.policyDoc);
           var filter = {
             _id: data2.assignment.policyDoc
           }
-        console.log("Filter", filter._id);
+        // console.log("Filter", filter._id);
         // For policyNumber
         PolicyDoc.getPolicyDoc({filter}, function (err, data4) {
           if (err) {
             callback(err, null);
           } else {
-            console.log("Data 4",data4);
+            // console.log("Data 4",data4);
             $scope.data.assignment.policyNumber = data4.results[0].policyNo;
-            console.log("$scope",$scope);
+            // console.log("$scope",$scope);
             Config.generatePdf("pdf/table", $scope, callback);
           }
         });

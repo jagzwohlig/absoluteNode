@@ -9008,20 +9008,20 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.formData.tax = data.data.results;
             console.log("Tax", $scope.formData.tax);
         });
-         $scope.getdescriptions=function(){
-            NavigationService.searchInvoiceExpenditure1({},function (data) {
-            $scope.descriptions = data.data.results;
-            console.log("Tax", $scope.descriptions);
-        });
+        $scope.getdescriptions = function () {
+            NavigationService.searchInvoiceExpenditure1({}, function (data) {
+                $scope.descriptions = data.data.results;
+                console.log("Tax", $scope.descriptions);
+            });
         }
-        $scope.getAll=function(invoice,$index){
-            console.log("Invoice",invoice);
-            $scope.formData.invoiceList[$index].name=invoice.selected.name;
-            $scope.formData.invoiceList[$index].unit=invoice.selected.unit;
-            $scope.formData.invoiceList[$index].rate=invoice.selected.rate;
+        $scope.getAll = function (invoice, $index) {
+            console.log("Invoice", invoice);
+            $scope.formData.invoiceList[$index].name = invoice.selected.name;
+            $scope.formData.invoiceList[$index].unit = invoice.selected.unit;
+            $scope.formData.invoiceList[$index].rate = invoice.selected.rate;
         }
-        $scope.change=function(form,$index){
-            console.log("ABC",form);
+        $scope.change = function (form, $index) {
+            console.log("ABC", form);
             // $scope.formData.invoiceList[$index].name=form.name;
         }
         $scope.getTemplateDetails = function (data) {
@@ -9268,7 +9268,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         if ($stateParams.assignmentTemplate === "") {
             NavigationService.getOneModel($stateParams.type, $stateParams.template, function (data) {
                 $scope.forms = data.data;
-                console.log("CCCCCCCCCCCCCCCCCCC", $scope.forms);
             });
         } else {
             var a = {
@@ -9276,17 +9275,25 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 type: _.camelCase($stateParams.type)
             };
             NavigationService.getAssignmentTemplate(a, function (data) {
-                console.log("CCCCCCCCCCCCCCCCCCC");
                 _.each(data.data.forms, function (n) {
+                    console.log("In Forms");
                     _.each(n.items, function (m) {
+                        console.log("In Items",m);
                         if (m.value == "Date") {
                             console.log(m.field);
                             m.field = moment(m.field, 'ddd, MMM Do, YYYY').toDate();
+                        }
+                        if (m.value == "Dropdown") {
+                            console.log(m.field);
+                            m.dropdownValues = [];
+                            m.dropdownValues = _.split(m.field, ",");
+                            console.log("DropdownValues", m.dropdownValues);
                         }
                     });
                 });
                 console.log(data);
                 $scope.forms = data.data;
+                console.log("CCCCCCCCCCCCCCCCCCC", $scope.forms);
                 $scope.assignment = data.data.assignment;
                 $scope.getTimeline();
             });
