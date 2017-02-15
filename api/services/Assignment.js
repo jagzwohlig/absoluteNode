@@ -528,6 +528,9 @@ var schema = new Schema({
 schema.plugin(deepPopulate, {
 
   populate: {
+    salvage:{
+      select:''
+    },
     department: {
       select: 'name _id'
     },
@@ -857,7 +860,7 @@ var model = {
 
         Model.findOne({
           _id: data[0]._id
-        }).deepPopulate("city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insurerOfficer insuredOfficer owner owner.func company company.city assessment.employee docs.employee fsrs.employee photos.employee causeOfLoss insurer insured", "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer").exec(function (err, data3) {
+        }).deepPopulate("city.district.state.zone.country products.product.category.industry shareWith.persons branch natureOfLoss department insurerOfficer insuredOfficer owner owner.func company company.city assessment.employee docs.employee fsrs.employee photos.employee causeOfLoss insurer policyType insured salvage", "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer").exec(function (err, data3) {
           if (err) {
             callback(err, data3);
           } else {
