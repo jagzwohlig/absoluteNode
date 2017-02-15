@@ -63,38 +63,36 @@
                                     <p>Amount</p>
                                 </div>
                             </div>
-                            <div class="form-builder-hr">
-                                <div dragular>
-                                    <div class="form-builder-item  row-item" ng-repeat="form in formData.invoiceList track by $index">
-                                        <div class="right-float mark-float">
-                                            <i class="fa fa-bars handleBar"></i>
-                                        </div>
-                                        <div class="col-item col-item-20">
-                                            <ui-select ng-model="form" ng-change="getAll(d,$index)" theme="bootstrap" sortable="true">
-                                                <ui-select-match placeholder="Select">
-                                                    {{$select.selected.name}}
-                                                </ui-select-match>
-                                                <ui-select-choices repeat="d in descriptions | filter: $select.search" refresh="getdescriptions($select.search)" refresh-delay="0">
-                                                    <span>{{d.name}}</span>
-                                                </ui-select-choices>
-                                            </ui-select>
-                                        </div>
-                                        <div class="col-item col-item-20">
-                                            <input type="text" ng-model="form.unit" placeholder="Enter Unit" class="form-control">
-                                        </div>
-                                        <div class="col-item col-item-20">
-                                            <input type="number" step="0.01" ng-model="form.rate" placeholder="Enter Rate" class="form-control" ng-change="calAmt(form.rate,form.quantity,$index)">
-                                        </div>
-                                        <div class="col-item col-item-20">
-                                            <input type="number" step="1" min="0" ng-model="form.quantity" placeholder="Enter Quantity" class="form-control" ng-change="calAmt(form.rate,form.quantity,$index)">
-                                        </div>
-                                        <div class="col-item col-item-20">
-                                            <input type="number" ng-model="form.amount" placeholder="Total" class="form-control" readonly>
-                                        </div>
-                                        <div class="mark-float">
-                                            <i class="fa fa-plus-circle success" ng-click="addHead();"></i>
-                                            <i class="fa fa-minus-circle danger" ng-click="removeHead($index);"></i>
-                                        </div>
+                            <div class="form-builder-hr" dragular dragular-model="formData.invoiceList">
+                                <div class="form-builder-item  row-item" ng-repeat="form in formData.invoiceList track by $index">
+                                    <div class="right-float mark-float">
+                                        <i class="fa fa-bars handleBar"></i>
+                                    </div>
+                                    <div class="col-item col-item-20">
+                                        <ui-select ng-model="form" ng-change="getAll(d,$index)" theme="bootstrap" sortable="true">
+                                            <ui-select-match placeholder="Select">
+                                                {{$select.selected.name}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="d in descriptions | filter: $select.search" refresh="getdescriptions($select.search)" refresh-delay="0">
+                                                <span>{{d.name}}</span>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+                                    <div class="col-item col-item-20">
+                                        <input type="text" ng-model="form.unit" placeholder="Enter Unit" class="form-control">
+                                    </div>
+                                    <div class="col-item col-item-20">
+                                        <input type="number" step="0.01" ng-model="form.rate" placeholder="Enter Rate" class="form-control" ng-change="calAmt(form.rate,form.quantity,$index)">
+                                    </div>
+                                    <div class="col-item col-item-20">
+                                        <input type="number" step="1" min="0" ng-model="form.quantity" placeholder="Enter Quantity" class="form-control" ng-change="calAmt(form.rate,form.quantity,$index)">
+                                    </div>
+                                    <div class="col-item col-item-20">
+                                        <input type="number" ng-model="form.amount" placeholder="Total" class="form-control" readonly>
+                                    </div>
+                                    <div class="mark-float">
+                                        <i class="fa fa-plus-circle success" ng-click="addHead();"></i>
+                                        <i class="fa fa-minus-circle danger" ng-click="removeHead($index);"></i>
                                     </div>
                                 </div>
                             </div>
