@@ -270,7 +270,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.totalItems = undefined;
             if (keywordChange) {
                 $scope.currentPage = 1;
-                $scope.filter.timelineStatus = keywordChange.timelineStatus;
             }
             console.log("$scope.timelineStatus", $scope.filter.timelineStatus);
             NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {

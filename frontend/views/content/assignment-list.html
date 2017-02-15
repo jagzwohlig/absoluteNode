@@ -1,19 +1,15 @@
 <div class="heading-sec">
-          <div class="btn-group pull-right">
-  <button type="button" class="btn btn-default" ng-class="{'btn-primary': filter.ownerStatus=='All files'}" ng-click="filter.ownerStatus='All files';showAssignment(true);">All Assignment</button>
-  <button type="button" class="btn btn-default" ng-class="{'btn-primary': filter.ownerStatus=='My files'}" ng-click="filter.ownerStatus='My files';showAssignment(true)">My Assignment</button>
-  <button type="button" class="btn btn-default" ng-class="{'btn-primary': filter.ownerStatus=='Shared with me'}" ng-click="filter.ownerStatus='Shared with me';showAssignment(true)">Shared With Me</button>
-</div>
+    <div class="btn-group pull-right">
+        <button type="button" class="btn btn-default" ng-class="{'btn-primary': filter.ownerStatus=='My files'}" ng-click="filter.ownerStatus='My files';showAssignment(true)">My Assignment</button>
+        <button type="button" class="btn btn-default" ng-class="{'btn-primary': filter.ownerStatus=='Shared with me'}" ng-click="filter.ownerStatus='Shared with me';showAssignment(true)">Shared With Me</button>
+        <button type="button" class="btn btn-default" ng-class="{'btn-primary': filter.ownerStatus=='All files'}" ng-click="filter.ownerStatus='All files';showAssignment(true);">All Assignment</button>
+    </div>
     <div class="row">
         <div class="col-md-4 column">
             <div class="heading-profile">
-               
                 <h2>Assignment List</h2>
             </div>
         </div>
-
-        </div>
-   
     </div>
 </div>
 <!-- Top Bar Chart -->
