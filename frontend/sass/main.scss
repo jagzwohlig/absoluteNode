@@ -971,6 +971,9 @@ img.uploadingImage {
         font-weight: bold;
         position: relative;
         text-transform: uppercase;
+        &.has-pad {
+            padding-left: 20px;
+        }
         &:hover {
             .mark-float {
                 width: 40px;
@@ -1433,6 +1436,9 @@ img.uploadingImage {
 
 .form-builder-head .col-item p {
     padding: 6px 5px;
+    margin: 0;
+    line-height: 1;
+    height: auto;
 }
 
 
