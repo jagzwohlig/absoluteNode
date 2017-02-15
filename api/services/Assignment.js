@@ -1398,7 +1398,7 @@ var model = {
     })
   },
 
-  getAll: function (data, callback) {
+ getAll: function (data, callback) {
 
     if (_.isEmpty(data.name)) {
       var name = {
@@ -1470,6 +1470,18 @@ var model = {
       }
     }
 
+    // if (_.isEmpty(data.fromDate) && _.isEmpty(data.toDate)) {
+    //   var createdDate = {
+    //     $regex: "",
+    //     $options: 'i'
+    //   }
+    // } else {
+    //   var createdDate = {
+    //     "$gte": new Date(data.fromDate),
+    //     "$lte": new Date(data.toDate)
+    //   }
+    // }
+
     if (_.isEmpty(data.surveyDepartment)) {
       var surveyDepartment = {
         $regex: "",
@@ -1499,7 +1511,7 @@ var model = {
         'insurerd.name': insurerd,
         intimatedLoss: intimatedLoss,
         'department.name': surveyDepartment,
-        // createdAt: createdDate
+       // createdAt: createdDate
       };
 
     } else if (data.ownerStatus == "Shared with me") {
@@ -1513,7 +1525,7 @@ var model = {
         'insurerd.name': insurerd,
         intimatedLoss: intimatedLoss,
         'department.name': surveyDepartment,
-        // createdAt: createdDate
+       // createdAt: createdDate
       };
 
     } else if (data.ownerStatus == "All files") {
@@ -1526,10 +1538,11 @@ var model = {
         'insurerd.name': insurerd,
         intimatedLoss: intimatedLoss,
         'department.name': surveyDepartment,
-        // createdAt: createdDate
+       // createdAt: createdDate
       }
 
     }
+    console.log("owner", data.ownerStatus, ownerStatus);
 
     var pageStartFrom = (data.pagenumber - 1) * data.pagelimit;
 
@@ -1675,13 +1688,14 @@ var model = {
       allTable.unshift(unwindSharewith);
       countAllData.unshift(unwindSharewith);
     }
+    console.log("all table", countAllData);
     async.parallel([
 
       //get assignment
       function (callback) {
         Assignment.aggregate(allTable, function (err, data1) {
           if (err) {
-            // console.log("err", err);
+            console.log("err", err);
             callback(null, data1);
           } else {
             callback(null, data1);
@@ -1693,7 +1707,7 @@ var model = {
       function (callback) {
         Assignment.aggregate(countAllData, function (err, data2) {
           if (err) {
-            // console.log("err", err);
+            console.log("err", err);
             callback(null, data2);
           } else {
             callback(null, data2);
@@ -1703,7 +1717,7 @@ var model = {
 
     ], function (err, data3) {
       if (err) {
-        // console.log(err);
+        console.log(err);
         callback(err, null);
       } else {
         if (_.isEmpty(data3[0]) || _.isEmpty(data3[1])) {
