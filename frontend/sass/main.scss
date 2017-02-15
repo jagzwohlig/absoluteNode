@@ -945,7 +945,9 @@ img.uploadingImage {
 .form-builder {
     border: 1px solid $body-color-font;
     position: relative;
-    .ui-select-match-text {margin-top: 7px;}
+    .ui-select-match-text {
+        margin-top: 7px;
+    }
     p {
         color: $body-color-font;
         height: 34px;
@@ -1024,7 +1026,7 @@ img.uploadingImage {
             @include flex(0 0 25%);
             width: 25%;
         }
-         &.col-item-20 {
+        &.col-item-20 {
             @include flex(0 0 20%);
             width: 20%;
         }
@@ -1427,6 +1429,10 @@ img.uploadingImage {
 
 .sec-total {
     text-align: right;
+}
+
+.form-builder-head .col-item p {
+    padding: 6px 5px;
 }
 
 
