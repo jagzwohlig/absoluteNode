@@ -9280,13 +9280,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     _.each(n.items, function (m) {
                         console.log("In Items",m);
                         if (m.value == "Date") {
-                            console.log(m.field);
                             m.field = moment(m.field, 'ddd, MMM Do, YYYY').toDate();
                         }
-                        if (m.value == "Dropdown") {
-                            console.log(m.field);
+                        if (m.type == "Dropdown") {
                             m.dropdownValues = [];
-                            m.dropdownValues = _.split(m.field, ",");
+                            m.dropdownValues = _.split(m.value, ",");
                             console.log("DropdownValues", m.dropdownValues);
                         }
                     });

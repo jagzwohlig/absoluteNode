@@ -145,6 +145,11 @@ function getAssignmentTemplateValue (input, assignment) {
                                         <td>
                                             <%= data.forms[i].items[j].field %>
                                         </td>
+                                        <%} else if(data.forms[i].items[j].type=="Dropdown") {  %>
+                                        <td>
+                                            <%= data.forms[i].items[j].field %>
+                                        </td>
+                                        
                                         <% }else{%>
                                             <td>
                                                 <%= getAssignmentTemplateValue(data.forms[i].items[j].value,assignment) %>
