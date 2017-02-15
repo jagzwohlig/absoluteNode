@@ -1,5 +1,5 @@
 var globalfunction = {};
-angular.module('phonecatControllers', ['templateservicemod', 'navigationservice', 'assignmenttemplate', 'ui.bootstrap', 'ui.select', 'ngAnimate', 'toastr', 'ngSanitize', 'angular-flexslider', 'ui.tinymce', 'imageupload', 'ngMap', 'toggle-switch', 'cfp.hotkeys', 'ui.sortable', 'infinite-scroll'])
+angular.module('phonecatControllers', ['templateservicemod', 'navigationservice', 'assignmenttemplate', 'ui.bootstrap', 'ui.select', 'ngAnimate', 'toastr', 'ngSanitize', 'angular-flexslider', 'ui.tinymce', 'imageupload', 'ngMap', 'toggle-switch', 'cfp.hotkeys', 'ui.sortable', 'infinite-scroll', 'dragularModule'])
 
     .controller('DashboardCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64) {
         //Used to name the .html file
@@ -9277,7 +9277,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 _.each(data.data.forms, function (n) {
                     console.log("In Forms");
                     _.each(n.items, function (m) {
-                        console.log("In Items",m);
+                        console.log("In Items", m);
                         if (m.value == "Date") {
                             m.field = moment(m.field, 'ddd, MMM Do, YYYY').toDate();
                         }

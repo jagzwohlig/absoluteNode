@@ -8,6 +8,7 @@
 @import "../../bower_components/angular-ui-select/dist/select.min";
 @import "../../bower_components/angular-toastr/dist/angular-toastr";
 @import "../../bower_components/angular-hotkeys/build/hotkeys";
+@import "../../bower_components/dragular/dist/dragular";
 @import "icons";
 $blue: #1fc8ec;
 $orange: #f29c2c;
@@ -1414,13 +1415,15 @@ img.uploadingImage {
     }
 }
 
-
 .invoice--go {
     margin: 25px 0px 0;
 }
-.sec-total{
+
+.sec-total {
     text-align: right;
 }
+
+
 /* Start writing sass here */
 
 @import "fancybox-override";
