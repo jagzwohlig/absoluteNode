@@ -23,651 +23,651 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
             controller: 'DashboardCtrl'
         })
 
-        .state('login', {
-            url: "/login",
-            templateUrl: "frontend/views/login.html",
-            controller: 'LoginCtrl'
-        })
-
-        .state('loginapp', {
-            url: "/login/:id",
-            templateUrl: "frontend/views/login.html",
-            controller: 'LoginCtrl'
-        })
-
-        .state('branch-list', {
-            url: "/branch-list/{page:.*}/{keyword:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'BranchListCtrl',
-            params: {
-                page: "1",
-                keyword: ""
-            }
-        })
-
-        .state('branch-create', {
-            url: "/branch-create",
-            templateUrl: "frontend/views/template.html",
-            controller: 'BranchCreateCtrl'
-        })
-
-        .state('branch-edit', {
-            url: "/branch-edit/:id",
-            templateUrl: "frontend/views/template.html",
-            controller: 'BranchEditCtrl'
-        })
-
-        .state('country-list', {
-            url: "/country-list/{page:.*}/{keyword:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CountryCtrl',
-            params: {
-                page: "1",
-                keyword: ""
-            }
-        })
-
-        .state('createcountry', {
-            url: "/country-create",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateCountryCtrl'
-        })
-
-        .state('editcountry', {
-            url: "/country-edit/:id",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditCountryCtrl'
-        })
-
-        .state('zone-list', {
-            url: "/zone-list/{page:.*}/{keyword:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'ZoneCtrl',
-            params: {
-                page: "1",
-                keyword: ""
-            }
-        })
-
-        .state('createzone', {
-            url: "/zone-create",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateZoneCtrl'
-        })
-
-        .state('editzone', {
-            url: "/zone-edit/:id",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditZoneCtrl'
-        })
-
-        .state('state-list', {
-            url: "/state-list/{page:.*}/{keyword:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'StateCtrl',
-            params: {
-                page: "1",
-                keyword: ""
-            }
-        })
-
-        .state('createstate', {
-            url: "/state-create",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateStateCtrl'
-        })
-
-        .state('editstate', {
-            url: "/state-edit/:id",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditStateCtrl'
-        })
-
-        .state('district-list', {
-            url: "/district-list/{page:.*}/{keyword:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'DistrictCtrl',
-            params: {
-                page: "1",
-                keyword: ""
-            }
-        })
-
-        .state('createdistrict', {
-            url: "/district-create",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateDistrictCtrl'
-        })
-
-        .state('editdistrict', {
-            url: "/district-edit/:id",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditDistrictCtrl'
-        })
-
-        .state('currencies-list', {
-            url: "/currencies-list/{page:.*}/{keyword:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'ModelViewCtrl',
-            params: {
-                page: "1",
-                keyword: "",
-                model: "currencies"
-            }
-        })
-
-        .state('createcurrency', {
-            url: "/currency-create/{id:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateModelCtrl',
-            params: {
-                id: "",
-                model: "currencies"
-            }
-        })
-
-        .state('editcurrency', {
-            url: "/currency-edit/{id:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditModelCtrl',
-            params: {
-                id: "",
-                model: "currencies"
-            }
-        })
-
-
-        .state('city-list', {
-            url: "/city-list/{page:.*}/{keyword:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CityCtrl',
-            params: {
-                page: "1",
-                keyword: ""
-            }
-        })
-
-        .state('createcity', {
-            url: "/city-create",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateCityCtrl'
-        })
-
-        .state('editcity', {
-            url: "/city-edit/:id",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditCityCtrl'
-        })
-
-        .state('office-list', {
-            url: "/office-list/{page:.*}/{keyword:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'OfficeCtrl',
-            params: {
-                page: "1",
-                keyword: ""
-            }
-        })
-
-
-        .state('createoffice', {
-            url: "/office-create",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateOfficeCtrl'
-        })
-
-        .state('editoffice', {
-            url: "/office-edit/:id",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditOfficeCtrl'
-        })
-
-        .state('typeOfOffice-list', {
-            url: "/typeOfOffice-list/{page:.*}/{keyword:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'TypeOfOfficeCtrl',
-            params: {
-                page: "1",
-                keyword: ""
-            }
-        })
-
-        .state('createtypeOfOffice', {
-            url: "/typeOfOffice-create",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateTypeOfOfficeCtrl'
-        })
-
-        .state('edittypeOfOffice', {
-            url: "/typeOfOffice-edit/:id",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditTypeOfOfficeCtrl'
-        })
-
-        .state('activityType-list', {
-            url: "/activityType-list/{page:.*}/{keyword:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'ModelViewCtrl',
-            params: {
-                page: "1",
-                keyword: "",
-                model: "activity type"
-            }
-        })
-
-        .state('createactivityType', {
-            url: "/activityType-create/{id:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateModelCtrl',
-            params: {
-                id: "",
-                model: "activity type"
-            }
-        })
-
-        .state('editactivityType', {
-            url: "/activityType-edit/{id:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditModelCtrl',
-            params: {
-                id: "",
-                model: "activity type"
-            }
-        })
-
-        .state('expense-list', {
-            url: "/expense-list/{page:.*}/{keyword:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'ModelViewCtrl',
-            params: {
-                page: "1",
-                keyword: "",
-                model: "expense"
-            }
-        })
-
-        .state('createexpense', {
-            url: "/expense-create/{id:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateModelCtrl',
-            params: {
-                id: "",
-                model: "expense"
-            }
-        })
-
-        .state('editexpense', {
-            url: "/expense-edit/{id:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditModelCtrl',
-            params: {
-                id: "",
-                model: "expense"
-            }
-        })
-
-        .state('department-list', {
-            url: "/department-list/{page:.*}/{keyword:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'ModelViewCtrl',
-            params: {
-                page: "1",
-                keyword: "",
-                model: "department"
-            }
-        })
-
-        .state('createdepartment', {
-            url: "/department-create/{id:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateModelCtrl',
-            params: {
-                id: "",
-                model: "department"
-            }
-        })
-
-        .state('editdepartment', {
-            url: "/department-edit/{id:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditModelCtrl',
-            params: {
-                id: "",
-                model: "department"
-            }
-        })
-
-
-        .state('uniqueType-list', {
-            url: "/uniquetype-list/{page:.*}/{keyword:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'UniqueTypetCtrl',
-            params: {
-                page: "1",
-                keyword: ""
-            }
-        })
-
-
-        .state('createuniquetype', {
-            url: "/uniquetype-create",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateUniqueTypeCtrl'
-        })
-
-        .state('edituniquetype', {
-            url: "/uniquetype-edit/:id",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditUniqueTypeCtrl'
-        })
-
-        .state('policyType-list', {
-            url: "/policytype-list/{page:.*}/{keyword:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'ModelViewCtrl',
-            params: {
-                page: "1",
-                keyword: "",
-                model: "policy type"
-            }
-        })
-
-        .state('createpolicyType', {
-            url: "/policytype-create/{id:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreatePolicyTypeCtrl',
-            params: {
-                id: "",
-                model: "policy type"
-            }
-        })
-
-        .state('editpolicyType', {
-            url: "/policytype-edit/{id:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditPolicyTypeCtrl',
-            params: {
-                id: "",
-                model: "policy type"
-            }
-        })
-
-        .state('policy-list', {
-            url: "/policy-list/{page:.*}/{keyword:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'PolicyCtrl',
-            params: {
-                page: "1",
-                keyword: ""
-            }
-        })
-
-        .state('createpolicy', {
-            url: "/policy-create",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreatePolicyCtrl'
-        })
-
-        .state('editpolicy', {
-            url: "/policy-edit/:id",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditPolicyCtrl'
-        })
-
-        .state('policyDoc-list', {
-            url: "/policydoc-list/{page:.*}/{keyword:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'ModelViewCtrl',
-            params: {
-                page: "1",
-                keyword: "",
-                model: "policy doc"
-            }
-        })
-
-        .state('createpolicyDoc', {
-            url: "/policydoc-create/{id:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreatePolicyDocCtrl',
-            params: {
-                id: "",
-                model: "policy doc"
-            }
-        })
-
-        .state('editpolicyDoc', {
-            url: "/policydoc-edit/{id:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditPolicyDocCtrl',
-            params: {
-                id: "",
-                model: "policy doc"
-            }
-        })
-
-        .state('industry-list', {
-            url: "/industry-list/{page:.*}/{keyword:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'IndustryCtrl',
-            params: {
-                page: "1",
-                keyword: ""
-            }
-        })
-
-        .state('createindustry', {
-            url: "/industry-create",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateIndustryCtrl'
-        })
-
-        .state('editindustry', {
-            url: "/industry-edit/:id",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditIndustryCtrl'
-        })
-
-        .state('category-list', {
-            url: "/category-list/{page:.*}/{keyword:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CategoryCtrl',
-            params: {
-                page: "1",
-                keyword: ""
-            }
-        })
-
-        .state('createcategory', {
-            url: "/category-create",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateCategoryCtrl'
-        })
-
-        .state('editcategory', {
-            url: "/category-edit/:id",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditCategoryCtrl'
-        })
-
-        .state('func-list', {
-            url: "/func-list/{page:.*}/{keyword:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'ModelViewCtrl',
-            params: {
-                page: "1",
-                keyword: "",
-                model: "func"
-            }
-        })
-
-        .state('createfunc', {
-            url: "/func-create/{id:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateModelCtrl',
-            params: {
-                id: "",
-                model: "func"
-            }
-        })
-
-        .state('editfunc', {
-            url: "/func-edit/{id:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditModelCtrl',
-            params: {
-                id: "",
-                model: "func"
-            }
-        })
-
-        .state('causeLoss-list', {
-            url: "/causeloss-list/{page:.*}/{keyword:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'ModelViewCtrl',
-            params: {
-                page: "1",
-                keyword: "",
-                model: "cause loss"
-            }
-        })
-
-        .state('createcauseLoss', {
-            url: "/causeloss-create/{id:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateCauseLossCtrl',
-            params: {
-                id: ""
-            }
-        })
-
-        .state('editcauseLoss', {
-            url: "/causeloss-edit/{id:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditCauseLossCtrl',
-            params: {
-                id: ""
-            }
-        })
-
-        .state('natureLoss-list', {
-            url: "/natureloss-list/{page:.*}/{keyword:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'ModelViewCtrl',
-            params: {
-                page: "1",
-                keyword: "",
-                model: "nature loss"
-            }
-        })
-
-        .state('createnatureLoss', {
-            url: "/natureloss-create",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateModelCtrl',
-            params: {
-                model: "nature loss"
-            }
-        })
-
-        .state('editnatureLoss', {
-            url: "/natureloss-edit/{id:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditModelCtrl',
-            params: {
-                id: "",
-                model: "nature loss"
-            }
-        })
-
-        .state('businessbranch-list', {
-            url: "/businessbranch-list/{page:.*}/{keyword:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'BusinessBranchCtrl',
-            params: {
-                page: "1",
-                keyword: ""
-            }
-        })
-
-        .state('createbusinessbranch', {
-            url: "/businessbranch-create",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateBusinessBranchCtrl'
-        })
-
-        .state('editbusinessbranch', {
-            url: "/businessbranch-edit/:id",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditBusinessBranchCtrl'
-        })
-
-        .state('menu-list', {
-            url: "/menu-list/{page:.*}/{keyword:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'MenuCtrl',
-            params: {
-                page: "1",
-                keyword: ""
-            }
-        })
-
-        .state('createmenu', {
-            url: "/menu-create",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateMenuCtrl'
-        })
-
-        .state('editmenu', {
-            url: "/menu-edit/:id",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditMenuCtrl'
-        })
-
-        .state('role-list', {
-            url: "/role-list/{page:.*}/{keyword:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'RoleCtrl',
-            params: {
-                page: "1",
-                keyword: ""
-            }
-        })
-
-        .state('createrole', {
-            url: "/role-create",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateRoleCtrl'
-        })
-
-        .state('editrole', {
-            url: "/role-edit/:id",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditRoleCtrl'
-        })
-
-        .state('user-list', {
-            url: "/user-list/{page:.*}/{keyword:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'UserCtrl',
-            params: {
-                page: "1",
-                keyword: ""
-            }
-        })
-
-        .state('createuser', {
-            url: "/user-create",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateUserCtrl'
-        })
-
-        .state('leave-detail', {
-            url: "/leave-detail",
-            templateUrl: "frontend/views/template.html",
-            controller: 'LeaveDetailCtrl'
-        })
-
-        .state('leaveManagement-list', {
+    .state('login', {
+        url: "/login",
+        templateUrl: "frontend/views/login.html",
+        controller: 'LoginCtrl'
+    })
+
+    .state('loginapp', {
+        url: "/login/:id",
+        templateUrl: "frontend/views/login.html",
+        controller: 'LoginCtrl'
+    })
+
+    .state('branch-list', {
+        url: "/branch-list/{page:.*}/{keyword:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'BranchListCtrl',
+        params: {
+            page: "1",
+            keyword: ""
+        }
+    })
+
+    .state('branch-create', {
+        url: "/branch-create",
+        templateUrl: "frontend/views/template.html",
+        controller: 'BranchCreateCtrl'
+    })
+
+    .state('branch-edit', {
+        url: "/branch-edit/:id",
+        templateUrl: "frontend/views/template.html",
+        controller: 'BranchEditCtrl'
+    })
+
+    .state('country-list', {
+        url: "/country-list/{page:.*}/{keyword:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CountryCtrl',
+        params: {
+            page: "1",
+            keyword: ""
+        }
+    })
+
+    .state('createcountry', {
+        url: "/country-create",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateCountryCtrl'
+    })
+
+    .state('editcountry', {
+        url: "/country-edit/:id",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditCountryCtrl'
+    })
+
+    .state('zone-list', {
+        url: "/zone-list/{page:.*}/{keyword:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'ZoneCtrl',
+        params: {
+            page: "1",
+            keyword: ""
+        }
+    })
+
+    .state('createzone', {
+        url: "/zone-create",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateZoneCtrl'
+    })
+
+    .state('editzone', {
+        url: "/zone-edit/:id",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditZoneCtrl'
+    })
+
+    .state('state-list', {
+        url: "/state-list/{page:.*}/{keyword:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'StateCtrl',
+        params: {
+            page: "1",
+            keyword: ""
+        }
+    })
+
+    .state('createstate', {
+        url: "/state-create",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateStateCtrl'
+    })
+
+    .state('editstate', {
+        url: "/state-edit/:id",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditStateCtrl'
+    })
+
+    .state('district-list', {
+        url: "/district-list/{page:.*}/{keyword:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'DistrictCtrl',
+        params: {
+            page: "1",
+            keyword: ""
+        }
+    })
+
+    .state('createdistrict', {
+        url: "/district-create",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateDistrictCtrl'
+    })
+
+    .state('editdistrict', {
+        url: "/district-edit/:id",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditDistrictCtrl'
+    })
+
+    .state('currencies-list', {
+        url: "/currencies-list/{page:.*}/{keyword:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'ModelViewCtrl',
+        params: {
+            page: "1",
+            keyword: "",
+            model: "currencies"
+        }
+    })
+
+    .state('createcurrency', {
+        url: "/currency-create/{id:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateModelCtrl',
+        params: {
+            id: "",
+            model: "currencies"
+        }
+    })
+
+    .state('editcurrency', {
+        url: "/currency-edit/{id:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditModelCtrl',
+        params: {
+            id: "",
+            model: "currencies"
+        }
+    })
+
+
+    .state('city-list', {
+        url: "/city-list/{page:.*}/{keyword:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CityCtrl',
+        params: {
+            page: "1",
+            keyword: ""
+        }
+    })
+
+    .state('createcity', {
+        url: "/city-create",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateCityCtrl'
+    })
+
+    .state('editcity', {
+        url: "/city-edit/:id",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditCityCtrl'
+    })
+
+    .state('office-list', {
+        url: "/office-list/{page:.*}/{keyword:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'OfficeCtrl',
+        params: {
+            page: "1",
+            keyword: ""
+        }
+    })
+
+
+    .state('createoffice', {
+        url: "/office-create",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateOfficeCtrl'
+    })
+
+    .state('editoffice', {
+        url: "/office-edit/:id",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditOfficeCtrl'
+    })
+
+    .state('typeOfOffice-list', {
+        url: "/typeOfOffice-list/{page:.*}/{keyword:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'TypeOfOfficeCtrl',
+        params: {
+            page: "1",
+            keyword: ""
+        }
+    })
+
+    .state('createtypeOfOffice', {
+        url: "/typeOfOffice-create",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateTypeOfOfficeCtrl'
+    })
+
+    .state('edittypeOfOffice', {
+        url: "/typeOfOffice-edit/:id",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditTypeOfOfficeCtrl'
+    })
+
+    .state('activityType-list', {
+        url: "/activityType-list/{page:.*}/{keyword:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'ModelViewCtrl',
+        params: {
+            page: "1",
+            keyword: "",
+            model: "activity type"
+        }
+    })
+
+    .state('createactivityType', {
+        url: "/activityType-create/{id:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateModelCtrl',
+        params: {
+            id: "",
+            model: "activity type"
+        }
+    })
+
+    .state('editactivityType', {
+        url: "/activityType-edit/{id:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditModelCtrl',
+        params: {
+            id: "",
+            model: "activity type"
+        }
+    })
+
+    .state('expense-list', {
+        url: "/expense-list/{page:.*}/{keyword:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'ModelViewCtrl',
+        params: {
+            page: "1",
+            keyword: "",
+            model: "expense"
+        }
+    })
+
+    .state('createexpense', {
+        url: "/expense-create/{id:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateModelCtrl',
+        params: {
+            id: "",
+            model: "expense"
+        }
+    })
+
+    .state('editexpense', {
+        url: "/expense-edit/{id:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditModelCtrl',
+        params: {
+            id: "",
+            model: "expense"
+        }
+    })
+
+    .state('department-list', {
+        url: "/department-list/{page:.*}/{keyword:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'ModelViewCtrl',
+        params: {
+            page: "1",
+            keyword: "",
+            model: "department"
+        }
+    })
+
+    .state('createdepartment', {
+        url: "/department-create/{id:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateModelCtrl',
+        params: {
+            id: "",
+            model: "department"
+        }
+    })
+
+    .state('editdepartment', {
+        url: "/department-edit/{id:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditModelCtrl',
+        params: {
+            id: "",
+            model: "department"
+        }
+    })
+
+
+    .state('uniqueType-list', {
+        url: "/uniquetype-list/{page:.*}/{keyword:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'UniqueTypetCtrl',
+        params: {
+            page: "1",
+            keyword: ""
+        }
+    })
+
+
+    .state('createuniquetype', {
+        url: "/uniquetype-create",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateUniqueTypeCtrl'
+    })
+
+    .state('edituniquetype', {
+        url: "/uniquetype-edit/:id",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditUniqueTypeCtrl'
+    })
+
+    .state('policyType-list', {
+        url: "/policytype-list/{page:.*}/{keyword:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'ModelViewCtrl',
+        params: {
+            page: "1",
+            keyword: "",
+            model: "policy type"
+        }
+    })
+
+    .state('createpolicyType', {
+        url: "/policytype-create/{id:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreatePolicyTypeCtrl',
+        params: {
+            id: "",
+            model: "policy type"
+        }
+    })
+
+    .state('editpolicyType', {
+        url: "/policytype-edit/{id:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditPolicyTypeCtrl',
+        params: {
+            id: "",
+            model: "policy type"
+        }
+    })
+
+    .state('policy-list', {
+        url: "/policy-list/{page:.*}/{keyword:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'PolicyCtrl',
+        params: {
+            page: "1",
+            keyword: ""
+        }
+    })
+
+    .state('createpolicy', {
+        url: "/policy-create",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreatePolicyCtrl'
+    })
+
+    .state('editpolicy', {
+        url: "/policy-edit/:id",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditPolicyCtrl'
+    })
+
+    .state('policyDoc-list', {
+        url: "/policydoc-list/{page:.*}/{keyword:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'ModelViewCtrl',
+        params: {
+            page: "1",
+            keyword: "",
+            model: "policy doc"
+        }
+    })
+
+    .state('createpolicyDoc', {
+        url: "/policydoc-create/{id:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreatePolicyDocCtrl',
+        params: {
+            id: "",
+            model: "policy doc"
+        }
+    })
+
+    .state('editpolicyDoc', {
+        url: "/policydoc-edit/{id:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditPolicyDocCtrl',
+        params: {
+            id: "",
+            model: "policy doc"
+        }
+    })
+
+    .state('industry-list', {
+        url: "/industry-list/{page:.*}/{keyword:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'IndustryCtrl',
+        params: {
+            page: "1",
+            keyword: ""
+        }
+    })
+
+    .state('createindustry', {
+        url: "/industry-create",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateIndustryCtrl'
+    })
+
+    .state('editindustry', {
+        url: "/industry-edit/:id",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditIndustryCtrl'
+    })
+
+    .state('category-list', {
+        url: "/category-list/{page:.*}/{keyword:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CategoryCtrl',
+        params: {
+            page: "1",
+            keyword: ""
+        }
+    })
+
+    .state('createcategory', {
+        url: "/category-create",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateCategoryCtrl'
+    })
+
+    .state('editcategory', {
+        url: "/category-edit/:id",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditCategoryCtrl'
+    })
+
+    .state('func-list', {
+        url: "/func-list/{page:.*}/{keyword:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'ModelViewCtrl',
+        params: {
+            page: "1",
+            keyword: "",
+            model: "func"
+        }
+    })
+
+    .state('createfunc', {
+        url: "/func-create/{id:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateModelCtrl',
+        params: {
+            id: "",
+            model: "func"
+        }
+    })
+
+    .state('editfunc', {
+        url: "/func-edit/{id:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditModelCtrl',
+        params: {
+            id: "",
+            model: "func"
+        }
+    })
+
+    .state('causeLoss-list', {
+        url: "/causeloss-list/{page:.*}/{keyword:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'ModelViewCtrl',
+        params: {
+            page: "1",
+            keyword: "",
+            model: "cause loss"
+        }
+    })
+
+    .state('createcauseLoss', {
+        url: "/causeloss-create/{id:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateCauseLossCtrl',
+        params: {
+            id: ""
+        }
+    })
+
+    .state('editcauseLoss', {
+        url: "/causeloss-edit/{id:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditCauseLossCtrl',
+        params: {
+            id: ""
+        }
+    })
+
+    .state('natureLoss-list', {
+        url: "/natureloss-list/{page:.*}/{keyword:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'ModelViewCtrl',
+        params: {
+            page: "1",
+            keyword: "",
+            model: "nature loss"
+        }
+    })
+
+    .state('createnatureLoss', {
+        url: "/natureloss-create",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateModelCtrl',
+        params: {
+            model: "nature loss"
+        }
+    })
+
+    .state('editnatureLoss', {
+        url: "/natureloss-edit/{id:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditModelCtrl',
+        params: {
+            id: "",
+            model: "nature loss"
+        }
+    })
+
+    .state('businessbranch-list', {
+        url: "/businessbranch-list/{page:.*}/{keyword:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'BusinessBranchCtrl',
+        params: {
+            page: "1",
+            keyword: ""
+        }
+    })
+
+    .state('createbusinessbranch', {
+        url: "/businessbranch-create",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateBusinessBranchCtrl'
+    })
+
+    .state('editbusinessbranch', {
+        url: "/businessbranch-edit/:id",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditBusinessBranchCtrl'
+    })
+
+    .state('menu-list', {
+        url: "/menu-list/{page:.*}/{keyword:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'MenuCtrl',
+        params: {
+            page: "1",
+            keyword: ""
+        }
+    })
+
+    .state('createmenu', {
+        url: "/menu-create",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateMenuCtrl'
+    })
+
+    .state('editmenu', {
+        url: "/menu-edit/:id",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditMenuCtrl'
+    })
+
+    .state('role-list', {
+        url: "/role-list/{page:.*}/{keyword:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'RoleCtrl',
+        params: {
+            page: "1",
+            keyword: ""
+        }
+    })
+
+    .state('createrole', {
+        url: "/role-create",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateRoleCtrl'
+    })
+
+    .state('editrole', {
+        url: "/role-edit/:id",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditRoleCtrl'
+    })
+
+    .state('user-list', {
+        url: "/user-list/{page:.*}/{keyword:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'UserCtrl',
+        params: {
+            page: "1",
+            keyword: ""
+        }
+    })
+
+    .state('createuser', {
+        url: "/user-create",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateUserCtrl'
+    })
+
+    .state('leave-detail', {
+        url: "/leave-detail",
+        templateUrl: "frontend/views/template.html",
+        controller: 'LeaveDetailCtrl'
+    })
+
+    .state('leaveManagement-list', {
             url: "/leavemanagement-list/{page:.*}/{keyword:.*}/{model:.*}",
             templateUrl: "frontend/views/template.html",
             controller: 'ModelViewCtrl',
@@ -698,18 +698,18 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
 
 
 
-        .state('reimbursement-list', {
-            url: "/reimbursement-list/{page:.*}/{keyword:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'ModelViewCtrl',
-            params: {
-                page: "1",
-                keyword: "",
-                model: "reimbursement"
-            }
-        })
+    .state('reimbursement-list', {
+        url: "/reimbursement-list/{page:.*}/{keyword:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'ModelViewCtrl',
+        params: {
+            page: "1",
+            keyword: "",
+            model: "reimbursement"
+        }
+    })
 
-        .state('createreimbursements', {
+    .state('createreimbursements', {
             url: "/reimbursement-create/{id:.*}/{model:.*}",
             templateUrl: "frontend/views/template.html",
             controller: 'CreateReimbursementCtrl',
@@ -732,173 +732,173 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
 
 
 
-        // .state('reimbursement-detail', {
-        //     url: "/reimbursement-detail",
-        //     templateUrl: "frontend/views/template.html",
-        //     controller: 'ReimbursementDetailCtrl'
-        // })
+    // .state('reimbursement-detail', {
+    //     url: "/reimbursement-detail",
+    //     templateUrl: "frontend/views/template.html",
+    //     controller: 'ReimbursementDetailCtrl'
+    // })
 
-        .state('edituser', {
-            url: "/user-edit/:id",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditUserCtrl'
-        })
+    .state('edituser', {
+        url: "/user-edit/:id",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditUserCtrl'
+    })
 
-        .state('employee-list', {
-            url: "/employee-list//{page:.*}/{keyword:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'ModelViewCtrl',
-            params: {
-                page: "1",
-                keyword: "",
-                model: "employee"
-            }
-        })
+    .state('employee-list', {
+        url: "/employee-list//{page:.*}/{keyword:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'ModelViewCtrl',
+        params: {
+            page: "1",
+            keyword: "",
+            model: "employee"
+        }
+    })
 
 
-        .state('createemployee', {
-            url: "/employee-create/{id:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateEmployeeCtrl',
-            params: {
-                id: "",
-                model: "employee"
-            }
-        })
+    .state('createemployee', {
+        url: "/employee-create/{id:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateEmployeeCtrl',
+        params: {
+            id: "",
+            model: "employee"
+        }
+    })
 
-        .state('editemployee', {
-            url: "/employee-edit/:id",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditEmployeeCtrl',
-            params: {
-                id: "",
-                model: "employee"
-            }
-        })
+    .state('editemployee', {
+        url: "/employee-edit/:id",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditEmployeeCtrl',
+        params: {
+            id: "",
+            model: "employee"
+        }
+    })
 
-        .state('product-list', {
-            url: "/product-list/{page:.*}/{keyword:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'ProductCtrl',
-            params: {
-                page: "1",
-                keyword: ""
-            }
-        })
+    .state('product-list', {
+        url: "/product-list/{page:.*}/{keyword:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'ProductCtrl',
+        params: {
+            page: "1",
+            keyword: ""
+        }
+    })
 
-        .state('createproduct', {
-            url: "/product-detail",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateProductCtrl'
-        })
+    .state('createproduct', {
+        url: "/product-detail",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateProductCtrl'
+    })
 
-        .state('editproduct', {
-            url: "/product-edit/:id",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditProductCtrl'
-        })
+    .state('editproduct', {
+        url: "/product-edit/:id",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditProductCtrl'
+    })
 
-        .state('salvage-list', {
-            url: "/salvage-list/{page:.*}/{keyword:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'ModelViewCtrl',
-            params: {
-                page: "1",
-                keyword: "",
-                model: "salvage"
-            }
-        })
+    .state('salvage-list', {
+        url: "/salvage-list/{page:.*}/{keyword:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'ModelViewCtrl',
+        params: {
+            page: "1",
+            keyword: "",
+            model: "salvage"
+        }
+    })
 
-        .state('createsalvage', {
-            url: "/salvage-detail/{id:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateModelCtrl',
-            params: {
-                id: "",
-                model: "salvage"
-            }
-        })
+    .state('createsalvage', {
+        url: "/salvage-detail/{id:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateModelCtrl',
+        params: {
+            id: "",
+            model: "salvage"
+        }
+    })
 
-        .state('editSalvage', {
-            url: "/salvage-edit/{id:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditModelCtrl',
-            params: {
-                id: "",
-                model: "salvage"
-            }
-        })
+    .state('editSalvage', {
+        url: "/salvage-edit/{id:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditModelCtrl',
+        params: {
+            id: "",
+            model: "salvage"
+        }
+    })
 
-        .state('claims-list', {
-            url: "/claims-list/{page:.*}/{keyword:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'ModelViewCtrl',
-            params: {
-                page: "1",
-                keyword: "",
-                model: "claims"
-            }
-        })
+    .state('claims-list', {
+        url: "/claims-list/{page:.*}/{keyword:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'ModelViewCtrl',
+        params: {
+            page: "1",
+            keyword: "",
+            model: "claims"
+        }
+    })
 
-        .state('createclaims', {
-            url: "/claims-detail/{id:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateModelCtrl',
-            params: {
-                id: "",
-                model: "claims"
-            }
-        })
+    .state('createclaims', {
+        url: "/claims-detail/{id:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateModelCtrl',
+        params: {
+            id: "",
+            model: "claims"
+        }
+    })
 
-        .state('editclaims', {
-            url: "/claims-edit/{id:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditModelCtrl',
-            params: {
-                id: "",
-                model: "claims"
-            }
-        })
+    .state('editclaims', {
+        url: "/claims-edit/{id:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditModelCtrl',
+        params: {
+            id: "",
+            model: "claims"
+        }
+    })
 
-        .state('bankMaster-list', {
-            url: "/bankmaster-list/{page:.*}/{keyword:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'BankMasterCtrl',
-            params: {
-                page: "1",
-                keyword: ""
-            }
-        })
+    .state('bankMaster-list', {
+        url: "/bankmaster-list/{page:.*}/{keyword:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'BankMasterCtrl',
+        params: {
+            page: "1",
+            keyword: ""
+        }
+    })
 
-        .state('createbankmaster', {
-            url: "/bankmaster-detail",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateBankmasterCtrl'
-        })
+    .state('createbankmaster', {
+        url: "/bankmaster-detail",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateBankmasterCtrl'
+    })
 
-        .state('editbankmaster', {
-            url: "/bankmaster-detail/:id",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditBankmasterCtrl'
-        })
+    .state('editbankmaster', {
+        url: "/bankmaster-detail/:id",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditBankmasterCtrl'
+    })
 
-        .state('company-list', {
-            url: "/company-list/{page:.*}/{keyword:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CompanyCtrl',
-            params: {
-                page: "1",
-                keyword: ""
-            }
-        })
+    .state('company-list', {
+        url: "/company-list/{page:.*}/{keyword:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CompanyCtrl',
+        params: {
+            page: "1",
+            keyword: ""
+        }
+    })
 
-        .state('createcompany', {
-            url: "/company-detail",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateCompanyCtrl'
-        })
+    .state('createcompany', {
+        url: "/company-detail",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateCompanyCtrl'
+    })
 
-        .state('editcompany', {
+    .state('editcompany', {
             url: "/company-detail/:id",
             templateUrl: "frontend/views/template.html",
             controller: 'EditCompanyCtrl'
@@ -1042,249 +1042,249 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
             }
         })
 
-        .state('createcustomer', {
-            url: "/customer-detail/{id:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateCustomerCtrl',
-            // data.error.message
-            params: {
-                id: "",
-                model: "customer"
-            }
-        })
+    .state('createcustomer', {
+        url: "/customer-detail/{id:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateCustomerCtrl',
+        // data.error.message
+        params: {
+            id: "",
+            model: "customer"
+        }
+    })
 
-        .state('editcustomer', {
-            url: "/customer-edit/{id:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditCustomerCtrl',
-            params: {
-                id: "",
-                model: "customer"
-            }
-        })
+    .state('editcustomer', {
+        url: "/customer-edit/{id:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditCustomerCtrl',
+        params: {
+            id: "",
+            model: "customer"
+        }
+    })
 
 
-        .state('contactManagement-list', {
-            url: "/contactmanagement-list/{page:.*}/{keyword:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'ContactManagementCtrl',
-            params: {
-                page: "1",
-                keyword: ""
-            }
-        })
+    .state('contactManagement-list', {
+        url: "/contactmanagement-list/{page:.*}/{keyword:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'ContactManagementCtrl',
+        params: {
+            page: "1",
+            keyword: ""
+        }
+    })
 
-        .state('createcontactmanagement', {
-            url: "/contactmanagement-detail",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateContactManagementCtrl'
-        })
+    .state('createcontactmanagement', {
+        url: "/contactmanagement-detail",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateContactManagementCtrl'
+    })
 
-        .state('contacttype-list', {
-            url: "/contacttype-list/{page:.*}/{keyword:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'ContactTypeCtrl',
-            params: {
-                page: "1",
-                keyword: ""
-            }
-        })
+    .state('contacttype-list', {
+        url: "/contacttype-list/{page:.*}/{keyword:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'ContactTypeCtrl',
+        params: {
+            page: "1",
+            keyword: ""
+        }
+    })
 
-        .state('createcontacttype', {
-            url: "/contacttype-detail",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateContactTypeCtrl'
-        })
+    .state('createcontacttype', {
+        url: "/contacttype-detail",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateContactTypeCtrl'
+    })
 
-        .state('contactTypeOffice-list', {
-            url: "/contacttypeoffice-list/{page:.*}/{keyword:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'ContactTypeOfficeCtrl',
-            params: {
-                page: "1",
-                keyword: ""
-            }
-        })
+    .state('contactTypeOffice-list', {
+        url: "/contacttypeoffice-list/{page:.*}/{keyword:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'ContactTypeOfficeCtrl',
+        params: {
+            page: "1",
+            keyword: ""
+        }
+    })
 
-        .state('createcontacttypeoffice', {
-            url: "/contacttypeoffice-detail",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateContactTypeOfficeCtrl'
-        })
+    .state('createcontacttypeoffice', {
+        url: "/contacttypeoffice-detail",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateContactTypeOfficeCtrl'
+    })
 
-        .state('customerSegment-list', {
-            url: "/customersegment-list/{page:.*}/{keyword:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'ModelViewCtrl',
-            params: {
-                page: "1",
-                keyword: "",
-                model: "customer segment"
-            }
-        })
+    .state('customerSegment-list', {
+        url: "/customersegment-list/{page:.*}/{keyword:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'ModelViewCtrl',
+        params: {
+            page: "1",
+            keyword: "",
+            model: "customer segment"
+        }
+    })
 
-        .state('createcustomerSegment', {
-            url: "/customersegment-create/{id:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateModelCtrl',
-            params: {
-                id: "",
-                model: "customer segment"
-            }
-        })
+    .state('createcustomerSegment', {
+        url: "/customersegment-create/{id:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateModelCtrl',
+        params: {
+            id: "",
+            model: "customer segment"
+        }
+    })
 
-        .state('editcustomerSegment', {
-            url: "/customersegment-edit/{id:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditModelCtrl',
-            params: {
-                id: "",
-                model: "customer segment"
-            }
-        })
+    .state('editcustomerSegment', {
+        url: "/customersegment-edit/{id:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditModelCtrl',
+        params: {
+            id: "",
+            model: "customer segment"
+        }
+    })
 
-        .state('customerCompany-list', {
-            url: "/customercompany-list/{page:.*}/{keyword:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'ModelViewCtrl',
-            params: {
-                page: "1",
-                keyword: "",
-                model: "customer company"
-            }
-        })
+    .state('customerCompany-list', {
+        url: "/customercompany-list/{page:.*}/{keyword:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'ModelViewCtrl',
+        params: {
+            page: "1",
+            keyword: "",
+            model: "customer company"
+        }
+    })
 
-        .state('createcustomerCompany', {
-            url: "/customercompany-create/{id:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateModelCtrl',
-            params: {
-                id: "",
-                model: "customer company"
-            }
-        })
+    .state('createcustomerCompany', {
+        url: "/customercompany-create/{id:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateModelCtrl',
+        params: {
+            id: "",
+            model: "customer company"
+        }
+    })
 
-        .state('editcustomerCompany', {
-            url: "/customercompany-edit/{id:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditModelCtrl',
-            params: {
-                id: "",
-                model: "customer company"
-            }
-        })
+    .state('editcustomerCompany', {
+        url: "/customercompany-edit/{id:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditModelCtrl',
+        params: {
+            id: "",
+            model: "customer company"
+        }
+    })
 
-        .state('grade-list', {
-            url: "/grade-list/:id/:keyword/:model",
-            templateUrl: "frontend/views/template.html",
-            controller: 'ModelViewCtrl',
-            params: {
-                page: "1",
-                keyword: "",
-                model: "grade"
-            }
-        })
+    .state('grade-list', {
+        url: "/grade-list/:id/:keyword/:model",
+        templateUrl: "frontend/views/template.html",
+        controller: 'ModelViewCtrl',
+        params: {
+            page: "1",
+            keyword: "",
+            model: "grade"
+        }
+    })
 
-        .state('creategrade', {
-            url: "/grade-create/:id/:model",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateModelCtrl',
-            params: {
-                id: "",
-                model: "grade"
-            }
-        })
+    .state('creategrade', {
+        url: "/grade-create/:id/:model",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateModelCtrl',
+        params: {
+            id: "",
+            model: "grade"
+        }
+    })
 
-        .state('editgrade', {
-            url: "/grade-edit/:id/:model",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditModelCtrl',
-            params: {
-                id: "",
-                model: "grade"
-            }
-        })
+    .state('editgrade', {
+        url: "/grade-edit/:id/:model",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditModelCtrl',
+        params: {
+            id: "",
+            model: "grade"
+        }
+    })
 
-        .state('surveyCode-list', {
-            url: "/surveycode-list/{page:.*}/{keyword:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'ModelViewCtrl',
-            params: {
-                page: "1",
-                keyword: "",
-                model: "survey code"
-            }
-        })
+    .state('surveyCode-list', {
+        url: "/surveycode-list/{page:.*}/{keyword:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'ModelViewCtrl',
+        params: {
+            page: "1",
+            keyword: "",
+            model: "survey code"
+        }
+    })
 
-        .state('createsurveyCode', {
-            url: "/surveycode-create/{id:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateModelCtrl',
-            params: {
-                id: "",
-                model: "survey code"
-            }
-        })
+    .state('createsurveyCode', {
+        url: "/surveycode-create/{id:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateModelCtrl',
+        params: {
+            id: "",
+            model: "survey code"
+        }
+    })
 
-        .state('editsurveyCode', {
-            url: "/surveycode-edit/{id:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditModelCtrl',
-            params: {
-                id: "",
-                model: "survey code"
-            }
-        })
+    .state('editsurveyCode', {
+        url: "/surveycode-edit/{id:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditModelCtrl',
+        params: {
+            id: "",
+            model: "survey code"
+        }
+    })
 
-        .state('transferOffice-list', {
-            url: "/transferoffice-list/{page:.*}/{keyword:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'ModelViewCtrl',
-            params: {
-                page: "1",
-                keyword: "",
-                model: "transfer office"
-            }
-        })
+    .state('transferOffice-list', {
+        url: "/transferoffice-list/{page:.*}/{keyword:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'ModelViewCtrl',
+        params: {
+            page: "1",
+            keyword: "",
+            model: "transfer office"
+        }
+    })
 
-        .state('createtransferoffice', {
-            url: "/transferoffice-create/{id:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateModelCtrl',
-            params: {
-                id: "",
-                model: "transfer office"
-            }
-        })
+    .state('createtransferoffice', {
+        url: "/transferoffice-create/{id:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateModelCtrl',
+        params: {
+            id: "",
+            model: "transfer office"
+        }
+    })
 
-        .state('edittransferofficer', {
-            url: "/transferOfficer-edit",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditTransferOfficerCtrl'
-        })
+    .state('edittransferofficer', {
+        url: "/transferOfficer-edit",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditTransferOfficerCtrl'
+    })
 
-        .state('createassignmentemail', {
-            url: "/assignmentemail-create/{emailId:.*}/{model:.*}/{pdf:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateAssignmentCtrl',
-            params: {
-                emailId: "",
-                model: "assignment"
-            }
-        })
+    .state('createassignmentemail', {
+        url: "/assignmentemail-create/{emailId:.*}/{model:.*}/{pdf:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateAssignmentCtrl',
+        params: {
+            emailId: "",
+            model: "assignment"
+        }
+    })
 
-        .state('createassignment', {
-            url: "/assignment-create/{id:.*}/{model:.*}/{assignment:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateAssignmentCtrl',
-            params: {
-                id: "",
-                model: "assignment",
-                assignment: ""
-            }
-        })
+    .state('createassignment', {
+        url: "/assignment-create/{id:.*}/{model:.*}/{assignment:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateAssignmentCtrl',
+        params: {
+            id: "",
+            model: "assignment",
+            assignment: ""
+        }
+    })
 
-        .state('editassignment', {
+    .state('editassignment', {
             url: "/assignment-edit/{id:.*}/{model:.*}",
             templateUrl: "frontend/views/template.html",
             controller: 'EditAssignmentCtrl',
@@ -1312,131 +1312,144 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
                 model: "invoice expenditure"
             }
         })
-        
 
-        .state('assignment-list', {
-            url: "/assignment-list",
-            templateUrl: "frontend/views/template.html",
-            controller: 'ModelViewCtrl',
-            params: {
-                page: "1",
-                keyword: "",
-                model: "assignment"
-            }
-        })
 
-        .state('timeline', {
-            url: "/timeline/{id:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'TimelineCtrl',
-            params: {
-                id: ""
-            }
-        })
+    .state('assignment-list', {
+        url: "/assignment-list",
+        templateUrl: "frontend/views/template.html",
+        controller: 'ModelViewCtrl',
+        params: {
+            page: "1",
+            keyword: "",
+            model: "assignment",
+            timelineStatus: "",
+            ownerStatus: "",
+            name: "",
+            owner: "",
+            ownerId: "",
+            city: "",
+            insurer: "",
+            insurerd: "",
+            from: "",
+            to: "",
+            fromDate:"",
+            toDate:"",
+            department: ""
+        }
+    })
 
-        .state('template-list', {
-            url: "/template-list/{page:.*}/{keyword:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'ModelViewCtrl',
-            params: {
-                page: "1",
-                keyword: "",
-                model: "template"
-            }
-        })
+    .state('timeline', {
+        url: "/timeline/{id:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'TimelineCtrl',
+        params: {
+            id: ""
+        }
+    })
 
-        .state('createtemplate', {
-            url: "/template-create",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateTemplateCtrl'
-        })
+    .state('template-list', {
+        url: "/template-list/{page:.*}/{keyword:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'ModelViewCtrl',
+        params: {
+            page: "1",
+            keyword: "",
+            model: "template"
+        }
+    })
 
-        .state('edittemplate', {
-            url: "/template-edit/:id",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditTemplateCtrl'
-        })
+    .state('createtemplate', {
+        url: "/template-create",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateTemplateCtrl'
+    })
 
-        // jir state
-        .state('templateJir-list', {
-            url: "/templateJir-list/{page:.*}/{keyword:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'ModelViewCtrl',
-            params: {
-                page: "1",
-                keyword: "",
-                model: "template jir"
-            }
-        })
+    .state('edittemplate', {
+        url: "/template-edit/:id",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditTemplateCtrl'
+    })
 
-        .state('createtemplateJir', {
-            url: "/templateJir-create",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateTemplateJIRCtrl'
-        })
+    // jir state
+    .state('templateJir-list', {
+        url: "/templateJir-list/{page:.*}/{keyword:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'ModelViewCtrl',
+        params: {
+            page: "1",
+            keyword: "",
+            model: "template jir"
+        }
+    })
 
-        .state('edittemplateJir', {
-            url: "/templateJir-edit/:id",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditTemplateJIRCtrl'
-        })
+    .state('createtemplateJir', {
+        url: "/templateJir-create",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateTemplateJIRCtrl'
+    })
 
-        //  jir state
+    .state('edittemplateJir', {
+        url: "/templateJir-edit/:id",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditTemplateJIRCtrl'
+    })
 
-        // ila state
-        .state('templateIla-list', {
-            url: "/templateIla-list/{page:.*}/{keyword:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'ModelViewCtrl',
-            params: {
-                page: "1",
-                keyword: "",
-                model: "template ila"
-            }
-        })
+    //  jir state
 
-        .state('createtemplateIla', {
-            url: "/templateIla-create",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateTemplateILACtrl'
-        })
+    // ila state
+    .state('templateIla-list', {
+        url: "/templateIla-list/{page:.*}/{keyword:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'ModelViewCtrl',
+        params: {
+            page: "1",
+            keyword: "",
+            model: "template ila"
+        }
+    })
 
-        .state('edittemplateIla', {
-            url: "/templateIla-edit/:id",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditTemplateILACtrl'
-        })
+    .state('createtemplateIla', {
+        url: "/templateIla-create",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateTemplateILACtrl'
+    })
 
-        //  ila state
+    .state('edittemplateIla', {
+        url: "/templateIla-edit/:id",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditTemplateILACtrl'
+    })
 
-        // ila state
-        .state('templateIsr-list', {
-            url: "/templateIsr-list/{page:.*}/{keyword:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'ModelViewCtrl',
-            params: {
-                page: "1",
-                keyword: "",
-                model: "template isr"
-            }
-        })
+    //  ila state
 
-        .state('createtemplateIsr', {
-            url: "/templateIsr-create",
-            templateUrl: "frontend/views/template.html",
-            controller: 'CreateTemplateISRCtrl'
-        })
+    // ila state
+    .state('templateIsr-list', {
+        url: "/templateIsr-list/{page:.*}/{keyword:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'ModelViewCtrl',
+        params: {
+            page: "1",
+            keyword: "",
+            model: "template isr"
+        }
+    })
 
-        .state('edittemplateIsr', {
-            url: "/templateIsr-edit/:id",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditTemplateISRCtrl'
-        })
+    .state('createtemplateIsr', {
+        url: "/templateIsr-create",
+        templateUrl: "frontend/views/template.html",
+        controller: 'CreateTemplateISRCtrl'
+    })
 
-        //  ila state
+    .state('edittemplateIsr', {
+        url: "/templateIsr-edit/:id",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditTemplateISRCtrl'
+    })
 
-        //  lor state
-        .state('templateLor-list', {
+    //  ila state
+
+    //  lor state
+    .state('templateLor-list', {
             url: "/templateLor-list/{page:.*}/{keyword:.*}/{model:.*}",
             templateUrl: "frontend/views/template.html",
             controller: 'ModelViewCtrl',
@@ -1446,19 +1459,19 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
                 model: "template lor"
             }
         })
-         .state('createtemplateLor', {
+        .state('createtemplateLor', {
             url: "/templateLor-create",
             templateUrl: "frontend/views/template.html",
             controller: 'CreateTemplateLORCtrl'
         })
 
-        .state('edittemplateLor', {
-            url: "/templateLor-edit/:id",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditTemplateLORCtrl'
-        })
+    .state('edittemplateLor', {
+        url: "/templateLor-edit/:id",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditTemplateLORCtrl'
+    })
 
-        .state('templateInvoice-list', {
+    .state('templateInvoice-list', {
             url: "/templateInvoice-list/{page:.*}/{keyword:.*}/{model:.*}",
             templateUrl: "frontend/views/template.html",
             controller: 'ModelViewCtrl',
@@ -1484,31 +1497,31 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
             controller: 'EditInvoiceCtrl'
         })
 
-        .state('edittemplateInvoice', {
-            url: "/templateInvoice-edit/:id",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EditTemplateInvoiceCtrl'
-        })
+    .state('edittemplateInvoice', {
+        url: "/templateInvoice-edit/:id",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EditTemplateInvoiceCtrl'
+    })
 
-        .state('invoiceExpenditure-list', {
-            url: "/invoiceExpenditure-list/{page:.*}/{keyword:.*}/{model:.*}",
-            templateUrl: "frontend/views/template.html",
-            controller: 'ModelViewCtrl',
-            params: {
-                page: "1",
-                keyword: "",
-                model: "invoice expenditure"
-            }
-        })
-
-        
-
-       
-
-        //  lor state
+    .state('invoiceExpenditure-list', {
+        url: "/invoiceExpenditure-list/{page:.*}/{keyword:.*}/{model:.*}",
+        templateUrl: "frontend/views/template.html",
+        controller: 'ModelViewCtrl',
+        params: {
+            page: "1",
+            keyword: "",
+            model: "invoice expenditure"
+        }
+    })
 
 
-        .state('template-view', {
+
+
+
+    //  lor state
+
+
+    .state('template-view', {
             url: "/template-view/:template/:assignmentTemplate/:assignment/:type",
             templateUrl: "frontend/views/template.html",
             controller: 'TemplateViewCtrl'
@@ -1519,23 +1532,23 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
             controller: 'TemplateInvoiceCtrl'
         })
 
-        .state('email-inbox', {
-            url: "/email-inbox",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EmailInboxCtrl'
-        })
+    .state('email-inbox', {
+        url: "/email-inbox",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EmailInboxCtrl'
+    })
 
-        .state('email-single', {
-            url: "/email-single/:id",
-            templateUrl: "frontend/views/template.html",
-            controller: 'EmailSingleCtrl'
-        })
+    .state('email-single', {
+        url: "/email-single/:id",
+        templateUrl: "frontend/views/template.html",
+        controller: 'EmailSingleCtrl'
+    })
 
-        .state('forbidden', {
-            url: "/forbidden",
-            templateUrl: "frontend/views/template.html",
-            controller: 'ForbiddenCtrl'
-        })
+    .state('forbidden', {
+        url: "/forbidden",
+        templateUrl: "frontend/views/template.html",
+        controller: 'ForbiddenCtrl'
+    })
 
     ;
     $urlRouterProvider.otherwise("/dashboard");

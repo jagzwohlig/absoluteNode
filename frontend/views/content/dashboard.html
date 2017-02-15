@@ -23,7 +23,8 @@
             <div class="mini-stats-sec">
                 <div class="row">
                     <div class="col-md-3" ng-repeat="data in Arr">
-                        <div class="widget">
+                        <a ui-sref="assignment-list({timelineStatus:data._id})">
+                            <div class="widget">
                             <div class="widget-controls">
                                 <span class="refresh-content"><i class="fa fa-refresh"></i></span>
                             </div>
@@ -34,6 +35,7 @@
                                 <h3>{{ data.count }}</h3>
                             </div>
                         </div>
+                    </a>
                     </div>
                 </div>
             </div>
