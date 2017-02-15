@@ -47,29 +47,30 @@
                     <div class="form-builder">
                         <div class="form-repeater">
                             <div class="form-builder-hr">
-                                <div class="form-builder-item no-pad-left row-item">
-                                    <div class="col-item col-item-50">
-                                        <b> Name</b>
+                                <div class="form-builder-item  row-item">
+                                    <div class="col-item col-item-20">
+                                        <b> Name &amp; Description</b>
                                     </div>
-                                    <div class="col-item col-item-50">
-                                        <b> Description</b>
-                                    </div>
-                                    <div class="col-item col-item-50">
+                                    <div class="col-item col-item-20">
                                         <b> Unit</b>
                                     </div>
-                                    <div class="col-item col-item-50">
+                                    <div class="col-item col-item-20">
                                         <b> Rate</b>
                                     </div>
-                                    <div class="col-item col-item-50">
+                                    <div class="col-item col-item-20">
                                         <b>  Quantity</b>
                                     </div>
-                                    <div class="col-item col-item-50">
+                                    <div class="col-item col-item-20">
                                         <b> Amount</b>
                                     </div>
                                 </div>
-                                <div class="form-builder-item no-pad-left row-item" ng-repeat="form in formData.invoiceList track by $index">
-                                    <div class="col-item col-item-50">
-                                        <ui-select ng-model="d.selected" ng-change="getAll(d,$index)" theme="bootstrap" sortable="true">
+                                <div class="containerVertical">
+                                     <div class="form-builder-item  row-item" ng-repeat="form in formData.invoiceList track by $index">
+                                   <div class="right-float mark-float">
+                                        <i class="fa fa-bars handleBar"></i>
+                                    </div>
+                                    <div class="col-item col-item-20" >
+                                        <ui-select ng-model="form" ng-change="getAll(d,$index)" theme="bootstrap" sortable="true">
                                             <ui-select-match placeholder="Select">
                                                 {{$select.selected.name}}
                                             </ui-select-match>
@@ -78,19 +79,16 @@
                                             </ui-select-choices>
                                         </ui-select>
                                     </div>
-                                    <div class="col-item col-item-50">
-                                        <input type="text" ng-model="form.name" placeholder="Enter Name" class="form-control">
-                                    </div>
-                                    <div class="col-item col-item-50">
+                                    <div class="col-item col-item-20">
                                         <input type="text" ng-model="form.unit" placeholder="Enter Unit" class="form-control">
                                     </div>
-                                    <div class="col-item col-item-50">
+                                    <div class="col-item col-item-20">
                                         <input type="number" step="0.01" ng-model="form.rate" placeholder="Enter Rate" class="form-control" ng-change="calAmt(form.rate,form.quantity,$index)">
                                     </div>
-                                    <div class="col-item col-item-50">
+                                    <div class="col-item col-item-20">
                                         <input type="number" step="1" min="0" ng-model="form.quantity" placeholder="Enter Quantity" class="form-control" ng-change="calAmt(form.rate,form.quantity,$index)">
                                     </div>
-                                    <div class="col-item col-item-50">
+                                    <div class="col-item col-item-20">
                                         <input type="number" ng-model="form.amount" placeholder="Total" class="form-control" readonly>
                                     </div>
                                     <div class="mark-float">
@@ -98,6 +96,8 @@
                                         <i class="fa fa-minus-circle danger" ng-click="removeHead($index);"></i>
                                     </div>
                                 </div>
+                                </div>
+                               
                             </div>
                         </div>
                     </div>
