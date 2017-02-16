@@ -60,7 +60,7 @@ var schema = new Schema({
 schema.plugin(deepPopulate, {
     populate: {
         'chat.employee': {
-            select: ""
+            select: "name photo func houseColor"
         },
         // 'chat.employee.employee': {
         //     select: ""

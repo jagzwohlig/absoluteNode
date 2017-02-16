@@ -860,7 +860,7 @@ var model = {
 
         Model.findOne({
           _id: data[0]._id
-        }).deepPopulate("city.district.state.zone.country products.product.category.industry shareWith.persons branch natureOfLoss department insurerOfficer insuredOfficer owner owner.func company company.city assessment.employee docs.employee fsrs.employee photos.employee causeOfLoss insurer policyType insured salvage", "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer").exec(function (err, data3) {
+        }).deepPopulate("city.district.state.zone.country products.product.category.industry shareWith.persons branch natureOfLoss department insurerOfficer insuredOfficer owner owner.func company company.city assessment.employee docs.employee fsrs.employee photos.employee causeOfLoss insurer policyType insured salvage natureOfLoss", "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer").exec(function (err, data3) {
           if (err) {
             callback(err, data3);
           } else {
@@ -913,26 +913,6 @@ var model = {
     });
   },
 
-  generateInvoicePdfb: function (data, callback) {
-    $scope = {};
-    $scope.data = data;
-    Assignment.findOne({
-      _id: data.assignment
-    }).deepPopulate("city.district.state.zone.country branch department products.product.category.industry insured policyType shareWith.persons natureOfLoss insuredOfficer owner owner.func company company.city company.city.district.state assessment.employee docs.employee fsrs.employee photos.employee causeOfLoss insurer", "city.district.state.zone.country branch department products.product.category.industry shareWith.persons natureOfLoss insuredOfficer").lean().exec(function (err, found) {
-      if (err) {
-        // console.log(err);
-        callback(err, null);
-      } else if (found) {
-        // console.log("Found", found);
-        $scope.assignment = found;
-        // console.log("$scope", $scope);
-        Config.generatePdf("pdf/table", $scope, callback);
-        // Config.generatePdf("pdf/abs-invoice", $scope, callback);
-      } else {
-        callback(null, found);
-      }
-    });
-  },
   generateInvoicePdf: function (data, callback) {
     green(data);
     $scope = {};

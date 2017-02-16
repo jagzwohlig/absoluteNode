@@ -2532,7 +2532,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $window.history.back();
         }
         $scope.saveModel = function (data) {
-            $scope.saveModel = function (formData) {
                 NavigationService.modelSave("TemplateIla", $scope.formData, function (data) {
                     if (data.value === true) {
                         // $state.go('templateIla-list');
@@ -2542,7 +2541,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         toastr.error("Template ILA Edition failed.", "Template ILA edition error");
                     }
                 });
-            };
         };
     })
 
