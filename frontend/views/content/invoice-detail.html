@@ -63,15 +63,15 @@
                                     <p>Amount</p>
                                 </div>
                             </div>
-                            <div ng-init="formData.invoiceList = newItems" class="form-builder-hr">
+                            <div class="form-builder-hr">
                                 <div class="form-builder-item row-item" ng-repeat="form in formData.invoiceList">
                                     <div class="right-float mark-float">
                                         <i class="fa fa-bars handleBar"></i>
                                     </div>
                                     <div class="col-item col-item-20">
-                                        <ui-select ng-model="form" ng-change="getAll(d,$index)" theme="bootstrap" sortable="true">
+                                        <ui-select ng-model="form" ng-change="getAll(form,$index)" theme="bootstrap" sortable="true">
                                             <ui-select-match placeholder="Select">
-                                                {{$select.selected.name}}
+                                                <span class="detail-title" title="{{$select.selected.name}}">{{$select.selected.name}}</span>
                                             </ui-select-match>
                                             <ui-select-choices repeat="d in descriptions | filter: $select.search" refresh="getdescriptions($select.search)" refresh-delay="0">
                                                 <span>{{d.name}}</span>

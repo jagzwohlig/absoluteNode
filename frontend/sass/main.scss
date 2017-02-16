@@ -1021,7 +1021,7 @@ img.uploadingImage {
     .col-item {
         @include flex(1);
         width: 100%;
-        overflow: hidden;
+        // overflow: hidden;
         +.col-item {
             border-left: 1px solid $body-color-font;
         }
@@ -1038,6 +1038,13 @@ img.uploadingImage {
             width: 35%;
         }
     }
+}
+.detail-title{
+    width: 150px;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .mark-float {
