@@ -120,7 +120,7 @@ var schema = new Schema({
     type: Date
   },
   intimatedLoss: {
-    type: String
+    type: Number
   },
   owner: {
     type: Schema.Types.ObjectId,
@@ -528,8 +528,8 @@ var schema = new Schema({
 schema.plugin(deepPopulate, {
 
   populate: {
-    salvage:{
-      select:''
+    salvage: {
+      select: ''
     },
     department: {
       select: 'name _id'
@@ -924,12 +924,14 @@ var model = {
       } else {
         $scope.data = data2;
         // console.log("AAAAAAAAAAAAA", data2, data2.assignment.policyDoc);
-          var filter = {
-            _id: data2.assignment.policyDoc
-          }
+        var filter = {
+          _id: data2.assignment.policyDoc
+        }
         // console.log("Filter", filter._id);
         // For policyNumber
-        PolicyDoc.getPolicyDoc({filter}, function (err, data4) {
+        PolicyDoc.getPolicyDoc({
+          filter
+        }, function (err, data4) {
           if (err) {
             callback(err, null);
           } else {
@@ -941,6 +943,16 @@ var model = {
         });
       }
     });
+  },
+  updateAssignment:function(data,callback){
+    Assignment.find().lean().exec(function(err,found){
+      if(err){
+        callback(err,null)
+      }else{
+        console.log("Found",found);
+      }
+    })
+
   },
   getPerson: function (data, callback) {
     var Model = this;
@@ -1378,8 +1390,19 @@ var model = {
     })
   },
 
- getAll: function (data, callback) {
+  getAll: function (data, callback) {
 
+    //  var ownerMatch = {};
+    //  var temp1 = {
+    //    'owner._id': objectid(data.ownerId),
+    //  }
+    //  var temp2 = {
+
+    //  }
+    //  var temp3 = {
+    //    key:"A"
+    //  }
+    //  var objAssign = Object.assign(temp1,temp2,temp3);
     if (_.isEmpty(data.name)) {
       var name = {
         $regex: "",
@@ -1438,16 +1461,13 @@ var model = {
       }
     }
 
-    if (_.isEmpty(data.from) && _.isEmpty(data.to)) {
+    if (!_.isEmpty(data.from) && !_.isEmpty(data.to)) {
       var intimatedLoss = {
-        $regex: "",
-        $options: 'i'
-      }
-    } else {
-      var intimatedLoss = {
-        "$gte": data.from,
+        "$gt": data.from,
         "$lte": data.to
       }
+    } else {
+      var intimatedLoss = {}
     }
 
     // if (_.isEmpty(data.fromDate) && _.isEmpty(data.toDate)) {
@@ -1481,180 +1501,412 @@ var model = {
     }
 
     if (data.ownerStatus == "My files") {
-      var ownerStatus = {
-        timelineStatus: data.timelineStatus,
-        'owner._id': objectid(data.ownerId),
-        name: name,
-        'owner.name': owner,
-        'city.name': city,
-        'insurer.name': insurer,
-        'insurerd.name': insurerd,
-        intimatedLoss: intimatedLoss,
-        'department.name': surveyDepartment,
-       // createdAt: createdDate
-      };
-
-    } else if (data.ownerStatus == "Shared with me") {
-      var ownerStatus = {
-        timelineStatus: data.timelineStatus,
-        'shareWith.persons': objectid(data.ownerId),
-        name: name,
-        'owner.name': owner,
-        'city.name': city,
-        'insurer.name': insurer,
-        'insurerd.name': insurerd,
-        intimatedLoss: intimatedLoss,
-        'department.name': surveyDepartment,
-       // createdAt: createdDate
-      };
-
-    } else if (data.ownerStatus == "All files") {
-      var ownerStatus = {
-        timelineStatus: data.timelineStatus,
-        name: name,
-        'owner.name': owner,
-        'city.name': city,
-        'insurer.name': insurer,
-        'insurerd.name': insurerd,
-        intimatedLoss: intimatedLoss,
-        'department.name': surveyDepartment,
-       // createdAt: createdDate
+      if (data.timelineStatus === "") {
+        var timelineStatus = {}
+      } else {
+        var timelineStatus = {
+          timelineStatus: data.timelineStatus
+        }
+      }
+      if (data.from === "" && data.to === "") {
+        var intimatedLoss1 = {}
+      } else {
+        var intimatedLoss1 = {
+          intimatedLoss: {
+            "$gt": data.from,
+            "$lte": data.to
+          }
+        }
+      }
+      if (data.name === "") {
+        var name1 = {}
+      } else {
+        var name1 = {
+          name: name,
+        }
+      }
+      if (data.ownerId === "") {
+        var ownerId1 = {}
+      } else {
+        var ownerId1 = {
+          'owner._id': objectid(data.ownerId),
+        }
       }
 
+      if (data.owner === "") {
+        var owner1 = {}
+      } else {
+        var owner1 = {
+          'owner.name': owner,
+        }
+      }
+      if (data.city === "") {
+        var city1 = {}
+      } else {
+        var city1 = {
+          'city.name': city
+        }
+      }
+      if (data.insurer === "") {
+        var insurer1 = {}
+      } else {
+        var insurer1 = {
+          'insurer.name': insurer
+        }
+      }
+      if (data.insurerd === "") {
+        var insurerd1 = {}
+      } else {
+        var insurerd1 = {
+          'insurerd.name': insurerd
+        }
+      }
+      if (data.surveyDepartment === "") {
+        var surveyDepartment1 = {}
+      } else {
+        var surveyDepartment1 = {
+          'department.name': surveyDepartment
+        }
+      }
+      var ownerStatus = Object.assign(timelineStatus, name1, owner1, insurer1, insurerd1, surveyDepartment1, ownerId1,intimatedLoss1);
+      console.log("My Assignments.......", ownerStatus);
+      // var ownerStatus = {
+      //   timelineStatus: data.timelineStatus,
+      //   'owner._id': objectid(data.ownerId),
+      //   name: name,
+      //   'owner.name': owner,
+      //   'city.name': city,
+      //   'insurer.name': insurer,
+      //   'insurerd.name': insurerd,
+      //   intimatedLoss: intimatedLoss,
+      //   'department.name': surveyDepartment,
+      //   // createdAt: createdDate
+      // };
+    } else if (data.ownerStatus == "Shared with me") {
+      if (data.from === "" && data.to === "") {
+        var intimatedLoss1 = {}
+      } else {
+        var intimatedLoss1 = {
+          intimatedLoss: {
+            "$gt": data.from,
+            "$lte": data.to
+          }
+        }
+      }
+      if (data.timelineStatus === "") {
+        var timelineStatus = {}
+      } else {
+        var timelineStatus = {
+          timelineStatus: data.timelineStatus
+        }
+      }
+      if (data.name === "") {
+        var name1 = {}
+      } else {
+        var name1 = {
+          name: name,
+        }
+      }
+      if (data.ownerId === "") {
+        var ownerId1 = {}
+      } else {
+        var ownerId1 = {
+          'shareWith.persons': objectid(data.ownerId),
+        }
+      }
+
+      if (data.owner === "") {
+        var owner1 = {}
+      } else {
+        var owner1 = {
+          'owner.name': owner,
+        }
+      }
+      if (data.city === "") {
+        var city1 = {}
+      } else {
+        var city1 = {
+          'city.name': city
+        }
+      }
+      if (data.insurer === "") {
+        var insurer1 = {}
+      } else {
+        var insurer1 = {
+          'insurer.name': insurer
+        }
+      }
+      if (data.insurerd === "") {
+        var insurerd1 = {}
+      } else {
+        var insurerd1 = {
+          'insurerd.name': insurerd
+        }
+      }
+      if (data.surveyDepartment === "") {
+        var surveyDepartment1 = {}
+      } else {
+        var surveyDepartment1 = {
+          'department.name': surveyDepartment
+        }
+      }
+      var ownerStatus = Object.assign(timelineStatus, name1, owner1, insurer1, insurerd1, surveyDepartment1, ownerId1,intimatedLoss1);
+      console.log("Share Me.......", ownerStatus);
+      // var ownerStatus = {
+      //   timelineStatus: data.timelineStatus,
+      //   'shareWith.persons': objectid(data.ownerId),
+      //   name: name,
+      //   'owner.name': owner,
+      //   'city.name': city,
+      //   'insurer.name': insurer,
+      //   'insurerd.name': insurerd,
+      //   intimatedLoss: intimatedLoss,
+      //   'department.name': surveyDepartment,
+      //   // createdAt: createdDate
+      // };
+      console.log("In Shared with me ownerStatus", ownerStatus);
+    } else if (data.ownerStatus == "All files") {
+      if (data.from === "" && data.to === "") {
+        var intimatedLoss1 = {}
+      } else {
+        var intimatedLoss1 = {
+          intimatedLoss: {
+            "$gt": data.from,
+            "$lte": data.to
+          }
+        }
+      }
+      if (data.timelineStatus === "") {
+        var timelineStatus = {}
+      } else {
+        var timelineStatus = {
+          timelineStatus: data.timelineStatus
+        }
+      }
+      if (data.name === "") {
+        var name1 = {}
+      } else {
+        var name1 = {
+          name: name,
+        }
+      }
+      if (data.owner === "") {
+        var owner1 = {}
+      } else {
+        var owner1 = {
+          'owner.name': owner,
+        }
+      }
+      if (data.city === "") {
+        var city1 = {}
+      } else {
+        var city1 = {
+          'city.name': city
+        }
+      }
+      if (data.insurer === "") {
+        var insurer1 = {}
+      } else {
+        var insurer1 = {
+          'insurer.name': insurer
+        }
+      }
+      if (data.insurerd === "") {
+        var insurerd1 = {}
+      } else {
+        var insurerd1 = {
+          'insurerd.name': insurerd
+        }
+      }
+      if (data.surveyDepartment === "") {
+        var surveyDepartment1 = {}
+      } else {
+        var surveyDepartment1 = {
+          'department.name': surveyDepartment
+        }
+      }
+      var ownerStatus = Object.assign(timelineStatus, name1, owner1, insurer1, insurerd1, surveyDepartment1,intimatedLoss1);
+      console.log("ownerStatus.......", ownerStatus);
+      // var ownerStatus = {
+      //   timelineStatus: data.timelineStatus,
+      //   name: name,
+      //   'owner.name': owner,
+      //   'city.name': city,
+      //   'insurer.name': insurer,
+      //   'insurerd.name': insurerd,
+      //   intimatedLoss: intimatedLoss,
+      //   'department.name': surveyDepartment,
+      //   // createdAt: createdDate
+      // }
     }
-    console.log("owner", data.ownerStatus, ownerStatus);
 
     var pageStartFrom = (data.pagenumber - 1) * data.pagelimit;
 
     var allTable = [{
-      $lookup: {
-        from: "cities",
-        localField: "city",
-        foreignField: "_id",
-        as: "city"
-      }
-    }, {
-      $unwind: "$city"
-    }, {
-      $lookup: {
-        from: "customers",
-        localField: "insurerOffice",
-        foreignField: "_id",
-        as: "insurer"
-      }
-    }, {
-      $unwind: "$insurer"
-    }, {
-      $lookup: {
-        from: "employees",
-        localField: "owner",
-        foreignField: "_id",
-        as: "owner"
-      }
-    }, {
-      $unwind: "$owner"
-    }, {
-      $lookup: {
-        from: "customers",
-        localField: "insuredOffice",
-        foreignField: "_id",
-        as: "insurerd"
-      }
-    }, {
-      $unwind: "$insurerd"
-    }, {
-      $lookup: {
-        from: "departments",
-        localField: "department",
-        foreignField: "_id",
-        as: "department"
-      }
-    }, {
-      $unwind: "$department"
-    }, {
-      $match: {
-        $and: [ownerStatus]
-      }
-    }, {
-      $sort: {
-        createdAt: -1
-      }
-    }, {
-      $skip: parseInt(pageStartFrom)
-    }, {
-      $limit: data.pagelimit
-    }, {
-      $project: {
-        _id: 1,
-        name: 1,
-        owner: "$owner.name",
-        insurerName: "$insurer.name",
-        insurerdName: "$insurerd.name",
-        department: "$department.name",
-        city: "$city.name",
-        intimatedLoss: 1,
-        timelineStatus: 1,
-        status: 1
-      }
-    }];
-
-    var countAllData = [{
-      $lookup: {
-        from: "cities",
-        localField: "city",
-        foreignField: "_id",
-        as: "city"
-      }
-    }, {
-      $unwind: "$city"
-    }, {
-      $lookup: {
-        from: "customers",
-        localField: "insurerOffice",
-        foreignField: "_id",
-        as: "insurer"
-      }
-    }, {
-      $unwind: "$insurer"
-    }, {
-      $lookup: {
-        from: "employees",
-        localField: "owner",
-        foreignField: "_id",
-        as: "owner"
-      }
-    }, {
-      $unwind: "$owner"
-    }, {
-      $lookup: {
-        from: "customers",
-        localField: "insuredOffice",
-        foreignField: "_id",
-        as: "insurerd"
-      }
-    }, {
-      $unwind: "$insurerd"
-    }, {
-      $lookup: {
-        from: "departments",
-        localField: "department",
-        foreignField: "_id",
-        as: "department"
-      }
-    }, {
-      $unwind: "$department"
-    }, {
-      $match: {
-        $and: [ownerStatus]
-      }
-    }, {
-      $group: {
-        _id: null,
-        count: {
-          $sum: 1
+        $lookup: {
+          from: "cities",
+          localField: "city",
+          foreignField: "_id",
+          as: "city"
+        }
+      }, {
+        $unwind: {
+          path: "$city",
+          preserveNullAndEmptyArrays: true
+        }
+      }, {
+        $lookup: {
+          from: "customers",
+          localField: "insurerOffice",
+          foreignField: "_id",
+          as: "insurer"
+        }
+      }, {
+        $unwind: {
+          path: "$insurer",
+          preserveNullAndEmptyArrays: true
+        }
+      }, {
+        $lookup: {
+          from: "employees",
+          localField: "owner",
+          foreignField: "_id",
+          as: "owner"
+        }
+      }, {
+        $unwind: {
+          path: "$owner",
+          preserveNullAndEmptyArrays: true
+        }
+      }, {
+        $lookup: {
+          from: "customers",
+          localField: "insuredOffice",
+          foreignField: "_id",
+          as: "insurerd"
+        }
+      }, {
+        $unwind: {
+          path: "$insurerd",
+          preserveNullAndEmptyArrays: true
+        }
+      }, {
+        $lookup: {
+          from: "departments",
+          localField: "department",
+          foreignField: "_id",
+          as: "department"
+        }
+      }, {
+        $unwind: {
+          path: "$department",
+          preserveNullAndEmptyArrays: true
+        }
+      },
+      {
+        $match: {
+          $and: [ownerStatus]
+        }
+      },
+      {
+        $sort: {
+          createdAt: -1
+        }
+      }, {
+        $skip: parseInt(pageStartFrom)
+      }, {
+        $limit: data.pagelimit
+      }, {
+        $project: {
+          _id: 1,
+          name: 1,
+          owner: "$owner.name",
+          insurerName: "$insurer.name",
+          insurerdName: "$insurerd.name",
+          department: "$department.name",
+          city: "$city.name",
+          intimatedLoss: 1,
+          timelineStatus: 1,
+          status: 1
         }
       }
-    }];
+    ];
+
+    var countAllData = [{
+        $lookup: {
+          from: "cities",
+          localField: "city",
+          foreignField: "_id",
+          as: "city"
+        }
+      }, {
+        $unwind: {
+          path: "$city",
+          preserveNullAndEmptyArrays: true
+        }
+      }, {
+        $lookup: {
+          from: "customers",
+          localField: "insurerOffice",
+          foreignField: "_id",
+          as: "insurer"
+        }
+      }, {
+        $unwind: {
+          path: "$insurer",
+          preserveNullAndEmptyArrays: true
+        }
+      }, {
+        $lookup: {
+          from: "employees",
+          localField: "owner",
+          foreignField: "_id",
+          as: "owner"
+        }
+      }, {
+        $unwind: {
+          path: "$owner",
+          preserveNullAndEmptyArrays: true
+        }
+      }, {
+        $lookup: {
+          from: "customers",
+          localField: "insuredOffice",
+          foreignField: "_id",
+          as: "insurerd"
+        }
+      }, {
+        $unwind: {
+          path: "$insurerd",
+          preserveNullAndEmptyArrays: true
+        }
+      }, {
+        $lookup: {
+          from: "departments",
+          localField: "department",
+          foreignField: "_id",
+          as: "department"
+        }
+      }, {
+        $unwind: {
+          path: "$department",
+          preserveNullAndEmptyArrays: true
+        }
+      },
+      {
+        $match: {
+          $and: [ownerStatus]
+        }
+      },
+      {
+        $group: {
+          _id: null,
+          count: {
+            $sum: 1
+          }
+        }
+      }
+    ];
 
     if (data.ownerStatus == "Shared with me") {
       var unwindEmp = {
@@ -1668,14 +1920,14 @@ var model = {
       allTable.unshift(unwindSharewith);
       countAllData.unshift(unwindSharewith);
     }
-    console.log("all table", countAllData);
+    // console.log("all table", countAllData);
     async.parallel([
 
       //get assignment
       function (callback) {
         Assignment.aggregate(allTable, function (err, data1) {
           if (err) {
-            console.log("err", err);
+            // console.log("err", err);
             callback(null, data1);
           } else {
             callback(null, data1);
@@ -1687,7 +1939,7 @@ var model = {
       function (callback) {
         Assignment.aggregate(countAllData, function (err, data2) {
           if (err) {
-            console.log("err", err);
+            // console.log("err", err);
             callback(null, data2);
           } else {
             callback(null, data2);
@@ -1697,7 +1949,7 @@ var model = {
 
     ], function (err, data3) {
       if (err) {
-        console.log(err);
+        // console.log(err);
         callback(err, null);
       } else {
         if (_.isEmpty(data3[0]) || _.isEmpty(data3[1])) {
