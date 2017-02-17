@@ -916,6 +916,7 @@ var model = {
   generateInvoicePdf: function (data, callback) {
     green(data);
     $scope = {};
+    console.log("919",data._id);
     Invoice.findOne({
       _id: data._id
     }).lean().deepPopulate("assignment assignment.department assignment.products.product.category assignment.natureOfLoss assignment.causeOfLoss assignment.policyType assignment.customer assignment.insurerOffice assignment.insuredOffice billedTo.customerCompany billedTo.city.district.state.zone.country assignment.city.district.state.zone.country assignment.company.city.district.state").exec(function (err, data2) {
@@ -933,9 +934,11 @@ var model = {
           filter
         }, function (err, data4) {
           if (err) {
-            callback(err, null);
+            $scope.data.assignment.policyNumber="Undefined"
+            console.log("Data 4 if err",data4,data2.assignment.invoice[0].invoiceNumber);            
+            Config.generatePdf("pdf/table", $scope, callback);
           } else {
-            // console.log("Data 4",data4);
+            console.log("Data 4",data4);
             $scope.data.assignment.policyNumber = data4.results[0].policyNo;
             // console.log("$scope",$scope);
             Config.generatePdf("pdf/table", $scope, callback);

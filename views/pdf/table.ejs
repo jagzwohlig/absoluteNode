@@ -143,9 +143,15 @@ function toWords (num) {
                     </tr>
                     <tr>
                         <td class="noborder">Insured</td>
+                         <%if(data.assignment.insuredOffice==="undefined"){%>
                         <td class="noborder">
                             <%=data.assignment.insuredOffice.name%>
                         </td>
+                        <%}else{%>
+                        <td class="noborder">
+                            No Insured 
+                        </td>
+                        <%}%>
                         <td class="noborder">Classification</td>
                         <td class="noborder">
                             <% for(var i=0; i<data.assignment.products.length; i++) {%>
@@ -191,10 +197,16 @@ function toWords (num) {
                         </td>
                         <%if(data.assignment.department.name==="Marine Cargo"){%>
                             <td class="noborder">Invoice # &amp; Date</td>
+                            <%if(data.assignment.invoices[0].invoiceNumber==="undefined"){%>
+                            <td class="noborder">
+                                No Invoice 
+                            </td>
+                            <%}else{%>
                             <td class="noborder">
                                 <%=data.assignment.invoices[0].invoiceNumber%> &
                                     <%= moment(new Date(data.assignment.invoices[0].invoiceNumberDate)).format("L")%>
                             </td>
+                            <%}%>
                             <%}else{%>
                                 <td class="noborder">Product ID</td>
                                 <td class="noborder">

@@ -9144,7 +9144,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     $scope.assignment.timelineStatus = "BBND";
                     NavigationService.modelSave("Assignment", $scope.assignment, function (data) {
                         if (data.value === true) {
-                            console.log("Data of Pdf");
+                            console.log("Data of Pdf",invoice);
                             NavigationService.generateInvoicePdf(invoice, function (data) {
                                 if (data.value === true) {
                                     console.log("Data of Pdf", data.data.name);
@@ -9171,7 +9171,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     .controller('EditInvoiceCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("invoice-detail");
-        $scope.menutitle = NavigationService.makeactive("Create Invoice");
+        $scope.menutitle = NavigationService.makeactive("Edit Invoice");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
         $scope.formData = {};
