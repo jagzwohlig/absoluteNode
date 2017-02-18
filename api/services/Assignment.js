@@ -1918,7 +1918,6 @@ var model = {
 
   updateAllIntimatedLoss:function(data,callback){
     Assignment.find().lean().exec(function(err,found){
-      console.log("found",found);
     _.each(found,function(n){
       var a=_.split(n.intimatedLoss,",");
       n.intimatedLoss="";
