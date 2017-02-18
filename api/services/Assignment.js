@@ -944,16 +944,7 @@ var model = {
       }
     });
   },
-  updateAssignment:function(data,callback){
-    Assignment.find().lean().exec(function(err,found){
-      if(err){
-        callback(err,null)
-      }else{
-        console.log("Found",found);
-      }
-    })
 
-  },
   getPerson: function (data, callback) {
     var Model = this;
     var Const = this(data);
@@ -1923,7 +1914,31 @@ var model = {
         }
       }
     });
+  },
 
+  updateAllIntimatedLoss:function(data,callback){
+    Assignment.find().lean().exec(function(err,found){
+      console.log("found",found);
+    _.each(found,function(n){
+      var a=_.split(n.intimatedLoss,",");
+      n.intimatedLoss="";
+      _.each(a,function(m){
+        n.intimatedLoss=n.intimatedLoss+m;
+      });
+      if(!isNaN(n.intimatedLoss)){
+        Assignment.update({
+          _id:n._id
+        },{
+          intimatedLoss:parseInt(n.intimatedLoss)
+        }).lean().exec(
+          function(err,data5){
+            console.log("Done");
+          }
+        )
+      }
+      
+    })
+    })
   },
 
   assignmentFilter: function (data, callback) {

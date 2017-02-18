@@ -144,6 +144,17 @@ var controller = {
             });
         }
     },
+      updateAllIntimatedLoss: function (req, res) {
+        if (req.body) {
+            req.model.updateAllIntimatedLoss(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: "Invalid Request"
+            });
+        }
+    },
+
     updateAssignment: function (req, res) {
         if (req.body) {
             req.model.updateAssignment(req.body, res.callback);
