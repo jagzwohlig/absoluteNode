@@ -1929,7 +1929,7 @@ var model = {
         Assignment.update({
           _id:n._id
         },{
-          intimatedLoss:parseFloat(n.intimatedLoss)
+          intimatedLoss:parseInt(n.intimatedLoss)
         }).lean().exec(
           function(err,data5){
             console.log("Done");
