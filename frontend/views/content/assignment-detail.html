@@ -210,7 +210,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Intimated Loss*</label>
-                                        <input type="text" name="intimatedLoss" ng-model="formData.intimatedLoss" class="form-control" required>
+                                        <input type="number" step="0.01" name="intimatedLoss" ng-model="formData.intimatedLoss" class="form-control" required>
                                         <div class="error-msg" ng-show="formName.intimatedLoss.$invalid && formName.intimatedLoss.$touched">Please Enter Intimated Loss</div>
                                     </div>
                                 </div>
