@@ -1924,11 +1924,12 @@ var model = {
         _.each(a, function (m) {
           n.intimatedLoss = n.intimatedLoss + m;
         });
+        n.intimatedLoss=parseInt(n.intimatedLoss);
         if (_.isInteger(n.intimatedLoss)) {
           Assignment.update({
             _id: n._id
           }, {
-            intimatedLoss: parseInt(n.intimatedLoss)
+            intimatedLoss: n.intimatedLoss
           }).lean().exec(
             function (err, data5) {
               console.log("Done");
