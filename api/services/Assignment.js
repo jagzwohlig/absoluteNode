@@ -934,8 +934,8 @@ var model = {
           filter
         }, function (err, data4) {
           if (err) {
-            $scope.data.assignment.policyNumber="Undefined"
-            console.log("Data 4 if err",data4,data2.assignment.invoice[0].invoiceNumber);            
+            $scope.data.assignment.policyNumber="undefined"
+            console.log("Data 4 if err",data2.assignment.LRs[0]);            
             Config.generatePdf("pdf/table", $scope, callback);
           } else {
             console.log("Data 4",data4);
@@ -1466,7 +1466,7 @@ var model = {
 
     if (!_.isEmpty(data.from) && !_.isEmpty(data.to)) {
       var intimatedLoss = {
-        "$gt": data.from,
+        "$gte": data.from,
         "$lte": data.to
       }
     } else {
@@ -1516,7 +1516,7 @@ var model = {
       } else {
         var intimatedLoss1 = {
           intimatedLoss: {
-            "$gt": data.from,
+            "$gte": data.from,
             "$lte": data.to
           }
         }
@@ -1591,7 +1591,7 @@ var model = {
       } else {
         var intimatedLoss1 = {
           intimatedLoss: {
-            "$gt": data.from,
+            "$gte": data.from,
             "$lte": data.to
           }
         }
@@ -1654,7 +1654,7 @@ var model = {
         }
       }
       var ownerStatus = Object.assign(timelineStatus, name1, owner1, insurer1, insurerd1, surveyDepartment1, ownerId1,intimatedLoss1);
-      console.log("Share Me.......", ownerStatus);
+      // console.log("Share Me.......", ownerStatus);
       // var ownerStatus = {
       //   timelineStatus: data.timelineStatus,
       //   'shareWith.persons': objectid(data.ownerId),
@@ -1674,7 +1674,7 @@ var model = {
       } else {
         var intimatedLoss1 = {
           intimatedLoss: {
-            "$gt": data.from,
+            "$gte": data.from,
             "$lte": data.to
           }
         }

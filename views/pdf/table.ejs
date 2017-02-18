@@ -197,9 +197,9 @@ function toWords (num) {
                         </td>
                         <%if(data.assignment.department.name==="Marine Cargo"){%>
                             <td class="noborder">Invoice # &amp; Date</td>
-                            <%if(data.assignment.invoices[0].invoiceNumber==="undefined"){%>
+                            <%if(data.assignment.invoices[0]===undefined){%>
                             <td class="noborder">
-                                No Invoice 
+                               -
                             </td>
                             <%}else{%>
                             <td class="noborder">
@@ -225,10 +225,16 @@ function toWords (num) {
                         </td>
                         <%if(data.assignment.department.name==="Marine Cargo"){%>
                             <td class="noborder">LR # &amp; Date</td>
+                            <%if(data.assignment.LRs[0]===undefined){%>
+                            <td class="noborder">
+                                -
+                            </td>
+                            <%}else{%>
                             <td class="noborder">
                                 <%=data.assignment.LRs[0].lrNumber%> &
                                     <%= moment(new Date(data.assignment.LRs[0].lrNumberDate)).format("L")%>
                             </td>
+                            <%}%>
                             <%}else{%>
                                 <td class="noborder">Location ID</td>
                                 <td class="noborder">
@@ -245,9 +251,14 @@ function toWords (num) {
                             <td class="noborder"></td>
                             <td class="noborder"></td>
                             <td class="noborder">Vehicle</td>
+                            <%if(data.assignment.vehicleNumber[0]===undefined){%>
                             <td class="noborder">
-                                <%=data.assignment.vehicleNumber[0].vehicleNumber%>
+                                -
                             </td>
+                            <%}else{%>
+                            <td class="noborder">
+                            <%=data.assignment.vehicleNumber[0].vehicleNumber%> </td>
+                            <%}%>
                         </tr>
                         <%}%>
                 </tbody>
