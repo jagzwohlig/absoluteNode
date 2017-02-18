@@ -924,7 +924,6 @@ var model = {
         callback(err, null);
       } else {
         $scope.data = data2;
-        // console.log("AAAAAAAAAAAAA", data2, data2.assignment.policyDoc);
         var filter = {
           _id: data2.assignment.policyDoc
         }
@@ -934,13 +933,11 @@ var model = {
           filter
         }, function (err, data4) {
           if (err) {
-            $scope.data.assignment.policyNumber="undefined"
-            console.log("Data 4 if err",data2.assignment.LRs[0]);            
+            console.log("Data 4 if err",data2.assignment.policyNumber);            
             Config.generatePdf("pdf/table", $scope, callback);
           } else {
             console.log("Data 4",data4);
             $scope.data.assignment.policyNumber = data4.results[0].policyNo;
-            // console.log("$scope",$scope);
             Config.generatePdf("pdf/table", $scope, callback);
           }
         });
@@ -1572,19 +1569,6 @@ var model = {
         }
       }
       var ownerStatus = Object.assign(timelineStatus, name1, owner1, insurer1, insurerd1, surveyDepartment1, ownerId1,intimatedLoss1);
-      console.log("My Assignments.......", ownerStatus);
-      // var ownerStatus = {
-      //   timelineStatus: data.timelineStatus,
-      //   'owner._id': objectid(data.ownerId),
-      //   name: name,
-      //   'owner.name': owner,
-      //   'city.name': city,
-      //   'insurer.name': insurer,
-      //   'insurerd.name': insurerd,
-      //   intimatedLoss: intimatedLoss,
-      //   'department.name': surveyDepartment,
-      //   // createdAt: createdDate
-      // };
     } else if (data.ownerStatus == "Shared with me") {
       if (data.from === "" && data.to === "") {
         var intimatedLoss1 = {}
@@ -1654,20 +1638,6 @@ var model = {
         }
       }
       var ownerStatus = Object.assign(timelineStatus, name1, owner1, insurer1, insurerd1, surveyDepartment1, ownerId1,intimatedLoss1);
-      // console.log("Share Me.......", ownerStatus);
-      // var ownerStatus = {
-      //   timelineStatus: data.timelineStatus,
-      //   'shareWith.persons': objectid(data.ownerId),
-      //   name: name,
-      //   'owner.name': owner,
-      //   'city.name': city,
-      //   'insurer.name': insurer,
-      //   'insurerd.name': insurerd,
-      //   intimatedLoss: intimatedLoss,
-      //   'department.name': surveyDepartment,
-      //   // createdAt: createdDate
-      // };
-      console.log("In Shared with me ownerStatus", ownerStatus);
     } else if (data.ownerStatus == "All files") {
       if (data.from === "" && data.to === "") {
         var intimatedLoss1 = {}
@@ -1729,18 +1699,6 @@ var model = {
         }
       }
       var ownerStatus = Object.assign(timelineStatus, name1, owner1, insurer1, insurerd1, surveyDepartment1,intimatedLoss1);
-      console.log("ownerStatus.......", ownerStatus);
-      // var ownerStatus = {
-      //   timelineStatus: data.timelineStatus,
-      //   name: name,
-      //   'owner.name': owner,
-      //   'city.name': city,
-      //   'insurer.name': insurer,
-      //   'insurerd.name': insurerd,
-      //   intimatedLoss: intimatedLoss,
-      //   'department.name': surveyDepartment,
-      //   // createdAt: createdDate
-      // }
     }
 
     var pageStartFrom = (data.pagenumber - 1) * data.pagelimit;

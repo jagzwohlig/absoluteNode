@@ -66,6 +66,7 @@ function toWords (num) {
             }
         </style>
     </head>
+
     <body style="
     padding: 0;
     margin: 0;
@@ -90,8 +91,8 @@ function toWords (num) {
             <div style="
     clear: both;
 ">
-        </div>
-        <h2 style="
+            </div>
+            <h2 style="
     margin: 5px 0;
 ">INVOICE</h2>
             <div class="clearfix" style="margin:0 auto;padding-bottom: 10px;">
@@ -143,23 +144,23 @@ function toWords (num) {
                     </tr>
                     <tr>
                         <td class="noborder">Insured</td>
-                         <%if(data.assignment.insuredOffice==="undefined"){%>
-                        <td class="noborder">
-                            <%=data.assignment.insuredOffice.name%>
-                        </td>
-                        <%}else{%>
-                        <td class="noborder">
-                            - 
-                        </td>
-                        <%}%>
-                        <td class="noborder">Classification</td>
-                        <td class="noborder">
-                            <% for(var i=0; i<data.assignment.products.length; i++) {%>
-                                <%=data.assignment.products[i].product.category.name%>
-                                    <%if(i<data.assignment.products.length-1){%>,
-                                        <%}%>
-                                            <%}%>
-                        </td>
+                        <%if(data.assignment.insuredOffice===undefined){%>
+                            <td class="noborder">
+                                -
+                            </td>
+                            <%}else{%>
+                                <td class="noborder">
+                                    <%=data.assignment.insuredOffice.name%>
+                                </td>
+                                <%}%>
+                                    <td class="noborder">Classification</td>
+                                    <td class="noborder">
+                                        <% for(var i=0; i<data.assignment.products.length; i++) {%>
+                                            <%=data.assignment.products[i].product.category.name%>
+                                                <%if(i<data.assignment.products.length-1){%>,
+                                                    <%}%>
+                                                        <%}%>
+                                    </td>
                     </tr>
                     <tr>
                         <td class="noborder">Policy Type</td>
@@ -177,74 +178,92 @@ function toWords (num) {
                     </tr>
                     <tr>
                         <td class="noborder">Policy Number</td>
-                        <td class="noborder">
-                            <%=data.assignment.policyNumber%>
-                        </td>
-                        <td class="noborder">Item</td>
-                        <td class="noborder">
-                            <% for(var i=0; i<data.assignment.products.length; i++) {%>
-                                <%=data.assignment.products[i].item%>
-                                    <%if(i<data.assignment.products.length-1){%>,
-                                        <%}%>
-                                            <%}%>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="noborder">Insurer Claim No</td>
-                        <td class="noborder">
-                            <%=data.assignment.insurerClaimId%>
-                        </td>
-                        </td>
-                        <%if(data.assignment.department.name==="Marine Cargo"){%>
-                            <td class="noborder">Invoice # &amp; Date</td>
-                            <%if(data.assignment.invoices[0]===undefined){%>
-                            <td class="noborder">
-                               -
-                            </td>
-                            <%}else{%>
-                            <td class="noborder">
-                                <%=data.assignment.invoices[0].invoiceNumber%> &
-                                    <%= moment(new Date(data.assignment.invoices[0].invoiceNumberDate)).format("L")%>
-                            </td>
-                            <%}%>
-                            <%}else{%>
-                                <td class="noborder">Product ID</td>
-                                <td class="noborder">
-                                    <% for(var i=0; i<data.assignment.product.length; i++) {%>
-                                        <%=data.assignment.product[i].product%>
-                                            <%if(i<data.assignment.product.length-1){%>,
-                                                <%}%>
-                                                    <%}%>
-                                </td>
-                                <%}%>
-                    </tr>
-                    <tr>
-                        <td class="noborder">Insured Claim No</td>
-                        <td class="noborder">
-                            <%=data.assignment.insuredClaimId%>
-                        </td>
-                        <%if(data.assignment.department.name==="Marine Cargo"){%>
-                            <td class="noborder">LR # &amp; Date</td>
-                            <%if(data.assignment.LRs[0]===undefined){%>
+                        <%if(data.assignment.policyNumber===undefined){%>
                             <td class="noborder">
                                 -
                             </td>
                             <%}else{%>
-                            <td class="noborder">
-                                <%=data.assignment.LRs[0].lrNumber%> &
-                                    <%= moment(new Date(data.assignment.LRs[0].lrNumberDate)).format("L")%>
-                            </td>
-                            <%}%>
-                            <%}else{%>
-                                <td class="noborder">Location ID</td>
                                 <td class="noborder">
-                                    <% for(var i=0; i<data.assignment.locationArr.length; i++) {%>
-                                        <%=data.assignment.locationArr[i].locationString%>
-                                            <%if(i<data.assignment.locationArr.length-1){%>,
-                                                <%}%>
-                                                    <%}%>
+                                    <%=data.assignment.policyNumber%>
                                 </td>
                                 <%}%>
+                                    <td class="noborder">Item</td>
+                                    <td class="noborder">
+                                        <% for(var i=0; i<data.assignment.products.length; i++) {%>
+                                            <%=data.assignment.products[i].item%>
+                                                <%if(i<data.assignment.products.length-1){%>,
+                                                    <%}%>
+                                                        <%}%>
+                                    </td>
+                    </tr>
+                    <tr>
+                        <td class="noborder">Insurer Claim No</td>
+                        <%if(data.assignment.insurerClaimId===undefined){%>
+                            <td class="noborder">
+                                -
+                            </td>
+                            <%}else{%>
+                                <td class="noborder">
+                                    <%=data.assignment.insurerClaimId%>
+                                </td>
+                                <%}%>
+                                    </td>
+                                    <%if(data.assignment.department.name==="Marine Cargo"){%>
+                                        <td class="noborder">Invoice # &amp; Date</td>
+                                        <%if(data.assignment.invoices[0]===undefined){%>
+                                            <td class="noborder">
+                                                -
+                                            </td>
+                                            <%}else{%>
+                                                <td class="noborder">
+                                                    <%=data.assignment.invoices[0].invoiceNumber%> &
+                                                        <%= moment(new Date(data.assignment.invoices[0].invoiceNumberDate)).format("L")%>
+                                                </td>
+                                                <%}%>
+                                                    <%}else{%>
+                                                        <td class="noborder">Product ID</td>
+                                                        <td class="noborder">
+                                                            <% for(var i=0; i<data.assignment.product.length; i++) {%>
+                                                                <%=data.assignment.product[i].product%>
+                                                                    <%if(i<data.assignment.product.length-1){%>,
+                                                                        <%}%>
+                                                                            <%}%>
+                                                        </td>
+                                                        <%}%>
+                    </tr>
+                    <tr>
+                        <td class="noborder">Insured Claim No</td>
+                        <%if(data.assignment.insuredClaimId===undefined){%>
+                            <td class="noborder">
+                                -
+                            </td>
+                            <%}else{%>
+                                <td class="noborder">
+                                    <%=data.assignment.insuredClaimId%>
+                                </td>
+                                <%}%>
+                                    <%if(data.assignment.department.name==="Marine Cargo"){%>
+                                        <td class="noborder">LR # &amp; Date</td>
+                                        <%if(data.assignment.LRs[0]===undefined){%>
+                                            <td class="noborder">
+                                                -
+                                            </td>
+                                            <%}else{%>
+                                                <td class="noborder">
+                                                    <%=data.assignment.LRs[0].lrNumber%> &
+                                                        <%= moment(new Date(data.assignment.LRs[0].lrNumberDate)).format("L")%>
+                                                </td>
+                                                <%}%>
+                                                    <%}else{%>
+                                                        <td class="noborder">Location ID</td>
+                                                        <td class="noborder">
+                                                            <% for(var i=0; i<data.assignment.locationArr.length; i++) {%>
+                                                                <%=data.assignment.locationArr[i].locationString%>
+                                                                    <%if(i<data.assignment.locationArr.length-1){%>,
+                                                                        <%}%>
+                                                                            <%}%>
+                                                        </td>
+                                                        <%}%>
                     </tr>
                     <%if(data.assignment.department.name==="Marine Cargo"){%>
                         <tr>
@@ -252,13 +271,14 @@ function toWords (num) {
                             <td class="noborder"></td>
                             <td class="noborder">Vehicle</td>
                             <%if(data.assignment.vehicleNumber[0]===undefined){%>
-                            <td class="noborder">
-                                -
-                            </td>
-                            <%}else{%>
-                            <td class="noborder">
-                            <%=data.assignment.vehicleNumber[0].vehicleNumber%> </td>
-                            <%}%>
+                                <td class="noborder">
+                                    -
+                                </td>
+                                <%}else{%>
+                                    <td class="noborder">
+                                        <%=data.assignment.vehicleNumber[0].vehicleNumber%>
+                                    </td>
+                                    <%}%>
                         </tr>
                         <%}%>
                 </tbody>
@@ -341,7 +361,7 @@ function toWords (num) {
                 </div>
                 <p class="size" style="margin-top: 10px;margin-bottom: 0;text-align: right;"> Authorized Signatory</p>
             </div>
-            </div>
-            </body>
+        </div>
+    </body>
 
 </html>
