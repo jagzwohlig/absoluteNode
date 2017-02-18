@@ -916,7 +916,7 @@ var model = {
   generateInvoicePdf: function (data, callback) {
     green(data);
     $scope = {};
-    console.log("919",data._id);
+    console.log("919", data._id);
     Invoice.findOne({
       _id: data._id
     }).lean().deepPopulate("assignment assignment.department assignment.products.product.category assignment.natureOfLoss assignment.causeOfLoss assignment.policyType assignment.customer assignment.insurerOffice assignment.insuredOffice billedTo.customerCompany billedTo.city.district.state.zone.country assignment.city.district.state.zone.country assignment.company.city.district.state").exec(function (err, data2) {
@@ -933,10 +933,10 @@ var model = {
           filter
         }, function (err, data4) {
           if (err) {
-            console.log("Data 4 if err",data2.assignment.policyNumber);            
+            console.log("Data 4 if err", data2.assignment.policyNumber);
             Config.generatePdf("pdf/table", $scope, callback);
           } else {
-            console.log("Data 4",data4);
+            console.log("Data 4", data4);
             $scope.data.assignment.policyNumber = data4.results[0].policyNo;
             Config.generatePdf("pdf/table", $scope, callback);
           }
@@ -1559,7 +1559,7 @@ var model = {
           'department.name': surveyDepartment
         }
       }
-      var ownerStatus = Object.assign(timelineStatus, name1, owner1, insurer1, insurerd1, surveyDepartment1, ownerId1,intimatedLoss1);
+      var ownerStatus = Object.assign(timelineStatus, name1, owner1, insurer1, insurerd1, surveyDepartment1, ownerId1, intimatedLoss1);
     } else if (data.ownerStatus == "Shared with me") {
       if (data.from === "" && data.to === "") {
         var intimatedLoss1 = {}
@@ -1628,7 +1628,7 @@ var model = {
           'department.name': surveyDepartment
         }
       }
-      var ownerStatus = Object.assign(timelineStatus, name1, owner1, insurer1, insurerd1, surveyDepartment1, ownerId1,intimatedLoss1);
+      var ownerStatus = Object.assign(timelineStatus, name1, owner1, insurer1, insurerd1, surveyDepartment1, ownerId1, intimatedLoss1);
     } else if (data.ownerStatus == "All files") {
       if (data.from === "" && data.to === "") {
         var intimatedLoss1 = {}
@@ -1689,7 +1689,7 @@ var model = {
           'department.name': surveyDepartment
         }
       }
-      var ownerStatus = Object.assign(timelineStatus, name1, owner1, insurer1, insurerd1, surveyDepartment1,intimatedLoss1);
+      var ownerStatus = Object.assign(timelineStatus, name1, owner1, insurer1, insurerd1, surveyDepartment1, intimatedLoss1);
     }
 
     var pageStartFrom = (data.pagenumber - 1) * data.pagelimit;
@@ -1916,27 +1916,27 @@ var model = {
     });
   },
 
-  updateAllIntimatedLoss:function(data,callback){
-    Assignment.find().lean().exec(function(err,found){
-    _.each(found,function(n){
-      var a=_.split(n.intimatedLoss,",");
-      n.intimatedLoss="";
-      _.each(a,function(m){
-        n.intimatedLoss=n.intimatedLoss+m;
-      });
-      if(!isNaN(n.intimatedLoss)){
-        Assignment.update({
-          _id:n._id
-        },{
-          intimatedLoss:parseInt(n.intimatedLoss)
-        }).lean().exec(
-          function(err,data5){
-            console.log("Done");
-          }
-        )
-      }
-      
-    })
+  updateAllIntimatedLoss: function (data, callback) {
+    Assignment.find().lean().exec(function (err, found) {
+      _.each(found, function (n) {
+        var a = _.split(n.intimatedLoss, ",");
+        n.intimatedLoss = "";
+        _.each(a, function (m) {
+          n.intimatedLoss = n.intimatedLoss + m;
+        });
+        if (_.isInteger(n.intimatedLoss)) {
+          Assignment.update({
+            _id: n._id
+          }, {
+            intimatedLoss: parseInt(n.intimatedLoss)
+          }).lean().exec(
+            function (err, data5) {
+              console.log("Done");
+            }
+          )
+        }
+
+      })
     })
   },
 
