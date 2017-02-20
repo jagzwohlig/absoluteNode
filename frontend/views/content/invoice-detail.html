@@ -25,16 +25,39 @@
                         </div>
                     </div>
                     <div class="row">
+                                                   <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Segment*</label>
+                                        <multiple-select my-enter name="segment" required ng-model="formData.segment" ng-name="name.segment" api="searchCustomerSegment"></multiple-select>
+                                        <div class="error-msg" ng-show="formName.segment.$invalid">Please Select Segment</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Customer Company*</label>
+                                        <multiple-select my-enter name="customerCompany" required ng-model="formData.customerCompany" filter='{"customerSegment":"{{formData.segment}}"}'
+                                            ng-name="name.company" api="searchCustomerCompany"></multiple-select>
+                                            <div class="error-msg" ng-show="formName.customerCompany.$invalid">Please Select Customer Company</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--<div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Customer Office*</label>
+                                        <multiple-select my-enter name="customer" required ng-model="formData.customer" filter='{"customerCompany":"{{formData.customerCompany}}"}'
+                                            ng-name="name.customer" api="searchCustomer"></multiple-select>
+                                            <div class="error-msg" ng-show="formName.customer.$invalid">Please Select Customer</div>
+                                    </div>
+                                </div>
+                            </div>-->
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Billed To*</label>
-                                <multiple-select my-enter name="billedTo" required ng-model="formData.billedTo" ng-name="billedTo" api="searchCustomer" novalidate></multiple-select>
+                                <multiple-select my-enter name="billedTo" required ng-model="formData.billedTo" filter='{"customerCompany":"{{formData.customerCompany}}"}' ng-name="billedTo" api="searchCustomer" filter='{"customerSegment":"{{formData.segment}}"}' novalidate></multiple-select>
                                 <div class="error-msg" ng-show="formName.billedTo.$invalid">Please Select Insurer Office</div>
                             </div>
-                        </div>
-                        <div class="col-md-6" ng-if="formData._id">
-                            <label>Number*</label>
-                            <input type="text" ng-model="formData.invoiceNumber" placeholder="Enter Number" class="form-control">
                         </div>
                     </div>
                 </div>
@@ -53,16 +76,16 @@
                                 <div class="col-item col-item-20">
                                     <p>Description</p>
                                 </div>
-                                <div class="col-item col-item-20">
+                                <div class="col-item col-item-15">
                                     <p>Unit</p>
                                 </div>
-                                <div class="col-item col-item-20">
+                                <div class="col-item col-item-15">
                                     <p>Rate</p>
                                 </div>
-                                <div class="col-item col-item-20">
+                                <div class="col-item col-item-15">
                                     <p>Quantity</p>
                                 </div>
-                                <div class="col-item col-item-20">
+                                <div class="col-item col-item-15">
                                     <p>Amount</p>
                                 </div>
                             </div>
@@ -84,16 +107,16 @@
                                     <div class="col-item col-item-20">
                                         <input type="text" ng-model="form.description" placeholder="Enter Unit" class="form-control">
                                     </div>
-                                    <div class="col-item col-item-20">
+                                    <div class="col-item col-item-15">
                                         <input type="text" ng-model="form.unit" placeholder="Enter Unit" class="form-control">
                                     </div>
-                                    <div class="col-item col-item-20">
+                                    <div class="col-item col-item-15">
                                         <input type="number" step="0.01" ng-model="form.rate" placeholder="Enter Rate" class="form-control" ng-change="calAmt(form.rate,form.quantity,$index)">
                                     </div>
-                                    <div class="col-item col-item-20">
+                                    <div class="col-item col-item-15">
                                         <input type="number" step="0.01" min="0" ng-model="form.quantity" placeholder="Enter Quantity" class="form-control" ng-change="calAmt(form.rate,form.quantity,$index)">
                                     </div>
-                                    <div class="col-item col-item-20">
+                                    <div class="col-item col-item-15">
                                         <input type="number" ng-model="form.amount" placeholder="Total" class="form-control" readonly>
                                     </div>
                                     <div class="mark-float">

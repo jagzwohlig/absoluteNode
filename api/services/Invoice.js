@@ -18,6 +18,19 @@ var schema = new Schema({
         ref: "Employee",
         index: true
     },
+    segment: {
+        type: Schema.Types.ObjectId,
+        ref: "CustomerSegment",
+        index: true,
+        required: true,
+        key: "assignment"
+    },
+    customerCompany: {
+        type: Schema.Types.ObjectId,
+        ref: "CustomerCompany",
+        index: true,
+        key: "assignment"
+    },
     invoiceList: [{
         name: String,
         description: String,
