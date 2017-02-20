@@ -48,7 +48,10 @@
                         <div class="form-repeater">
                             <div class="form-builder-head has-pad row-item">
                                 <div class="col-item col-item-20">
-                                    <p>Name &amp; Description</p>
+                                    <p>Name</p>
+                                </div>
+                                <div class="col-item col-item-20">
+                                    <p>Description</p>
                                 </div>
                                 <div class="col-item col-item-20">
                                     <p>Unit</p>
@@ -77,6 +80,9 @@
                                                 <span>{{d.name}}</span>
                                             </ui-select-choices>
                                         </ui-select>
+                                    </div>
+                                    <div class="col-item col-item-20">
+                                        <input type="text" ng-model="form.description" placeholder="Enter Unit" class="form-control">
                                     </div>
                                     <div class="col-item col-item-20">
                                         <input type="text" ng-model="form.unit" placeholder="Enter Unit" class="form-control">

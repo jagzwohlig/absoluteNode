@@ -9092,6 +9092,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.getAll = function (invoice, $index) {
             console.log("Invoice", invoice);
             $scope.formData.invoiceList[$index].name = invoice.name;
+            $scope.formData.invoiceList[$index].description = invoice.description;
             $scope.formData.invoiceList[$index].unit = invoice.unit;
             $scope.formData.invoiceList[$index].rate = invoice.rate;
         }
@@ -9203,6 +9204,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.getAll = function (invoice, $index) {
             console.log("Invoice", invoice);
             $scope.formData.invoiceList[$index].name = invoice.name;
+            $scope.formData.invoiceList[$index].description = invoice.description;
             $scope.formData.invoiceList[$index].unit = invoice.unit;
             $scope.formData.invoiceList[$index].rate = invoice.rate;
         }
