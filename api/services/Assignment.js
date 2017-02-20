@@ -1212,6 +1212,7 @@ var model = {
     }, {
       timelineStatus: "ILA Pending",
       $set: {
+        surveyDate : new Date(data.surveyDate),
         "survey.$.status": "Completed",
         // "survey.$.dateOfSurvey": new Date(data.dateOfSurvey),
         "survey.$.completionTime": Date.now()
