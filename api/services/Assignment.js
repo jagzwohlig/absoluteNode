@@ -1406,7 +1406,17 @@ var model = {
         $options: 'i'
       }
     }
-
+if (_.isEmpty(data.branch)) {
+      var branch = {
+        $regex: "",
+        $options: 'i'
+      }
+    } else {
+      var branch = {
+        $regex: data.branch,
+        $options: 'i'
+      }
+    }
     if (_.isEmpty(data.owner)) {
       var owner = {
         $regex: "",
@@ -1539,6 +1549,13 @@ var model = {
           'city.name': city
         }
       }
+      if (data.branch === "") {
+        var branch1 = {}
+      } else {
+        var branch1 = {
+          'branch.name': branch
+        }
+      }
       if (data.insurer === "") {
         var insurer1 = {}
       } else {
@@ -1560,7 +1577,7 @@ var model = {
           'department.name': surveyDepartment
         }
       }
-      var ownerStatus = Object.assign(timelineStatus, name1, owner1, insurer1, insurerd1, surveyDepartment1, ownerId1, intimatedLoss1);
+      var ownerStatus = Object.assign(timelineStatus, name1, owner1, insurer1, insurerd1, surveyDepartment1, ownerId1, intimatedLoss1,city1,branch1);
     } else if (data.ownerStatus == "Shared with me") {
       if (data.from === "" && data.to === "") {
         var intimatedLoss1 = {}
@@ -1608,6 +1625,13 @@ var model = {
           'city.name': city
         }
       }
+      if (data.branch === "") {
+        var branch1 = {}
+      } else {
+        var branch1 = {
+          'branch.name': branch
+        }
+      }
       if (data.insurer === "") {
         var insurer1 = {}
       } else {
@@ -1629,7 +1653,7 @@ var model = {
           'department.name': surveyDepartment
         }
       }
-      var ownerStatus = Object.assign(timelineStatus, name1, owner1, insurer1, insurerd1, surveyDepartment1, ownerId1, intimatedLoss1);
+      var ownerStatus = Object.assign(timelineStatus, name1, owner1, insurer1, insurerd1, surveyDepartment1, ownerId1, intimatedLoss1,city1,branch1);
     } else if (data.ownerStatus == "All files") {
       if (data.from === "" && data.to === "") {
         var intimatedLoss1 = {}
@@ -1669,6 +1693,13 @@ var model = {
           'city.name': city
         }
       }
+      if (data.branch === "") {
+        var branch1 = {}
+      } else {
+        var branch1 = {
+          'branch.name': branch
+        }
+      }
       if (data.insurer === "") {
         var insurer1 = {}
       } else {
@@ -1690,7 +1721,7 @@ var model = {
           'department.name': surveyDepartment
         }
       }
-      var ownerStatus = Object.assign(timelineStatus, name1, owner1, insurer1, insurerd1, surveyDepartment1, intimatedLoss1);
+      var ownerStatus = Object.assign(timelineStatus, name1, owner1, insurer1, insurerd1, surveyDepartment1, intimatedLoss1,city1,branch1);
     }
 
     var pageStartFrom = (data.pagenumber - 1) * data.pagelimit;
@@ -1705,6 +1736,18 @@ var model = {
       }, {
         $unwind: {
           path: "$city",
+          preserveNullAndEmptyArrays: true
+        }
+      },{
+        $lookup: {
+          from: "branches",
+          localField: "branch",
+          foreignField: "_id",
+          as: "branch"
+        }
+      }, {
+        $unwind: {
+          path: "$branch",
           preserveNullAndEmptyArrays: true
         }
       }, {
@@ -1795,6 +1838,18 @@ var model = {
       }, {
         $unwind: {
           path: "$city",
+          preserveNullAndEmptyArrays: true
+        }
+      },{
+        $lookup: {
+          from: "branches",
+          localField: "branch",
+          foreignField: "_id",
+          as: "branch"
+        }
+      }, {
+        $unwind: {
+          path: "$branch",
           preserveNullAndEmptyArrays: true
         }
       }, {

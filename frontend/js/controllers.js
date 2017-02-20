@@ -196,6 +196,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         } else {
             $scope.filter.timelineStatus = "All";
         }
+        if ($stateParams.branch) {
+            $scope.filter.branch = $stateParams.branch;
+        } else {
+            $scope.filter.branch = "";
+        }
         if ($stateParams.owner) {
             $scope.filter.owner = $stateParams.owner;
         } else {
@@ -343,6 +348,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     insurerd: $scope.filter.insurerd,
                     from: $scope.filter.from,
                     to: $scope.filter.to,
+                    branch: $scope.filter.branch,
                     department: $scope.department
                 }, ++i, function (data, ini) {
                     if (ini == i) {
@@ -374,6 +380,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 insurerd: filter.insurerd,
                 from: filter.from,
                 to: filter.to,
+                branch: filter.branch,
                 department: filter.department
             });
         };
