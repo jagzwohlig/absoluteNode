@@ -56,7 +56,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="role in formData.roles">
+                                        <tr ng-repeat="role in formData.roles track by $index">
                                             <td>
                                                 <span ng-if="$index > 0">
                         <span ng-if="roles[$index-1].mainMenu != role.mainMenu">
