@@ -6,6 +6,10 @@ angular.module('rolesController', ['templateservicemod', 'navigationservice', 'a
         $scope.menutitle = NavigationService.makeactive("Roles");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
+        $scope.formData = {
+            roles: [],
+            name: ""
+        };
         var obj = {
             mainMenu: "",
             subMenu: "",
@@ -65,7 +69,7 @@ angular.module('rolesController', ['templateservicemod', 'navigationservice', 'a
             o.approve.isExist = approveBool;
             o.reject.isExist = rejectBool;
             o.viewAll.isExist = viewAllBool;
-            $scope.roles.push(o);
+            $scope.formData.roles.push(o);
         }
 
 
