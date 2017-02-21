@@ -20,7 +20,7 @@
                                 <div class="error-msg" ng-show="formName.templateInvoice.$invalid">Please Enter Template</div>
                             </div>
                         </div>
-                        <div class="col-md-6" ng-if="formData.templateInvoice">
+                        <div class="col-md-6" ng-if="formData.templateInvoice && formData.segment && formData.customerCompany && formData.billedTo">
                             <button class="btn btn-default invoice--go" ng-click="getTemplateDetails(formData.templateInvoice)">GO</button>
                         </div>
                     </div>
@@ -89,6 +89,7 @@
                                     <p>Amount</p>
                                 </div>
                             </div>
+                            
                             <div class="form-builder-hr" dragular dragular-model="formData">
                                 <div class="form-builder-item row-item" ng-repeat="form in formData.invoiceList">
                                     <div class="right-float mark-float">
@@ -105,10 +106,10 @@
                                         </ui-select>
                                     </div>
                                     <div class="col-item col-item-20">
-                                        <input type="text" ng-model="form.description" placeholder="Enter Unit" class="form-control">
+                                        <input type="text" title="{{form.description}}" ng-model="form.description" placeholder="Enter Unit" class="form-control">
                                     </div>
                                     <div class="col-item col-item-15">
-                                        <input type="text" ng-model="form.unit" placeholder="Enter Unit" class="form-control">
+                                        <input type="text" ng-model="form.unit" placeholder="Enter Unit" class="form-control" readonly>
                                     </div>
                                     <div class="col-item col-item-15">
                                         <input type="number" step="0.01" ng-model="form.rate" placeholder="Enter Rate" class="form-control" ng-change="calAmt(form.rate,form.quantity,$index)">
@@ -166,8 +167,8 @@
         </div>
         <div class="clearfix"></div>
         <div class="text-center mt20 odd-even-button">
-            <button class="btn btn-default" ng-click="saveModel(formData)" ng-disabled="formName.$invalid">Save</button>
-            <a class="btn btn-default" ng-click="cancel()">Cancel</a>
+            <button class="btn btn-default" ng-click="saveModel(formData)" ng-if="showForm" ng-disabled="formName.$invalid">Save</button>
+            <a class="btn btn-default danger" ng-click="cancel()">Cancel</a>
         </div>
     </div>
 </form>

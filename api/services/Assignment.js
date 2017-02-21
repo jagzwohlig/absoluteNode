@@ -44,6 +44,18 @@ var schema = new Schema({
     },
     declineTime: {
       type: Date
+    },
+    surveyEndTime: {
+      type: Date
+    },
+    surveyStartTime: {
+      type: Date
+    },
+    surveyDate: {
+      type: Date
+    },
+    address: {
+      type: String
     }
   }],
   timelineStatus: {
@@ -531,6 +543,9 @@ schema.plugin(deepPopulate, {
     salvage: {
       select: ''
     },
+    customer:{
+      select:'name _id'
+    },
     department: {
       select: 'name _id'
     },
@@ -860,7 +875,7 @@ var model = {
 
         Model.findOne({
           _id: data[0]._id
-        }).deepPopulate("city.district.state.zone.country products.product.category.industry shareWith.persons branch natureOfLoss department insurerOfficer insuredOfficer owner owner.func company company.city assessment.employee docs.employee fsrs.employee photos.employee causeOfLoss insurer policyType insured salvage natureOfLoss", "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer").exec(function (err, data3) {
+        }).deepPopulate("city.district.state.zone.country products.product.category.industry shareWith.persons branch natureOfLoss department insurerOfficer insuredOfficer owner owner.func company company.city assessment.employee customer docs.employee fsrs.employee photos.employee causeOfLoss insurer policyType insured salvage natureOfLoss", "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer").exec(function (err, data3) {
           if (err) {
             callback(err, data3);
           } else {
@@ -1212,12 +1227,13 @@ var model = {
     }, {
       timelineStatus: "ILA Pending",
       $set: {
-        surveyDate : new Date(data.surveyDate),
+        "survey.$.surveyDate": new Date(data.surveyDate),
         "survey.$.status": "Completed",
+        "survey.$.address": data.address, 
         // "survey.$.dateOfSurvey": new Date(data.dateOfSurvey),
-        "survey.$.completionTime": Date.now()
-        // "survey.$.surveyEndTime":new Date(data.surveyEndTime),
-        // "survey.$.surveyStartTime": new Date(data.surveyStartTime)
+        "survey.$.completionTime": Date.now(),
+        "survey.$.surveyEndTime":new Date(data.surveyEndTime),
+        "survey.$.surveyStartTime": new Date(data.surveyStartTime)
       },
       $push: {
         docs: {
@@ -1406,7 +1422,7 @@ var model = {
         $options: 'i'
       }
     }
-if (_.isEmpty(data.branch)) {
+    if (_.isEmpty(data.branch)) {
       var branch = {
         $regex: "",
         $options: 'i'
@@ -1577,7 +1593,7 @@ if (_.isEmpty(data.branch)) {
           'department.name': surveyDepartment
         }
       }
-      var ownerStatus = Object.assign(timelineStatus, name1, owner1, insurer1, insurerd1, surveyDepartment1, ownerId1, intimatedLoss1,city1,branch1);
+      var ownerStatus = Object.assign(timelineStatus, name1, owner1, insurer1, insurerd1, surveyDepartment1, ownerId1, intimatedLoss1, city1, branch1);
     } else if (data.ownerStatus == "Shared with me") {
       if (data.from === "" && data.to === "") {
         var intimatedLoss1 = {}
@@ -1653,7 +1669,7 @@ if (_.isEmpty(data.branch)) {
           'department.name': surveyDepartment
         }
       }
-      var ownerStatus = Object.assign(timelineStatus, name1, owner1, insurer1, insurerd1, surveyDepartment1, ownerId1, intimatedLoss1,city1,branch1);
+      var ownerStatus = Object.assign(timelineStatus, name1, owner1, insurer1, insurerd1, surveyDepartment1, ownerId1, intimatedLoss1, city1, branch1);
     } else if (data.ownerStatus == "All files") {
       if (data.from === "" && data.to === "") {
         var intimatedLoss1 = {}
@@ -1721,7 +1737,7 @@ if (_.isEmpty(data.branch)) {
           'department.name': surveyDepartment
         }
       }
-      var ownerStatus = Object.assign(timelineStatus, name1, owner1, insurer1, insurerd1, surveyDepartment1, intimatedLoss1,city1,branch1);
+      var ownerStatus = Object.assign(timelineStatus, name1, owner1, insurer1, insurerd1, surveyDepartment1, intimatedLoss1, city1, branch1);
     }
 
     var pageStartFrom = (data.pagenumber - 1) * data.pagelimit;
@@ -1738,7 +1754,7 @@ if (_.isEmpty(data.branch)) {
           path: "$city",
           preserveNullAndEmptyArrays: true
         }
-      },{
+      }, {
         $lookup: {
           from: "branches",
           localField: "branch",
@@ -1840,7 +1856,7 @@ if (_.isEmpty(data.branch)) {
           path: "$city",
           preserveNullAndEmptyArrays: true
         }
-      },{
+      }, {
         $lookup: {
           from: "branches",
           localField: "branch",
@@ -1980,7 +1996,7 @@ if (_.isEmpty(data.branch)) {
         _.each(a, function (m) {
           n.intimatedLoss = n.intimatedLoss + m;
         });
-        n.intimatedLoss=parseInt(n.intimatedLoss);
+        n.intimatedLoss = parseInt(n.intimatedLoss);
         if (_.isInteger(n.intimatedLoss)) {
           Assignment.update({
             _id: n._id
