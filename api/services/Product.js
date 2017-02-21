@@ -77,7 +77,7 @@ var model = {
         }
         else {
             var keys = _.split(data.keyword, " ");
-            stringMatch = [];
+            var stringMatch = [];
             _.each(keys, function (key) {
                 var data = {
                     keyword: key
