@@ -2,6 +2,7 @@
 var firstapp = angular.module('firstapp', [
     'ui.router',
     'phonecatControllers',
+    "rolesController",
     'templateservicemod',
     'navigationservice',
     'pascalprecht.translate',
@@ -10,7 +11,6 @@ var firstapp = angular.module('firstapp', [
     'imageupload',
     "ngMap",
     'ab-base64'
-
 ]);
 
 firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider) {
@@ -21,6 +21,11 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
             url: "/dashboard",
             templateUrl: "frontend/views/template.html",
             controller: 'DashboardCtrl'
+        })
+        .state('roles', {
+            url: "/roles",
+            templateUrl: "frontend/views/template.html",
+            controller: 'RolesCtrl'
         })
 
         .state('login', {

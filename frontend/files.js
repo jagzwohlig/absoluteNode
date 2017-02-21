@@ -36,6 +36,7 @@ module.exports = [
   'bower_components/dragular/dist/dragular.js',
   "frontend/js/app.js",
   "frontend/js/controllers.js",
+  "frontend/js/roles.js",
   "frontend/js/language.js",
   "frontend/js/navigation.js",
   "frontend/js/templateservice.js",
