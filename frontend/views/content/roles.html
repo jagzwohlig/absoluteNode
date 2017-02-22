@@ -99,7 +99,7 @@
                                                 <toggle-switch ng-model="role.reject.val" class="switch-mini switch-success" ng-if="role.reject.isExist"></toggle-switch>
                                             </td>
                                             <td>
-                                                <toggle-switch ng-model="role.viewAll.val" class="switch-mini switch-success" ng-if="role.viewAll.isExist"></toggle-switch>
+                                                <toggle-switch ng-model="role.viewAll.val" class="switch-mini switch-success" ng-if="role.viewAll.isExist" ng-change="viewAll($index,role.viewAll.val)"></toggle-switch>
                                             </td>
                                         </tr ng-init="oldMainMenu = role.mainMenu">
                                     </tbody>

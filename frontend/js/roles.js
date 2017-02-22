@@ -153,4 +153,11 @@ angular.module('rolesController', ['templateservicemod', 'navigationservice', 'a
                 }
             });
         };
+         $scope.viewAll = function (index,state) {
+            _.each($scope.formData.roles[index],function(n){
+                if(n.isExist==true){
+                    n.val=state;
+                }
+            });
+        };
     });
