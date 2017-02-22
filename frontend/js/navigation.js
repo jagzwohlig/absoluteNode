@@ -663,6 +663,11 @@ var navigationservice = angular.module('navigationservice', [])
                     callback(data, i);
                 });
             },
+            getAllBranch: function (formData, i, callback) {
+                $http.post(adminurl + 'Employee/getAllBranch', formData).success(function (data) {
+                    callback(data, i);
+                });
+            },
             getDashboardCount: function (callback) {
                 $http.post(adminurl + 'Employee/getDashboardCount').success(function (data) {
                     callback(data);

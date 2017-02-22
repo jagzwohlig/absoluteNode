@@ -3968,6 +3968,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 size: 'lg'
             });
         };
+         $scope.refreshNature = function (data, causeloss) {
+            var formdata = {};
+            formdata.keyword = data;
+            formdata.filter = {
+                "_id": causeloss
+            };
+            NavigationService.getNatureLoss(formdata, 1, function (data) {
+                console.log("getNatureLoss", data.data.results);
+                $scope.natureLoss = data.data.results;
+            });
+        };
         $scope.addElements = function (data) {
             console.log(data);
             console.log($scope.holdObject);
@@ -4140,7 +4151,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
 
-
+          $scope.refreshNature = function (data) {
+            var formdata = {};
+            formdata.keyword = data;
+            NavigationService.searchBranch(formdata, 1, function (data) {
+                console.log("searchBranch", data);
+                $scope.natureLoss = data.data.results;
+            });
+        };
         $scope.addModal = function (filename, index, holdobj, data, current) {
 
             if (index !== "") {

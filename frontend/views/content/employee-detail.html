@@ -119,6 +119,25 @@
                                         <div class="error-msg" ng-show="formName.role.$invalid">Please Select role</div>
                                     </div>
                                 </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Reproting To</label>
+                                        <multiple-select my-enter name="employee" ng-model="formData.employee" ng-name="name.employee"
+                                            api="searchEmployee"></multiple-select>
+                                        <div class="error-msg" ng-show="formName.employee.$invalid">Please Select employee</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Offices*</label>
+                                        <ui-select multiple tagging="tagTransform" tagging-label="(press enter to add new)" on-select="clicked($select.selected)"
+                                            name="allBranch" ng-model="formData.allBranch" theme="bootstrap">
+                                            <ui-select-match>{{$item.name}}</ui-select-match>
+                                            <ui-select-choices repeat="allBranch in natureLoss | filter:$select.search" refresh-delay="0" refresh="refreshNature($select.search)">{{allBranch.name}}</ui-select-choices>
+                                            </ui-select>
+                                            <div class="error-msg" ng-show="formName.allBranch.$invalid && formName.allBranch.$touched">Please Enter Office</div>
+                                    </div>
+                                </div>
                                 <!-- <div class="col-sm-6">
                                   <div class="form-group">
                                       <label>Access*</label>

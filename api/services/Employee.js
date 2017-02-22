@@ -24,6 +24,15 @@ var schema = new Schema({
         required: true,
         key: "employee"
     },
+      allBranch: [{
+        type: Schema.Types.ObjectId,
+        ref: "Branch",
+        key: "employee"
+    }],
+    employee: {
+        type: Schema.Types.ObjectId,
+        ref: "employee"
+    },
     role: {
         type: Schema.Types.ObjectId,
         ref: "Role"
@@ -258,6 +267,9 @@ var schema = new Schema({
 
 schema.plugin(deepPopulate, {
     populate: {
+        'allBranch': {
+            select: 'name _id'
+        },
         'role': {
             select: ''
         },
@@ -315,7 +327,7 @@ schema.plugin(deepPopulate, {
 schema.plugin(timestamps);
 module.exports = mongoose.model('Employee', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country func grade department IIISLACertificate.department", "city.district.state.zone.country  func grade postedAt"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country func grade department IIISLACertificate.department allBranch", "city.district.state.zone.country  func grade postedAt allBranch"));
 var model = {
     // Start
     getBackendEmployee: function (data, callback) {
@@ -752,5 +764,22 @@ var model = {
             }
         });
     },
+
+      getAllBranch: function(data, callback) {
+    var Model = this;
+    var Search = Model.findOne({
+        "_id":data.filter._id}).lean().populate('allBranch').exec(function(err, data2) {
+        if (err) {
+            callback(err, data2);
+        } else if (_.isEmpty(data2)) {
+            callback(err, data2);
+        } else {
+          var data3 = {};
+          console.log("ABC",data2);
+            data3.results = data2.allBranch;
+            callback(err, data3);
+        }
+    });
+},
 };
 module.exports = _.assign(module.exports, exports, model);
