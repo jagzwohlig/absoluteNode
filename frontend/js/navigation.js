@@ -689,6 +689,11 @@ var navigationservice = angular.module('navigationservice', [])
                     callback(data, i);
                 });
             },
+            searchRole: function (formData, i, callback) {
+                $http.post(adminurl + 'Role/search', formData).success(function (data) {
+                    callback(data, i);
+                });
+            },
             searchAppointedBy: function (formData, i, callback) {
                 $http.post(adminurl + 'Employee/search', formData).success(function (data) {
                     callback(data, i);
