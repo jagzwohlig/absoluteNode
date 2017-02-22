@@ -24,6 +24,10 @@ var schema = new Schema({
         required: true,
         key: "employee"
     },
+    role: {
+        type: Schema.Types.ObjectId,
+        ref: "Role"
+    },
     salutation: {
         type: String
     },
@@ -254,6 +258,9 @@ var schema = new Schema({
 
 schema.plugin(deepPopulate, {
     populate: {
+        'role': {
+            select: ''
+        },
         'assignment.assignment': {
             select: 'name address surveyDate city pincode siteMobile siteNumber siteEmail '
         },
@@ -355,7 +362,7 @@ var model = {
     getLoginEmployee: function (data, callback) {
         Employee.findOne({
             officeEmail: data.email
-        }).exec(function (err, found) {
+        }).deepPopulate("role").exec(function (err, found) {
             if (err) {
                 callback(err, null);
             } else {

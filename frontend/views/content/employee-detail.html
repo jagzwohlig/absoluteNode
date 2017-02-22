@@ -111,6 +111,14 @@
                                         <upload-image ng-model="formData.photo"></upload-image>
                                     </div>
                                 </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Role</label>
+                                        <multiple-select my-enter name="role" ng-model="formData.role" ng-name="name.role"
+                                            api="searchRole"></multiple-select>
+                                        <div class="error-msg" ng-show="formName.role.$invalid">Please Select role</div>
+                                    </div>
+                                </div>
                                 <!-- <div class="col-sm-6">
                                   <div class="form-group">
                                       <label>Access*</label>

@@ -142,7 +142,7 @@ angular.module('rolesController', ['templateservicemod', 'navigationservice', 'a
         addRoles("Invoice", "Invoice", "Release", "", true, true, false, false, false, false, false, false, true);
         addRoles("Invoice", "Invoice", "Cancle", "", true, true, false, false, false, false, false, false, true);
         addRoles("Invoice", "Invoice", "Regenerate", "", true, true, false, false, false, false, false, false, true);
-
+        console.log("$.jstorage",$.jStorage.get("profile"));
           $scope.saveModel = function (formData) {
             NavigationService.modelSave("Role", $scope.formData, function (data) {
                 if (data.value === true) {
