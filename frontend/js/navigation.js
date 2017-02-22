@@ -18,6 +18,17 @@ var navigationservice = angular.module('navigationservice', [])
             anchor: "email-inbox",
             icon: "inbox"
         }]
+    },{
+        name: "Role",
+        classis: "active",
+        anchor: "timeline",
+        icon: "envelope",
+        subnav: [{
+            name: "Roles",
+            classis: "active",
+            anchor: "roles-list",
+            icon: "inbox"
+        }]
     }, {
         name: "Company Setup",
         classis: "active",

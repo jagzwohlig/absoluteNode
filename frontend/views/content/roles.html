@@ -28,16 +28,17 @@
                         <h3>Roles</h3>
                     </div>
 
-                    <form name="countryform" role="form" class="sec ng-pristine ng-valid">
+                    <form name="roles" role="form" class="sec ng-pristine ng-valid">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Role Name*</label>
                                     <input type="text" name="name" ng-model="formData.name" class="form-control" required>
-                                    <div class="error-msg" ng-show="countryform.name.$invalid && countryform.name.$touched">Please Enter Country</div>
+                                    <div class="error-msg" ng-show="roles.name.$invalid && roles.name.$touched">Please Enter Country</div>
                                 </div>
                             </div>
                             <div class="col-md-12">
+                                {{formData.roles[0].mainMenu}}
                                 <table class="table table-responsive">
                                     <thead>
                                         <tr>
@@ -107,7 +108,7 @@
 
                         </div>
                         <div class="text-center mt20 odd-even-button">
-                            <button class="btn btn-default" type="submit" ng-click="saveCountry(formData)" ng-disabled="countryform.$invalid">Save</button>
+                            <button class="btn btn-default" type="submit" ng-click="saveModel(formData)" ng-disabled="roles.$invalid">Save</button>
                             <a class="btn btn-default" ng-click="cancel()">Cancel</a>
                         </div>
                     </form>

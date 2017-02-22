@@ -22,10 +22,24 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
             templateUrl: "frontend/views/template.html",
             controller: 'DashboardCtrl'
         })
-        .state('roles', {
+        .state('create-roles', {
             url: "/roles",
             templateUrl: "frontend/views/template.html",
             controller: 'RolesCtrl'
+        })
+        .state('edit-roles', {
+            url: "/Role-edit/:id",
+            templateUrl: "frontend/views/template.html",
+            controller: 'RoleEditCtrl'
+        })
+        .state('roles-list', {
+            url: "/roles-list/{page:.*}/{keyword:.*}",
+            templateUrl: "frontend/views/template.html",
+            controller: 'RolessCtrl',
+            params: {
+                page: "1",
+                keyword: ""
+            }
         })
 
         .state('login', {
@@ -627,6 +641,7 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
             templateUrl: "frontend/views/template.html",
             controller: 'EditMenuCtrl'
         })
+
 
         .state('role-list', {
             url: "/role-list/{page:.*}/{keyword:.*}",

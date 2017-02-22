@@ -143,4 +143,14 @@ angular.module('rolesController', ['templateservicemod', 'navigationservice', 'a
         addRoles("Invoice", "Invoice", "Cancle", "", true, true, false, false, false, false, false, false, true);
         addRoles("Invoice", "Invoice", "Regenerate", "", true, true, false, false, false, false, false, false, true);
 
+          $scope.saveModel = function (formData) {
+            NavigationService.modelSave("Role", $scope.formData, function (data) {
+                if (data.value === true) {
+                    $window.history.back();
+                    toastr.success($scope.modelCap + " " + formData.name + " created successfully.", $scope.modelCap + " Created");
+                } else {
+                    toastr.error($scope.modelCap + " creation failed.", $scope.modelCap + " creation error");
+                }
+            });
+        };
     });

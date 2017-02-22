@@ -2539,15 +2539,15 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $window.history.back();
         }
         $scope.saveModel = function (data) {
-                NavigationService.modelSave("TemplateIla", $scope.formData, function (data) {
-                    if (data.value === true) {
-                        // $state.go('templateIla-list');
-                        $window.history.back();
-                        toastr.success("Template ILA " + formData.name + " edited successfully.", "Template ILA Edited");
-                    } else {
-                        toastr.error("Template ILA Edition failed.", "Template ILA edition error");
-                    }
-                });
+            NavigationService.modelSave("TemplateIla", $scope.formData, function (data) {
+                if (data.value === true) {
+                    // $state.go('templateIla-list');
+                    $window.history.back();
+                    toastr.success("Template ILA " + formData.name + " edited successfully.", "Template ILA Edited");
+                } else {
+                    toastr.error("Template ILA Edition failed.", "Template ILA edition error");
+                }
+            });
         };
     })
 
@@ -7222,6 +7222,89 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 
     })
+    .controller('RolessCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $stateParams, $state) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("roles-list");
+        $scope.menutitle = NavigationService.makeactive("Roles List");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        var i = 0;
+        $scope.search = {
+            keyword: ""
+        };
+        if ($stateParams.keyword) {
+            $scope.search.keyword = $stateParams.keyword;
+        }
+        $scope.showAll = function (keywordChange) {
+            $scope.totalItems = undefined;
+            if (keywordChange) {
+                $scope.currentPage = 1;
+            }
+            NavigationService.searchModel("Role", {
+                page: $scope.currentPage,
+                keyword: $scope.search.keyword,
+            }, ++i, function (data, ini) {
+                if (ini == i) {
+                    $scope.modelList = data.data.results;
+                    $scope.totalItems = data.data.total;
+                    $scope.maxRow = data.data.options.count;
+                    console.log("modelList", $scope.modelList);
+                }
+            });
+        };
+        $scope.showAll();
+
+        $scope.deleteRole = function (id) {
+            NavigationService.deleteRole({
+                _id: id
+            }, function (data) {
+                $scope.showAll();
+
+            });
+        };
+        $scope.deleteModel = function (id) {
+            console.log("Delete Id", id);
+            globalfunction.confDel(function (value) {
+                console.log("Delete value", value);
+                if (value) {
+                    NavigationService.deleteModel("Role", id, function (data) {
+                        if (data.value) {
+                            $scope.showAll();
+                            toastr.success($scope.modelCap + " deleted successfully.", $scope.modelCap + " deleted");
+                        } else {
+                            toastr.error("There was an error while deleting " + $scope.modelCap, $scope.modelCap + " deleting error");
+                        }
+
+
+                    });
+                }
+            });
+        };
+
+
+    })
+    .controller('RoleEditCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $stateParams, $state) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("roles");
+        $scope.menutitle = NavigationService.makeactive("Roles");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.formData = {};
+        NavigationService.getOneModel("Role", $stateParams.id, function (data) {
+            $scope.formData = data.data;
+        });
+        $scope.saveModel = function (formData) {
+            NavigationService.modelSave("Role", $scope.formData, function (data) {
+                if (data.value === true) {
+                    $window.history.back();
+                    toastr.success($scope.modelCap + " " + formData.name + " created successfully.", $scope.modelCap + " Created");
+                } else {
+                    toastr.error($scope.modelCap + " creation failed.", $scope.modelCap + " creation error");
+                }
+            });
+        };
+    })
+
     .controller('CreateRoleCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("role-detail");
@@ -9090,7 +9173,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.formData.tax = data.data.results;
             console.log("Tax", $scope.formData.tax);
         });
-       $scope.getdescriptions = function () {
+        $scope.getdescriptions = function () {
             NavigationService.searchInvoiceExpenditure1({}, function (data) {
                 $scope.descriptions = data.data.results;
                 console.log("Tax", $scope.descriptions);
@@ -9113,7 +9196,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     $scope.showForm = true;
                     console.log("Data Data", data.data);
                     $scope.formData.invoiceList = data.data;
-                    console.log("$scope.formData.invoiceList",$scope.formData.invoiceList);                    
+                    console.log("$scope.formData.invoiceList", $scope.formData.invoiceList);
                 } else {
                     toastr.error("Template Access failed.");
                 }
@@ -9152,7 +9235,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     $scope.assignment.timelineStatus = "BBND";
                     NavigationService.modelSave("Assignment", $scope.assignment, function (data) {
                         if (data.value === true) {
-                            console.log("Data of Pdf",invoice);
+                            console.log("Data of Pdf", invoice);
                             NavigationService.generateInvoicePdf(invoice, function (data) {
                                 if (data.value === true) {
                                     console.log("Data of Pdf", data.data.name);
@@ -9259,25 +9342,25 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.formData.roundOff = round.toFixed(2);
         }
         $scope.saveModel = function (data) {
-                NavigationService.modelSave("Invoice", $scope.formData, function (data) {
-                    if (data.value === true) {
-                        $scope.formData.assignment = $stateParams.assignmentId;
-                        console.log($scope.formData.assignment, $scope.formData, "$scope.formData.assignment");
-                        NavigationService.generateInvoicePdf($scope.formData, function (data) {
-                            if (data.value === true) {
-                                console.log("Data of Pdf", data.data.name);
-                                $scope.sendMessage(data.data.name);
-                                $window.history.back();
-                                toastr.success("Invoice Template " + formData.name + " created successfully.", "Invoice Template Created");
-                            } else {
-                                toastr.error("Invoice Template creation failed.", "Invoice Template creation error");
-                            }
-                        });
-                    } else {
-                        toastr.error("Invoice Template creation failed.", "Invoice Template creation error");
-                    }
-                });
-            };
+            NavigationService.modelSave("Invoice", $scope.formData, function (data) {
+                if (data.value === true) {
+                    $scope.formData.assignment = $stateParams.assignmentId;
+                    console.log($scope.formData.assignment, $scope.formData, "$scope.formData.assignment");
+                    NavigationService.generateInvoicePdf($scope.formData, function (data) {
+                        if (data.value === true) {
+                            console.log("Data of Pdf", data.data.name);
+                            $scope.sendMessage(data.data.name);
+                            $window.history.back();
+                            toastr.success("Invoice Template " + formData.name + " created successfully.", "Invoice Template Created");
+                        } else {
+                            toastr.error("Invoice Template creation failed.", "Invoice Template creation error");
+                        }
+                    });
+                } else {
+                    toastr.error("Invoice Template creation failed.", "Invoice Template creation error");
+                }
+            });
+        };
 
     })
 
