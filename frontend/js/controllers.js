@@ -262,7 +262,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         } else {
             $scope.filter.department = "";
         }
-
+        
         $scope.MyFiles = function () {
             console.log("In MyFiles", ownerId);
             NavigationService.searchModel($scope.ModelApi, {
@@ -349,7 +349,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     from: $scope.filter.from,
                     to: $scope.filter.to,
                     branch: $scope.filter.branch,
-                    department: $scope.department
+                    department: $scope.department,
+                    fromDate: $scope.filter.fromDate,
+                    toDate: $scope.filter.toDate                    
                 }, ++i, function (data, ini) {
                     if (ini == i) {
                         $scope.modelList = data.data.results;

@@ -543,8 +543,8 @@ schema.plugin(deepPopulate, {
     salvage: {
       select: ''
     },
-    customer:{
-      select:'name _id'
+    customer: {
+      select: 'name _id'
     },
     department: {
       select: 'name _id'
@@ -931,7 +931,6 @@ var model = {
   generateInvoicePdf: function (data, callback) {
     green(data);
     $scope = {};
-    console.log("919", data._id);
     Invoice.findOne({
       _id: data._id
     }).lean().deepPopulate("assignment assignment.department assignment.products.product.category assignment.natureOfLoss assignment.causeOfLoss assignment.policyType assignment.customer assignment.insurerOffice assignment.insuredOffice billedTo.customerCompany billedTo.city.district.state.zone.country assignment.city.district.state.zone.country assignment.company.city.district.state").exec(function (err, data2) {
@@ -1229,10 +1228,10 @@ var model = {
       $set: {
         "survey.$.surveyDate": new Date(data.surveyDate),
         "survey.$.status": "Completed",
-        "survey.$.address": data.address, 
+        "survey.$.address": data.address,
         // "survey.$.dateOfSurvey": new Date(data.dateOfSurvey),
         "survey.$.completionTime": Date.now(),
-        "survey.$.surveyEndTime":new Date(data.surveyEndTime),
+        "survey.$.surveyEndTime": new Date(data.surveyEndTime),
         "survey.$.surveyStartTime": new Date(data.surveyStartTime)
       },
       $push: {
@@ -1399,7 +1398,6 @@ var model = {
   },
 
   getAll: function (data, callback) {
-
     //  var ownerMatch = {};
     //  var temp1 = {
     //    'owner._id': objectid(data.ownerId),
@@ -1488,17 +1486,14 @@ var model = {
       var intimatedLoss = {}
     }
 
-    // if (_.isEmpty(data.fromDate) && _.isEmpty(data.toDate)) {
-    //   var createdDate = {
-    //     $regex: "",
-    //     $options: 'i'
-    //   }
-    // } else {
-    //   var createdDate = {
-    //     "$gte": new Date(data.fromDate),
-    //     "$lte": new Date(data.toDate)
-    //   }
-    // }
+    if (!_.isEmpty(data.fromDate) && !_.isEmpty(data.toDate)) {
+      var createdAt = {
+        "$gte": new Date(data.fromDate),
+        "$lte": new Date(data.toDate)
+      }
+    } else {
+      var createdAt = {}
+    }
 
     if (_.isEmpty(data.surveyDepartment)) {
       var surveyDepartment = {
@@ -1533,6 +1528,16 @@ var model = {
           intimatedLoss: {
             "$gte": data.from,
             "$lte": data.to
+          }
+        }
+      }
+      if (data.fromDate === "" && data.toDate === "") {
+        var createdAt1 = {}
+      } else {
+        var createdAt1 = {
+          createdAt: {
+            "$gte": new Date(data.fromDate),
+            "$lte": new Date(data.toDate)
           }
         }
       }
@@ -1593,7 +1598,7 @@ var model = {
           'department.name': surveyDepartment
         }
       }
-      var ownerStatus = Object.assign(timelineStatus, name1, owner1, insurer1, insurerd1, surveyDepartment1, ownerId1, intimatedLoss1, city1, branch1);
+      var ownerStatus = Object.assign(timelineStatus, name1, owner1, insurer1, insurerd1, surveyDepartment1, ownerId1, intimatedLoss1, city1, branch1,createdAt1);
     } else if (data.ownerStatus == "Shared with me") {
       if (data.from === "" && data.to === "") {
         var intimatedLoss1 = {}
@@ -1602,6 +1607,16 @@ var model = {
           intimatedLoss: {
             "$gte": data.from,
             "$lte": data.to
+          }
+        }
+      }
+      if (data.fromDate === "" && data.toDate === "") {
+        var createdAt1 = {}
+      } else {
+        var createdAt1 = {
+          createdAt: {
+            "$gte": new Date(data.fromDate),
+            "$lte": new Date(data.toDate)
           }
         }
       }
@@ -1669,7 +1684,7 @@ var model = {
           'department.name': surveyDepartment
         }
       }
-      var ownerStatus = Object.assign(timelineStatus, name1, owner1, insurer1, insurerd1, surveyDepartment1, ownerId1, intimatedLoss1, city1, branch1);
+      var ownerStatus = Object.assign(timelineStatus, name1, owner1, insurer1, insurerd1, surveyDepartment1, ownerId1, intimatedLoss1, city1, branch1,createdAt1);
     } else if (data.ownerStatus == "All files") {
       if (data.from === "" && data.to === "") {
         var intimatedLoss1 = {}
@@ -1678,6 +1693,16 @@ var model = {
           intimatedLoss: {
             "$gte": data.from,
             "$lte": data.to
+          }
+        }
+      }
+      if (data.fromDate === "" && data.toDate === "") {
+        var createdAt1 = {}
+      } else {
+        var createdAt1 = {
+          createdAt: {
+            "$gte": new Date(data.fromDate),
+            "$lte": new Date(data.toDate)
           }
         }
       }
@@ -1737,11 +1762,10 @@ var model = {
           'department.name': surveyDepartment
         }
       }
-      var ownerStatus = Object.assign(timelineStatus, name1, owner1, insurer1, insurerd1, surveyDepartment1, intimatedLoss1, city1, branch1);
+      var ownerStatus = Object.assign(timelineStatus, name1, owner1, insurer1, insurerd1, surveyDepartment1, intimatedLoss1, city1, branch1,createdAt1);
     }
 
     var pageStartFrom = (data.pagenumber - 1) * data.pagelimit;
-
     var allTable = [{
         $lookup: {
           from: "cities",
