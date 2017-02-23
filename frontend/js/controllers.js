@@ -262,7 +262,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         } else {
             $scope.filter.department = "";
         }
-        
+
         $scope.MyFiles = function () {
             console.log("In MyFiles", ownerId);
             NavigationService.searchModel($scope.ModelApi, {
@@ -351,7 +351,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     branch: $scope.filter.branch,
                     department: $scope.department,
                     fromDate: $scope.filter.fromDate,
-                    toDate: $scope.filter.toDate                    
+                    toDate: $scope.filter.toDate
                 }, ++i, function (data, ini) {
                     if (ini == i) {
                         $scope.modelList = data.data.results;
@@ -3970,14 +3970,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 size: 'lg'
             });
         };
-         $scope.refreshNature = function (data, causeloss) {
+       $scope.refreshNature = function (data) {
             var formdata = {};
             formdata.keyword = data;
-            formdata.filter = {
-                "_id": causeloss
-            };
-            NavigationService.getNatureLoss(formdata, 1, function (data) {
-                console.log("getNatureLoss", data.data.results);
+            NavigationService.searchBranch(formdata, 1, function (data) {
+                console.log("searchBranch", data);
                 $scope.natureLoss = data.data.results;
             });
         };
@@ -4014,12 +4011,24 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     }
                     break;
                 case 'CTCDetails':
-                    if ($scope.modalIndex !== "") {
+                 if ($scope.modalIndex !== "") {
+                        console.log("Model Data if", $scope.formData.grade);
                         $scope.formData.CTCDetails[$scope.modal] = data;
-                        $scope.formData.grade = $scope.formData.CTCDetails[$scope.formData.CTCDetails.length - 1].grade;
+                        $scope.formData.grade = data.grade;
+                        // console.log("Model Data if",$scope.formData.grade);                       
+                        // $scope.refreshGrade($scope.formData.grade);
+                        // $scope.formData.grade = $scope.formData.CTCDetails[$scope.formData.CTCDetails.length - 1].grade;
                     } else {
+                        console.log("Model Data else", $scope.formData);
+                        var length1 = $scope.formData.CTCDetails.length;
+                        console.log("Length1",length1);
+                        if (length1 !== 0) {
+                            $scope.formData.CTCDetails[length1 - 1].to = data.from;
+                            console.log("ABC", $scope.formData.CTCDetails[length1 - 1].to);
+                        }
                         $scope.formData.CTCDetails.push(data);
-                        $scope.formData.grade = $scope.formData.CTCDetails[$scope.formData.CTCDetails.length - 1].grade;
+                        // $scope.formData.grade = $scope.formData.CTCDetails[$scope.formData.CTCDetails.length - 1].grade;
+                        $scope.formData.grade = data.grade;
                     }
                     break;
                 default:
@@ -4153,7 +4162,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
 
-          $scope.refreshNature = function (data) {
+        $scope.refreshNature = function (data) {
             var formdata = {};
             formdata.keyword = data;
             NavigationService.searchBranch(formdata, 1, function (data) {
@@ -4161,9 +4170,18 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.natureLoss = data.data.results;
             });
         };
+        $scope.refreshGrade = function (data) {
+            // var formdata = {};
+            // formdata.keyword = data;
+            NavigationService.getOneModel("Grade", data, function (data) {
+                console.log("searchGrade", data);
+                $scope.formData.grade = data.data;
+            });
+        };
         $scope.addModal = function (filename, index, holdobj, data, current) {
-
+            console.log("formData.grade", $scope.formData.grade);
             if (index !== "") {
+
                 $scope.modalData = data;
                 $scope.modalData.from = new Date(data.from);
                 $scope.modalData.to = new Date(data.to);
@@ -4219,12 +4237,23 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     break;
                 case 'CTCDetails':
                     if ($scope.modalIndex !== "") {
+                        console.log("Model Data if", $scope.formData.grade);
                         $scope.formData.CTCDetails[$scope.modal] = data;
-                        $scope.formData.grade = $scope.formData.CTCDetails[$scope.formData.CTCDetails.length - 1].grade;
+                        $scope.formData.grade = data.grade;
+                        // console.log("Model Data if",$scope.formData.grade);                       
+                        $scope.refreshGrade($scope.formData.grade);
+                        // $scope.formData.grade = $scope.formData.CTCDetails[$scope.formData.CTCDetails.length - 1].grade;
                     } else {
+                        console.log("Model Data else", $scope.formData);
+                        var length1 = $scope.formData.CTCDetails.length;
+                        console.log("Length1",length1);
+                        if (length1 !== 0) {
+                            $scope.formData.CTCDetails[length1 - 1].to = data.from;
+                            console.log("ABC", $scope.formData.CTCDetails[length1 - 1].to);
+                        }
                         $scope.formData.CTCDetails.push(data);
-                        $scope.formData.grade = $scope.formData.CTCDetails[$scope.formData.CTCDetails.length - 1].grade;
-
+                        // $scope.formData.grade = $scope.formData.CTCDetails[$scope.formData.CTCDetails.length - 1].grade;
+                        $scope.formData.grade = data.grade;
                     }
                     break;
                 default:

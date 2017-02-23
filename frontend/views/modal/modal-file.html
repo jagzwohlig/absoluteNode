@@ -20,7 +20,8 @@
                 <div class="form-group">
                     <label>From</label>
                     <div class="input-group">
-                        <input type="text" name="from" class="form-control" uib-datepicker-popup="{{format}}" ng-model="modalData.from" is-open="popup.fromLicense" datepicker-options="dateOptions" required readonly/>
+                        <input type="text" name="from" class="form-control" uib-datepicker-popup="{{format}}" ng-model="modalData.from" is-open="popup.fromLicense"
+                            datepicker-options="dateOptions" required readonly/>
                         <div class="error-msg" ng-show="modalForm1.from.$invalid && modalForm1.from.$touched">Please Enter Start Date</div>
                         <span class="input-group-btn">
                           <button type="button" class="btn btn-default" ng-click="popup.fromLicense = true">
@@ -34,7 +35,8 @@
                 <div class="form-group" ng-if="holdObject != 'IIISLACertificate'">
                     <label>To</label>
                     <div class="input-group">
-                        <input type="text" name="to" min-date="minDate" class="form-control" uib-datepicker-popup="{{format}}" ng-model="modalData.to" is-open="popup.toLicense" datepicker-options="dateOptions" required readonly/>
+                        <input type="text" name="to" min-date="minDate" class="form-control" uib-datepicker-popup="{{format}}" ng-model="modalData.to"
+                            is-open="popup.toLicense" datepicker-options="dateOptions" required readonly/>
                         <div class="error-msg" ng-show="modalForm1.to.$invalid && modalForm1.to.$touched">Please Enter End Date</div>
                         <span class="input-group-btn">
                           <button type="button" class="btn btn-default" ng-click="popup.toLicense = true; minDate = modalData.from;">
@@ -45,7 +47,8 @@
                 </div>
                 <div class="form-group" ng-if="holdObject == 'IIISLACertificate'">
                     <label>Department</label>
-                    <multiple-select my-enter name="department" required ng-model="modalData.department" ng-name="name.zone" api="searchDepartment" ng-create="departmentSave"></multiple-select>
+                    <multiple-select my-enter name="department" required ng-model="modalData.department" ng-name="name.zone" api="searchDepartment"
+                        ng-create="departmentSave"></multiple-select>
                     <div class="error-msg" ng-show="modalForm.to.$invalid && modalForm.to.$touched">Please Select Department</div>
                 </div>
             </div>
@@ -86,7 +89,7 @@
                 </div>
                 <div class="form-group">
                     <label>Upload Document</label>
-                    <upload-image ng-model="modalData.image" no-view required></upload-image>
+                    <upload-image ng-model="modalData.image" no-view></upload-image>
                     <div class="error-msg" ng-show="modalForm.image.$invalid && modalForm.image.$touched">Please Upload Document</div>
                 </div>
             </div>
@@ -94,7 +97,8 @@
                 <div class="form-group">
                     <label>From</label>
                     <div class="input-group">
-                        <input type="text" name="from" class="form-control" uib-datepicker-popup="{{format}}" ng-model="modalData.from" is-open="popup.fromLicense" datepicker-options="dateOptions" required readonly/>
+                        <input type="text" name="from" class="form-control" uib-datepicker-popup="{{format}}" ng-model="modalData.from" is-open="popup.fromLicense"
+                            datepicker-options="dateOptions" required readonly/>
                         <div class="error-msg" ng-show="modalForm.from.$invalid && modalForm.from.$touched">Please Enter CTC From Date</div>
                         <span class="input-group-btn">
                           <button type="button" class="btn btn-default" ng-click="popup.fromLicense = true">
@@ -106,7 +110,8 @@
                 <div class="form-group">
                     <label>To</label>
                     <div class="input-group">
-                        <input type="text" name="to" class="form-control" uib-datepicker-popup="{{format}}" ng-model="modalData.to" is-open="popup.toLicense" datepicker-options="dateOptions" readonly/>
+                        <input type="text" name="to" class="form-control" uib-datepicker-popup="{{format}}" ng-model="modalData.to" is-open="popup.toLicense"
+                            datepicker-options="dateOptions" readonly/>
                         <div class="error-msg" ng-show="modalForm.to.$invalid && modalForm.to.$touched">Please Enter CTC To Date</div>
                         <span class="input-group-btn">
                           <button type="button" class="btn btn-default" ng-click="popup.toLicense = true">
@@ -115,11 +120,14 @@
                       </span>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label>Grade</label>
-                    <div class="input-group">
-                        <multiple-select my-enter name="grade" required ng-model="modalData.grade" ng-name="name.grade" api="searchGrade" ng-create="gradeSave" readonly></multiple-select>
-                        <div class="error-msg" ng-show="modalForm.to.$invalid && modalForm.to.$touched">Please Enter Grade Based On CTC</div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Grade*</label>
+                        <div class="input-group">
+                            <multiple-select my-enter name="grade" required ng-model="modalData.grade" ng-name="name.grade" api="searchGrade" ng-create="gradeSave"
+                                readonly></multiple-select>
+                            <div class="error-msg" ng-show="modalForm.to.$invalid && modalForm.to.$touched">Please Enter Grade Based On CTC</div>
+                        </div>
                     </div>
                 </div>
             </div>
