@@ -6,6 +6,7 @@ templateservicemod.service('TemplateService', function (NavigationService, $filt
   this.pageMax = 10;
   this.profile = $.jStorage.get("profile");
   var d = new Date();
+  var role = $.jStorage.get("role");
   this.year = d.getFullYear();
 
 
@@ -57,4 +58,7 @@ templateservicemod.service('TemplateService', function (NavigationService, $filt
 
   this.init();
 
+  this.getRole = function (data) {
+    console.log("Role",role);
+  };
 });

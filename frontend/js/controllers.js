@@ -7659,6 +7659,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     })
 
     .controller('headerctrl', function ($scope, $window, TemplateService, $uibModal) {
+        
         $scope.template = TemplateService;
         $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
             $(window).scrollTop(0);
@@ -7676,6 +7677,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 modalInstance.close("cancel");
             };
         };
+        // TemplateService.getRole();
     })
 
     .controller('languageCtrl', function ($scope, $window, TemplateService, $translate, $rootScope) {
