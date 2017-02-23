@@ -3970,7 +3970,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 size: 'lg'
             });
         };
-       $scope.refreshNature = function (data) {
+        $scope.refreshNature = function (data) {
             var formdata = {};
             formdata.keyword = data;
             NavigationService.searchBranch(formdata, 1, function (data) {
@@ -4011,7 +4011,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     }
                     break;
                 case 'CTCDetails':
-                 if ($scope.modalIndex !== "") {
+                    if ($scope.modalIndex !== "") {
                         console.log("Model Data if", $scope.formData.grade);
                         $scope.formData.CTCDetails[$scope.modal] = data;
                         $scope.formData.grade = data.grade;
@@ -4021,7 +4021,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     } else {
                         console.log("Model Data else", $scope.formData);
                         var length1 = $scope.formData.CTCDetails.length;
-                        console.log("Length1",length1);
+                        console.log("Length1", length1);
                         if (length1 !== 0) {
                             $scope.formData.CTCDetails[length1 - 1].to = data.from;
                             console.log("ABC", $scope.formData.CTCDetails[length1 - 1].to);
@@ -4246,7 +4246,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     } else {
                         console.log("Model Data else", $scope.formData);
                         var length1 = $scope.formData.CTCDetails.length;
-                        console.log("Length1",length1);
+                        console.log("Length1", length1);
                         if (length1 !== 0) {
                             $scope.formData.CTCDetails[length1 - 1].to = data.from;
                             console.log("ABC", $scope.formData.CTCDetails[length1 - 1].to);
@@ -7659,7 +7659,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     })
 
     .controller('headerctrl', function ($scope, $window, TemplateService, $uibModal) {
-        
+
         $scope.template = TemplateService;
         $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
             $(window).scrollTop(0);
@@ -9906,6 +9906,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 size: 'lg'
             });
         };
+        $scope.transfer = function () {
+            var modalInstance = $uibModal.open({
+                scope: $scope,
+                templateUrl: '/frontend/views/modal/transfer.html',
+                size: 'lg'
+            });
+        };
         $scope.viewJIR = function () {
             var modalInstance = $uibModal.open({
                 scope: $scope,
@@ -9962,7 +9969,21 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 }
             });
         }
-
+        $scope.transferAssignment = function (modelData) {
+            console.log("modelData , assignment", modelData, $scope.assignment);
+            $scope.assignment.owner = modelData.owner;
+            NavigationService.modelSave("Assignment", $scope.assignment, function (data) {
+                if (data.value === true) {
+                    NavigationService.getOneModel("Employee", modelData.owner, function (data) {
+                        var transferEmployee = data.data;
+                        $scope.message.title = "Transfered To " + transferEmployee.name;
+                        $scope.sendMessage("Normal")
+                    });
+                } else {
+                    toastr.error("Error occured in Transfering ");
+                }
+            });
+        };
         $scope.viewTemplates = function (temp, getApi, data) {
             $scope.allTemplate = temp;
             $scope.api = getApi;
