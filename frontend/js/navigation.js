@@ -348,9 +348,37 @@ var navigationservice = angular.module('navigationservice', [])
             id: "Associate"
         }];
 
+        function isViewHidden(nav, role) {
+            stateName = nav.anchor;
+            var data = {};
+            data.currentRole = _.filter(role.roles, function (n) {
+                var index = _.indexOf(n.states, stateName);
+                console.log(index);
+                if (index >= 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+            if (data.currentRole.length > 0) {
+                data.currentRole = data.currentRole[0];
+                nav.isView = data.currentRole.view.val;
+            }
+
+
+        }
+
         return {
             getnav: function () {
                 return navigation;
+            },
+            getNavByRole: function (role) {
+                _.each(navigation, function (nav) {
+                    isViewHidden(nav, role);
+                    _.each(nav.subnav, function (subnav) {
+                        isViewHidden(subnav, role);
+                    });
+                });
             },
             parseAccessToken: function (data, callback) {
                 if (data) {

@@ -49,16 +49,34 @@ templateservicemod.service('TemplateService', function (NavigationService, $filt
 
   };
 
-  this.changecontent = function (page) {
+  this.changecontent = function (page, state) {
     this.init();
+
     var data = this;
     data.content = "frontend/views/content/" + page + ".html";
+    if (state) {
+      var stateName = state.current.name;
+      data.role = role;
+      data.currentRole = _.filter(role.roles, function (n) {
+        var index = _.indexOf(n.states, stateName);
+        console.log(index);
+        if (index >= 0) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+      if (data.currentRole.length > 0) {
+        data.currentRole = data.currentRole[0];
+      }
+    }
+    NavigationService.getNavByRole(role);
     return data;
   };
 
   this.init();
 
   this.getRole = function (data) {
-    console.log("Role",role);
+    console.log("Role", role);
   };
 });

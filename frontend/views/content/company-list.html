@@ -7,7 +7,7 @@
             <a title="Home">Company Setup</a>
         </li>
         <li>
-            <a ui-sref="company-list" >Company List</a>
+            <a ui-sref="company-list">Company List</a>
         </li>
     </ul>
 </div>
@@ -29,13 +29,13 @@
                 <div class="table-area">
                     <div class="widget-title">
                         <div class="pull-right">
-                          <form class="search-form mr-form">
-                            <input type="text" ng-change="showAllCountries(true)" placeholder="Search Here..." ng-model="search.keyword"/>
-                              <button type="submit">
+                            <form class="search-form mr-form">
+                                <input type="text" ng-change="showAllCountries(true)" placeholder="Search Here..." ng-model="search.keyword" />
+                                <button type="submit">
                                   <i class="fa fa-search"></i>
                               </button>
-                          </form>
-                            <a class="btn btn-primary" ui-sref="createcompany">Add New</a>
+                            </form>
+                            <a class="btn btn-primary" ui-sref="createcompany" ng-if="template.currentRole.add.val">Add New</a>
                         </div>
                         <h3>List of Companies <span class="tableTotal">(Total : {{totalItems}}) </span></h3>
                     </div>
@@ -52,13 +52,13 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="company in allCompanies">
-                                  <td>{{($index + 1)+((currentPage-1)*maxRow)}}</td>
+                                    <td>{{($index + 1)+((currentPage-1)*maxRow)}}</td>
                                     <td>{{company.name}}</td>
                                     <td>{{company.shortName}}</td>
                                     <td>{{company.city.name}}</td>
                                     <td>
-                                        <a class="btn btn-blue" ui-sref="editcompany({id:company._id})"><i class="fa fa-pencil"></i></a>
-                                        <a class="btn btn-red" ng-click="deleteCompany(company._id)"><i class="fa fa-trash"></i></a>
+                                        <a class="btn btn-blue" ui-sref="editcompany({id:company._id})" ng-if="template.currentRole.edit.val"><i class="fa fa-pencil"></i></a>
+                                        <a class="btn btn-red" ng-click="deleteCompany(company._id)" ng-if="template.currentRole.delete.val"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -71,7 +71,8 @@
                         <h5>Loading Data</h5>
                     </div>
 
-                    <ul ng-if="totalItems" ng-change="changePage(currentPage);" uib-pagination total-items="totalItems" items-per-page="maxRow" ng-model="currentPage" max-size="template.pageMax" class="pagination-sm" boundary-links="true" force-ellipses="true"></ul>
+                    <ul ng-if="totalItems" ng-change="changePage(currentPage);" uib-pagination total-items="totalItems" items-per-page="maxRow"
+                        ng-model="currentPage" max-size="template.pageMax" class="pagination-sm" boundary-links="true" force-ellipses="true"></ul>
                 </div>
             </div>
         </div>

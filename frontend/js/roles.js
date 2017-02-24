@@ -14,7 +14,7 @@ angular.module('rolesController', ['templateservicemod', 'navigationservice', 'a
             mainMenu: "",
             subMenu: "",
             subThirdMenu: "",
-            controller: "",
+            states: [],
             view: {
                 val: false,
                 isExist: false
@@ -54,12 +54,12 @@ angular.module('rolesController', ['templateservicemod', 'navigationservice', 'a
         };
         $scope.roles = [];
 
-        function addRoles(menu1, menu2, menu3, controller, viewBool, addBool, editBool, deleteBool, addRequestBool, modifyRequestBool, approveBool, rejectBool, viewAllBool) {
+        function addRoles(menu1, menu2, menu3, states, viewBool, addBool, editBool, deleteBool, addRequestBool, modifyRequestBool, approveBool, rejectBool, viewAllBool) {
             var o = _.cloneDeep(obj);
             o.mainMenu = menu1;
             o.subMenu = menu2;
             o.subThirdMenu = menu3;
-            o.controller = controller;
+            o.states = _.split(states, ",");
             o.view.isExist = viewBool;
             o.add.isExist = addBool;
             o.edit.isExist = editBool;
@@ -72,7 +72,7 @@ angular.module('rolesController', ['templateservicemod', 'navigationservice', 'a
             $scope.formData.roles.push(o);
         }
         addRoles("Email", "Inbox", "", "", true, false, false, false, false, false, false, false, true);
-        addRoles("Company Setup", "Company", "", "", true, true, true, true, false, false, false, false, true);
+        addRoles("Company Setup", "Company", "", "company,company-list,createcompany", true, true, true, true, false, false, false, false, true);
         addRoles("Company Setup", "Type of Office", "", "", true, true, true, true, false, false, false, false, true);
         addRoles("Company Setup", "Office", "", "", true, true, true, true, false, false, false, false, true);
         addRoles("Company Setup", "Branch", "", "", true, true, true, true, false, false, false, false, true);
@@ -142,8 +142,8 @@ angular.module('rolesController', ['templateservicemod', 'navigationservice', 'a
         addRoles("Invoice", "Invoice", "Release", "", true, true, false, false, false, false, false, false, true);
         addRoles("Invoice", "Invoice", "Cancle", "", true, true, false, false, false, false, false, false, true);
         addRoles("Invoice", "Invoice", "Regenerate", "", true, true, false, false, false, false, false, false, true);
-        console.log("$.jstorage",$.jStorage.get("profile"));
-          $scope.saveModel = function (formData) {
+        console.log("$.jstorage", $.jStorage.get("profile"));
+        $scope.saveModel = function (formData) {
             NavigationService.modelSave("Role", $scope.formData, function (data) {
                 if (data.value === true) {
                     $window.history.back();
@@ -153,10 +153,10 @@ angular.module('rolesController', ['templateservicemod', 'navigationservice', 'a
                 }
             });
         };
-         $scope.viewAll = function (index,state) {
-            _.each($scope.formData.roles[index],function(n){
-                if(n.isExist==true){
-                    n.val=state;
+        $scope.viewAll = function (index, state) {
+            _.each($scope.formData.roles[index], function (n) {
+                if (n.isExist == true) {
+                    n.val = state;
                 }
             });
         };
