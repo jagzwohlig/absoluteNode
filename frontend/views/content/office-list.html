@@ -36,7 +36,7 @@
                                   <i class="fa fa-search"></i>
                               </button>
                           </form>
-                            <a class="btn btn-primary" ui-sref="createoffice">Add New</a>
+                            <a class="btn btn-primary" ui-sref="createoffice" ng-if="template.currentRole.add.val">Add New</a>
                         </div>
                         <h3>List of Offices <span class="tableTotal">(Total : {{totalItems}}) </span></h3>
                     </div>
@@ -60,8 +60,8 @@
                                     <td>{{office.name}}</td>
                                     <td>{{office.address}}</td>
                                     <td>
-                                          <a class="btn btn-blue" ui-sref="editoffice({id:office._id})"><i class="fa fa-pencil"></i></a>
-                                          <a class="btn btn-red" ng-click="deleteOffice(office._id)"><i class="fa fa-trash"></i></a>
+                                          <a class="btn btn-blue" ui-sref="editoffice({id:office._id})" ng-if="template.currentRole.edit.val"><i class="fa fa-pencil"></i></a>
+                                          <a class="btn btn-red" ng-click="deleteOffice(office._id)" ng-if="template.currentRole.delete.val"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>
                             </tbody>

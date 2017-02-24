@@ -36,7 +36,7 @@
                                   <i class="fa fa-search"></i>
                               </button>
                           </form>
-                            <a class="btn btn-primary" ui-sref="createindustry">Add New</a>
+                            <a class="btn btn-primary" ui-sref="createindustry" ng-if="template.currentRole.add.val">Add New</a>
                         </div>
                         <h3>List of Industries<span class="tableTotal">(Total : {{totalItems}}) </span></h3>
                     </div>
@@ -62,8 +62,8 @@
                                       <toggle-switch ng-model="ind.status" class="switch-mini switch-success" ng-change = "changeStatus(ind)"></toggle-switch>
                                     </td>
                                     <td>
-                                      <a class="btn btn-primary" ui-sref="editindustry({id:ind._id})"><i class="fa fa-pencil"></i></a>
-                                      <a class="btn btn-danger" ng-click="deleteIndustry(ind._id)"><i class="fa fa-trash"></i></a>
+                                      <a class="btn btn-primary" ui-sref="editindustry({id:ind._id})" ng-if="template.currentRole.edit.val"><i class="fa fa-pencil"></i></a>
+                                      <a class="btn btn-danger" ng-click="deleteIndustry(ind._id)" ng-if="template.currentRole.delete.val"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>
                             </tbody>

@@ -36,7 +36,7 @@
                                     <i class="fa fa-search"></i>
                                 </button>
                             </form>
-                            <a class="btn btn-primary" ui-sref="createfunc">Add New</a>
+                            <a class="btn btn-primary" ui-sref="createfunc"  ng-if="template.currentRole.add.val">Add New</a>
                         </div>
                         <h3>List of Functions
                             <span class="tableTotal">(Total :
@@ -56,10 +56,10 @@
                                 <tr ng-repeat="func in modelList">
                                     <td>{{func.name}}</td>
                                     <td>
-                                        <a class="btn btn-primary" ui-sref="editfunc({id:func._id})">
+                                        <a class="btn btn-primary" ui-sref="editfunc({id:func._id})"  ng-if="template.currentRole.edit.val">
                                             <i class="fa fa-pencil"></i>
                                         </a>
-                                        <a class="btn btn-danger" ng-click="deleteModel(func._id)">
+                                        <a class="btn btn-danger" ng-click="deleteModel(func._id)"  ng-if="template.currentRole.delete.val">
                                             <i class="fa fa-trash"></i>
                                         </a>
                                     </td>

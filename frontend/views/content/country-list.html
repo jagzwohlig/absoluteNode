@@ -34,7 +34,7 @@
                                 <input type="text" ng-change="showAllCountries(true)" placeholder="Search Here..." ng-model="search.keyword"/>
 
                             </form>
-                            <a class="btn btn-primary" ui-sref="createcountry">Add New</a>
+                            <a class="btn btn-primary" ui-sref="createcountry" ng-if="template.currentRole.add.val">Add New</a>
                         </div>
                         <h3>List of Countries <span class="tableTotal">(Total : {{totalItems}}) </span></h3>
                     </div>
@@ -58,10 +58,10 @@
                                     <td>{{country.countryCode}}</td>
                                     <td>{{country.ISDCodes}}</td>
                                     <td>
-                                        <a class="btn btn-primary" ui-sref="editcountry({id:country._id})">
+                                        <a class="btn btn-primary" ui-sref="editcountry({id:country._id})" ng-if="template.currentRole.edit.val">
                                             <i class="fa fa-pencil"></i>
                                         </a>
-                                        <a class="btn btn-danger" ng-click="deleteCountry(country._id)">
+                                        <a class="btn btn-danger" ng-click="deleteCountry(country._id)" ng-if="template.currentRole.delete.val">
                                             <i class="fa fa-trash"></i>
                                         </a>
                                     </td>

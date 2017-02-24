@@ -36,7 +36,7 @@
                                   <i class="fa fa-search"></i>
                               </button>
                           </form>
-                            <a class="btn btn-primary" ui-sref="createcategory">Add New</a>
+                            <a class="btn btn-primary" ui-sref="createcategory" ng-if="template.currentRole.add.val">Add New</a>
                         </div>
                         <h3>List of Categories <span class="tableTotal">(Total : {{totalItems}}) </span></h3>
                     </div>
@@ -64,8 +64,8 @@
                                                          <toggle-switch ng-model="cat.status" class="switch-mini switch-success" ng-change = "changeStatus(cat)"></toggle-switch>
 </td>
                                     <td>
-                                      <a class="btn btn-primary" ui-sref="editcategory({id:cat._id})"><i class="fa fa-pencil"></i></a>
-                                      <a class="btn btn-danger" ng-click="deleteCategory(cat._id)"><i class="fa fa-trash"></i></a>
+                                      <a class="btn btn-primary" ui-sref="editcategory({id:cat._id})" ng-if="template.currentRole.edit.val"><i class="fa fa-pencil"></i></a>
+                                      <a class="btn btn-danger" ng-click="deleteCategory(cat._id)" ng-if="template.currentRole.delete.val"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>
                             </tbody>

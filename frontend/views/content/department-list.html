@@ -36,7 +36,7 @@
                                     <i class="fa fa-search"></i>
                                 </button>
                             </form>
-                            <a class="btn btn-primary" ui-sref="createdepartment">Add New</a>
+                            <a class="btn btn-primary" ui-sref="createdepartment" ng-if="template.currentRole.add.val">Add New</a>
                         </div>
                         <h3>List of Department
                             <span class="tableTotal">(Total :
@@ -66,10 +66,10 @@
                                         <toggle-switch ng-model="data.status" class="switch-mini switch-success" ng-change="changeStatus(data)"></toggle-switch>
                                     </td>
                                     <td>
-                                        <a class="btn btn-primary" ui-sref="editdepartment({id:data._id})">
+                                        <a class="btn btn-primary" ui-sref="editdepartment({id:data._id})" ng-if="template.currentRole.edit.val">
                                             <i class="fa fa-pencil"></i>
                                         </a>
-                                        <a class="btn btn-danger" ng-click="deleteModel(data._id)">
+                                        <a class="btn btn-danger" ng-click="deleteModel(data._id)" ng-if="template.currentRole.delete.val">
                                             <i class="fa fa-trash"></i>
                                         </a>
                                     </td>

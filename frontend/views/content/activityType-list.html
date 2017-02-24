@@ -34,7 +34,7 @@
                                   <i class="fa fa-search"></i>
                               </button>
                             </form>
-                            <a class="btn btn-primary" ui-sref="createactivityType">Add New</a>
+                            <a class="btn btn-primary" ui-sref="createactivityType" ng-if="template.currentRole.add.val">Add New</a>
                         </div>
                         <h3>List of Activity Type <span class="tableTotal">(Total : {{totalItems}}) </span></h3>
                     </div>
@@ -50,8 +50,8 @@
                                 <tr ng-repeat="office in modelList">
                                     <td>{{office.name}}</td>
                                     <td>
-                                        <a class="btn btn-primary" ui-sref="editactivityType({id:office._id})"><i class="fa fa-pencil"></i></a>
-                                        <a class="btn btn-danger" ng-click="deleteTypeOfOffice(office._id)"><i class="fa fa-trash"></i></a>
+                                        <a class="btn btn-primary" ui-sref="editactivityType({id:office._id})" ng-if="template.currentRole.edit.val"><i class="fa fa-pencil"></i></a>
+                                        <a class="btn btn-danger" ng-click="deleteTypeOfOffice(office._id)" ng-if="template.currentRole.delete.val"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>
                             </tbody>

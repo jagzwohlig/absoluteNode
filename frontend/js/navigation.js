@@ -21,7 +21,7 @@ var navigationservice = angular.module('navigationservice', [])
             }, {
                 name: "Role",
                 classis: "active",
-                anchor: "timeline",
+                anchor: "role",
                 icon: "envelope",
                 subnav: [{
                     name: "Roles",
@@ -58,7 +58,7 @@ var navigationservice = angular.module('navigationservice', [])
             }, {
                 name: "Locations",
                 classis: "active",
-                anchor: "company",
+                anchor: "location",
                 icon: "map",
                 subnav: [{
                     name: "Country",
@@ -89,7 +89,7 @@ var navigationservice = angular.module('navigationservice', [])
             }, {
                 name: "Products",
                 classis: "active",
-                anchor: "company",
+                anchor: "product",
                 icon: "puzzle-piece",
                 subnav: [{
                     name: "Industry",
@@ -110,7 +110,7 @@ var navigationservice = angular.module('navigationservice', [])
             }, {
                 name: "Finance",
                 classis: "active",
-                anchor: "company",
+                anchor: "finance",
                 icon: "line-chart",
                 subnav: [{
                     name: "Currency",
@@ -137,7 +137,9 @@ var navigationservice = angular.module('navigationservice', [])
                     classis: "active",
                     anchor: "invoiceExpenditure-list",
                     icon: "book"
-                }, {
+                },
+                //  Not In List
+                {
                     name: "Tax",
                     classis: "active",
                     anchor: "tax-list",
@@ -146,7 +148,7 @@ var navigationservice = angular.module('navigationservice', [])
             }, {
                 name: "Customers",
                 classis: "active",
-                anchor: "company",
+                anchor: "customer",
                 icon: "users",
                 subnav: [{
                     name: "Segment",
@@ -167,7 +169,7 @@ var navigationservice = angular.module('navigationservice', [])
             }, {
                 name: "Employee",
                 classis: "active",
-                anchor: "company",
+                anchor: "employee",
                 icon: "user",
                 subnav: [{
                     name: "Employee",
@@ -188,7 +190,7 @@ var navigationservice = angular.module('navigationservice', [])
             }, {
                 name: "Insurance",
                 classis: "active",
-                anchor: "company",
+                anchor: "insurance",
                 icon: "file-text-o",
                 subnav: [{
                     name: "Department",
@@ -229,7 +231,7 @@ var navigationservice = angular.module('navigationservice', [])
             }, {
                 name: "Assignments",
                 classis: "active",
-                anchor: "assignment-list",
+                anchor: "assignment",
                 icon: "pencil",
                 subnav: [{
                     name: "Type Of Claims",

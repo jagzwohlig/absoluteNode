@@ -36,7 +36,7 @@
                                   <i class="fa fa-search"></i>
                               </button>
                           </form>
-                            <a class="btn btn-primary" ui-sref="createstate">Add New</a>
+                            <a class="btn btn-primary" ui-sref="createstate" ng-if="template.currentRole.add.val">Add New</a>
                         </div>
                         <h3>List of States</h3>
                     </div>
@@ -57,8 +57,8 @@
                                     <td>{{state.zone.name}}</td>
                                     <td>{{state.zone.country.name}}</td>
                                     <td>
-                                      <a class="btn btn-primary" ui-sref="editstate({id:state._id})"><i class="fa fa-pencil"></i></a>
-                                      <a class="btn btn-danger" ng-click="deleteState(state._id)"><i class="fa fa-trash"></i></a>
+                                      <a class="btn btn-primary" ui-sref="editstate({id:state._id})" ng-if="template.currentRole.edit.val"><i class="fa fa-pencil"></i></a>
+                                      <a class="btn btn-danger" ng-click="deleteState(state._id)" ng-if="template.currentRole.delete.val"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>
                             </tbody>

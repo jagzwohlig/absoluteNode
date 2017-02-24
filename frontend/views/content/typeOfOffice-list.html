@@ -36,7 +36,7 @@
                                   <i class="fa fa-search"></i>
                               </button>
                           </form>
-                            <a class="btn btn-primary" ui-sref="createtypeOfOffice">Add New</a>
+                            <a class="btn btn-primary" ui-sref="createtypeOfOffice" ng-if="template.currentRole.add.val">Add New</a>
                         </div>
                         <h3>List of Type Of Offices <span class="tableTotal">(Total : {{totalItems}}) </span></h3>
                     </div>
@@ -54,8 +54,8 @@
                                     <td>{{office.name}}</td>
                                     <td>{{office.shortCode || "-"}}</td>
                                     <td>
-                                      <a class="btn btn-primary" ui-sref="edittypeOfOffice({id:office._id})"><i class="fa fa-pencil"></i></a>
-                                      <a class="btn btn-danger" ng-click="deleteTypeOfOffice(office._id)"><i class="fa fa-trash"></i></a>
+                                      <a class="btn btn-primary" ui-sref="edittypeOfOffice({id:office._id})" ng-if="template.currentRole.edit.val"><i class="fa fa-pencil"></i></a>
+                                      <a class="btn btn-danger" ng-click="deleteTypeOfOffice(office._id)" ng-if="template.currentRole.delete.val"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>
                             </tbody>

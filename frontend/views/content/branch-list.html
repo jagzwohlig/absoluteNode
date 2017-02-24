@@ -36,7 +36,7 @@
                                 <i class="fa fa-search"></i>
                             </button>
                         </form>
-                        <a class="btn btn-primary" ui-sref="branch-create">Add New</a>
+                        <a class="btn btn-primary" ui-sref="branch-create" ng-if="template.currentRole.add.val">Add New</a>
                       </div>
                         <h3>List of Branches <span class="tableTotal">(Total : {{totalItems}}) </span></h3>
                     </div>
@@ -57,8 +57,8 @@
                                     <td>{{branch.name}}</td>
                                     <td>{{branch.code}}</td>
                                     <td>{{branch.shortName}}</td>
-                                    <td><a class="btn btn-blue" ui-sref="branch-edit({id:branch._id})"><i class="fa fa-pencil"></i></a>
-                                    <a class="btn btn-red" ng-click="deleteBranch(branch._id)"><i class="fa fa-trash"></i></a></td>
+                                    <td><a class="btn btn-blue" ui-sref="branch-edit({id:branch._id})" ng-if="template.currentRole.edit.val"><i class="fa fa-pencil"></i></a>
+                                    <a class="btn btn-red" ng-click="deleteBranch(branch._id)" ng-if="template.currentRole.delete.val"><i class="fa fa-trash"></i></a></td>
                                 </tr>
                             </tbody>
                         </table>
