@@ -21,7 +21,7 @@
                                   <i class="fa fa-search"></i>
                               </button>
                             </form>
-                            <a class="btn btn-primary" ui-sref="createtemplateIla">Add New</a>
+                            <a class="btn btn-primary" ui-sref="createtemplateIla" ng-if="template.currentRole.add.val">Add New</a>
                         </div>
                         <h3>List of Templates <span class="tableTotal">(Total : {{totalItems}}) </span></h3>
                     </div>
@@ -37,8 +37,8 @@
                                 <tr ng-repeat="template in modelList">
                                     <td>{{template.name}}</td>
                                     <td>
-                                        <a class="btn btn-primary" ui-sref="edittemplateIla({id:template._id})"><i class="fa fa-pencil"></i></a>
-                                        <a class="btn btn-danger" ng-click="deleteModel(template._id)"><i class="fa fa-trash"></i></a>
+                                        <a class="btn btn-primary" ui-sref="edittemplateIla({id:template._id})" ng-if="template.currentRole.edit.val"><i class="fa fa-pencil"></i></a>
+                                        <a class="btn btn-danger" ng-click="deleteModel(template._id)" ng-if="template.currentRole.delete.val"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>
                             </tbody>

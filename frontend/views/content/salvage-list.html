@@ -31,7 +31,7 @@
                                   <i class="fa fa-search"></i>
                               </button>
                           </form>
-                          <a class="btn btn-primary" ui-sref="createsalvage">Add New</a>
+                          <a class="btn btn-primary" ui-sref="createsalvage" ng-if="template.currentRole.add.val">Add New</a>
                         </div>
                         <h3>List of Salvage
                           <span class="tableTotal">(Total :
@@ -60,10 +60,10 @@
                                         <toggle-switch ng-model="data.status" class="switch-mini switch-success" ng-change="changeStatus(data)"></toggle-switch>
                                     </td>
                                     <td>
-                                        <a class="btn btn-blue" ui-sref="editSalvage({id:data._id})">
+                                        <a class="btn btn-blue" ui-sref="editSalvage({id:data._id})" ng-if="template.currentRole.edit.val">
                                             <i class="fa fa-pencil"></i>
                                         </a>
-                                        <a class="btn btn-red" ng-click="deleteModel(data._id)">
+                                        <a class="btn btn-red" ng-click="deleteModel(data._id)" ng-if="template.currentRole.delete.val">
                                             <i class="fa fa-trash"></i>
                                         </a>
                                     </td>

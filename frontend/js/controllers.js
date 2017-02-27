@@ -9720,16 +9720,31 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 delete n.date,
                     delete n.officeEmail,
                     arrayId.push(n._id);
-            });
-            console.log("arrayOfId", arrayId);
-            NavigationService.getNearerSurveyor2({
-                ids: arrayId
-            }, function (data) {
-                var final = data.data;
-                console.log("Final Data", data, final)
-                $scope.finalSurveyors = final;
+                NavigationService.getOneModel("Employee",n._id, function (data) {
+                    $scope.finalSurveyors.push(data.data)
+                });
             });
         };
+        // Don't Delete
+        //  $scope.displayFinalSurveyor = function () {
+        //     console.log("surveyDate", $scope.surveyDate);
+        //     var arrayOfId = _.cloneDeep($scope.getAllSurveyors);
+        //     console.log("arrayOfId", arrayOfId);
+        //     var arrayId = [];
+        //     _.each(arrayOfId, function (n) {
+        //         delete n.date,
+        //             delete n.officeEmail,
+        //             arrayId.push(n._id);
+        //     });
+        //     console.log("arrayOfId", arrayId);
+        //     NavigationService.getNearerSurveyor2({
+        //         ids: arrayId
+        //     }, function (data) {
+        //         var final = data.data;
+        //         console.log("Final Data", data, final)
+        //         $scope.finalSurveyors = final;
+        //     });
+        // };
 
         $scope.updateEmployeeAssignment = function (empId) {
             var emp = {};

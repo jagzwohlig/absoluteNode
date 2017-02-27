@@ -260,7 +260,7 @@ var navigationservice = angular.module('navigationservice', [])
             {
                 name: "Templates",
                 classis: "active",
-                anchor: "timeline",
+                anchor: "template",
                 icon: "file-text",
                 subnav: [
                     //     {
