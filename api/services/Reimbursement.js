@@ -4,30 +4,133 @@ var schema = new Schema({
         ref: "Employee",
         required: true
     },
-    cost: Number,
-    reason: String,
-    status: String,
+    branch: {
+        type: Schema.Types.ObjectId,
+        ref: "Employee",
+        required: true
+    },
+    position: {
+        type: Schema.Types.ObjectId,
+        ref: "Employee",
+        required: true
+    },
     assignment: {
         type: Schema.Types.ObjectId,
         ref: "Assignment",
         required: true
     },
+    purpose: String,
+    cost: Number,
+    reason: String,
+    status: String,
     approvedAmount: Number,
     image: [{
         type: String
     }],
+
+    //Week
+    starting: String,
+    ending: String,
+
+    //Period
+    from: String,
+    to: String,
+    destination:String,
+
+    //Local Conveyance
     expense: [{
-        date: {
-            type: Date
+        expenseDate: Date,
+        expenseFrom: String,
+        expenseTo: String,
+        expensePurpose: String,
+        expenseMode: String,
+        expenseDistance: String,
+        expenseRate: Number,
+        expenseAmount: Number,
+        expenseCreatedAt: {
+            type: Date,
+            default: Date.now
         },
-        from:String,
-        to:String,
-        purpose:String,
-        mode:String,
-        distance:String,
-        rate:Number,
-        amount:Number
-    }]
+        expenseUpdatedAt: {
+            type: Date,
+            default: Date.now
+        }
+    }],
+
+    //Out Station Travel Expense
+    travelExpense: [{
+      //Journey
+
+        //Depature
+        depatureFrom: String,
+        depatureDate: Date,
+        depatureHr: String,
+
+        //Arrival
+        arrivalFrom: String,
+        arrivalDate: Date,
+        arrivalHr: String,
+
+      //End Journey
+        mode: String,
+
+        //Fare
+        class: String,
+        ticketNo: String,
+        km: Number,
+        rate: Number,
+        amount: Number,
+
+        travelExpenseCreatedAt:{
+            type: Date,
+            default: Date.now
+        },
+        travelExpenseUpdatedAt:{
+            type: Date,
+            default: Date.now
+        }
+    }],
+
+    //Out Lodging & Boarding
+    lodgingBoarding: [{
+        lodgingBoardingDate: Date,
+        lodgingBoardingCity: String,
+        lodgingBoardingNightHalt: String,
+        lodgingBoardingClass: String,
+
+        //DHA
+        lodgingBoardingRate: Number,
+        lodgingBoardingAmount: Number,
+
+        lodgingBoardingHotelCharges: Number,
+        lodgingBoardingTotal:Number,
+        lodgingBoardingCreatedAt:{
+            type: Date,
+            default: Date.now
+        },
+        lodgingBoardingUpdatedAt:{
+            type: Date,
+            default: Date.now
+        }
+    }],
+
+     //Out of pocket expense
+    pocketExpense: [{
+        pocketExpenseDate: Date,
+        pocketExpensePlace: String,
+        pocketExpenseDescription: String,
+        pocketExpenseTotal:Number,
+        pocketExpenseCreatedAt:{
+            type: Date,
+            default: Date.now
+        },
+        pocketExpenseUpdatedAt:{
+            type: Date,
+            default: Date.now
+        }
+    }],
+
+
 });
 
 schema.plugin(deepPopulate, {
