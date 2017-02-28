@@ -16,8 +16,9 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Template Name</label>
-                                <input type="text" class="form-control" ng-model="forms.templateName" name="templateName">
+                                <div ng-if="forms.type=='templateIla'"><label>ILA Name</label></div>
+                                <div ng-if="forms.type!='templateIla'"><label>Template Name</label></div>
+                                <input type="text" class="form-control" ng-model="forms.templateName" name="templateName" readonly>
                                 <div class="error-msg" ng-show="formName.templateName.$invalid">Please enter Template name</div>
                             </div>
                         </div>

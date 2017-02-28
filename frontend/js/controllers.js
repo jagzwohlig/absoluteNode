@@ -9521,6 +9521,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 });
                 console.log(data);
                 $scope.forms = data.data;
+                $scope.forms.templateName=data.data.assignment.name;
                 console.log("CCCCCCCCCCCCCCCCCCC", $scope.forms);
                 $scope.assignment = data.data.assignment;
                 $scope.getTimeline();

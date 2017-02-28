@@ -13,7 +13,7 @@
       <tr>
         <th>#</th>
         <th>ILA Template</th>
-        <th>Template Name</th>
+        <th>MR #</th>
         <th>Date</th>
         <th>Actions</th>
       </tr>
@@ -22,7 +22,7 @@
       <tr ng-repeat="ilas in assignment.templateIla track by $index">
         <td>{{$index + 1}}</td>
         <td>{{ilas.name}}</td>
-        <td>{{ilas.templateName}}</td>
+        <td>{{assignment.name}}</td>
         <td>{{ilas.timestamp|date:'dd-MM-yyyy'}}</td>
         <td>
           <button class="btn btn-clear" ng-click="viewTemplates('ILAs','TemplateIla',ilas)"><i class="ln-pencil"></i></button>
