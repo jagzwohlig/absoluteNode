@@ -313,7 +313,7 @@ var navigationservice = angular.module('navigationservice', [])
             {
                 name: "Reimbursement",
                 classis: "active",
-                anchor: "timeline",
+                anchor: "reimbursement",
                 icon: "money",
                 subnav: [{
                     name: "Reimbursement Detail",
@@ -353,6 +353,7 @@ var navigationservice = angular.module('navigationservice', [])
         function isViewHidden(nav, role) {
             stateName = nav.anchor;
             var data = {};
+            console.log(nav,role);
             data.currentRole = _.filter(role.roles, function (n) {
                 var index = _.indexOf(n.states, stateName);
                 console.log(index);
@@ -375,6 +376,7 @@ var navigationservice = angular.module('navigationservice', [])
                 return navigation;
             },
             getNavByRole: function (role) {
+                console.log(role);
                 _.each(navigation, function (nav) {
                     isViewHidden(nav, role);
                     _.each(nav.subnav, function (subnav) {
@@ -413,6 +415,7 @@ var navigationservice = angular.module('navigationservice', [])
                         data = {};
                         data.email = $.jStorage.get("profile").email;
                         $http.post(adminurl + 'Employee/getLoginEmployee', data).success(function (data) {
+                            console.log(data);
                             $.jStorage.set("role", data.data.role);
                             callback();
                         });

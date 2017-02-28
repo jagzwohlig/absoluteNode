@@ -1182,7 +1182,7 @@ var model = {
   // Doc  Photos JIR
 
   mobileSubmit: function (data, callback) {
-    // console.log("Data ", data);
+    console.log("Data ", data);
     var fileArray = [];
     var docCount = 0;
     if (!_.isEmpty(data.doc)) {
@@ -1231,8 +1231,8 @@ var model = {
         "survey.$.address": data.address,
         // "survey.$.dateOfSurvey": new Date(data.dateOfSurvey),
         "survey.$.completionTime": Date.now(),
-        "survey.$.surveyEndTime": new Date(data.surveyEndTime),
-        "survey.$.surveyStartTime": new Date(data.surveyStartTime)
+        "survey.$.surveyEndTime": new Date(data.endTime),
+        "survey.$.surveyStartTime": new Date(data.startTime)
       },
       $push: {
         docs: {
@@ -1250,6 +1250,7 @@ var model = {
         // console.log(err);
         callback(err, null);
       } else {
+        console.log("Found",found)
         var newChat = {};
         newChat.employee = data.empId,
           newChat.type = "SurveyDone",

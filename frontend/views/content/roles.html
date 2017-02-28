@@ -37,9 +37,12 @@
                                     <div class="error-msg" ng-show="roles.name.$invalid && roles.name.$touched">Please Enter Role</div>
                                 </div>
                             </div>
+                            </div>
+                            <div class="row">
                             <div class="col-md-12">
                                 {{formData.roles[0].mainMenu}}
-                                <table class="table table-responsive">
+                                <div class="table-responsive">
+                                <table class="table">
                                     <thead>
                                         <tr>
                                             <th>Main Menu</th>
@@ -104,8 +107,8 @@
                                         </tr ng-init="oldMainMenu = role.mainMenu">
                                     </tbody>
                                 </table>
+                                </div>
                             </div>
-
                         </div>
                         <div class="text-center mt20 odd-even-button">
                             <button class="btn btn-default" type="submit" ng-click="saveModel(formData)" ng-disabled="roles.$invalid">Save</button>

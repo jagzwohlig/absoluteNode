@@ -132,9 +132,9 @@ angular.module('rolesController', ['templateservicemod', 'navigationservice', 'a
         addRoles("Templates", "ILA", "", "template,templateIla-list", true, true, true, true, false, false, false, false, true);
         addRoles("Templates", "ISR", "", "template,templateIsr-list", true, true, true, true, false, false, false, false, true);
         addRoles("Templates", "Invoice", "", "template,templateInvoice-list", true, true, true, true, false, false, false, false, true);        
-        addRoles("Reimbursement", "Reimbursement Detail", "Request", "", true, true, true, true, false, false, false, false, true);
-        addRoles("Reimbursement", "Reimbursement Detail", "Approval", "", true, false, true, false, false, false, true, true, true);
-        addRoles("Reimbursement", "Reimbursement Detail", "Disbusement", "", true, true, true, true, false, false, false, false, true);
+        addRoles("Reimbursement", "Reimbursement Detail", "Request", "reimbursement,reimbursement-list", true, true, true, true, false, false, false, false, true);
+        addRoles("Reimbursement", "Reimbursement Detail", "Approval", "reimbursement,reimbursement-list", true, false, true, false, false, false, true, true, true);
+        addRoles("Reimbursement", "Reimbursement Detail", "Disbusement", "reimbursement,reimbursement-list", true, true, true, true, false, false, false, false, true);
         addRoles("Knowledge Base", "Knowledge Base list", "Access", "", true, true, true, false, false, false, false, false, true);
         addRoles("Knowledge Base", "Knowledge Base list", "Request", "", true, true, true, false, false, false, false, false, true);
         addRoles("Knowledge Base", "Knowledge Base list", "Approval", "", true, true, true, false, false, false, false, false, true);
@@ -158,6 +158,13 @@ angular.module('rolesController', ['templateservicemod', 'navigationservice', 'a
         };
         $scope.viewAll = function (index, state) {
             _.each($scope.formData.roles[index], function (n) {
+                if (n.isExist == true) {
+                    n.val = state;
+                }
+            });
+        };
+        $scope.selectAll = function () {
+            _.each($scope.formData.roles, function (n) {
                 if (n.isExist == true) {
                     n.val = state;
                 }

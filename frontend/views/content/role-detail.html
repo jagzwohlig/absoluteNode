@@ -31,7 +31,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="">Role Name*</label>
+                                    <label for="">Role Name</label>
                                     <input type="text" name="name" placeholder="Role Name" ng-model="formData.name" class="form-control" required>
                                     <div class="error-msg" ng-show="roleForm.name.$invalid && roleForm.name.$touched">Please Enter City Name.</div>
                                 </div>
@@ -67,9 +67,10 @@
                             <button class="btn btn-default" type="submit" ng-click="saveRole(formData)" ng-disabled="roleForm.$invalid">Save</button>
                             <a class="btn btn-default" ng-click="cancel()">Cancel</a>
                         </div>
-                </div>
-            </div>
+               
             </form>
+             </div>
+            </div>
         </div>
     </div>
 </div>

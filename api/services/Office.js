@@ -127,7 +127,7 @@ var model = {
             if (err) {
                 callback(err, null);
             } else {
-                async.each(data2, function (n,callback1) {
+                async.eachSeries(data2, function (n,callback1) {
                     // console.log("N",n._id);
                     Employee.find({
                         postedAt: n._id,
@@ -161,7 +161,53 @@ var model = {
             }
         });
     },
-
+//     getNearestOffice: function (data, callback) {
+//         var finalArr = [];
+//         Office.aggregate([
+//             {
+// near: { type: "Point", coordinates: [ data.lng , data.lat ] },
+// distanceField: "dist.calculated",
+// spherical: true
+// }
+//         ]).lean().exec(function (err, data2) {
+//             // Please Ask And Change Office Limit (Multiple Confirmed All)
+//             if (err) {
+//                 callback(err, null);
+//             } else {
+//                 async.each(data2, function (n,callback1) {
+//                     // console.log("N",n._id);
+//                     Employee.find({
+//                         postedAt: n._id,
+//                         $or: [{
+//                             isSurveyor: true
+//                         }, {
+//                             isField: true
+//                         }]
+//                     }, {
+//                         officeEmail: 1,
+//                         date: 1
+//                     }).exec(function (err, data3) {
+//                         if (err) {
+//                             callback1(err, null);
+//                         } else {
+//                             // console.log("Array Of Employee", data3);
+//                             _.each(data3, function (n) {
+//                                 n.date = data.surveyDate
+//                             finalArr.push(n);
+//                         });
+//                         callback1(null,"Done");
+//                         }
+//                     });
+//                 }, function (err) {
+//                     if (err) {
+//                         console.log("Err");
+//                     } else {
+//                         callback(err, finalArr);
+//                     }
+//                 });
+//             }
+//         });
+//     },
     getNearestOfficeBackUp: function (data, callback) {
         Office.find({
             location: {
