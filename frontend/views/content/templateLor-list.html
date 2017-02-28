@@ -13,7 +13,6 @@
         <div class="col-md-12">
             <div class="widget">
                 <div class="table-area">
-
                     <div class="widget-title">
                         <div class="pull-right">
                             <form class="search-form mr-form">
@@ -35,11 +34,15 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="template in modelList">
-                                    <td>{{template.name}}</td>
+                                <tr ng-repeat="data in modelList">
+                                    <td>{{data.name}}</td>
                                     <td>
-                                        <a class="btn btn-primary" ui-sref="edittemplateLor({id:template._id})" ng-if="template.currentRole.edit.val"><i class="fa fa-pencil"></i></a>
-                                        <a class="btn btn-danger" ng-click="deleteModel(template._id)" ng-if="template.currentRole.delete.val"><i class="fa fa-trash"></i></a>
+                                        <a class="btn btn-primary" ui-sref="edittemplateLor({id:data._id})" ng-if="template.currentRole.edit.val">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                        <a class="btn btn-danger" ng-click="deleteModel(data._id)" ng-if="template.currentRole.delete.val">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -51,7 +54,10 @@
                     <div class="tableData" ng-show="totalItems == undefined">
                         <h5>Loading Data</h5>
                     </div>
-                    <ul ng-if="totalItems" ng-change="changePage(currentPage);" uib-pagination total-items="totalItems" items-per-page="maxRow" ng-model="currentPage" max-size="template.pageMax" class="pagination-sm" boundary-links="true" force-ellipses="true"></ul>
+                    <div>
+ <ul ng-if="totalItems" ng-change="changePage(currentPage);" uib-pagination total-items="totalItems" items-per-page="maxRow"
+                        ng-model="currentPage" max-size="template.pageMax" class="pagination-sm" boundary-links="true" force-ellipses="true"></ul>
+                    </div>
                 </div>
             </div>
         </div>

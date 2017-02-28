@@ -34,11 +34,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="template in modelList">
-                                    <td>{{template.name}}</td>
+                                <tr ng-repeat="data in modelList">
+                                    <td>{{data.name}}</td>
                                     <td>
-                                        <a class="btn btn-primary" ui-sref="edittemplateIsr({id:template._id})" ng-if="template.currentRole.edit.val"><i class="fa fa-pencil"></i></a>
-                                        <a class="btn btn-danger" ng-click="deleteModel(template._id)" ng-if="template.currentRole.delete.val"><i class="fa fa-trash"></i></a>
+                                        <a class="btn btn-primary" ui-sref="edittemplateIsr({id:data._id})" ng-if="template.currentRole.edit.val"><i class="fa fa-pencil"></i></a>
+                                        <a class="btn btn-danger" ng-click="deleteModel(data._id)" ng-if="template.currentRole.delete.val"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>
                             </tbody>

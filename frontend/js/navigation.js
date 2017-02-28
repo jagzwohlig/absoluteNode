@@ -353,10 +353,8 @@ var navigationservice = angular.module('navigationservice', [])
         function isViewHidden(nav, role) {
             stateName = nav.anchor;
             var data = {};
-            console.log(nav,role);
             data.currentRole = _.filter(role.roles, function (n) {
                 var index = _.indexOf(n.states, stateName);
-                console.log(index);
                 if (index >= 0) {
                     return true;
                 } else {

@@ -53,15 +53,12 @@ templateservicemod.service('TemplateService', function (NavigationService, $filt
     this.init();
     var data = this;
     var role = $.jStorage.get("role");
-    console.log("Role",role);
     data.content = "frontend/views/content/" + page + ".html";
     if (state) {
       var stateName = state.current.name;
       data.role = role;
-      
       data.currentRole = _.filter(role.roles, function (n) {
         var index = _.indexOf(n.states, stateName);
-        console.log(index);
         if (index >= 0) {
           return true;
         } else {
