@@ -546,6 +546,9 @@ schema.plugin(deepPopulate, {
     customer: {
       select: 'name _id'
     },
+    'insurerOffice':{
+      select:'name _id'
+    },
     department: {
       select: 'name _id'
     },
@@ -609,7 +612,7 @@ schema.plugin(deepPopulate, {
     'insured': {
       select: 'name _id'
     },
-    'insuredOfficer': {
+    'insuredOffice': {
       select: 'name _id'
     },
     'products.product': {
@@ -650,7 +653,7 @@ schema.plugin(timestamps);
 
 module.exports = mongoose.model('Assignment', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country products.product.category.industry department shareWith.persons policyType natureOfLoss invoice invoice.createdBy insured insuredOfficer owner owner.func company company.city company.city.district.state assessment.employee docs.employee fsrs.employee photos.employee causeOfLoss insurer assignedTo", "city.district.state.zone.country products.product.category.industry department shareWith.persons natureOfLoss invoice invoice.createdBy insuredOfficer assignedTo"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country products.product.category.industry department shareWith.persons policyType natureOfLoss invoice invoice.createdBy insured insuredOffice owner owner.func company company.city insurerOffice company.city.district.state assessment.employee docs.employee fsrs.employee photos.employee causeOfLoss insurer assignedTo", "city.district.state.zone.country products.product.category.industry department shareWith.persons natureOfLoss invoice invoice.createdBy insuredOffice assignedTo insurerOffice"));
 
 var model = {
   saveData: function (data, callback) {
@@ -875,7 +878,7 @@ var model = {
 
         Model.findOne({
           _id: data[0]._id
-        }).deepPopulate("city.district.state.zone.country products.product.category.industry shareWith.persons branch natureOfLoss department insurerOfficer insuredOfficer owner owner.func company company.city assessment.employee customer docs.employee fsrs.employee photos.employee causeOfLoss insurer policyType insured salvage natureOfLoss", "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insuredOfficer").exec(function (err, data3) {
+        }).deepPopulate("city.district.state.zone.country products.product.category.industry shareWith.persons branch natureOfLoss department insurerOffice insuredOffice owner owner.func company company.city assessment.employee customer docs.employee fsrs.employee photos.employee causeOfLoss insurer policyType insured salvage natureOfLoss", "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insurerOffice insuredOffice").exec(function (err, data3) {
           if (err) {
             callback(err, data3);
           } else {

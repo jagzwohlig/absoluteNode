@@ -68,6 +68,14 @@ templateservicemod.service('TemplateService', function (NavigationService, $filt
       if (data.currentRole.length > 0) {
         data.currentRole = data.currentRole[0];
       }
+      var assignmentFilter =  _.filter(role.roles,{"subMenu":"Assignment"});
+      console.log(assignmentFilter);
+      data.assignmentRole = _.groupBy(assignmentFilter,"subThirdMenu");
+      console.log(data.assignmentRole);
+      _.each(data.assignmentRole,function(n,key) {
+        data.assignmentRole[key] = n[0];
+      });
+      console.log(data.assignmentRole);
     }
     NavigationService.getNavByRole(role);
     return data;
