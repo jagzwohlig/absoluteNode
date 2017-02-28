@@ -89,6 +89,7 @@ angular.module('rolesController', ['templateservicemod', 'navigationservice', 'a
         addRoles("Finance", "Banks", "", "finance,bankMaster-list", true, true, true, true, false, false, false, false, true);
         addRoles("Finance", "Activity Type", "", "finance,activityType-list", true, true, true, true, true, true, true, true, true);
         addRoles("Finance", "Expense", "", "finance,expense-list", true, true, true, true, true, true, true, true, true);
+        addRoles("Finance", "InvoiceExpenditure", "", "finance,invoiceExpenditure-list", true, true, true, true, false, false, false, false, true);
         addRoles("Finance", "Tax", "", "finance,tax-list", true, true, true, true, false, false, false, false, true);
         addRoles("Customer", "Segment", "", "customer,customerSegment-list", true, true, true, true, false, false, false, false, true);
         addRoles("Customer", "Company", "", "customer,customerCompany-list", true, true, true, true, false, false, false, false, true);
