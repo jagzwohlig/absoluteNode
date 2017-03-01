@@ -546,8 +546,8 @@ schema.plugin(deepPopulate, {
     customer: {
       select: 'name _id'
     },
-    'insurerOffice':{
-      select:'name _id'
+    'insurerOffice': {
+      select: 'name _id'
     },
     department: {
       select: 'name _id'
@@ -878,14 +878,29 @@ var model = {
 
         Model.findOne({
           _id: data[0]._id
-        }).deepPopulate("city.district.state.zone.country products.product.category.industry shareWith.persons branch natureOfLoss department insurerOffice insuredOffice owner owner.func company company.city assessment.employee customer docs.employee fsrs.employee photos.employee causeOfLoss insurer policyType insured salvage natureOfLoss", "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insurerOffice insuredOffice").exec(function (err, data3) {
+        }).deepPopulate("city.district.state.zone.country products.product.category.industry shareWith.persons branch natureOfLoss department insurerOffice insuredOffice owner owner.func company company.city assessment.employee customer docs.employee fsrs.employee photos.employee causeOfLoss insurer policyType insured salvage natureOfLoss", "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insurerOffice insuredOffice").lean().exec(function (err, data3) {
           if (err) {
             callback(err, data3);
           } else {
-            data2.assignment = data3;
-            callback(null, data2);
+            // console.log("11111111111111111111111111111",data3.policyDoc);
+            var filter = {
+              _id: data3.policyDoc
+            }
+            // console.log("Filter", filter._id);
+            // For policyNumber
+            PolicyDoc.getPolicyDoc({
+              filter
+            }, function (err, data4) {
+              if (err) {
+                data2.assignment = data3;
+                callback(null, data2);
+              } else {
+                data2.assignment = data3;
+                data2.assignment.policyNumber=data4.results[0].policyNo;
+                callback(null, data2);
+              }
+            });
           }
-
         });
 
       }
@@ -1253,7 +1268,7 @@ var model = {
         // console.log(err);
         callback(err, null);
       } else {
-        console.log("Found",found)
+        console.log("Found", found)
         var newChat = {};
         newChat.employee = data.empId,
           newChat.type = "SurveyDone",
@@ -1602,7 +1617,7 @@ var model = {
           'department.name': surveyDepartment
         }
       }
-      var ownerStatus = Object.assign(timelineStatus, name1, owner1, insurer1, insurerd1, surveyDepartment1, ownerId1, intimatedLoss1, city1, branch1,createdAt1);
+      var ownerStatus = Object.assign(timelineStatus, name1, owner1, insurer1, insurerd1, surveyDepartment1, ownerId1, intimatedLoss1, city1, branch1, createdAt1);
     } else if (data.ownerStatus == "Shared with me") {
       if (data.from === "" && data.to === "") {
         var intimatedLoss1 = {}
@@ -1688,7 +1703,7 @@ var model = {
           'department.name': surveyDepartment
         }
       }
-      var ownerStatus = Object.assign(timelineStatus, name1, owner1, insurer1, insurerd1, surveyDepartment1, ownerId1, intimatedLoss1, city1, branch1,createdAt1);
+      var ownerStatus = Object.assign(timelineStatus, name1, owner1, insurer1, insurerd1, surveyDepartment1, ownerId1, intimatedLoss1, city1, branch1, createdAt1);
     } else if (data.ownerStatus == "All files") {
       if (data.from === "" && data.to === "") {
         var intimatedLoss1 = {}
@@ -1766,7 +1781,7 @@ var model = {
           'department.name': surveyDepartment
         }
       }
-      var ownerStatus = Object.assign(timelineStatus, name1, owner1, insurer1, insurerd1, surveyDepartment1, intimatedLoss1, city1, branch1,createdAt1);
+      var ownerStatus = Object.assign(timelineStatus, name1, owner1, insurer1, insurerd1, surveyDepartment1, intimatedLoss1, city1, branch1, createdAt1);
     }
 
     var pageStartFrom = (data.pagenumber - 1) * data.pagelimit;
