@@ -882,12 +882,9 @@ var model = {
           if (err) {
             callback(err, data3);
           } else {
-            // console.log("11111111111111111111111111111",data3.policyDoc);
             var filter = {
               _id: data3.policyDoc
             }
-            // console.log("Filter", filter._id);
-            // For policyNumber
             PolicyDoc.getPolicyDoc({
               filter
             }, function (err, data4) {
