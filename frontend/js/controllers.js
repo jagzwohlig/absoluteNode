@@ -359,18 +359,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         $scope.modelList = data.data.results;
                         $scope.totalItems = data.data.total;
                         $scope.maxRow = 10;
-                        console.log("modelListthnyjujhh", $scope.modelList, $scope.totalItems);
-                        
+                        console.log("modelList", $scope.modelList, $scope.totalItems);
                     }
-                     TemplateService.removeLoader();
-                   
-                });
-                
-                 
-            });
-
-
-           
+                     TemplateService.removeLoader();        
+                });      
+            });       
 
         };
 
