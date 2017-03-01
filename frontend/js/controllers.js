@@ -177,6 +177,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     .controller('ModelViewCtrl', function ($scope, $window, hotkeys, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr, $uibModal) {
         //Used to name the .html file        
         $scope.modelCamel = _.camelCase($stateParams.model);
+          TemplateService.removeLoaderOn(1);
         var a = _.startCase($scope.modelCamel).split(" ");
         $scope.ModelApi = "";
         _.each(a, function (n) {
@@ -325,6 +326,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
         $scope.showAssignment = function (keywordChange) {
+            TemplateService.isLoader = true;
             console.log("keywordChange", keywordChange);
             $scope.totalItems = undefined;
             if (keywordChange) {
@@ -357,10 +359,18 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         $scope.modelList = data.data.results;
                         $scope.totalItems = data.data.total;
                         $scope.maxRow = 10;
-                        console.log("modelList", $scope.modelList, $scope.totalItems);
+                        console.log("modelListthnyjujhh", $scope.modelList, $scope.totalItems);
+                        
                     }
+                     TemplateService.removeLoader();
+                   
                 });
+                
+                 
             });
+
+
+           
 
         };
 

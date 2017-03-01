@@ -3,20 +3,40 @@ templateservicemod.service('TemplateService', function (NavigationService, $filt
   this.title = "Home";
   this.meta = "Google";
   this.metadesc = "Home";
+    this.isLoader = true;
+    this.removeLoaderNum = 0;
+    this.removeLoaderTemp = 0;
   this.pageMax = 10;
   this.profile = $.jStorage.get("profile");
   var d = new Date();
   var role = $.jStorage.get("role");
   this.year = d.getFullYear();
-
+ 
 
   this.init = function () {
     this.header = "frontend/views/header.html";
     this.menu = "frontend/views/menu.html";
+            this.isLoader = true;
     this.content = "frontend/views/content/content.html";
     this.footer = "frontend/views/footer.html";
-    this.profile = $.jStorage.get("profile");
+    this.profile = $.jStorage.get("profile"); 
+        this.removeLoaderTemp = 0;
+        this.removeLoaderNum = 0;
   };
+
+    this.removeLoader = function() {
+        this.removeLoaderTemp++;
+        if (this.removeLoaderTemp >= this.removeLoaderNum) {
+            this.isLoader = false;
+        }
+    };
+    this.getLoader = function() {
+        this.isLoader = true;
+    };
+    this.removeLoaderOn = function(num) {
+        this.isLoader = true;
+        this.removeLoaderNum = num;
+    };
 
   this.mrnumber = function (data, callback) {
     var MRNumber = "";
