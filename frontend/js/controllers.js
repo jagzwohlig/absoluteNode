@@ -997,7 +997,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.formData = {};
         $scope.formData.status = true;
         $scope.formData.appointment = $stateParams.pdf;
-        $scope.formData.invoice = [];
+        $scope.formData.invoices = [];
         $scope.formData.products = [];
         $scope.formData.LRs = [];
         $scope.formData.vehicleNumber = [];
