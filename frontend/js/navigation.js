@@ -834,7 +834,7 @@ var navigationservice = angular.module('navigationservice', [])
                 });
             },
             searchInvoiceExpenditure1: function (formData, callback) {
-                $http.post(adminurl + 'invoiceExpenditure/search', formData).success(function (data) {
+                $http.post(adminurl + 'invoiceExpenditure/searchForInvoiceList', formData).success(function (data) {
                     callback(data);
                 });
             },
