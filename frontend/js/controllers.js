@@ -1288,15 +1288,16 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.wholeObj[$scope.modalIndex] = moddata;
             } else {
                 console.log("In Assignment else", moddata);
-                $scope.newjson = moddata;
-                console.log("$scope.newjson", $scope.newjson);
+                $scope.newjson = {};
                 var a = moddata;
                 switch ($scope.holdObject) {
                     case "invoice":
                         {
                             var newmod = a.invoiceNumber.split(',');
                             _.each(newmod, function (n) {
+                                $scope.newjson = {};
                                 $scope.newjson.invoiceNumber = n;
+                                $scope.newjson.invoiceNumberDate= moddata.invoiceNumberDate;
                                 $scope.wholeObj.push($scope.newjson);
                             });
                         }
@@ -1305,30 +1306,44 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         {
                             var newmod1 = a.item.split(',');
                             _.each(newmod1, function (n) {
+                                $scope.newjson = {};
                                 $scope.newjson.item = n;
                                 $scope.wholeObj.push($scope.newjson);
                             });
                         }
                         break;
                     case "LRs":
-                        var newmod2 = a.lrNumber.split(',');
+                    var newmod2 = a.lrNumber.split(',');
                         _.each(newmod2, function (n) {
+                            $scope.newjson = {};
                             $scope.newjson.lrNumber = n;
+                            $scope.newjson.lrNumberDate=moddata.lrNumberDate;
                             $scope.wholeObj.push($scope.newjson);
                         });
                         break;
                     case "Vehicle":
                         var newmod3 = a.vehicleNumber.split(',');
                         _.each(newmod3, function (n) {
+                            $scope.newjson = {};
                             $scope.newjson.vehicleNumber = n;
                             $scope.wholeObj.push($scope.newjson);
                         });
                         break;
                     case "Location":
-                        $scope.formData.locationArr.push(moddata);
+                    var newmod4 = a.locationString.split(',');
+                        _.each(newmod4, function (n) {
+                            $scope.newjson = {};
+                            $scope.newjson.locationString = n;
+                            $scope.wholeObj.push($scope.newjson);
+                        });
                         break;
                     case "Product":
-                        $scope.formData.product.push(moddata);
+                    var newmod5 = a.product.split(',');
+                        _.each(newmod5, function (n) {
+                            $scope.newjson = {};
+                            $scope.newjson.product = n;
+                            $scope.wholeObj.push($scope.newjson);
+                        });
                         break;
                     default:
                         {
@@ -1481,14 +1496,16 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             if ($scope.modalIndex !== "") {
                 $scope.wholeObj[$scope.modalIndex] = moddata;
             } else {
-                $scope.newjson = moddata;
+                $scope.newjson = {};
                 var a = moddata;
                 switch ($scope.holdObject) {
                     case "invoice":
                         {
                             var newmod = a.invoiceNumber.split(',');
                             _.each(newmod, function (n) {
+                                $scope.newjson = {};
                                 $scope.newjson.invoiceNumber = n;
+                                $scope.newjson.invoiceNumberDate= moddata.invoiceNumberDate;
                                 $scope.wholeObj.push($scope.newjson);
                             });
                         }
@@ -1497,30 +1514,44 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         {
                             var newmod1 = a.item.split(',');
                             _.each(newmod1, function (n) {
+                                $scope.newjson = {};
                                 $scope.newjson.item = n;
                                 $scope.wholeObj.push($scope.newjson);
                             });
                         }
                         break;
                     case "LRs":
-                        var newmod2 = a.lrNumber.split(',');
+                    var newmod2 = a.lrNumber.split(',');
                         _.each(newmod2, function (n) {
+                            $scope.newjson = {};
                             $scope.newjson.lrNumber = n;
+                            $scope.newjson.lrNumberDate=moddata.lrNumberDate;
                             $scope.wholeObj.push($scope.newjson);
                         });
                         break;
                     case "Vehicle":
                         var newmod3 = a.vehicleNumber.split(',');
                         _.each(newmod3, function (n) {
+                            $scope.newjson = {};
                             $scope.newjson.vehicleNumber = n;
                             $scope.wholeObj.push($scope.newjson);
                         });
                         break;
                     case "Location":
-                        $scope.formData.locationArr.push(moddata);
+                    var newmod4 = a.locationString.split(',');
+                        _.each(newmod4, function (n) {
+                            $scope.newjson = {};
+                            $scope.newjson.locationString = n;
+                            $scope.wholeObj.push($scope.newjson);
+                        });
                         break;
                     case "Product":
-                        $scope.formData.product.push(moddata);
+                    var newmod5 = a.product.split(',');
+                        _.each(newmod5, function (n) {
+                            $scope.newjson = {};
+                            $scope.newjson.product = n;
+                            $scope.wholeObj.push($scope.newjson);
+                        });
                         break;
                     default:
                         {
