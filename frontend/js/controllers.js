@@ -177,7 +177,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     .controller('ModelViewCtrl', function ($scope, $window, hotkeys, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr, $uibModal) {
         //Used to name the .html file        
         $scope.modelCamel = _.camelCase($stateParams.model);
-          TemplateService.removeLoaderOn(1);
+        //   TemplateService.removeLoaderOn(2);
         var a = _.startCase($scope.modelCamel).split(" ");
         $scope.ModelApi = "";
         _.each(a, function (n) {
@@ -309,6 +309,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         console.log("OwnerId", ownerId);
 
         $scope.showAll = function (keywordChange) {
+            //  TemplateService.isLoader = true;
             $scope.totalItems = undefined;
             if (keywordChange) {
                 $scope.currentPage = 1;
@@ -321,12 +322,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     $scope.modelList = data.data.results;
                     $scope.totalItems = data.data.total;
                     $scope.maxRow = data.data.options.count;
-                    console.log("modelList", $scope.modelList);
+                    console.log("modelListSearchmodel", $scope.modelList);
+                    //  TemplateService.removeLoader(); 
                 }
             });
         };
         $scope.showAssignment = function (keywordChange) {
-            TemplateService.isLoader = true;
+            // TemplateService.isLoader = true;
             console.log("keywordChange", keywordChange);
             $scope.totalItems = undefined;
             if (keywordChange) {
@@ -361,7 +363,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         $scope.maxRow = 10;
                         console.log("modelList", $scope.modelList, $scope.totalItems);
                     }
-                     TemplateService.removeLoader();        
+                    //  TemplateService.removeLoader();        
                 });      
             });       
 

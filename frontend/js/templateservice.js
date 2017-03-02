@@ -3,7 +3,7 @@ templateservicemod.service('TemplateService', function (NavigationService, $filt
   this.title = "Home";
   this.meta = "Google";
   this.metadesc = "Home";
-    this.isLoader = true;
+    this.isLoader = false;
     this.removeLoaderNum = 0;
     this.removeLoaderTemp = 0;
   this.pageMax = 10;
