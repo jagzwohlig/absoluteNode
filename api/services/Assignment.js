@@ -758,6 +758,7 @@ var model = {
       }
     });
   },
+  
   generateAssignmentNumberForAll: function (data, callback) {
     Assignment.find({}).sort({
       _id: 1

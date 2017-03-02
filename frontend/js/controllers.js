@@ -510,7 +510,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             //     }
             // })
         }
-        $scope.timelineStatus = ["All","Survey Pending","Survey Assigned","ILA Pending","LOR Pending","Dox Pending","Part Dox Pending","Assessment Pending","Consent Pending","FSR Pending","BBND","Dispatched","Collected"];
+        $scope.timelineStatus = ["Survey Pending","Survey Assigned","ILA Pending","LOR Pending","Dox Pending","Part Dox Pending","Assessment Pending","Consent Pending","FSR Pending","BBND","Dispatched","Collected"];
         $scope.refreshInsurer = function (data, insurer) {
             var formdata = {};
             formdata.keyword = data;
