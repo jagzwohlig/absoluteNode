@@ -202,7 +202,6 @@ var model = {
         if (!data.keyword) {
             data.keyword = "";
         }
-        console.log(aggText);
         Model.aggregate(aggText).exec(function (err, data2) {
             var data3 = [];
             _.each(data2, function (n) {
@@ -210,7 +209,6 @@ var model = {
             });
             var resultdoc = {};
             resultdoc.results = data3;
-            console.log("Policy Doc result", resultdoc.results);
             callback(err, resultdoc);
         });
     },

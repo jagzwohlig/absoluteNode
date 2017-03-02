@@ -17,7 +17,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="widget">
-            <!--<span>{{template.assignmentRole.New|json}}</span>-->
+                <!--<span>{{template.assignmentRole.New|json}}</span>-->
                 <div class="table-area">
                     <div class="widget-title">
                         <div class="pull-right">
@@ -63,7 +63,7 @@
                                     <td>{{data.insurerdName}}</td>
                                     <td>{{data.city}}</td>
                                     <td>{{data.department}}</td>
-                                    <td style="text-align:right;">{{data.intimatedLoss| amt}}</td>
+                                    <td style="text-align:right;"><div ng-if="data.intimatedLoss!=undefined">{{data.intimatedLoss| number}}</div><div ng-if="data.intimatedLoss==undefined">-</div></td>
                                     <td>
                                         {{data.timelineStatus}}
                                         <!--<toggle-switch ng-model="data.status" class="switch-mini switch-success" ng-change="changeStatus(data)"></toggle-switch>-->
