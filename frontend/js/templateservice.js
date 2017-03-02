@@ -16,7 +16,7 @@ templateservicemod.service('TemplateService', function (NavigationService, $filt
   this.init = function () {
     this.header = "frontend/views/header.html";
     this.menu = "frontend/views/menu.html";
-            this.isLoader = true;
+            this.isLoader = false;
     this.content = "frontend/views/content/content.html";
     this.footer = "frontend/views/footer.html";
     this.profile = $.jStorage.get("profile"); 
@@ -24,19 +24,22 @@ templateservicemod.service('TemplateService', function (NavigationService, $filt
         this.removeLoaderNum = 0;
   };
 
-    this.removeLoader = function() {
-        this.removeLoaderTemp++;
-        if (this.removeLoaderTemp >= this.removeLoaderNum) {
-            this.isLoader = false;
-        }
-    };
+    // this.removeLoader = function() {
+    //     this.removeLoaderTemp++;
+    //     if (this.removeLoaderTemp >= this.removeLoaderNum) {
+    //         this.isLoader = false;
+    //     }
+    // };
     this.getLoader = function() {
         this.isLoader = true;
     };
-    this.removeLoaderOn = function(num) {
-        this.isLoader = true;
-        this.removeLoaderNum = num;
+    this.removeLoader = function() {
+        this.isLoader = false;
     };
+    // this.removeLoaderOn = function(num) {
+    //     this.isLoader = true;
+    //     this.removeLoaderNum = num;
+    // };
 
   this.mrnumber = function (data, callback) {
     var MRNumber = "";
