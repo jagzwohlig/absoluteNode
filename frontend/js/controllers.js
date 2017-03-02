@@ -426,6 +426,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 goTo = $scope.modelCamel + "-list";
             }
             $state.go(goTo, {
+                sorting:filter.sorting,
                 page: page,
                 timelineStatus: filter.timelineStatus,
                 ownerStatus: filter.ownerStatus,
