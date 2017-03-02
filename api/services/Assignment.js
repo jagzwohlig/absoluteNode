@@ -1609,11 +1609,11 @@ var model = {
         preserveNullAndEmptyArrays: true
       }
     }, 
-    // {
-    //   $match: {
-    //     $and: [ownerStatus]
-    //   }
-    // }, 
+    {
+      $match: {
+        $and: [ownerStatus]
+      }
+    }, 
     {
       $sort: {
         createdAt: -1
@@ -1710,12 +1710,11 @@ var model = {
         preserveNullAndEmptyArrays: true
       }
     },
-    //  {
-    //   $match: {
-    //     $and: [ownerStatus]
-    //   }
-    // }
-    // ,
+     {
+      $match: {
+        $and: [ownerStatus]
+      }
+    },
      {
       $group: {
         _id: null,
