@@ -738,6 +738,42 @@ var model = {
         }
     },
 
+     employeeSearch: function (data, callback) {
+
+        var Model = this;
+        var Const = this(data);
+        var maxRow = Config.maxRow;
+        var pagestartfrom = (data.page - 1) * maxRow;
+        var page = 1;
+        // var name1=subString()
+        if (data.page) {
+            page = data.page;
+        }
+        var field = data.field;
+        var options = {
+            field: data.field,
+            filters: {
+                keyword: {
+                    fields: ['name'],
+                    term: data.keyword
+                }
+            },
+
+            sort: {
+                asc: "name",
+            },
+            start: (page - 1) * maxRow,
+            count: maxRow
+        };
+    
+            var Search = Model.find(data.filter)
+                .order(options)
+                .deepPopulate("postedAt grade")
+                .keyword(options)
+                .page(options, callback);
+    
+    },
+
 
     getDashboardCounts: function (data, callback) {
         var Search = Assignment.aggregate([{

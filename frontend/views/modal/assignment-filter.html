@@ -11,25 +11,51 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">Owner Name</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" ng-model="filter.owner">
+                <!--<input type="text" class="form-control" ng-model="filter.owner">-->
+                <ui-select multiple tagging="tagTransform" tagging-label="(press enter to add new)" name="owner" ng-model="filter.owner"
+                    theme="bootstrap" required>
+                    <ui-select-match>{{$item.name}}</ui-select-match>
+                    <ui-select-choices repeat="owner in ownerData | filter:$select.search" refresh-delay="0" refresh="refreshOwner($select.search)">{{owner.name}}</ui-select-choices>
+                </ui-select>
+                <div class="error-msg" ng-show="filterForm.owner.$invalid && filterForm.owner.$touched">Please Select Owner Name</div>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">Insurer</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" ng-model="filter.insurer">
+                <!--<input type="text" class="form-control" ng-model="filter.insurer">-->
+                <ui-select multiple tagging="tagTransform" tagging-label="(press enter to add new)" name="insurer" ng-model="filter.insurer"
+                    theme="bootstrap" required>
+                    <ui-select-match>{{$item.name}}</ui-select-match>
+                    <ui-select-choices repeat="insurer in insurerData | filter:$select.search" refresh-delay="0" refresh="refreshInsurer($select.search)">{{insurer.name}}</ui-select-choices>
+                </ui-select>
+                <div class="error-msg" ng-show="filterForm.insurer.$invalid && filterForm.insurer.$touched">Please Select Insurer Office</div>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">Insured</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" ng-model="filter.insurerd">
+                <!--<input type="text" class="form-control" ng-model="filter.insurerd">-->
+                <!--<multiple-select my-enter name="insurerd" ng-model="formData.insurerd" ng-name="name.office" api="searchInsured"></multiple-select>
+                <div class="error-msg" ng-show="filterForm.insurerd.$invalid">Please Select Insured Company</div>-->
+                <ui-select multiple tagging="tagTransform" tagging-label="(press enter to add new)" name="insurerd" ng-model="filter.insurerd"
+                    theme="bootstrap" required>
+                    <ui-select-match>{{$item.name}}</ui-select-match>
+                    <ui-select-choices repeat="insurerd in insurerdData | filter:$select.search" refresh-delay="0" refresh="refreshInsurerd($select.search)">{{insurerd.name}}</ui-select-choices>
+                </ui-select>
+                <div class="error-msg" ng-show="filterForm.insurerd.$invalid && filterForm.insurerd.$touched">Please Select Insurerd Office</div>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">City</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" ng-model="filter.city">
+                <!--<input type="text" class="form-control" ng-model="filter.city">-->
+                <ui-select multiple tagging="tagTransform" tagging-label="(press enter to add new)" name="city" ng-model="filter.city" theme="bootstrap"
+                    required>
+                    <ui-select-match>{{$item.name}}</ui-select-match>
+                    <ui-select-choices repeat="city in cityData | filter:$select.search" refresh-delay="0" refresh="refreshCity($select.search)">{{city.name}}</ui-select-choices>
+                </ui-select>
+                <div class="error-msg" ng-show="filterForm.city.$invalid && filterForm.city.$touched">Please Select City Name</div>
             </div>
         </div>
         <!--<div class="col-md-12">
@@ -42,13 +68,24 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">Branch</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" ng-model="filter.branch">
+                <!--<input type="text" class="form-control" ng-model="filter.branch">-->
+                <ui-select multiple tagging="tagTransform" tagging-label="(press enter to add new)" name="branch" ng-model="filter.branch"
+                    theme="bootstrap" required>
+                    <ui-select-match>{{$item.name}}</ui-select-match>
+                    <ui-select-choices repeat="branch in branchData | filter:$select.search" refresh-delay="0" refresh="refreshBranch($select.search)">{{branch.name}}</ui-select-choices>
+                </ui-select>
+                <div class="error-msg" ng-show="filterForm.branch.$invalid && filterForm.branch.$touched">Please Select Branch Name</div>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">Nature Of Survey</label>
             <div class="col-sm-9">
-                <input type="text" class="form-control" ng-model="filter.department">
+                <ui-select multiple tagging="tagTransform" tagging-label="(press enter to add new)" name="department" ng-model="filter.department"
+                    theme="bootstrap" required>
+                    <ui-select-match>{{$item.name}}</ui-select-match>
+                    <ui-select-choices repeat="department in departmentData | filter:$select.search" refresh-delay="0" refresh="refreshDepartment($select.search)">{{department.name}}</ui-select-choices>
+                </ui-select>
+                <div class="error-msg" ng-show="filterForm.department.$invalid && filterForm.department.$touched">Please Select Nature Of Survey</div>
             </div>
         </div>
         <div class="form-group">
@@ -84,21 +121,14 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">Timeline Status</label>
             <div class="col-sm-4">
-                <select name="timelineStatus" ng-model="filter.timelineStatus" class="form-control">
-                                <option value="All">All</option>
-                                <option value="Survey Pending">Survey Pending</option>
-                                <option value="Survey Assigned">Survey Assigned</option>
-                                <option value="ILA Pending">ILA Pending</option>
-                                <option value="LOR Pending">LOR Pending</option>
-                                <option value="Dox Pending">Dox Pending</option>
-                                <option value="Part Dox Pending">Part Dox Pending</option>
-                                <option value="Assessment Pending">Assessment Pending</option>
-                                <option value="Consent Pending">Consent Pending</option>
-                                <option value="FSR Pending">FSR Pending</option>
-                                <option value="BBND">BBND</option>
-                                <option value="Dispatched">Dispatched</option>
-                                <option value="Collected">Collected</option>
-                            </select>
+                <!--<ui-select multiple tagging="tagTransform" tagging-label="(press enter to add new)"
+                    name="timelineStatus" ng-model="filter.timelineStatus" theme="bootstrap" required>-->
+                <ui-select multiple tagging="tagTransform" name="timelineStatus" ng-model="filter.timelineStatus"
+                    theme="bootstrap" required>
+                    <ui-select-match>{{$item}}</ui-select-match>
+                    <ui-select-choices repeat="timeline in timelineStatus | filter:$select.search" refresh-delay="0">{{timeline}}</ui-select-choices>
+                </ui-select>
+                <div class="error-msg" ng-show="filterForm.timelineStatus.$invalid && filterForm.timelineStatus.$touched">Please Select TimelineStatus</div>
             </div>
         </div>
     </form>
