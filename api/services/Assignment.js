@@ -739,7 +739,6 @@ var model = {
   },
 
   getNearestSurveyor2: function (data, callback) {
-    // console.log("AAAAAAA", data);
     Employee.find({
       _id: {
         $in: data.ids
@@ -750,7 +749,6 @@ var model = {
       employeeCode: 1,
       officeEmail: 1
     }).lean().exec(function (err, data2) {
-      // console.log("Data2", data2);
       if (err) {
         callback(err, null);
       } else {
@@ -767,12 +765,10 @@ var model = {
         callback(err, null);
       } else {
         async.eachSeries(data, function (n, callback1) {
-          // console.log("NNNNN", n);
           Assignment.generateAssignmentNumber(n, function (err, data3) {
             if (err) {
               callback1(err, null)
             } else {
-              // console.log(data3);
               callback1(null, data3);
             }
           });
@@ -793,11 +789,9 @@ var model = {
       if (err) {
         callback(err, null);
       } else if (branchDetails) {
-        // console.log("AAAAAAAAAA", branchDetails);
         data.dateMOY = branchDetails.seriesFormat;
         data.brachCode = branchDetails.code;
         data.fourthDigit = Assignment.getFourthDigit(data);
-        // console.log("Data Before ", data.fourthDigit);
         Assignment.getSixthDigit(data, function (err, sixthDigit) {
           if (err) {
             callback(err, null)
@@ -957,16 +951,13 @@ var model = {
         var filter = {
             _id: data2.assignment.policyDoc
           }
-          // console.log("Filter", filter._id);
           // For policyNumber
         PolicyDoc.getPolicyDoc({
           filter
         }, function (err, data4) {
           if (err) {
-            console.log("Data 4 if err", data2.assignment.policyNumber);
             Config.generatePdf("pdf/table", $scope, callback);
           } else {
-            console.log("Data 4", data4);
             $scope.data.assignment.policyNumber = data4.results[0].policyNo;
             Config.generatePdf("pdf/table", $scope, callback);
           }
@@ -1064,10 +1055,8 @@ var model = {
       }
     }).exec(function (err, found) {
       if (err) {
-        // console.log(err);
         callback(err, null);
       } else if (found) {
-        // console.log("Found", found);
         callback(null, found);
       } else {
         callback(null, found);
@@ -1168,7 +1157,6 @@ var model = {
     }).exec(function (err, found) {
 
       if (err) {
-        // console.log(err);
         callback(err, null);
       } else {
         var newChat = {};
@@ -1198,7 +1186,6 @@ var model = {
   // Doc  Photos JIR
 
   mobileSubmit: function (data, callback) {
-    console.log("Data ", data);
     var fileArray = [];
     var docCount = 0;
     if (!_.isEmpty(data.doc)) {
@@ -1213,7 +1200,6 @@ var model = {
       });
     }
     if (!_.isEmpty(data.photos)) {
-      // console.log("In Photos", data.photos);
       _.each(data.photos, function (n) {
         n.fileName = Date.now(),
           n.employee = data.empId,
@@ -1225,8 +1211,6 @@ var model = {
       });
     }
     if (!_.isEmpty(data.jir)) {
-      // console.log("In JIR", data.jir);
-
       _.each(data.jir, function (n) {
         n.fileName = Date.now(),
           n.employee = data.empId,
@@ -1263,10 +1247,8 @@ var model = {
       },
     }).exec(function (err, found) {
       if (err) {
-        // console.log(err);
         callback(err, null);
       } else {
-        console.log("Found", found)
         var newChat = {};
         newChat.employee = data.empId,
           newChat.type = "SurveyDone",
@@ -1280,7 +1262,6 @@ var model = {
               n.type = "Normal",
               n.title = "Survey Done";
           })
-          // console.log("Final Count", fileArray);
         fileArray.push(newChat);
         Timeline.update({
           assignment: data.assignId
@@ -1334,15 +1315,12 @@ var model = {
       green(currentDateMonth);
       if (currentDateMonth > 3) {
         newDate = moment(new Date(data.dateOfAppointment)).add(5, "hours").add(30, "minutes").add(1, "year").format("YYYY");
-        // console.log("New Date", newDate);
       } else {
         newDate = moment(new Date(data.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("YYYY");
-        // console.log("New Date", newDate);
       }
       return newDate;
     } else {
       var currentDateMonth = moment(new Date(data.dateOfAppointment)).add(5, "hours").add(30, "minutes").format("MM-YYYY");
-      // console.log("New Date", currentDateMonth);
       return currentDateMonth;
     }
   },
@@ -1556,7 +1534,7 @@ var model = {
       }
     }
     var ownerStatus = Object.assign(timelineStatus, name, owner, insurer, insurerd, department, ownerId, intimatedLoss, city, branch, createdAt, shareWith);
-    console.log(ownerStatus);
+    console.log(data.pagenumber);
     var pageStartFrom = (data.pagenumber - 1) * data.pagelimit;
     var allTable = [{
       $lookup: {
@@ -1630,11 +1608,13 @@ var model = {
         path: "$department",
         preserveNullAndEmptyArrays: true
       }
-    }, {
-      $match: {
-        $and: [ownerStatus]
-      }
-    }, {
+    }, 
+    // {
+    //   $match: {
+    //     $and: [ownerStatus]
+    //   }
+    // }, 
+    {
       $sort: {
         createdAt: -1
       }
@@ -1729,11 +1709,14 @@ var model = {
         path: "$department",
         preserveNullAndEmptyArrays: true
       }
-    }, {
-      $match: {
-        $and: [ownerStatus]
-      }
-    }, {
+    },
+    //  {
+    //   $match: {
+    //     $and: [ownerStatus]
+    //   }
+    // }
+    // ,
+     {
       $group: {
         _id: null,
         count: {
@@ -1754,14 +1737,12 @@ var model = {
       allTable.unshift(unwindSharewith);
       countAllData.unshift(unwindSharewith);
     }
-    // console.log("all table", countAllData);
     async.parallel([
 
       //get assignment
       function (callback) {
         Assignment.aggregate(allTable, function (err, data1) {
           if (err) {
-            // console.log("err", err);
             callback(null, data1);
           } else {
             callback(null, data1);
@@ -1773,7 +1754,6 @@ var model = {
       function (callback) {
         Assignment.aggregate(countAllData, function (err, data2) {
           if (err) {
-            // console.log("err", err);
             callback(null, data2);
           } else {
             callback(null, data2);
@@ -1783,7 +1763,6 @@ var model = {
 
     ], function (err, data3) {
       if (err) {
-        // console.log(err);
         callback(err, null);
       } else {
         if (_.isEmpty(data3[0]) || _.isEmpty(data3[1])) {
@@ -1798,30 +1777,30 @@ var model = {
     });
   },
 
-  updateAllIntimatedLoss: function (data, callback) {
-    Assignment.find().lean().exec(function (err, found) {
-      _.each(found, function (n) {
-        var a = _.split(n.intimatedLoss, ",");
-        n.intimatedLoss = "";
-        _.each(a, function (m) {
-          n.intimatedLoss = n.intimatedLoss + m;
-        });
-        n.intimatedLoss = parseInt(n.intimatedLoss);
-        if (_.isInteger(n.intimatedLoss)) {
-          Assignment.update({
-            _id: n._id
-          }, {
-            intimatedLoss: n.intimatedLoss
-          }).lean().exec(
-            function (err, data5) {
-              console.log("Done");
-            }
-          )
-        }
+  // updateAllIntimatedLoss: function (data, callback) {
+  //   Assignment.find().lean().exec(function (err, found) {
+  //     _.each(found, function (n) {
+  //       var a = _.split(n.intimatedLoss, ",");
+  //       n.intimatedLoss = "";
+  //       _.each(a, function (m) {
+  //         n.intimatedLoss = n.intimatedLoss + m;
+  //       });
+  //       n.intimatedLoss = parseInt(n.intimatedLoss);
+  //       if (_.isInteger(n.intimatedLoss)) {
+  //         Assignment.update({
+  //           _id: n._id
+  //         }, {
+  //           intimatedLoss: n.intimatedLoss
+  //         }).lean().exec(
+  //           function (err, data5) {
+  //             console.log("Done");
+  //           }
+  //         )
+  //       }
 
-      })
-    })
-  },
+  //     })
+  //   })
+  // },
 
   assignmentFilter: function (data, callback) {
     var Model = this;
@@ -1981,7 +1960,6 @@ var model = {
     Assignment.aggregate(aggText).exec(function (err, found) {
 
       if (err) {
-        // console.log(err);
         callback(err, null);
       } else {
         callback(null, found);
