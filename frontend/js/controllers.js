@@ -174,8 +174,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
     })
-    .controller('ModelViewCtrl', function ($scope, $window, hotkeys, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr, $uibModal) {
-        //Used to name the .html file        
+    .controller('ModelViewCtrl', function ($scope, $window, hotkeys, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr, $uibModal) {       
         $scope.modelCamel = _.camelCase($stateParams.model);
         var a = _.startCase($scope.modelCamel).split(" ");
         $scope.ModelApi = "";
@@ -303,11 +302,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         if ($stateParams.keyword) {
             $scope.search.keyword = $stateParams.keyword;
         }
-
-        // 
         console.log("OwnerId", ownerId);
-
         $scope.showAll = function (keywordChange) {
+            TemplateService.getLoader();
             $scope.totalItems = undefined;
             if (keywordChange) {
                 $scope.currentPage = 1;
@@ -320,12 +317,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     $scope.modelList = data.data.results;
                     $scope.totalItems = data.data.total;
                     $scope.maxRow = data.data.options.count;
-                    console.log("modelList", $scope.modelList);
+                    console.log("modelListSearchmodel", $scope.modelList);
+                    TemplateService.removeLoader();
                 }
             });
         };
         $scope.showAssignment = function (keywordChange) {
-             
+             TemplateService.getLoader();
              var owners = [];
             owners = $scope.filter.owner;
             $scope.filter.owner = [];
@@ -375,7 +373,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.filter.insurerd.push(values._id);
             });
             console.log("filter insurerd", $scope.filter.insurerd);
-
+            
             console.log("keywordChange", keywordChange);
             $scope.totalItems = undefined;
             if (keywordChange) {
@@ -410,6 +408,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         $scope.maxRow = 10;
                         console.log("modelList", $scope.modelList, $scope.totalItems);
                     }
+                    TemplateService.removeLoader();    
                 });
                 $scope.filter.insurer = insurers;
                 $scope.filter.insurerd = insurerds;
@@ -417,9 +416,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.filter.city = cities;
                 $scope.filter.branch = branches;
                 $scope.filter.department = departments;
-
-            });
-
+            });  
         };
 
         $scope.changePages = function (page, filter) {

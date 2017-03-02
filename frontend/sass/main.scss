@@ -1039,6 +1039,24 @@ img.uploadingImage {
         }
     }
 }
+
+.loaderHeader {
+    position: fixed;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.92);
+    z-index: 1000;
+    text-align: center;
+}
+
+.loaderHeader img {
+    z-index: 100000;
+    width: 100px;
+    top: 50%;
+    position: absolute;
+    @include transform(translateX(-50%));
+}
 .detail-title{
     width: 150px;
     display: block;

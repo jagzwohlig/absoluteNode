@@ -83,13 +83,16 @@
             </li>
         </ul>
     </div>
+<div class="loaderHeader" ng-show="template.isLoader">
+  <img src="frontend/img/fancybox_loading@2x.gif" alt="" style="height:20px; width:20px;">
+</div>
 </div>
 <!-- Top Bar -->
 <header class="side-header light-skin opened-menu">
     <div class="admin-details">
         <span><img ng-src="{{template.profile.photo|serverimage}}" alt="" /></span>
         <h3 class="capitalize" ng-bind="template.profile.name"></h3>
-        <i class="capitalize" ng-bind="template.profile.accessLevel"></i>
+        <i class="capitalize" ng-bind="template.profile.accessLevel"></i>    
     </div>
     <div class="menu-scroll">
         <div class="side-menus">

@@ -8,12 +8,11 @@
         <h5 class="modal-title">Transfer Assignment</h5>
     </div>
     <div class="modal-body">
-
       <div class="sec">
           <div class="row">
                   <div class="col-md-12">
                   <div class="form-group">
-                      <label>Transfer To*{{modelData}}</label>
+                      <label>Transfer To*</label>
                       <multiple-select my-enter name="department" required ng-model="modelData.owner" ng-name="name.zone" api="searchEmployee" ng-create="departmentSave"></multiple-select>
                       <div class="error-msg" ng-show="formName.department.$invalid">Please Select Department</div>
                   </div>
