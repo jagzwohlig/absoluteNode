@@ -414,7 +414,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 NavigationService.getAllAssignment($scope.ModelApi, {
                     sorting: [$scope.filter.sortName, $scope.filter.sortNumber],
                     pagenumber: $scope.currentPage,
-                    pagelimit: 10,
+                    pagelimit: 5,
                     timelineStatus: $scope.filter.timelineStatus,
                     ownerStatus: $scope.filter.ownerStatus,
                     name: $scope.filter.name,
@@ -433,7 +433,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     if (ini == i) {
                         $scope.modelList = data.data.results;
                         $scope.totalItems = data.data.total;
-                        $scope.maxRow = 10;
+                        $scope.maxRow = 5;
                         console.log("modelList", $scope.modelList, $scope.totalItems);
                     }
                     TemplateService.removeLoader();
