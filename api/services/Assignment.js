@@ -112,6 +112,13 @@ var schema = new Schema({
     index: true,
     key: "assignment"
   },
+  office: {
+    type: Schema.Types.ObjectId,
+    ref: "Office",
+    index: true,
+    required: true,
+    key: "assignment"
+  },
   branch: {
     type: Schema.Types.ObjectId,
     ref: "Branch",
@@ -553,6 +560,9 @@ schema.plugin(deepPopulate, {
       select: 'name _id'
     },
     'branch': {
+      select: 'name _id office'
+    },
+    'office': {
       select: 'name _id'
     },
     'invoice': {
@@ -653,7 +663,7 @@ schema.plugin(timestamps);
 
 module.exports = mongoose.model('Assignment', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country products.product.category.industry department shareWith.persons policyType natureOfLoss invoice invoice.createdBy insured insuredOffice owner owner.func company company.city insurerOffice company.city.district.state assessment.employee docs.employee fsrs.employee photos.employee causeOfLoss insurer assignedTo", "city.district.state.zone.country products.product.category.industry department shareWith.persons natureOfLoss invoice invoice.createdBy insuredOffice assignedTo insurerOffice"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country products.product.category.industry department shareWith.persons policyType natureOfLoss invoice invoice.createdBy insured insuredOffice owner owner.func company company.city insurerOffice company.city.district.state assessment.employee docs.employee fsrs.employee photos.employee causeOfLoss insurer assignedTo office branch", "city.district.state.zone.country products.product.category.industry department shareWith.persons natureOfLoss invoice invoice.createdBy insuredOffice assignedTo insurerOffice office branch"));
 
 var model = {
   saveData: function (data, callback) {
@@ -1407,21 +1417,21 @@ var model = {
         }
       }
     }
-     if (data.sorting[0] == "intimatedLoss") {
+    if (data.sorting[0] == "intimatedLoss") {
       var sort = {
         $sort: {
           intimatedLoss: data.sorting[1]
         }
       }
     }
-     if (data.sorting[0] == "owner") {
+    if (data.sorting[0] == "owner") {
       var sort = {
         $sort: {
           "owner.name": data.sorting[1]
         }
       }
     }
-     if (data.sorting[0] == "insurer") {
+    if (data.sorting[0] == "insurer") {
       var sort = {
         $sort: {
           "insurer.name": data.sorting[1]
@@ -1449,14 +1459,14 @@ var model = {
         }
       }
     }
-     if (data.sorting[0] == "timelineStatus") {
+    if (data.sorting[0] == "timelineStatus") {
       var sort = {
         $sort: {
           timelineStatus: data.sorting[1]
         }
       }
     }
-    console.log( "sort", sort);
+    console.log("sort", sort);
     if (_.isEmpty(data.timelineStatus)) {
       var timelineStatus = {}
     } else {
@@ -2081,7 +2091,43 @@ var model = {
     });
   },
 
+  updateOfficeId: function (data, callback) {
+    Assignment.find({}, {
+      branch: 1
+    }).populate("branch", "office").lean().exec(function (err, findData) {
+      if (err) {
+        console.log("err", err);
+        callback(err, null);
+      } else {
+        if (_.isEmpty(findData)) {
+          callback("No Data found", null);
+        } else {
+          // callback(null,findData);
+          async.eachSeries(findData, function (n, callback1) {
+            console.log("n",n);
+            Assignment.update({
+              _id:n._id
+            },{
+              office:n.branch.office
+            }, function (err, data3) {
+              if (err) {
+                callback1(err, null)
+              } else {
+                callback1(null, data3);
+              }
+            });
 
+          }, function (err, data2) {
+            if (err) {
+              callback(err, data2);
+            } else {
+              callback(null, data2);
+            }
+          });
+        }
+      }
+    });
+  },
 
 };
 

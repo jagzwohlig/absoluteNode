@@ -97,8 +97,8 @@ var model = {
         } else {
             callback(null, null);
         }
-
     },
+
     getBillingType: function (data, callback) {
         Branch.findOne({
             _id: data

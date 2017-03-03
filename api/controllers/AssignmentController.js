@@ -195,5 +195,15 @@ var controller = {
             });
         }
     },
+    updateOfficeId: function(req,res){
+        if (req.body) {
+            req.model.updateOfficeId(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: "Invalid Request"
+            });
+        }
+    }
 };
 module.exports = _.assign(module.exports, controller);
