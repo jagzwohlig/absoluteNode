@@ -1355,8 +1355,8 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
                 fromDate: "",
                 toDate: "",
                 department: [],
-                branch:[],
-                sorting:[]
+                branch: [],
+                sorting: []
             }
         })
 
@@ -1623,6 +1623,12 @@ firstapp.filter('toobject', function () {
             returnStr = returnStr + obj.value;
             return obj;
         });
+        var date1 = moment(returnStr);
+        var temp = date1._isAMomentObject;
+        if (temp === true) {
+            date1 = date1.format("DD/MM/YYYY");
+            return date1;
+        }
         return returnStr;
     };
 });
