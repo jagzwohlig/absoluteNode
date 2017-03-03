@@ -1623,11 +1623,10 @@ firstapp.filter('toobject', function () {
             returnStr = returnStr + obj.value;
             return obj;
         });
-        var date1 = moment(returnStr);
-        var temp = date1._isAMomentObject;
-        if (temp === true) {
-            date1 = date1.format("DD/MM/YYYY");
-            return date1;
+        var a= Date.parse(returnStr);
+        if(a>0){
+           returnStr= moment(returnStr).format("DD/MM/YYYY");
+            return returnStr;
         }
         return returnStr;
     };
