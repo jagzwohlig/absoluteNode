@@ -331,10 +331,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.filter.sortNumber = 1;
         $scope.showAssignment = function (keywordChange, sorting) {
             console.log("sorting assign ment",sorting);
+            console.log("$stateParams.sorting",$stateParams.sorting);
+            
             if (_.isEmpty(sorting)) {
                 sorting=[];
             }
-            if (_.isEmpty($stateParams.sorting)) {
+             if(!_.isEmpty($stateParams.sorting)) {
+                 $scope.filter.sortName = $stateParams.sorting[0];
+                $scope.filter.sortNumber = $stateParams.sorting[1];
+                console.log("state : sortname::: ", $scope.filter.sortName,$scope.filter.sortNumber);
+            }
+             if (sorting[0]) {
                 console.log("sorting=====",sorting);
                 $scope.filter.sortName = sorting[0];
                 if (sorting[1] == 1) {
@@ -342,10 +349,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 } else {
                     $scope.filter.sortNumber = 1;
                 }
-            }  else {
-                 $scope.filter.sortName = $stateParams.sorting[0];
-                $scope.filter.sortNumber = $stateParams.sorting[1];
-            }
+            } 
             TemplateService.getLoader();
             var owners = [];
             owners = $scope.filter.owner;
@@ -410,7 +414,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 NavigationService.getAllAssignment($scope.ModelApi, {
                     sorting: [$scope.filter.sortName, $scope.filter.sortNumber],
                     pagenumber: $scope.currentPage,
-                    pagelimit: 5,
+                    pagelimit: 10,
                     timelineStatus: $scope.filter.timelineStatus,
                     ownerStatus: $scope.filter.ownerStatus,
                     name: $scope.filter.name,
@@ -429,7 +433,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     if (ini == i) {
                         $scope.modelList = data.data.results;
                         $scope.totalItems = data.data.total;
-                        $scope.maxRow = 5;
+                        $scope.maxRow = 10;
                         console.log("modelList", $scope.modelList, $scope.totalItems);
                     }
                     TemplateService.removeLoader();
