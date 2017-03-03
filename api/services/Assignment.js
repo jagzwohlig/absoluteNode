@@ -914,7 +914,8 @@ var model = {
     _.each($scope.data.forms, function (n) {
       _.each(n.items, function (m) {
         if (m.value == "Date") {
-          m.field = moment(m.field).format('ddd, MMM Do, YYYY');
+          // m.field = moment(m.field).format('ddd, MMM Do, YYYY');
+          m.field = moment(m.field).format('DD/MM/YYYY');
         }
       });
     });
