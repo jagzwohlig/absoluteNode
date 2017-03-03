@@ -1345,16 +1345,18 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
                 timelineStatus: "",
                 ownerStatus: "",
                 name: "",
-                owner: "",
+                owner: [],
                 ownerId: "",
-                city: "",
-                insurer: "",
-                insurerd: "",
+                city: [],
+                insurer: [],
+                insurerd: [],
                 from: "",
                 to: "",
                 fromDate: "",
                 toDate: "",
-                department: ""
+                department: [],
+                branch:[],
+                sorting:[]
             }
         })
 

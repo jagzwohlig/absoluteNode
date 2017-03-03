@@ -174,7 +174,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
     })
-    .controller('ModelViewCtrl', function ($scope, $window, hotkeys, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr, $uibModal) {       
+    .controller('ModelViewCtrl', function ($scope, $window, hotkeys, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr, $uibModal) {
         $scope.modelCamel = _.camelCase($stateParams.model);
         var a = _.startCase($scope.modelCamel).split(" ");
         $scope.ModelApi = "";
@@ -190,6 +190,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
         console.log("stateparams", $stateParams);
         $scope.filter = {};
+        if ($stateParams.sorting) {
+            $scope.filter.sorting = $stateParams.sorting;
+        } else {
+            $scope.filter.sorting = [];
+        }
         if ($stateParams.timelineStatus) {
             $scope.filter.timelineStatus = $stateParams.timelineStatus;
         } else {
@@ -322,17 +327,35 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 }
             });
         };
-        $scope.showAssignment = function (keywordChange) {
-             TemplateService.getLoader();
-             var owners = [];
+        $scope.filter.sortName = "";
+        $scope.filter.sortNumber = 1;
+        $scope.showAssignment = function (keywordChange, sorting) {
+            console.log("sorting assign ment",sorting);
+            if (_.isEmpty(sorting)) {
+                sorting=[];
+            }
+            if (_.isEmpty($stateParams.sorting)) {
+                console.log("sorting=====",sorting);
+                $scope.filter.sortName = sorting[0];
+                if (sorting[1] == 1) {
+                    $scope.filter.sortNumber = -1;
+                } else {
+                    $scope.filter.sortNumber = 1;
+                }
+            }  else {
+                 $scope.filter.sortName = $stateParams.sorting[0];
+                $scope.filter.sortNumber = $stateParams.sorting[1];
+            }
+            TemplateService.getLoader();
+            var owners = [];
             owners = $scope.filter.owner;
             $scope.filter.owner = [];
             _.each(owners, function (values) {
                 $scope.filter.owner.push(values._id);
             });
             console.log("filter owner", $scope.filter.owner);
-            
-             var cities = [];
+
+            var cities = [];
             cities = $scope.filter.city;
             $scope.filter.city = [];
             _.each(cities, function (values) {
@@ -340,15 +363,15 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
             console.log("filter city", $scope.filter.city);
 
-             var branches = [];
+            var branches = [];
             branches = $scope.filter.branch;
-            $scope.filter.branch = [];        
+            $scope.filter.branch = [];
             _.each(branches, function (values) {
                 $scope.filter.branch.push(values._id);
             });
             console.log("filter branch", $scope.filter.branch);
 
-             var departments = [];
+            var departments = [];
             departments = $scope.filter.department;
             $scope.filter.department = [];
             _.each(departments, function (values) {
@@ -373,7 +396,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.filter.insurerd.push(values._id);
             });
             console.log("filter insurerd", $scope.filter.insurerd);
-            
+
             console.log("keywordChange", keywordChange);
             $scope.totalItems = undefined;
             if (keywordChange) {
@@ -385,8 +408,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 // $scope.ownersId = data.data._id;
                 console.log("In $scope.ownersId", ownerId);
                 NavigationService.getAllAssignment($scope.ModelApi, {
+                    sorting: [$scope.filter.sortName, $scope.filter.sortNumber],
                     pagenumber: $scope.currentPage,
-                    pagelimit: 10,
+                    pagelimit: 5,
                     timelineStatus: $scope.filter.timelineStatus,
                     ownerStatus: $scope.filter.ownerStatus,
                     name: $scope.filter.name,
@@ -405,10 +429,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     if (ini == i) {
                         $scope.modelList = data.data.results;
                         $scope.totalItems = data.data.total;
-                        $scope.maxRow = 10;
+                        $scope.maxRow = 5;
                         console.log("modelList", $scope.modelList, $scope.totalItems);
                     }
-                    TemplateService.removeLoader();    
+                    TemplateService.removeLoader();
                 });
                 $scope.filter.insurer = insurers;
                 $scope.filter.insurerd = insurerds;
@@ -416,17 +440,19 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.filter.city = cities;
                 $scope.filter.branch = branches;
                 $scope.filter.department = departments;
-            });  
+            });
         };
 
         $scope.changePages = function (page, filter) {
-            // console.log("In Change Page", filter);
+
+            console.log("In Change Page", filter, "page", page);
             var goTo = $scope.modelCamel + "-list";
             if ($scope.search.keyword) {
                 goTo = $scope.modelCamel + "-list";
             }
+            console.log("goto", goTo);
+            console.log("sorting", [$scope.filter.sortName, $scope.filter.sortNumber]);
             $state.go(goTo, {
-                sorting:filter.sorting,
                 page: page,
                 timelineStatus: filter.timelineStatus,
                 ownerStatus: filter.ownerStatus,
@@ -439,7 +465,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 from: filter.from,
                 to: filter.to,
                 branch: filter.branch,
-                department: filter.department
+                department: filter.department,
+                sorting: [$scope.filter.sortName, $scope.filter.sortNumber]
+            }, {
+                reload: true
             });
         };
 
@@ -511,7 +540,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             //     }
             // })
         }
-        $scope.timelineStatus = ["Survey Pending","Survey Assigned","ILA Pending","LOR Pending","Dox Pending","Part Dox Pending","Assessment Pending","Consent Pending","FSR Pending","BBND","Dispatched","Collected"];
+        $scope.timelineStatus = ["Survey Pending", "Survey Assigned", "ILA Pending", "LOR Pending", "Dox Pending", "Part Dox Pending", "Assessment Pending", "Consent Pending", "FSR Pending", "BBND", "Dispatched", "Collected"];
         $scope.refreshInsurer = function (data, insurer) {
             var formdata = {};
             formdata.keyword = data;
@@ -525,7 +554,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         // $scope.refreshInsurer();
 
-         $scope.refreshInsurerd = function (data, insurerd) {
+        $scope.refreshInsurerd = function (data, insurerd) {
             var formdata = {};
             formdata.keyword = data;
             // formdata.filter = {
@@ -537,7 +566,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
-         $scope.refreshOwner = function (data, insurerd) {
+        $scope.refreshOwner = function (data, insurerd) {
             var formdata = {};
             formdata.keyword = data;
             // formdata.filter = {
@@ -548,20 +577,20 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.ownerData = data.data.results;
             });
         };
-    
-         $scope.refreshCity = function (data, insurerd) {
+
+        $scope.refreshCity = function (data, insurerd) {
             var formdata = {};
             formdata.keyword = data;
             // formdata.filter = {
             //     "_id": causeloss
             // };
-            NavigationService.searchPopulatedCity(formdata, 1, function (data) {
+            NavigationService.searchCity(formdata, 1, function (data) {
                 console.log("searchPopulatedCity", data.data.results);
                 $scope.cityData = data.data.results;
             });
         };
 
-         $scope.refreshBranch = function (data, insurerd) {
+        $scope.refreshBranch = function (data, insurerd) {
             var formdata = {};
             formdata.keyword = data;
             // formdata.filter = {
@@ -572,8 +601,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.branchData = data.data.results;
             });
         };
-    
-         $scope.refreshDepartment = function (data, insurerd) {
+
+        $scope.refreshDepartment = function (data, insurerd) {
             var formdata = {};
             formdata.keyword = data;
             // formdata.filter = {

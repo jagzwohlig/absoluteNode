@@ -41,14 +41,14 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>MR Number <a ui-sref="assignment-list({sorting:['name',1]})"><span class="fa fa-sort"></span></a></th>
-                                    <th>Owner <span class="fa fa-sort"></span></th>
-                                    <th>Insurer <span class="fa fa-sort"></span></th>
-                                    <th>Insured <span class="fa fa-sort"></span></th>
-                                    <th>Site City <span class="fa fa-sort"></span></th>
-                                    <th>Nature Of Survey <span class="fa fa-sort"></span></th>
-                                    <th>Estimated Loss <span class="fa fa-sort"></span></th>
-                                    <th>Status <span class="fa fa-sort"></th>
+                                    <th>MR Number <span ng-init="filter.sortName = 'name'" ng-click="showAssignment(true,['name',filter.sortNumber]);" class="fa fa-sort"></span></th>
+                                    <th>Owner <span  ng-init="filter.sortName = 'owner'" ng-click="showAssignment(true,['owner',filter.sortNumber]);" class="fa fa-sort"></span></th>
+                                    <th>Insurer <span  ng-init="filter.sortName = 'insurer'" ng-click="showAssignment(true,['insurer',filter.sortNumber]);" class="fa fa-sort"></span></th>
+                                    <th>Insured <span  ng-init="filter.sortName = 'insurerd'" ng-click="showAssignment(true,['insurerd',filter.sortNumber]);" class="fa fa-sort"></span></th>
+                                    <th>Site City <span  ng-init="filter.sortName = 'city'" ng-click="showAssignment(true,['city',filter.sortNumber]);" class="fa fa-sort"></span></th>
+                                    <th>Nature Of Survey <span ng-init="filter.sortName = 'department'" ng-click="showAssignment(true,['department',filter.sortNumber]);" class="fa fa-sort"></span></th>
+                                    <th>Estimated Loss <span ng-init="filter.sortName = 'intimatedLoss'" ng-click="showAssignment(true,['intimatedLoss',filter.sortNumber]);" class="fa fa-sort"></span></th>
+                                    <th>Status <span  ng-init="filter.sortName = 'timelineStatus'" ng-click="showAssignment(true,['timelineStatus',filter.sortNumber]);" class="fa fa-sort"></span></th>
                                     <th>Actions </th>
                                 </tr>
                             </thead>

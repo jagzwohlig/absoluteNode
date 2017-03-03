@@ -756,7 +756,7 @@ var model = {
       }
     });
   },
-  
+
   generateAssignmentNumberForAll: function (data, callback) {
     Assignment.find({}).sort({
       _id: 1
@@ -878,8 +878,8 @@ var model = {
             callback(err, data3);
           } else {
             var filter = {
-                _id: data3.policyDoc
-              }
+              _id: data3.policyDoc
+            }
             PolicyDoc.getPolicyDoc({
               filter
             }, function (err, data4) {
@@ -1393,6 +1393,70 @@ var model = {
   },
 
   getAll: function (data, callback) {
+    if (_.isEmpty(data.sorting[0])) {
+      var sort = {
+        $sort: {
+          createdAt: -1
+        }
+      }
+    }
+    if (data.sorting[0] == "name") {
+      var sort = {
+        $sort: {
+          name: data.sorting[1]
+        }
+      }
+    }
+     if (data.sorting[0] == "intimatedLoss") {
+      var sort = {
+        $sort: {
+          intimatedLoss: data.sorting[1]
+        }
+      }
+    }
+     if (data.sorting[0] == "owner") {
+      var sort = {
+        $sort: {
+          "owner.name": data.sorting[1]
+        }
+      }
+    }
+     if (data.sorting[0] == "insurer") {
+      var sort = {
+        $sort: {
+          "insurer.name": data.sorting[1]
+        }
+      }
+    }
+    if (data.sorting[0] == "insurerd") {
+      var sort = {
+        $sort: {
+          "insurerd.name": data.sorting[1]
+        }
+      }
+    }
+    if (data.sorting[0] == "department") {
+      var sort = {
+        $sort: {
+          "department.name": data.sorting[1]
+        }
+      }
+    }
+    if (data.sorting[0] == "city") {
+      var sort = {
+        $sort: {
+          "city.name": data.sorting[1]
+        }
+      }
+    }
+     if (data.sorting[0] == "timelineStatus") {
+      var sort = {
+        $sort: {
+          timelineStatus: data.sorting[1]
+        }
+      }
+    }
+    console.log( "sort", sort);
     if (_.isEmpty(data.timelineStatus)) {
       var timelineStatus = {}
     } else {
@@ -1608,17 +1672,11 @@ var model = {
         path: "$department",
         preserveNullAndEmptyArrays: true
       }
-    }, 
-    {
+    }, {
       $match: {
         $and: [ownerStatus]
       }
-    }, 
-    {
-      $sort: {
-        createdAt: -1
-      }
-    }, {
+    }, sort, {
       $skip: parseInt(pageStartFrom)
     }, {
       $limit: data.pagelimit
@@ -1709,13 +1767,11 @@ var model = {
         path: "$department",
         preserveNullAndEmptyArrays: true
       }
-    },
-     {
+    }, {
       $match: {
         $and: [ownerStatus]
       }
-    },
-     {
+    }, {
       $group: {
         _id: null,
         count: {
@@ -1740,7 +1796,7 @@ var model = {
 
       //get assignment
       function (callback) {
-        Assignment.aggregate(allTable, function (err, data1) {
+        Assignment.aggregate(allTable).allowDiskUse(true).exec(function (err, data1) {
           if (err) {
             callback(null, data1);
           } else {
