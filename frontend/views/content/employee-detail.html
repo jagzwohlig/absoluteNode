@@ -33,7 +33,8 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Company Name*</label>
-                                        <multiple-select my-enter name="company" required ng-model="formData.company" ng-name="name.company" api="searchCompany" ng-create="companySave"></multiple-select>
+                                        <multiple-select my-enter name="company" required ng-model="formData.company" ng-name="name.company" api="searchCompany"
+                                            ng-create="companySave"></multiple-select>
                                         <div class="error-msg" ng-show="formName.company.$invalid">Please Select Company Name</div>
                                     </div>
                                 </div>
@@ -61,8 +62,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Posted at*</label>
-                                        <multiple-select my-enter name="postedAt" required ng-model="formData.postedAt" ng-name="name.postedAt"
-                                            api="searchOffice"></multiple-select>
+                                        <multiple-select my-enter name="postedAt" required ng-model="formData.postedAt" ng-name="name.postedAt" api="searchOffice"></multiple-select>
                                         <div class="error-msg" ng-show="formName.postedAt.$invalid">Please Select Current Posting</div>
                                     </div>
                                 </div>
@@ -93,8 +93,7 @@
                                     <div class="form-group">
                                         <label>Branch</label>
                                         <!--filter='{"office":"{{formData.postedAt}}"}' Removed Office Filter-->
-                                        <multiple-select my-enter name="branch" ng-model="formData.branch" ng-name="name.branch"
-                                            api="searchBranch" ng-create="branchSave"></multiple-select>
+                                        <multiple-select my-enter name="branch" ng-model="formData.branch" ng-name="name.branch" api="searchBranch" ng-create="branchSave"></multiple-select>
                                         <div class="error-msg" ng-show="formName.branch.$invalid">Please Select Branch</div>
                                     </div>
                                 </div>
@@ -111,19 +110,21 @@
                                         <upload-image ng-model="formData.photo"></upload-image>
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Role</label>
-                                        <multiple-select my-enter name="role" ng-model="formData.role" ng-name="name.role"
-                                            api="searchRole"></multiple-select>
-                                        <div class="error-msg" ng-show="formName.role.$invalid">Please Select role</div>
+                                        <label>Role*</label>
+                                        <ui-select multiple tagging="tagTransform" tagging-label="(press enter to add new)" on-select="clicked($select.selected)"
+                                            name="role" ng-model="formData.role" theme="bootstrap">
+                                            <ui-select-match>{{$item.name}}</ui-select-match>
+                                            <ui-select-choices repeat="role in roleList | filter:$select.search" refresh-delay="0" refresh="refreshNatureRole($select.search)">{{role.name}}</ui-select-choices>
+                                        </ui-select>
+                                        <div class="error-msg" ng-show="formName.role.$invalid && formName.role.$touched">Please Enter Office</div>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Reproting To</label>
-                                        <multiple-select my-enter name="employee" ng-model="formData.employee" ng-name="name.employee"
-                                            api="searchEmployee"></multiple-select>
+                                        <multiple-select my-enter name="employee" ng-model="formData.employee" ng-name="name.employee" api="searchEmployee"></multiple-select>
                                         <div class="error-msg" ng-show="formName.employee.$invalid">Please Select employee</div>
                                     </div>
                                 </div>
@@ -134,8 +135,8 @@
                                             name="allBranch" ng-model="formData.allBranch" theme="bootstrap">
                                             <ui-select-match>{{$item.name}}</ui-select-match>
                                             <ui-select-choices repeat="allBranch in natureLoss | filter:$select.search" refresh-delay="0" refresh="refreshNature($select.search)">{{allBranch.name}}</ui-select-choices>
-                                            </ui-select>
-                                            <div class="error-msg" ng-show="formName.allBranch.$invalid && formName.allBranch.$touched">Please Enter Office</div>
+                                        </ui-select>
+                                        <div class="error-msg" ng-show="formName.allBranch.$invalid && formName.allBranch.$touched">Please Enter Office</div>
                                     </div>
                                 </div>
                                 <!-- <div class="col-sm-6">
@@ -458,7 +459,7 @@
                 </div>
             </div>
         </div>
-        <div class="widget"ng-hide=true >
+        <div class="widget" ng-hide=true>
             <div class="form-elements-sec">
                 <div class="widget-title">
                     <h3>Leave Management</h3>

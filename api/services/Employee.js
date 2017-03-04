@@ -24,7 +24,7 @@ var schema = new Schema({
         required: true,
         key: "employee"
     },
-      allBranch: [{
+    allBranch: [{
         type: Schema.Types.ObjectId,
         ref: "Branch",
         key: "employee"
@@ -33,10 +33,10 @@ var schema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "employee"
     },
-    role: {
+    role: [{
         type: Schema.Types.ObjectId,
         ref: "Role"
-    },
+    }],
     salutation: {
         type: String
     },
@@ -327,7 +327,7 @@ schema.plugin(deepPopulate, {
 schema.plugin(timestamps);
 module.exports = mongoose.model('Employee', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country func grade department IIISLACertificate.department allBranch", "city.district.state.zone.country  func grade postedAt allBranch"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country func grade department IIISLACertificate.department allBranch role", "city.district.state.zone.country  func grade postedAt allBranch role"));
 var model = {
     // Start
     getBackendEmployee: function (data, callback) {
@@ -738,7 +738,7 @@ var model = {
         }
     },
 
-     employeeSearch: function (data, callback) {
+    employeeSearch: function (data, callback) {
 
         var Model = this;
         var Const = this(data);
@@ -765,13 +765,13 @@ var model = {
             start: (page - 1) * maxRow,
             count: maxRow
         };
-    
-            var Search = Model.find(data.filter)
-                .order(options)
-                .deepPopulate("postedAt grade")
-                .keyword(options)
-                .page(options, callback);
-    
+
+        var Search = Model.find(data.filter)
+            .order(options)
+            .deepPopulate("postedAt grade")
+            .keyword(options)
+            .page(options, callback);
+
     },
 
 
@@ -801,21 +801,22 @@ var model = {
         });
     },
 
-      getAllBranch: function(data, callback) {
-    var Model = this;
-    var Search = Model.findOne({
-        "_id":data.filter._id}).lean().populate('allBranch').exec(function(err, data2) {
-        if (err) {
-            callback(err, data2);
-        } else if (_.isEmpty(data2)) {
-            callback(err, data2);
-        } else {
-          var data3 = {};
-          console.log("ABC",data2);
-            data3.results = data2.allBranch;
-            callback(err, data3);
-        }
-    });
-},
+    getAllBranch: function (data, callback) {
+        var Model = this;
+        var Search = Model.findOne({
+            "_id": data.filter._id
+        }).lean().populate('allBranch').exec(function (err, data2) {
+            if (err) {
+                callback(err, data2);
+            } else if (_.isEmpty(data2)) {
+                callback(err, data2);
+            } else {
+                var data3 = {};
+                console.log("ABC", data2);
+                data3.results = data2.allBranch;
+                callback(err, data3);
+            }
+        });
+    },
 };
 module.exports = _.assign(module.exports, exports, model);

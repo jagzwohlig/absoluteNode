@@ -4363,6 +4363,15 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.natureLoss = data.data.results;
             });
         };
+        $scope.refreshNatureRole = function (data) {
+            var formdata = {};
+            formdata.keyword = data;
+            NavigationService.searchRole(formdata, 1, function (data) {
+                console.log("searchBranch....", data);
+                $scope.roleList = data.data.results;
+            });
+        };
+        
         $scope.refreshGrade = function (data) {
             // var formdata = {};
             // formdata.keyword = data;
