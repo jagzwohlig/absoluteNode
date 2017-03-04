@@ -29,6 +29,7 @@
                             </form>
                             <a class="btn btn-primary" ui-sref="createassignment" ng-if="template.currentRole.add.val">Add New</a>
                             <button class="btn btn-primary" ng-click="assignmentFilter()"><i class="fa fa-filter"></i> Filter</button>
+                            <button class="btn btn-primary" ng-click="assignmentSurvey()">Offline Survey</button>
                         </div>
                         <h3>List of Assignment
                             <span class="tableTotal">(Total :
@@ -41,14 +42,16 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>MR Number <span  ng-click="showAssignment(true,['name',filter.sortNumber]);" class="fa fa-sort"></span></th>
-                                    <th>Owner <span  ng-click="showAssignment(true,['owner',filter.sortNumber]);" class="fa fa-sort"></span></th>
-                                    <th>Insurer <span   ng-click="showAssignment(true,['insurer',filter.sortNumber]);" class="fa fa-sort"></span></th>
-                                    <th>Insured <span  ng-click="showAssignment(true,['insurerd',filter.sortNumber]);" class="fa fa-sort"></span></th>
-                                    <th>Site City <span   ng-click="showAssignment(true,['city',filter.sortNumber]);" class="fa fa-sort"></span></th>
-                                    <th>Nature Of Survey <span  ng-click="showAssignment(true,['department',filter.sortNumber]);" class="fa fa-sort"></span></th>
-                                    <th>Estimated Loss <span ng-click="showAssignment(true,['intimatedLoss',filter.sortNumber]);" class="fa fa-sort"></span></th>
-                                    <th>Status <span  ng-click="showAssignment(true,['timelineStatus',filter.sortNumber]);" class="fa fa-sort"></span></th>
+                                    <th>MR Number <span ng-click="showAssignment(true,['name',filter.sortNumber]);" class="fa fa-sort"></span></th>
+                                    <th>Owner <span ng-click="showAssignment(true,['owner',filter.sortNumber]);" class="fa fa-sort"></span></th>
+                                    <th>Insurer <span ng-click="showAssignment(true,['insurer',filter.sortNumber]);" class="fa fa-sort"></span></th>
+                                    <th>Insured <span ng-click="showAssignment(true,['insurerd',filter.sortNumber]);" class="fa fa-sort"></span></th>
+                                    <th>Site City <span ng-click="showAssignment(true,['city',filter.sortNumber]);" class="fa fa-sort"></span></th>
+                                    <th>Nature Of Survey <span ng-click="showAssignment(true,['department',filter.sortNumber]);"
+                                            class="fa fa-sort"></span></th>
+                                    <th>Estimated Loss <span ng-click="showAssignment(true,['intimatedLoss',filter.sortNumber]);"
+                                            class="fa fa-sort"></span></th>
+                                    <th>Status <span ng-click="showAssignment(true,['timelineStatus',filter.sortNumber]);" class="fa fa-sort"></span></th>
                                     <th>Actions </th>
                                 </tr>
                             </thead>
@@ -63,7 +66,10 @@
                                     <td>{{data.insurerdName}}</td>
                                     <td>{{data.city}}</td>
                                     <td>{{data.department}}</td>
-                                    <td style="text-align:right;"><div ng-if="data.intimatedLoss!=undefined">{{data.intimatedLoss| number}}</div><div ng-if="data.intimatedLoss==undefined">-</div></td>
+                                    <td style="text-align:right;">
+                                        <div ng-if="data.intimatedLoss!=undefined">{{data.intimatedLoss| number}}</div>
+                                        <div ng-if="data.intimatedLoss==undefined">-</div>
+                                    </td>
                                     <td>
                                         {{data.timelineStatus}}
                                         <!--<toggle-switch ng-model="data.status" class="switch-mini switch-success" ng-change="changeStatus(data)"></toggle-switch>-->

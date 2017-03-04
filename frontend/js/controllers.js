@@ -181,6 +181,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         _.each(a, function (n) {
             $scope.ModelApi = $scope.ModelApi + n;
         });
+        $scope.checker = 1;
         var ownerId = "";
         $scope.ownersId = "";
         NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
@@ -531,6 +532,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             var modalInstance = $uibModal.open({
                 scope: $scope,
                 templateUrl: '/frontend/views/modal/assignment-filter.html',
+                size: 'lg'
+            });
+        }
+        $scope.assignmentSurvey = function () {
+            var modalInstance = $uibModal.open({
+                scope: $scope,
+                templateUrl: '/frontend/views/modal/assignment-survey.html',
                 size: 'lg'
             });
         }
@@ -9833,7 +9841,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.getAllSurveyors = [];
     $scope.finalSurveyors = [];
     $scope.assignment = {};
-    $scope.checker = 1;
     $scope.emailtos = [{
         name: 'Mahesh',
         email: 'mahesh@wohlig.com'
@@ -10145,6 +10152,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     //         size: 'md'
     //     });
     // };
+        $scope.assignmentSurvey={};
+        $scope.assignmentSurvey.photo=[];
+        $scope.onPhotoUploadCallback = function (data, length) {
+        console.log("Photo Data", data);
+        $scope.assignmentSurvey.photo.push(data);
+        console.log("assignmentSurvey",assignmentSurvey);
+    };
+
     var modalInstance = function () {};
     $scope.allTemplate = "";
     $scope.saveAssignmentTemplate = function (name, temp) {
