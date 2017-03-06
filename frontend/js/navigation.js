@@ -465,6 +465,12 @@ var navigationservice = angular.module('navigationservice', [])
                     callback(data, i);
                 });
             },
+            mobileSubmit: function (formData, callback) {
+                console.log("formData : ", formData);
+                $http.post(adminurl + 'Assignment/mobileSubmit', formData).success(function (data) {
+                    callback(data);
+                });
+            },
             employeeSearch: function (formData, i, callback) {
                 console.log("formData : ", formData);
                 $http.post(adminurl + 'Employee/employeeSearch', formData).success(function (data) {
