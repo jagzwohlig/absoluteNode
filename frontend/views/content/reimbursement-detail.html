@@ -29,14 +29,30 @@
                         </div>
                         <div class="sec">
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Employee Name*</label>
                                         <multiple-select my-enter name="name" required ng-model="formData.name" ng-name="name.firstName" api="searchEmployee" ng-create="employeeName"></multiple-select>
                                         <div class="error-msg" ng-show="formName.name.$invalid && formName.name.$touched">Please Enter Employee Name</div>
                                     </div>
                                 </div>
-                                <div class="col-md-12">
+                                  <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Branch Office*</label>
+                                        <multiple-select my-enter my-enter name="branch" required ng-model="formData.branch" 
+                                            ng-name="name.branch" api="searchBranch"></multiple-select>
+                                            <div class="error-msg" ng-show="formName.branch.$invalid && formName.branch.$touched">Please Select Branch Office</div>
+                                    </div>
+                                </div>
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Assignment*</label>
+                                        <multiple-select my-enter name="assignment" required ng-model="formData.assignment" ng-name="assignment.name" api="searchAssignment"
+                                            ng-create="assignment"></multiple-select>
+                                        <div class="error-msg" ng-show="formName.ename.$invalid && formName.ename.$touched">Please Enter Employee Name</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Cost*</label>
                                         <input type="number" name="cost" class="form-control" ng-model="formData.cost" required>
@@ -49,26 +65,19 @@
                                         <textarea class="form-control" ng-model="formData.reason"></textarea>
                                     </div>
                                 </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Status*</label>
-                                        <select name="status" class="form-control" ng-model="formData.status" required ng-options="status for status in status"></select>
-                                        <div class="error-msg" ng-show="formName.status.$invalid && formName.status.$touched">Please Select status</div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Assignment*</label>
-                                        <multiple-select my-enter name="assignment" required ng-model="formData.assignment" ng-name="assignment.name" api="searchAssignment"
-                                            ng-create="assignment"></multiple-select>
-                                        <div class="error-msg" ng-show="formName.ename.$invalid && formName.ename.$touched">Please Enter Employee Name</div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
+                                
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Approved amount</label>
                                         <input type="number" name="amnt" class="form-control" ng-model="formData.approvedAmount">
                                         <div class="error-msg" ng-show="formName.amnt.$invalid && formName.amnt.$touched">Please Enter Amount</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Status*</label>
+                                        <select name="status" class="form-control" ng-model="formData.status" required ng-options="status for status in status"></select>
+                                        <div class="error-msg" ng-show="formName.status.$invalid && formName.status.$touched">Please Select status</div>
                                     </div>
                                 </div>
                                 <!--<div class="col-md-12">
@@ -160,7 +169,7 @@
                                                          <div class="input-group">
                                                             <input type="text" name="from" class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.from" is-open="popup.from"
                                                                 datepicker-options="dateOptions" required readonly />
-                                                            <div class="error-msg" ng-show="formName.from.date.$invalid && formName.from.date.$touched">Please Enter To date period</div>
+                                                            <div class="error-msg" ng-show="formName.from.$invalid && formName.from.$touched">Please Enter To date period</div>
                                                             <span class="input-group-btn">
                                                                 <button type="button" class="btn btn-default" ng-click="popup.from = true">
                                                                     <i class="fa fa-calendar"></i>
@@ -175,7 +184,7 @@
                                                         <div class="input-group">
                                                             <input type="text" name="to" class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.to" is-open="popup.to"
                                                                 datepicker-options="dateOptions" required readonly />
-                                                            <div class="error-msg" ng-show="formName.to.date.$invalid && formName.to.date.$touched">Please Enter To date period</div>
+                                                            <div class="error-msg" ng-show="formName.to.$invalid && formName.to.$touched">Please Enter To date period</div>
                                                             <span class="input-group-btn">
                                                                 <button type="button" class="btn btn-default" ng-click="popup.to = true">
                                                                     <i class="fa fa-calendar"></i>
@@ -188,7 +197,7 @@
                                                     <div class="form-group">
                                                         <label>Destination*</label>
                                                         <input type="text" name="destination" class="form-control" ng-model="formData.destination" required>
-                                                        <div class="error-msg" ng-show="formName.destination.$invalid && formName.destination.$touched">Please Enter Destination period</div>
+                                                        <div class="error-msg" ng-show="formName.destination.$invalid && formName.destination.$touched">Please Enter Destination Period</div>
                                                     </div>
                                                 </div>
                                             </div>

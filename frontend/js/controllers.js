@@ -3798,8 +3798,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.deleteElements = function (index, data) {
         data.splice(index, 1);
     };
-    $scope.wholeObj = [];
+    $scope.wholeObj = [];   
     $scope.formData.expense = [];
+    $scope.formData.travelExpense = [];
+    $scope.formData.lodgingBoarding = [];
+    $scope.formData.pocketExpense = [];
     $scope.addElements = function (moddata) {
         console.log("moddata", moddata);
         if ($scope.modalIndex !== "") {
@@ -3836,21 +3839,25 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 case "Expense":
                     {
                         $scope.formData.expense.push(moddata);
+                        console.log("formData.expense: ",$scope.formData.expense);
                     }
                     break;
                 case "Travel Expense":
                     {
                         $scope.formData.travelExpense.push(moddata);
+                        console.log("formData.travelExpense: ",$scope.formData.travelExpense);
                     }
                     break;
                 case "Lodging Boarding":
                     {
                         $scope.formData.lodgingBoarding.push(moddata);
+                        console.log("Form Data: ",$scope.formData.travelExpense);
                     }
                     break;
                 case "Pocket Expense":
                     {
                         $scope.formData.pocketExpense.push(moddata);
+                        console.log("Form Data: ",$scope.formData.travelExpense);
                     }
                     break;
 
@@ -3985,25 +3992,29 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
             }
         } else {
-            switch ($scope.holdObject) {
+           switch ($scope.holdObject) {
                 case "Expense":
                     {
                         $scope.formData.expense.push(moddata);
+                        console.log("formData.expense: ",$scope.formData.expense);
                     }
                     break;
                 case "Travel Expense":
                     {
                         $scope.formData.travelExpense.push(moddata);
+                        console.log("formData.travelExpense: ",$scope.formData.travelExpense);
                     }
                     break;
                 case "Lodging Boarding":
                     {
                         $scope.formData.lodgingBoarding.push(moddata);
+                        console.log("Form Data: ",$scope.formData.travelExpense);
                     }
                     break;
                 case "Pocket Expense":
                     {
                         $scope.formData.pocketExpense.push(moddata);
+                        console.log("Form Data: ",$scope.formData.travelExpense);
                     }
                     break;
 

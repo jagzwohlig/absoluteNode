@@ -13,11 +13,11 @@
                 <div class="form-group">
                     <label>Date*</label>
                     <div class="input-group">
-                        <input type="text" name="date" class="form-control" uib-datepicker-popup="{{format}}" ng-model="modalData.date" 
-                            is-open="popup.date" datepicker-options="dateOptions" required readonly />
-                        <div class="error-msg" ng-show="modalForm1.date.$invalid && modalForm1.date.$touched">Please Enter Date</div>
+                        <input type="text" name="expenseDate" class="form-control" uib-datepicker-popup="{{format}}" ng-model="modalData.expenseDate" 
+                            is-open="popup.expenseDate" datepicker-options="dateOptions" required readonly />
+                        <div class="error-msg" ng-show="modalForm1.expenseDate.$invalid && modalForm1.expenseDate.$touched">Please Enter Date</div>
                         <span class="input-group-btn">
-                          <button type="button" class="btn btn-default" ng-click="popup.date = true">
+                          <button type="button" class="btn btn-default" ng-click="popup.expenseDate = true">
                               <i class="fa fa-calendar"></i>
                           </button>
                       </span>
@@ -27,50 +27,50 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label>From*</label>
-                    <input type="text" class="form-control" name="from" ng-model="modalData.from" required>
-                    <div class="error-msg" ng-show="modalForm1.from.$invalid && modalForm1.from.$touched">Please Enter From Place</div>
+                    <input type="text" class="form-control" name="expenseFrom" ng-model="modalData.expenseFrom" required>
+                    <div class="error-msg" ng-show="modalForm1.expenseFrom.$invalid && modalForm1.expenseFrom.$touched">Please Enter From Place</div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
                     <label>To*</label>
-                    <input type="text" class="form-control" name="to" ng-model="modalData.to" required>
-                    <div class="error-msg" ng-show="modalForm1.to.$invalid && modalForm1.to.$touched">Please Enter To Place</div>
+                    <input type="text" class="form-control" name="expenseTo" ng-model="modalData.expenseTo" required>
+                    <div class="error-msg" ng-show="modalForm1.expenseTo.$invalid && modalForm1.expenseTo.$touched">Please Enter To Place</div>
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="form-group">
                     <label>Purpose*</label>
-                    <input type="textarea" class="form-control" name="purpose" ng-model="modalData.purpose" required>
-                    <div class="error-msg" ng-show="modalForm1.purpose.$invalid && modalForm1.purpose.$touched">Please Enter Purpose</div>
+                    <input type="text" class="form-control" name="expensePurpose" ng-model="modalData.expensePurpose" required>
+                    <div class="error-msg" ng-show="modalForm1.expensePurpose.$invalid && modalForm1.expensePurpose.$touched">Please Enter Purpose</div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Mode*</label>
-                    <input type="textarea" class="form-control" name="mode" ng-model="modalData.mode" required>
-                    <div class="error-msg" ng-show="modalForm1.mode.$invalid && modalForm1.mode.$touched">Please Enter Mode</div>
+                    <input type="text" class="form-control" name="expenseMode" ng-model="modalData.expenseMode" required>
+                    <div class="error-msg" ng-show="modalForm1.expenseMode.$invalid && modalForm1.expenseMode.$touched">Please Enter Mode</div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Distance*</label>
-                    <input type="textarea" class="form-control" name="distance" ng-model="modalData.distance" required>
-                    <div class="error-msg" ng-show="modalForm1.distance.$invalid && modalForm1.distance.$touched">Please Enter Distance</div>
+                    <input type="text" class="form-control" name="expenseDistance" ng-model="modalData.expenseDistance" required>
+                    <div class="error-msg" ng-show="modalForm1.expenseDistance.$invalid && modalForm1.expenseDistance.$touched">Please Enter Distance</div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Rate*</label>
-                    <input type="textarea" class="form-control" name="rate" ng-model="modalData.rate" required>
-                    <div class="error-msg" ng-show="modalForm1.rate.$invalid && modalForm1.rate.$touched">Please Enter Rate</div>
+                    <input type="text" class="form-control" name="expenseRate" ng-model="modalData.expenseRate" required>
+                    <div class="error-msg" ng-show="modalForm1.expenseRate.$invalid && modalForm1.expenseRate.$touched">Please Enter Rate</div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Amount*</label>
-                    <input type="textarea" class="form-control" name="amount" ng-model="modalData.amount" required>
-                    <div class="error-msg" ng-show="modalForm1.amount.$invalid && modalForm1.amount.$touched">Please Enter Amount</div>
+                    <input type="text" class="form-control" name="expenseAmount" ng-model="modalData.expenseAmount" required>
+                    <div class="error-msg" ng-show="modalForm1.expenseAmount.$invalid && modalForm1.expenseAmount.$touched">Please Enter Amount</div>
                 </div>
             </div>
         </div>
