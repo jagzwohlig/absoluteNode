@@ -8,337 +8,343 @@ var navigationservice = angular.module('navigationservice', [])
 
     .factory('NavigationService', function ($http) {
         var navigation = [{
-            name: "Email",
-            classis: "active",
-            anchor: "timeline",
-            icon: "envelope",
-            subnav: [{
-                name: "Inbox",
+                name: "Email",
                 classis: "active",
-                anchor: "email-inbox",
-                icon: "inbox"
-            }]
-        }, {
-            name: "Role",
-            classis: "active",
-            anchor: "role",
-            icon: "envelope",
-            subnav: [{
-                name: "Roles",
-                classis: "active",
-                anchor: "roles-list",
-                icon: "inbox"
-            }]
-        }, {
-            name: "Company Setup",
-            classis: "active",
-            anchor: "company",
-            icon: "building",
-            subnav: [{
-                name: "Company",
-                classis: "active",
-                anchor: "company-list",
-                icon: "building"
+                anchor: "email",
+                icon: "envelope",
+                subnav: [{
+                    name: "Inbox",
+                    classis: "active",
+                    anchor: "email-inbox",
+                    icon: "inbox"
+                }]
             }, {
-                name: "Type Of Office",
+                name: "Role",
                 classis: "active",
-                anchor: "typeOfOffice-list",
-                icon: "building"
+                anchor: "role",
+                icon: "envelope",
+                subnav: [{
+                    name: "Roles",
+                    classis: "active",
+                    anchor: "roles-list",
+                    icon: "inbox"
+                }]
             }, {
-                name: "Office",
+                name: "Company Setup",
                 classis: "active",
-                anchor: "office-list",
-                icon: "link"
+                anchor: "company",
+                icon: "building",
+                subnav: [{
+                    name: "Company",
+                    classis: "active",
+                    anchor: "company-list",
+                    icon: "building"
+                }, {
+                    name: "Type Of Office",
+                    classis: "active",
+                    anchor: "typeOfOffice-list",
+                    icon: "building"
+                }, {
+                    name: "Office",
+                    classis: "active",
+                    anchor: "office-list",
+                    icon: "link"
+                }, {
+                    name: "Branch",
+                    classis: "active",
+                    anchor: "branch-list",
+                    icon: "link"
+                }]
             }, {
-                name: "Branch",
+                name: "Locations",
                 classis: "active",
-                anchor: "branch-list",
-                icon: "link"
-            }]
-        }, {
-            name: "Locations",
-            classis: "active",
-            anchor: "location",
-            icon: "map",
-            subnav: [{
-                name: "Country",
-                classis: "active",
-                anchor: "country-list",
-                icon: "globe"
+                anchor: "location",
+                icon: "map",
+                subnav: [{
+                    name: "Country",
+                    classis: "active",
+                    anchor: "country-list",
+                    icon: "globe"
+                }, {
+                    name: "Zone",
+                    classis: "active",
+                    anchor: "zone-list",
+                    icon: "location-arrow"
+                }, {
+                    name: "State",
+                    classis: "active",
+                    anchor: "state-list",
+                    icon: "link"
+                }, {
+                    name: "District",
+                    classis: "active",
+                    anchor: "district-list",
+                    icon: "link"
+                }, {
+                    name: "City",
+                    classis: "active",
+                    anchor: "city-list",
+                    icon: "link"
+                }]
             }, {
-                name: "Zone",
+                name: "Products",
                 classis: "active",
-                anchor: "zone-list",
-                icon: "location-arrow"
+                anchor: "product",
+                icon: "puzzle-piece",
+                subnav: [{
+                    name: "Industry",
+                    classis: "active",
+                    anchor: "industry-list",
+                    icon: "building"
+                }, {
+                    name: "Category",
+                    classis: "active",
+                    anchor: "category-list",
+                    icon: "clone"
+                }, {
+                    name: "Product",
+                    classis: "active",
+                    anchor: "product-list",
+                    icon: "shopping-bag"
+                }]
             }, {
-                name: "State",
+                name: "Finance",
                 classis: "active",
-                anchor: "state-list",
-                icon: "link"
+                anchor: "finance",
+                icon: "line-chart",
+                subnav: [{
+                        name: "Currency",
+                        classis: "active",
+                        anchor: "currency-list",
+                        icon: "inr"
+                    }, {
+                        name: "Banks",
+                        classis: "active",
+                        anchor: "bankMaster-list",
+                        icon: "building"
+                    }, {
+                        name: "Activity Type",
+                        classis: "active",
+                        anchor: "activityType-list",
+                        icon: "building"
+                    }, {
+                        name: "Expense",
+                        classis: "active",
+                        anchor: "expense-list",
+                        icon: "inr"
+                    }, {
+                        name: "Invoice Expenditure",
+                        classis: "active",
+                        anchor: "invoiceExpenditure-list",
+                        icon: "book"
+                    },
+                    //  Not In List
+                    {
+                        name: "Tax",
+                        classis: "active",
+                        anchor: "tax-list",
+                        icon: "book"
+                    }
+                ]
             }, {
-                name: "District",
+                name: "Customers",
                 classis: "active",
-                anchor: "district-list",
-                icon: "link"
+                anchor: "customer",
+                icon: "users",
+                subnav: [{
+                    name: "Segment",
+                    classis: "active",
+                    anchor: "customerSegment-list",
+                    icon: "user"
+                }, {
+                    name: "Company",
+                    classis: "active",
+                    anchor: "customerCompany-list",
+                    icon: "building"
+                }, {
+                    name: "Customer",
+                    classis: "active",
+                    anchor: "customer-list",
+                    icon: "user"
+                }]
             }, {
-                name: "City",
-                classis: "active",
-                anchor: "city-list",
-                icon: "link"
-            }]
-        }, {
-            name: "Products",
-            classis: "active",
-            anchor: "product",
-            icon: "puzzle-piece",
-            subnav: [{
-                name: "Industry",
-                classis: "active",
-                anchor: "industry-list",
-                icon: "building"
-            }, {
-                name: "Category",
-                classis: "active",
-                anchor: "category-list",
-                icon: "clone"
-            }, {
-                name: "Product",
-                classis: "active",
-                anchor: "product-list",
-                icon: "shopping-bag"
-            }]
-        }, {
-            name: "Finance",
-            classis: "active",
-            anchor: "finance",
-            icon: "line-chart",
-            subnav: [{
-                name: "Currency",
-                classis: "active",
-                anchor: "currency-list",
-                icon: "inr"
-            }, {
-                name: "Banks",
-                classis: "active",
-                anchor: "bankMaster-list",
-                icon: "building"
-            }, {
-                name: "Activity Type",
-                classis: "active",
-                anchor: "activityType-list",
-                icon: "building"
-            }, {
-                name: "Expense",
-                classis: "active",
-                anchor: "expense-list",
-                icon: "inr"
-            }, {
-                name: "Invoice Expenditure",
-                classis: "active",
-                anchor: "invoiceExpenditure-list",
-                icon: "book"
-            },
-            //  Not In List
-            {
-                name: "Tax",
-                classis: "active",
-                anchor: "tax-list",
-                icon: "book"
-            }
-            ]
-        }, {
-            name: "Customers",
-            classis: "active",
-            anchor: "customer",
-            icon: "users",
-            subnav: [{
-                name: "Segment",
-                classis: "active",
-                anchor: "customerSegment-list",
-                icon: "user"
-            }, {
-                name: "Company",
-                classis: "active",
-                anchor: "customerCompany-list",
-                icon: "building"
-            }, {
-                name: "Customer",
-                classis: "active",
-                anchor: "customer-list",
-                icon: "user"
-            }]
-        }, {
-            name: "Employee",
-            classis: "active",
-            anchor: "employee",
-            icon: "user",
-            subnav: [{
                 name: "Employee",
                 classis: "active",
-                anchor: "employee-list",
-                icon: "user"
-            }, {
-                name: "Function",
-                classis: "active",
-                anchor: "func-list",
-                icon: "cogs"
-            }, {
-                name: "Grade",
-                classis: "active",
-                anchor: "grade-list",
-                icon: "font"
-            }]
-        }, {
-            name: "Insurance",
-            classis: "active",
-            anchor: "insurance",
-            icon: "file-text-o",
-            subnav: [{
-                name: "Department",
-                classis: "active",
-                anchor: "department-list",
-                icon: "user"
-            }, {
-                name: "Policy Type",
-                classis: "active",
-                anchor: "policyType-list",
-                icon: "link"
-            }, {
-                name: "Policy Document",
-                classis: "active",
-                anchor: "policyDoc-list",
-                icon: "file-pdf-o"
-            }, {
-                name: "Cause of Loss",
-                classis: "active",
-                anchor: "causeLoss-list",
-                icon: "money"
-            }, {
-                name: "Nature of Loss",
-                classis: "active",
-                anchor: "natureLoss-list",
-                icon: "money"
-            }, {
-                name: "Salvage",
-                classis: "active",
-                anchor: "salvage-list",
-                icon: "retweet"
-            }, {
-                name: "Nature of Survey Code",
-                classis: "active",
-                anchor: "surveyCode-list",
-                icon: "retweet"
-            }]
-        }, {
-            name: "Assignments",
-            classis: "active",
-            anchor: "assignment",
-            icon: "pencil",
-            subnav: [{
-                name: "Type Of Claims",
-                classis: "active",
-                anchor: "claims-list",
-                icon: "pencil"
-            }, {
-                name: "Assignment",
-                classis: "active",
-                anchor: "assignment-list",
-                icon: "pencil"
-            }]
-        },
-        // {
-        //     name: "Timeline",
-        //     classis: "active",
-        //     anchor: "timeline",
-        //     icon: "calendar",
-        //     subnav: [{
-        //         name: "Music Broadcast Ltd",
-        //         classis: "active",
-        //         anchor: "timeline",
-        //         icon: "music"
-        //     }]
-        // },
-        {
-            name: "Templates",
-            classis: "active",
-            anchor: "template",
-            icon: "file-text",
-            subnav: [
-                //     {
-                //     name: "Default Templates",
-                //     classis: "active",
-                //     anchor: "template-list",
-                //     icon: "file-text"
-                // }, 
-                // {
-                //     name: "JIR Templates",
-                //     classis: "active",
-                //     anchor: "templateJir-list",
-                //     icon: "file-text"
-                // }, 
-                {
-                    name: "LOR Templates",
+                anchor: "employee",
+                icon: "user",
+                subnav: [{
+                    name: "Employee",
                     classis: "active",
-                    anchor: "templateLor-list",
-                    icon: "file-text"
+                    anchor: "employee-list",
+                    icon: "user"
                 }, {
-                    name: "ILA Templates",
+                    name: "Function",
                     classis: "active",
-                    anchor: "templateIla-list",
-                    icon: "file-text"
+                    anchor: "func-list",
+                    icon: "cogs"
                 }, {
-                    name: "ISR Templates",
+                    name: "Grade",
                     classis: "active",
-                    anchor: "templateIsr-list",
-                    icon: "file-text"
-                }, {
-                    name: "Invoice Templates",
-                    classis: "active",
-                    anchor: "templateInvoice-list",
-                    icon: "file-text"
-                }
-            ]
-        },
-        //  {
-        //     name: "Leave Management",
-        //     classis: "active",
-        //     anchor: "timeline",
-        //     icon: "users",
-        //     subnav: [{
-        //         name: "Employee Leave Detail",
-        //         classis: "active",
-        //         anchor: "leaveManagement-list",
-        //         icon: "user"
-        //     }]
-        // },
-        {
-            name: "Reimbursement",
-            classis: "active",
-            anchor: "reimbursement",
-            icon: "money",
-            subnav: [{
-                name: "Reimbursement Detail",
-                classis: "active",
-                anchor: "reimbursement-list",
-                icon: "user"
-            }]
-        }, {
-            name: "Knowledge Base",
-            classis: "active",
-            anchor: "timeline",
-            icon: "graduation-cap",
-            subnav: [{
-                name: "Knowledge Base List",
-                classis: "active",
-                anchor: "knowledgebase-list",
-                icon: "book"
+                    anchor: "grade-list",
+                    icon: "font"
+                }]
             }, {
-                name: "Tags",
+                name: "Insurance",
                 classis: "active",
-                anchor: "tag-list",
-                icon: "book"
-            }]
-        }
+                anchor: "insurance",
+                icon: "file-text-o",
+                subnav: [{
+                    name: "Department",
+                    classis: "active",
+                    anchor: "department-list",
+                    icon: "user"
+                }, {
+                    name: "Policy Type",
+                    classis: "active",
+                    anchor: "policyType-list",
+                    icon: "link"
+                }, {
+                    name: "Policy Document",
+                    classis: "active",
+                    anchor: "policyDoc-list",
+                    icon: "file-pdf-o"
+                }, {
+                    name: "Cause of Loss",
+                    classis: "active",
+                    anchor: "causeLoss-list",
+                    icon: "money"
+                }, {
+                    name: "Nature of Loss",
+                    classis: "active",
+                    anchor: "natureLoss-list",
+                    icon: "money"
+                }, {
+                    name: "Salvage",
+                    classis: "active",
+                    anchor: "salvage-list",
+                    icon: "retweet"
+                }, {
+                    name: "Nature of Survey Code",
+                    classis: "active",
+                    anchor: "surveyCode-list",
+                    icon: "retweet"
+                }]
+            }, {
+                name: "Assignments",
+                classis: "active",
+                anchor: "assignment",
+                icon: "pencil",
+                subnav: [{
+                    name: "Type Of Claims",
+                    classis: "active",
+                    anchor: "claims-list",
+                    icon: "pencil"
+                }, {
+                    name: "Assignment",
+                    classis: "active",
+                    anchor: "assignment-list",
+                    icon: "pencil"
+                }]
+            },
+            // {
+            //     name: "Timeline",
+            //     classis: "active",
+            //     anchor: "timeline",
+            //     icon: "calendar",
+            //     subnav: [{
+            //         name: "Music Broadcast Ltd",
+            //         classis: "active",
+            //         anchor: "timeline",
+            //         icon: "music"
+            //     }]
+            // },
+            {
+                name: "Templates",
+                classis: "active",
+                anchor: "template",
+                icon: "file-text",
+                subnav: [
+                    //     {
+                    //     name: "Default Templates",
+                    //     classis: "active",
+                    //     anchor: "template-list",
+                    //     icon: "file-text"
+                    // }, 
+                    // {
+                    //     name: "JIR Templates",
+                    //     classis: "active",
+                    //     anchor: "templateJir-list",
+                    //     icon: "file-text"
+                    // },
+                    {
+                        name: "LOR Master",
+                        classis: "active",
+                        anchor: "lorMaster-list",
+                        icon: "file-text"
+                    }, 
+                    {
+                        name: "LOR Templates",
+                        classis: "active",
+                        anchor: "templateLor-list",
+                        icon: "file-text"
+                    }, {
+                        name: "ILA Templates",
+                        classis: "active",
+                        anchor: "templateIla-list",
+                        icon: "file-text"
+                    }, {
+                        name: "ISR Templates",
+                        classis: "active",
+                        anchor: "templateIsr-list",
+                        icon: "file-text"
+                    }, {
+                        name: "Invoice Templates",
+                        classis: "active",
+                        anchor: "templateInvoice-list",
+                        icon: "file-text"
+                    }
+                ]
+            },
+            //  {
+            //     name: "Leave Management",
+            //     classis: "active",
+            //     anchor: "timeline",
+            //     icon: "users",
+            //     subnav: [{
+            //         name: "Employee Leave Detail",
+            //         classis: "active",
+            //         anchor: "leaveManagement-list",
+            //         icon: "user"
+            //     }]
+            // },
+            {
+                name: "Reimbursement",
+                classis: "active",
+                anchor: "reimbursement",
+                icon: "money",
+                subnav: [{
+                    name: "Reimbursement Detail",
+                    classis: "active",
+                    anchor: "reimbursement-list",
+                    icon: "user"
+                }]
+            }, {
+                name: "Knowledge Base",
+                classis: "active",
+                anchor: "timeline",
+                icon: "graduation-cap",
+                subnav: [{
+                    name: "Knowledge Base List",
+                    classis: "active",
+                    anchor: "knowledgebase-list",
+                    icon: "book"
+                }, {
+                    name: "Tags",
+                    classis: "active",
+                    anchor: "tag-list",
+                    icon: "book"
+                }]
+            }
         ];
         var membershipLevel = [{
             name: "Student",
@@ -384,7 +390,7 @@ var navigationservice = angular.module('navigationservice', [])
                                 retRole.roles[singleRoleKey][objKey].val = singleObj.val || retRole.roles[singleRoleKey][objKey].val;
                             }
                         }); // this is for single Object
-                    });// this is single role
+                    }); // this is single role
                 }); // this is the whole role ended 
             }
             return retRole;
@@ -463,6 +469,12 @@ var navigationservice = angular.module('navigationservice', [])
                 console.log("formData : ", formData);
                 $http.post(adminurl + 'Employee/search', formData).success(function (data) {
                     callback(data, i);
+                });
+            },
+            mobileSubmit: function (formData, callback) {
+                console.log("formData : ", formData);
+                $http.post(adminurl + 'Assignment/mobileSubmit', formData).success(function (data) {
+                    callback(data);
                 });
             },
             employeeSearch: function (formData, i, callback) {
@@ -883,6 +895,9 @@ var navigationservice = angular.module('navigationservice', [])
             },
             invoiceExpenditureSave: function (formData, callback) {
                 $http.post(adminurl + 'invoiceExpenditure/save', formData).success(callback);
+            },
+            lorMasterSave: function (formData, callback) {
+                $http.post(adminurl + 'lorMaster/save', formData).success(callback);
             },
             claimSave: function (formData, callback) {
                 $http.post(adminurl + 'Claims/save', formData).success(callback);

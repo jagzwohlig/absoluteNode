@@ -15,7 +15,9 @@
                             <div class="clearfix"></div>
                             <button class="btn btn-green btn-round pull-right mt-5" ng-click="newMessage();"><i class="ln-comments"></i> Send Message</button>
                             <div class="padder"></div>
-                            <button class="btn btn-primary btn-round pull-right mt-5" ng-click="transfer(assignment);"><i class="fa fa-share"></i> Transfer</button>
+                            <!--<button class="btn btn-primary btn-round pull-right mt-5" ng-click="transfer(assignment);"><i class="fa fa-share"></i> Transfer</button>-->
+                            <button class="btn btn-primary btn-round pull-right mt-5" ng-click="assignmentSurvey();">Offline Survey</button>
+                            <!--<button class="btn btn-primary" ng-click="assignmentSurvey()">Offline Survey</button>-->
                         </div>
                         <div class="compny">
                             <h3><span class="dif">{{assignment.city.name}},<b>{{assignment.city.district.name}}</b>,<br>{{assignment.city.district.state.name}},<b>{{assignment.city.district.state.zone.name}}</b>,{{assignment.city.district.state.zone.country.name}}-{{assignment.pincode}}</span></h3>
@@ -298,6 +300,7 @@
                                     </div>
                                 </div>
                             </div>
+                            
                             <div class="widget cust-widg">
                                 <div class="only-email">
                                     <div class="form-group">

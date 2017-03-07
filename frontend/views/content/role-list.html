@@ -7,7 +7,7 @@
             <a title="Home">Company Setup</a>
         </li>
         <li>
-            <a ui-sref="role-list" >Role List</a>
+            <a ui-sref="role-list">Role List</a>
         </li>
     </ul>
 </div>
@@ -30,15 +30,15 @@
 
                     <div class="widget-title">
                         <div class="pull-right">
-                          <form class="search-form mr-form">
-                              <input type="text" placeholder="Search Here..."/>
-                              <button type="submit">
+                            <form class="search-form mr-form">
+                                <input type="text" placeholder="Search Here..." />
+                                <button type="submit">
                                   <i class="fa fa-search"></i>
                               </button>
-                          </form>
+                            </form>
                             <a class="btn btn-primary" ui-sref="createrole">Add New</a>
                         </div>
-                        <h3>List of Roles</h3>
+                        <h3>List of Role <span class="tableTotal">(Total : {{totalItems}}) </span></h3>
                     </div>
                     <div class="table-responsive" ng-show="totalItems>0">
                         <table class="table table-striped">
@@ -60,14 +60,14 @@
                                     <td>{{role.user_type}}</td>
                                     <td>{{role.privileges}}</td>
                                     <td>
-                                      <a class="btn btn-primary" ui-sref="editrole({id:role._id})"><i class="fa fa-pencil"></i></a>
-                                      <a class="btn btn-danger" ng-click="deleteRole(role._id)"><i class="fa fa-trash"></i></a>
+                                        <a class="btn btn-primary" ui-sref="editrole({id:role._id})"><i class="fa fa-pencil"></i></a>
+                                        <a class="btn btn-danger" ng-click="deleteRole(role._id)"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                </div>
+                     </div>
             </div>
         </div>
     </div>

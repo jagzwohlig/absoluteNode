@@ -960,9 +960,9 @@ var model = {
       } else {
         $scope.data = data2;
         var filter = {
-            _id: data2.assignment.policyDoc
-          }
-          // For policyNumber
+          _id: data2.assignment.policyDoc
+        }
+        // For policyNumber
         PolicyDoc.getPolicyDoc({
           filter
         }, function (err, data4) {
@@ -1053,7 +1053,7 @@ var model = {
       .deepPopulate("owner insuredOffice insurerOffice city department")
       .keyword(options)
 
-    .page(options, callback);
+      .page(options, callback);
 
   },
   updateSurveyor: function (data, callback) {
@@ -2105,11 +2105,11 @@ var model = {
         } else {
           // callback(null,findData);
           async.eachSeries(findData, function (n, callback1) {
-            console.log("n",n);
+            console.log("n", n);
             Assignment.update({
-              _id:n._id
-            },{
-              office:n.branch.office
+              _id: n._id
+            }, {
+              office: n.branch.office
             }, function (err, data3) {
               if (err) {
                 callback1(err, null)
