@@ -3800,6 +3800,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         $scope.wholeObj = [];
         $scope.formData.expense = [];
+        $scope.formData.travelExpense = [];
+        $scope.formData.lodgingBoarding = [];
+        $scope.formData.pocketExpense = [];
         $scope.addElements = function (moddata) {
             console.log("moddata", moddata);
             if ($scope.modalIndex !== "") {
