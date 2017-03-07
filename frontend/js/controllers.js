@@ -956,6 +956,102 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     })
 
+    .controller('CreateLorMasterCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $state, toastr, $uibModal) {
+        //Used to name the .html file
+
+        $scope.template = TemplateService.changecontent("lorMaster-detail");
+        $scope.menutitle = NavigationService.makeactive("LorMaster");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+
+        $scope.header = {
+            "name": "Create Invoice Expenditure"
+        };
+        $scope.formData = {};
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+        $scope.salutations = ["Original", "Copy"];
+        hotkeys.bindTo($scope).add({
+            combo: 'ctrl+enter',
+            callback: function (formData) {
+                console.log($scope.formData);
+                NavigationService.lorMasterSave($scope.formData, function (data) {
+                    if (data.value === true) {
+                        $window.history.back();
+                        toastr.success("LorMaster " + $scope.formData.name + " created successfully.", "LorMaster Created");
+                    } else {
+                        toastr.error("LorMaster creation failed.", "LorMaster creation error");
+                    }
+                });
+            }
+        });
+
+        $scope.saveLorMaster = function (formData) {
+            console.log($scope.formData);
+            NavigationService.lorMasterSave($scope.formData, function (data) {
+                if (data.value === true) {
+                    $window.history.back();
+                    toastr.success("LorMaster " + $scope.formData.name + " created successfully.", "LorMaster Created");
+                } else {
+                    toastr.error("LorMaster creation failed.", "LorMaster creation error");
+                }
+            });
+        };
+
+    })
+
+    .controller('EditLorMasterCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $uibModal) {
+        //Used to name the .html file
+
+        $scope.template = TemplateService.changecontent("lorMaster-detail");
+        $scope.menutitle = NavigationService.makeactive("LorMaster");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.formData = {};
+        $scope.salutations = ["Original", "Copy"];
+        $scope.header = {
+            "name": "Edit Country"
+        };
+
+        NavigationService.getOneModel("LorMaster", $stateParams.id, function (data) {
+            $scope.formData = data.data;
+        });
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+        hotkeys.bindTo($scope).add({
+            combo: 'ctrl+enter',
+            callback: function (formData) {
+                console.log($scope.formData);
+                NavigationService.lorMasterSave($scope.formData, function (data) {
+                    if (data.value === true) {
+                        $window.history.back();
+                        toastr.success("LorMaster " + $scope.formData.name + " created successfully.", "LorMaster Created");
+                    } else {
+                        toastr.error("LorMaster creation failed.", "LorMaster creation error");
+                    }
+                });
+            }
+        });
+
+        $scope.saveLorMaster = function (formValid) {
+            console.log($scope.formData);
+            NavigationService.lorMasterSave($scope.formData, function (data) {
+                if (data.value === true) {
+                    $window.history.back();
+                    toastr.success("LorMaster " + $scope.formData.name + " created successfully.", "LorMaster Created");
+                } else {
+                    toastr.error("LorMaster creation failed.", "LorMaster creation error");
+                }
+            });
+        };
+
+    })
+
+
+
+
     .controller('CreateInvoiceExpenditureCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $state, toastr, $uibModal) {
         //Used to name the .html file
 
@@ -1125,8 +1221,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 });
             }
         });
-
-
 
         $scope.saveInvoiceExpenditure = function (formValid) {
             NavigationService.invoiceExpenditureSave($scope.formData, function (data) {
@@ -7513,7 +7607,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     $scope.modelList = data.data.results;
                     $scope.totalItems = data.data.total;
                     $scope.maxRow = data.data.options.count;
-                    console.log("modelList", $scope.modelList);
                 }
             });
         };

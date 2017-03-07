@@ -1471,6 +1471,34 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
         //  ila state
 
         //  lor state
+        .state('lorMaster-list', {
+            url: "/lorMaster-list/{page:.*}/{keyword:.*}/{model:.*}",
+            templateUrl: "frontend/views/template.html",
+            controller: 'ModelViewCtrl',
+            params: {
+                page: "1",
+                keyword: "",
+                model: "lor master"
+            }
+        })
+        .state('createLorMaster', {
+            url: "/lorMaster-create/{id:.*}/{model:.*}/{assignment:.*}",
+            templateUrl: "frontend/views/template.html",
+            controller: 'CreateLorMasterCtrl',
+            params: {
+                id: "",
+                model: "lor master"
+            }
+        })
+        .state('editLorMaster', {
+            url: "/lorMaster-edit/{id:.*}/{model:.*}",
+            templateUrl: "frontend/views/template.html",
+            controller: 'EditLorMasterCtrl',
+            params: {
+                id: "",
+                model: "lor master"
+            }
+        })
         .state('templateLor-list', {
             url: "/templateLor-list/{page:.*}/{keyword:.*}/{model:.*}",
             templateUrl: "frontend/views/template.html",

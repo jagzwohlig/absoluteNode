@@ -275,7 +275,13 @@ var navigationservice = angular.module('navigationservice', [])
                     //     classis: "active",
                     //     anchor: "templateJir-list",
                     //     icon: "file-text"
-                    // }, 
+                    // },
+                    {
+                        name: "LOR Master",
+                        classis: "active",
+                        anchor: "lorMaster-list",
+                        icon: "file-text"
+                    }, 
                     {
                         name: "LOR Templates",
                         classis: "active",
@@ -889,6 +895,9 @@ var navigationservice = angular.module('navigationservice', [])
             },
             invoiceExpenditureSave: function (formData, callback) {
                 $http.post(adminurl + 'invoiceExpenditure/save', formData).success(callback);
+            },
+            lorMasterSave: function (formData, callback) {
+                $http.post(adminurl + 'lorMaster/save', formData).success(callback);
             },
             claimSave: function (formData, callback) {
                 $http.post(adminurl + 'Claims/save', formData).success(callback);
