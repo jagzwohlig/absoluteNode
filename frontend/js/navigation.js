@@ -875,6 +875,11 @@ var navigationservice = angular.module('navigationservice', [])
                     callback(data, i);
                 });
             },
+            searchLorMaster: function (formData,i, callback) {
+                $http.post(adminurl + 'lorMaster/search', formData).success(function (data) {
+                    callback(data,i);
+                });
+            },
             searchInvoiceExpenditure1: function (formData, callback) {
                 $http.post(adminurl + 'invoiceExpenditure/searchForInvoiceList', formData).success(function (data) {
                     callback(data);
