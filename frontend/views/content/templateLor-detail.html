@@ -45,12 +45,12 @@
                                         <i class="fa fa-bars handleBar"></i>
                                     </div>
                                     <div class="col-item">
-                                        <ui-select ng-model="form" ng-change="getAll(form,$index,outerIndex)" theme="bootstrap" sortable="true">
+                                        <ui-select ng-model="item" ng-change="getAll(item,$index,outerIndex)" theme="bootstrap" sortable="true">
                                             <ui-select-match placeholder="Select">
                                                 <span class="detail-title" title="{{$select.selected.name}}">{{$select.selected.name}}</span>
                                             </ui-select-match>
                                             <ui-select-choices repeat="d in descriptions | filter: $select.search" refresh="getdescriptions($select.search)" refresh-delay="0">
-                                                <span>{{d.name}}{{form.$index}}</span>
+                                                <span>{{d.name}}</span>
                                             </ui-select-choices>
                                         </ui-select>
                                         <!--<multiple-select my-enter name="insuredOffice" ng-model="item.name" api="searchInvoiceExpenditure"></multiple-select>-->

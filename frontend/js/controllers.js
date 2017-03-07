@@ -9277,7 +9277,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.cancel = function () {
             $window.history.back();
         }
-        $scope.saveModel = function (data) {
             $scope.saveModel = function (formData) {
                 NavigationService.modelSave("TemplateLor", $scope.formData, function (data) {
                     if (data.value === true) {
@@ -9289,7 +9288,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     }
                 });
             };
-        };
     })
 
     .controller('CreateTemplateLORCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
@@ -9356,7 +9354,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.getdescriptions = function (data) {
             var formData = {};
             formData.keyword = data;
-            NavigationService.searchInvoiceExpenditure(formData, 1, function (data) {
+            NavigationService.searchLorMaster(formData, 1, function (data) {
                 $scope.descriptions = data.data.results;
                 console.log("Tax", $scope.descriptions);
             });
@@ -9378,18 +9376,16 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.cancel = function () {
             $window.history.back();
         }
-        $scope.saveModel = function (data) {
-            $scope.saveModel = function (formData) {
-                NavigationService.modelSave("TemplateLor", $scope.formData, function (data) {
-                    if (data.value === true) {
-                        // $state.go('templateLor-list');
-                        $window.history.back();
-                        toastr.success("LOR Template " + formData.name + " created successfully.", "LOR Template Created");
-                    } else {
-                        toastr.error("LOR Template creation failed.", "LOr Template creation error");
-                    }
-                });
-            };
+        $scope.saveModel = function (formData) {
+            NavigationService.modelSave("TemplateLor", $scope.formData, function (data) {
+                if (data.value === true) {
+                    // $state.go('templateLor-list');
+                    $window.history.back();
+                    toastr.success("LOR Template " + formData.name + " created successfully.", "LOR Template Created");
+                } else {
+                    toastr.error("LOR Template creation failed.", "LOr Template creation error");
+                }
+            });
         };
 
     })
