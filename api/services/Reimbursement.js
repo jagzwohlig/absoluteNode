@@ -67,19 +67,19 @@ var schema = new Schema({
         depatureHr: String,
 
         //Arrival
-        arrivalFrom: String,
+        arrivalTo: String,
         arrivalDate: Date,
         arrivalHr: String,
 
       //End Journey
-        mode: String,
+        travelExpenseMode: String,
 
         //Fare
-        class: String,
-        ticketNo: String,
-        km: Number,
-        rate: Number,
-        amount: Number,
+        travelExpenseClass: String,
+        travelExpenseTicketNo: String,
+        travelExpenseKm: Number,
+        travelExpenseRate: Number,
+        travelExpenseAmount: Number,
 
         travelExpenseCreatedAt:{
             type: Date,

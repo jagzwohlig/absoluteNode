@@ -330,26 +330,26 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.filter.sortName = "";
         $scope.filter.sortNumber = 1;
         $scope.showAssignment = function (keywordChange, sorting) {
-            console.log("sorting assign ment",sorting);
-            console.log("$stateParams.sorting",$stateParams.sorting);
-            
+            console.log("sorting assign ment", sorting);
+            console.log("$stateParams.sorting", $stateParams.sorting);
+
             if (_.isEmpty(sorting)) {
-                sorting=[];
+                sorting = [];
             }
-             if(!_.isEmpty($stateParams.sorting)) {
-                 $scope.filter.sortName = $stateParams.sorting[0];
+            if (!_.isEmpty($stateParams.sorting)) {
+                $scope.filter.sortName = $stateParams.sorting[0];
                 $scope.filter.sortNumber = $stateParams.sorting[1];
-                console.log("state : sortname::: ", $scope.filter.sortName,$scope.filter.sortNumber);
+                console.log("state : sortname::: ", $scope.filter.sortName, $scope.filter.sortNumber);
             }
-             if (sorting[0]) {
-                console.log("sorting=====",sorting);
+            if (sorting[0]) {
+                console.log("sorting=====", sorting);
                 $scope.filter.sortName = sorting[0];
                 if (sorting[1] == 1) {
                     $scope.filter.sortNumber = -1;
                 } else {
                     $scope.filter.sortNumber = 1;
                 }
-            } 
+            }
             TemplateService.getLoader();
             var owners = [];
             owners = $scope.filter.owner;
@@ -1331,7 +1331,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                             _.each(newmod, function (n) {
                                 $scope.newjson = {};
                                 $scope.newjson.invoiceNumber = n;
-                                $scope.newjson.invoiceNumberDate= moddata.invoiceNumberDate;
+                                $scope.newjson.invoiceNumberDate = moddata.invoiceNumberDate;
                                 $scope.wholeObj.push($scope.newjson);
                             });
                         }
@@ -1347,11 +1347,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         }
                         break;
                     case "LRs":
-                    var newmod2 = a.lrNumber.split(',');
+                        var newmod2 = a.lrNumber.split(',');
                         _.each(newmod2, function (n) {
                             $scope.newjson = {};
                             $scope.newjson.lrNumber = n;
-                            $scope.newjson.lrNumberDate=moddata.lrNumberDate;
+                            $scope.newjson.lrNumberDate = moddata.lrNumberDate;
                             $scope.wholeObj.push($scope.newjson);
                         });
                         break;
@@ -1364,7 +1364,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         });
                         break;
                     case "Location":
-                    var newmod4 = a.locationString.split(',');
+                        var newmod4 = a.locationString.split(',');
                         _.each(newmod4, function (n) {
                             $scope.newjson = {};
                             $scope.newjson.locationString = n;
@@ -1372,7 +1372,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         });
                         break;
                     case "Product":
-                    var newmod5 = a.product.split(',');
+                        var newmod5 = a.product.split(',');
                         _.each(newmod5, function (n) {
                             $scope.newjson = {};
                             $scope.newjson.product = n;
@@ -1539,7 +1539,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                             _.each(newmod, function (n) {
                                 $scope.newjson = {};
                                 $scope.newjson.invoiceNumber = n;
-                                $scope.newjson.invoiceNumberDate= moddata.invoiceNumberDate;
+                                $scope.newjson.invoiceNumberDate = moddata.invoiceNumberDate;
                                 $scope.wholeObj.push($scope.newjson);
                             });
                         }
@@ -1555,11 +1555,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         }
                         break;
                     case "LRs":
-                    var newmod2 = a.lrNumber.split(',');
+                        var newmod2 = a.lrNumber.split(',');
                         _.each(newmod2, function (n) {
                             $scope.newjson = {};
                             $scope.newjson.lrNumber = n;
-                            $scope.newjson.lrNumberDate=moddata.lrNumberDate;
+                            $scope.newjson.lrNumberDate = moddata.lrNumberDate;
                             $scope.wholeObj.push($scope.newjson);
                         });
                         break;
@@ -1572,7 +1572,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         });
                         break;
                     case "Location":
-                    var newmod4 = a.locationString.split(',');
+                        var newmod4 = a.locationString.split(',');
                         _.each(newmod4, function (n) {
                             $scope.newjson = {};
                             $scope.newjson.locationString = n;
@@ -1580,7 +1580,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         });
                         break;
                     case "Product":
-                    var newmod5 = a.product.split(',');
+                        var newmod5 = a.product.split(',');
                         _.each(newmod5, function (n) {
                             $scope.newjson = {};
                             $scope.newjson.product = n;
@@ -3650,11 +3650,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     TemplateService.title = $scope.menutitle;
     $scope.navigation = NavigationService.getnav();
     $scope.formData = {};
-    // $scope.formData.personalDocument = [];
-    // $scope.formData.licenseDocument = [];
-    // $scope.formData.IIISLACertificate = [];
-    // $scope.formData.IIISLAReciept = [];
-    // $scope.formData.CTCDetails = [];
     $scope.header = {
         "name": "Create Reimbursement"
     };
@@ -3666,7 +3661,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         "value": false
     }];
     $scope.status = ["Approved", "Pending", "Rejected", "Partially Approved"];
-    // $scope.houseColors = ["Red", "Green", "Blue", "Yellow", "White"];
 
     $scope.dateOptions = {
         showWeeks: true
@@ -3686,7 +3680,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         if (index !== "") {
             $scope.modalData = data;
             $scope.modalIndex = index;
-
         } else {
             $scope.modalData = {};
             if (current.length > 0) {}
@@ -3708,53 +3701,60 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.addElements = function (moddata) {
         console.log("moddata", moddata);
         if ($scope.modalIndex !== "") {
-            $scope.wholeObj[$scope.modalIndex] = moddata;
-        } else {
-            $scope.newjson = moddata;
-            var a = moddata;
-            console.log("A", a, $scope.holdObject);
             switch ($scope.holdObject) {
-                case "expense":
+                case "Expense":
                     {
-
-
-                        //  var newmod = a;
-                        //  console.log("kjfgaksdjhfjakshdgk");
-                        //  console.log(newmod);
-                        // _.each(newmod, function (n) {
-                        // $scope.newjson.item = n;
-                        // $scope.wholeObj.push(moddata);
-                        $scope.formData.expense.push(moddata);
-                        // });
+                        $scope.formData.expense[$scope.modalIndex] = moddata;
                     }
                     break;
-                case "products":
+                case "Travel Expense":
                     {
-                        var newmod1 = a.item.split(',');
-                        _.each(newmod1, function (n) {
-                            $scope.newjson.item = n;
-                            $scope.wholeObj.push($scope.newjson);
-                        });
+                        $scope.formData.travelExpense[$scope.modalIndex] = moddata;
                     }
                     break;
-                case "LRs":
-                    var newmod2 = a.lrNumber.split(',');
-                    _.each(newmod2, function (n) {
-                        $scope.newjson.lrNumber = n;
-                        $scope.wholeObj.push($scope.newjson);
-                    });
+                case "Lodging Boarding":
+                    {
+                        $scope.formData.lodgingBoarding[$scope.modalIndex] = moddata;
+                    }
                     break;
-                case "Vehicle":
-                    var newmod3 = a.vehicleNumber.split(',');
-                    _.each(newmod3, function (n) {
-                        $scope.newjson.vehicleNumber = n;
-                        $scope.wholeObj.push($scope.newjson);
-                    });
+                case "Pocket Expense":
+                    {
+                        $scope.formData.pocketExpense[$scope.modalIndex] = moddata;
+                    }
                     break;
 
                 default:
                     {
-                        $scope.wholeObj.push($scope.newjson);
+                        // $scope.formData.push($scope.newjson);
+                    }
+
+            }
+        } else {
+            switch ($scope.holdObject) {
+                case "Expense":
+                    {
+                        $scope.formData.expense.push(moddata);
+                    }
+                    break;
+                case "Travel Expense":
+                    {
+                        $scope.formData.travelExpense.push(moddata);
+                    }
+                    break;
+                case "Lodging Boarding":
+                    {
+                        $scope.formData.lodgingBoarding.push(moddata);
+                    }
+                    break;
+                case "Pocket Expense":
+                    {
+                        $scope.formData.pocketExpense.push(moddata);
+                    }
+                    break;
+
+                default:
+                    {
+                        // $scope.formData.push($scope.newjson);
                     }
 
             }
@@ -4371,7 +4371,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.roleList = data.data.results;
             });
         };
-        
+
         $scope.refreshGrade = function (data) {
             // var formdata = {};
             // formdata.keyword = data;

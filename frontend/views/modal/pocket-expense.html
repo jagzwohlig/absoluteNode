@@ -1,0 +1,53 @@
+<form name="modalForm1" ng-submit="addElements(modalData);$dismiss()" ng-if="holdObject=='Pocket Expense'" class=" min-hit">
+    <div class="modal-header blue-bg">
+        <div class="pull-right">
+            <a class="btn btn-clear" ng-click="$dismiss()">
+                <i class="ln-cross"></i>
+            </a>
+        </div>
+        <h5 class="modal-title">Upload {{holdObject}}</h5>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Date*</label>
+                    <div class="input-group">
+                        <input type="text" name="date" class="form-control" uib-datepicker-popup="{{format}}" ng-model="modalData.date" 
+                            is-open="popup.date" datepicker-options="dateOptions" required readonly />
+                        <div class="error-msg" ng-show="modalForm1.date.$invalid && modalForm1.date.$touched">Please Enter Date</div>
+                        <span class="input-group-btn">
+                          <button type="button" class="btn btn-default" ng-click="popup.date = true">
+                              <i class="fa fa-calendar"></i>
+                          </button>
+                      </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>City*</label>
+                    <input type="text" class="form-control" name="place" ng-model="modalData.place" required>
+                    <div class="error-msg" ng-show="modalForm1.place.$invalid && modalForm1.place.$touched">Please Enter Place</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Description*</label>
+                    <input type="text" class="form-control" name="description" ng-model="modalData.description" required>
+                    <div class="error-msg" ng-show="modalForm1.description.$invalid && modalForm1.description.$touched">Please Enter Description</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Total*</label>
+                    <input type="textarea" class="form-control" name="total" ng-model="modalData.total" required>
+                    <div class="error-msg" ng-show="modalForm1.total.$invalid && modalForm1.total.$touched">Please Enter Total</div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <button class="btn btn-primary" type="submit" ng-disabled="modalForm1.$invalid">Save</button>
+        </div>
+    </div>
+</form>

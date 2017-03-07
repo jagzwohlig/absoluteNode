@@ -45,7 +45,7 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <!-- <th>#</th> -->
+                                     <th>#</th> 
                                     <th>Name</th>
                                     <th>Cost</th>
                                     <th>Status</th>
@@ -60,7 +60,7 @@
                                
                                 <tr >
                                 
-                                    <!-- <td>$index</td> -->
+                                     <td>$index</td> 
                                     <td>{{data.name.name|| "-"}}</td>
                                     <td>{{data.cost|| "-"}}</td>
                                     <td>{{data.status || "-"}}</td>
@@ -78,12 +78,12 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="tableData" ng-show="totalItems == undefined">
+                    <div class="tableData" ng-show="totalItems.length == 0">
                         <h5>No data found</h5>
                     </div>
-                    <div class="tableData" ng-show="totalItems == undefined">
+                    <!--<div class="tableData" ng-show="totalItems == undefined">
                         <h5>Loading Data</h5>
-                    </div>
+                    </div>-->
                     <ul ng-if="totalItems" ng-change="changePage(currentPage);" uib-pagination total-items="totalItems" items-per-page="maxRow" ng-model="currentPage" max-size="template.pageMax" class="pagination-sm" boundary-links="true" force-ellipses="true"></ul>
 
                 </div>

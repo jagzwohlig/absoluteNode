@@ -1,4 +1,4 @@
-<form name="modalForm1" ng-submit="addElements(modalData);$dismiss()" ng-if="holdObject=='expense'" class=" min-hit">
+<form name="modalForm1" ng-submit="addElements(modalData);$dismiss()" ng-if="holdObject=='Lodging Boarding'" class=" min-hit">
     <div class="modal-header blue-bg">
         <div class="pull-right">
             <a class="btn btn-clear" ng-click="$dismiss()">
@@ -9,7 +9,7 @@
     </div>
     <div class="modal-body">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label>Date*</label>
                     <div class="input-group">
@@ -24,53 +24,53 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="form-group">
-                    <label>From*</label>
+                    <label>City*</label>
+                    <input type="text" class="form-control" name="from" ng-model="modalData.from" required>
+                    <div class="error-msg" ng-show="modalForm1.from.$invalid && modalForm1.from.$touched">Please Enter LR Number</div>
+                </div>
+            </div>
+             <div class="col-md-4">
+                <div class="form-group">
+                    <label>Night Halt*</label>
                     <input type="text" class="form-control" name="from" ng-model="modalData.from" required>
                     <div class="error-msg" ng-show="modalForm1.from.$invalid && modalForm1.from.$touched">Please Enter LR Number</div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
-                    <label>To*</label>
+                    <label>Class*</label>
                     <input type="text" class="form-control" name="to" ng-model="modalData.to" required>
                     <div class="error-msg" ng-show="modalForm1.to.$invalid && modalForm1.to.$touched">Please Enter LR Number</div>
                 </div>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-4">
                 <div class="form-group">
-                    <label>Purpose*</label>
+                    <label>Rate*</label>
                     <input type="textarea" class="form-control" name="purpose" ng-model="modalData.purpose" required>
                     <div class="error-msg" ng-show="modalForm1.purpose.$invalid && modalForm1.purpose.$touched">Please Enter LR Number</div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="form-group">
-                    <label>Mode*</label>
+                    <label>Amount*</label>
                     <input type="textarea" class="form-control" name="mode" ng-model="modalData.mode" required>
                     <div class="error-msg" ng-show="modalForm1.mode.$invalid && modalForm1.mode.$touched">Please Enter LR Number</div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="form-group">
-                    <label>Distance*</label>
+                    <label>Hotel Charges*</label>
                     <input type="textarea" class="form-control" name="distance" ng-model="modalData.distance" required>
                     <div class="error-msg" ng-show="modalForm1.distance.$invalid && modalForm1.distance.$touched">Please Enter LR Number</div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="form-group">
-                    <label>Rate*</label>
+                    <label>Total*</label>
                     <input type="textarea" class="form-control" name="rate" ng-model="modalData.rate" required>
                     <div class="error-msg" ng-show="modalForm1.rate.$invalid && modalForm1.rate.$touched">Please Enter LR Number</div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label>Amount*</label>
-                    <input type="textarea" class="form-control" name="amount" ng-model="modalData.amount" required>
-                    <div class="error-msg" ng-show="modalForm1.amount.$invalid && modalForm1.amount.$touched">Please Enter LR Number</div>
                 </div>
             </div>
         </div>
