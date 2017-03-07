@@ -7487,10 +7487,24 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         if ($stateParams.keyword) {
             $scope.search.keyword = $stateParams.keyword;
         }
+        $scope.changePage = function (page) {
+            var goTo = "roles-list";
+            if ($scope.search.keyword) {
+                goTo = "roles-list";
+            }
+            console.log("Page",page);
+            $state.go(goTo, {
+                page: page,
+                keyword: $scope.search.keyword
+            });
+        };
         $scope.showAll = function (keywordChange) {
             $scope.totalItems = undefined;
             if (keywordChange) {
                 $scope.currentPage = 1;
+            }
+            else{
+                $scope.currentPage=$stateParams.page;
             }
             NavigationService.searchModel("Role", {
                 page: $scope.currentPage,
