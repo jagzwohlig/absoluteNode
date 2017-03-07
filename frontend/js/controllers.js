@@ -9313,7 +9313,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             value: 'Original',
             name: 'Original'
         }];
-        getdescriptions
         $scope.formData = {};
         $scope.formData.status = true;
         $scope.formData.forms = [{
@@ -9362,7 +9361,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 console.log("Tax", $scope.descriptions);
             });
         }
-
+        $scope.getAll = function (invoice, $index, outerIndex) {
+            console.log("Invoice", invoice, $index, outerIndex);
+            $scope.formData.forms[outerIndex].items[$index].name = invoice.name;
+            $scope.formData.forms[outerIndex].items[$index].type = invoice.status;
+        }
         $scope.sortableOptions = {
             handle: ' .handleBar',
             axis: 'y',
