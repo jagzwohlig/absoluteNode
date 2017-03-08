@@ -1,4 +1,3 @@
-
 <div class="breadcrumbs">
     <ul>
         <li>
@@ -9,12 +8,11 @@
         </li>
     </ul>
 </div>
-
 <div class="heading-sec">
     <div class="row">
         <div class="col-md-4 column">
             <div class="heading-profile">
-                <h2>Employee Reimbursement  List</h2>
+                <h2>Employee Reimbursement List</h2>
             </div>
         </div>
     </div>
@@ -45,27 +43,24 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                     <th>#</th> 
+                                    <th>#</th>
                                     <th>Name</th>
                                     <th>Cost</th>
                                     <th>Status</th>
                                     <th>Assignment</th>
                                     <th>Approved Amount</th>
                                     <th>Actions</th>
-                                    
                                 </tr>
                             </thead>
                             <!--<pre>{{modelList}}</pre>-->
                             <tbody ng-repeat="data in modelList">
-                               
-                                <tr >
-                                
-                                     <td>$index</td> 
+                                <tr>
+                                    <td>{{($index + 1)+((currentPage-1)*maxRow)}}</td>
                                     <td>{{data.name.name|| "-"}}</td>
                                     <td>{{data.cost|| "-"}}</td>
                                     <td>{{data.status || "-"}}</td>
                                     <td>{{data.assignment.name|| "-"}}</td>
-                                     <td>{{data.approvedAmount || "-"}}</td>
+                                    <td>{{data.approvedAmount || "-"}}</td>
                                     <td>
                                         <a class="btn btn-blue" ui-sref="editreimbursements({id:data._id})" ng-if="template.currentRole.edit.val">
                                             <i class="fa fa-pencil"></i>
@@ -84,8 +79,8 @@
                     <!--<div class="tableData" ng-show="totalItems == undefined">
                         <h5>Loading Data</h5>
                     </div>-->
-                    <ul ng-if="totalItems" ng-change="changePage(currentPage);" uib-pagination total-items="totalItems" items-per-page="maxRow" ng-model="currentPage" max-size="template.pageMax" class="pagination-sm" boundary-links="true" force-ellipses="true"></ul>
-
+                    <ul ng-if="totalItems" ng-change="changePage(currentPage);" uib-pagination total-items="totalItems" items-per-page="maxRow"
+                        ng-model="currentPage" max-size="template.pageMax" class="pagination-sm" boundary-links="true" force-ellipses="true"></ul>
                 </div>
             </div>
         </div>

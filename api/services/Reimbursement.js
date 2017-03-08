@@ -9,11 +9,11 @@ var schema = new Schema({
         ref: "Employee",
         required: true
     },
-    position: {
-        type: Schema.Types.ObjectId,
-        ref: "Employee",
-        required: true
-    },
+    // position: {
+    //     type: Schema.Types.ObjectId,
+    //     ref: "Employee",
+    //     required: true
+    // },
     assignment: {
         type: Schema.Types.ObjectId,
         ref: "Assignment",

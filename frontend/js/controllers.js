@@ -4055,7 +4055,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         console.log("Data In Else", data.value);
                         // $state.go('reimbursement-list');
                         $window.history.back();
-                        toastr.success("Leave Of " + " " + formData.name + " created successfully.", "Leave" + " Created");
+                        toastr.success("Reimbursement Of " + " " + formData.name + " created successfully.", "Reimbursement" + " Created");
                     } else {
                         console.log("Data In Else", data.value);
                         toastr.error("Reimbursement Of " + " creation failed.", "Reimbursement" + " creation error");
@@ -4072,7 +4072,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     console.log("Data In Else", data.value);
                     // $state.go('reimbursement-list');
                     $window.history.back();
-                    toastr.success("Leave Of " + " " + formData.name + " created successfully.", "Leave" + " Created");
+                    toastr.success("Reimbursement Of " + " " + formData.name + " created successfully.", "Reimbursement" + " Created");
                 } else {
                     console.log("Data In Else", data.value);
                     toastr.error("Reimbursement Of " + " creation failed.", "Reimbursement" + " creation error");
