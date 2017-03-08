@@ -1306,13 +1306,20 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             console.log("Form Data", formData);
         };
 
-
+        $scope.clone=function(data){
+            console.log("Done",data);
+            $state.go("createassignment", {
+                    'assignment': data,
+                    'pdf': $stateParams.pdf
+                });
+        }
         //  CLONE ASSIGNMENT
         if ($stateParams.assignment) {
             NavigationService.getOneModel("Assignment", $stateParams.assignment, function (data) {
                 $scope.formData = data.data;
+                $scope.formData.appointment=$stateParams.pdf;                
+                $scope.formData.clone=$scope.formData._id;
                 delete $scope.formData._id;
-                delete $scope.formData.appointment;
                 delete $scope.formData.intimatedLoss;
                 delete $scope.formData.city;
                 delete $scope.formData.address;
@@ -1320,7 +1327,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 delete $scope.formData.lat;
                 delete $scope.formData.lng;
                 $scope.formData.products = [];
-                $scope.formData.invoice = [];
+                $scope.formData.invoices = [];
                 $scope.formData.LRs = [];
                 $scope.formData.vehicleNumber = [];
                 $scope.formData.others = [];
