@@ -35,7 +35,7 @@ var schema = new Schema({
     //Period
     from: String,
     to: String,
-    destination:String,
+    destination: String,
 
     //Local Conveyance
     expense: [{
@@ -59,7 +59,7 @@ var schema = new Schema({
 
     //Out Station Travel Expense
     travelExpense: [{
-      //Journey
+        //Journey
 
         //Depature
         depatureFrom: String,
@@ -71,7 +71,7 @@ var schema = new Schema({
         arrivalDate: Date,
         arrivalHr: String,
 
-      //End Journey
+        //End Journey
         travelExpenseMode: String,
 
         //Fare
@@ -81,11 +81,11 @@ var schema = new Schema({
         travelExpenseRate: Number,
         travelExpenseAmount: Number,
 
-        travelExpenseCreatedAt:{
+        travelExpenseCreatedAt: {
             type: Date,
             default: Date.now
         },
-        travelExpenseUpdatedAt:{
+        travelExpenseUpdatedAt: {
             type: Date,
             default: Date.now
         }
@@ -94,7 +94,10 @@ var schema = new Schema({
     //Out Lodging & Boarding
     lodgingBoarding: [{
         lodgingBoardingDate: Date,
-        lodgingBoardingCity: String,
+        lodgingBoardingCity: {
+            type: Schema.Types.ObjectId,
+            ref: "City"
+        },
         lodgingBoardingNightHalt: String,
         lodgingBoardingClass: String,
 
@@ -103,28 +106,28 @@ var schema = new Schema({
         lodgingBoardingAmount: Number,
 
         lodgingBoardingHotelCharges: Number,
-        lodgingBoardingTotal:Number,
-        lodgingBoardingCreatedAt:{
+        lodgingBoardingTotal: Number,
+        lodgingBoardingCreatedAt: {
             type: Date,
             default: Date.now
         },
-        lodgingBoardingUpdatedAt:{
+        lodgingBoardingUpdatedAt: {
             type: Date,
             default: Date.now
         }
     }],
 
-     //Out of pocket expense
+    //Out of pocket expense
     pocketExpense: [{
         pocketExpenseDate: Date,
         pocketExpensePlace: String,
         pocketExpenseDescription: String,
-        pocketExpenseTotal:Number,
-        pocketExpenseCreatedAt:{
+        pocketExpenseTotal: Number,
+        pocketExpenseCreatedAt: {
             type: Date,
             default: Date.now
         },
-        pocketExpenseUpdatedAt:{
+        pocketExpenseUpdatedAt: {
             type: Date,
             default: Date.now
         }
