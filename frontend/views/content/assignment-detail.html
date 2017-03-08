@@ -4,15 +4,25 @@
             <div class="col-md-12 column">
                 <div class="heading-profile ul-clas">
                     <ul>
-                        <li>
+                        <!--<li>
                             <a class="btn btn-danger pull-right clone-red" ui-sref="createassignment({assignment:formData._id})" ng-if="header.name=='Edit Assignment'">Clone</a>
-                        </li>
+                        </li>-->
                         <li>
                             <toggle-switch ng-model="formData.status" class="switch-small switch-success pull-right"></toggle-switch>
                         </li>
                     </ul>
                     <h2>{{header.name}} {{formData.name}}</h2>
                 </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Clone From*</label>
+                    <multiple-select my-enter name="customer" required ng-model="formData.clone" 
+                        ng-name="name.clone" api="searchAssignment"></multiple-select>
+                </div>
+            </div>
+            <div class="text-center mt20 odd-even-button">
+                <button class="btn btn-default padding-clone" ng-click="clone(formData.clone)">Clone</button>
             </div>
         </div>
     </div>
@@ -38,7 +48,7 @@
                                         <label>Office*</label>
                                         <multiple-select my-enter my-enter name="office" required ng-model="formData.office" filter='{"company":"{{formData.company}}"}'
                                             ng-name="name.office" api="searchOffice"></multiple-select>
-                                            <div class="error-msg" ng-show="formName.office.$invalid">Please Select Office</div>
+                                        <div class="error-msg" ng-show="formName.office.$invalid">Please Select Office</div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -46,7 +56,7 @@
                                         <label>Branch Office*</label>
                                         <multiple-select my-enter my-enter name="branchOffice" required ng-model="formData.branch" filter='{"office":"{{formData.office}}"}'
                                             ng-name="name.branch" api="searchBranch"></multiple-select>
-                                            <div class="error-msg" ng-show="formName.branchOffice.$invalid">Please Select Branch Office</div>
+                                        <div class="error-msg" ng-show="formName.branchOffice.$invalid">Please Select Branch Office</div>
                                     </div>
                                 </div>
                             </div>
@@ -61,12 +71,12 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Owner*</label>
-                                        <multiple-select my-enter name="owner" required ng-model="formData.owner" ng-name="name.owner" api="searchEmployee" filter='{"branch":"{{formData.branch}}"}' ></multiple-select>
+                                        <multiple-select my-enter name="owner" required ng-model="formData.owner" ng-name="name.owner" api="searchEmployee" filter='{"branch":"{{formData.branch}}"}'></multiple-select>
                                         <div class="error-msg" ng-show="formName.owner.$invalid">Please Select owner</div>
                                     </div>
                                 </div>
                             </div>
-                             <div class="row">
+                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Type of Claim*</label>
@@ -85,7 +95,7 @@
                             <div class="widget-title">
                                 <a class="btn btn-primary pull-right" ng-click="addModal( 'modal-assignment', '',
                         'shareWith', '', '',formData.shareWith)">Add New</a>
-                                    <h3>Share With</h3>
+                                <h3>Share With</h3>
                             </div>
                             <div class="sec">
                                 <div class="table-responsive">
@@ -104,10 +114,10 @@
                                                     <a class="btn btn-primary" ng-click="addModal( 'modal-assignment',$index,
                         'shareWith',data, '',formData.shareWith)">
                                                         <i class="fa fa-pencil"></i>
-                                                        </a>
-                                                        <a class="btn btn-danger" ng-click="deleteElements($index, formData.shareWith)">
-                                                            <i class="fa fa-trash"></i>
-                                                        </a>
+                                                    </a>
+                                                    <a class="btn btn-danger" ng-click="deleteElements($index, formData.shareWith)">
+                                                        <i class="fa fa-trash"></i>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -156,7 +166,7 @@
                                         <label>Customer Company*</label>
                                         <multiple-select my-enter name="customerCompany" required ng-model="formData.customerCompany" filter='{"customerSegment":"{{formData.segment}}"}'
                                             ng-name="name.company" api="searchCustomerCompany"></multiple-select>
-                                            <div class="error-msg" ng-show="formName.customerCompany.$invalid">Please Select Customer Company</div>
+                                        <div class="error-msg" ng-show="formName.customerCompany.$invalid">Please Select Customer Company</div>
                                     </div>
                                 </div>
                             </div>
@@ -166,7 +176,7 @@
                                         <label>Customer Office*</label>
                                         <multiple-select my-enter name="customer" required ng-model="formData.customer" filter='{"customerCompany":"{{formData.customerCompany}}"}'
                                             ng-name="name.customer" api="searchCustomer"></multiple-select>
-                                            <div class="error-msg" ng-show="formName.customer.$invalid">Please Select Customer</div>
+                                        <div class="error-msg" ng-show="formName.customer.$invalid">Please Select Customer</div>
                                     </div>
                                 </div>
                             </div>
@@ -272,16 +282,15 @@
                                         <label>Insured's' Office</label>
                                         <multiple-select my-enter name="insuredOffice" ng-model="formData.insuredOffice" filter='{"customerCompany":"{{formData.insured}}"}'
                                             ng-name="name.office" api="searchCustomer"></multiple-select>
-                                            <div class="error-msg" ng-show="formName.insuredOffice.$invalid">Please Select Insured Office</div>
+                                        <div class="error-msg" ng-show="formName.insuredOffice.$invalid">Please Select Insured Office</div>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group"> <label>Insured Claim-No</label>
-                                        <input type="text" class="form-control" ng-model="formData.insuredClaimId"
-                                            name="insuredClaimId">
-                                            <div class="error-msg" ng-show="formName.insuredClaimId.$invalid">Please Select Insured Claim ID</div>
+                                        <input type="text" class="form-control" ng-model="formData.insuredClaimId" name="insuredClaimId">
+                                        <div class="error-msg" ng-show="formName.insuredClaimId.$invalid">Please Select Insured Claim ID</div>
                                     </div>
                                 </div>
                             </div>
@@ -307,7 +316,7 @@
                                         <label>Cause Of Loss*</label>
                                         <multiple-select my-enter name="causeOfLoss" required ng-model="formData.causeOfLoss" filter='{"department":"{{formData.department}}"}'
                                             ng-name="name.causeOfLoss" api="searchCauseLoss"></multiple-select>
-                                            <div class="error-msg" ng-show="formName.causeOfLoss.$invalid">Please Select Cause Of Loss</div>
+                                        <div class="error-msg" ng-show="formName.causeOfLoss.$invalid">Please Select Cause Of Loss</div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -317,8 +326,8 @@
                                             name="natureOfLoss" ng-model="formData.natureOfLoss" theme="bootstrap" required>
                                             <ui-select-match>{{$item.name}}</ui-select-match>
                                             <ui-select-choices repeat="natureOfLoss in natureLoss | filter:$select.search" refresh-delay="0" refresh="refreshNature($select.search, formData.causeOfLoss)">{{natureOfLoss.name}}</ui-select-choices>
-                                            </ui-select>
-                                            <div class="error-msg" ng-show="formName.natureOfLoss.$invalid && formName.natureOfLoss.$touched">Please Enter Nature Of Loss</div>
+                                        </ui-select>
+                                        <div class="error-msg" ng-show="formName.natureOfLoss.$invalid && formName.natureOfLoss.$touched">Please Enter Nature Of Loss</div>
                                     </div>
                                 </div>
                             </div>
@@ -335,16 +344,15 @@
                                         <label>Insurer Office*</label>
                                         <multiple-select my-enter name="insurerOffice" required ng-model="formData.insurerOffice" ng-name="name.broker" api="searchCustomer"
                                             filter='{"customerCompany":"{{formData.insurer}}"}'></multiple-select>
-                                            <div class="error-msg" ng-show="formName.insurerOffice.$invalid">Please Select Insurer Office</div>
+                                        <div class="error-msg" ng-show="formName.insurerOffice.$invalid">Please Select Insurer Office</div>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group"> <label>Insurer Claim-No</label>
-                                        <input type="text" class="form-control" ng-model="formData.insurerClaimId"
-                                            name="insurerClaimId">
-                                            <div class="error-msg" ng-show="formName.insurerClaimId.$invalid">Please Select Insured Claim ID</div>
+                                        <input type="text" class="form-control" ng-model="formData.insurerClaimId" name="insurerClaimId">
+                                        <div class="error-msg" ng-show="formName.insurerClaimId.$invalid">Please Select Insured Claim ID</div>
                                     </div>
                                 </div>
                             </div>
@@ -361,16 +369,15 @@
                                         <label>Broker Office*</label>
                                         <multiple-select my-enter name="brokerOffice" required ng-model="formData.brokerOffice" filter='{"customerCompany":"{{formData.broker}}"}'
                                             ng-name="name.brokerOffice" api="searchCustomer"></multiple-select>
-                                            <div class="error-msg" ng-show="formName.brokerOffice.$invalid">Please Select Broker Office</div>
+                                        <div class="error-msg" ng-show="formName.brokerOffice.$invalid">Please Select Broker Office</div>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group"> <label>Broker Claim-No</label>
-                                        <input type="text" class="form-control" ng-model="formData.brokerClaimId"
-                                            name="brokerClaimId">
-                                            <div class="error-msg" ng-show="formName.brokerClaimId.$invalid">Please Select Insured Claim ID</div>
+                                        <input type="text" class="form-control" ng-model="formData.brokerClaimId" name="brokerClaimId">
+                                        <div class="error-msg" ng-show="formName.brokerClaimId.$invalid">Please Select Insured Claim ID</div>
                                     </div>
                                 </div>
                             </div>
@@ -380,7 +387,7 @@
                                         <label>Department*</label>
                                         <multiple-select my-enter name="policyDepartment" required ng-model="formData.policyDepartment" ng-name="name.policyDepartment"
                                             api="searchDepartment"></multiple-select>
-                                            <div class="error-msg" ng-show="formName.policyDepartment.$invalid">Please Select Policy Department</div>
+                                        <div class="error-msg" ng-show="formName.policyDepartment.$invalid">Please Select Policy Department</div>
                                     </div>
                                 </div>
                             </div>
@@ -390,7 +397,7 @@
                                         <label>Policy Type*</label>
                                         <multiple-select my-enter name="policyType" required ng-model="formData.policyType" filter='{"department":"{{formData.policyDepartment}}","insurer":"{{formData.insurer}}"}'
                                             ng-name="name.policyType" api="searchPolicyType"></multiple-select>
-                                            <div class="error-msg" ng-show="formName.policyType.$invalid">Please Select Policy Type</div>
+                                        <div class="error-msg" ng-show="formName.policyType.$invalid">Please Select Policy Type</div>
                                     </div>
                                 </div>
                                 <div class="col-md-6" ng-if="(formData.policyType && formData.insurerOffice && formData.insuredOffice)">
@@ -398,7 +405,7 @@
                                         <label>Policy Document</label>
                                         <multiple-select my-enter name="policyDoc" ng-model="formData.policyDoc" filter='{"policyType":"{{formData.policyType}}","insurerOffice":"{{formData.insurerOffice}}","insuredOffice":"{{formData.insuredOffice}}"}'
                                             ng-name="name.policyDoc" api="getPolicyDoc"></multiple-select>
-                                            <div class="error-msg" ng-show="formName.policyDoc.$invalid">Please Select Policy Document</div>
+                                        <div class="error-msg" ng-show="formName.policyDoc.$invalid">Please Select Policy Document</div>
                                     </div>
                                 </div>
                             </div>
@@ -476,16 +483,15 @@
                                         <label>Insured's' Office</label>
                                         <multiple-select my-enter name="insuredOffice" ng-model="formData.insuredOffice" filter='{"customerCompany":"{{formData.insured}}"}'
                                             ng-name="name.office" api="searchCustomer"></multiple-select>
-                                            <div class="error-msg" ng-show="formName.insuredOffice.$invalid">Please Select Insured Office</div>
+                                        <div class="error-msg" ng-show="formName.insuredOffice.$invalid">Please Select Insured Office</div>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group"> <label>Insured Claim-No</label>
-                                        <input type="text" class="form-control" ng-model="formData.insuredClaimId"
-                                            name="insuredClaimId">
-                                            <div class="error-msg" ng-show="formName.insuredClaimId.$invalid">Please Select Insured Claim ID</div>
+                                        <input type="text" class="form-control" ng-model="formData.insuredClaimId" name="insuredClaimId">
+                                        <div class="error-msg" ng-show="formName.insuredClaimId.$invalid">Please Select Insured Claim ID</div>
                                     </div>
                                 </div>
                             </div>
@@ -518,16 +524,15 @@
                                         <label>Insurer Office*</label>
                                         <multiple-select my-enter name="insurerOffice" required ng-model="formData.insurerOffice" filter='{"customerCompany":"{{formData.insurer}}"}'
                                             ng-name="name.broker" api="searchCustomer"></multiple-select>
-                                            <div class="error-msg" ng-show="formName.insurerOffice.$invalid">Please Select Insurer Office</div>
+                                        <div class="error-msg" ng-show="formName.insurerOffice.$invalid">Please Select Insurer Office</div>
                                     </div>
                                 </div>
                             </div>
-                             <div class="row">
+                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group"> <label>Insurer Claim-No</label>
-                                        <input type="text" class="form-control" ng-model="formData.insurerClaimId"
-                                            name="insurerClaimId">
-                                            <div class="error-msg" ng-show="formName.insurerClaimId.$invalid">Please Select Insured Claim ID</div>
+                                        <input type="text" class="form-control" ng-model="formData.insurerClaimId" name="insurerClaimId">
+                                        <div class="error-msg" ng-show="formName.insurerClaimId.$invalid">Please Select Insured Claim ID</div>
                                     </div>
                                 </div>
                             </div>
@@ -544,16 +549,15 @@
                                         <label>Broker Office*</label>
                                         <multiple-select my-enter name="brokerOffice" required ng-model="formData.brokerOffice" filter='{"customerCompany":"{{formData.broker}}"}'
                                             ng-name="name.brokerOffice" api="searchCustomer"></multiple-select>
-                                            <div class="error-msg" ng-show="formName.brokerOffice.$invalid">Please Select Broker Office</div>
+                                        <div class="error-msg" ng-show="formName.brokerOffice.$invalid">Please Select Broker Office</div>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group"> <label>Broker Claim-No</label>
-                                        <input type="text" class="form-control" ng-model="formData.brokerClaimId"
-                                            name="brokerClaimId">
-                                            <div class="error-msg" ng-show="formName.brokerClaimId.$invalid">Please Select Insured Claim ID</div>
+                                        <input type="text" class="form-control" ng-model="formData.brokerClaimId" name="brokerClaimId">
+                                        <div class="error-msg" ng-show="formName.brokerClaimId.$invalid">Please Select Insured Claim ID</div>
                                     </div>
                                 </div>
                             </div>
@@ -563,7 +567,7 @@
                                         <label>Department*</label>
                                         <multiple-select my-enter name="policyDepartment" required ng-model="formData.policyDepartment" ng-name="name.policyDepartment"
                                             api="searchDepartment"></multiple-select>
-                                            <div class="error-msg" ng-show="formName.policyDepartment.$invalid">Please Select Company</div>
+                                        <div class="error-msg" ng-show="formName.policyDepartment.$invalid">Please Select Company</div>
                                     </div>
                                 </div>
                             </div>
@@ -573,7 +577,7 @@
                                         <label>Policy Type*</label>
                                         <multiple-select my-enter name="policyType" required ng-model="formData.policyType" filter='{"department":"{{formData.policyDepartment}}","insurer":"{{formData.insurer}}"}'
                                             ng-name="name.policyType" api="searchPolicyType"></multiple-select>
-                                            <div class="error-msg" ng-show="formName.policyType.$invalid">Please Select Policy Type</div>
+                                        <div class="error-msg" ng-show="formName.policyType.$invalid">Please Select Policy Type</div>
                                     </div>
                                 </div>
                                 <div class="col-md-6" ng-if="(formData.policyType && formData.insurerOffice && formData.insuredOffice)">
@@ -581,7 +585,7 @@
                                         <label>Policy Document</label>
                                         <multiple-select my-enter name="policyDoc" ng-model="formData.policyDoc" filter='{"policyType":"{{formData.policyType}}","insurerOffice":"{{formData.insurerOffice}}","insuredOffice":"{{formData.insuredOffice}}"}'
                                             ng-name="name.policyDoc" api="getPolicyDoc"></multiple-select>
-                                            <div class="error-msg" ng-show="formName.policyDoc.$invalid">Please Select Policy Document</div>
+                                        <div class="error-msg" ng-show="formName.policyDoc.$invalid">Please Select Policy Document</div>
                                     </div>
                                 </div>
                             </div>
@@ -633,16 +637,15 @@
                                         <label>Insured's Office</label>
                                         <multiple-select my-enter name="insuredOffice" ng-model="formData.insuredOffice" filter='{"customerCompany":"{{formData.insured}}"}'
                                             ng-name="name.office" api="searchCustomer"></multiple-select>
-                                            <div class="error-msg" ng-show="formName.insuredOffice.$invalid">Please Select Insured Office</div>
+                                        <div class="error-msg" ng-show="formName.insuredOffice.$invalid">Please Select Insured Office</div>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group"> <label>Insured Claim-No</label>
-                                        <input type="text" class="form-control" ng-model="formData.insuredClaimId"
-                                            name="insuredClaimId">
-                                            <div class="error-msg" ng-show="formName.insuredClaimId.$invalid">Please Select Insured Claim ID</div>
+                                        <input type="text" class="form-control" ng-model="formData.insuredClaimId" name="insuredClaimId">
+                                        <div class="error-msg" ng-show="formName.insuredClaimId.$invalid">Please Select Insured Claim ID</div>
                                     </div>
                                 </div>
                             </div>
@@ -668,7 +671,7 @@
                                         <label>Cause Of Loss*</label>
                                         <multiple-select my-enter name="causeOfLoss" required ng-model="formData.causeOfLoss" filter='{"department":"{{formData.department}}"}'
                                             ng-name="name.causeOfLoss" api="searchCauseLoss"></multiple-select>
-                                            <div class="error-msg" ng-show="formName.causeOfLoss.$invalid">Please Select Cause Of Loss</div>
+                                        <div class="error-msg" ng-show="formName.causeOfLoss.$invalid">Please Select Cause Of Loss</div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -678,8 +681,8 @@
                                             name="natureOfLoss" ng-model="formData.natureOfLoss" theme="bootstrap" required>
                                             <ui-select-match>{{$item.name}}</ui-select-match>
                                             <ui-select-choices repeat="natureOfLoss in natureLoss | filter:$select.search" refresh-delay="0" refresh="refreshNature($select.search, formData.causeOfLoss)">{{natureOfLoss.name}}</ui-select-choices>
-                                            </ui-select>
-                                            <div class="error-msg" ng-show="formName.natureOfLoss.$invalid && formName.natureOfLoss.$touched">Please Enter Nature Of Loss</div>
+                                        </ui-select>
+                                        <div class="error-msg" ng-show="formName.natureOfLoss.$invalid && formName.natureOfLoss.$touched">Please Enter Nature Of Loss</div>
                                     </div>
                                 </div>
                             </div>
@@ -756,16 +759,15 @@
                                         <label>Insured's' Office</label>
                                         <multiple-select my-enter name="insuredOffice" ng-model="formData.insuredOffice" filter='{"customerCompany":"{{formData.insured}}"}'
                                             ng-name="name.office" api="searchCustomer"></multiple-select>
-                                            <div class="error-msg" ng-show="formName.insuredOffice.$invalid">Please Select Insured Office</div>
+                                        <div class="error-msg" ng-show="formName.insuredOffice.$invalid">Please Select Insured Office</div>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group"> <label>Insured Claim-No</label>
-                                        <input type="text" class="form-control" ng-model="formData.insuredClaimId"
-                                            name="insuredClaimId">
-                                            <div class="error-msg" ng-show="formName.insuredClaimId.$invalid">Please Select Insured Claim ID</div>
+                                        <input type="text" class="form-control" ng-model="formData.insuredClaimId" name="insuredClaimId">
+                                        <div class="error-msg" ng-show="formName.insuredClaimId.$invalid">Please Select Insured Claim ID</div>
                                     </div>
                                 </div>
                             </div>
@@ -826,7 +828,7 @@
                         <div class="widget-title">
                             <a class="btn btn-primary pull-right" ng-click="addModal( 'modal-assignment', '',
                         'products', '', '',formData.products)">Add New</a>
-                                <h3>Products</h3>
+                            <h3>Products</h3>
                         </div>
                         <div class="error-msg" ng-show="formData.products.length==0">At least one Product is compulsory.</div>
                         <div class="sec">
@@ -847,10 +849,10 @@
                                                 <a class="btn btn-primary" ng-click="addModal( 'modal-assignment',$index,
                         'products',data, '',formData.products)">
                                                     <i class="fa fa-pencil"></i>
-                                                    </a>
-                                                    <a class="btn btn-danger" ng-click="deleteElements($index, formData.products)">
-                                                        <i class="fa fa-trash"></i>
-                                                    </a>
+                                                </a>
+                                                <a class="btn btn-danger" ng-click="deleteElements($index, formData.products)">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -864,14 +866,14 @@
                         <div class="widget-title" ng-if="!formData.postLoss">
                             <a class="btn btn-primary pull-right" ng-click="addModal( 'modal-assignment', '',
                         'invoice', 'datefilter', '',formData.invoices)">Add New</a>
-                                <!-- <button class="btn btn-primary pull-right" type="submit" ng-disabled="modelData.$invalid">Add New</button> -->
-                                <h3>Invoices</h3>
+                            <!-- <button class="btn btn-primary pull-right" type="submit" ng-disabled="modelData.$invalid">Add New</button> -->
+                            <h3>Invoices</h3>
                         </div>
                         <div class="widget-title" ng-if="formData.postLoss">
                             <a class="btn btn-primary pull-right" ng-click="addModal( 'modal-assignment', '',
                         'invoice', '', '',formData.invoices)">Add New</a>
-                                <!-- <button class="btn btn-primary pull-right" type="submit" ng-disabled="modelData.$invalid">Add New</button> -->
-                                <h3>Invoices</h3>
+                            <!-- <button class="btn btn-primary pull-right" type="submit" ng-disabled="modelData.$invalid">Add New</button> -->
+                            <h3>Invoices</h3>
                         </div>
                         <div class="sec">
                             <div class="table-responsive">
@@ -891,10 +893,10 @@
                                                 <a class="btn btn-primary" ng-click="addModal( 'modal-assignment',$index,
                         'invoice',data, '',formData.invoices)">
                                                     <i class="fa fa-pencil"></i>
-                                                    </a>
-                                                    <a class="btn btn-danger" ng-click="deleteElements($index, formData.invoices)">
-                                                        <i class="fa fa-trash"></i>
-                                                    </a>
+                                                </a>
+                                                <a class="btn btn-danger" ng-click="deleteElements($index, formData.invoices)">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -908,12 +910,12 @@
                         <div class="widget-title" ng-if="!formData.postLoss">
                             <a class="btn btn-primary pull-right" ng-click="addModal( 'modal-assignment', '', 'LRs',
                         'datefilter', '',formData.LRs)">Add New</a>
-                                <h3>LRs</h3>
+                            <h3>LRs</h3>
                         </div>
                         <div class="widget-title" ng-if="formData.postLoss">
                             <a class="btn btn-primary pull-right" ng-click="addModal( 'modal-assignment', '', 'LRs',
                         '', '',formData.LRs)">Add New</a>
-                                <h3>LRs</h3>
+                            <h3>LRs</h3>
                         </div>
                         <div class="sec">
                             <div class="table-responsive">
@@ -933,10 +935,10 @@
                                                 <a class="btn btn-primary" ng-click="addModal( 'modal-assignment',$index,
                         'LRs',data, '',formData.LRs)">
                                                     <i class="fa fa-pencil"></i>
-                                                    </a>
-                                                    <a class="btn btn-danger" ng-click="deleteElements($index, formData.LRs)">
-                                                        <i class="fa fa-trash"></i>
-                                                    </a>
+                                                </a>
+                                                <a class="btn btn-danger" ng-click="deleteElements($index, formData.LRs)">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -950,7 +952,7 @@
                         <div class="widget-title">
                             <a class="btn btn-primary pull-right" ng-click="addModal( 'modal-assignment', '',
                         'Vehicle', '', '',formData.vehicleNumber)">Add New</a>
-                                <h3>Vehicle Number</h3>
+                            <h3>Vehicle Number</h3>
                         </div>
                         <div class="sec">
                             <div class="table-responsive">
@@ -968,10 +970,10 @@
                                                 <a class="btn btn-primary" ng-click="addModal( 'modal-assignment',$index,
                         'Vehicle',data, '',formData.vehicleNumber)">
                                                     <i class="fa fa-pencil"></i>
-                                                    </a>
-                                                    <a class="btn btn-danger" ng-click="deleteElements($index, formData.vehicleNumber)">
-                                                        <i class="fa fa-trash"></i>
-                                                    </a>
+                                                </a>
+                                                <a class="btn btn-danger" ng-click="deleteElements($index, formData.vehicleNumber)">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -1024,7 +1026,7 @@
                         <div class="widget-title">
                             <a class="btn btn-primary pull-right" ng-click="addModal( 'modal-assignment', '', 'Location',
                         '', '',formData.locationArr)">Add New</a>
-                                <h3>Location ID</h3>
+                            <h3>Location ID</h3>
                         </div>
                         <div class="sec">
                             <div class="table-responsive">
@@ -1042,10 +1044,10 @@
                                                 <a class="btn btn-primary" ng-click="addModal( 'modal-assignment',$index,
                         'Location',data, '',formData.locationArr)">
                                                     <i class="fa fa-pencil"></i>
-                                                    </a>
-                                                    <a class="btn btn-danger" ng-click="deleteElements($index, formData.locationArr)">
-                                                        <i class="fa fa-trash"></i>
-                                                    </a>
+                                                </a>
+                                                <a class="btn btn-danger" ng-click="deleteElements($index, formData.locationArr)">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -1060,7 +1062,7 @@
                         <div class="widget-title">
                             <a class="btn btn-primary pull-right" ng-click="addModal( 'modal-assignment', '', 'Product',
                         '', '',formData.product)">Add New</a>
-                                <h3>Product ID</h3>
+                            <h3>Product ID</h3>
                         </div>
                         <div class="sec">
                             <div class="table-responsive">
@@ -1078,10 +1080,10 @@
                                                 <a class="btn btn-primary" ng-click="addModal( 'modal-assignment',$index,
                         'Product',data, '',formData.product)">
                                                     <i class="fa fa-pencil"></i>
-                                                    </a>
-                                                    <a class="btn btn-danger" ng-click="deleteElements($index, formData.product)">
-                                                        <i class="fa fa-trash"></i>
-                                                    </a>
+                                                </a>
+                                                <a class="btn btn-danger" ng-click="deleteElements($index, formData.product)">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
                                             </td>
                                         </tr>
                                     </tbody>

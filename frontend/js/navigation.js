@@ -331,7 +331,7 @@ var navigationservice = angular.module('navigationservice', [])
             }, {
                 name: "Knowledge Base",
                 classis: "active",
-                anchor: "timeline",
+                anchor: "knowledgebase",
                 icon: "graduation-cap",
                 subnav: [{
                     name: "Knowledge Base List",

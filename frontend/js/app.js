@@ -1292,9 +1292,9 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
                 model: "assignment"
             }
         })
-
+        
         .state('createassignment', {
-            url: "/assignment-create/{id:.*}/{model:.*}/{assignment:.*}",
+            url: "/assignment-create/{id:.*}/{model:.*}/{assignment:.*}/{pdf:.*}",
             templateUrl: "frontend/views/template.html",
             controller: 'CreateAssignmentCtrl',
             params: {
