@@ -9809,6 +9809,16 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.header = {
             "name": "Form Name"
         };
+        $scope.itemTypes = [{
+            value: '',
+            name: 'Select Status'
+        }, {
+            value: 'Copy',
+            name: 'Copy'
+        }, {
+            value: 'Original',
+            name: 'Original'
+        }];
         $scope.Saved = false;
         $scope.forms = [{
             head: 'Snapshot',
@@ -9877,7 +9887,48 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         }
 
+        $scope.addHead = function () {
+            $scope.forms.forms.push({
+                head: $scope.forms.forms.length + 1,
+                items: [{}]
+            });
+        };
+        $scope.removeHead = function (index) {
+            if ($scope.forms.forms.length > 1) {
+                $scope.forms.forms.splice(index, 1);
+            } else {
+                $scope.forms.forms = [{
+                    head: '',
+                    items: [{}, {}]
+                }];
+            }
+        };
+        $scope.addItem = function (obj) {
+            var index = $scope.forms.forms.indexOf(obj);
+            $scope.forms.forms[index].items.push({});
+        };
 
+        $scope.removeItem = function (obj, indexItem) {
+            var indexHead = $scope.forms.forms.indexOf(obj);
+            if ($scope.forms.forms[indexHead].items.length > 1) {
+                $scope.forms.forms[indexHead].items.splice(indexItem, 1);
+            } else {
+                $scope.forms.forms[indexHead].items = [{}];
+            }
+        };
+        $scope.getdescriptions = function (data) {
+            var formData = {};
+            formData.keyword = data;
+            NavigationService.searchLorMaster(formData, 1, function (data) {
+                $scope.descriptions = data.data.results;
+                console.log("Tax", $scope.descriptions);
+            });
+        }
+        $scope.getAll = function (invoice, $index, outerIndex) {
+            console.log("Invoice", invoice, $index, outerIndex);
+            $scope.forms.forms[outerIndex].items[$index].name = invoice.name;
+            $scope.forms.forms[outerIndex].items[$index].type = invoice.status;
+        }
         $scope.sendMessage = function (type) {
             console.log("DEF");
             $scope.message.type = type;
