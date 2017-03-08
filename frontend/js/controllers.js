@@ -3738,7 +3738,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
     })
 
-   .controller('CreateReimbursementCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter) {
+    .controller('CreateReimbursementCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("reimbursement-detail");
         $scope.menutitle = NavigationService.makeactive("Reimbursement");
@@ -9280,17 +9280,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.cancel = function () {
             $window.history.back();
         }
-            $scope.saveModel = function (formData) {
-                NavigationService.modelSave("TemplateLor", $scope.formData, function (data) {
-                    if (data.value === true) {
-                        // $state.go('templateLor-list');
-                        $window.history.back();
-                        toastr.success("LOR Template " + formData.name + " edited successfully.", "LOR Template Edited");
-                    } else {
-                        toastr.error("LOR Template edition failed.", "LOr Template edition error");
-                    }
-                });
-            };
+        $scope.saveModel = function (formData) {
+            NavigationService.modelSave("TemplateLor", $scope.formData, function (data) {
+                if (data.value === true) {
+                    // $state.go('templateLor-list');
+                    $window.history.back();
+                    toastr.success("LOR Template " + formData.name + " edited successfully.", "LOR Template Edited");
+                } else {
+                    toastr.error("LOR Template edition failed.", "LOr Template edition error");
+                }
+            });
+        };
     })
 
     .controller('CreateTemplateLORCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
@@ -9921,8 +9921,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
         $scope.saveModel = function (templateObj) {
-
-
             console.log("Save Data", templateObj);
             //  Config.generatePdf("pdf/abs-synopsis", templateObj.forms, res.callback);
             if ($stateParams.assignment !== "") {
@@ -9945,7 +9943,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.Saved = true;
                 console.log("Data To Saveeee", $scope.forms);
                 NavigationService.editAssignmentTemplate($scope.forms, function (data) {
-
                     if (data.value) {
                         var a = {};
                         $scope.message.title = "Updated " + $stateParams.type;
