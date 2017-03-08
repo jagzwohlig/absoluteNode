@@ -318,6 +318,9 @@ $trans-black: rgba( black, .15);
 .padder {
     padding-top: 5px;
 }
+.over-hide {
+    overflow: hidden;
+}
 
 .first-half {
     width: 50%;
@@ -1471,6 +1474,17 @@ img.uploadingImage {
 ::-webkit-datetime-edit-month-field:not([aria-valuenow]),
 ::-webkit-datetime-edit-day-field:not([aria-valuenow]) {
     color: transparent;
+}
+
+.ui-select-custom {
+   .ui-select-toggle {
+       background-color: transparent;
+       height: 32px;
+       &:focus {
+           background-color: transparent;
+           outline: none;
+       }
+   }
 }
 
 

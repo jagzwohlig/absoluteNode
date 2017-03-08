@@ -26,7 +26,7 @@
                 </div>
             </div>
         </div>
-        <div class="widget">
+        <div class="widget" ng-if="forms.type=='templateIla'">
             <div class="form-elements-sec">
                 <div class="sec">
                     <div class="clearfix"></div>
@@ -70,6 +70,83 @@
                                         <select class="form-control" ng-model="item.field">
                                             <option value="{{item}}" ng-repeat="item in item.dropdownValues">{{item}}</option>
                                         </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="widget" ng-if="forms.type!='templateIla'">
+            <div class="form-elements-sec">
+                <div class="sec">
+                    <div class="clearfix"></div>
+                    <div class="form-builder">
+                        <div class="form-repeater" ng-init="outerIndex=$index" ng-repeat="form in forms.forms">
+                            <div class="form-builder-head">
+                                <div class="mark-float">
+                                    <i class="fa fa-plus-circle success" ng-click="addHead();"></i>
+                                    <i class="fa fa-minus-circle danger" ng-click="removeHead($index);"></i>
+                                </div>
+                                <input type="text" ng-model="form.name" placeholder="Enter Heading" class="form-control">
+                            </div>
+                            <div class="form-builder-hr" id="sortable-ul-selector-id" ng-model="form.items">
+                                <div class="form-builder-item no-pad row-item" ng-repeat="item in form.items">
+                                    <div class="col-item col-item-35 ">
+                                        <p>
+                                            <ui-select ng-model="item" class="ui-select-custom" ng-change="getAll(item,$index,outerIndex)" theme="bootstrap" sortable="true">
+                                                <ui-select-match placeholder="Select">
+                                                    <span class="detail-title" title="{{$select.selected.name}}">{{$select.selected.name}}</span>
+                                                </ui-select-match>
+                                                <ui-select-choices repeat="d in descriptions | filter: $select.search" refresh="getdescriptions($select.search)" refresh-delay="0">
+                                                    <span>{{d.name}}</span>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                            <span ng-if="item.value == true"></span>
+                                        </p>
+                                    </div>
+                                    <!-- TEXT -->
+                                    <div class="col-item" ng-if="item.value=='Text'">
+                                        <input type="text" ng-model="item.field" placeholder="Enter {{item.name}}" class="form-control">
+                                    </div>
+                                    <!-- DATE -->
+                                    <div class="col-item" ng-if="item.value=='Date'">
+                                        <input type="date" date-model placeholder="Enter {{item.name}}" class="form-control" ng-model="item.field">
+                                    </div>
+                                    <!-- TEXT AREA -->
+                                    <div class="col-item" ng-if="item.value=='Textarea'">
+                                        <textarea class="form-control" ng-model="item.field" placeholder="Enter {{item.name}}"></textarea>
+                                    </div>
+                                    <!-- SYSTEM FIELD -->
+                                    <div class="col-item" ng-if="item.type=='System Fields'">
+                                        <p>{{item.value|toobject:assignment}}</p>
+                                    </div>
+                                    <!-- LOR -->
+                                    <div class="col-item" ng-if="item.type=='Copy'||item.type=='Original'">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <select class="form-control" ng-model="item.type">
+                                            <option value="{{item.value}}" ng-repeat="item in itemTypes">{{item.name}}</option>
+                                        </select>
+                                            </div>
+                                            <div class="col-md-4">
+                                            <span class="" ng-if="item.submit"><input type="date" date-model placeholder="Enter submitted date" class="form-control" ng-model="item.date"></span>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <span class="">Submitted<toggle-switch ng-model="item.submit" class="switch-small switch-success m5"></toggle-switch></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- DROPDOWN -->
+                                    <div class="col-item" ng-if="item.type=='Dropdown'">
+                                        <select class="form-control" ng-model="item.field">
+                                            <option value="{{item}}" ng-repeat="item in item.dropdownValues">{{item}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="mark-float">
+                                        <i class="fa fa-plus-circle success" ng-click="addItem(form);"></i>
+                                        <i class="fa fa-minus-circle danger" ng-click="removeItem(form, $index);"></i>
                                     </div>
                                 </div>
                             </div>
