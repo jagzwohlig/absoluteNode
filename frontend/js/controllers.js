@@ -728,9 +728,21 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
+<<<<<<< HEAD
+    NavigationService.getOneModel("LorMaster", $stateParams.id, function (data) {
+        $scope.formData = data.data;
+    });
+        $scope.refreshLorCategory = function (data, insurerd) {
+            var formdata = {};
+            formdata.keyword = data;
+            NavigationService.searchLorCategory(formdata, 1, function (data) {
+                console.log("LorCategory",data);
+                $scope.formDate.lorcategory = data.data.results;
+=======
         $scope.changeStatus = function (ind) {
             NavigationService.modelSave($scope.ModelApi, ind, function (data) {
                 if (data.value === true) {}
+>>>>>>> 5037702cad2b093c4de3981586f172d7f7236bc5
             });
         };
     })
