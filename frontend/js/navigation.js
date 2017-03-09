@@ -344,6 +344,17 @@ var navigationservice = angular.module('navigationservice', [])
                     anchor: "tag-list",
                     icon: "book"
                 }]
+            },{
+                name: "Invoice",
+                classis: "active",
+                anchor: "invoice",
+                icon: "pencil",
+                subnav: [{
+                    name: "Invoice",
+                    classis: "active",
+                    anchor: "invoice-list",
+                    icon: "book"
+                }]
             }
         ];
         var membershipLevel = [{
@@ -441,7 +452,6 @@ var navigationservice = angular.module('navigationservice', [])
                         data.email = $.jStorage.get("profile").email;
                         $http.post(adminurl + 'Employee/getLoginEmployee', data).success(function (data) {
                             console.log(data);
-
                             var newRole = getRoleSingle(data.data.role);
                             console.log(newRole);
                             $.jStorage.set("role", newRole);

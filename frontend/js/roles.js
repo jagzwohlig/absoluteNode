@@ -138,9 +138,9 @@ angular.module('rolesController', ['templateservicemod', 'navigationservice', 'a
         addRoles("Reimbursement", "Reimbursement Detail", "Approval", "reimbursement,reimbursement-list", true, false, true, false, false, false, true, true, true);
         addRoles("Reimbursement", "Reimbursement Detail", "Disbusement", "reimbursement,reimbursement-list", true, true, true, true, false, false, false, false, true);
         addRoles("Knowledge Base", "Knowledge Base list", "Access", "knowledgebase,knowledgebase-list", true, true, true, false, false, false, false, false, true);
-        // addRoles("Knowledge Base", "Knowledge Base list", "Request", "", true, true, true, false, false, false, false, false, true);
-        // addRoles("Knowledge Base", "Knowledge Base list", "Approval", "", true, true, true, false, false, false, false, false, true);
-        addRoles("Invoice", "Invoice", "New", "", true, true, false, false, false, false, false, false, true);
+        addRoles("Knowledge Base", "Knowledge Base list", "Request", "", true, true, true, false, false, false, false, false, true);
+        addRoles("Knowledge Base", "Knowledge Base list", "Approval", "", true, true, true, false, false, false, false, false, true);
+        addRoles("Invoice", "Invoice", "", "invoice,invoice-list", true, true, false, false, false, false, false, false, true);
         addRoles("Invoice", "Invoice", "Send for Authorize", "", true, true, false, false, false, false, false, false, true);
         addRoles("Invoice", "Invoice", "Authorize", "", true, true, false, false, false, false, false, false, true);
         addRoles("Invoice", "Invoice", "Revise", "", true, true, false, false, false, false, false, false, true);

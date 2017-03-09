@@ -2,24 +2,14 @@ var schema = new Schema({
     name: {
         type: String,
         required: true,
-        unique: true,
-    },
-    lorCategory:{
-        type: Schema.Types.ObjectId,
-        ref: "LorCategory",
-        required: true
-    },
-    status: {
-        type: String,
-        enum:["Original","Copy"],
-        default: "Original"
+        unique: true
     }
 });
 
 schema.plugin(deepPopulate, {});
 schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
-module.exports = mongoose.model('LorMaster', schema);
+module.exports = mongoose.model('LorCategory', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {};
