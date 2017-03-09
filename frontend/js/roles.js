@@ -129,6 +129,7 @@ angular.module('rolesController', ['templateservicemod', 'navigationservice', 'a
         addRoles("Assignments", "LOR", "Release", "assignment", true, true, false, false, false, false, false, false, true);
         addRoles("Assignments", "LOR", "Regenerate", "assignment", true, true, false, false, false, false, false, false, true);
         addRoles("Assignments", "LOR", "Status", "assignment", true, true, false, false, false, false, false, false, true);
+        addRoles("Templates", "LOR Category", "", "template,lorCategory-list", true, true, true, true, false, false, false, false, true);
         addRoles("Templates", "LOR Master", "", "template,lorMaster-list", true, true, true, true, false, false, false, false, true);
         addRoles("Templates", "LOR", "", "template,templateLor-list", true, true, true, true, false, false, false, false, true);
         addRoles("Templates", "ILA", "", "template,templateIla-list", true, true, true, true, false, false, false, false, true);

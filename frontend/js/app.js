@@ -1471,6 +1471,34 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
         //  ila state
 
         //  lor state
+        .state('lorCategory-list', {
+            url: "/lorCategory-list/{page:.*}/{keyword:.*}/{model:.*}",
+            templateUrl: "frontend/views/template.html",
+            controller: 'ModelViewCtrl',
+            params: {
+                page: "1",
+                keyword: "",
+                model: "lor category"
+            }
+        })
+         .state('createLorCategory', {
+            url: "/lorCategory-create/{id:.*}/{model:.*}/{assignment:.*}",
+            templateUrl: "frontend/views/template.html",
+            controller: 'CreateLorCategoryCtrl',
+            params: {
+                id: "",
+                model: "lor category"
+            }
+        })
+        .state('editLorCategory', {
+            url: "/lorCategory-edit/{id:.*}/{model:.*}",
+            templateUrl: "frontend/views/template.html",
+            controller: 'EditLorCategoryCtrl',
+            params: {
+                id: "",
+                model: "lor category"
+            }
+        })
         .state('lorMaster-list', {
             url: "/lorMaster-list/{page:.*}/{keyword:.*}/{model:.*}",
             templateUrl: "frontend/views/template.html",
@@ -1481,6 +1509,7 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
                 model: "lor master"
             }
         })
+
         .state('createLorMaster', {
             url: "/lorMaster-create/{id:.*}/{model:.*}/{assignment:.*}",
             templateUrl: "frontend/views/template.html",

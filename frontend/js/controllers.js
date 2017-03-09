@@ -727,22 +727,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 }
             });
         };
-
-<<<<<<< HEAD
-    NavigationService.getOneModel("LorMaster", $stateParams.id, function (data) {
-        $scope.formData = data.data;
-    });
-        $scope.refreshLorCategory = function (data, insurerd) {
-            var formdata = {};
-            formdata.keyword = data;
-            NavigationService.searchLorCategory(formdata, 1, function (data) {
-                console.log("LorCategory",data);
-                $scope.formDate.lorcategory = data.data.results;
-=======
         $scope.changeStatus = function (ind) {
             NavigationService.modelSave($scope.ModelApi, ind, function (data) {
                 if (data.value === true) {}
->>>>>>> 5037702cad2b093c4de3981586f172d7f7236bc5
             });
         };
     })
@@ -967,7 +954,97 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
+   .controller('CreateLorCategoryCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $state, toastr, $uibModal) {
+        //Used to name the .html file
 
+        $scope.template = TemplateService.changecontent("lorCategory-detail");
+        $scope.menutitle = NavigationService.makeactive("LorCategory");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+
+        $scope.header = {
+            "name": "Create Invoice Expenditure"
+        };
+        $scope.formData = {};
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+        $scope.salutations = ["Original", "Copy"];
+        hotkeys.bindTo($scope).add({
+            combo: 'ctrl+enter',
+            callback: function (formData) {
+                console.log($scope.formData);
+                NavigationService.lorCategorySave($scope.formData, function (data) {
+                    if (data.value === true) {
+                        $window.history.back();
+                        toastr.success("LorCategory " + $scope.formData.name + " created successfully.", "LorCategory Created");
+                    } else {
+                        toastr.error("LorCategory creation failed.", "LorCategory creation error");
+                    }
+                });
+            }
+        });
+
+        $scope.saveLorCategory = function (formData) {
+            console.log($scope.formData);
+            NavigationService.lorCategorySave($scope.formData, function (data) {
+                if (data.value === true) {
+                    $window.history.back();
+                    toastr.success("LorCategory " + $scope.formData.name + " created successfully.", "LorCategory Created");
+                } else {
+                    toastr.error("LorCategory creation failed.", "LorCategory creation error");
+                }
+            });
+        };
+
+    })
+
+    .controller('EditLorCategoryCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, $uibModal) {
+        //Used to name the .html file
+
+        $scope.template = TemplateService.changecontent("lorCategory-detail");
+        $scope.menutitle = NavigationService.makeactive("LorCategory");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.formData = {};
+        $scope.salutations = ["Original", "Copy"];
+        $scope.header = {
+            "name": "Edit Country"
+        };
+
+        NavigationService.getOneModel("LorCategory", $stateParams.id, function (data) {
+            $scope.formData = data.data;
+        });
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+        hotkeys.bindTo($scope).add({
+            combo: 'ctrl+enter',
+            callback: function (formData) {
+                console.log($scope.formData);
+                NavigationService.lorCategorySave($scope.formData, function (data) {
+                    if (data.value === true) {
+                        $window.history.back();
+                        toastr.success("LorCategory " + $scope.formData.name + " created successfully.", "LorMaster Created");
+                    } else {
+                        toastr.error("LorCategory creation failed.", "LorCategory creation error");
+                    }
+                });
+            }
+        });
+        $scope.saveLorCategory = function (formValid) {
+            console.log($scope.formData);
+            NavigationService.lorCategorySave($scope.formData, function (data) {
+                if (data.value === true) {
+                    $window.history.back();
+                    toastr.success("LorCategory " + $scope.formData.name + " created successfully.", "LorMaster Created");
+                } else {
+                    toastr.error("LorCategory creation failed.", "LorCategory creation error");
+                }
+            });
+        };
+
+    })
     .controller('CreateLorMasterCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $state, toastr, $uibModal) {
         //Used to name the .html file
 
@@ -1054,7 +1131,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 });
             }
         });
-
         $scope.saveLorMaster = function (formValid) {
             console.log($scope.formData);
             NavigationService.lorMasterSave($scope.formData, function (data) {

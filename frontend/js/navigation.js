@@ -277,6 +277,12 @@ var navigationservice = angular.module('navigationservice', [])
                     //     icon: "file-text"
                     // },
                     {
+                        name: "Lor Category",
+                        classis: "active",
+                        anchor: "lorCategory-list",
+                        icon: "file-text"
+                    },
+                    {
                         name: "LOR Master",
                         classis: "active",
                         anchor: "lorMaster-list",
@@ -930,6 +936,9 @@ var navigationservice = angular.module('navigationservice', [])
             },
             lorMasterSave: function (formData, callback) {
                 $http.post(adminurl + 'lorMaster/save', formData).success(callback);
+            },
+            lorCategorySave: function (formData, callback) {
+                $http.post(adminurl + 'lorCategory/save', formData).success(callback);
             },
             claimSave: function (formData, callback) {
                 $http.post(adminurl + 'Claims/save', formData).success(callback);
