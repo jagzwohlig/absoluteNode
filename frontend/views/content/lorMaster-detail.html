@@ -26,6 +26,15 @@
                                         <div class="error-msg" ng-show="policyTypeForm.name.$invalid && policyTypeForm.name.$touched">Please Enter Document Name</div>
                                     </div>
                                 </div>
+                                    <div class="col-sm-12">
+                                        <label>Category Name*</label>
+                                        <ui-select multiple tagging="tagTransform" tagging-label="(press enter to add new)" name="branch" ng-model="formData.lorCategory"
+                                            theme="bootstrap" required>
+                                            <ui-select-match>{{$item.name}}</ui-select-match>
+                                            <ui-select-choices repeat="category in lorcategory | filter:$select.search" refresh-delay="0" refresh="refreshLorCategory($select.search)">{{category.name}}</ui-select-choices>
+                                        </ui-select>
+                                        <div class="error-msg" ng-show="formData.lorCategory.$invalid && formData.lorCategory.$touched">Please Select Category</div>
+                                    </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label>Status*</label>
@@ -33,9 +42,9 @@
                                         <div class="error-msg" ng-show="policyTypeForm.salutation.$invalid && policyTypeForm.salutation.$touched">Please Select Status</div>
                                     </div>
                                 </div>
-                                
+
                             </div>
-                           
+
                         </div>
                     </div>
                 </div>

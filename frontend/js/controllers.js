@@ -1017,6 +1017,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     NavigationService.getOneModel("LorMaster", $stateParams.id, function (data) {
         $scope.formData = data.data;
     });
+        $scope.refreshLorCategory = function (data, insurerd) {
+            var formdata = {};
+            formdata.keyword = data;
+            NavigationService.searchLorCategory(formdata, 1, function (data) {
+                console.log("LorCategory",data);
+                $scope.lorcategory = data.data.results;
+            });
+        };
     $scope.cancel = function () {
         $window.history.back();
     };
