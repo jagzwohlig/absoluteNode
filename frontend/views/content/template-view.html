@@ -153,12 +153,12 @@
                                         </select>
                                            
                                     </div>
-                                     <div class="col-item" ng-if="item.type=='Copy'||item.type=='Original'">
-                                               <toggle-switch on-label="Submited" off-label="Not Submited" ng-model="item.submit" class="switch-small switch-success m5 mt5"></toggle-switch>
-                                    </div>
+                                     
                                     <div class="col-item" ng-if="item.type=='Copy' || item.type=='Original' && item.submit">
-                                        <input type="date" date-model placeholder="Enter submitted date" class="form-control" ng-model="item.date" >
-                                            
+                                        <input type="date" date-model placeholder="Enter submitted date" class="form-control" ng-model="item.date" >    
+                                    </div>
+                                    <div class="col-item" ng-if="item.type=='Copy'||item.type=='Original'">
+                                               <toggle-switch on-label="Submitted" off-label="Not Submitted" ng-model="item.submit" class="switch-small switch-success m5 mt5"></toggle-switch>
                                     </div>
                                    
                                     <!-- DROPDOWN -->
