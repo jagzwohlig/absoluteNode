@@ -1292,7 +1292,7 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
                 model: "assignment"
             }
         })
-        
+
         .state('createassignment', {
             url: "/assignment-create/{id:.*}/{model:.*}/{assignment:.*}/{pdf:.*}",
             templateUrl: "frontend/views/template.html",
@@ -1604,6 +1604,12 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
             controller: 'EmailSingleCtrl'
         })
 
+        .state('approvals', {
+            url: "/approvals",
+            templateUrl: "frontend/views/template.html",
+            controller: 'ApprovalsCtrl'
+        })
+
         .state('forbidden', {
             url: "/forbidden",
             templateUrl: "frontend/views/template.html",
@@ -1661,9 +1667,9 @@ firstapp.filter('toobject', function () {
             returnStr = returnStr + obj.value;
             return obj;
         });
-        var a= Date.parse(returnStr);
-        if(a>0){
-           returnStr= moment(returnStr).format("DD/MM/YYYY");
+        var a = Date.parse(returnStr);
+        if (a > 0) {
+            returnStr = moment(returnStr).format("DD/MM/YYYY");
             return returnStr;
         }
         return returnStr;
