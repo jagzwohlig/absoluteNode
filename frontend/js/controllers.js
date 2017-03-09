@@ -565,7 +565,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             // formdata.filter = {
             //     "_id": causeloss
             // };
-            NavigationService.searchInsured(formdata, 1, function (data) {
+            NavigationService.searchCustomer(formdata, 1, function (data) {
                 console.log("searchCustomer", data.data.results);
                 $scope.insurerdData = data.data.results;
             });

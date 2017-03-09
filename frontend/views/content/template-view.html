@@ -147,20 +147,20 @@
                                     </div>
                                     <!-- LOR -->
                                     <div class="col-item" ng-if="item.type=='Copy'||item.type=='Original'">
-                                        <div class="row">
-                                            <div class="col-md-4">
+                                        
                                                 <select class="form-control" ng-model="item.type">
                                             <option value="{{item.value}}" ng-repeat="item in itemTypes">{{item.name}}</option>
                                         </select>
-                                            </div>
-                                            <div class="col-md-4">
-                                            <span class="" ng-if="item.submit"><input type="date" date-model placeholder="Enter submitted date" class="form-control" ng-model="item.date"></span>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <span class="">Submitted<toggle-switch ng-model="item.submit" class="switch-small switch-success m5"></toggle-switch></span>
-                                            </div>
-                                        </div>
+                                           
                                     </div>
+                                     <div class="col-item" ng-if="item.type=='Copy'||item.type=='Original'">
+                                               <toggle-switch on-label="Submited" off-label="Not Submited" ng-model="item.submit" class="switch-small switch-success m5 mt5"></toggle-switch>
+                                    </div>
+                                    <div class="col-item" ng-if="item.type=='Copy' || item.type=='Original' && item.submit">
+                                        <input type="date" date-model placeholder="Enter submitted date" class="form-control" ng-model="item.date" >
+                                            
+                                    </div>
+                                   
                                     <!-- DROPDOWN -->
                                     <div class="col-item" ng-if="item.type=='Dropdown'">
                                         <select class="form-control" ng-model="item.field">
