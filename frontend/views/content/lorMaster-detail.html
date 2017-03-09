@@ -26,12 +26,14 @@
                                         <div class="error-msg" ng-show="policyTypeForm.name.$invalid && policyTypeForm.name.$touched">Please Enter Document Name</div>
                                     </div>
                                 </div>
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Category Name*</label>
-                                        <multiple-select my-enter my-enter name="lorCategory" required ng-model="formData.lorCategory" 
-                                            ng-name="name.lorCategory" api="searchLorCategory"></multiple-select>
+                                        <multiple-select my-enter my-enter name="lorCategory" required ng-model="formData.lorCategory" ng-name="name.lorCategory"
+                                            api="searchLorCategory"></multiple-select>
                                         <div class="error-msg" ng-show="formName.lorCategory.$invalid">Please Select Category</div>
                                     </div>
+                                </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label>Status*</label>
