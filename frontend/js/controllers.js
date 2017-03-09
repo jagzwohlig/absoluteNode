@@ -549,9 +549,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.refreshInsurer = function (data, insurer) {
             var formdata = {};
             formdata.keyword = data;
-            // formdata.filter = {
-            //     "_id": causeloss
-            // };
+            formdata.filter = {
+                "customerSegment": "57c3ef9b6fb3c3420233a00d"
+            };
             NavigationService.searchCustomer(formdata, 1, function (data) {
                 console.log("searchCustomer", data.data.results);
                 $scope.insurerData = data.data.results;
@@ -562,9 +562,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.refreshInsurerd = function (data, insurerd) {
             var formdata = {};
             formdata.keyword = data;
-            // formdata.filter = {
-            //     "_id": causeloss
-            // };
+            formdata.filter = {
+                "customerSegment": "57c3ef916fb3c3420233a00b"
+            };
             NavigationService.searchCustomer(formdata, 1, function (data) {
                 console.log("searchCustomer", data.data.results);
                 $scope.insurerdData = data.data.results;
