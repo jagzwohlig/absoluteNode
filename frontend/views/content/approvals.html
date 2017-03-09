@@ -35,32 +35,41 @@
                                   <i class="fa fa-search"></i>
                               </button>
                             </form>
-                            <button class="btn btn-primary">Sort</button>
+                            <span uib-dropdown>
+                                <button uib-dropdown-toggle id="sortby" class="btn btn-primary">Sort by <span class="caret"></span></button>
+                            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="sortby">
+                                <li role="menuitem"><a ng-click="">Time</a></li>
+                                <li role="menuitem"><a ng-click="">Date</a></li>
+                            </ul>
+                            </span>
+
                         </div>
                         <h3>List of Approvals <span class="tableTotal">(Total : {{totalItems}}) </span></h3>
                     </div>
-                    <div class="table-responsive" ng-show="totalItems>0">
-                        <table class="table table-striped">
+                    <div class="table-responsive">
+                        <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Role Name</th>
-                                    <th>Menu</th>
-                                    <th>Description</th>
-                                    <th>User Type</th>
-                                    <th>Privileges</th>
+                                    <th>Time</th>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Owner</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="role in allRoles">
-                                    <td>{{role.name}}</td>
-                                    <td>{{role.menu}}</td>
-                                    <td>{{role.description}}</td>
-                                    <td>{{role.user_type}}</td>
-                                    <td>{{role.privileges}}</td>
+                                <tr class="danger">
+                                    <td><span class="label label-danger">6Hrs</span></td>
+                                    <td>Doc Name</td>
+                                    <td>ILA</td>
+                                    <td>Owner Name</td>
                                     <td>
-                                        <a class="btn btn-primary" ui-sref="editrole({id:role._id})"><i class="fa fa-pencil"></i></a>
-                                        <a class="btn btn-danger" ng-click="deleteRole(role._id)"><i class="fa fa-trash"></i></a>
+                                        <span class="btn-group pad-butt">
+                                            <button class="btn btn-primary" uib-tooltip="Edit &amp; Accept"><i class="fa fa-pencil"></i></button>
+                                            <button class="btn btn-success" uib-tooltip="Accept"><i class="fa fa-check"></i></button>
+                                            <button class="btn btn-primary" uib-tooltip="Revise/Comment"><i class="fa fa-reply"></i></button>
+                                            <button class="btn btn-danger" uib-tooltip="Reject"><i class="fa fa-times"></i></button>
+                                        </span>
                                     </td>
                                 </tr>
                             </tbody>

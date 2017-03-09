@@ -318,6 +318,7 @@ $trans-black: rgba( black, .15);
 .padder {
     padding-top: 5px;
 }
+
 .over-hide {
     overflow: hidden;
 }
@@ -1060,7 +1061,8 @@ img.uploadingImage {
     position: absolute;
     @include transform(translateX(-50%));
 }
-.detail-title{
+
+.detail-title {
     width: 150px;
     display: block;
     overflow: hidden;
@@ -1477,20 +1479,27 @@ img.uploadingImage {
 }
 
 .ui-select-custom {
-   .ui-select-toggle {
-       background-color: transparent;
-       height: 32px;
-       &:focus {
-           background-color: transparent;
-           outline: none;
-       }
-   }
+    .ui-select-toggle {
+        background-color: transparent;
+        height: 32px;
+        &:focus {
+            background-color: transparent;
+            outline: none;
+        }
+    }
 }
 
 .padding-clone {
-    margin-top:25px;
-
+    margin-top: 25px;
 }
+
+.pad-butt {
+    .btn {
+        padding: 0 6px;
+        margin: 0 2px;
+    }
+}
+
 
 /* Start writing sass here */
 
