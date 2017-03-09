@@ -281,7 +281,7 @@ var navigationservice = angular.module('navigationservice', [])
                         classis: "active",
                         anchor: "lorMaster-list",
                         icon: "file-text"
-                    }, 
+                    },
                     {
                         name: "LOR Templates",
                         classis: "active",
@@ -344,7 +344,7 @@ var navigationservice = angular.module('navigationservice', [])
                     anchor: "tag-list",
                     icon: "book"
                 }]
-            },{
+            }, {
                 name: "Invoice",
                 classis: "active",
                 anchor: "invoice",
@@ -355,7 +355,18 @@ var navigationservice = angular.module('navigationservice', [])
                     anchor: "invoice-list",
                     icon: "book"
                 }]
-            }
+            }, {
+                name: "Approvals",
+                classis: "active",
+                anchor: "approvals",
+                icon: "tick",
+                subnav: [{
+                    name: "Approvals",
+                    classis: "active",
+                    anchor: "approvals",
+                    icon: "tick"
+                }]
+            },
         ];
         var membershipLevel = [{
             name: "Student",
@@ -891,9 +902,9 @@ var navigationservice = angular.module('navigationservice', [])
                     callback(data, i);
                 });
             },
-            searchLorMaster: function (formData,i, callback) {
+            searchLorMaster: function (formData, i, callback) {
                 $http.post(adminurl + 'lorMaster/search', formData).success(function (data) {
-                    callback(data,i);
+                    callback(data, i);
                 });
             },
             searchInvoiceExpenditure1: function (formData, callback) {
