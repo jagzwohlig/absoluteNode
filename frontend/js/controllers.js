@@ -9370,13 +9370,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.menutitle = NavigationService.makeactive("Edit LOR Template");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
-
+        $scope.flag=true;
         $scope.header = {
             "name": "Edit LOR Template"
         };
 
         $scope.formData = {};
         NavigationService.getOneModel("TemplateLor", $stateParams.id, function (data) {
+            console.log("GetOne ",data.data);
             $scope.formData = data.data;
         });
         $scope.itemTypes = [{
@@ -9413,20 +9414,39 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 }];
             }
         };
-
         $scope.getdescriptions = function (data) {
+            console.log("IN getdescriptions");
             var formData = {};
             formData.keyword = data;
+            formData.filter = {
+                "lorCategory": $scope.lorCategory
+            };
             NavigationService.searchLorMaster(formData, 1, function (data) {
                 $scope.descriptions = data.data.results;
                 console.log("Tax", $scope.descriptions);
             });
         }
+         $scope.getCategories = function (data) {
+            var formData = {};
+            formData.keyword = data;
+            NavigationService.searchLorCategory(formData, 1, function (data) {
+                $scope.categories = data.data.results;
+                console.log("Categories", $scope.categories);
+            });
+        }
+        $scope.getOneDescription = function (invoice,$index,outerIndex) {
+            $scope.flag=false;
+            console.log("Invoice", invoice,$index,outerIndex);
+            $scope.lorCategory=invoice._id;
+            $scope.formData.forms[outerIndex].items[$index].category = invoice.name;
+            $scope.getdescriptions();
+            
+        };
         $scope.getAll = function (invoice, $index, outerIndex) {
             console.log("Invoice", invoice, $index, outerIndex);
             $scope.formData.forms[outerIndex].items[$index].name = invoice.name;
             $scope.formData.forms[outerIndex].items[$index].type = invoice.status;
-        }
+        };
         $scope.addItem = function (obj) {
             var index = $scope.formData.forms.indexOf(obj);
             $scope.formData.forms[index].items.push({});
@@ -9472,7 +9492,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.menutitle = NavigationService.makeactive("Create LOR Template");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
-
+        $scope.flag=true;
         $scope.header = {
             "name": "Create LOR Template"
         };
@@ -9526,20 +9546,54 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.formData.forms[indexHead].items = [{}];
             }
         };
-
+// 
         $scope.getdescriptions = function (data) {
+            console.log("IN getdescriptions");
             var formData = {};
             formData.keyword = data;
+            formData.filter = {
+                "lorCategory": $scope.lorCategory
+            };
             NavigationService.searchLorMaster(formData, 1, function (data) {
                 $scope.descriptions = data.data.results;
                 console.log("Tax", $scope.descriptions);
             });
         }
+         $scope.getCategories = function (data) {
+            var formData = {};
+            formData.keyword = data;
+            NavigationService.searchLorCategory(formData, 1, function (data) {
+                $scope.categories = data.data.results;
+                console.log("Categories", $scope.categories);
+            });
+        }
+        $scope.getOneDescription = function (invoice,$index,outerIndex) {
+            $scope.flag=false;
+            console.log("Invoice", invoice,$index,outerIndex);
+            $scope.lorCategory=invoice._id;
+            $scope.formData.forms[outerIndex].items[$index].category = invoice.name;
+            $scope.getdescriptions();
+            
+        };
         $scope.getAll = function (invoice, $index, outerIndex) {
             console.log("Invoice", invoice, $index, outerIndex);
             $scope.formData.forms[outerIndex].items[$index].name = invoice.name;
             $scope.formData.forms[outerIndex].items[$index].type = invoice.status;
-        }
+        };
+// 
+        // $scope.getdescriptions = function (data) {
+        //     var formData = {};
+        //     formData.keyword = data;
+        //     NavigationService.searchLorMaster(formData, 1, function (data) {
+        //         $scope.descriptions = data.data.results;
+        //         console.log("Tax", $scope.descriptions);
+        //     });
+        // }
+        // $scope.getAll = function (invoice, $index, outerIndex) {
+        //     console.log("Invoice", invoice, $index, outerIndex);
+        //     $scope.formData.forms[outerIndex].items[$index].name = invoice.name;
+        //     $scope.formData.forms[outerIndex].items[$index].type = invoice.status;
+        // }
         $scope.sortableOptions = {
             handle: ' .handleBar',
             axis: 'y',
@@ -9978,7 +10032,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.menutitle = NavigationService.makeactive("Form Name");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
-
+        $scope.flag=true;
         $scope.header = {
             "name": "Form Name"
         };
@@ -10090,18 +10144,50 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             }
         };
         $scope.getdescriptions = function (data) {
+            console.log("IN getdescriptions");
             var formData = {};
             formData.keyword = data;
+            formData.filter = {
+                "lorCategory": $scope.lorCategory
+            };
             NavigationService.searchLorMaster(formData, 1, function (data) {
                 $scope.descriptions = data.data.results;
                 console.log("Tax", $scope.descriptions);
             });
         }
+         $scope.getCategories = function (data) {
+            var formData = {};
+            formData.keyword = data;
+            NavigationService.searchLorCategory(formData, 1, function (data) {
+                $scope.categories = data.data.results;
+                console.log("Categories", $scope.categories);
+            });
+        }
+        $scope.getOneDescription = function (invoice,$index,outerIndex) {
+            $scope.flag=false;
+            console.log("Invoice", invoice,$index,outerIndex);
+            $scope.lorCategory=invoice._id;
+            $scope.forms.forms[outerIndex].items[$index].category = invoice.name;
+            $scope.getdescriptions();
+        };
         $scope.getAll = function (invoice, $index, outerIndex) {
             console.log("Invoice", invoice, $index, outerIndex);
             $scope.forms.forms[outerIndex].items[$index].name = invoice.name;
             $scope.forms.forms[outerIndex].items[$index].type = invoice.status;
-        }
+        };
+        // $scope.getdescriptions = function (data) {
+        //     var formData = {};
+        //     formData.keyword = data;
+        //     NavigationService.searchLorMaster(formData, 1, function (data) {
+        //         $scope.descriptions = data.data.results;
+        //         console.log("Tax", $scope.descriptions);
+        //     });
+        // }
+        // $scope.getAll = function (invoice, $index, outerIndex) {
+        //     console.log("Invoice", invoice, $index, outerIndex);
+        //     $scope.forms.forms[outerIndex].items[$index].name = invoice.name;
+        //     $scope.forms.forms[outerIndex].items[$index].type = invoice.status;
+        // }
         $scope.sendMessage = function (type) {
             console.log("DEF");
             $scope.message.type = type;

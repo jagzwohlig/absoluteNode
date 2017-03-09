@@ -26,21 +26,11 @@
                                         <div class="error-msg" ng-show="policyTypeForm.name.$invalid && policyTypeForm.name.$touched">Please Enter Document Name</div>
                                     </div>
                                 </div>
-                                    <!--<div class="col-sm-12">
-                                        <label>Category Name*</label>
-                                        <ui-select multiple tagging="tagTransform" tagging-label="(press enter to add new)" name="category" ng-model="formData.lorCategory"
-                                            theme="bootstrap" required>
-                                            <ui-select-match>{{$item.name}}</ui-select-match>
-                                            <ui-select-choices repeat="category in formData.lorCategory | filter:$select.search" refresh-delay="0" refresh="refreshLorCategory($select.search)">{{category.name}}</ui-select-choices>
-                                        </ui-select>
-                                        <div class="error-msg" ng-show="formData.lorCategory.$invalid && formData.lorCategory.$touched">Please Select Category</div>
-                                    </div>-->
                                     <div class="form-group">
                                         <label>Category Name*</label>
-                                        <ui-select multiple tagging="tagTransform" tagging-label="(press enter to add new)" ng-model="formData.lorCategory" theme="bootstrap">
-                                            <ui-select-match>{{$item.name}}</ui-select-match>
-                                            <ui-select-choices repeat="natureOfLoss in natureOfLosses | filter:$select.search" refresh-delay="0" refresh="refreshNature($select.search)">{{natureOfLoss.name}}</ui-select-choices>
-                                        </ui-select>
+                                        <multiple-select my-enter my-enter name="lorCategory" required ng-model="formData.lorCategory" 
+                                            ng-name="name.lorCategory" api="searchLorCategory"></multiple-select>
+                                        <div class="error-msg" ng-show="formName.lorCategory.$invalid">Please Select Category</div>
                                     </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">

@@ -45,6 +45,18 @@
                                         <i class="fa fa-bars handleBar"></i>
                                     </div>
                                     <div class="col-item">
+                                        <ui-select placeholder="Select" ng-model="item"ng-change="getOneDescription(item,$index,outerIndex)" theme="bootstrap" sortable="true">
+                                            <ui-select-match placeholder="Select">
+                                                <span class="detail-title" ng-if="!flag" title="{{$select.selected.name}}">{{$select.selected.name}}</span>
+                                                <span class="detail-title" ng-if="flag" title="{{$select.selected.name}}">{{$select.selected.category}}</span>
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="d in categories | filter: $select.search" refresh="getCategories($select.search)" refresh-delay="0">
+                                                <span>{{d.name}}</span>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                        <!--<input type="text" ng-model="item.name" placeholder="Enter item name" class="form-control">-->
+                                    </div>
+                                    <div class="col-item">
                                         <ui-select ng-model="item" ng-change="getAll(item,$index,outerIndex)" theme="bootstrap" sortable="true">
                                             <ui-select-match placeholder="Select">
                                                 <span class="detail-title" title="{{$select.selected.name}}">{{$select.selected.name}}</span>

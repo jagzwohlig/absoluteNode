@@ -18,7 +18,7 @@ var schema = new Schema({
 
 schema.plugin(deepPopulate, {
      populate: {
-        'lorMaster': {
+        'lorCategory': {
             select: 'name _id'
         }
     }
@@ -27,6 +27,6 @@ schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('LorMaster', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema,"lorMaster","lorMaster"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema,"lorCategory","lorCategory"));
 var model = {};
 module.exports = _.assign(module.exports, exports, model);
