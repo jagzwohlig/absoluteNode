@@ -1022,7 +1022,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             formdata.keyword = data;
             NavigationService.searchLorCategory(formdata, 1, function (data) {
                 console.log("LorCategory",data);
-                $scope.lorcategory = data.data.results;
+                $scope.formDate.lorcategory = data.data.results;
             });
         };
     $scope.cancel = function () {
