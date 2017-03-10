@@ -1746,6 +1746,12 @@ firstapp.filter('reverse', function () {
     };
 });
 
+firstapp.filter('getHours', function () {
+    return function (date) {
+        return moment().diff(moment(date),"hours");
+    };
+});
+
 
 firstapp.directive('myEnter', function () {
     return function (scope, element, attrs) {

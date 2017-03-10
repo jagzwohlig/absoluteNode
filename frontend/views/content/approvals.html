@@ -58,8 +58,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="danger">
-                                    <td><span class="label label-danger">6Hrs</span></td>
+                                <tr ng-class="getDelayClass(someDate)">
+                                    <td><span class="label label-default">{{someDate|getHours}}hrs</span></td>
                                     <td>Doc Name</td>
                                     <td>ILA</td>
                                     <td>Owner Name</td>

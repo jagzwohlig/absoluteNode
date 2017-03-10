@@ -9923,7 +9923,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.formData.tax = [];
         NavigationService.getOneModel("Invoice", $stateParams.invoiceId, function (data) {
             $scope.formData = data.data;
-            console.log("ABCDEF", $scope.formData);
+            console.log("ABCDEF", $scope.formData.invoiceList);
+            _.each($scope.formData.invoiceList)
         });
         $scope.formData.status = true;
         $scope.required = true;
@@ -11596,6 +11597,24 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.menutitle = NavigationService.makeactive("Approvals");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
+        $scope.someDate = moment().subtract(24,"hours").toDate();
+        $scope.getDelayClass = function(val) {
+            var retClass= "";
+            var hours = moment().diff(moment(val),"hours");
+            if(hours >= 0 && hours <= 6) {
+                retClass= "delay-6";
+            } else if(hours  >= 7 && hours  <= 24) {
+                retClass = "delay-24";
+            } else if(hours  >= 25 && hours  <= 48) {
+                retClass = "delay-48";
+            } else if(hours  >= 49) {
+                retClass = "delay-72";
+            }  
+            console.log(retClass);
+            return retClass;
+            
+        };
+
     })
 
     .controller('ForbiddenCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
