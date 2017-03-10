@@ -25,24 +25,24 @@
                         </div>
                     </div>
                     <div class="row">
-                                                   <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Segment*</label>
-                                        <multiple-select my-enter name="segment" required ng-model="formData.segment" ng-name="name.segment" api="searchCustomerSegment"></multiple-select>
-                                        <div class="error-msg" ng-show="formName.segment.$invalid">Please Select Segment</div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Customer Company*</label>
-                                        <multiple-select my-enter name="customerCompany" required ng-model="formData.customerCompany" filter='{"customerSegment":"{{formData.segment}}"}'
-                                            ng-name="name.company" api="searchCustomerCompany"></multiple-select>
-                                            <div class="error-msg" ng-show="formName.customerCompany.$invalid">Please Select Customer Company</div>
-                                    </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Segment*</label>
+                                    <multiple-select my-enter name="segment" required ng-model="formData.segment" ng-name="name.segment" api="searchCustomerSegment"></multiple-select>
+                                    <div class="error-msg" ng-show="formName.segment.$invalid">Please Select Segment</div>
                                 </div>
                             </div>
-                            <!--<div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Customer Company*</label>
+                                    <multiple-select my-enter name="customerCompany" required ng-model="formData.customerCompany" filter='{"customerSegment":"{{formData.segment}}"}'
+                                        ng-name="name.company" api="searchCustomerCompany"></multiple-select>
+                                    <div class="error-msg" ng-show="formName.customerCompany.$invalid">Please Select Customer Company</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Customer Office*</label>
@@ -55,8 +55,58 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Billed To*</label>
-                                <multiple-select my-enter name="billedTo" required ng-model="formData.billedTo" filter='{"customerCompany":"{{formData.customerCompany}}"}' ng-name="billedTo" api="searchCustomer" filter='{"customerSegment":"{{formData.segment}}"}' novalidate></multiple-select>
+                                <multiple-select my-enter name="billedTo" required ng-model="formData.billedTo" filter='{"customerCompany":"{{formData.customerCompany}}"}'
+                                    ng-name="billedTo" api="searchCustomer" filter='{"customerSegment":"{{formData.segment}}"}'
+                                    novalidate></multiple-select>
                                 <div class="error-msg" ng-show="formName.billedTo.$invalid">Please Select Insurer Office</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Fee Narration</label>
+                                <input type="text" ng-model="formData.narrationFee" placeholder="Enter Narration Fee" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Gross Assessed Loss</label>
+                                <input type="number" ng-model="formData.grossAssessedLoss" placeholder="Enter Gross Assessed Loss" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Gross Salvage</label>
+                                <input type="number" ng-model="formData.grossSalvage" placeholder="Enter Gross Salvage" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Taxes</label>
+                                <input type="number" ng-model="formData.narrationFee" placeholder="Enter Taxes" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Excess Franchise</label>
+                                <input type="number" ng-model="formData.excessFranchise" placeholder="Enter Excess Franchise" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Gross Depreciation</label>
+                                <input type="number" ng-model="formData.grossDepreciation" placeholder="Enter Gross Depreciation" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Gross Under Insurance</label>
+                                <input type="number" ng-model="formData.grossUnderInsurance" placeholder="Enter Gross Under Insurance" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Net Payable</label>
+                                <input type="number" ng-model="formData.netPayable" placeholder="Enter Net Payable" class="form-control">
                             </div>
                         </div>
                     </div>
@@ -89,7 +139,7 @@
                                     <p>Amount</p>
                                 </div>
                             </div>
-                            
+
                             <div class="form-builder-hr" dragular dragular-model="formData">
                                 <div class="form-builder-item row-item" ng-repeat="form in formData.invoiceList">
                                     <div class="right-float mark-float">
