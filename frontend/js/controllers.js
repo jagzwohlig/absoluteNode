@@ -4057,9 +4057,37 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         }
 
         $scope.calculateGrandTotal = function (data) {
-            console.log("grandTotal", data.grandTotal);
-            $scope.totals.grandTotal = data.expense + data.travelExpense + data.pocketExpense + data.lodgingBoarding;
+            console.log("Total data!", data);
+            // data = _.cloneDeep(data);
+            // if(data.expense){
+            //     var dataExpense = data.expense;
+            // } else {
+            //     var dataExpense = 0
+            // }
+            //   if(data.travelExpense){
+            //     var dataTravelExpense = data.travelExpense;
+            // } else {
+            //     var dataTravelExpense = 0
+            // }
+            //   if(data.lodgingBoarding){
+            //     var dataLodgingBoarding = data.lodgingBoarding;
+            // } else {
+            //     var dataLodgingBoarding = 0
+            // }
+            //   if(data.pocketExpense){
+            //     var dataPocketExpense = data.pocketExpense;
+            // } else {
+            //     var dataPocketExpense = 0
+            // }
+            // console.log("totalssss",data);
+            // console.log("data.expense",data.expense);
+            // console.log("data.travelExpense",data.travelExpense);
+            // console.log("data.lodgingBoarding",data.lodgingBoarding);
+            // console.log("data.pocketExpense",data.pocketExpense);
+            $scope.grandTotal = 0;
+            // console.log("$scope.totals.grandTotal",$scope.grandTotal);
         }
+
         $scope.resetGrandTotal = function () {
             $scope.totals.grandTotal = 0;
         }

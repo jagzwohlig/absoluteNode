@@ -101,9 +101,6 @@ schema.plugin(deepPopulate, {
         'assignment.department': {
             select: 'name'
         },
-        'assignment.policyType': {
-            select: ''
-        },
         'assignment.products.product': {
             select: 'name _id category'
         },
