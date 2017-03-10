@@ -116,6 +116,9 @@ schema.plugin(deepPopulate, {
         'billedTo.customerCompany': {
             select: 'name _id'
         },
+        'createdBy':{
+            select: 'name'
+        },
         'assignment': {
             select: ''
         },
@@ -185,7 +188,7 @@ schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('Invoice', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "assignment.company assignment.products.product.category", "assignment.companyassignment.products.product.category"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "assignment.company assignment.products.product.category billedTo createdBy", "assignment.companyassignment.products.product.category billedTo createdBy"));
 var model = {
     saveData: function (data, callback) {
         var Model = this;
