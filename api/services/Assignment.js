@@ -967,10 +967,10 @@ var model = {
           filter
         }, function (err, data4) {
           if (err) {
-            Config.generatePdf("pdf/table", $scope, callback);
+            Config.generatePdf("pdf/abs-invoice", $scope, callback);
           } else {
             $scope.data.assignment.policyNumber = data4.results[0].policyNo;
-            Config.generatePdf("pdf/table", $scope, callback);
+            Config.generatePdf("pdf/abs-invoice", $scope, callback);
           }
         });
       }

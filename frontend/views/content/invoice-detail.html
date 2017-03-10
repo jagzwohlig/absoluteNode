@@ -82,7 +82,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Taxes</label>
-                                <input type="number" ng-model="formData.narrationFee" placeholder="Enter Taxes" class="form-control">
+                                <input type="number" ng-model="formData.taxes" placeholder="Enter Taxes" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -162,13 +162,13 @@
                                         <input type="text" ng-model="form.unit" placeholder="Enter Unit" class="form-control" readonly>
                                     </div>
                                     <div class="col-item col-item-15">
-                                        <input type="number" step="0.01" ng-model="form.rate" placeholder="Enter Rate" class="form-control" ng-change="calAmt(form.rate,form.quantity,$index)">
+                                        <input type="number" step="0.01" ng-model="form.rate" placeholder="Enter Rate" class="form-control text-right" ng-change="calAmt(form.rate,form.quantity,$index)">
                                     </div>
                                     <div class="col-item col-item-15">
-                                        <input type="number" step="0.01" min="0" ng-model="form.quantity" placeholder="Enter Quantity" class="form-control" ng-change="calAmt(form.rate,form.quantity,$index)">
+                                        <input type="number" step="0.01" min="0" ng-model="form.quantity" placeholder="Enter Quantity" class="form-control text-right" ng-change="calAmt(form.rate,form.quantity,$index)">
                                     </div>
                                     <div class="col-item col-item-15">
-                                        <input type="number" ng-model="form.amount" placeholder="Total" class="form-control" readonly>
+                                        <input type="number" ng-model="form.amount" placeholder="Total" class="form-control text-right" readonly>
                                     </div>
                                     <div class="mark-float">
                                         <i class="fa fa-plus-circle success" ng-click="addHead();"></i>
