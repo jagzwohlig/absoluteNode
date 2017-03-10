@@ -1633,8 +1633,8 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
             controller: 'EmailSingleCtrl'
         })
 
-        .state('approvals', {
-            url: "/approvals",
+        .state('ilaApproval-list', {
+            url: "/ilaApproval-list",
             templateUrl: "frontend/views/template.html",
             controller: 'ApprovalsCtrl'
         })
