@@ -328,6 +328,31 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 }
             });
         };
+
+          $scope.showAllInvoices = function (keywordChange,text) {
+              console.log("text",text);
+            TemplateService.getLoader();
+            $scope.totalItems = undefined;
+            if (keywordChange) {
+                $scope.currentPage = 1;
+            }
+            NavigationService.searchModel($scope.ModelApi, {
+                page: $scope.currentPage,
+                keyword: "",
+                filter:{
+                    invoiceNumber:text
+                }
+            }, ++i, function (data, ini) {
+                if (ini == i) {
+                    $scope.modelList = data.data.results;
+                    $scope.totalItems = data.data.total;
+                    $scope.maxRow = data.data.options.count;
+                    console.log("modelListSearchmodel", $scope.modelList);
+                    TemplateService.removeLoader();
+                }
+            });
+        };
+
         $scope.filter.sortName = "";
         $scope.filter.sortNumber = 1;
         $scope.showAssignment = function (keywordChange, sorting) {

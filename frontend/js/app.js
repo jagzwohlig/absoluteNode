@@ -1529,13 +1529,13 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
             }
         })
         .state('invoice-list', {
-            url: "/invoice-list/{page:.*}/{keyword:.*}/{model:.*}",
+            url: "/invoice-list",
             templateUrl: "frontend/views/template.html",
             controller: 'ModelViewCtrl',
             params: {
                 page: "1",
                 keyword: "",
-                model: "invoice list"
+                model: "invoice"
             }
         })
         .state('templateLor-list', {
