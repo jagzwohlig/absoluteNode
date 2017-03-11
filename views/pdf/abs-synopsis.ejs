@@ -24,9 +24,9 @@ function getAssignmentTemplateValue (input, assignment) {
             returnStr = returnStr + obj.value;
             return obj;
         });
-        var a= Date.parse(returnStr);
-        if(a>0){
-           returnStr= moment(returnStr).format("DD/MM/YYYY");
+        var ifDate=returnStr.split(":");
+        if ((returnStr.charAt(returnStr.length-1)=="Z" || returnStr.charAt(returnStr.length-1)=="z") && ifDate.length==3) {
+            returnStr = moment(returnStr).format("DD/MM/YYYY");
             return returnStr;
         }
         return returnStr;

@@ -1481,7 +1481,7 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
                 model: "lor category"
             }
         })
-         .state('createLorCategory', {
+        .state('createLorCategory', {
             url: "/lorCategory-create/{id:.*}/{model:.*}/{assignment:.*}",
             templateUrl: "frontend/views/template.html",
             controller: 'CreateLorCategoryCtrl',
@@ -1700,9 +1700,13 @@ firstapp.filter('toobject', function () {
             returnStr = returnStr + obj.value;
             return obj;
         });
-        var a = Date.parse(returnStr);
-        console.log(returnStr);
-        if (a > 0) {
+        // var a= Date.parse(returnStr);
+        // if(a>0){
+        //    returnStr= moment(returnStr).format("DD/MM/YYYY");
+        //     return returnStr;
+        // }
+        var ifDate = returnStr.split(":");
+        if ((returnStr.charAt(returnStr.length - 1) == "Z" || returnStr.charAt(returnStr.length - 1) == "z") && ifDate.length == 3) {
             returnStr = moment(returnStr).format("DD/MM/YYYY");
             return returnStr;
         }
@@ -1753,7 +1757,7 @@ firstapp.filter('reverse', function () {
 
 firstapp.filter('getHours', function () {
     return function (date) {
-        return moment().diff(moment(date),"hours");
+        return moment().diff(moment(date), "hours");
     };
 });
 
