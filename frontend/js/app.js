@@ -1701,6 +1701,7 @@ firstapp.filter('toobject', function () {
             return obj;
         });
         var a = Date.parse(returnStr);
+        console.log(returnStr);
         if (a > 0) {
             returnStr = moment(returnStr).format("DD/MM/YYYY");
             return returnStr;
