@@ -1664,6 +1664,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.addModels = function (dataArray, data) {
             dataArray.push(data);
         };
+        $scope.format = 'dd-MMMM-yyyy';
 
         $scope.dateOfAppointmentLimit = {
             maxDate: new Date()
@@ -1692,7 +1693,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
             $scope.msg = data.data.name;
             $scope.formData = data.data;
+            if(data.data.dateOfLoss!==undefined){
             $scope.formData.dateOfLoss = new Date(data.data.dateOfLoss);
+            }
             $scope.formData.dateOfIntimation = new Date(data.data.dateOfIntimation);
             $scope.formData.dateOfAppointment = new Date(data.data.dateOfAppointment);
             $scope.formData.insuredOfficer = data.data.insuredOfficer._id;
@@ -11619,6 +11622,32 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     .controller('ApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("approvals");
+        $scope.menutitle = NavigationService.makeactive("Approvals");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.someDate = moment().subtract(24,"hours").toDate();
+        $scope.getDelayClass = function(val) {
+            var retClass= "";
+            var hours = moment().diff(moment(val),"hours");
+            if(hours >= 0 && hours <= 6) {
+                retClass= "delay-6";
+            } else if(hours  >= 7 && hours  <= 24) {
+                retClass = "delay-24";
+            } else if(hours  >= 25 && hours  <= 48) {
+                retClass = "delay-48";
+            } else if(hours  >= 49) {
+                retClass = "delay-72";
+            }  
+            console.log(retClass);
+            return retClass;
+            
+        };
+
+    })
+
+     .controller('IlaApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("ila-approval");
         $scope.menutitle = NavigationService.makeactive("Approvals");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();

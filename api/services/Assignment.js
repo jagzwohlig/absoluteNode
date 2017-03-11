@@ -436,12 +436,10 @@ var schema = new Schema({
   }],
   templateIla: [{
     templateName: {
-      type: String,
-      required: true
+      type: String
     },
     name: {
-      type: String,
-      required: true,
+      type: String
     },
     status: {
       type: Boolean,
@@ -453,7 +451,6 @@ var schema = new Schema({
     templateIla: {
       type: Schema.Types.ObjectId,
       ref: "TemplateIla",
-      required: true,
       key: "assignment"
     },
     timestamp: {
@@ -480,7 +477,6 @@ var schema = new Schema({
     templateIsr: {
       type: Schema.Types.ObjectId,
       ref: "TemplateIsr",
-      required: true,
       key: "assignment"
     },
     timestamp: {
@@ -507,7 +503,6 @@ var schema = new Schema({
     templateJir: {
       type: Schema.Types.ObjectId,
       ref: "TemplateJir",
-      required: true,
       key: "assignment"
     },
     timestamp: {
@@ -534,7 +529,6 @@ var schema = new Schema({
     templateLor: {
       type: Schema.Types.ObjectId,
       ref: "TemplateLor",
-      required: true,
       key: "assignment"
     },
     timestamp: {

@@ -1633,12 +1633,16 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
             controller: 'EmailSingleCtrl'
         })
 
-        .state('ilaApproval-list', {
+        .state('approval', {
             url: "/ilaApproval-list",
             templateUrl: "frontend/views/template.html",
             controller: 'ApprovalsCtrl'
         })
-
+        .state('ilaApproval-list', {
+            url: "/ilaApproval-list",
+            templateUrl: "frontend/views/template.html",
+            controller: 'IlaApprovalsCtrl'
+        })
         .state('forbidden', {
             url: "/forbidden",
             templateUrl: "frontend/views/template.html",
