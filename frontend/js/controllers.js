@@ -1561,14 +1561,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         }
                         break;
                     case "products":
-                        {
-                            var newmod1 = a.item.split(',');
-                            _.each(newmod1, function (n) {
-                                $scope.newjson = {};
-                                $scope.newjson.item = n;
-                                $scope.wholeObj.push($scope.newjson);
-                            });
-                        }
+                        // {
+                        //     var newmod1 = a.item.split(',');
+                        //     _.each(newmod1, function (n) {
+                        //         $scope.newjson = {};
+                        //         $scope.newjson.item = n;
+                        //         $scope.wholeObj.push($scope.newjson);
+                        //     });
+                        // }
+                         
+                            $scope.wholeObj.push(a);
+                        
                         break;
                     case "LRs":
                         var newmod2 = a.lrNumber.split(',');
@@ -1773,12 +1776,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         break;
                     case "products":
                         {
-                            var newmod1 = a.item.split(',');
-                            _.each(newmod1, function (n) {
-                                $scope.newjson = {};
-                                $scope.newjson.item = n;
-                                $scope.wholeObj.push($scope.newjson);
-                            });
+                            // var newmod1 = a.item.split(',');
+                            // _.each(newmod1, function (n) {
+                            //     $scope.newjson = {};
+                            //     $scope.newjson.item = n;
+                            //     $scope.wholeObj.push($scope.newjson);
+                            // });
+                            $scope.wholeObj.push(a);
                         }
                         break;
                     case "LRs":
