@@ -198,14 +198,12 @@ var schema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "CauseLoss",
     index: true,
-    // required: true,
     key: "assignment"
   },
   natureOfLoss: [{
     type: Schema.Types.ObjectId,
     ref: "NatureLoss",
     index: true,
-    required: true,
     key: "assignment"
   }],
   broker: {
@@ -266,7 +264,6 @@ var schema = new Schema({
       type: Schema.Types.ObjectId,
       ref: "Employee",
       index: true,
-      required: true,
       key: "assignment"
     }]
   }],
@@ -363,7 +360,6 @@ var schema = new Schema({
       type: Schema.Types.ObjectId,
       ref: "Employee",
       index: true,
-      required: true,
       key: "assignment"
     }
   }],
@@ -378,7 +374,6 @@ var schema = new Schema({
       type: Schema.Types.ObjectId,
       ref: "Employee",
       index: true,
-      required: true,
       key: "assignment"
     }
   }],
@@ -393,7 +388,6 @@ var schema = new Schema({
       type: Schema.Types.ObjectId,
       ref: "Employee",
       index: true,
-      required: true,
       key: "assignment"
     }
   }],
@@ -408,7 +402,6 @@ var schema = new Schema({
       type: Schema.Types.ObjectId,
       ref: "Employee",
       index: true,
-      required: true,
       key: "assignment"
     }
   }],
@@ -423,7 +416,6 @@ var schema = new Schema({
       type: Schema.Types.ObjectId,
       ref: "Employee",
       index: true,
-      required: true,
       key: "assignment"
     }
   }],
@@ -431,7 +423,6 @@ var schema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Invoice",
     index: true,
-    required: true,
     key: "assignment"
   }],
   templateIla: [{
@@ -460,12 +451,10 @@ var schema = new Schema({
   }],
   templateIsr: [{
     templateName: {
-      type: String,
-      required: true
+      type: String
     },
     name: {
-      type: String,
-      required: true,
+      type: String
     },
     status: {
       type: Boolean,
@@ -486,12 +475,10 @@ var schema = new Schema({
   }],
   templateJir: [{
     templateName: {
-      type: String,
-      required: true
+      type: String
     },
     name: {
-      type: String,
-      required: true,
+      type: String
     },
     status: {
       type: Boolean,
@@ -512,12 +499,10 @@ var schema = new Schema({
   }],
   templateLor: [{
     templateName: {
-      type: String,
-      required: true
+      type: String
     },
     name: {
-      type: String,
-      required: true,
+      type: String
     },
     status: {
       type: Boolean,
