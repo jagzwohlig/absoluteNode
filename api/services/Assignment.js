@@ -577,7 +577,7 @@ schema.plugin(deepPopulate, {
       select: 'name _id district'
     },
     'owner': {
-      select: 'name _id func houseColor photo'
+      select: 'name _id func houseColor photo email mobile'
     },
     'owner.func': {
       select: 'name'
@@ -653,6 +653,9 @@ schema.plugin(deepPopulate, {
     },
     'policyType': {
       select: 'name _id'
+    },
+    'survey.employee':{
+      select: 'name _id email mobile'
     }
   }
 });
@@ -662,7 +665,7 @@ schema.plugin(timestamps);
 
 module.exports = mongoose.model('Assignment', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country products.product.category.industry department shareWith.persons policyType natureOfLoss invoice invoice.createdBy insured insuredOffice owner owner.func company company.city insurerOffice company.city.district.state assessment.employee docs.employee fsrs.employee photos.employee causeOfLoss insurer assignedTo office branch", "city.district.state.zone.country products.product.category.industry department shareWith.persons natureOfLoss invoice invoice.createdBy insuredOffice assignedTo insurerOffice office branch"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country products.product.category.industry department shareWith.persons policyType natureOfLoss invoice invoice.createdBy insured insuredOffice owner owner.func company company.city insurerOffice company.city.district.state assessment.employee docs.employee fsrs.employee photos.employee causeOfLoss insurer assignedTo office branch survey.employee", "city.district.state.zone.country products.product.category.industry department shareWith.persons natureOfLoss invoice invoice.createdBy insuredOffice assignedTo insurerOffice office branch survey.employee"));
 
 var model = {
   saveData: function (data, callback) {
@@ -1014,12 +1017,12 @@ var model = {
     });
     var Search = Model.find(data.filter)
       .order(options)
-      .deepPopulate("owner insuredOffice insurerOffice city department")
+      .deepPopulate("city.district.state.zone.country products.product.category.industry department shareWith.persons policyType natureOfLoss invoice invoice.createdBy insured insuredOffice owner owner.func company company.city insurerOffice company.city.district.state assessment.employee docs.employee fsrs.employee photos.employee causeOfLoss insurer assignedTo office branch survey.employee")
       .keyword(options)
-
       .page(options, callback);
 
   },
+
   updateSurveyor: function (data, callback) {
     Assignment.update({
       _id: data._id
