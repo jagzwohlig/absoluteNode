@@ -1452,6 +1452,16 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.formData.others = [];
                 $scope.formData.product = [];
                 $scope.formData.locationArr = [];
+                $scope.formData.templateLor = [];
+                $scope.formData.templateJir = [];
+                $scope.formData.templateIsr = [];
+                $scope.formData.templateIla = [];
+                $scope.formData.fsrs = [];
+                $scope.formData.docs = [];
+                $scope.formData.photos = [];
+                $scope.formData.jir = [];
+                $scope.formData.assessment = [];
+                $scope.formData.timeline = [];
                 delete $scope.formData.siteNumber;
                 delete $scope.formData.siteMobile;
                 delete $scope.formData.siteEmail;
@@ -3877,7 +3887,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
         $scope.formData = {};
-         $scope.totals = {};
+        $scope.totals = {};
         $scope.calculateExpense = function (data) {
             console.log("totals", data.expenseAmount);
             $scope.totals.expense += data.expenseAmount;
@@ -4148,34 +4158,34 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.calculateGrandTotal = function (data) {
             console.log("Total data!", data);
             // data = _.cloneDeep(data);
-            if(data.expense){
+            if (data.expense) {
                 var dataExpense = data.expense;
-                console.log($scope.totals.expense,"expense--",dataExpense);
+                console.log($scope.totals.expense, "expense--", dataExpense);
             } else {
                 var dataExpense = 0
             }
-              if(data.travelExpense){
+            if (data.travelExpense) {
                 var dataTravelExpense = data.travelExpense;
             } else {
                 var dataTravelExpense = 0
             }
-              if(data.lodgingBoarding){
+            if (data.lodgingBoarding) {
                 var dataLodgingBoarding = data.lodgingBoarding;
             } else {
                 var dataLodgingBoarding = 0
             }
-              if(data.pocketExpense){
+            if (data.pocketExpense) {
                 var dataPocketExpense = data.pocketExpense;
             } else {
                 var dataPocketExpense = 0
             }
-            console.log("totalssss",data);
-            console.log("data.expense",dataExpense);
-            console.log("data.travelExpense",data.travelExpense);
-            console.log("data.lodgingBoarding",data.lodgingBoarding);
-            console.log("data.pocketExpense",data.pocketExpense);
+            console.log("totalssss", data);
+            console.log("data.expense", dataExpense);
+            console.log("data.travelExpense", data.travelExpense);
+            console.log("data.lodgingBoarding", data.lodgingBoarding);
+            console.log("data.pocketExpense", data.pocketExpense);
             $scope.totals.grandTotal = dataExpense + dataTravelExpense + dataLodgingBoarding + dataPocketExpense;
-            console.log("$scope.totals.grandTotal",$scope.totals.grandTotal);
+            console.log("$scope.totals.grandTotal", $scope.totals.grandTotal);
         }
 
         $scope.resetGrandTotal = function () {
@@ -11690,33 +11700,33 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     })
 
-    .controller('ApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64) {
-        //Used to name the .html file
-        $scope.template = TemplateService.changecontent("approvals");
-        $scope.menutitle = NavigationService.makeactive("Approvals");
-        TemplateService.title = $scope.menutitle;
-        $scope.navigation = NavigationService.getnav();
-        $scope.someDate = moment().subtract(24, "hours").toDate();
-        $scope.getDelayClass = function (val) {
-            var retClass = "";
-            var hours = moment().diff(moment(val), "hours");
-            if (hours >= 0 && hours <= 6) {
-                retClass = "delay-6";
-            } else if (hours >= 7 && hours <= 24) {
-                retClass = "delay-24";
-            } else if (hours >= 25 && hours <= 48) {
-                retClass = "delay-48";
-            } else if (hours >= 49) {
-                retClass = "delay-72";
-            }
-            console.log(retClass);
-            return retClass;
+    // .controller('ApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64) {
+    //     //Used to name the .html file
+    //     $scope.template = TemplateService.changecontent("approvals");
+    //     $scope.menutitle = NavigationService.makeactive("Approvals");
+    //     TemplateService.title = $scope.menutitle;
+    //     $scope.navigation = NavigationService.getnav();
+    //     $scope.someDate = moment().subtract(24, "hours").toDate();
+    //     $scope.getDelayClass = function (val) {
+    //         var retClass = "";
+    //         var hours = moment().diff(moment(val), "hours");
+    //         if (hours >= 0 && hours <= 6) {
+    //             retClass = "delay-6";
+    //         } else if (hours >= 7 && hours <= 24) {
+    //             retClass = "delay-24";
+    //         } else if (hours >= 25 && hours <= 48) {
+    //             retClass = "delay-48";
+    //         } else if (hours >= 49) {
+    //             retClass = "delay-72";
+    //         }
+    //         console.log(retClass);
+    //         return retClass;
 
-        };
+    //     };
 
-    })
+    // })
 
-    .controller('IlaApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64, $stateParams) {
+    .controller('IlaApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64, $stateParams, $state) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("ila-approval");
         $scope.menutitle = NavigationService.makeactive("Approvals");
@@ -11748,13 +11758,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             if (keywordChange) {
                 $scope.currentPage = 1;
             }
-            NavigationService.searchApproval({
+            NavigationService.getApprovalList({
                 page: $scope.currentPage,
-                keyword: $scope.search.keyword,
-                filter: {
-                    "approvalType": $scope.approvalType,
-                    "approvalStatus": "Pending"
-                }
+                type: "templateIla"
             }, ++i, function (data, ini) {
                 if (ini == i) {
                     $scope.ilaList = data.data.results;
@@ -11767,9 +11773,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $window.history.back();
         };
         $scope.changePage = function (page) {
-            var goTo = "product-list";
+            console.log("Page", page);
+            var goTo = "ilaApproval-list";
             if ($scope.search.keyword) {
-                goTo = "product-list";
+                goTo = "ilaApproval-list";
             }
             $state.go(goTo, {
                 page: page,
@@ -11777,8 +11784,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
         $scope.showAll();
-
-        $scope.someDate = moment().subtract(48, "hours").toDate();
+        $scope.someDate = moment().subtract(24, "hours").toDate();
         $scope.getDelayClass = function (val) {
             var retClass = "";
             var hours = moment().diff(moment(val), "hours");

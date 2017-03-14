@@ -108,6 +108,17 @@ var controller = {
             });
         }
     },
+    getApprovalList: function (req, res) {
+        if (req.body) {
+            req.model.getApprovalList(req.body, res.callback);
+
+        } else {
+            res.json({
+                value: false,
+                data: "Invalid Request"
+            });
+        }
+    },
     generateAssignmentNumberForAll: function(req,res) {
         // first make all the new params of assignment as null
         // get all assignements id ascending 

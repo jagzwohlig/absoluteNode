@@ -447,6 +447,11 @@ var schema = new Schema({
     timestamp: {
       type: Date,
       default: Date.now
+    },
+    approvalStatus: {
+      type: String,
+      enum: ["Pending", "Approved", "Reject", "Revise"],
+      default: "Pending"
     }
   }],
   templateIsr: [{
@@ -471,6 +476,11 @@ var schema = new Schema({
     timestamp: {
       type: Date,
       default: Date.now
+    },
+    approvalStatus: {
+      type: String,
+      enum: ["Pending", "Approved", "Reject", "Revise"],
+      default: "Pending"
     }
   }],
   templateJir: [{
@@ -495,6 +505,11 @@ var schema = new Schema({
     timestamp: {
       type: Date,
       default: Date.now
+    },
+    approvalStatus: {
+      type: String,
+      enum: ["Pending", "Approved", "Reject", "Revise"],
+      default: "Pending"
     }
   }],
   templateLor: [{
@@ -519,23 +534,13 @@ var schema = new Schema({
     timestamp: {
       type: Date,
       default: Date.now
+    },
+    approvalStatus: {
+      type: String,
+      enum: ["Pending", "Approved", "Reject", "Revise"],
+      default: "Pending"
     }
-  }],
-  approvalType: {
-    type: String,
-    enum: ["None", "ILA", "LOR"],
-    default: "None"
-  },
-  approvalTime: {
-    type: Date
-  },
-  approvalStatus: {
-    type: String,
-    enum: ["Pending", "Accept", "Reject", "Revise"]
-  },
-  approvalComment: {
-    type: String
-  }
+  }]
 });
 
 schema.plugin(deepPopulate, {
@@ -902,11 +907,11 @@ var model = {
       }
     });
   },
- editAssignmentTemplate: function (body, callback) {
+  editAssignmentTemplate: function (body, callback) {
     var Model = this;
     var timelStatus = body.assignment.timelineStatus;
     var approvalType = "None";
-    var approvalStatus="Pending";
+    var approvalStatus = "Pending";
     if (body.type == "templateIla") {
       timelStatus = "LOR Pending";
       approvalType = "ILA";
@@ -938,7 +943,7 @@ var model = {
       "$set": setObj,
       timelineStatus: timelStatus,
       approvalType: approvalType,
-      approvalStatus:approvalStatus
+      approvalStatus: approvalStatus
     }, function (err, data3) {
       if (err) {
         callback(err, null);
@@ -1091,7 +1096,7 @@ var model = {
         as: "city.districts.states.zones.country"
       }
     }, {
-      $unwind: {  
+      $unwind: {
         path: "$city.districts.states.zones.country",
         preserveNullAndEmptyArrays: true
       }
@@ -2105,6 +2110,126 @@ var model = {
         }
       }
     });
+  },
+
+  getApprovalList: function (data, callback) {
+    var Model = this;
+    var maxRow = Config.maxRow;
+    var pagestartfrom = (data.page - 1) * maxRow;
+    var page = 1;
+    var aggText = [];
+    var aggTextCount = [];
+    var type = data.type;
+    if (type == "templateIla") {
+      aggText = [{
+          "$unwind": "$" + type
+        }, {
+          "$match": {
+            "templateIla.approvalStatus": "Pending"
+          }
+        }, {
+          $skip: parseInt(pagestartfrom)
+        }, {
+          $limit: maxRow
+        }],
+        aggTextCount = [{
+          "$unwind": "$" + type
+        }, {
+          "$match": {
+            "templateIla.approvalStatus": "Pending"
+          }
+        }, {
+          $group: {
+            _id: null,
+            count: {
+              $sum: 1
+            }
+          }
+        }, {
+          $project: {
+            "_id": 1,
+            "count": 1
+          }
+        }]
+    } else if (type == "templateLor") {
+      aggText = [{
+          "$unwind": "$" + type
+        }, {
+          "$match": {
+            "templateLor.approvalStatus": "Pending"
+          }
+        }, {
+          $skip: parseInt(pagestartfrom)
+        }, {
+          $limit: maxRow
+        }],
+        aggTextCount = [{
+          "$unwind": "$" + type
+        }, {
+          "$match": {
+            "templateLor.approvalStatus": "Pending"
+          }
+        }, {
+          $group: {
+            _id: null,
+            count: {
+              $sum: 1
+            }
+          }
+        }, {
+          $project: {
+            "_id": 1,
+            "count": 1
+          }
+        }]
+    }
+    async.parallel([
+        function (callback) {
+          Model.aggregate(aggText,
+            function (err, data1) {
+              if (err) {
+                callback(err, null);
+              } else {
+                callback(null, data1)
+              }
+
+            });
+        },
+        function (callback) {
+          Model.aggregate(aggTextCount,
+            function (err, data2) {
+              if (err) {
+                callback(err, null);
+              } else {
+                callback(null, data2)
+              }
+
+            });
+        }
+      ],
+      function (err, data4) {
+        if (err) {
+          callback(err, null);
+        } else {
+          if (_.isEmpty(data4[1])) {
+            var data5 = {
+              results: data4[0],
+              options: {
+                count: 0
+              }
+            };
+          } else {
+            var data5 = {
+              results: data4[0],
+              options: {
+                count: maxRow
+              }
+            };
+            data5.total = data4[1][0].count;
+          }
+          callback(null, data5);
+        }
+      });
   },
 
 };

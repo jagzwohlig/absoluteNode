@@ -16,18 +16,8 @@
     <div class="row">
         <div class="col-md-4 column">
             <div class="heading-profile">
-                <h2>Approvals</h2>
+                <h2>ILA Approvals</h2>
             </div>
-        </div>
-        <div class="col-md-4 pull-right">
-            <ui-select ng-model="form" ng-change="getAll(form)" theme="bootstrap" sortable="true">
-                <ui-select-match placeholder="Select">
-                    <span class="detail-title" title="{{$select.selected.name}}">{{$select.selected.name}}</span>
-                </ui-select-match>
-                <ui-select-choices repeat="d in list | filter: $select.search" refresh="getdescriptions($select.search)" refresh-delay="0">
-                    <span>{{d.name}}</span>
-                </ui-select-choices>
-            </ui-select>
         </div>
     </div>
 </div>
@@ -67,10 +57,10 @@
                                     <th>Actions</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr ng-class="getDelayClass(someDate)">
-                                    <td><span class="label label-default">{{someDate|getHours}}hrs</span></td>
-                                    <td>Doc Name</td>
+                            <tbody ng-repeat="data in ilaList">
+                                <tr ng-class="getDelayClass(data.templateIla.timestamp)">
+                                    <td><span class="label label-default">{{data.templateIla.timestamp|getHours}}hrs</span></td>
+                                    <td>{{data.name}}</td>
                                     <td>ILA</td>
                                     <td>Owner Name</td>
                                     <td>
@@ -83,6 +73,8 @@
                             </tbody>
                         </table>
                     </div>
+                    <ul ng-if="totalItems" ng-change="changePage(currentPage);" uib-pagination total-items="totalItems" items-per-page="maxRow"
+                        ng-model="currentPage" max-size="template.pageMax" class="pagination-sm" boundary-links="true" force-ellipses="true"></ul>
                 </div>
             </div>
         </div>

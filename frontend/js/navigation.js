@@ -367,7 +367,7 @@ var navigationservice = angular.module('navigationservice', [])
                 anchor: "approval",
                 icon: "book",
                 subnav: [{
-                    name: "Approval",
+                    name: "ILA Approval",
                     classis: "active",
                     anchor: "ilaApproval-list",
                     icon: "pencil"
@@ -529,7 +529,11 @@ var navigationservice = angular.module('navigationservice', [])
                     callback(data, i);
                 });
             },
-
+            getApprovalList:function(formData,i,callback){
+                $http.post(adminurl + 'Assignment/getApprovalList', formData).success(function (data) {
+                    callback(data,i);
+                });
+            },
             searchPopulatedCity: function (formData, i, callback) {
                 $http.post(adminurl + 'city/populateCityDetails', formData).success(function (data) {
                     callback(data, i);
@@ -796,10 +800,6 @@ var navigationservice = angular.module('navigationservice', [])
                 });
             },
             searchApproval: function (formData, i, callback) {
-                // formData.filter = {
-                //     "approvalType": "ILA",
-                //     "approvalStatus": "Pending"
-                // };
                 $http.post(adminurl + 'Assignment/search', formData).success(function (data) {
                     callback(data, i);
                 });
