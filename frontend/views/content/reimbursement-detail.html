@@ -36,15 +36,14 @@
                                         <div class="error-msg" ng-show="formName.name.$invalid && formName.name.$touched">Please Enter Employee Name</div>
                                     </div>
                                 </div>
-                                  <div class="col-md-6">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Branch Office*</label>
-                                        <multiple-select my-enter my-enter name="branch" required ng-model="formData.branch" 
-                                            ng-name="name.branch" api="searchBranch"></multiple-select>
-                                            <div class="error-msg" ng-show="formName.branch.$invalid && formName.branch.$touched">Please Select Branch Office</div>
+                                        <multiple-select my-enter my-enter name="branch" required ng-model="formData.branch" ng-name="name.branch" api="searchBranch"></multiple-select>
+                                        <div class="error-msg" ng-show="formName.branch.$invalid && formName.branch.$touched">Please Select Branch Office</div>
                                     </div>
                                 </div>
-                                 <div class="col-md-6">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Assignment*</label>
                                         <multiple-select my-enter name="assignment" required ng-model="formData.assignment" ng-name="assignment.name" api="searchAssignment"
@@ -65,7 +64,6 @@
                                         <textarea class="form-control" ng-model="formData.reason"></textarea>
                                     </div>
                                 </div>
-                                
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Approved amount</label>
@@ -146,15 +144,19 @@
                                                                 </a>
                                                             </td>
                                                         </tr>
-                                                         <tr>
+                                                        <tr>
                                                             <td></td>
                                                             <td></td>
                                                             <td></td>
                                                             <td></td>
                                                             <td></td>
                                                             <td></td>
-                                                            <td><h5>Total</h5></td>
-                                                            <td><h5>{{ totals.expense }}</h5></td>
+                                                            <td>
+                                                                <h5>Total</h5>
+                                                            </td>
+                                                            <td>
+                                                                <h5>{{ totals.expense }}</h5>
+                                                            </td>
                                                             <td></td>
                                                         </tr>
                                                     </tbody>
@@ -177,7 +179,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label>From Date*</label>
-                                                         <div class="input-group">
+                                                        <div class="input-group">
                                                             <input type="text" name="from" class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.from" is-open="popup.from"
                                                                 datepicker-options="dateOptions" required readonly />
                                                             <div class="error-msg" ng-show="formName.from.$invalid && formName.from.$touched">Please Enter To date period</div>
@@ -258,15 +260,19 @@
                                                                 </a>
                                                             </td>
                                                         </tr>
-                                                         <tr>
+                                                        <tr>
                                                             <td></td>
                                                             <td></td>
                                                             <td></td>
                                                             <td></td>
                                                             <td></td>
                                                             <td></td>
-                                                            <td><h5>Total</h5></td>
-                                                            <td><h5>{{totals.travelExpense}}</h5></td>
+                                                            <td>
+                                                                <h5>Total</h5>
+                                                            </td>
+                                                            <td>
+                                                                <h5>{{totals.travelExpense}}</h5>
+                                                            </td>
                                                             <td width="150px"></td>
                                                         </tr>
                                                     </tbody>
@@ -318,14 +324,18 @@
                                                                 </a>
                                                             </td>
                                                         </tr>
-                                                         <tr>
+                                                        <tr>
                                                             <td></td>
                                                             <td></td>
                                                             <td></td>
                                                             <td></td>
                                                             <td></td>
-                                                            <td><h5>Total</h5></td>
-                                                            <td><h5>{{ totals.lodgingBoarding }}</h5></td>
+                                                            <td>
+                                                                <h5>Total</h5>
+                                                            </td>
+                                                            <td>
+                                                                <h5>{{ totals.lodgingBoarding }}</h5>
+                                                            </td>
                                                             <td></td>
                                                         </tr>
                                                     </tbody>
@@ -371,7 +381,7 @@
                                                                 </a>
                                                             </td>
                                                         </tr>
-                                                         <!--<tr>
+                                                        <!--<tr>
                                                             <td></td>
                                                             <td></td>
                                                             <td><h5>Total</h5></td>
@@ -389,31 +399,34 @@
                                 <div class="widget" ng-if="true">
                                     <div class="form-elements-sec">
                                         <div class="sec">
-                                            <div class="table-responsive" ng-if="totals">
-                                                <table class="table table-input" ng-init="resetGrandTotal()">
-                                                    <tbody ng-init="calculateGrandTotal(totals)">
-                                                        <tr>
-                                                            <th>Total(A)</th>
-                                                            <td>{{totals.expense}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>Total(B)</th>
-                                                            <td>{{totals.travelExpense}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>Total(C)</th>
-                                                            <td>{{totals.lodgingBoarding}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>Total(D)</th>
-                                                            <td>{{totals.pocketExpense}}</td>
-                                                        </tr>
-                                                        <!--<tr>
-                                                            <th>Grand Total</th>
-                                                            <td>{{grandTotal}}</td>
-                                                        </tr>-->
-                                                    </tbody>
-                                                </table>
+                                            <div class="col-md-6"></div>
+                                            <div class="col-md-6">
+                                                <div class="table-responsive" ng-if="totals">
+                                                    <table class="table table-input" ng-init="resetGrandTotal()">
+                                                        <tbody ng-init="calculateGrandTotal(totals)">
+                                                            <tr>
+                                                                <th>Total(A)</th>
+                                                                <td>{{totals.expense}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Total(B)</th>
+                                                                <td>{{totals.travelExpense}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Total(C)</th>
+                                                                <td>{{totals.lodgingBoarding}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Total(D)</th>
+                                                                <td>{{totals.pocketExpense}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Grand Total</th>
+                                                                <td>{{totals.grandTotal}}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

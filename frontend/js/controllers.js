@@ -3877,13 +3877,73 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
         $scope.formData = {};
-        $scope.totals = {};
+         $scope.totals = {};
+        $scope.calculateExpense = function (data) {
+            console.log("totals", data.expenseAmount);
+            $scope.totals.expense += data.expenseAmount;
+        }
+        $scope.resetExpense = function () {
+            $scope.totals.expense = 0;
+        }
+
+        $scope.calculateLodgingBoarding = function (data) {
+            console.log("lodgingBoardingTotal", data.lodgingBoardingTotal);
+            $scope.totals.lodgingBoarding += data.lodgingBoardingTotal;
+        }
+        $scope.resetLodgingBoarding = function () {
+            $scope.totals.lodgingBoarding = 0;
+        }
+
         $scope.calculateTravelExpense = function (data) {
             console.log("totals", data.travelExpenseAmount);
             $scope.totals.travelExpense += data.travelExpenseAmount;
         }
         $scope.resetTravelExpense = function () {
             $scope.totals.travelExpense = 0;
+        }
+
+        $scope.calculatePocketExpense = function (data) {
+            console.log("pocketExpenseTotal", data.pocketExpenseTotal);
+            $scope.totals.pocketExpense += data.pocketExpenseTotal;
+        }
+        $scope.resetPocketExpense = function () {
+            $scope.totals.pocketExpense = 0;
+        }
+
+        $scope.calculateGrandTotal = function (data) {
+            console.log("Total data!", data);
+            // data = _.cloneDeep(data);
+            // if(data.expense){
+            //     var dataExpense = data.expense;
+            // } else {
+            //     var dataExpense = 0
+            // }
+            //   if(data.travelExpense){
+            //     var dataTravelExpense = data.travelExpense;
+            // } else {
+            //     var dataTravelExpense = 0
+            // }
+            //   if(data.lodgingBoarding){
+            //     var dataLodgingBoarding = data.lodgingBoarding;
+            // } else {
+            //     var dataLodgingBoarding = 0
+            // }
+            //   if(data.pocketExpense){
+            //     var dataPocketExpense = data.pocketExpense;
+            // } else {
+            //     var dataPocketExpense = 0
+            // }
+            // console.log("totalssss",data);
+            // console.log("data.expense",data.expense);
+            // console.log("data.travelExpense",data.travelExpense);
+            // console.log("data.lodgingBoarding",data.lodgingBoarding);
+            // console.log("data.pocketExpense",data.pocketExpense);
+            $scope.grandTotal = 0;
+            // console.log("$scope.totals.grandTotal",$scope.grandTotal);
+        }
+
+        $scope.resetGrandTotal = function () {
+            $scope.totals.grandTotal = 0;
         }
         // $scope.formData.personalDocument = [];
         // $scope.formData.licenseDocument = [];
@@ -4088,37 +4148,38 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.calculateGrandTotal = function (data) {
             console.log("Total data!", data);
             // data = _.cloneDeep(data);
-            // if(data.expense){
-            //     var dataExpense = data.expense;
-            // } else {
-            //     var dataExpense = 0
-            // }
-            //   if(data.travelExpense){
-            //     var dataTravelExpense = data.travelExpense;
-            // } else {
-            //     var dataTravelExpense = 0
-            // }
-            //   if(data.lodgingBoarding){
-            //     var dataLodgingBoarding = data.lodgingBoarding;
-            // } else {
-            //     var dataLodgingBoarding = 0
-            // }
-            //   if(data.pocketExpense){
-            //     var dataPocketExpense = data.pocketExpense;
-            // } else {
-            //     var dataPocketExpense = 0
-            // }
-            // console.log("totalssss",data);
-            // console.log("data.expense",data.expense);
-            // console.log("data.travelExpense",data.travelExpense);
-            // console.log("data.lodgingBoarding",data.lodgingBoarding);
-            // console.log("data.pocketExpense",data.pocketExpense);
-            $scope.grandTotal = 0;
-            // console.log("$scope.totals.grandTotal",$scope.grandTotal);
+            if(data.expense){
+                var dataExpense = data.expense;
+                console.log($scope.totals.expense,"expense--",dataExpense);
+            } else {
+                var dataExpense = 0
+            }
+              if(data.travelExpense){
+                var dataTravelExpense = data.travelExpense;
+            } else {
+                var dataTravelExpense = 0
+            }
+              if(data.lodgingBoarding){
+                var dataLodgingBoarding = data.lodgingBoarding;
+            } else {
+                var dataLodgingBoarding = 0
+            }
+              if(data.pocketExpense){
+                var dataPocketExpense = data.pocketExpense;
+            } else {
+                var dataPocketExpense = 0
+            }
+            console.log("totalssss",data);
+            console.log("data.expense",dataExpense);
+            console.log("data.travelExpense",data.travelExpense);
+            console.log("data.lodgingBoarding",data.lodgingBoarding);
+            console.log("data.pocketExpense",data.pocketExpense);
+            $scope.totals.grandTotal = dataExpense + dataTravelExpense + dataLodgingBoarding + dataPocketExpense;
+            console.log("$scope.totals.grandTotal",$scope.totals.grandTotal);
         }
 
         $scope.resetGrandTotal = function () {
-            $scope.totals.grandTotal = 0;
+            // $scope.totals.grandTotal = 0;
         }
 
 
