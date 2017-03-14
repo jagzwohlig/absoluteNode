@@ -977,47 +977,6 @@ var model = {
     });
   },
 
-  getPerson: function (data, callback) {
-    var Model = this;
-    var Const = this(data);
-    var maxRow = Config.maxRow;
-    var page = 1;
-    if (data.page) {
-      page = data.page;
-    }
-    var field = data.field;
-    var options = {
-      field: data.field,
-      filters: {
-        keyword: {
-          fields: ['name'],
-          term: data.keyword
-        }
-      },
-      sort: {
-        asc: 'name'
-      },
-      start: (page - 1) * maxRow,
-      count: maxRow
-    };
-    var Search = Employee.find({
-        isSBC: false
-      })
-      .order(options)
-      .keyword(options)
-      .deepPopulate("Employee").exec(function (err, company) {
-        if (err) {
-          callback(err, company);
-        } else {
-          var company2 = {};
-          company2.results = _.slice(_.filter(company, function (c) {
-            return c.Employee.name == data.name;
-          }), 0, Config.maxRow);
-          callback(err, company2);
-        }
-      });
-  },
-
   search: function (data, callback) {
     var Model = this;
     var Const = this(data);
@@ -1084,7 +1043,10 @@ var model = {
         as: "city"
       }
     }, {
-      $unwind: "$city"
+      $unwind: {
+        path: "$city",
+        preserveNullAndEmptyArrays: true
+      }
     }, {
       $lookup: {
         from: "districts",
@@ -1093,7 +1055,10 @@ var model = {
         as: "city.districts"
       }
     }, {
-      $unwind: "$city.districts"
+      $unwind: {
+        path: "$city.districts",
+        preserveNullAndEmptyArrays: true
+      }
     }, {
       $lookup: {
         from: "states",
@@ -1102,7 +1067,10 @@ var model = {
         as: "city.districts.states"
       }
     }, {
-      $unwind: "$city.districts.states"
+      $unwind: {
+        path: "$city.districts.states",
+        preserveNullAndEmptyArrays: true
+      }
     }, {
       $lookup: {
         from: "zones",
@@ -1111,7 +1079,10 @@ var model = {
         as: "city.districts.states.zones"
       }
     }, {
-      $unwind: "$city.districts.states.zones"
+      $unwind: {
+        path: "$city.districts.states.zones",
+        preserveNullAndEmptyArrays: true
+      }
     }, {
       $lookup: {
         from: "countries",
@@ -1120,9 +1091,15 @@ var model = {
         as: "city.districts.states.zones.country"
       }
     }, {
-      $unwind: "$city.districts.states.zones.country"
+      $unwind: {
+        path: "$city.districts.states.zones.country",
+        preserveNullAndEmptyArrays: true
+      }
     }, {
-      $unwind: "$survey"
+      $unwind: {
+        path: "$survey",
+        preserveNullAndEmptyArrays: true
+      }
     }, {
       $match: {
         "survey.employee": objectid(data.id),

@@ -329,8 +329,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
-        $scope.showAllInvoices = function (keywordChange, text) {
-            console.log("text", text);
+         $scope.showAllInvoices = function (keywordChange,text) {
+              console.log("text",text);
             TemplateService.getLoader();
             $scope.totalItems = undefined;
             if (keywordChange) {
@@ -338,10 +338,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             }
             NavigationService.searchModel($scope.ModelApi, {
                 page: $scope.currentPage,
-                keyword: "",
-                filter: {
-                    invoiceNumber: text
-                }
+                keyword: $scope.search.keyword
             }, ++i, function (data, ini) {
                 if (ini == i) {
                     $scope.modelList = data.data.results;
@@ -4816,6 +4813,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.editElements = function (elemObject, data) {
 
         };
+
         $scope.deleteElements = function (index, name) {
             switch (name) {
                 case 'personalDocument':

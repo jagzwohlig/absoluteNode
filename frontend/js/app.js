@@ -1933,6 +1933,7 @@ firstapp.directive('uploadImage', function ($http, $filter, $timeout) {
         }
     };
 });
+
 firstapp.directive('uploadImageNew', function ($http, $filter, $timeout) {
     return {
         templateUrl: '/frontend/views/directive/uploadFile.html',
