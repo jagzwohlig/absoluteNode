@@ -572,7 +572,7 @@ schema.plugin(deepPopulate, {
       select: 'name _id district'
     },
     'owner': {
-      select: 'name _id func houseColor photo'
+      select: 'name _id func houseColor photo email mobile'
     },
     'owner.func': {
       select: 'name'
@@ -650,7 +650,7 @@ schema.plugin(deepPopulate, {
       select: 'name _id'
     },
     'survey.employee':{
-      select: 'name _id email officeEmail'
+      select: 'name _id email mobile'
     }
   }
 });

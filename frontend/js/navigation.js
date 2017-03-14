@@ -525,7 +525,15 @@ var navigationservice = angular.module('navigationservice', [])
                 });
             },
             searchAssignment: function (formData, i, callback) {
+                 console.log("FormData in search", formData);
                 $http.post(adminurl + 'Assignment/search', formData).success(function (data) {
+                    callback(data, i);
+                });
+            },
+
+             getOneAssignment: function (formData, i, callback) {
+                 console.log("FormData in search", formData);
+                $http.post(adminurl + 'Assignment/getOne', formData).success(function (data) {
                     callback(data, i);
                 });
             },
