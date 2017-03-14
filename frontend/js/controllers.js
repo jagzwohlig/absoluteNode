@@ -329,8 +329,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
-         $scope.showAllInvoices = function (keywordChange,text) {
-              console.log("text",text);
+        $scope.showAllInvoices = function (keywordChange, text) {
+            console.log("text", text);
             TemplateService.getLoader();
             $scope.totalItems = undefined;
             if (keywordChange) {
@@ -11663,12 +11663,25 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.navigation = NavigationService.getnav();
         $scope.currentPage = $stateParams.page;
         var i = 0;
+        $scope.list = [{
+            name: 'ILA',
+            value: 'ILA'
+        }, {
+            name: 'LOR',
+            value: 'LOR'
+        }]
+        $scope.getAll = function (data) {
+            console.log(data);
+            $scope.approvalType = data.value;
+            $scope.showAll();
+        }
         $scope.search = {
             keyword: ""
         };
         if ($stateParams.keyword) {
             $scope.search.keyword = $stateParams.keyword;
         }
+        $scope.approvalType = "ILA";
         $scope.showAll = function (keywordChange) {
             $scope.totalItems = undefined;
             if (keywordChange) {
@@ -11678,7 +11691,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 page: $scope.currentPage,
                 keyword: $scope.search.keyword,
                 filter: {
-                    "approvalType": "ILA",
+                    "approvalType": $scope.approvalType,
                     "approvalStatus": "Pending"
                 }
             }, ++i, function (data, ini) {
@@ -11704,7 +11717,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         $scope.showAll();
 
-        $scope.someDate = moment().subtract(24, "hours").toDate();
+        $scope.someDate = moment().subtract(48, "hours").toDate();
         $scope.getDelayClass = function (val) {
             var retClass = "";
             var hours = moment().diff(moment(val), "hours");

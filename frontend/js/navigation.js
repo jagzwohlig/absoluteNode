@@ -367,7 +367,7 @@ var navigationservice = angular.module('navigationservice', [])
                 anchor: "approval",
                 icon: "book",
                 subnav: [{
-                    name: "ILA",
+                    name: "Approval",
                     classis: "active",
                     anchor: "ilaApproval-list",
                     icon: "pencil"
