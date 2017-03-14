@@ -902,7 +902,7 @@ var model = {
       }
     });
   },
-  editAssignmentTemplate: function (body, callback) {
+ editAssignmentTemplate: function (body, callback) {
     var Model = this;
     var timelStatus = body.assignment.timelineStatus;
     var approvalType = "None";
@@ -1091,7 +1091,7 @@ var model = {
         as: "city.districts.states.zones.country"
       }
     }, {
-      $unwind: {
+      $unwind: {  
         path: "$city.districts.states.zones.country",
         preserveNullAndEmptyArrays: true
       }
