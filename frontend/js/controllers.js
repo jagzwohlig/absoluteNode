@@ -11657,12 +11657,55 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     })
 
-    .controller('IlaApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64) {
+    .controller('IlaApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64, $stateParams) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("ila-approval");
         $scope.menutitle = NavigationService.makeactive("Approvals");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
+        $scope.currentPage = $stateParams.page;
+        var i = 0;
+        $scope.search = {
+            keyword: ""
+        };
+        if ($stateParams.keyword) {
+            $scope.search.keyword = $stateParams.keyword;
+        }
+        $scope.showAll = function (keywordChange) {
+            $scope.totalItems = undefined;
+            if (keywordChange) {
+                $scope.currentPage = 1;
+            }
+            NavigationService.searchApproval({
+                page: $scope.currentPage,
+                keyword: $scope.search.keyword,
+                filter: {
+                    "approvalType": "ILA",
+                    "approvalStatus": "Pending"
+                }
+            }, ++i, function (data, ini) {
+                if (ini == i) {
+                    $scope.ilaList = data.data.results;
+                    $scope.totalItems = data.data.total;
+                    $scope.maxRow = data.data.options.count;
+                }
+            });
+        };
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+        $scope.changePage = function (page) {
+            var goTo = "product-list";
+            if ($scope.search.keyword) {
+                goTo = "product-list";
+            }
+            $state.go(goTo, {
+                page: page,
+                keyword: $scope.search.keyword
+            });
+        };
+        $scope.showAll();
+
         $scope.someDate = moment().subtract(24, "hours").toDate();
         $scope.getDelayClass = function (val) {
             var retClass = "";

@@ -365,12 +365,12 @@ var navigationservice = angular.module('navigationservice', [])
                 name: "Approvals",
                 classis: "active",
                 anchor: "approval",
-                icon: "tick",
+                icon: "book",
                 subnav: [{
-                    name: "Approvals",
+                    name: "ILA",
                     classis: "active",
                     anchor: "ilaApproval-list",
-                    icon: "tick"
+                    icon: "pencil"
                 }]
             },
         ];
@@ -792,6 +792,15 @@ var navigationservice = angular.module('navigationservice', [])
             },
             searchProduct: function (formData, i, callback) {
                 $http.post(adminurl + 'Product/search', formData).success(function (data) {
+                    callback(data, i);
+                });
+            },
+            searchApproval: function (formData, i, callback) {
+                // formData.filter = {
+                //     "approvalType": "ILA",
+                //     "approvalStatus": "Pending"
+                // };
+                $http.post(adminurl + 'Assignment/search', formData).success(function (data) {
                     callback(data, i);
                 });
             },
