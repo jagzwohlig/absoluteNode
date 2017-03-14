@@ -1503,6 +1503,18 @@ img.uploadingImage {
 .mt5 {
     margin-top: 5px;
 }
+.delay-6 {
+    background: forestgreen
+}
+.delay-24 {
+    background: gray
+}
+.delay-48 {
+    background: rebeccapurple
+}
+.delay-72 {
+    background: red
+}
 /* Start writing sass here */
 
 @import "fancybox-override";

@@ -329,7 +329,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
-          $scope.showAllInvoices = function (keywordChange,text) {
+         $scope.showAllInvoices = function (keywordChange,text) {
               console.log("text",text);
             TemplateService.getLoader();
             $scope.totalItems = undefined;
@@ -976,7 +976,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-   .controller('CreateLorCategoryCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $state, toastr, $uibModal) {
+    .controller('CreateLorCategoryCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $state, toastr, $uibModal) {
         //Used to name the .html file
 
         $scope.template = TemplateService.changecontent("lorCategory-detail");
@@ -1444,6 +1444,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 delete $scope.formData.pincode;
                 delete $scope.formData.lat;
                 delete $scope.formData.lng;
+                delete $scope.formData.dateOfLoss;
                 $scope.formData.products = [];
                 $scope.formData.invoices = [];
                 $scope.formData.LRs = [];
@@ -1528,7 +1529,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     maxDate: new Date()
                 }
             }
-            console.log(filename);
             var modalInstance = $uibModal.open({
                 scope: $scope,
                 templateUrl: '/frontend/views/modal/' + filename + '.html',
@@ -1541,8 +1541,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 console.log("In Assignment if", moddata);
                 $scope.wholeObj[$scope.modalIndex] = moddata;
             } else {
-                console.log("In Assignment else", moddata);
-                $scope.newjson = {};
+                console.log("In Assignment else", moddata, $scope.wholeObj);
+                $scope.newjson = moddata;
                 var a = moddata;
                 switch ($scope.holdObject) {
                     case "invoice":
@@ -1557,14 +1557,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         }
                         break;
                     case "products":
-                        {
-                            var newmod1 = a.item.split(',');
-                            _.each(newmod1, function (n) {
-                                $scope.newjson = {};
-                                $scope.newjson.item = n;
-                                $scope.wholeObj.push($scope.newjson);
-                            });
-                        }
+                        // {
+                        //     var newmod1 = a.item.split(',');
+                        //     _.each(newmod1, function (n) {
+                        //         $scope.newjson = {};
+                        //         $scope.newjson.item = n;
+                        //         $scope.wholeObj.push($scope.newjson);
+                        //     });
+                        // }
+
+                        $scope.wholeObj.push(a);
+
                         break;
                     case "LRs":
                         var newmod2 = a.lrNumber.split(',');
@@ -1661,6 +1664,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.addModels = function (dataArray, data) {
             dataArray.push(data);
         };
+        $scope.format = 'dd-MMMM-yyyy';
 
         $scope.dateOfAppointmentLimit = {
             maxDate: new Date()
@@ -1689,7 +1693,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
             $scope.msg = data.data.name;
             $scope.formData = data.data;
-            $scope.formData.dateOfLoss = new Date(data.data.dateOfLoss);
+            if (data.data.dateOfLoss !== undefined) {
+                $scope.formData.dateOfLoss = new Date(data.data.dateOfLoss);
+            }
             $scope.formData.dateOfIntimation = new Date(data.data.dateOfIntimation);
             $scope.formData.dateOfAppointment = new Date(data.data.dateOfAppointment);
             $scope.formData.insuredOfficer = data.data.insuredOfficer._id;
@@ -1750,7 +1756,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             if ($scope.modalIndex !== "") {
                 $scope.wholeObj[$scope.modalIndex] = moddata;
             } else {
-                $scope.newjson = {};
+                $scope.newjson = moddata;
                 var a = moddata;
                 switch ($scope.holdObject) {
                     case "invoice":
@@ -1766,12 +1772,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         break;
                     case "products":
                         {
-                            var newmod1 = a.item.split(',');
-                            _.each(newmod1, function (n) {
-                                $scope.newjson = {};
-                                $scope.newjson.item = n;
-                                $scope.wholeObj.push($scope.newjson);
-                            });
+                            // var newmod1 = a.item.split(',');
+                            // _.each(newmod1, function (n) {
+                            //     $scope.newjson = {};
+                            //     $scope.newjson.item = n;
+                            //     $scope.wholeObj.push($scope.newjson);
+                            // });
+                            $scope.wholeObj.push(a);
                         }
                         break;
                     case "LRs":
@@ -4502,6 +4509,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             NavigationService.searchBranch(formdata, 1, function (data) {
                 console.log("searchBranch", data);
                 $scope.natureLoss = data.data.results;
+            });
+        };
+        $scope.refreshNatureRole = function (data) {
+            var formdata = {};
+            formdata.keyword = data;
+            NavigationService.searchRole(formdata, 1, function (data) {
+                console.log("searchBranch....", data);
+                $scope.roleList = data.data.results;
             });
         };
         $scope.addElements = function (data) {
@@ -9421,14 +9436,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.menutitle = NavigationService.makeactive("Edit LOR Template");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
-        $scope.flag=true;
+        $scope.flag = true;
         $scope.header = {
             "name": "Edit LOR Template"
         };
 
         $scope.formData = {};
         NavigationService.getOneModel("TemplateLor", $stateParams.id, function (data) {
-            console.log("GetOne ",data.data);
+            console.log("GetOne ", data.data);
             $scope.formData = data.data;
         });
         $scope.itemTypes = [{
@@ -9477,7 +9492,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 console.log("Tax", $scope.descriptions);
             });
         }
-         $scope.getCategories = function (data) {
+        $scope.getCategories = function (data) {
             var formData = {};
             formData.keyword = data;
             NavigationService.searchLorCategory(formData, 1, function (data) {
@@ -9485,13 +9500,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 console.log("Categories", $scope.categories);
             });
         }
-        $scope.getOneDescription = function (invoice,$index,outerIndex) {
-            $scope.flag=false;
-            console.log("Invoice", invoice,$index,outerIndex);
-            $scope.lorCategory=invoice._id;
+        $scope.getOneDescription = function (invoice, $index, outerIndex) {
+            $scope.flag = false;
+            console.log("Invoice", invoice, $index, outerIndex);
+            $scope.lorCategory = invoice._id;
             $scope.formData.forms[outerIndex].items[$index].category = invoice.name;
             $scope.getdescriptions();
-            
+
         };
         $scope.getAll = function (invoice, $index, outerIndex) {
             console.log("Invoice", invoice, $index, outerIndex);
@@ -9543,7 +9558,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.menutitle = NavigationService.makeactive("Create LOR Template");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
-        $scope.flag=true;
+        $scope.flag = true;
         $scope.header = {
             "name": "Create LOR Template"
         };
@@ -9597,7 +9612,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.formData.forms[indexHead].items = [{}];
             }
         };
-// 
+        // 
         $scope.getdescriptions = function (data) {
             console.log("IN getdescriptions");
             var formData = {};
@@ -9610,7 +9625,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 console.log("Tax", $scope.descriptions);
             });
         }
-         $scope.getCategories = function (data) {
+        $scope.getCategories = function (data) {
             var formData = {};
             formData.keyword = data;
             NavigationService.searchLorCategory(formData, 1, function (data) {
@@ -9618,20 +9633,20 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 console.log("Categories", $scope.categories);
             });
         }
-        $scope.getOneDescription = function (invoice,$index,outerIndex) {
-            $scope.flag=false;
-            console.log("Invoice", invoice,$index,outerIndex);
-            $scope.lorCategory=invoice._id;
+        $scope.getOneDescription = function (invoice, $index, outerIndex) {
+            $scope.flag = false;
+            console.log("Invoice", invoice, $index, outerIndex);
+            $scope.lorCategory = invoice._id;
             $scope.formData.forms[outerIndex].items[$index].category = invoice.name;
             $scope.getdescriptions();
-            
+
         };
         $scope.getAll = function (invoice, $index, outerIndex) {
             console.log("Invoice", invoice, $index, outerIndex);
             $scope.formData.forms[outerIndex].items[$index].name = invoice.name;
             $scope.formData.forms[outerIndex].items[$index].type = invoice.status;
         };
-// 
+        // 
         // $scope.getdescriptions = function (data) {
         //     var formData = {};
         //     formData.keyword = data;
@@ -9946,7 +9961,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.formData.tax = [];
         NavigationService.getOneModel("Invoice", $stateParams.invoiceId, function (data) {
             $scope.formData = data.data;
-            console.log("ABCDEF", $scope.formData);
+            console.log("ABCDEF", $scope.formData.invoiceList);
+            _.each($scope.formData.invoiceList)
         });
         $scope.formData.status = true;
         $scope.required = true;
@@ -10083,7 +10099,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.menutitle = NavigationService.makeactive("Form Name");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
-        $scope.flag=true;
+        $scope.flag = true;
         $scope.header = {
             "name": "Form Name"
         };
@@ -10206,7 +10222,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 console.log("Tax", $scope.descriptions);
             });
         }
-         $scope.getCategories = function (data) {
+        $scope.getCategories = function (data) {
             var formData = {};
             formData.keyword = data;
             NavigationService.searchLorCategory(formData, 1, function (data) {
@@ -10214,10 +10230,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 console.log("Categories", $scope.categories);
             });
         }
-        $scope.getOneDescription = function (invoice,$index,outerIndex) {
-            $scope.flag=false;
-            console.log("Invoice", invoice,$index,outerIndex);
-            $scope.lorCategory=invoice._id;
+        $scope.getOneDescription = function (invoice, $index, outerIndex) {
+            $scope.flag = false;
+            console.log("Invoice", invoice, $index, outerIndex);
+            $scope.lorCategory = invoice._id;
             $scope.forms.forms[outerIndex].items[$index].category = invoice.name;
             $scope.getdescriptions();
         };
@@ -11619,6 +11635,50 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.menutitle = NavigationService.makeactive("Approvals");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
+        $scope.someDate = moment().subtract(24, "hours").toDate();
+        $scope.getDelayClass = function (val) {
+            var retClass = "";
+            var hours = moment().diff(moment(val), "hours");
+            if (hours >= 0 && hours <= 6) {
+                retClass = "delay-6";
+            } else if (hours >= 7 && hours <= 24) {
+                retClass = "delay-24";
+            } else if (hours >= 25 && hours <= 48) {
+                retClass = "delay-48";
+            } else if (hours >= 49) {
+                retClass = "delay-72";
+            }
+            console.log(retClass);
+            return retClass;
+
+        };
+
+    })
+
+    .controller('IlaApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("ila-approval");
+        $scope.menutitle = NavigationService.makeactive("Approvals");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.someDate = moment().subtract(24, "hours").toDate();
+        $scope.getDelayClass = function (val) {
+            var retClass = "";
+            var hours = moment().diff(moment(val), "hours");
+            if (hours >= 0 && hours <= 6) {
+                retClass = "delay-6";
+            } else if (hours >= 7 && hours <= 24) {
+                retClass = "delay-24";
+            } else if (hours >= 25 && hours <= 48) {
+                retClass = "delay-48";
+            } else if (hours >= 49) {
+                retClass = "delay-72";
+            }
+            console.log(retClass);
+            return retClass;
+
+        };
+
     })
 
     .controller('ForbiddenCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {

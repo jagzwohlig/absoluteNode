@@ -1481,7 +1481,7 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
                 model: "lor category"
             }
         })
-         .state('createLorCategory', {
+        .state('createLorCategory', {
             url: "/lorCategory-create/{id:.*}/{model:.*}/{assignment:.*}",
             templateUrl: "frontend/views/template.html",
             controller: 'CreateLorCategoryCtrl',
@@ -1633,12 +1633,16 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
             controller: 'EmailSingleCtrl'
         })
 
-        .state('approvals', {
-            url: "/approvals",
+        .state('approval', {
+            url: "/ilaApproval-list",
             templateUrl: "frontend/views/template.html",
             controller: 'ApprovalsCtrl'
         })
-
+        .state('ilaApproval-list', {
+            url: "/ilaApproval-list",
+            templateUrl: "frontend/views/template.html",
+            controller: 'IlaApprovalsCtrl'
+        })
         .state('forbidden', {
             url: "/forbidden",
             templateUrl: "frontend/views/template.html",
@@ -1696,8 +1700,13 @@ firstapp.filter('toobject', function () {
             returnStr = returnStr + obj.value;
             return obj;
         });
-        var a = Date.parse(returnStr);
-        if (a > 0) {
+        // var a= Date.parse(returnStr);
+        // if(a>0){
+        //    returnStr= moment(returnStr).format("DD/MM/YYYY");
+        //     return returnStr;
+        // }
+        var ifDate = returnStr.split(":");
+        if ((returnStr.charAt(returnStr.length - 1) == "Z" || returnStr.charAt(returnStr.length - 1) == "z") && ifDate.length == 3) {
             returnStr = moment(returnStr).format("DD/MM/YYYY");
             return returnStr;
         }
@@ -1743,6 +1752,12 @@ firstapp.filter("mrnumber", function (NavigationService, $timeout) {
 firstapp.filter('reverse', function () {
     return function (items) {
         return items.slice().reverse();
+    };
+});
+
+firstapp.filter('getHours', function () {
+    return function (date) {
+        return moment().diff(moment(date), "hours");
     };
 });
 

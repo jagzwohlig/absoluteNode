@@ -364,12 +364,12 @@ var navigationservice = angular.module('navigationservice', [])
             }, {
                 name: "Approvals",
                 classis: "active",
-                anchor: "approvals",
+                anchor: "approval",
                 icon: "tick",
                 subnav: [{
                     name: "Approvals",
                     classis: "active",
-                    anchor: "approvals",
+                    anchor: "ilaApproval-list",
                     icon: "tick"
                 }]
             },
