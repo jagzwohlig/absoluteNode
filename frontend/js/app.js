@@ -1636,7 +1636,11 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
         // .state('approval', {
         //     url: "/ilaApproval-list",
         //     templateUrl: "frontend/views/template.html",
-        //     controller: 'ApprovalsCtrl'
+        //     controller: 'ApprovalsCtrl',
+        //     params: {
+        //         page: "1",
+        //         keyword: ""
+        //     }
         // })
         .state('ilaApproval-list', {
             url: "/ilaApproval-list/{page:.*}/{keyword:.*}/{model:.*}",

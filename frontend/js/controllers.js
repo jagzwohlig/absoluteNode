@@ -1452,6 +1452,16 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.formData.others = [];
                 $scope.formData.product = [];
                 $scope.formData.locationArr = [];
+                $scope.formData.templateLor = [];
+                $scope.formData.templateJir = [];
+                $scope.formData.templateIsr = [];
+                $scope.formData.templateIla = [];
+                $scope.formData.fsrs = [];
+                $scope.formData.docs = [];
+                $scope.formData.photos = [];
+                $scope.formData.jir = [];
+                $scope.formData.assessment = [];
+                $scope.formData.timeline = [];
                 delete $scope.formData.siteNumber;
                 delete $scope.formData.siteMobile;
                 delete $scope.formData.siteEmail;
@@ -3792,6 +3802,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     })
     // 
 
+<<<<<<< HEAD
 .controller('CreateAllDocumentCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter) {
     //Used to name the .html file
     $scope.template = TemplateService.changecontent("all-document-details");
@@ -3838,6 +3849,2516 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             if (current.length > 0) {
                 $scope.modalData.from = new Date(current[current.length - 1].to);
                 $scope.modalData.grade = current[current.length - 1].grade;
+=======
+
+    .controller('EditTemplateJIRCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("templateJir-detail");
+        $scope.menutitle = NavigationService.makeactive("Edit JIR Template");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+
+        $scope.header = {
+            "name": "Edit JIR Template"
+        };
+        $scope.formData = {};
+        // $scope.formData.status = true;
+
+        NavigationService.getOneModel("TemplateJir", $stateParams.id, function (data) {
+            $scope.formData = data.data;
+        });
+
+        $scope.itemTypes = [{
+            value: '',
+            name: 'Select type of item'
+        }, {
+            value: 'Custom Input',
+            name: 'Custom Input'
+        }, {
+            value: 'System Fields',
+            name: 'System Fields'
+        }, {
+            value: 'Dropdown',
+            name: 'Dropdown'
+        }];
+
+        $scope.inputTypes = [{
+            value: '',
+            name: 'Select type of input'
+        }, {
+            value: 'Text',
+            name: 'Text'
+        }, {
+            value: 'Date',
+            name: 'Date'
+        }, {
+            value: 'Textarea',
+            name: 'Textarea'
+        }];
+
+
+        $scope.addHead = function () {
+            $scope.formData.forms.push({
+                head: $scope.formData.forms.length + 1,
+                items: [{}]
+            });
+        };
+        $scope.removeHead = function (index) {
+            if ($scope.formData.forms.length > 1) {
+                $scope.formData.forms.splice(index, 1);
+            } else {
+                $scope.formData.forms = [{
+                    head: '',
+                    items: [{}, {}]
+                }];
+            }
+        };
+
+        $scope.addItem = function (obj) {
+            var index = $scope.formData.forms.indexOf(obj);
+            $scope.formData.forms[index].items.push({});
+        };
+
+        $scope.removeItem = function (obj, indexItem) {
+            var indexHead = $scope.formData.forms.indexOf(obj);
+            if ($scope.formData.forms[indexHead].items.length > 1) {
+                $scope.formData.forms[indexHead].items.splice(indexItem, 1);
+            } else {
+                $scope.formData.forms[indexHead].items = [{}];
+            }
+        };
+
+        $scope.sortableOptions = {
+            handle: ' .handleBar',
+            axis: 'y',
+            'ui-floating': true,
+            start: function (e, ui) {
+                $('#sortable-ul-selector-id').sortable("refreshPositions");
+                $('#sortable-ul-selector-id').sortable("refresh");
+            }
+        };
+        $scope.cancel = function () {
+            $window.history.back();
+        }
+        $scope.saveModel = function (data) {
+            console.log(data);
+            $scope.saveModel = function (formData) {
+                NavigationService.modelSave("TemplateJir", $scope.formData, function (data) {
+                    if (data.value === true) {
+                        // $state.go('templateJir-list');
+                        $window.history.back();
+                        toastr.success("Template JIR " + formData.name + " edited successfully.", "Template JIR Edited");
+                    } else {
+                        toastr.error("Template JIR Edition failed.", "Template JIR edition error");
+                    }
+                });
+            };
+        };
+    })
+
+    .controller('CreateTemplateJIRCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("templateJir-detail");
+        $scope.menutitle = NavigationService.makeactive("Create JIR Template");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+
+        $scope.header = {
+            "name": "Create JIR Template"
+        };
+
+        $scope.itemTypes = [{
+            value: '',
+            name: 'Select type of item'
+        }, {
+            value: 'Custom Input',
+            name: 'Custom Input'
+        }, {
+            value: 'System Fields',
+            name: 'System Fields'
+        }, {
+            value: 'Dropdown',
+            name: 'Dropdown'
+        }];
+
+        $scope.inputTypes = [{
+            value: '',
+            name: 'Select type of input'
+        }, {
+            value: 'Text',
+            name: 'Text'
+        }, {
+            value: 'Date',
+            name: 'Date'
+        }, {
+            value: 'Textarea',
+            name: 'Textarea'
+        }];
+
+        $scope.formData = {};
+        $scope.formData.status = true;
+
+        $scope.formData.forms = [{
+            head: '',
+            items: [{}, {}]
+        }];
+
+        $scope.addHead = function () {
+            $scope.formData.forms.push({
+                head: $scope.formData.forms.length + 1,
+                items: [{}]
+            });
+        };
+        $scope.removeHead = function (index) {
+            if ($scope.formData.forms.length > 1) {
+                $scope.formData.forms.splice(index, 1);
+            } else {
+                $scope.formData.forms = [{
+                    head: '',
+                    items: [{}, {}]
+                }];
+            }
+        };
+
+        $scope.addItem = function (obj) {
+            var index = $scope.formData.forms.indexOf(obj);
+            $scope.formData.forms[index].items.push({});
+        };
+
+        $scope.removeItem = function (obj, indexItem) {
+            var indexHead = $scope.formData.forms.indexOf(obj);
+            if ($scope.formData.forms[indexHead].items.length > 1) {
+                $scope.formData.forms[indexHead].items.splice(indexItem, 1);
+            } else {
+                $scope.formData.forms[indexHead].items = [{}];
+            }
+        };
+
+        $scope.sortableOptions = {
+            handle: ' .handleBar',
+            axis: 'y',
+            'ui-floating': true,
+            start: function (e, ui) {
+                $('#sortable-ul-selector-id').sortable("refreshPositions");
+                $('#sortable-ul-selector-id').sortable("refresh");
+            }
+        };
+        $scope.cancel = function () {
+            $window.history.back();
+        }
+        $scope.saveModel = function (data) {
+            console.log(data);
+            $scope.saveModel = function (formData) {
+                NavigationService.modelSave("TemplateJir", $scope.formData, function (data) {
+                    if (data.value === true) {
+                        // $state.go('templateJir-list');
+                        $window.history.back();
+                        toastr.success("Template JIR " + formData.name + " created successfully.", "Template JIR Created");
+                    } else {
+                        toastr.error("Template JIR creation failed.", "Template JIR creation error");
+                    }
+                });
+            };
+        };
+
+
+    })
+
+    .controller('CreateLeaveCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("leaveManagement-detail");
+        $scope.menutitle = NavigationService.makeactive("LeaveManagement");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.formData = {};
+        // $scope.formData.personalDocument = [];
+        // $scope.formData.licenseDocument = [];
+        // $scope.formData.IIISLACertificate = [];
+        // $scope.formData.IIISLAReciept = [];
+        // $scope.formData.CTCDetails = [];
+        $scope.header = {
+            "name": "Create Leave"
+        };
+        $scope.userStatus = [{
+            "name": "Active",
+            "value": true
+        }, {
+            "name": "Inactive",
+            "value": false
+        }];
+        $scope.status = ["Approved", "Pending", "Rejected", "Partially Approved"];
+        // $scope.houseColors = ["Red", "Green", "Blue", "Yellow", "White"];
+
+        $scope.dateOptions = {
+            showWeeks: true
+        };
+
+
+        $scope.format = 'dd-MMMM-yyyy';
+        $scope.modalData = {};
+        $scope.holdObject = '';
+        $scope.modalIndex = 0;
+
+        $scope.changeDOB = function (date) {
+            console.log($filter('ageFilter')(date));
+        };
+        $scope.minDate = new Date();
+        $scope.addModal = function (filename, index, holdobj, data, current) {
+            if (index !== "") {
+                $scope.modalData = data;
+                $scope.modalIndex = index;
+                $scope.modalData.from = new Date(data.from);
+                $scope.modalData.to = new Date(data.to);
+            } else {
+                $scope.modalData = {};
+                if (current.length > 0) {
+                    $scope.modalData.from = new Date(current[current.length - 1].to);
+                    $scope.modalData.grade = current[current.length - 1].grade;
+                }
+                $scope.modalIndex = "";
+            }
+            $scope.holdObject = holdobj;
+            console.log($scope.holdObject);
+            var modalInstance = $uibModal.open({
+                scope: $scope,
+                templateUrl: '/frontend/views/modal/' + filename + '.html',
+                size: 'lg'
+            });
+        };
+
+        $scope.cancel = function () {
+            $window.history.back();
+        }
+        hotkeys.bindTo($scope).add({
+            combo: 'ctrl+enter',
+            callback: function (formData) {
+                NavigationService.modelSave("LeaveManagement", $scope.formData, function (data) {
+                    if (data.value === true) {
+                        console.log("Data In Else", data.value);
+                        // $state.go('leaveManagement-list');
+                        $window.history.back();
+                        toastr.success("Leave Of " + " " + formData.name + " created successfully.", "Employee" + " Created");
+                    } else {
+                        console.log("Data In Else", data.value);
+                        toastr.error("Leave Of " + " creation failed.", "Employee" + " creation error");
+                    }
+                });
+            }
+        });
+        $scope.saveModel = function (formData) {
+            console.log("SAVE MODEL DATA", formData);
+            // $scope.formData.name = $scope.formData.firstName + " " + $scope.formData.lastName;
+
+            NavigationService.modelSave("LeaveManagement", $scope.formData, function (data) {
+                if (data.value === true) {
+                    console.log("Data In Else", data.value);
+                    // $state.go('leaveManagement-list');
+                    $window.history.back();
+                    toastr.success("Leave Of " + " " + formData.name + " created successfully.", "Employee" + " Created");
+                } else {
+                    console.log("Data In Else", data.value);
+                    toastr.error("Leave Of " + " creation failed.", "Employee" + " creation error");
+                }
+            });
+        };
+    })
+
+
+
+    .controller('CreateKnowledgeBaseCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("knowledgeBase-detail");
+        $scope.menutitle = NavigationService.makeactive("KnowledgeBase");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.formData = {};
+        $scope.header = {
+            "name": "Create All-Documents"
+        };
+        $scope.userStatus = [{
+            "name": "Active",
+            "value": true
+        }, {
+            "name": "Inactive",
+            "value": false
+        }];
+
+
+
+        $scope.dateOptions = {
+            showWeeks: true
+        };
+
+
+
+        $scope.format = 'dd-MMMM-yyyy';
+        $scope.modalData = {};
+        $scope.holdObject = '';
+        $scope.modalIndex = 0;
+
+        $scope.changeDOB = function (date) {
+            console.log($filter('ageFilter')(date));
+        };
+        $scope.minDate = new Date();
+        $scope.addModal = function (filename, index, holdobj, data, current) {
+            if (index !== "") {
+                $scope.modalData = data;
+                $scope.modalIndex = index;
+                $scope.modalData.from = new Date(data.from);
+                $scope.modalData.to = new Date(data.to);
+            } else {
+                $scope.modalData = {};
+                if (current.length > 0) {
+                    $scope.modalData.from = new Date(current[current.length - 1].to);
+                    $scope.modalData.grade = current[current.length - 1].grade;
+                }
+                $scope.modalIndex = "";
+            }
+            $scope.holdObject = holdobj;
+            console.log($scope.holdObject);
+            var modalInstance = $uibModal.open({
+                scope: $scope,
+                templateUrl: '/frontend/views/modal/' + filename + '.html',
+                size: 'lg'
+            });
+        };
+
+        $scope.refreshTags = function (data) {
+            console.log("Data Inn", data);
+            var formdata = {};
+            formdata.keyword = data;
+            NavigationService.searchTags(formdata, 1, function (data) {
+                $scope.tags = data.data.results;
+            });
+        };
+        $scope.cancel = function () {
+            $window.history.back();
+        }
+        hotkeys.bindTo($scope).add({
+            combo: 'ctrl+enter',
+            callback: function (formData) {
+                NavigationService.modelSave("KnowledgeBase", $scope.formData, function (data) {
+                    if (data.value === true) {
+                        console.log("Data In If", data.value);
+                        $window.history.back();
+                        toastr.success("Document for " + " " + formData.name + " created successfully.", "Employee" + " Created");
+                    } else {
+                        console.log("Data In Else", data.value);
+                        toastr.error("Document for " + " creation failed.", "Employee" + " creation error");
+                    }
+                });
+            }
+        });
+        $scope.saveModel = function (formData) {
+            console.log("SAVE MODEL DATA", formData);
+            NavigationService.modelSave("KnowledgeBase", $scope.formData, function (data) {
+                if (data.value === true) {
+                    console.log("Data In If", data.value);
+                    // $state.go('knowledgebase-list');
+                    $window.history.back();
+                    toastr.success("Document for " + " " + formData.name + " created successfully.", "Employee" + " Created");
+                } else {
+                    console.log("Data In Else", data.value);
+                    toastr.error("Document for " + " creation failed.", "Employee" + " creation error");
+                }
+            });
+        };
+    })
+
+    // 
+    .controller('EditKnowledgeBaseCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("knowledgeBase-detail");
+        $scope.menutitle = NavigationService.makeactive("Policy Type");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.userStatus = [{
+            "name": "Active",
+            "value": true
+        }, {
+            "name": "Inactive",
+            "value": false
+        }];
+        $scope.header = {
+            "name": "Edit Policy Type"
+        };
+        $scope.tags = [];
+        $scope.refreshTags = function (data) {
+            console.log("Data Inn", data);
+            var formdata = {};
+            formdata.keyword = data;
+            NavigationService.searchTags(formdata, 1, function (data) {
+                $scope.tags = data.data.results;
+            });
+        };
+
+        NavigationService.getOneModel("KnowledgeBase", $stateParams.id, function (data) {
+            $scope.formData = data.data;
+        });
+        $scope.cancel = function () {
+            $window.history.back();
+        }
+        hotkeys.bindTo($scope).add({
+            combo: 'ctrl+enter',
+            callback: function (formData) {
+                _.each(formData.tag, function (n) {
+                    n = n._id;
+                });
+                NavigationService.modelSave("KnowledgeBase", $scope.formData, function (data) {
+                    if (data.value === true) {
+                        $window.history.back();
+                        toastr.success("KnowledgeBase" + $scope.formData.name + " edited successfully.", "KnowledgeBase" + " Edited");
+                    } else {
+                        toastr.error("KnowledgeBase" + " edition failed.", "KnowledgeBase" + " editing error");
+                    }
+                });
+            }
+        });
+        $scope.saveModel = function (formData) {
+            _.each(formData.tag, function (n) {
+                n = n._id;
+            });
+            NavigationService.modelSave("KnowledgeBase", $scope.formData, function (data) {
+                if (data.value === true) {
+                    $window.history.back();
+                    toastr.success("KnowledgeBase" + $scope.formData.name + " edited successfully.", "KnowledgeBase" + " Edited");
+                } else {
+                    toastr.error("KnowledgeBase" + " edition failed.", "KnowledgeBase" + " editing error");
+                }
+            });
+        };
+
+    })
+    // 
+
+    .controller('CreateAllDocumentCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("all-document-details");
+        $scope.menutitle = NavigationService.makeactive("Jir");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.formData = {};
+        $scope.header = {
+            "name": "Create Document"
+        };
+        $scope.userStatus = [{
+            "name": "Active",
+            "value": true
+        }, {
+            "name": "Inactive",
+            "value": false
+        }];
+
+
+
+        $scope.dateOptions = {
+            showWeeks: true
+        };
+
+        $scope.status = ["Jir", "Law", "Insurance", "Survey", "Surveyor", "ILR", "ILA"];
+
+        $scope.format = 'dd-MMMM-yyyy';
+        $scope.modalData = {};
+        $scope.holdObject = '';
+        $scope.modalIndex = 0;
+
+        $scope.changeDOB = function (date) {
+            console.log($filter('ageFilter')(date));
+        };
+        $scope.minDate = new Date();
+        $scope.addModal = function (filename, index, holdobj, data, current) {
+            if (index !== "") {
+                $scope.modalData = data;
+                $scope.modalIndex = index;
+                $scope.modalData.from = new Date(data.from);
+                $scope.modalData.to = new Date(data.to);
+            } else {
+                $scope.modalData = {};
+                if (current.length > 0) {
+                    $scope.modalData.from = new Date(current[current.length - 1].to);
+                    $scope.modalData.grade = current[current.length - 1].grade;
+                }
+                $scope.modalIndex = "";
+            }
+            $scope.holdObject = holdobj;
+            console.log($scope.holdObject);
+            var modalInstance = $uibModal.open({
+                scope: $scope,
+                templateUrl: '/frontend/views/modal/' + filename + '.html',
+                size: 'lg'
+            });
+        };
+
+        $scope.cancel = function () {
+            $window.history.back();
+        }
+        $scope.saveModel = function (formData) {
+            console.log("SAVE MODEL DATA", formData);
+
+            NavigationService.modelSave("Jir", $scope.formData, function (data) {
+                if (data.value === true) {
+                    console.log("Data In If", data.value);
+                    // $state.go('all-document');
+                    $window.history.back();
+                    toastr.success("Document for " + " " + formData.name + " created successfully.", "Document" + " Created");
+                } else {
+                    console.log("Data In Else", data.value);
+                    toastr.error("Document for " + " creation failed.", "Document" + " creation error");
+                }
+            });
+        };
+    })
+
+    .controller('CreateReimbursementCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("reimbursement-detail");
+        $scope.menutitle = NavigationService.makeactive("Reimbursement");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.formData = {};
+        $scope.totals = {};
+        $scope.calculateExpense = function (data) {
+            console.log("totals", data.expenseAmount);
+            $scope.totals.expense += data.expenseAmount;
+        }
+        $scope.resetExpense = function () {
+            $scope.totals.expense = 0;
+        }
+
+        $scope.calculateLodgingBoarding = function (data) {
+            console.log("lodgingBoardingTotal", data.lodgingBoardingTotal);
+            $scope.totals.lodgingBoarding += data.lodgingBoardingTotal;
+        }
+        $scope.resetLodgingBoarding = function () {
+            $scope.totals.lodgingBoarding = 0;
+        }
+
+        $scope.calculateTravelExpense = function (data) {
+            console.log("totals", data.travelExpenseAmount);
+            $scope.totals.travelExpense += data.travelExpenseAmount;
+        }
+        $scope.resetTravelExpense = function () {
+            $scope.totals.travelExpense = 0;
+        }
+
+        $scope.calculatePocketExpense = function (data) {
+            console.log("pocketExpenseTotal", data.pocketExpenseTotal);
+            $scope.totals.pocketExpense += data.pocketExpenseTotal;
+        }
+        $scope.resetPocketExpense = function () {
+            $scope.totals.pocketExpense = 0;
+        }
+
+        $scope.calculateGrandTotal = function (data) {
+            console.log("Total data!", data);
+            // data = _.cloneDeep(data);
+            // if(data.expense){
+            //     var dataExpense = data.expense;
+            // } else {
+            //     var dataExpense = 0
+            // }
+            //   if(data.travelExpense){
+            //     var dataTravelExpense = data.travelExpense;
+            // } else {
+            //     var dataTravelExpense = 0
+            // }
+            //   if(data.lodgingBoarding){
+            //     var dataLodgingBoarding = data.lodgingBoarding;
+            // } else {
+            //     var dataLodgingBoarding = 0
+            // }
+            //   if(data.pocketExpense){
+            //     var dataPocketExpense = data.pocketExpense;
+            // } else {
+            //     var dataPocketExpense = 0
+            // }
+            // console.log("totalssss",data);
+            // console.log("data.expense",data.expense);
+            // console.log("data.travelExpense",data.travelExpense);
+            // console.log("data.lodgingBoarding",data.lodgingBoarding);
+            // console.log("data.pocketExpense",data.pocketExpense);
+            $scope.grandTotal = 0;
+            // console.log("$scope.totals.grandTotal",$scope.grandTotal);
+        }
+
+        $scope.resetGrandTotal = function () {
+            $scope.totals.grandTotal = 0;
+        }
+        // $scope.formData.personalDocument = [];
+        // $scope.formData.licenseDocument = [];
+        // $scope.formData.IIISLACertificate = [];
+        // $scope.formData.IIISLAReciept = [];
+        // $scope.formData.CTCDetails = [];
+        $scope.header = {
+            "name": "Create Reimbursement"
+        };
+        $scope.userStatus = [{
+            "name": "Active",
+            "value": true
+        }, {
+            "name": "Inactive",
+            "value": false
+        }];
+        $scope.status = ["Approved", "Pending", "Rejected", "Partially Approved"];
+        // $scope.houseColors = ["Red", "Green", "Blue", "Yellow", "White"];
+
+        $scope.dateOptions = {
+            showWeeks: true
+        };
+
+
+        $scope.format = 'dd-MMMM-yyyy';
+        $scope.modalData = {};
+        $scope.holdObject = '';
+        $scope.modalIndex = 0;
+
+        $scope.changeDOB = function (date) {
+            console.log($filter('ageFilter')(date));
+        };
+        $scope.minDate = new Date();
+        $scope.addModal = function (filename, index, holdobj, data, current) {
+            if (index !== "") {
+                $scope.modalData = data;
+                $scope.modalIndex = index;
+            } else {
+                $scope.modalData = {};
+                if (current.length > 0) {}
+                $scope.modalIndex = "";
+            }
+            $scope.holdObject = holdobj;
+            console.log($scope.holdObject, filename);
+            var modalInstance = $uibModal.open({
+                scope: $scope,
+                templateUrl: '/frontend/views/modal/' + filename + '.html',
+                size: 'lg'
+            });
+        };
+        $scope.deleteElements = function (index, data) {
+            data.splice(index, 1);
+        };
+        $scope.wholeObj = [];
+        $scope.formData.expense = [];
+        $scope.formData.travelExpense = [];
+        $scope.formData.lodgingBoarding = [];
+        $scope.formData.pocketExpense = [];
+        $scope.addElements = function (moddata) {
+            console.log("moddata", moddata);
+            if ($scope.modalIndex !== "") {
+                switch ($scope.holdObject) {
+                    case "Expense":
+                        {
+                            $scope.formData.expense[$scope.modalIndex] = moddata;
+                        }
+                        break;
+                    case "Travel Expense":
+                        {
+                            $scope.formData.travelExpense[$scope.modalIndex] = moddata;
+                        }
+                        break;
+                    case "Lodging Boarding":
+                        {
+                            $scope.formData.lodgingBoarding[$scope.modalIndex] = moddata;
+                        }
+                        break;
+                    case "Pocket Expense":
+                        {
+                            $scope.formData.pocketExpense[$scope.modalIndex] = moddata;
+                        }
+                        break;
+
+                    default:
+                        {
+                            // $scope.formData.push($scope.newjson);
+                        }
+
+                }
+            } else {
+                switch ($scope.holdObject) {
+                    case "Expense":
+                        {
+                            $scope.formData.expense.push(moddata);
+                        }
+                        break;
+                    case "Travel Expense":
+                        {
+                            $scope.formData.travelExpense.push(moddata);
+                        }
+                        break;
+                    case "Lodging Boarding":
+                        {
+                            $scope.formData.lodgingBoarding.push(moddata);
+                        }
+                        break;
+                    case "Pocket Expense":
+                        {
+                            $scope.formData.pocketExpense.push(moddata);
+                        }
+                        break;
+
+                    default:
+                        {
+                            // $scope.formData.push($scope.newjson);
+                        }
+                }
+
+            }
+        };
+
+        $scope.cancel = function () {
+            $window.history.back();
+        }
+        hotkeys.bindTo($scope).add({
+            combo: 'ctrl+enter',
+            callback: function (formData) {
+                NavigationService.modelSave("Reimbursement", $scope.formData, function (data) {
+                    console.log($scope.formData);
+                    console.log(data.value);
+                    if (data.value === true) {
+                        console.log("Data In If", data.value);
+                        // $state.go('reimbursement-list');
+                        $window.history.back();
+                        toastr.success("Reimbursement created successfully.", "Employee" + " Created");
+                    } else {
+                        console.log("Data In Else", data.value);
+                        toastr.error("Reimbursement creation failed.", "Employee" + " creation error");
+                    }
+                });
+            }
+        });
+        $scope.saveModel = function (formData) {
+            console.log(formData);
+            NavigationService.modelSave("Reimbursement", $scope.formData, function (data) {
+                console.log($scope.formData);
+                console.log(data.value);
+                if (data.value === true) {
+                    console.log("Data In If", data.value);
+                    // $state.go('reimbursement-list');
+                    $window.history.back();
+                    toastr.success("Reimbursement created successfully.", "Employee" + " Created");
+                } else {
+                    console.log("Data In Else", data.value);
+                    toastr.error("Reimbursement creation failed.", "Employee" + " creation error");
+                }
+            });
+        };
+    })
+
+
+    .controller('EditReimbursementCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("reimbursement-detail");
+        $scope.menutitle = NavigationService.makeactive("Reimbursement");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.formData = {};
+        $scope.totals = {};
+        $scope.calculateExpense = function (data) {
+            console.log("totals", data.expenseAmount);
+            $scope.totals.expense += data.expenseAmount;
+        }
+        $scope.resetExpense = function () {
+            $scope.totals.expense = 0;
+        }
+
+        $scope.calculateLodgingBoarding = function (data) {
+            console.log("lodgingBoardingTotal", data.lodgingBoardingTotal);
+            $scope.totals.lodgingBoarding += data.lodgingBoardingTotal;
+        }
+        $scope.resetLodgingBoarding = function () {
+            $scope.totals.lodgingBoarding = 0;
+        }
+
+        $scope.calculateTravelExpense = function (data) {
+            console.log("totals", data.travelExpenseAmount);
+            $scope.totals.travelExpense += data.travelExpenseAmount;
+        }
+        $scope.resetTravelExpense = function () {
+            $scope.totals.travelExpense = 0;
+        }
+
+        $scope.calculatePocketExpense = function (data) {
+            console.log("pocketExpenseTotal", data.pocketExpenseTotal);
+            $scope.totals.pocketExpense += data.pocketExpenseTotal;
+        }
+        $scope.resetPocketExpense = function () {
+            $scope.totals.pocketExpense = 0;
+        }
+
+        $scope.calculateGrandTotal = function (data) {
+            console.log("Total data!", data);
+            // data = _.cloneDeep(data);
+            if (data.expense) {
+                var dataExpense = data.expense;
+                console.log($scope.totals.expense, "expense--", dataExpense);
+            } else {
+                var dataExpense = 0
+            }
+            if (data.travelExpense) {
+                var dataTravelExpense = data.travelExpense;
+            } else {
+                var dataTravelExpense = 0
+            }
+            if (data.lodgingBoarding) {
+                var dataLodgingBoarding = data.lodgingBoarding;
+            } else {
+                var dataLodgingBoarding = 0
+            }
+            if (data.pocketExpense) {
+                var dataPocketExpense = data.pocketExpense;
+            } else {
+                var dataPocketExpense = 0
+            }
+            console.log("totalssss", data);
+            console.log("data.expense", dataExpense);
+            console.log("data.travelExpense", data.travelExpense);
+            console.log("data.lodgingBoarding", data.lodgingBoarding);
+            console.log("data.pocketExpense", data.pocketExpense);
+            $scope.totals.grandTotal = dataExpense + dataTravelExpense + dataLodgingBoarding + dataPocketExpense;
+            console.log("$scope.totals.grandTotal", $scope.totals.grandTotal);
+        }
+
+        $scope.resetGrandTotal = function () {
+            // $scope.totals.grandTotal = 0;
+        }
+
+
+        $scope.header = {
+            "name": "Edit Reimbursement"
+        };
+        $scope.userStatus = [{
+            "name": "Active",
+            "value": true
+        }, {
+            "name": "Inactive",
+            "value": false
+        }];
+        $scope.status = ["Approved", "Pending", "Rejected", "Partially Approved"];
+        $scope.dateOptions = {
+            showWeeks: true,
+            formatDayTitle: 'dd-MMMM-yyyy'
+        };
+
+
+        $scope.format = 'dd-MMMM-yyyy';
+        $scope.modalData = {};
+        $scope.holdObject = '';
+        $scope.modalIndex = 0;
+
+        $scope.changeDOB = function (date) {
+            console.log($filter('ageFilter')(date));
+        };
+        $scope.minDate = new Date();
+        $scope.addModal = function (filename, index, holdobj, data, current) {
+            if (index !== "") {
+                $scope.modalData = data;
+                if ($scope.modalData.expenseDate) {
+                    $scope.modalData.expenseDate = new Date($scope.modalData.expenseDate)
+                }
+                if ($scope.modalData.depatureDate) {
+                    $scope.modalData.depatureDate = new Date($scope.modalData.depatureDate)
+                }
+                if ($scope.modalData.arrivalDate) {
+                    $scope.modalData.arrivalDate = new Date($scope.modalData.arrivalDate)
+                }
+                if ($scope.modalData.lodgingBoardingDate) {
+                    $scope.modalData.lodgingBoardingDate = new Date($scope.modalData.lodgingBoardingDate)
+                }
+                if ($scope.modalData.pocketExpenseDate) {
+                    $scope.modalData.pocketExpenseDate = new Date($scope.modalData.pocketExpenseDate)
+                }
+                $scope.modalIndex = index;
+            } else {
+                $scope.modalData = {};
+                if (current.length > 0) {}
+                $scope.modalIndex = "";
+            }
+            $scope.holdObject = holdobj;
+            console.log($scope.holdObject);
+            var modalInstance = $uibModal.open({
+                scope: $scope,
+                templateUrl: '/frontend/views/modal/' + filename + '.html',
+                size: 'lg'
+            });
+        };
+        $scope.addElements = function (moddata) {
+            console.log("moddata", moddata);
+            if ($scope.modalIndex !== "") {
+                switch ($scope.holdObject) {
+                    case "Expense":
+                        {
+                            $scope.formData.expense[$scope.modalIndex] = moddata;
+                        }
+                        break;
+                    case "Travel Expense":
+                        {
+                            $scope.formData.travelExpense[$scope.modalIndex] = moddata;
+                        }
+                        break;
+                    case "Lodging Boarding":
+                        {
+                            $scope.formData.lodgingBoarding[$scope.modalIndex] = moddata;
+                        }
+                        break;
+                    case "Pocket Expense":
+                        {
+                            $scope.formData.pocketExpense[$scope.modalIndex] = moddata;
+                        }
+                        break;
+
+                    default:
+                        {
+                            // $scope.formData.push($scope.newjson);
+                        }
+
+                }
+            } else {
+                switch ($scope.holdObject) {
+                    case "Expense":
+                        {
+                            $scope.formData.expense.push(moddata);
+                        }
+                        break;
+                    case "Travel Expense":
+                        {
+                            $scope.formData.travelExpense.push(moddata);
+                        }
+                        break;
+                    case "Lodging Boarding":
+                        {
+                            $scope.formData.lodgingBoarding.push(moddata);
+                        }
+                        break;
+                    case "Pocket Expense":
+                        {
+                            $scope.formData.pocketExpense.push(moddata);
+                        }
+                        break;
+
+                    default:
+                        {
+                            // $scope.formData.push($scope.newjson);
+                        }
+                }
+
+            }
+        };
+        $scope.deleteElements = function (index, data) {
+            data.splice(index, 1);
+        };
+
+        NavigationService.getOneModel("Reimbursement", $stateParams.id, function (data) {
+            $scope.formData = data.data;
+            console.log("$scope.formData", $scope.formData);
+            if (data.data.name) {
+                $scope.formData.name = data.data.name._id;
+                $scope.formData.assignment = data.data.assignment._id;
+            }
+            if (data.data.from) {
+                $scope.formData.from = new Date(data.data.from);
+            }
+            if (data.data.to) {
+                $scope.formData.to = new Date(data.data.to);
+            }
+            if (data.data.fromDate) {
+                $scope.formData.fromDate = new Date(data.data.fromDate);
+            }
+            if (data.data.toDate) {
+                $scope.formData.toDate = new Date(data.data.toDate);
+            }
+            if (data.data.approvedFrom) {
+                $scope.formData.approvedFrom = new Date(data.data.approvedFrom);
+            }
+            if (data.data.approvedTo) {
+                $scope.formData.approvedTo = new Date(data.data.approvedTo);
+            }
+            // $scope.formData.name = $scope.formData.companyShortName + '-' + $scope.formData.TOFShortName + '-' + $scope.formData.officeCode + '-' + $scope.formData.city1;
+        });
+
+        $scope.cancel = function () {
+            $window.history.back();
+        }
+        hotkeys.bindTo($scope).add({
+            combo: 'ctrl+enter',
+            callback: function (formData) {
+                NavigationService.modelSave("Reimbursement", $scope.formData, function (data) {
+                    if (data.value === true) {
+                        console.log("Data In Else", data.value);
+                        // $state.go('reimbursement-list');
+                        $window.history.back();
+                        toastr.success("Reimbursement Of created successfully.", "Reimbursement" + " Created");
+                    } else {
+                        console.log("Data In Else", data.value);
+                        toastr.error("Reimbursement Of creation failed.", "Reimbursement" + " creation error");
+                    }
+                });
+            }
+        });
+        $scope.saveModel = function (formData) {
+            console.log(formData);
+            // $scope.formData.name = $scope.formData.firstName + " " + $scope.formData.lastName;
+
+            NavigationService.modelSave("Reimbursement", $scope.formData, function (data) {
+                if (data.value === true) {
+                    console.log("Data In Else", data.value);
+                    // $state.go('reimbursement-list');
+                    $window.history.back();
+                    toastr.success("Reimbursement created successfully.", "Reimbursement" + " Created");
+                } else {
+                    console.log("Data In Else", data.value);
+                    toastr.error("Reimbursement creation failed.", "Reimbursement" + " creation error");
+                }
+            });
+        };
+    })
+
+
+    .controller('EditLeaveCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("leaveManagement-detail");
+        $scope.menutitle = NavigationService.makeactive("LeaveManagement");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.formData = {};
+
+        $scope.header = {
+            "name": "Edit Leave"
+        };
+        $scope.userStatus = [{
+            "name": "Active",
+            "value": true
+        }, {
+            "name": "Inactive",
+            "value": false
+        }];
+        $scope.status = ["Approved", "Pending", "Rejected", "Partially Approved"];
+        $scope.dateOptions = {
+            showWeeks: true
+        };
+
+
+        $scope.format = 'dd-MMMM-yyyy';
+        $scope.modalData = {};
+        $scope.holdObject = '';
+        $scope.modalIndex = 0;
+
+        $scope.changeDOB = function (date) {
+            console.log($filter('ageFilter')(date));
+        };
+        $scope.minDate = new Date();
+        $scope.addModal = function (filename, index, holdobj, data, current) {
+            if (index !== "") {
+                $scope.modalData = data;
+                $scope.modalIndex = index;
+                $scope.modalData.from = new Date(data.from);
+                $scope.modalData.to = new Date(data.to);
+            } else {
+                $scope.modalData = {};
+                if (current.length > 0) {
+                    $scope.modalData.from = new Date(current[current.length - 1].to);
+                    $scope.modalData.grade = current[current.length - 1].grade;
+                }
+                $scope.modalIndex = "";
+            }
+            $scope.holdObject = holdobj;
+            console.log($scope.holdObject);
+            var modalInstance = $uibModal.open({
+                scope: $scope,
+                templateUrl: '/frontend/views/modal/' + filename + '.html',
+                size: 'lg'
+            });
+        };
+
+        NavigationService.getOneModel("LeaveManagement", $stateParams.id, function (data) {
+            $scope.formData = data.data;
+            console.log("$scope.formData", $scope.formData);
+            if (data.data.name) {
+                $scope.formData.name = data.data.name._id;
+                console.log("$scope.formData.fromDate", $scope.formData.fromDate);
+            }
+            if (data.data.fromDate) {
+                $scope.formData.fromDate = new Date(data.data.fromDate);
+            }
+            if (data.data.toDate) {
+                $scope.formData.toDate = new Date(data.data.toDate);
+            }
+            if (data.data.approvedFrom) {
+                $scope.formData.approvedFrom = new Date(data.data.approvedFrom);
+            }
+            if (data.data.approvedTo) {
+                $scope.formData.approvedTo = new Date(data.data.approvedTo);
+            }
+            // $scope.formData.name = $scope.formData.companyShortName + '-' + $scope.formData.TOFShortName + '-' + $scope.formData.officeCode + '-' + $scope.formData.city1;
+        });
+        $scope.cancel = function () {
+            $window.history.back();
+        }
+        hotkeys.bindTo($scope).add({
+            combo: 'ctrl+enter',
+            callback: function (formData) {
+                NavigationService.modelSave("LeaveManagement", $scope.formData, function (data) {
+                    if (data.value === true) {
+                        console.log("Data In Else", data.value);
+                        // $state.go('leaveManagement-list');
+                        $window.history.back();
+                        toastr.success("Leave Of " + " " + formData.name + " created successfully.", "Leave" + " Created");
+                    } else {
+                        console.log("Data In Else", data.value);
+                        toastr.error("Leave Of " + " creation failed.", "Leave" + " creation error");
+                    }
+                });
+            }
+        });
+        $scope.saveModel = function (formData) {
+            console.log(formData);
+            // $scope.formData.name = $scope.formData.firstName + " " + $scope.formData.lastName;
+            NavigationService.modelSave("LeaveManagement", $scope.formData, function (data) {
+                if (data.value === true) {
+                    console.log("Data In Else", data.value);
+                    // $state.go('leaveManagement-list');
+                    $window.history.back();
+                    toastr.success("Leave Of " + " " + formData.name + " created successfully.", "Leave" + " Created");
+                } else {
+                    console.log("Data In Else", data.value);
+                    toastr.error("Leave Of " + " creation failed.", "Leave" + " creation error");
+                }
+            });
+        };
+    })
+
+    .controller('CreateEmployeeCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $state, $uibModal, $stateParams, toastr, $filter) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("employee-detail");
+        $scope.menutitle = NavigationService.makeactive("Employee");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.formData = {};
+        $scope.formData.personalDocument = [];
+        $scope.formData.licenseDocument = [];
+        $scope.formData.IIISLACertificate = [];
+        $scope.formData.IIISLAReciept = [];
+        $scope.formData.CTCDetails = [];
+        $scope.header = {
+            "name": "Create Employee"
+        };
+        $scope.userStatus = [{
+            "name": "Active",
+            "value": true
+        }, {
+            "name": "Inactive",
+            "value": false
+        }];
+        $scope.cancel = function () {
+            $window.history.back();
+        }
+        $scope.salutations = ["Mr.", "Mrs.", "Ms.", "Dr."];
+        $scope.houseColors = ["Red", "Green", "Blue", "Yellow", "White"];
+
+        $scope.dateOptions = {
+            showWeeks: true
+        };
+
+        $scope.popup = {
+            to: false,
+            from: false,
+            toReciept: false,
+            fromReciept: false,
+            toCertificate: false,
+            fromCertificate: false,
+            toLicense: false,
+            fromLicense: false,
+            birthDate: false,
+            marriageDate: false,
+            joiningDate: false,
+            leavingDate: false
+        };
+
+        $scope.format = 'dd-MMMM-yyyy';
+        $scope.modalData = {};
+        $scope.holdObject = '';
+        $scope.modalIndex = 0;
+
+        $scope.changeDOB = function (date) {
+            console.log($filter('ageFilter')(date));
+        };
+        $scope.minDate = new Date();
+        $scope.addModal = function (filename, index, holdobj, data, current) {
+            if (index !== "") {
+                $scope.modalData = data;
+                $scope.modalIndex = index;
+                $scope.modalData.from = new Date(data.from);
+                $scope.modalData.to = new Date(data.to);
+            } else {
+                $scope.modalData = {};
+                if (current.length > 0) {
+                    $scope.modalData.from = new Date(current[current.length - 1].to);
+                    $scope.modalData.grade = current[current.length - 1].grade;
+                }
+                $scope.modalIndex = "";
+            }
+            $scope.holdObject = holdobj;
+            console.log($scope.holdObject);
+            var modalInstance = $uibModal.open({
+                scope: $scope,
+                templateUrl: '/frontend/views/modal/' + filename + '.html',
+                size: 'lg'
+            });
+        };
+        $scope.refreshNature = function (data) {
+            var formdata = {};
+            formdata.keyword = data;
+            NavigationService.searchBranch(formdata, 1, function (data) {
+                console.log("searchBranch", data);
+                $scope.natureLoss = data.data.results;
+            });
+        };
+        $scope.refreshNatureRole = function (data) {
+            var formdata = {};
+            formdata.keyword = data;
+            NavigationService.searchRole(formdata, 1, function (data) {
+                console.log("searchBranch....", data);
+                $scope.roleList = data.data.results;
+            });
+        };
+        $scope.addElements = function (data) {
+            console.log(data);
+            console.log($scope.holdObject);
+            switch ($scope.holdObject) {
+                case 'personalDocument':
+                    if ($scope.modalIndex !== "") {
+                        $scope.formData.personalDocument[$scope.modal] = data;
+                    } else {
+                        $scope.formData.personalDocument.push(data);
+                    }
+                    break;
+                case 'licenseDocument':
+                    if ($scope.modalIndex !== "") {
+                        $scope.formData.licenseDocument[$scope.modal] = data;
+                    } else {
+                        $scope.formData.licenseDocument.push(data);
+                    }
+                    break;
+                case 'IIISLACertificate':
+                    if ($scope.modalIndex !== "") {
+                        $scope.formData.IIISLACertificate[$scope.modal] = data;
+                    } else {
+                        $scope.formData.IIISLACertificate.push(data);
+                    }
+                    break;
+                case 'IIISLAReciept':
+                    if ($scope.modalIndex !== "") {
+                        $scope.formData.IIISLAReciept[$scope.modal] = data;
+                    } else {
+                        $scope.formData.IIISLAReciept.push(data);
+                    }
+                    break;
+                case 'CTCDetails':
+                    if ($scope.modalIndex !== "") {
+                        console.log("Model Data if", $scope.formData.grade);
+                        $scope.formData.CTCDetails[$scope.modal] = data;
+                        $scope.formData.grade = data.grade;
+                        // console.log("Model Data if",$scope.formData.grade);                       
+                        // $scope.refreshGrade($scope.formData.grade);
+                        // $scope.formData.grade = $scope.formData.CTCDetails[$scope.formData.CTCDetails.length - 1].grade;
+                    } else {
+                        console.log("Model Data else", $scope.formData);
+                        var length1 = $scope.formData.CTCDetails.length;
+                        console.log("Length1", length1);
+                        if (length1 !== 0) {
+                            $scope.formData.CTCDetails[length1 - 1].to = data.from;
+                            console.log("ABC", $scope.formData.CTCDetails[length1 - 1].to);
+                        }
+                        $scope.formData.CTCDetails.push(data);
+                        // $scope.formData.grade = $scope.formData.CTCDetails[$scope.formData.CTCDetails.length - 1].grade;
+                        $scope.formData.grade = data.grade;
+                    }
+                    break;
+                default:
+
+            }
+        };
+        $scope.editElements = function (elemObject, data) {
+
+        };
+        $scope.deleteElements = function (index, name) {
+            switch (name) {
+                case 'personalDocument':
+                    $scope.formData.personalDocument.splice(index, 1);
+                    break;
+                case 'licenseDocument':
+                    $scope.formData.licenseDocument.splice(index, 1);
+                    break;
+                case 'IIISLACertificate':
+                    $scope.formData.IIISLACertificate.splice(index, 1);
+                    break;
+                case 'IIISLAReciept':
+                    $scope.formData.IIISLAReciept.splice(index, 1);
+                    break;
+                case 'CTCDetails':
+                    $scope.formData.CTCDetails.splice(index, 1);
+                    break;
+                default:
+
+            }
+        };
+
+        $scope.cancel = function () {
+            $window.history.back();
+        }
+        hotkeys.bindTo($scope).add({
+            combo: 'ctrl+enter',
+            callback: function (formData) {
+                if (formData.lat && formData.lng) {
+                    formData.location = [];
+                    formData.location.push(formData.lat);
+                    formData.location.push(formData.lng);
+                }
+                $scope.formData.name = $scope.formData.firstName + " " + $scope.formData.lastName;
+                NavigationService.modelSave("Employee", $scope.formData, function (data) {
+                    if (data.value === true) {
+                        // $state.go('employee-list');
+                        $window.history.back();
+                        toastr.success("Employee" + " " + formData.name + " created successfully.", "Employee" + " Created");
+                    } else {
+                        toastr.error("Employee" + " creation failed.", "Employee" + " creation error");
+                    }
+                });
+            }
+        });
+        $scope.saveModel = function (formData) {
+            if (formData.lat && formData.lng) {
+                formData.location = [];
+                formData.location.push(formData.lat);
+                formData.location.push(formData.lng);
+            }
+            console.log(formData);
+            $scope.formData.name = $scope.formData.firstName + " " + $scope.formData.lastName;
+            NavigationService.modelSave("Employee", $scope.formData, function (data) {
+                if (data.value === true) {
+                    // $state.go('employee-list');
+                    $window.history.back();
+                    toastr.success("Employee" + " " + formData.name + " created successfully.", "Employee" + " Created");
+                } else {
+                    toastr.error("Employee" + " creation failed.", "Employee" + " creation error");
+                }
+            });
+        };
+    })
+    .controller('EditEmployeeCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $state, $stateParams, $filter, $uibModal, toastr) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("employee-detail");
+        $scope.menutitle = NavigationService.makeactive("Employee");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.formData = {};
+        $scope.formData.personalDocument = [];
+        $scope.formData.licenseDocument = [];
+        $scope.formData.IIISLACertificate = [];
+        $scope.formData.IIISLAReciept = [];
+        $scope.formData.CTCDetails = [];
+        $scope.uploadMsg = "";
+        $scope.modalData = {};
+        $scope.uploadurl = imgpath;
+        console.log($scope.uploadurl);
+        $scope.header = {
+            "name": "Edit Employee"
+        };
+        $scope.userStatus = [{
+            "name": "Active",
+            "value": true
+        }, {
+            "name": "Inactive",
+            "value": false
+        }];
+
+        $scope.salutations = ["Mr.", "Mrs.", "Ms.", "Dr."];
+        $scope.houseColors = ["Red", "Green", "Blue", "Yellow", "White"];
+
+        $scope.dateOptions = {
+            showWeeks: true
+        };
+
+        $scope.popup = {
+            to: false,
+            from: false,
+            toReciept: false,
+            fromReciept: false,
+            toCertificate: false,
+            fromCertificate: false,
+            toLicense: false,
+            fromLicense: false,
+            birthDate: false,
+            marriageDate: false,
+            joiningDate: false,
+            leavingDate: false
+        };
+
+        $scope.format = 'dd-MMMM-yyyy';
+        $scope.modalData = {};
+        $scope.modalData1 = {};
+        $scope.holdObject = '';
+        $scope.modalIndex = 0;
+
+        $scope.changeDOB = function (date) {
+            console.log($filter('ageFilter')(date));
+        };
+
+
+        $scope.refreshNature = function (data) {
+            var formdata = {};
+            formdata.keyword = data;
+            NavigationService.searchBranch(formdata, 1, function (data) {
+                console.log("searchBranch", data);
+                $scope.natureLoss = data.data.results;
+            });
+        };
+        $scope.refreshNatureRole = function (data) {
+            var formdata = {};
+            formdata.keyword = data;
+            NavigationService.searchRole(formdata, 1, function (data) {
+                console.log("searchBranch....", data);
+                $scope.roleList = data.data.results;
+            });
+        };
+
+        $scope.refreshGrade = function (data) {
+            // var formdata = {};
+            // formdata.keyword = data;
+            NavigationService.getOneModel("Grade", data, function (data) {
+                console.log("searchGrade", data);
+                $scope.formData.grade = data.data;
+            });
+        };
+        $scope.addModal = function (filename, index, holdobj, data, current) {
+            console.log("formData.grade", $scope.formData.grade);
+            if (index !== "") {
+
+                $scope.modalData = data;
+                $scope.modalData.from = new Date(data.from);
+                $scope.modalData.to = new Date(data.to);
+
+                $scope.modalIndex = index;
+            } else {
+                $scope.modalData = {};
+                console.log(moment());
+                if (current.length > 0) {
+                    $scope.modalData.from = new Date(current[current.length - 1].to);
+                    $scope.modalData.from = $scope.modalData.from.setDate($scope.modalData.from.getDate() + 1);
+                    $scope.modalData.grade = current[current.length - 1].grade;
+                }
+                $scope.modalIndex = "";
+            }
+            $scope.holdObject = holdobj;
+            var modalInstance = $uibModal.open({
+                scope: $scope,
+                templateUrl: '/frontend/views/modal/' + filename + '.html',
+                size: 'lg'
+            });
+        };
+
+        $scope.addElements = function (data) {
+            switch ($scope.holdObject) {
+                case 'personalDocument':
+                    if ($scope.modalIndex !== "") {
+                        $scope.formData.personalDocument[$scope.modal] = data;
+                    } else {
+                        $scope.formData.personalDocument.push(data);
+                    }
+                    break;
+                case 'licenseDocument':
+                    if ($scope.modalIndex !== "") {
+                        $scope.formData.licenseDocument[$scope.modal] = data;
+                    } else {
+                        $scope.formData.licenseDocument.push(data);
+                    }
+                    break;
+                case 'IIISLACertificate':
+                    if ($scope.modalIndex !== "") {
+                        $scope.formData.IIISLACertificate[$scope.modal] = data;
+                    } else {
+                        $scope.formData.IIISLACertificate.push(data);
+                    }
+                    break;
+                case 'IIISLAReciept':
+                    if ($scope.modalIndex !== "") {
+                        $scope.formData.IIISLAReciept[$scope.modal] = data;
+                    } else {
+                        $scope.formData.IIISLAReciept.push(data);
+                    }
+                    break;
+                case 'CTCDetails':
+                    if ($scope.modalIndex !== "") {
+                        console.log("Model Data if", $scope.formData.grade);
+                        $scope.formData.CTCDetails[$scope.modal] = data;
+                        $scope.formData.grade = data.grade;
+                        // console.log("Model Data if",$scope.formData.grade);                       
+                        $scope.refreshGrade($scope.formData.grade);
+                        // $scope.formData.grade = $scope.formData.CTCDetails[$scope.formData.CTCDetails.length - 1].grade;
+                    } else {
+                        console.log("Model Data else", $scope.formData);
+                        var length1 = $scope.formData.CTCDetails.length;
+                        console.log("Length1", length1);
+                        if (length1 !== 0) {
+                            $scope.formData.CTCDetails[length1 - 1].to = data.from;
+                            console.log("ABC", $scope.formData.CTCDetails[length1 - 1].to);
+                        }
+                        $scope.formData.CTCDetails.push(data);
+                        // $scope.formData.grade = $scope.formData.CTCDetails[$scope.formData.CTCDetails.length - 1].grade;
+                        $scope.formData.grade = data.grade;
+                    }
+                    break;
+                default:
+
+            }
+        };
+        $scope.editElements = function (elemObject, data) {
+
+        };
+
+        $scope.deleteElements = function (index, name) {
+            switch (name) {
+                case 'personalDocument':
+                    $scope.formData.personalDocument.splice(index, 1);
+                    break;
+                case 'licenseDocument':
+                    $scope.formData.licenseDocument.splice(index, 1);
+                    break;
+                case 'IIISLACertificate':
+                    $scope.formData.IIISLACertificate.splice(index, 1);
+                    break;
+                case 'IIISLAReciept':
+                    $scope.formData.IIISLAReciept.splice(index, 1);
+                    break;
+                case 'CTCDetails':
+                    $scope.formData.CTCDetails.splice(index, 1);
+                    break;
+                default:
+
+            }
+        };
+
+
+        NavigationService.getOneModel("Employee", $stateParams.id, function (data) {
+            $scope.formData = data.data;
+            if (data.data.city) {
+                $scope.formData.country = data.data.city.district.state.zone.country._id;
+                $scope.formData.zone = data.data.city.district.state.zone._id;
+                $scope.formData.state = data.data.city.district.state._id;
+                $scope.formData.district = data.data.city.district._id;
+                $scope.formData.city = data.data.city._id;
+            }
+            NavigationService.getDepartment(function (data1) {
+                $scope.departments = data1.data.results;
+            });
+            if (data.data.birthDate) {
+                $scope.formData.birthDate = new Date(data.data.birthDate);
+            }
+            if (data.data.joiningDate) {
+                $scope.formData.joiningDate = new Date(data.data.joiningDate);
+            }
+            if (data.data.marriageDate) {
+                $scope.formData.marriageDate = new Date(data.data.marriageDate);
+            }
+            if (data.data.leavingDate) {
+                $scope.formData.leavingDate = new Date(data.data.leavingDate);
+            }
+        });
+        $scope.cancel = function () {
+            $window.history.back();
+        }
+        hotkeys.bindTo($scope).add({
+            combo: 'ctrl+enter',
+            callback: function (formData) {
+                if (formData.lat && formData.lng) {
+                    formData.location = [];
+                    formData.location.push(formData.lat);
+                    formData.location.push(formData.lng);
+                }
+                $scope.formData.name = $scope.formData.firstName + " " + $scope.formData.lastName;
+                console.log($scope.formData);
+                NavigationService.modelSave("Employee", $scope.formData, function (data) {
+                    if (data.value === true) {
+                        // $state.go('employee-list');
+                        $window.history.back();
+                        toastr.success("Employee" + $scope.formData.name + " edited successfully.", "Employee" + " Edited");
+                    } else {
+                        toastr.error("Employee" + " edition failed.", "Employee" + " editing error");
+                    }
+                });
+            }
+        });
+        $scope.saveModel = function (formData) {
+            if (formData.lat && formData.lng) {
+                formData.location = [];
+                formData.location.push(formData.lat);
+                formData.location.push(formData.lng);
+            }
+            $scope.formData.name = $scope.formData.firstName + " " + $scope.formData.lastName;
+            NavigationService.modelSave("Employee", $scope.formData, function (data) {
+                if (data.value === true) {
+                    // $state.go('employee-list');
+                    $window.history.back();
+                    toastr.success("Employee" + $scope.formData.name + " edited successfully.", "Employee" + " Edited");
+                } else {
+                    toastr.error("Employee" + " edition failed.", "Employee" + " editing error");
+                }
+            });
+        };
+    })
+
+    .controller('ProductCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("product-list", $state);
+        $scope.menutitle = NavigationService.makeactive("Product");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.currentPage = $stateParams.page;
+        var i = 0;
+        $scope.search = {
+            keyword: ""
+        };
+        if ($stateParams.keyword) {
+            $scope.search.keyword = $stateParams.keyword;
+        }
+        $scope.showAllCountries = function (keywordChange) {
+            $scope.totalItems = undefined;
+            if (keywordChange) {
+                $scope.currentPage = 1;
+            }
+            NavigationService.searchProduct({
+                page: $scope.currentPage,
+                keyword: $scope.search.keyword
+            }, ++i, function (data, ini) {
+                if (ini == i) {
+                    $scope.allProduct = data.data.results;
+                    $scope.totalItems = data.data.total;
+                    $scope.maxRow = data.data.options.count;
+                }
+            });
+        };
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+        $scope.changePage = function (page) {
+            var goTo = "product-list";
+            if ($scope.search.keyword) {
+                goTo = "product-list";
+            }
+            $state.go(goTo, {
+                page: page,
+                keyword: $scope.search.keyword
+            });
+        };
+        $scope.showAllCountries();
+        $scope.deleteProduct = function (id) {
+            globalfunction.confDel(function (value) {
+                console.log(value);
+                if (value) {
+                    NavigationService.deleteProduct(id, function (data) {
+                        if (data.value) {
+                            $scope.showAllCountries();
+                            toastr.success("Product deleted successfully.", "Product deleted");
+                        } else {
+                            toastr.error("There was an error while deleting Product", "Product deleting error");
+                        }
+                    });
+                }
+            });
+        };
+    })
+    .controller('CreateProductCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $state, toastr) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("product-detail");
+        $scope.menutitle = NavigationService.makeactive("Product");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.header = {
+            "name": "Create Product"
+        };
+        $scope.userStatus = [{
+            "name": "Active",
+            "value": true
+        }, {
+            "name": "Inactive",
+            "value": false
+        }];
+        $scope.formData = {};
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+        hotkeys.bindTo($scope).add({
+            combo: 'ctrl+enter',
+            callback: function (formData) {
+                NavigationService.productSave($scope.formData, function (data) {
+                    if (data.value === true) {
+                        // $state.go('product-list');
+                        $window.history.back();
+                        toastr.success("Product " + formData.name + " created successfully.", "Product Created");
+                    } else {
+                        toastr.error("Product creation failed.", "Product creation error");
+                    }
+                });
+            }
+        });
+        $scope.saveProduct = function (formData) {
+            NavigationService.productSave($scope.formData, function (data) {
+                if (data.value === true) {
+                    // $state.go('product-list');
+                    $window.history.back();
+                    toastr.success("Product " + formData.name + " created successfully.", "Product Created");
+                } else {
+                    toastr.error("Product creation failed.", "Product creation error");
+                }
+            });
+        };
+
+    })
+    .controller('EditProductCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("product-detail");
+        $scope.menutitle = NavigationService.makeactive("Product");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.header = {
+            "name": "Edit Product "
+        };
+        $scope.userStatus = [{
+            "name": "Active",
+            "value": true
+        }, {
+            "name": "Inactive",
+            "value": false
+        }];
+        NavigationService.getOneProduct($stateParams.id, function (data) {
+            $scope.formData = data.data;
+            $scope.formData.industry = data.data.category.industry._id;
+            $scope.formData.category = data.data.category._id;
+
+        });
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+        hotkeys.bindTo($scope).add({
+            combo: 'ctrl+enter',
+            callback: function (formData) {
+                NavigationService.productSave($scope.formData, function (data) {
+                    if (data.value === true) {
+                        $window.history.back();
+                        toastr.success("Product " + $scope.formData.name + " edited successfully.", "Product Edited");
+                    } else {
+                        toastr.error("Product edition failed.", "Product editing error");
+                    }
+                });
+            }
+        });
+        $scope.saveProduct = function (formValid) {
+            NavigationService.productSave($scope.formData, function (data) {
+                if (data.value === true) {
+                    $window.history.back();
+                    toastr.success("Product " + $scope.formData.name + " edited successfully.", "Product Edited");
+                } else {
+                    toastr.error("Product edition failed.", "Product editing error");
+                }
+            });
+        };
+    })
+    .controller('SalvageCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $state) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("salvage-list");
+        $scope.menutitle = NavigationService.makeactive("Salvage");
+        TemplateService.title = $scope.menutitle;
+
+        $scope.navigation = NavigationService.getnav();
+
+        $scope.showAllSalvage = function () {
+            NavigationService.getAllSalvage(function (data) {
+                $scope.allSalvage = data.data;
+                console.log('$scope.allSalvage', $scope.allSalvage);
+
+            });
+        };
+        $scope.showAllSalvage();
+
+        $scope.deleteSalvage = function (id) {
+
+            NavigationService.deleteSalvage({
+                id: id
+            }, function (data) {
+                $scope.showAllSalvage();
+
+            });
+        };
+    })
+    .controller('CreateSalvageCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $state) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("salvage-detail");
+        $scope.menutitle = NavigationService.makeactive("Salvage");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.header = {
+            "name": "Edit Salvage "
+        };
+        $scope.userStatus = [{
+            "name": "Active",
+            "value": true
+        }, {
+            "name": "Inactive",
+            "value": false
+        }];
+        $scope.formData = {};
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+        hotkeys.bindTo($scope).add({
+            combo: 'ctrl+enter',
+            callback: function (formData) {
+                NavigationService.salvageSave($scope.formData, function (data) {
+                    if (data.value === true) {
+                        // $state.go('salvage-list');
+                        $window.history.back();
+                    }
+
+                });
+            }
+        });
+        $scope.saveSalvage = function (formData) {
+            NavigationService.salvageSave($scope.formData, function (data) {
+                if (data.value === true) {
+                    // $state.go('salvage-list');
+                    $window.history.back();
+                }
+
+            });
+        };
+    })
+    .controller('EditSalvageCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $state, $stateParams) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("salvage-detail");
+        $scope.menutitle = NavigationService.makeactive("Salvage");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.userStatus = [{
+            "name": "Active",
+            "value": true
+        }, {
+            "name": "Inactive",
+            "value": false
+        }];
+
+        NavigationService.getOneSalvage($stateParams.id, function (data) {
+            $scope.formData = data.data;
+            console.log(data.data);
+
+        });
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+        hotkeys.bindTo($scope).add({
+            combo: 'ctrl+enter',
+            callback: function (formData) {
+                NavigationService.salvageEditSave($scope.formData, function (data) {
+                    if (data.value === true) {
+                        // $state.go('salvage-list');
+                        $window.history.back();
+                    }
+                });
+            }
+        });
+        $scope.saveSalvage = function (formValid) {
+            NavigationService.salvageEditSave($scope.formData, function (data) {
+                if (data.value === true) {
+                    // $state.go('salvage-list');
+                    $window.history.back();
+                }
+            });
+        };
+    })
+    .controller('BankMasterCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("bankmaster-list", $state);
+        $scope.menutitle = NavigationService.makeactive("Bank List");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.currentPage = $stateParams.page;
+        var i = 0;
+        $scope.search = {
+            keyword: ""
+        };
+        if ($stateParams.keyword) {
+            $scope.search.keyword = $stateParams.keyword;
+        }
+        $scope.showAllCountries = function (keywordChange) {
+            $scope.totalItems = undefined;
+            if (keywordChange) {
+                $scope.currentPage = 1;
+            }
+            NavigationService.searchBank({
+                page: $scope.currentPage,
+                keyword: $scope.search.keyword
+            }, ++i, function (data, ini) {
+                console.log(data.data);
+
+                if (ini == i) {
+                    console.log(data.data);
+                    $scope.allBank = data.data.results;
+                    $scope.totalItems = data.data.total;
+                    $scope.maxRow = data.data.options.count;
+                }
+            });
+        };
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+        $scope.changePage = function (page) {
+            var goTo = "bankMaster-list";
+            if ($scope.search.keyword) {
+                goTo = "bankMaster-list";
+            }
+            $state.go(goTo, {
+                page: page,
+                keyword: $scope.search.keyword
+            });
+        };
+        $scope.showAllCountries();
+
+        $scope.deleteBank = function (id) {
+            globalfunction.confDel(function (value) {
+                if (value) {
+                    NavigationService.deleteBank(id, function (data) {
+                        if (data.value) {
+                            $scope.showAllCountries();
+                            toastr.success("Bank deleted successfully.", "Bank deleted");
+                        } else {
+                            toastr.error("There was an error while deleting Bank", "Bank deleting error");
+                        }
+
+
+                    });
+                }
+            });
+        };
+        $scope.changeStatus = function (ind) {
+            NavigationService.bankSave(ind, function (data) {
+                if (data.value === true) {}
+            });
+        };
+    })
+    .controller('CreateBankmasterCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $state, toastr) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("bankMaster-detail");
+        $scope.menutitle = NavigationService.makeactive("Create Bank");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.formData = {};
+        $scope.userStatus = [{
+            "name": "Active",
+            "value": true
+        }, {
+            "name": "Inactive",
+            "value": false
+        }];
+        $scope.header = {
+            "name": "Create Bank Master"
+        };
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+        hotkeys.bindTo($scope).add({
+            combo: 'ctrl+enter',
+            callback: function (formData) {
+                NavigationService.bankSave($scope.formData, function (data) {
+                    if (data.value === true) {
+                        // $state.go('bankMaster-list');
+                        $window.history.back();
+                        toastr.success("Bank " + $scope.formData.name + " created successfully.", "Bank Created");
+                    } else {
+                        toastr.error("Bank creation failed.", "Bank creation error");
+                    }
+                });
+            }
+        });
+        $scope.saveBank = function (formData) {
+            NavigationService.bankSave($scope.formData, function (data) {
+                if (data.value === true) {
+                    // $state.go('bankMaster-list');
+                    $window.history.back();
+                    toastr.success("Bank " + $scope.formData.name + " created successfully.", "Bank Created");
+                } else {
+                    toastr.error("Bank creation failed.", "Bank creation error");
+                }
+            });
+        };
+    })
+    .controller('EditBankmasterCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("bankMaster-detail");
+        $scope.menutitle = NavigationService.makeactive("Edit Bank");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.userStatus = [{
+            "name": "Active",
+            "value": true
+        }, {
+            "name": "Inactive",
+            "value": false
+        }];
+        $scope.header = {
+            "name": "Edit Bank Master"
+        };
+        NavigationService.getOneBank($stateParams.id, function (data) {
+            $scope.formData = data.data;
+            console.log(data.data);
+
+        });
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+        hotkeys.bindTo($scope).add({
+            combo: 'ctrl+enter',
+            callback: function (formData) {
+                NavigationService.bankSave($scope.formData, function (data) {
+                    if (data.value === true) {
+                        // $state.go('bankMaster-list');
+                        $window.history.back();
+                        toastr.success("Bank " + $scope.formData.name + " created successfully.", "Bank Created");
+                    } else {
+                        toastr.error("Bank creation failed.", "Bank creation error");
+                    }
+                });
+            }
+        });
+        $scope.saveBank = function (formValid) {
+            NavigationService.bankSave($scope.formData, function (data) {
+                if (data.value === true) {
+                    // $state.go('bankMaster-list');
+                    $window.history.back();
+                    toastr.success("Bank " + $scope.formData.name + " created successfully.", "Bank Created");
+                } else {
+                    toastr.error("Bank creation failed.", "Bank creation error");
+                }
+            });
+        };
+    })
+    .controller('CreateContactManagementCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $state) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("contactManagement-detail");
+        $scope.menutitle = NavigationService.makeactive("Contact Management");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+    })
+    .controller('ContactManagementCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $state) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("contactManagement-list");
+        $scope.menutitle = NavigationService.makeactive("Contact Management List");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+    })
+    .controller('CreateContactTypeCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $state) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("contactType-detail");
+        $scope.menutitle = NavigationService.makeactive("Contact Type");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+    })
+    .controller('ContactTypeCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $state) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("contactType-list");
+        $scope.menutitle = NavigationService.makeactive("Contact Type List");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+    })
+    .controller('CreateContactTypeOfficeCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $state) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("contactTypeOffice-detail");
+        $scope.menutitle = NavigationService.makeactive("Contact Type of Office Type");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+    })
+    .controller('ContactTypeOfficeCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $state) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("contactTypeOffice-list");
+        $scope.menutitle = NavigationService.makeactive("Contact Type of Office List");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+    })
+    .controller('CompanyCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("company-list", $state);
+        $scope.menutitle = NavigationService.makeactive("List of Companies");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.currentPage = $stateParams.page;
+        var i = 0;
+        $scope.search = {
+            keyword: ""
+        };
+        if ($stateParams.keyword) {
+            $scope.search.keyword = $stateParams.keyword;
+        }
+        $scope.showAllCountries = function (keywordChange) {
+            $scope.totalItems = undefined;
+            if (keywordChange) {
+                $scope.currentPage = 1;
+            }
+            NavigationService.searchCompany({
+                page: $scope.currentPage,
+                keyword: $scope.search.keyword
+            }, ++i, function (data, ini) {
+                console.log(data.data);
+
+                if (ini == i) {
+                    console.log(data.data);
+                    $scope.allCompanies = data.data.results;
+                    $scope.totalItems = data.data.total;
+                    $scope.maxRow = data.data.options.count;
+
+                }
+            });
+        };
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+
+        $scope.changePage = function (page) {
+            var goTo = "state-list";
+            if ($scope.search.keyword) {
+                goTo = "state-list";
+            }
+            $state.go(goTo, {
+                page: page,
+                keyword: $scope.search.keyword
+            });
+        };
+        $scope.showAllCountries();
+
+        $scope.deleteCompany = function (id) {
+            globalfunction.confDel(function (value) {
+                if (value) {
+                    NavigationService.deleteCompany(id, function (data) {
+                        if (data.value) {
+                            $scope.showAllCountries();
+                            toastr.success("Company deleted successfully.", "Company deleted");
+                        } else {
+                            toastr.error("There was an error while deleting Company", "Company deleting error");
+                        }
+
+
+                    });
+                }
+            });
+        };
+
+    })
+    .controller('CreateCompanyCtrl', function (hotkeys, $scope, $window, TemplateService, NavigationService, $timeout, $state, toastr) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("company-detail");
+        $scope.menutitle = NavigationService.makeactive("Create Company");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.userStatus = [{
+            "name": "Active",
+            "value": true
+        }, {
+            "name": "Inactive",
+            "value": false
+        }];
+
+
+        $scope.header = {
+            "name": "Create Company"
+        };
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+        $scope.formData = {};
+        // Ctrl + Enter
+        hotkeys.bindTo($scope).add({
+            combo: 'ctrl+enter',
+            callback: function (formData) {
+                $scope.hideSaveCancel = true;
+                NavigationService.companySave(formData, function (data) {
+                    if (data.value === true) {
+                        // $state.go('company-list');
+                        $window.history.back();
+                        toastr.success("company " + formData.name + " created successfully.", "company Created");
+                    } else {
+                        $scope.hideSaveCancel = false;
+                        toastr.error("company creation failed.", "company creation error");
+                    }
+                });
+            }
+        });
+
+        // 
+        $scope.saveCompany = function (formData) {
+            NavigationService.companySave(formData, function (data) {
+                if (data.value === true) {
+                    // $state.go('company-list');
+                    $window.history.back();
+                    toastr.success("company " + formData.name + " created successfully.", "company Created");
+                } else {
+                    toastr.error("company creation failed.", "company creation error");
+                }
+            });
+        };
+    })
+    .controller('EditCompanyCtrl', function (hotkeys, $scope, $window, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("company-detail");
+        $scope.menutitle = NavigationService.makeactive("Edit Company");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.userStatus = [{
+            "name": "Active",
+            "value": true
+        }, {
+            "name": "Inactive",
+            "value": false
+        }];
+
+        $scope.header = {
+            "name": "Edit Company"
+        };
+        $scope.formData = {};
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+        NavigationService.getOneCompany($stateParams.id, function (data) {
+            $scope.formData = data.data;
+            // $scope.formData.country = data.data.
+            console.log($scope.formData);
+            $scope.formData.country = data.data.city.district.state.zone.country._id;
+            $scope.formData.zone = data.data.city.district.state.zone._id;
+            $scope.formData.state = data.data.city.district.state._id;
+            $scope.formData.district = data.data.city.district._id;
+            $scope.formData.city = data.data.city._id;
+        });
+
+
+        // Ctrl + ENTER
+        hotkeys.bindTo($scope).add({
+            combo: 'ctrl+enter',
+            callback: function (formData) {
+                $scope.hideSaveCancel = true;
+                NavigationService.companySave($scope.formData, function (data) {
+                    if (data.value === true) {
+                        $window.history.back();
+                        toastr.success("Company " + $scope.formData.name + " edited successfully.", "Company Edited");
+                    } else {
+                        $scope.hideSaveCancel = false;
+                        toastr.error("Company edition failed.", "Company editing error");
+                    }
+                });
+            }
+        });
+        // 
+        $scope.saveCompany = function (formValid) {
+            NavigationService.companySave($scope.formData, function (data) {
+                if (data.value === true) {
+                    // $state.go('company-list');
+                    $window.history.back();
+                    toastr.success("Company " + $scope.formData.name + " edited successfully.", "Company Edited");
+                } else {
+                    toastr.error("Company edition failed.", "Company editing error");
+                }
+            });
+        };
+
+    })
+    .controller('CreateDistrictCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("district-detail");
+        $scope.menutitle = NavigationService.makeactive("District");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.formData = {};
+        $scope.header = {
+            "name": "Create District"
+        };
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+        hotkeys.bindTo($scope).add({
+            combo: 'ctrl+enter',
+            callback: function (formData) {
+                NavigationService.districtSave($scope.formData, function (data) {
+                    if (data.value === true) {
+                        $window.history.back();
+                        toastr.success("District " + formData.name + " created successfully.", "District Created");
+                    } else {
+                        toastr.error("District creation failed.", "District creation error");
+                    }
+                });
+            }
+        });
+        $scope.saveDistrict = function (formData) {
+            NavigationService.districtSave($scope.formData, function (data) {
+                if (data.value === true) {
+                    $window.history.back();
+                    toastr.success("District " + formData.name + " created successfully.", "District Created");
+                } else {
+                    toastr.error("District creation failed.", "District creation error");
+                }
+            });
+        };
+    })
+    .controller('EditDistrictCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("district-detail");
+        $scope.menutitle = NavigationService.makeactive("District");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+
+        $scope.header = {
+            "name": "Edit District"
+        };
+
+        NavigationService.getOneDistrict($stateParams.id, function (data) {
+            $scope.formData = data.data;
+            $scope.formData.country = data.data.state.zone.country._id;
+            $scope.formData.zone = data.data.state.zone._id;
+            $scope.formData.state = data.data.state._id;
+        });
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+        hotkeys.bindTo($scope).add({
+            combo: 'ctrl+enter',
+            callback: function (formData) {
+                NavigationService.districtSave($scope.formData, function (data) {
+                    if (data.value === true) {
+                        // $state.go('district-list');
+                        $window.history.back();
+                        toastr.success("District " + $scope.formData.name + " edited successfully.", "District Edited");
+                    } else {
+                        toastr.error("District edition failed.", "District editing error");
+                    }
+                });
+            }
+        });
+        $scope.saveDistrict = function (formValid) {
+            NavigationService.districtSave($scope.formData, function (data) {
+                if (data.value === true) {
+                    // $state.go('district-list');
+                    $window.history.back();
+                    toastr.success("District " + $scope.formData.name + " edited successfully.", "District Edited");
+                } else {
+                    toastr.error("District edition failed.", "District editing error");
+                }
+            });
+        };
+    })
+    .controller('CurrencyCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("currency-list");
+        $scope.menutitle = NavigationService.makeactive("Currency List");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.currentPage = $stateParams.page;
+        var i = 0;
+        $scope.search = {
+            keyword: ""
+        };
+        if ($stateParams.keyword) {
+            $scope.search.keyword = $stateParams.keyword;
+        }
+        $scope.showAllCountries = function (keywordChange) {
+            $scope.totalItems = undefined;
+            if (keywordChange) {
+                $scope.currentPage = 1;
+            }
+            NavigationService.searchCurrency({
+                page: $scope.currentPage,
+                keyword: $scope.search.keyword
+            }, ++i, function (data, ini) {
+                console.log(data.data);
+
+                if (ini == i) {
+                    console.log(data.data);
+                    $scope.allCurrencies = data.data.results;
+                    $scope.totalItems = data.data.total;
+                    $scope.maxRow = data.data.options.count;
+
+                }
+            });
+        };
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+        $scope.changePage = function (page) {
+            var goTo = "zone-list";
+            if ($scope.search.keyword) {
+                goTo = "zone-list";
+            }
+            $state.go(goTo, {
+                page: page,
+                keyword: $scope.search.keyword
+            });
+        };
+        $scope.showAllCountries();
+
+        $scope.deleteCurrency = function (id) {
+            globalfunction.confDel(function (value) {
+                console.log(value);
+                if (value) {
+                    NavigationService.deleteCurrency(id, function (data) {
+                        if (data.value) {
+                            $scope.showAllCountries();
+                            toastr.success("Currency deleted successfully.", "Currency deleted");
+                        } else {
+                            toastr.error("There was an error while deleting Currency", "Currency deleting error");
+                        }
+
+
+                    });
+                }
+            });
+        };
+    })
+    .controller('CreateCurrencyCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $state, toastr) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("currency-detail");
+        $scope.menutitle = NavigationService.makeactive("Currency");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+
+        $scope.header = {
+            "name": "Create Currency"
+        };
+        $scope.formData = {};
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+        hotkeys.bindTo($scope).add({
+            combo: 'ctrl+enter',
+            callback: function (formData) {
+                NavigationService.currencySave($scope.formData, function (data) {
+                    if (data.value === true) {
+                        // $state.go('currency-list');
+                        $window.history.back();
+                        toastr.success("Currency " + $scope.formData.name + " created successfully.", "Currency Created");
+                    } else {
+                        toastr.error("Currency creation failed.", "Currency creation error");
+                    }
+                });
+>>>>>>> 4fa25c0ac276bb0c731cd1882654d5a92461f2d7
             }
             $scope.modalIndex = "";
         }
@@ -11703,6 +14224,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                                 }
                             });
 
+<<<<<<< HEAD
                         }
                         if (data.filename !== "") {
                             console.log("in attach");
@@ -11732,6 +14254,107 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 }
                 break;
         }
+=======
+    // .controller('ApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64) {
+    //     //Used to name the .html file
+    //     $scope.template = TemplateService.changecontent("approvals");
+    //     $scope.menutitle = NavigationService.makeactive("Approvals");
+    //     TemplateService.title = $scope.menutitle;
+    //     $scope.navigation = NavigationService.getnav();
+    //     $scope.someDate = moment().subtract(24, "hours").toDate();
+    //     $scope.getDelayClass = function (val) {
+    //         var retClass = "";
+    //         var hours = moment().diff(moment(val), "hours");
+    //         if (hours >= 0 && hours <= 6) {
+    //             retClass = "delay-6";
+    //         } else if (hours >= 7 && hours <= 24) {
+    //             retClass = "delay-24";
+    //         } else if (hours >= 25 && hours <= 48) {
+    //             retClass = "delay-48";
+    //         } else if (hours >= 49) {
+    //             retClass = "delay-72";
+    //         }
+    //         console.log(retClass);
+    //         return retClass;
+
+    //     };
+
+    // })
+
+    .controller('IlaApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64, $stateParams, $state) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("ila-approval");
+        $scope.menutitle = NavigationService.makeactive("Approvals");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.currentPage = $stateParams.page;
+        var i = 0;
+        $scope.list = [{
+            name: 'ILA',
+            value: 'ILA'
+        }, {
+            name: 'LOR',
+            value: 'LOR'
+        }]
+        $scope.getAll = function (data) {
+            console.log(data);
+            $scope.approvalType = data.value;
+            $scope.showAll();
+        }
+        $scope.search = {
+            keyword: ""
+        };
+        if ($stateParams.keyword) {
+            $scope.search.keyword = $stateParams.keyword;
+        }
+        $scope.approvalType = "ILA";
+        $scope.showAll = function (keywordChange) {
+            $scope.totalItems = undefined;
+            if (keywordChange) {
+                $scope.currentPage = 1;
+            }
+            NavigationService.getApprovalList({
+                page: $scope.currentPage,
+                type: "templateIla"
+            }, ++i, function (data, ini) {
+                if (ini == i) {
+                    $scope.ilaList = data.data.results;
+                    $scope.totalItems = data.data.total;
+                    $scope.maxRow = data.data.options.count;
+                }
+            });
+        };
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+        $scope.changePage = function (page) {
+            console.log("Page", page);
+            var goTo = "ilaApproval-list";
+            if ($scope.search.keyword) {
+                goTo = "ilaApproval-list";
+            }
+            $state.go(goTo, {
+                page: page,
+                keyword: $scope.search.keyword
+            });
+        };
+        $scope.showAll();
+        $scope.someDate = moment().subtract(24, "hours").toDate();
+        $scope.getDelayClass = function (val) {
+            var retClass = "";
+            var hours = moment().diff(moment(val), "hours");
+            if (hours >= 0 && hours <= 6) {
+                retClass = "delay-6";
+            } else if (hours >= 7 && hours <= 24) {
+                retClass = "delay-24";
+            } else if (hours >= 25 && hours <= 48) {
+                retClass = "delay-48";
+            } else if (hours >= 49) {
+                retClass = "delay-72";
+            }
+            console.log(retClass);
+            return retClass;
+>>>>>>> 4fa25c0ac276bb0c731cd1882654d5a92461f2d7
 
     });
     $scope.accessToken = $.jStorage.get("accessToken");
