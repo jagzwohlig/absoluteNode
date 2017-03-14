@@ -520,7 +520,22 @@ var schema = new Schema({
       type: Date,
       default: Date.now
     }
-  }]
+  }],
+  approvalType: {
+    type: String,
+    enum: ["None", "ILA", "LOR"],
+    default: "None"
+  },
+  approvalTime: {
+    type: Date
+  },
+  approvalStatus: {
+    type: String,
+    enum: ["Pending", "Accept", "Reject", "Revise"]
+  },
+  approvalComment: {
+    type: String
+  }
 });
 
 schema.plugin(deepPopulate, {
@@ -890,10 +905,14 @@ var model = {
   editAssignmentTemplate: function (body, callback) {
     var Model = this;
     var timelStatus = body.assignment.timelineStatus;
+    var approvalType = "None";
+    var approvalStatus="Pending";
     if (body.type == "templateIla") {
       timelStatus = "LOR Pending";
+      approvalType = "ILA";
     } else if (body.type == "templateLor") {
       timelStatus = "Dox Pending";
+      approvalType = "LOR";
     }
     var $scope = {};
     var data2 = _.cloneDeep(body);
@@ -917,7 +936,9 @@ var model = {
     setObj[body.type + ".$"] = data2;
     Model.update(findObj, {
       "$set": setObj,
-      timelineStatus: timelStatus
+      timelineStatus: timelStatus,
+      approvalType: approvalType,
+      approvalStatus:approvalStatus
     }, function (err, data3) {
       if (err) {
         callback(err, null);
