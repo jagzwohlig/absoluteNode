@@ -62,10 +62,10 @@
                                     <td><span class="label label-default">{{data.templateIla.timestamp|getHours}}hrs</span></td>
                                     <td>{{data.name}}</td>
                                     <td>ILA</td>
-                                    <td>Owner Name</td>
+                                    <td>{{data.owner.name}}</td>
                                     <td>
-                                        <button class="btn btn-primary" uib-tooltip="Edit &amp; Accept"><i class="fa fa-pencil"></i></button>
-                                        <button class="btn btn-success" uib-tooltip="Accept"><i class="fa fa-check"></i></button>
+                                        <button class="btn btn-primary" uib-tooltip="Edit" ng-click="viewTemplates('ILAs','TemplateIla',data.templateIla)"><i class="fa fa-pencil"></i></button>
+                                        <button class="btn btn-success" uib-tooltip="Accept" ng-click="accept()"><i class="fa fa-check"></i></button>
                                         <button class="btn btn-primary" uib-tooltip="Revise/Comment"><i class="fa fa-reply"></i></button>
                                         <button class="btn btn-danger" uib-tooltip="Reject"><i class="fa fa-times"></i></button>
                                     </td>

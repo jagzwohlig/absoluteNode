@@ -654,7 +654,7 @@ schema.plugin(deepPopulate, {
     'policyType': {
       select: 'name _id'
     },
-    'survey.employee':{
+    'survey.employee': {
       select: 'name _id email mobile'
     }
   }
@@ -2125,6 +2125,18 @@ var model = {
     var type = data.type;
     if (type == "templateIla") {
       aggText = [{
+          $lookup: {
+            from: "employees",
+            localField: "owner",
+            foreignField: "_id",
+            as: "owner"
+          }
+        }, {
+          $unwind: {
+            path: "$owner",
+            preserveNullAndEmptyArrays: true
+          }
+        }, {
           "$unwind": "$" + type
         }, {
           "$match": {
@@ -2136,6 +2148,18 @@ var model = {
           $limit: maxRow
         }],
         aggTextCount = [{
+          $lookup: {
+            from: "employees",
+            localField: "owner",
+            foreignField: "_id",
+            as: "owner"
+          }
+        }, {
+          $unwind: {
+            path: "$owner",
+            preserveNullAndEmptyArrays: true
+          }
+        }, {
           "$unwind": "$" + type
         }, {
           "$match": {
@@ -2156,6 +2180,18 @@ var model = {
         }]
     } else if (type == "templateLor") {
       aggText = [{
+          $lookup: {
+            from: "employees",
+            localField: "owner",
+            foreignField: "_id",
+            as: "owner"
+          }
+        }, {
+          $unwind: {
+            path: "$owner",
+            preserveNullAndEmptyArrays: true
+          }
+        }, {
           "$unwind": "$" + type
         }, {
           "$match": {
@@ -2167,6 +2203,18 @@ var model = {
           $limit: maxRow
         }],
         aggTextCount = [{
+          $lookup: {
+            from: "employees",
+            localField: "owner",
+            foreignField: "_id",
+            as: "owner"
+          }
+        }, {
+          $unwind: {
+            path: "$owner",
+            preserveNullAndEmptyArrays: true
+          }
+        }, {
           "$unwind": "$" + type
         }, {
           "$match": {

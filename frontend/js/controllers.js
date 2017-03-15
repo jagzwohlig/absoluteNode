@@ -10210,7 +10210,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.assignment.templateIsr = [];
         $scope.assignment.templateLor = [];
         $scope.assignment.templateJir = [];
-        $scope.message = {};
+        
         $scope.timeline = {};
         $scope.timeline.attachment = [];
         $scope.message.title = "Sent a new message";
@@ -10346,7 +10346,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.getTimeline = function () {
             NavigationService.getOneModel("Timeline", $scope.assignment.timeline[0], function (data) {
                 $scope.timeline = data.data;
-
             });
         };
 
@@ -10380,9 +10379,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         $scope.message.title = "Created New " + $stateParams.type;
                         $scope.sendMessage("Template");
                         toastr.success("Created " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
-                        $state.go('timeline', {
-                            id: $scope.assignment._id
-                        });
+                        // $state.go('timeline', {
+                        //     id: $scope.assignment._id
+                        // });
+                        $window.history.back();
                     } else {
                         toastr.error("Error occured in Creating " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
                     }
@@ -10402,9 +10402,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         $scope.sendMessage2(_.cloneDeep(a));
                         console.log("YZ", a);
                         toastr.success("Updated " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
-                        $state.go('timeline', {
-                            id: $scope.assignment._id
-                        });
+                        // $state.go('timeline', {
+                        //     id: $scope.assignment._id
+                        // });
+                         $window.history.back();
                     } else {
                         toastr.error("Error occured in Updating " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
                     }
@@ -11052,7 +11053,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                             m.files = n;
                         }
                     });
-                    console.log(assignmentKey);
                 });
                 if ($scope.assignment.natureOfLoss) {
                     $scope.assignment.natureloss = "";
@@ -11767,6 +11767,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     $scope.totalItems = data.data.total;
                     $scope.maxRow = data.data.options.count;
                 }
+                console.log("$scope.ilaList", $scope.ilaList);
             });
         };
         $scope.cancel = function () {
@@ -11784,7 +11785,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
         $scope.showAll();
-        $scope.someDate = moment().subtract(24, "hours").toDate();
+        // $scope.someDate = moment().subtract(24, "hours").toDate();
         $scope.getDelayClass = function (val) {
             var retClass = "";
             var hours = moment().diff(moment(val), "hours");
@@ -11800,6 +11801,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             console.log(retClass);
             return retClass;
 
+        };
+
+        $scope.viewTemplates = function (temp, getApi, data) {
+            $scope.allTemplate = temp;
+            $scope.api = getApi;
+            console.log("$scope.api", $scope.api);
+            console.log("In Else");
+            $state.go("template-view", {
+                "assignmentTemplate": data._id,
+                "type": getApi
+            });
         };
 
     })
