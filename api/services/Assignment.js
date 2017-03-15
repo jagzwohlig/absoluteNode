@@ -537,7 +537,7 @@ var schema = new Schema({
     },
     approvalStatus: {
       type: String,
-      enum: ["Pending", "Approved", "Reject", "Revise"],
+      enum: ["Pending", "Approved", "Rejected", "Revised"],
       default: "Pending"
     }
   }]
@@ -910,6 +910,7 @@ var model = {
       }
     });
   },
+
   editAssignmentTemplate: function (body, callback) {
     var Model = this;
     var timelStatus = body.assignment.timelineStatus;
@@ -2116,6 +2117,7 @@ var model = {
   },
 
   getApprovalList: function (data, callback) {
+    console.log(data);
     var Model = this;
     var maxRow = Config.maxRow;
     var pagestartfrom = (data.page - 1) * maxRow;
@@ -2123,117 +2125,70 @@ var model = {
     var aggText = [];
     var aggTextCount = [];
     var type = data.type;
+    var unwind1 = {};
+    var match1 = {};
+    
     if (type == "templateIla") {
-      aggText = [{
-          $lookup: {
-            from: "employees",
-            localField: "owner",
-            foreignField: "_id",
-            as: "owner"
-          }
-        }, {
-          $unwind: {
-            path: "$owner",
-            preserveNullAndEmptyArrays: true
-          }
-        }, {
-          "$unwind": "$" + type
-        }, {
-          "$match": {
-            "templateIla.approvalStatus": "Pending"
-          }
-        }, {
-          $skip: parseInt(pagestartfrom)
-        }, {
-          $limit: maxRow
-        }],
-        aggTextCount = [{
-          $lookup: {
-            from: "employees",
-            localField: "owner",
-            foreignField: "_id",
-            as: "owner"
-          }
-        }, {
-          $unwind: {
-            path: "$owner",
-            preserveNullAndEmptyArrays: true
-          }
-        }, {
-          "$unwind": "$" + type
-        }, {
-          "$match": {
-            "templateIla.approvalStatus": "Pending"
-          }
-        }, {
-          $group: {
-            _id: null,
-            count: {
-              $sum: 1
-            }
-          }
-        }, {
-          $project: {
-            "_id": 1,
-            "count": 1
-          }
-        }]
+      unwind1 = {
+        "$unwind": "$templateIla"
+      };
+      match1 = {
+        "$match": {
+          "templateIla.approvalStatus": "Pending"
+        }
+      };
     } else if (type == "templateLor") {
-      aggText = [{
-          $lookup: {
-            from: "employees",
-            localField: "owner",
-            foreignField: "_id",
-            as: "owner"
-          }
-        }, {
-          $unwind: {
-            path: "$owner",
-            preserveNullAndEmptyArrays: true
-          }
-        }, {
-          "$unwind": "$" + type
-        }, {
-          "$match": {
-            "templateLor.approvalStatus": "Pending"
-          }
-        }, {
-          $skip: parseInt(pagestartfrom)
-        }, {
-          $limit: maxRow
-        }],
-        aggTextCount = [{
-          $lookup: {
-            from: "employees",
-            localField: "owner",
-            foreignField: "_id",
-            as: "owner"
-          }
-        }, {
-          $unwind: {
-            path: "$owner",
-            preserveNullAndEmptyArrays: true
-          }
-        }, {
-          "$unwind": "$" + type
-        }, {
-          "$match": {
-            "templateLor.approvalStatus": "Pending"
-          }
-        }, {
-          $group: {
-            _id: null,
-            count: {
-              $sum: 1
-            }
-          }
-        }, {
-          $project: {
-            "_id": 1,
-            "count": 1
-          }
-        }]
+      unwind1 = {
+        "$unwind": "$templateLor"
+      };
+      match1 = {
+        "$match": {
+          "templateLor.approvalStatus": "Pending"
+        }
+      };
     }
+    aggText = [{
+        $lookup: {
+          from: "employees",
+          localField: "owner",
+          foreignField: "_id",
+          as: "owner"
+        }
+      }, {
+        $unwind: {
+          path: "$owner",
+          preserveNullAndEmptyArrays: true
+        }
+      }, unwind1, match1, {
+        $skip: parseInt(pagestartfrom)
+      }, {
+        $limit: maxRow
+      }],
+      aggTextCount = [{
+        $lookup: {
+          from: "employees",
+          localField: "owner",
+          foreignField: "_id",
+          as: "owner"
+        }
+      }, {
+        $unwind: {
+          path: "$owner",
+          preserveNullAndEmptyArrays: true
+        }
+      }, unwind1, match1, {
+        $group: {
+          _id: null,
+          count: {
+            $sum: 1
+          }
+        }
+      }, {
+        $project: {
+          "_id": 1,
+          "count": 1
+        }
+      }]
     async.parallel([
         function (callback) {
           Model.aggregate(aggText,
@@ -2281,6 +2236,46 @@ var model = {
           callback(null, data5);
         }
       });
+  },
+  saveTemplate: function (data, callback) {
+    var matchObj = {};
+    var matchObj2 = {};
+    if (data.type == "templateIla") {
+      matchObj = {
+        _id: data.assignId,
+        templateIla: {
+          $elemMatch: {
+            _id: data._id
+          }
+        }
+      };
+      matchObj2 = {
+        $set: {
+          "templateIla.$.approvalStatus": data.approvalStatus
+        }
+      };
+    } else if (data.type == "templateLor") {
+      matchObj = {
+        _id: data.assignId,
+        templateLor: {
+          $elemMatch: {
+            _id: data._id
+          }
+        }
+      };
+      matchObj2 = {
+        $set: {
+          "templateLor.$.approvalStatus": data.approvalStatus
+        }
+      };
+    }
+    Assignment.update(matchObj, matchObj2).exec(function (err, data) {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, data);
+      }
+    });
   },
 
 };
