@@ -10210,7 +10210,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.assignment.templateIsr = [];
         $scope.assignment.templateLor = [];
         $scope.assignment.templateJir = [];
-        
+
         $scope.timeline = {};
         $scope.timeline.attachment = [];
         $scope.message.title = "Sent a new message";
@@ -10405,7 +10405,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         // $state.go('timeline', {
                         //     id: $scope.assignment._id
                         // });
-                         $window.history.back();
+                        $window.history.back();
                     } else {
                         toastr.error("Error occured in Updating " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
                     }
@@ -11726,7 +11726,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     // })
 
-    .controller('IlaApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64, $stateParams, $state) {
+    .controller('IlaApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64, $stateParams, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("ila-approval");
         $scope.menutitle = NavigationService.makeactive("Approvals");
@@ -11734,6 +11734,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.navigation = NavigationService.getnav();
         $scope.currentPage = $stateParams.page;
         var i = 0;
+        NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
+            $scope.employee = data.data._id;
+            console.log("In $scope.ownersId", $scope.employee);
+        });
         $scope.list = [{
             name: 'ILA',
             value: 'ILA'
@@ -11813,6 +11817,29 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 "type": getApi
             });
         };
+        $scope.sendMessage2 = function (type) {
+            $scope.timeline.chat.push(type);
+            NavigationService.saveChat($scope.timeline, function (data) {
+                console.log("FFFFF", data);
+            });
+        };
+
+        $scope.acceptIla = function (assignment) {
+            $scope.assignment = assignment;
+            NavigationService.getOneModel("Timeline", $scope.assignment.timeline[0], function (data) {
+                $scope.timeline = data.data;
+                var a = {};
+                a.title = "ILA " + $scope.assignment.templateIla.templateName + "Approved ";
+                a.type = "Normal",
+                a.employee = $scope.employee,
+                console.log("A", a)
+                // $scope.sendMessage2(_.cloneDeep(a));
+                $scope.sendMessage2(a);
+                toastr.success("Approved ILA for " + $scope.assignment.name);
+                $window.history.back();
+                console.log("Assignment Data", $scope.timeline)
+            });
+        }
 
     })
 
