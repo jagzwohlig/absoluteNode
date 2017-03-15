@@ -616,7 +616,7 @@ schema.plugin(deepPopulate, {
       select: 'name _id'
     },
     'shareWith.persons': {
-      select: 'name _id'
+      select: 'name _id email'
     },
     'insured': {
       select: 'name _id'

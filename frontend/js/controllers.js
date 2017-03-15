@@ -10450,6 +10450,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     $scope.emailersData = function (type, emailData, index) {
         console.log("email Data", emailData);
+        $scope.emailData = {};
         switch (type) {
             case "Acknowledgment":
                 {
@@ -10467,10 +10468,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 {
                     var emails = {
                         name: 'Survey Assigned',
-                        from: $scope.emailData.from,
-                        to: $scope.emailData.to,
-                        subject: "Assignment : " + emailData.assignmentNo + " | Site City : " + $scope.siteCity,
-                        content: "Dear Sir/Madam, Thank you for retaining us to inspect & assess the subject loss. This is to confirm that " + $scope.emailData.surveyorName + " shall be attending this claim. He can be reached on " + $scope.emailData.surveyorNumber + ". Our reference number for this claim would be " + $scope.emailData.assignmentNo + "Should you ever need any support / information / update, please feel at ease to get in touch with me." + " Warm Regards, " + $scope.emailData.ownerName + $scope.emailData.ownerPhone + $scope.emailData.ownerEmail
+                        from: emailData.ownerEmail,
+                        to: emailData.to,
+                        subject: "Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
+                        content: "<p style='font-size: 17px;'>Dear Sir/Madam,</p><p style='font-size: 17px;'>Thank you for retaining us to inspect & assess the subject loss. This is to confirm that " + $scope.emailData.surveyorName + " shall be attending this claim. He can be reached on " + $scope.emailData.surveyorNumber + ". Our reference number for this claim would be " + emailData.assignmentNo + "</p> <p style='font-size: 17px;'>Should you ever need any support / information / update, please feel at ease to get in touch with me.</p><br>" + "<p style='font-size: 17px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail +"</p>"
                     }
                     $scope.emailData = emails;
                 }
@@ -10489,7 +10490,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.search = {
         keyword: ""
     };
-    $scope.sendMail = function (type) {
+    $scope.getMail = function (type) {
         console.log("$stateParams.id", $stateParams.id);
         NavigationService.getOneAssignment({
             _id: $stateParams.id
@@ -10497,6 +10498,24 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             if (ini == i) {
                 var emailData = {};
                 emailData.assignmentNo = data.data.name;
+                emailData.ownerName = data.data.owner.name;
+                emailData.ownerEmail = data.data.owner.email;
+                emailData.ownerPhone = data.data.owner.mobile;
+                emailData.siteCity = data.data.city.name;
+                emailData.to = [];
+                emailData.to.push({
+                    name:data.data.owner.name,
+                    email: data.data.owner.email
+                });
+                _.each(data.data.shareWith,function(values){
+                    emailData.to.push({
+                        name: values.persons.name,
+                        email:values.persons.email
+                    })
+                });
+                // emailData.assignmentNo = data.data.name;
+                // emailData.assignmentNo = data.data.name;
+                // emailData.assignmentNo = data.data.name;
                 $scope.emailersData("Survey Assigned",emailData);
                 console.log("emailers",  $scope.emailData);
                 $scope.results = data;
@@ -10505,7 +10524,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
     };
 
-    $scope.sendMail();
+    $scope.getMail();
 
 
     $scope.saveILA = function (assignment) {
