@@ -10414,908 +10414,1219 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
     })
 
-    .controller('TimelineCtrl', function ($scope, $window, TemplateService, NavigationService, AssignmentTemplate, $timeout, $uibModal, $stateParams, toastr, $filter, $state) {
-        $scope.template = TemplateService.changecontent("timeline");
-        $scope.menutitle = NavigationService.makeactive("Timeline");
-        TemplateService.title = $scope.menutitle;
-        $scope.navigation = NavigationService.getnav();
-        $scope.email = {
-            message: ""
-        };
-        $scope.surveyDate;
-        $scope.getAllSurveyors = [];
-        $scope.finalSurveyors = [];
-        $scope.assignment = {};
-        $scope.emailtos = [{
-            name: 'Mahesh',
-            email: 'mahesh@wohlig.com'
-        }, {
-            name: 'Jagruti',
-            email: 'jagruti@wohlig.com'
-        }, {
-            name: 'Tushar',
-            email: 'tushar@wohlig.com'
-        }, {
-            name: 'Chintan',
-            email: 'chintan@wohlig.com'
-        }, {
-            name: 'Harsh',
-            email: 'harsh@wohlig.com'
-        }, {
-            name: 'Raj',
-            email: 'raj@wohlig.com'
-        }];
+   .controller('TimelineCtrl', function ($scope, $window, TemplateService, NavigationService, AssignmentTemplate, $timeout, $uibModal, $stateParams, toastr, $filter, $state) {
+    $scope.template = TemplateService.changecontent("timeline");
+    $scope.menutitle = NavigationService.makeactive("Timeline");
+    TemplateService.title = $scope.menutitle;
+    $scope.navigation = NavigationService.getnav();
+    $scope.emailData = {};
+    $scope.email = {
+        message: ""
+    };
+    $scope.surveyDate;
+    $scope.getAllSurveyors = [];
+    $scope.finalSurveyors = [];
+    $scope.assignment = {};
+    $scope.emailtos = [{
+        name: 'Mahesh',
+        email: 'mahesh@wohlig.com'
+    }, {
+        name: 'Jagruti',
+        email: 'jagruti@wohlig.com'
+    }, {
+        name: 'Tushar',
+        email: 'tushar@wohlig.com'
+    }, {
+        name: 'Chintan',
+        email: 'chintan@wohlig.com'
+    }, {
+        name: 'Harsh',
+        email: 'harsh@wohlig.com'
+    }, {
+        name: 'Raj',
+        email: 'raj@wohlig.com'
+    }];
 
-        $scope.saveILA = function (assignment) {
 
-            if (!assignment.ilaStatus && assignment.lorStatus) {
-                assignment.timelineStatus = "LOR Pending";
-            } else if (!assignment.ilaStatus && !assignment.lorStatus) {
-                assignment.timelineStatus = "Dox Pending";
-            } else {
-                assignment.timelineStatus = "ILA Pending";
-            }
-            console.log("In ILA", assignment);
-            NavigationService.assignmentSave(assignment, function (data) {
-                $state.go('timeline', {
-                    id: $scope.assignment._id
-                });
-                console.log("Saved Assignment", data);
+    $scope.emailersData = function (type, emailData, index) {
+        console.log("email Data", emailData);
+        switch (type) {
+            case "Acknowledgment":
+                {
+                    var emails = {
+                        name: 'Acknowledgment',
+                        from: $scope.emailData.from,
+                        to: $scope.emailData.to,
+                        subject: "Assignment : " + $scope.emailData.assignmentNo + " | Site City : " + $scope.siteCity,
+                        content: "Dear Sir/Madam, Thank you for retaining us to inspect & assess the subject loss. This is to confirm that " + $scope.emailData.surveyorName + " shall be attending this claim. He can be reached on " + $scope.emailData.surveyorNumber + ". Our reference number for this claim would be " + $scope.emailData.assignmentNo + "Should you ever need any support / information / update, please feel at ease to get in touch with me." + " Warm Regards, " + $scope.emailData.ownerName + $scope.emailData.ownerPhone + $scope.emailData.ownerEmail
+                    }
+                    $scope.emailData = emails;
+                }
+                break;
+            case "Survey Assigned":
+                {
+                    var emails = {
+                        name: 'Survey Assigned',
+                        from: $scope.emailData.from,
+                        to: $scope.emailData.to,
+                        subject: "Assignment : " + emailData.assignmentNo + " | Site City : " + $scope.siteCity,
+                        content: "Dear Sir/Madam, Thank you for retaining us to inspect & assess the subject loss. This is to confirm that " + $scope.emailData.surveyorName + " shall be attending this claim. He can be reached on " + $scope.emailData.surveyorNumber + ". Our reference number for this claim would be " + $scope.emailData.assignmentNo + "Should you ever need any support / information / update, please feel at ease to get in touch with me." + " Warm Regards, " + $scope.emailData.ownerName + $scope.emailData.ownerPhone + $scope.emailData.ownerEmail
+                    }
+                    $scope.emailData = emails;
+                }
+                break;
 
-            });
+            default:
+                {
+                    // $scope.formData.push($scope.newjson);
+                }
+
         }
+        
+    }
 
-        // 1st
-        $scope.saveSurveyDate = function (date) {
-            var formdata = {};
-            $scope.surveyDate = date;
-            formdata.surveyDate = date;
-            formdata._id = $stateParams.id;
-            NavigationService.assignmentSave(formdata, function (data) {
-                console.log("Survey Date Saved", data);
-                $scope.getAssignmentData();
-            });
-        };
-
-        // 2nd
-        $scope.getAssignmentData = function () {
-            console.log("surveyDate", $scope.surveyDate);
-            NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
-                $scope.assignment = data.data;
-                console.log("$scope.assignment", $scope.assignment);
-                NavigationService.getNearestOffice(data.data, function (data) {
-                    $scope.getAllSurveyors = data.data;
-                    console.log("Success On GetNearest Survayer", $scope.getAllSurveyors, data);
-                    var arr = [];
-                    _.each(data.data, function (n) {
-                        var m = {};
-                        m.ForDate = moment(new Date(n.date)).add(5, "hours").add(30, "minutes").format("DD/MM/YYYY"),
-                            m.Email = n.officeEmail,
-                            m._id = n._id,
-                            arr.push(m);
-                    });
-                    console.log("array to pass", arr);
-                    //    Consider Api Reply
-                    NavigationService.thirdPartyApi(arr, function (data) {
-                        console.log("Data OUTPUT", data);
-                    });
-                    $scope.displayFinalSurveyor();
-                });
-
-            });
-        };
-
-        // 3rd
-        $scope.displayFinalSurveyor = function () {
-            console.log("surveyDate", $scope.surveyDate);
-            var arrayOfId = _.cloneDeep($scope.getAllSurveyors);
-            console.log("arrayOfId", arrayOfId);
-            var arrayId = [];
-            _.each(arrayOfId, function (n) {
-                delete n.date,
-                    delete n.officeEmail,
-                    arrayId.push(n._id);
-                NavigationService.getOneModel("Employee", n._id, function (data) {
-                    $scope.finalSurveyors.push(data.data)
-                });
-            });
-        };
-        // Don't Delete
-        //  $scope.displayFinalSurveyor = function () {
-        //     console.log("surveyDate", $scope.surveyDate);
-        //     var arrayOfId = _.cloneDeep($scope.getAllSurveyors);
-        //     console.log("arrayOfId", arrayOfId);
-        //     var arrayId = [];
-        //     _.each(arrayOfId, function (n) {
-        //         delete n.date,
-        //             delete n.officeEmail,
-        //             arrayId.push(n._id);
-        //     });
-        //     console.log("arrayOfId", arrayId);
-        //     NavigationService.getNearerSurveyor2({
-        //         ids: arrayId
-        //     }, function (data) {
-        //         var final = data.data;
-        //         console.log("Final Data", data, final)
-        //         $scope.finalSurveyors = final;
-        //     });
-        // };
-
-        $scope.updateEmployeeAssignment = function (empId) {
-            var emp = {};
-            emp.assignment = {
-                assignment: $stateParams.id
-            };
-            emp._id = empId;
-            console.log("Employee", emp);
-            NavigationService.saveEmployeeAssignment(emp, function (data) {
-                console.log("Success On Save EmployeeAssignment", data);
-            });
-        };
-        $scope.updateAssignmentEmployee = function (empId) {
-            var assignment = {};
-            assignment._id = $stateParams.id,
-                assignment.survey = {
-                    employee: empId
-                }
-
-            console.log("Assignment Survey", assignment);
-            NavigationService.updateSurveyor(assignment, function (data) {
-                console.log("Success Assignment Survey", data);
-            });
-
-        };
-        $scope.surveyorAssigned = false;
-        $scope.afterSurveyAssign = function (employee) {
-            console.log("BEFORE", $scope.message.employee, $scope.message.title);
-            $scope.message.employee = employee;
-            $scope.message.title = "Assigned To";
-            console.log("AFTER", $scope.message.employee, $scope.message.title);
-
-            $scope.surveyorAssigned = true;
-            $scope.modalInstance.close();
-            $timeout(function () {
-                $scope.sendMessage("Normal");
-                $state.reload();
-            }, 1000);
-        };
-
-        $scope.tinymceModel = 'Initial content';
-        $scope.tinymceOptions = {
-            plugins: 'link image code',
-            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
-        };
-        $scope.repeat = _.times(20, Number);
-        $scope.assignSurveyor = function () {
-            $scope.modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/modal-assign-surveyor.html',
-                size: 'lg'
-            });
-        };
-        $scope.markActivity = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/mark-activity.html',
-                size: 'lg'
-            });
-        };
-        $scope.newAssessment = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/new-assessment.html',
-                size: 'md'
-            });
-        };
-        $scope.viewStaff = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/staff-rating.html',
-                size: 'lg'
-            });
-        };
-        $scope.viewSurveyor = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/surveyor-rating.html',
-                size: 'lg'
-            });
-        };
-        $scope.viewClient = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/client-rating.html',
-                size: 'lg'
-            });
-        };
-        $scope.viewPhotos = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/new-photos.html',
-                size: 'md'
-            });
-        };
-        $scope.viewILA = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/new-ila.html',
-                size: 'md'
-            });
-        };
-        $scope.viewFSR = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/new-fsr.html',
-                size: 'md'
-            });
-        };
-        $scope.viewFiles = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/other-file.html',
-                size: 'md'
-            });
-        };
-        $scope.viewImages = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/upload-image.html',
-                size: 'md'
-            });
-        };
-        $scope.viewDocs = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/upload-document.html',
-                size: 'md'
-            });
-        };
-        $scope.viewISR = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/new-isr.html',
-                size: 'md'
-            });
-        };
-        $scope.viewLOR = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/new-lor.html',
-                size: 'md'
-            });
-        };
-
-        $scope.allAssessment = function (check) {
-            $scope.showCreate = check;
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/assessment.html',
-                size: 'md'
-            });
-        };
-
-        $scope.newEmail = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/modal-email.html',
-                size: 'lg'
-            });
-        };
-        $scope.newInvoice = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/invoice.html',
-                size: 'md'
-            });
-        };
-
-        $scope.newMessage = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/modal-message.html',
-                size: 'lg'
-            });
-        };
-        $scope.transfer = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/transfer.html',
-                size: 'lg'
-            });
-        };
-        $scope.viewJIR = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/new-jir.html',
-                size: 'md'
-            });
-        };
-        var validSurveyor = false;
-        $scope.assignmentSurvey = function () {
-            _.each($scope.assignment.survey, function (n, key) {
-                if (n.status === "Pending" && n.employee === $scope.employee._id) {
-                    $scope.offlineSurvey.surveyId = n._id;
-                    validSurveyor = true;
-                }
-            });
-            if (validSurveyor) {
-                var modalInstance = $uibModal.open({
-                    scope: $scope,
-                    templateUrl: '/frontend/views/modal/assignment-survey.html',
-                    size: 'lg'
-                });
-                validSurveyor = false;
-            } else {
-                toastr.error("Invalid Surveyor");
+    var i = 0;
+    $scope.search = {
+        keyword: ""
+    };
+    $scope.sendMail = function (type) {
+        console.log("$stateParams.id", $stateParams.id);
+        NavigationService.getOneAssignment({
+            _id: $stateParams.id
+        }, ++i, function (data, ini) {
+            if (ini == i) {
+                var emailData = {};
+                emailData.assignmentNo = data.data.name;
+                $scope.emailersData("Survey Assigned",emailData);
+                console.log("emailers",  $scope.emailData);
+                $scope.results = data;
+                console.log("data.results", $scope.results);
             }
+        });
+    };
+
+    $scope.sendMail();
+
+
+    $scope.saveILA = function (assignment) {
+
+        if (!assignment.ilaStatus && assignment.lorStatus) {
+            assignment.timelineStatus = "LOR Pending";
+        } else if (!assignment.ilaStatus && !assignment.lorStatus) {
+            assignment.timelineStatus = "Dox Pending";
+        } else {
+            assignment.timelineStatus = "ILA Pending";
+        }
+        console.log("In ILA", assignment);
+        NavigationService.assignmentSave(assignment, function (data) {
+            $state.go('timeline', {
+                id: $scope.assignment._id
+            });
+            console.log("Saved Assignment", data);
+
+        });
+    }
+
+    // 1st
+    $scope.saveSurveyDate = function (date) {
+        var formdata = {};
+        $scope.surveyDate = date;
+        formdata.surveyDate = date;
+        formdata._id = $stateParams.id;
+        NavigationService.assignmentSave(formdata, function (data) {
+            console.log("Survey Date Saved", data);
+            $scope.getAssignmentData();
+        });
+    };
+
+    // 2nd
+    $scope.getAssignmentData = function () {
+        console.log("surveyDate", $scope.surveyDate);
+        NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
+            $scope.assignment = data.data;
+            console.log("$scope.assignment", $scope.assignment);
+            NavigationService.getNearestOffice(data.data, function (data) {
+                $scope.getAllSurveyors = data.data;
+                console.log("Success On GetNearest Survayer", $scope.getAllSurveyors, data);
+                var arr = [];
+                _.each(data.data, function (n) {
+                    var m = {};
+                    m.ForDate = moment(new Date(n.date)).add(5, "hours").add(30, "minutes").format("DD/MM/YYYY"),
+                        m.Email = n.officeEmail,
+                        m._id = n._id,
+                        arr.push(m);
+                });
+                console.log("array to pass", arr);
+                //    Consider Api Reply
+                NavigationService.thirdPartyApi(arr, function (data) {
+                    console.log("Data OUTPUT", data);
+                });
+                $scope.displayFinalSurveyor();
+            });
+
+        });
+    };
+
+    // 3rd
+    $scope.displayFinalSurveyor = function () {
+        console.log("surveyDate", $scope.surveyDate);
+        var arrayOfId = _.cloneDeep($scope.getAllSurveyors);
+        console.log("arrayOfId", arrayOfId);
+        var arrayId = [];
+        _.each(arrayOfId, function (n) {
+            delete n.date,
+                delete n.officeEmail,
+                arrayId.push(n._id);
+            NavigationService.getOneModel("Employee", n._id, function (data) {
+                $scope.finalSurveyors.push(data.data)
+            });
+        });
+    };
+    // Don't Delete
+    //  $scope.displayFinalSurveyor = function () {
+    //     console.log("surveyDate", $scope.surveyDate);
+    //     var arrayOfId = _.cloneDeep($scope.getAllSurveyors);
+    //     console.log("arrayOfId", arrayOfId);
+    //     var arrayId = [];
+    //     _.each(arrayOfId, function (n) {
+    //         delete n.date,
+    //             delete n.officeEmail,
+    //             arrayId.push(n._id);
+    //     });
+    //     console.log("arrayOfId", arrayId);
+    //     NavigationService.getNearerSurveyor2({
+    //         ids: arrayId
+    //     }, function (data) {
+    //         var final = data.data;
+    //         console.log("Final Data", data, final)
+    //         $scope.finalSurveyors = final;
+    //     });
+    // };
+
+    $scope.updateEmployeeAssignment = function (empId) {
+        var emp = {};
+        emp.assignment = {
+            assignment: $stateParams.id
         };
-        $scope.assignmentSurveyForm = function () {
+        emp._id = empId;
+        console.log("Employee", emp);
+        NavigationService.saveEmployeeAssignment(emp, function (data) {
+            console.log("Success On Save EmployeeAssignment", data);
+        });
+    };
+    $scope.updateAssignmentEmployee = function (empId) {
+        var assignment = {};
+        assignment._id = $stateParams.id,
+            assignment.survey = {
+                employee: empId
+            }
+
+        console.log("Assignment Survey", assignment);
+        NavigationService.updateSurveyor(assignment, function (data) {
+            console.log("Success Assignment Survey", data);
+        });
+
+    };
+    $scope.surveyorAssigned = false;
+    $scope.afterSurveyAssign = function (employee) {
+        console.log("BEFORE", $scope.message.employee, $scope.message.title);
+        $scope.message.employee = employee;
+        $scope.message.title = "Assigned To";
+        console.log("AFTER", $scope.message.employee, $scope.message.title);
+
+        $scope.surveyorAssigned = true;
+        $scope.modalInstance.close();
+        $timeout(function () {
+            $scope.sendMessage("Normal");
+            $state.reload();
+        }, 1000);
+    };
+
+    $scope.tinymceModel = 'Initial content';
+    $scope.tinymceOptions = {
+        plugins: 'link image code',
+        toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
+    };
+    $scope.repeat = _.times(20, Number);
+    $scope.assignSurveyor = function () {
+        $scope.modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/modal-assign-surveyor.html',
+            size: 'lg'
+        });
+    };
+    $scope.markActivity = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/mark-activity.html',
+            size: 'lg'
+        });
+    };
+    $scope.newAssessment = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/new-assessment.html',
+            size: 'md'
+        });
+    };
+    $scope.viewStaff = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/staff-rating.html',
+            size: 'lg'
+        });
+    };
+    $scope.viewSurveyor = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/surveyor-rating.html',
+            size: 'lg'
+        });
+    };
+    $scope.viewClient = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/client-rating.html',
+            size: 'lg'
+        });
+    };
+    $scope.viewPhotos = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/new-photos.html',
+            size: 'md'
+        });
+    };
+    $scope.viewILA = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/new-ila.html',
+            size: 'md'
+        });
+    };
+    $scope.viewFSR = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/new-fsr.html',
+            size: 'md'
+        });
+    };
+    $scope.viewFiles = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/other-file.html',
+            size: 'md'
+        });
+    };
+    $scope.viewImages = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/upload-image.html',
+            size: 'md'
+        });
+    };
+    $scope.viewDocs = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/upload-document.html',
+            size: 'md'
+        });
+    };
+    $scope.viewISR = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/new-isr.html',
+            size: 'md'
+        });
+    };
+    $scope.viewLOR = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/new-lor.html',
+            size: 'md'
+        });
+    };
+
+    $scope.allAssessment = function (check) {
+        $scope.showCreate = check;
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/assessment.html',
+            size: 'md'
+        });
+    };
+
+    $scope.newEmail = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/modal-email.html',
+            size: 'lg'
+        });
+    };
+    $scope.newInvoice = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/invoice.html',
+            size: 'md'
+        });
+    };
+
+    $scope.newMessage = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/modal-message.html',
+            size: 'lg'
+        });
+    };
+    $scope.transfer = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/transfer.html',
+            size: 'lg'
+        });
+    };
+    $scope.viewJIR = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/new-jir.html',
+            size: 'md'
+        });
+    };
+    var validSurveyor = false;
+    $scope.assignmentSurvey = function () {
+        _.each($scope.assignment.survey, function (n, key) {
+            if (n.status === "Pending" && n.employee === $scope.employee._id) {
+                $scope.offlineSurvey.surveyId = n._id;
+                validSurveyor = true;
+            }
+        });
+        if (validSurveyor) {
             var modalInstance = $uibModal.open({
                 scope: $scope,
-                templateUrl: '/frontend/views/modal/survey-form.html',
-                size: 'sm'
+                templateUrl: '/frontend/views/modal/assignment-survey.html',
+                size: 'lg'
             });
-        };
-        $scope.checker = 1;
+            validSurveyor = false;
+        } else {
+            toastr.error("Invalid Surveyor");
+        }
+    };
+    $scope.assignmentSurveyForm = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/survey-form.html',
+            size: 'sm'
+        });
+    };
+    $scope.checker = 1;
+    $scope.offlineSurvey = {};
+    $scope.offlineSurvey.photos = [];
+    $scope.offlineSurvey.jir = [];
+    $scope.offlineSurvey.doc = [];
+
+    $scope.clearOfflineSurvey = function () {
         $scope.offlineSurvey = {};
         $scope.offlineSurvey.photos = [];
         $scope.offlineSurvey.jir = [];
         $scope.offlineSurvey.doc = [];
+    };
 
-        $scope.clearOfflineSurvey = function () {
-            $scope.offlineSurvey = {};
-            $scope.offlineSurvey.photos = [];
-            $scope.offlineSurvey.jir = [];
-            $scope.offlineSurvey.doc = [];
-        };
-
-        $scope.submitSurvey = function (data) {
-            console.log("Data Of Survey", data);
-            $scope.offlineSurvey.startTime = data.startTime;
-            $scope.offlineSurvey.endTime = data.endTime;
-            $scope.offlineSurvey.address = data.address;
-            $scope.offlineSurvey.surveyDate = data.surveyDate;
-            $scope.offlineSurvey.assignId = $stateParams.id;
-            $scope.offlineSurvey.empId = $scope.employee._id;
-            NavigationService.mobileSubmit($scope.offlineSurvey, function (data) {
-                console.log("Success Assignment Survey", data);
-            });
-            toastr.success($scope.assignment.name + "Survey Done");
-            $scope.offlineSurvey = {};
-            $scope.offlineSurvey.photos = [];
-            $scope.offlineSurvey.jir = [];
-            $scope.offlineSurvey.doc = [];
-        };
-        $scope.PhotoUploadCallback = function (data, length) {
-            console.log("Photo Data", data, length);
-            if ($scope.checker === length) {
-                var n = {};
-                n.file = data;
-                n.fileName = Date.now();
-                $scope.offlineSurvey.photos.push(n);
-                $scope.checker = 1;
-            } else {
-                var n = {};
-                n.file = data;
-                n.fileName = Date.now();
-                $scope.offlineSurvey.photos.push(n);
-                $scope.checker++;
-            }
-        };
-        $scope.JirUploadCallback = function (data, length) {
-            console.log("Jir Data", data, length);
-            if ($scope.checker === length) {
-                var n = {};
-                n.file = data;
-                n.fileName = Date.now();
-                $scope.offlineSurvey.jir.push(n);
-                $scope.checker = 1;
-            } else {
-                var n = {};
-                n.file = data;
-                n.fileName = Date.now();
-                $scope.offlineSurvey.jir.push(n);
-                $scope.checker++;
-            }
-        };
-        $scope.DocsUploadCallback = function (data, length) {
-            console.log("Docs Data", data, length);
-            if ($scope.checker === length) {
-                var n = {};
-                n.file = data;
-                n.fileName = Date.now();
-                $scope.offlineSurvey.doc.push(n);
-                $scope.checker = 1;
-            } else {
-                var n = {};
-                n.file = data;
-                n.fileName = Date.now();
-                $scope.offlineSurvey.doc.push(n);
-                $scope.checker++;
-            }
-        };
-        // $scope.viewJIR = function () {
-        //     var modalInstance = $uibModal.open({
-        //         scope: $scope,
-        //         templateUrl: '/frontend/views/modal/modal-files.html',
-        //         size: 'md'
-        //     });
-        // };
-
-
-        var modalInstance = function () {};
-        $scope.allTemplate = "";
-        $scope.saveAssignmentTemplate = function (name, temp) {
-            console.log(temp);
-            NavigationService.modelSave('assignment', temp, function (data) {
-                if (data.value === true) {
-                    $scope.message.title = name + " Deleted.";
-                    $scope.sendMessage("Normal");
-                    toastr.success($scope.assignment.name + " Updated", "Assignment " + $scope.assignment.name);
-                } else {
-                    toastr.error("Error in updating " + $scope.assignment.name + ".", "Assignment " + $scope.assignment.name);
-                }
-            });
-        };
-        $scope.deleteTemplate = function (type, index) {
-            $scope.assignment[type].splice(index, 1);
-            var newAssignment = {
-                "_id": $scope.assignment._id
-            };
-            newAssignment[type] = $scope.assignment[type];
-            $scope.saveAssignmentTemplate(type, newAssignment);
-        };
-        $scope.createTemplate = function (tmp) {
-            console.log("In createTemplate", tmp);
-            delete tmp._id;
-            if ($scope.api === "TemplateInvoice") {
-                var newObj = {};
-
-                $scope.assignment[_.camelCase($scope.api)].push(tmp);
-            } else {
-                $scope.assignment[_.camelCase($scope.api)].push(tmp);
-            }
-
-            NavigationService.modelSave("Assignment", $scope.assignment, function (data) {
-                if (data.value) {
-                    toastr.success("Created " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
-                    $scope.assignmentRefresh();
-                } else {
-                    toastr.error("Error occured in Creating " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
-                }
-            });
-        }
-        $scope.transferAssignment = function (modelData) {
-            console.log("modelData , assignment", modelData, $scope.assignment);
-            $scope.assignment.owner = modelData.owner;
-            NavigationService.modelSave("Assignment", $scope.assignment, function (data) {
-                if (data.value === true) {
-                    NavigationService.getOneModel("Employee", modelData.owner, function (data) {
-                        var transferEmployee = data.data;
-                        $scope.message.title = "Transfered To " + transferEmployee.name;
-                        $scope.sendMessage("Normal")
-                    });
-                } else {
-                    toastr.error("Error occured in Transfering ");
-                }
-            });
-        };
-        $scope.viewTemplates = function (temp, getApi, data) {
-            $scope.allTemplate = temp;
-            $scope.api = getApi;
-            console.log("$scope.api", $scope.api);
-            if (data === "") {
-                console.log("In If");
-                NavigationService.searchModel(getApi, {
-                    page: "1",
-                    keyword: ""
-                }, "", function (data) {
-                    $scope.templateList = data.data.results;
-                });
-                var modalInstance = $uibModal.open({
-                    scope: $scope,
-                    templateUrl: '/frontend/views/modal/modal-template.html',
-                    size: 'md'
-                });
-            } else {
-                console.log("In Else");
-                $state.go("template-view", {
-                    "assignmentTemplate": data._id,
-                    "type": getApi
-                });
-            }
-        };
-        $scope.viewInvoice = function (assignment, invoice) {
-            if (invoice === '') {
-                $state.go("createInvoice", {
-                    "invoiceId": invoice._id,
-                    "assignmentId": assignment._id,
-                    "type": "InvoiceExpenditure"
-                });
-            } else {
-                $state.go("editInvoice", {
-                    "invoiceId": invoice._id,
-                    "assignmentId": assignment._id,
-                    "type": "InvoiceExpenditure"
-                });
-            }
-        };
-
-        $scope.templateAttachment = function (attachment) {
-            console.log(attachment);
-            $state.go("template-view", attachment[0].url);
-        };
-
-        $scope.files = [{
-            name: "JIR",
-            type: "templateJir",
-            count: 2,
-            files: []
-        }, {
-            name: "ILA",
-            type: "templateIla",
-            count: 0,
-            files: []
-        }, {
-            name: "ISR",
-            type: "templateIsr",
-            count: 0,
-            files: []
-        }, {
-            name: "LOR",
-            type: "templateLor",
-            count: 0,
-            files: []
-        }, {
-            name: "Assesments",
-            type: "assessment",
-            count: 0,
-            files: []
-        }, {
-            name: "FSR",
-            type: "",
-            count: 0,
-            files: []
-        }, {
-            name: "Invoice",
-            type: "",
-            count: 0,
-            files: []
-        }, {
-            name: "Documents",
-            type: "docs",
-            count: 0,
-            files: []
-        }, {
-            name: "Photos",
-            type: "photos",
-            count: 0,
-            files: []
-        }, {
-            name: "Total Attachments",
-            count: 2,
-            files: []
-        }];
-
-
-        //  INTEGRATION STARTS
-        $scope.assignment = {};
-        $scope.message = {};
-        $scope.message.employee = "";
-        $scope.timeline = {};
-        console.log(new Date());
-        $scope.message.title = "Sent a new message";
-        $scope.assessment = {};
-        $scope.doc = {};
-        $scope.photo = {};
-        $scope.showCreate = false;
-        $scope.showCreateTrue = function () {
-            $scope.showCreate = true;
-        }
-        NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
-            // NavigationService.getOneModel("User", $.jStorage.get("profile")._id, function (data) {
-            $scope.employee = data.data;
-            $scope.message.employee = data.data;
-            console.log("In Employee", $scope.employee, data);
-            $scope.assessment.employee = $scope.employee.employee;
-            $scope.photo.employee = $scope.employee.employee;
-            $scope.doc.employee = $scope.employee.employee;
+    $scope.submitSurvey = function (data) {
+        console.log("Data Of Survey", data);
+        $scope.offlineSurvey.startTime = data.startTime;
+        $scope.offlineSurvey.endTime = data.endTime;
+        $scope.offlineSurvey.address = data.address;
+        $scope.offlineSurvey.surveyDate = data.surveyDate;
+        $scope.offlineSurvey.assignId = $stateParams.id;
+        $scope.offlineSurvey.empId = $scope.employee._id;
+        NavigationService.mobileSubmit($scope.offlineSurvey, function (data) {
+            console.log("Success Assignment Survey", data);
         });
-        $scope.getTimeline = function () {
-            NavigationService.getOneModel("Timeline", $scope.timelineID, function (data) {
-                $scope.timeline = data.data;
-                console.log("ABCD", data.data, $scope.timelineID);
-            });
+        toastr.success($scope.assignment.name + "Survey Done");
+        $scope.offlineSurvey = {};
+        $scope.offlineSurvey.photos = [];
+        $scope.offlineSurvey.jir = [];
+        $scope.offlineSurvey.doc = [];
+    };
+    $scope.PhotoUploadCallback = function (data, length) {
+        console.log("Photo Data", data, length);
+        if ($scope.checker === length) {
+            var n = {};
+            n.file = data;
+            n.fileName = Date.now();
+            $scope.offlineSurvey.photos.push(n);
+            $scope.checker = 1;
+        } else {
+            var n = {};
+            n.file = data;
+            n.fileName = Date.now();
+            $scope.offlineSurvey.photos.push(n);
+            $scope.checker++;
+        }
+    };
+    $scope.JirUploadCallback = function (data, length) {
+        console.log("Jir Data", data, length);
+        if ($scope.checker === length) {
+            var n = {};
+            n.file = data;
+            n.fileName = Date.now();
+            $scope.offlineSurvey.jir.push(n);
+            $scope.checker = 1;
+        } else {
+            var n = {};
+            n.file = data;
+            n.fileName = Date.now();
+            $scope.offlineSurvey.jir.push(n);
+            $scope.checker++;
+        }
+    };
+    $scope.DocsUploadCallback = function (data, length) {
+        console.log("Docs Data", data, length);
+        if ($scope.checker === length) {
+            var n = {};
+            n.file = data;
+            n.fileName = Date.now();
+            $scope.offlineSurvey.doc.push(n);
+            $scope.checker = 1;
+        } else {
+            var n = {};
+            n.file = data;
+            n.fileName = Date.now();
+            $scope.offlineSurvey.doc.push(n);
+            $scope.checker++;
+        }
+    };
+    // $scope.viewJIR = function () {
+    //     var modalInstance = $uibModal.open({
+    //         scope: $scope,
+    //         templateUrl: '/frontend/views/modal/modal-files.html',
+    //         size: 'md'
+    //     });
+    // };
+
+
+    var modalInstance = function () {};
+    $scope.allTemplate = "";
+    $scope.saveAssignmentTemplate = function (name, temp) {
+        console.log(temp);
+        NavigationService.modelSave('assignment', temp, function (data) {
+            if (data.value === true) {
+                $scope.message.title = name + " Deleted.";
+                $scope.sendMessage("Normal");
+                toastr.success($scope.assignment.name + " Updated", "Assignment " + $scope.assignment.name);
+            } else {
+                toastr.error("Error in updating " + $scope.assignment.name + ".", "Assignment " + $scope.assignment.name);
+            }
+        });
+    };
+    $scope.deleteTemplate = function (type, index) {
+        $scope.assignment[type].splice(index, 1);
+        var newAssignment = {
+            "_id": $scope.assignment._id
         };
-        $scope.sendMessage = function (type) {
-            console.log("ABC", $scope.timeline);
-            $scope.message.type = type;
-            $scope.timeline.chat.push($scope.message);
-            NavigationService.saveChat($scope.timeline, function (data) {
-                console.log("FFFFF", data);
-                $scope.getTimeline();
-            });
-        };
-        $scope.sendMessageFromPhoto = function (type) {
-            $scope.timeline.chat.push(type);
-            NavigationService.saveChat($scope.timeline, function (data) {
-                console.log("FFFFF", data);
-                $scope.getTimeline();
-            });
-        };
-        $scope.assignmentRefresh = function () {
-            NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
-                $scope.assignment = data.data;
-                _.each($scope.assignment, function (n, assignmentKey) {
-                    // console.log("assignment for template");
-                    _.each($scope.files, function (m, filesKey) {
-                        if (assignmentKey === m.type) {
-                            m.files = n;
-                        }
-                    });
+        newAssignment[type] = $scope.assignment[type];
+        $scope.saveAssignmentTemplate(type, newAssignment);
+    };
+    $scope.createTemplate = function (tmp) {
+        console.log("In createTemplate", tmp);
+        delete tmp._id;
+        if ($scope.api === "TemplateInvoice") {
+            var newObj = {};
+
+            $scope.assignment[_.camelCase($scope.api)].push(tmp);
+        } else {
+            $scope.assignment[_.camelCase($scope.api)].push(tmp);
+        }
+
+        NavigationService.modelSave("Assignment", $scope.assignment, function (data) {
+            if (data.value) {
+                toastr.success("Created " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
+                $scope.assignmentRefresh();
+            } else {
+                toastr.error("Error occured in Creating " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
+            }
+        });
+    }
+    $scope.transferAssignment = function (modelData) {
+        console.log("modelData , assignment", modelData, $scope.assignment);
+        $scope.assignment.owner = modelData.owner;
+        NavigationService.modelSave("Assignment", $scope.assignment, function (data) {
+            if (data.value === true) {
+                NavigationService.getOneModel("Employee", modelData.owner, function (data) {
+                    var transferEmployee = data.data;
+                    $scope.message.title = "Transfered To " + transferEmployee.name;
+                    $scope.sendMessage("Normal")
                 });
-                if ($scope.assignment.natureOfLoss) {
-                    $scope.assignment.natureloss = "";
-                }
-                if (data.data.timeline && data.data.timeline[0]) {
-                    console.log("in if");
-                    $scope.timelineID = data.data.timeline[0];
-                    $scope.getTimeline();
-                } else {
-                    console.log("in else");
-                    NavigationService.createTimeline(data.data._id, function (data) {
-                        NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
-                            $scope.timelineID = data.data.timeline[0];
-                            $scope.getTimeline();
-                        });
-                    });
-                }
+            } else {
+                toastr.error("Error occured in Transfering ");
+            }
+        });
+    };
+    $scope.viewTemplates = function (temp, getApi, data) {
+        $scope.allTemplate = temp;
+        $scope.api = getApi;
+        console.log("$scope.api", $scope.api);
+        if (data === "") {
+            console.log("In If");
+            NavigationService.searchModel(getApi, {
+                page: "1",
+                keyword: ""
+            }, "", function (data) {
+                $scope.templateList = data.data.results;
+            });
+            var modalInstance = $uibModal.open({
+                scope: $scope,
+                templateUrl: '/frontend/views/modal/modal-template.html',
+                size: 'md'
+            });
+        } else {
+            console.log("In Else");
+            $state.go("template-view", {
+                "assignmentTemplate": data._id,
+                "type": getApi
             });
         }
-        $scope.assignmentRefresh();
-
-        //  send email
-        $scope.sendEmail = function (modalForm) {
-
-            $scope.msgSend = "Sending..";
-            $scope.newTo = angular.copy($scope.email);
-            $scope.newTo.to = [];
-            _.each($scope.email.to, function (n) {
-                $scope.newTo.to.push(n.email);
+    };
+    $scope.viewInvoice = function (assignment, invoice) {
+        if (invoice === '') {
+            $state.go("createInvoice", {
+                "invoiceId": invoice._id,
+                "assignmentId": assignment._id,
+                "type": "InvoiceExpenditure"
             });
-            $scope.newTo.cc = [];
-            _.each($scope.email.cc, function (n) {
-                $scope.newTo.cc.push(n.email);
+        } else {
+            $state.go("editInvoice", {
+                "invoiceId": invoice._id,
+                "assignmentId": assignment._id,
+                "type": "InvoiceExpenditure"
             });
-            $scope.newTo.bcc = [];
-            _.each($scope.email.bcc, function (n) {
-                $scope.newTo.bcc.push(n.email);
-            });
-            $scope.newTo.to = $scope.newTo.to.join();
-            $scope.newTo.cc = $scope.newTo.cc.join();
-            $scope.newTo.bcc = $scope.newTo.bcc.join();
-            console.log($scope.newTo);
-            NavigationService.sendEmail($scope.newTo, function (data) {
-                console.log(data);
-                if (data.value) {
-                    if (data.data.error) {
+        }
+    };
 
-                        toastr.error(data.data.error.code + " Code " + data.data.error.message, "Send email.");
-                    } else {
-                        $scope.message.email = $scope.newTo;
-                        $scope.message.email.response = data;
-                        $scope.sendMessage("Email");
-                        toastr.success("Your message has been send.", "Send email.");
-                        $timeout(function () {
-                            modalInstance.close();
-                        }, 1000);
+    $scope.templateAttachment = function (attachment) {
+        console.log(attachment);
+        $state.go("template-view", attachment[0].url);
+    };
+
+    $scope.files = [{
+        name: "JIR",
+        type: "templateJir",
+        count: 2,
+        files: []
+    }, {
+        name: "ILA",
+        type: "templateIla",
+        count: 0,
+        files: []
+    }, {
+        name: "ISR",
+        type: "templateIsr",
+        count: 0,
+        files: []
+    }, {
+        name: "LOR",
+        type: "templateLor",
+        count: 0,
+        files: []
+    }, {
+        name: "Assesments",
+        type: "assessment",
+        count: 0,
+        files: []
+    }, {
+        name: "FSR",
+        type: "",
+        count: 0,
+        files: []
+    }, {
+        name: "Invoice",
+        type: "",
+        count: 0,
+        files: []
+    }, {
+        name: "Documents",
+        type: "docs",
+        count: 0,
+        files: []
+    }, {
+        name: "Photos",
+        type: "photos",
+        count: 0,
+        files: []
+    }, {
+        name: "Total Attachments",
+        count: 2,
+        files: []
+    }];
+
+
+    //  INTEGRATION STARTS
+    $scope.assignment = {};
+    $scope.message = {};
+    $scope.message.employee = "";
+    $scope.timeline = {};
+    console.log(new Date());
+    $scope.message.title = "Sent a new message";
+    $scope.assessment = {};
+    $scope.doc = {};
+    $scope.photo = {};
+    $scope.showCreate = false;
+    $scope.showCreateTrue = function () {
+        $scope.showCreate = true;
+    }
+    NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
+        // NavigationService.getOneModel("User", $.jStorage.get("profile")._id, function (data) {
+        $scope.employee = data.data;
+        $scope.message.employee = data.data;
+        console.log("In Employee", $scope.employee, data);
+        $scope.assessment.employee = $scope.employee.employee;
+        $scope.photo.employee = $scope.employee.employee;
+        $scope.doc.employee = $scope.employee.employee;
+    });
+    $scope.getTimeline = function () {
+        NavigationService.getOneModel("Timeline", $scope.timelineID, function (data) {
+            $scope.timeline = data.data;
+            console.log("ABCD", data.data, $scope.timelineID);
+        });
+    };
+    $scope.sendMessage = function (type) {
+        console.log("ABC", $scope.timeline);
+        $scope.message.type = type;
+        $scope.timeline.chat.push($scope.message);
+        NavigationService.saveChat($scope.timeline, function (data) {
+            console.log("FFFFF", data);
+            $scope.getTimeline();
+        });
+    };
+    $scope.sendMessageFromPhoto = function (type) {
+        $scope.timeline.chat.push(type);
+        NavigationService.saveChat($scope.timeline, function (data) {
+            console.log("FFFFF", data);
+            $scope.getTimeline();
+        });
+    };
+    $scope.assignmentRefresh = function () {
+        NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
+            $scope.assignment = data.data;
+            _.each($scope.assignment, function (n, assignmentKey) {
+                // console.log("assignment for template");
+                _.each($scope.files, function (m, filesKey) {
+                    if (assignmentKey === m.type) {
+                        m.files = n;
                     }
-
-                } else {
-                    // $scope.msgSend = "Error in sending email";
-                    toastr.error("Error in sending email.", "Send email.");
-                }
+                });
+                console.log(assignmentKey);
             });
-        };
-
-        $scope.saveAssignment = function (otherInfo) {
-            if (otherInfo === "Assessment") {
-                $scope.assignment.timelineStatus = "Consent Pending";
-            } else if (otherInfo === "Docs") {
-                console.log("In Docs")
-                $scope.assignment.timelineStatus = "Assessment Pending";
-            } else if (otherInfo === "FSR") {
-                $scope.assignment.timelineStatus = "Dispatched";
+            if ($scope.assignment.natureOfLoss) {
+                $scope.assignment.natureloss = "";
             }
-            NavigationService.assignmentSave($scope.assignment, function (data) {
-                if (data.value === true) {
-                    // $scope.message.title = otherInfo + " Uploaded.";
-                    // $scope.sendMessage("File");
-                    toastr.success($scope.assignment.name + " Updated", "Assignment " + $scope.assignment.name);
+            if (data.data.timeline && data.data.timeline[0]) {
+                console.log("in if");
+                $scope.timelineID = data.data.timeline[0];
+                $scope.getTimeline();
+            } else {
+                console.log("in else");
+                NavigationService.createTimeline(data.data._id, function (data) {
+                    NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
+                        $scope.timelineID = data.data.timeline[0];
+                        $scope.getTimeline();
+                    });
+                });
+            }
+        });
+    }
+    $scope.assignmentRefresh();
+
+    //  send email
+    $scope.sendEmail = function (modalForm) {
+
+        $scope.msgSend = "Sending..";
+        $scope.newTo = angular.copy($scope.email);
+        $scope.newTo.to = [];
+        _.each($scope.email.to, function (n) {
+            $scope.newTo.to.push(n.email);
+        });
+        $scope.newTo.cc = [];
+        _.each($scope.email.cc, function (n) {
+            $scope.newTo.cc.push(n.email);
+        });
+        $scope.newTo.bcc = [];
+        _.each($scope.email.bcc, function (n) {
+            $scope.newTo.bcc.push(n.email);
+        });
+        $scope.newTo.to = $scope.newTo.to.join();
+        $scope.newTo.cc = $scope.newTo.cc.join();
+        $scope.newTo.bcc = $scope.newTo.bcc.join();
+        console.log($scope.newTo);
+        NavigationService.sendEmail($scope.newTo, function (data) {
+            console.log(data);
+            if (data.value) {
+                if (data.data.error) {
+
+                    toastr.error(data.data.error.code + " Code " + data.data.error.message, "Send email.");
                 } else {
-                    toastr.error("Error in updating " + $scope.assignment.name + ".", "Assignment " + $scope.assignment.name);
+                    $scope.message.email = $scope.newTo;
+                    $scope.message.email.response = data;
+                    $scope.sendMessage("Email");
+                    toastr.success("Your message has been send.", "Send email.");
+                    $timeout(function () {
+                        modalInstance.close();
+                    }, 1000);
                 }
+
+            } else {
+                // $scope.msgSend = "Error in sending email";
+                toastr.error("Error in sending email.", "Send email.");
+            }
+        });
+    };
+
+    $scope.saveAssignment = function (otherInfo) {
+        if (otherInfo === "Assessment") {
+            $scope.assignment.timelineStatus = "Consent Pending";
+        } else if (otherInfo === "Docs") {
+            console.log("In Docs")
+            $scope.assignment.timelineStatus = "Assessment Pending";
+        } else if (otherInfo === "FSR") {
+            $scope.assignment.timelineStatus = "Dispatched";
+        }
+        NavigationService.assignmentSave($scope.assignment, function (data) {
+            if (data.value === true) {
+                // $scope.message.title = otherInfo + " Uploaded.";
+                // $scope.sendMessage("File");
+                toastr.success($scope.assignment.name + " Updated", "Assignment " + $scope.assignment.name);
+            } else {
+                toastr.error("Error in updating " + $scope.assignment.name + ".", "Assignment " + $scope.assignment.name);
+            }
+        });
+    };
+
+    $scope.onFileUploadCallback1 = function (data) {
+        if (data.file) {
+            if (!$scope.assignment.assessment) {
+                $scope.assignment.assessment = [];
+            }
+            data.fileName = Date.now();
+            $scope.message.attachment = [];
+            var a = {
+                type: "Assessment",
+                url: data.file[0]
+            };
+            $scope.message.attachment.push(a);
+            $scope.assignment.assessment.push(data);
+            $scope.saveAssignment("Assessment");
+        }
+    };
+
+    // $scope.onFileUploadCallback = function (data) {
+    //     if (data.file) {
+    //         if (!$scope.assignment.fsrs) {
+    //             $scope.assignment.fsrs = [];
+    //         }
+    //         data.fileName = Date.now();
+    //         $scope.message.attachment = [];
+    //         var a = {
+    //             type: "FSR",
+    //             url: data.file[0]
+    //         };
+    //         $scope.message.attachment.push(a);
+    //         $scope.assignment.fsrs.push(data);
+    //         $scope.saveAssignment("FSR");
+    //     }
+    // };
+
+    var a = {};
+    var b = 0;
+    $scope.arr = [];
+
+    $scope.onFileUploadCallback = function (data, length) {
+        console.log("Photo Data", data, $scope.timeline, $scope.timelineID);
+        if ($scope.checker === length) {
+            $scope.arr.push(data);
+            $scope.checker = 1;
+            var array = _.cloneDeep($scope.arr);
+            var newArray = _.each($scope.arr, function (n) {
+                a.employee = $scope.message.employee,
+                    a.file = n,
+                    a.fileName = Date.now();
+                a.type = "File",
+                    a.title = "FSR Uploaded",
+                    a.attachment = n;
+                $scope.assignment.fsrs.push(_.cloneDeep(a));
+                $scope.sendMessageFromPhoto(_.cloneDeep(a));
+                console.log("Array to be Passed", a);
             });
-        };
+            $scope.arr = [];
+            $scope.saveAssignment("FSR");
+        } else {
+            $scope.arr.push(data);
+            $scope.checker++;
+        }
+    };
 
-        $scope.onFileUploadCallback1 = function (data) {
-            if (data.file) {
-                if (!$scope.assignment.assessment) {
-                    $scope.assignment.assessment = [];
-                }
-                data.fileName = Date.now();
-                $scope.message.attachment = [];
-                var a = {
-                    type: "Assessment",
-                    url: data.file[0]
-                };
-                $scope.message.attachment.push(a);
-                $scope.assignment.assessment.push(data);
-                $scope.saveAssignment("Assessment");
-            }
-        };
+    //         $scope.onInvoiceUploadCallback = function (data, length) {
+    //     console.log("Photo Data", data, $scope.timeline, $scope.timelineID);
+    //     if ($scope.checker === length) {
+    //         $scope.arr.push(data);
+    //         $scope.checker = 1;
+    //         var array = _.cloneDeep($scope.arr);
+    //         var newArray = _.each($scope.arr, function (n) {
+    //             a.employee = $scope.message.employee,
+    //                 a.file = n,
+    //                 a.fileName = Date.now();
+    //                 a.type = "File",
+    //                 a.title = "FSR Uploaded",
+    //                 a.attachment = n;
+    //             $scope.assignment.invoice.push(_.cloneDeep(a));
+    //             $scope.sendMessageFromPhoto(_.cloneDeep(a));
+    //             console.log("Array to be Passed", a);
+    //         });
+    //         $scope.arr = [];
+    //         $scope.saveAssignment("FSR");
+    //     } else {
+    //         $scope.arr.push(data);
+    //         $scope.checker++;
+    //     }
+    // };
 
-        // $scope.onFileUploadCallback = function (data) {
-        //     if (data.file) {
-        //         if (!$scope.assignment.fsrs) {
-        //             $scope.assignment.fsrs = [];
-        //         }
-        //         data.fileName = Date.now();
-        //         $scope.message.attachment = [];
-        //         var a = {
-        //             type: "FSR",
-        //             url: data.file[0]
-        //         };
-        //         $scope.message.attachment.push(a);
-        //         $scope.assignment.fsrs.push(data);
-        //         $scope.saveAssignment("FSR");
-        //     }
-        // };
+    $scope.onPhotoUploadCallback = function (data, length) {
+        console.log("Photo Data", data, $scope.timeline, $scope.timelineID);
+        if ($scope.checker === length) {
+            $scope.arr.push(data);
+            $scope.checker = 1;
+            var array = _.cloneDeep($scope.arr);
+            var newArray = _.each($scope.arr, function (n) {
+                a.employee = $scope.message.employee,
+                    a.file = n,
+                    a.fileName = Date.now();
+                a.type = "Normal",
+                    a.title = "Photo Uploaded",
+                    a.attachment = n;
+                $scope.assignment.photos.push(_.cloneDeep(a));
+                $scope.sendMessageFromPhoto(_.cloneDeep(a));
+                console.log("Array to be Passed", a);
+            });
+            $scope.arr = [];
+            $scope.saveAssignment("Photo");
+        } else {
+            $scope.arr.push(data);
+            $scope.checker++;
+        }
+    };
+    $scope.onAssessmentUploadCallback = function (data, length) {
+        if ($scope.checker === length) {
+            $scope.arr.push(data);
+            $scope.checker = 1;
+            var array = _.cloneDeep($scope.arr);
+            var newArray = _.each($scope.arr, function (n) {
+                a.employee = $scope.message.employee,
+                    a.file = n,
+                    a.fileName = Date.now();
+                a.type = "File",
+                    a.title = "Assessment Uploaded",
+                    a.attachment = n;
+                $scope.assignment.assessment.push(_.cloneDeep(a));
+                $scope.sendMessageFromPhoto(_.cloneDeep(a));
+            });
+            $scope.arr = [];
+            $scope.saveAssignment("Assessment");
+            console.log("After Save", $scope.arr);
 
-        var a = {};
-        var b = 0;
-        $scope.arr = [];
+        } else {
+            $scope.arr.push(data);
+            $scope.checker++;
+        }
+    };
+    $scope.onDocsUploadCallback = function (data, length) {
+        console.log("In Doc");
+        if ($scope.checker === length) {
+            $scope.arr.push(data);
+            $scope.checker = 1;
+            var array = _.cloneDeep($scope.arr);
+            var newArray = _.each($scope.arr, function (n) {
+                a.employee = $scope.message.employee,
+                    a.file = n,
+                    a.fileName = Date.now();
+                a.type = "File",
+                    a.title = "Document Uploaded",
+                    a.attachment = n;
+                $scope.assignment.docs.push(_.cloneDeep(a));
+                $scope.sendMessageFromPhoto(_.cloneDeep(a));
+            });
+            $scope.arr = [];
+            $scope.saveAssignment("Docs");
+            console.log("After Save", $scope.arr);
 
-        $scope.onFileUploadCallback = function (data, length) {
-            console.log("Photo Data", data, $scope.timeline, $scope.timelineID);
-            if ($scope.checker === length) {
-                $scope.arr.push(data);
-                $scope.checker = 1;
-                var array = _.cloneDeep($scope.arr);
-                var newArray = _.each($scope.arr, function (n) {
-                    a.employee = $scope.message.employee,
-                        a.file = n,
-                        a.fileName = Date.now();
-                    a.type = "File",
-                        a.title = "FSR Uploaded",
-                        a.attachment = n;
-                    $scope.assignment.fsrs.push(_.cloneDeep(a));
-                    $scope.sendMessageFromPhoto(_.cloneDeep(a));
-                    console.log("Array to be Passed", a);
-                });
-                $scope.arr = [];
-                $scope.saveAssignment("FSR");
+        } else {
+            $scope.arr.push(data);
+            $scope.checker++;
+        }
+    };
+
+    // $scope.onDocsUploadCallback = function (data) {
+    //     if (data.file) {
+    //         if (!$scope.assignment.docs) {
+    //             $scope.assignment.docs = [];
+    //         }
+    //         data.fileName = Date.now();
+    //         $scope.message.attachment = [];
+    //         var a = {
+    //             type: "Docs",
+    //             url: data.file[0]
+    //         };
+    //         $scope.assignment.docs.push(data);
+    //         $scope.saveAssignment("Docs");
+    //     }
+    // };
+})
+
+.controller('EmailInboxCtrl', function ($scope, $window, $uibModal, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, base64) {
+    //Used to name the .html file
+    $scope.template = TemplateService.changecontent("email-inbox");
+    $scope.menutitle = NavigationService.makeactive("Email Inbox");
+    TemplateService.title = $scope.menutitle;
+    $scope.navigation = NavigationService.getnav();
+
+    $scope.header = {
+        "name": "Email Inbox"
+    };
+    $scope.msg = "Loading...";
+    $scope.msgSend = "";
+    $scope.allSelect = false;
+    $scope.mails = [];
+    $scope.emailForm = {};
+    $scope.labelIds = "INBOX";
+    $scope.tabMenue = [{
+        title: "Inbox",
+        label: "INBOX",
+        class: "active"
+    }, {
+        title: "Draft",
+        label: "DRAFT",
+        class: ""
+    }, {
+        title: "Important",
+        label: "IMPORTANT",
+        class: ""
+    }, {
+        title: "Sent",
+        label: "SENT",
+        class: ""
+    }, {
+        title: "Trash",
+        label: "TRASH",
+        class: ""
+    }];
+    $scope.scrollDisable = false;
+    // GMAIL CALL
+    $scope.tabSelected = function (label, tab) {
+        _.each($scope.tabMenue, function (n) {
+            n.class = "";
+        });
+        tab.class = "active";
+        $scope.msg = "Loading...";
+        $scope.emailForm.search = "";
+        $scope.mails = [];
+        $scope.labelIds = label;
+        $scope.reloadGmail();
+    };
+    $scope.reloadGmail = function (nextPageToken) {
+        NavigationService.gmailCall({
+            url: "messages",
+            method: "GET",
+            nextPageToken: nextPageToken,
+            search: $scope.emailForm.search,
+            labelIds: $scope.labelIds
+        }, function (data) {
+            console.log(data);
+            if (data.data.resultSizeEstimate === 0) {
+                $scope.msg = "You don't have any e-mails.";
             } else {
-                $scope.arr.push(data);
-                $scope.checker++;
+                $scope.msg = "";
             }
-        };
-
-        //         $scope.onInvoiceUploadCallback = function (data, length) {
-        //     console.log("Photo Data", data, $scope.timeline, $scope.timelineID);
-        //     if ($scope.checker === length) {
-        //         $scope.arr.push(data);
-        //         $scope.checker = 1;
-        //         var array = _.cloneDeep($scope.arr);
-        //         var newArray = _.each($scope.arr, function (n) {
-        //             a.employee = $scope.message.employee,
-        //                 a.file = n,
-        //                 a.fileName = Date.now();
-        //                 a.type = "File",
-        //                 a.title = "FSR Uploaded",
-        //                 a.attachment = n;
-        //             $scope.assignment.invoice.push(_.cloneDeep(a));
-        //             $scope.sendMessageFromPhoto(_.cloneDeep(a));
-        //             console.log("Array to be Passed", a);
-        //         });
-        //         $scope.arr = [];
-        //         $scope.saveAssignment("FSR");
-        //     } else {
-        //         $scope.arr.push(data);
-        //         $scope.checker++;
-        //     }
-        // };
-
-        $scope.onPhotoUploadCallback = function (data, length) {
-            console.log("Photo Data", data, $scope.timeline, $scope.timelineID);
-            if ($scope.checker === length) {
-                $scope.arr.push(data);
-                $scope.checker = 1;
-                var array = _.cloneDeep($scope.arr);
-                var newArray = _.each($scope.arr, function (n) {
-                    a.employee = $scope.message.employee,
-                        a.file = n,
-                        a.fileName = Date.now();
-                    a.type = "Normal",
-                        a.title = "Photo Uploaded",
-                        a.attachment = n;
-                    $scope.assignment.photos.push(_.cloneDeep(a));
-                    $scope.sendMessageFromPhoto(_.cloneDeep(a));
-                    console.log("Array to be Passed", a);
-                });
-                $scope.arr = [];
-                $scope.saveAssignment("Photo");
+            if (!nextPageToken) {
+                $scope.mails = data.data.messages;
             } else {
-                $scope.arr.push(data);
-                $scope.checker++;
-            }
-        };
-        $scope.onAssessmentUploadCallback = function (data, length) {
-            if ($scope.checker === length) {
-                $scope.arr.push(data);
-                $scope.checker = 1;
-                var array = _.cloneDeep($scope.arr);
-                var newArray = _.each($scope.arr, function (n) {
-                    a.employee = $scope.message.employee,
-                        a.file = n,
-                        a.fileName = Date.now();
-                    a.type = "File",
-                        a.title = "Assessment Uploaded",
-                        a.attachment = n;
-                    $scope.assignment.assessment.push(_.cloneDeep(a));
-                    $scope.sendMessageFromPhoto(_.cloneDeep(a));
+                _.each(data.data.messages, function (n) {
+                    $scope.mails.push(n);
                 });
-                $scope.arr = [];
-                $scope.saveAssignment("Assessment");
-                console.log("After Save", $scope.arr);
-
-            } else {
-                $scope.arr.push(data);
-                $scope.checker++;
             }
-        };
-        $scope.onDocsUploadCallback = function (data, length) {
-            console.log("In Doc");
-            if ($scope.checker === length) {
-                $scope.arr.push(data);
-                $scope.checker = 1;
-                var array = _.cloneDeep($scope.arr);
-                var newArray = _.each($scope.arr, function (n) {
-                    a.employee = $scope.message.employee,
-                        a.file = n,
-                        a.fileName = Date.now();
-                    a.type = "File",
-                        a.title = "Document Uploaded",
-                        a.attachment = n;
-                    $scope.assignment.docs.push(_.cloneDeep(a));
-                    $scope.sendMessageFromPhoto(_.cloneDeep(a));
-                });
-                $scope.arr = [];
-                $scope.saveAssignment("Docs");
-                console.log("After Save", $scope.arr);
+            $scope.nextPage = data.data.nextPageToken;
 
+        });
+    };
+    $scope.reloadGmail();
+    $scope.showSingle = function (data) {
+        console.log("Email Data Before Passing", data);
+        $.jStorage.set("oneEmail", data);
+        $state.go("email-single", {
+            // id: data.threadId
+            id: data.id
+        });
+    };
+
+    function getHeight() {
+        $scope.emailheight = $window.innerHeight - 130;
+    }
+    getHeight();
+
+    angular.element($window).bind('resize', function () {
+        getHeight();
+        $scope.$apply();
+    });
+
+    $scope.tinymceModel = 'Initial content';
+    $scope.tinymceOptions = {
+        plugins: 'link image code',
+        toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
+    };
+
+    $scope.emailToDelete = [];
+    $scope.selectAll = function (check) {
+        console.log(check);
+        if (check) {
+            _.each($scope.mails, function (n) {
+                n.checked = true;
+                $scope.emailToDelete.push(n.threadId);
+            });
+        } else {
+            $scope.emailToDelete = [];
+            _.each($scope.mails, function (n) {
+                n.checked = false;
+
+            });
+        }
+    };
+    $scope.addEmailToDelete = function (data) {
+        var a = _.findIndex($scope.emailToDelete, function (o) {
+            return o == data.id;
+        });
+        console.log(a);
+        if (a == -1) {
+            $scope.emailToDelete.push(data.id);
+        } else {
+            // var ind =
+            $scope.emailToDelete.splice(a, 1);
+        }
+
+        console.log($scope.emailToDelete);
+    };
+
+    $scope.email = {
+        message: ""
+    };
+    $scope.emailtos = [{
+        name: 'Jagruti',
+        email: 'jagruti@wohlig.com'
+    }, {
+        name: 'Tushar',
+        email: 'tushar@wohlig.com'
+    }, {
+        name: 'Chintan',
+        email: 'chintan@wohlig.com'
+    }, {
+        name: 'Harsh',
+        email: 'harsh@wohlig.com'
+    }, {
+        name: 'Raj',
+        email: 'raj@wohlig.com'
+    }];
+    var modalInstance = function () {};
+    $scope.newEmail = function () {
+        $scope.msgSend = "";
+        modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/modal-email.html',
+            size: 'lg'
+        });
+    };
+    $scope.sendEmail = function (modalForm) {
+
+        $scope.msgSend = "Sending..";
+        $scope.newTo = angular.copy($scope.email);
+        $scope.newTo.to = [];
+        _.each($scope.email.to, function (n) {
+            $scope.newTo.to.push(n.email);
+        });
+        $scope.newTo.cc = [];
+        _.each($scope.email.cc, function (n) {
+            $scope.newTo.cc.push(n.email);
+        });
+        $scope.newTo.bcc = [];
+        _.each($scope.email.bcc, function (n) {
+            $scope.newTo.bcc.push(n.email);
+        });
+        $scope.newTo.to = $scope.newTo.to.join();
+        $scope.newTo.cc = $scope.newTo.cc.join();
+        $scope.newTo.bcc = $scope.newTo.bcc.join();
+        console.log($scope.newTo);
+        NavigationService.sendEmail($scope.newTo, function (data) {
+            console.log(data);
+            if (data.value) {
+                toastr.success("Your message has been send.", "Send email.");
+                $timeout(function () {
+                    modalInstance.close();
+                }, 1000);
             } else {
-                $scope.arr.push(data);
-                $scope.checker++;
+                // $scope.msgSend = "Error in sending email";
+                toastr.success("Error in sending email.", "Send email.");
             }
-        };
-
-        // $scope.onDocsUploadCallback = function (data) {
-        //     if (data.file) {
-        //         if (!$scope.assignment.docs) {
-        //             $scope.assignment.docs = [];
-        //         }
-        //         data.fileName = Date.now();
-        //         $scope.message.attachment = [];
-        //         var a = {
-        //             type: "Docs",
-        //             url: data.file[0]
-        //         };
-        //         $scope.assignment.docs.push(data);
-        //         $scope.saveAssignment("Docs");
-        //     }
-        // };
-    })
+        });
+    };
+    $scope.files = [{
+        type: "JIR",
+        count: 2,
+        files: [{
+            name: "doc1.docx",
+            selection: true
+        }, {
+            name: "doc2.docx",
+            selection: true
+        }]
+    }, {
+        type: "ILA",
+        count: 0,
+        files: []
+    }, {
+        type: "ILR",
+        count: 0,
+        files: []
+    }, {
+        type: "LOR",
+        count: 0,
+        files: []
+    }, {
+        type: "Assesments",
+        count: 0,
+        files: []
+    }, {
+        type: "FSR",
+        count: 0,
+        files: []
+    }, {
+        type: "Invoice",
+        count: 0,
+        files: []
+    }, {
+        type: "Documents",
+        count: 0,
+        files: []
+    }, {
+        type: "Images",
+        count: 0,
+        files: []
+    }, {
+        type: "Total Attachments",
+        count: 2,
+        files: [{
+            name: "doc1.docx",
+            selection: true
+        }, {
+            name: "doc2.docx",
+            selection: true
+        }]
+    }];
+})
 
     .controller('EmailInboxCtrl', function ($scope, $window, $uibModal, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, base64) {
         //Used to name the .html file
