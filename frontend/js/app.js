@@ -1651,6 +1651,15 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
                 keyword: ""
             }
         })
+        .state('lorApproval-list', {
+            url: "/lorApproval-list/{page:.*}/{keyword:.*}/{model:.*}",
+            templateUrl: "frontend/views/template.html",
+            controller: 'LorApprovalsCtrl',
+            params: {
+                page: "1",
+                keyword: ""
+            }
+        })
         .state('forbidden', {
             url: "/forbidden",
             templateUrl: "frontend/views/template.html",

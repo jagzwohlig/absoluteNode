@@ -371,6 +371,11 @@ var navigationservice = angular.module('navigationservice', [])
                     classis: "active",
                     anchor: "ilaApproval-list",
                     icon: "pencil"
+                },{
+                    name: "LOR Approval",
+                    classis: "active",
+                    anchor: "lorApproval-list",
+                    icon: "pencil"
                 }]
             },
         ];
@@ -617,6 +622,9 @@ var navigationservice = angular.module('navigationservice', [])
             },
             saveTemplate: function (data, callback) {
                 $http.post(adminurl + 'Template/save', data).success(callback);
+            },
+            saveAssignmentTemplate: function (data, callback) {
+                $http.post(adminurl + 'Assignment/saveTemplate', data).success(callback);
             },
             assignmentSave: function (data, callback) {
                 if (data.policyDoc == "") {

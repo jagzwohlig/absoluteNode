@@ -17,7 +17,7 @@ var controller = {
             });
         }
     },
-   generateInvoicePdf: function (req, res) {
+    generateInvoicePdf: function (req, res) {
         if (req.body) {
             req.model.generateInvoicePdf(req.body, res.callback);
         } else {
@@ -119,7 +119,18 @@ var controller = {
             });
         }
     },
-    generateAssignmentNumberForAll: function(req,res) {
+    saveTemplate: function (req, res) {
+        if (req.body) {
+            req.model.saveTemplate(req.body, res.callback);
+
+        } else {
+            res.json({
+                value: false,
+                data: "Invalid Request"
+            });
+        }
+    },
+    generateAssignmentNumberForAll: function (req, res) {
         // first make all the new params of assignment as null
         // get all assignements id ascending 
         // async.eachSeries(allassignement, function(n,callback) {
@@ -155,7 +166,7 @@ var controller = {
             });
         }
     },
-      updateAllIntimatedLoss: function (req, res) {
+    updateAllIntimatedLoss: function (req, res) {
         if (req.body) {
             req.model.updateAllIntimatedLoss(req.body, res.callback);
         } else {
@@ -186,7 +197,7 @@ var controller = {
             });
         }
     },
-    getExpenditure:function (req, res) {
+    getExpenditure: function (req, res) {
         if (req.body) {
             req.model.getExpenditure(req.body, res.callback);
         } else {
@@ -206,7 +217,7 @@ var controller = {
             });
         }
     },
-    updateOfficeId: function(req,res){
+    updateOfficeId: function (req, res) {
         if (req.body) {
             req.model.updateOfficeId(req.body, res.callback);
         } else {

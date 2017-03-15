@@ -16,7 +16,7 @@
     <div class="row">
         <div class="col-md-4 column">
             <div class="heading-profile">
-                <h2>ILA Approvals</h2>
+                <h2>LOR Approvals</h2>
             </div>
         </div>
     </div>
@@ -52,21 +52,19 @@
                                 <tr>
                                     <th>Time</th>
                                     <th>Name</th>
-                                    <th>Type</th>
                                     <th>Owner</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
-                            <tbody ng-repeat="data in ilaList track by $index">
-                                <tr ng-class="getDelayClass(data.templateIla.timestamp)">
-                                    <td><span class="label label-default">{{data.templateIla.timestamp|getHours}}hrs</span></td>
+                            <tbody ng-repeat="data in lorList track by $index">
+                                <tr ng-class="getDelayClass(data.templateLor.timestamp)">
+                                    <td><span class="label label-default">{{data.templateLor.timestamp|getHours}}hrs</span></td>
                                     <td>{{data.name}}</td>
-                                    <td>ILA</td>
                                     <td>{{data.owner.name}}</td>
                                     <td>
-                                        <button class="btn btn-primary" uib-tooltip="Edit" ng-click="viewTemplates('ILAs','TemplateIla',data.templateIla)"><i class="fa fa-pencil"></i></button>
-                                        <button class="btn btn-success" uib-tooltip="Accept" ng-click="acceptIla(data)"><i class="fa fa-check"></i></button>
-                                        <button class="btn btn-primary" uib-tooltip="Revise/Comment" ng-click="reviseIla(data)"><i class="fa fa-reply"></i></button>
+                                        <button class="btn btn-primary" uib-tooltip="Edit" ng-click="viewTemplates('LORs','TemplateLor',data.templateLor)"><i class="fa fa-pencil"></i></button>
+                                        <button class="btn btn-success" uib-tooltip="Accept" ng-click="acceptLor(data)"><i class="fa fa-check"></i></button>
+                                        <button class="btn btn-primary" uib-tooltip="Revise/Comment" ng-click="reviseLor(data)"><i class="fa fa-reply"></i></button>
                                         <!--<button class="btn btn-danger" uib-tooltip="Reject"><i class="fa fa-times"></i></button>-->
                                     </td>
                                 </tr>
