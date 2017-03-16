@@ -144,6 +144,7 @@ angular.module('rolesController', ['templateservicemod', 'navigationservice', 'a
         addRoles("Approval", "LOR", "", "approval,lorApproval-list", true, true, true, true, false, false, false, false, true);
         addRoles("Approval", "ILA", "", "approval,ilaApproval-list", true, true, true, true, false, false, false, false, true);
         addRoles("Approval", "Invoice", "", "approval,invoiceApproval-list", true, true, true, true, false, false, false, false, true);
+        addRoles("Approval", "SBC", "", "approval,sbcApproval-list", true, true, true, false, false, false, false, false, true);
         addRoles("Invoice", "Invoice", "", "invoice,invoice-list", true, true, false, false, false, false, false, false, true);
         addRoles("Invoice", "Invoice", "Send for Authorize", "", true, true, false, false, false, false, false, false, true);
         addRoles("Invoice", "Invoice", "Authorize", "", true, true, false, false, false, false, false, false, true);

@@ -119,6 +119,28 @@ var controller = {
             });
         }
     },
+    updateNewSurveyor: function (req, res) {
+        if (req.body) {
+            req.model.updateNewSurveyor(req.body, res.callback);
+
+        } else {
+            res.json({
+                value: false,
+                data: "Invalid Request"
+            });
+        }
+    },
+    getSurveyorApprovalList: function (req, res) {
+        if (req.body) {
+            req.model.getSurveyorApprovalList(req.body, res.callback);
+
+        } else {
+            res.json({
+                value: false,
+                data: "Invalid Request"
+            });
+        }
+    },
     saveTemplate: function (req, res) {
         if (req.body) {
             req.model.saveTemplate(req.body, res.callback);

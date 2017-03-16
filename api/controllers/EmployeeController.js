@@ -191,6 +191,18 @@ var controller = {
             })
         }
     },
+    getSurveyor: function (req, res) {
+        if (req.body) {
+            Employee.getSurveyor(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: "Invalid Request"
+                }
+            })
+        }
+    },
         getLoginEmployee: function (req, res) {
         if (req.body) {
             Employee.getLoginEmployee(req.body, res.callback);
