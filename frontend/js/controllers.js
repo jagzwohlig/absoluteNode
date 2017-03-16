@@ -10698,7 +10698,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         var assignment = {};
         assignment._id = $stateParams.id,
             assignment.survey = {
-                employee: empId
+                employee: empId,
+                status:"Approval Pending"
             }
 
         console.log("Assignment Survey", assignment);
@@ -10709,11 +10710,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     };
     $scope.surveyorAssigned = false;
     $scope.afterSurveyAssign = function (employee) {
-        console.log("BEFORE", $scope.message.employee, $scope.message.title);
         $scope.message.employee = employee;
-        $scope.message.title = "Assigned To";
-        console.log("AFTER", $scope.message.employee, $scope.message.title);
-
+        $scope.message.title = "Surveyor Pending For Approval";
         $scope.surveyorAssigned = true;
         $scope.modalInstance.close();
         $timeout(function () {
