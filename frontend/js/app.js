@@ -1594,6 +1594,15 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
                 keyword: ""
             }
         })
+        .state('sbcApproval-list', {
+            url: "/sbcApproval-list/{page:.*}/{keyword:.*}/{model:.*}",
+            templateUrl: "frontend/views/template.html",
+            controller: 'SbcApprovalsCtrl',
+            params: {
+                page: "1",
+                keyword: ""
+            }
+        })
         .state('edittemplateInvoice', {
             url: "/templateInvoice-edit/:id",
             templateUrl: "frontend/views/template.html",

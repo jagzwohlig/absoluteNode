@@ -32,7 +32,7 @@ var schema = new Schema({
     },
     status: {
       type: String,
-      enum: ["Approval Pending","Pending", "Completed", "Declined"]
+      enum: ["Approval Pending", "Pending", "Completed", "Declined"]
     },
     timestamp: {
       type: Date,
@@ -1454,7 +1454,6 @@ var model = {
         }
       }
     }
-    console.log("sort", sort);
     if (_.isEmpty(data.timelineStatus)) {
       var timelineStatus = {}
     } else {
@@ -2116,9 +2115,7 @@ var model = {
       }
     });
   },
-
-  getApprovalList: function (data, callback) {
-    console.log(data);
+  getSurveyorApprovalList: function (data, callback) {
     var Model = this;
     var maxRow = Config.maxRow;
     var pagestartfrom = (data.page - 1) * maxRow;
@@ -2128,7 +2125,133 @@ var model = {
     var type = data.type;
     var unwind1 = {};
     var match1 = {};
-    var sort1={};
+    var sort1 = {};
+
+    aggText = [{
+        $unwind: {
+          path: "$survey"
+        }
+      }, {
+        $match: {
+          "survey.status": "Approval Pending"
+        }
+      }, {
+        $lookup: {
+          from: "employees",
+          localField: "survey.employee",
+          foreignField: "_id",
+          as: "survey.employee"
+        }
+      }, {
+        $unwind: {
+          path: "$survey.employee"
+        }
+      }, {
+        $sort: {
+          "survey.timestamp": 1
+        }
+      }, {
+        $skip: parseInt(pagestartfrom)
+      }, {
+        $limit: maxRow
+      }],
+      aggTextCount = [{
+        $unwind: {
+          path: "$survey"
+        }
+      }, {
+        $match: {
+          "survey.status": "Approval Pending"
+        }
+      }, {
+        $lookup: {
+          from: "employees",
+          localField: "survey.employee",
+          foreignField: "_id",
+          as: "survey.employee"
+        }
+      }, {
+        $unwind: {
+          path: "$survey.employee"
+        }
+      }, {
+        $sort: {
+          "survey.timestamp": 1
+        }
+      }, {
+        $group: {
+          _id: null,
+          count: {
+            $sum: 1
+          }
+        }
+      }, {
+        $project: {
+          "_id": 1,
+          "count": 1
+        }
+      }]
+    async.parallel([
+        function (callback) {
+          Model.aggregate(aggText,
+            function (err, data1) {
+              if (err) {
+                callback(err, null);
+              } else {
+                callback(null, data1)
+              }
+
+            });
+        },
+        function (callback) {
+          Model.aggregate(aggTextCount,
+            function (err, data2) {
+              if (err) {
+                callback(err, null);
+              } else {
+                callback(null, data2)
+              }
+
+            });
+        }
+      ],
+      function (err, data4) {
+        if (err) {
+          callback(err, null);
+        } else {
+          if (_.isEmpty(data4[1])) {
+            var data5 = {
+              results: data4[0],
+              options: {
+                count: 0
+              }
+            };
+          } else {
+            var data5 = {
+              results: data4[0],
+              options: {
+                count: maxRow
+              }
+            };
+            data5.total = data4[1][0].count;
+          }
+          callback(null, data5);
+        }
+      });
+  },
+
+
+  getApprovalList: function (data, callback) {
+    var Model = this;
+    var maxRow = Config.maxRow;
+    var pagestartfrom = (data.page - 1) * maxRow;
+    var page = 1;
+    var aggText = [];
+    var aggTextCount = [];
+    var type = data.type;
+    var unwind1 = {};
+    var match1 = {};
+    var sort1 = {};
     if (type == "templateIla") {
       unwind1 = {
         "$unwind": "$templateIla"
@@ -2138,8 +2261,8 @@ var model = {
           "templateIla.approvalStatus": "Pending"
         }
       };
-      sort1={
-        "$sort":{
+      sort1 = {
+        "$sort": {
           "templateIla.timestamp": 1
         }
       };
@@ -2152,8 +2275,8 @@ var model = {
           "templateLor.approvalStatus": "Pending"
         }
       };
-      sort1={
-        "$sort":{
+      sort1 = {
+        "$sort": {
           "templateLor.timestamp": 1
         }
       };
@@ -2170,7 +2293,7 @@ var model = {
           path: "$owner",
           preserveNullAndEmptyArrays: true
         }
-      }, unwind1, match1,sort1,{
+      }, unwind1, match1, sort1, {
         $skip: parseInt(pagestartfrom)
       }, {
         $limit: maxRow
@@ -2187,7 +2310,7 @@ var model = {
           path: "$owner",
           preserveNullAndEmptyArrays: true
         }
-      }, unwind1, match1,sort1, {
+      }, unwind1, match1, sort1, {
         $group: {
           _id: null,
           count: {
@@ -2279,8 +2402,42 @@ var model = {
           "templateLor.$.approvalStatus": data.approvalStatus
         }
       };
+    } else if (data.type == "survey") {
+      matchObj = {
+        _id: data.assignId,
+        survey: {
+          $elemMatch: {
+            _id: data._id
+          }
+        }
+      };
+      matchObj2 = {
+        $set: {
+          "survey.$.status": "Pending"
+        }
+      };
     }
     Assignment.update(matchObj, matchObj2).exec(function (err, data) {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, data);
+      }
+    });
+  },
+  updateNewSurveyor: function (data, callback) {
+    Assignment.update({
+      _id:data.assignId,
+      survey: {
+          $elemMatch: {
+            _id: data.surveyId
+          }
+        }
+    }, {
+        $set: {
+          "survey.$.employee": data.employee
+        }
+      }).exec(function (err, data) {
       if (err) {
         callback(err, null);
       } else {

@@ -381,6 +381,11 @@ var navigationservice = angular.module('navigationservice', [])
                     classis: "active",
                     anchor: "invoiceApproval-list",
                     icon: "pencil"
+                },{
+                    name: "SBC Approval",
+                    classis: "active",
+                    anchor: "sbcApproval-list",
+                    icon: "pencil"
                 }]
             },
         ];
@@ -534,6 +539,12 @@ var navigationservice = angular.module('navigationservice', [])
                     callback(data, i);
                 });
             },
+            updateNewSurveyor: function (formData, callback) {
+                console.log("formData : ", formData);
+                $http.post(adminurl + 'Assignment/updateNewSurveyor', formData).success(function (data) {
+                    callback(data);
+                });
+            },
             searchAssignment: function (formData, i, callback) {
                  console.log("FormData in search", formData);
                 $http.post(adminurl + 'Assignment/search', formData).success(function (data) {
@@ -550,6 +561,17 @@ var navigationservice = angular.module('navigationservice', [])
 
             getApprovalList:function(formData,i,callback){
                 $http.post(adminurl + 'Assignment/getApprovalList', formData).success(function (data) {
+                    callback(data,i);
+                });
+            },
+            getSurveyorApprovalList:function(formData,i,callback){
+                $http.post(adminurl + 'Assignment/getSurveyorApprovalList', formData).success(function (data) {
+                    callback(data,i);
+                });
+            },
+            getSurveyor:function(formData,i,callback){
+                $http.post(adminurl + 'Employee/getSurveyor', formData).success(function (data) {
+                    console.log("Data",data);
                     callback(data,i);
                 });
             },

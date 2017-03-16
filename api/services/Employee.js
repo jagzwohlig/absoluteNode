@@ -414,6 +414,27 @@ var model = {
             }
         })
     },
+    getSurveyor: function (data, callback) {
+        Employee.find({
+            $or: [{
+                isSurveyor: true
+            }, {
+                isField: true
+            }]
+        },{
+            _id:1,
+            name:1
+        }).exec(function (err, found) {
+            if (err) {
+                callback(err, null);
+            } else {
+                var data={};
+                data.results=found;
+                console.log(found);
+                callback(null, data);
+            }
+        })
+    },
     getTask: function (data, callback) {
         var deepSearch = "assignment.assignment assignment.assignment.city assignment.assignment.city.district assignment.assignment.city.district.state assignment.assignment.city.district.state.zone assignment.assignment.city.district.state.zone.country";
         Employee.findOne({
