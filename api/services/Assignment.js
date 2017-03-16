@@ -2127,7 +2127,7 @@ var model = {
     var type = data.type;
     var unwind1 = {};
     var match1 = {};
-
+    var sort1={};
     if (type == "templateIla") {
       unwind1 = {
         "$unwind": "$templateIla"
@@ -2137,6 +2137,11 @@ var model = {
           "templateIla.approvalStatus": "Pending"
         }
       };
+      sort1={
+        "$sort":{
+          "templateIla.timestamp": 1
+        }
+      };
     } else if (type == "templateLor") {
       unwind1 = {
         "$unwind": "$templateLor"
@@ -2144,6 +2149,11 @@ var model = {
       match1 = {
         "$match": {
           "templateLor.approvalStatus": "Pending"
+        }
+      };
+      sort1={
+        "$sort":{
+          "templateLor.timestamp": 1
         }
       };
     }
@@ -2159,7 +2169,7 @@ var model = {
           path: "$owner",
           preserveNullAndEmptyArrays: true
         }
-      }, unwind1, match1, {
+      }, unwind1, match1,sort1,{
         $skip: parseInt(pagestartfrom)
       }, {
         $limit: maxRow
@@ -2176,7 +2186,7 @@ var model = {
           path: "$owner",
           preserveNullAndEmptyArrays: true
         }
-      }, unwind1, match1, {
+      }, unwind1, match1,sort1, {
         $group: {
           _id: null,
           count: {
