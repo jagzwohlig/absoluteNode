@@ -32,8 +32,7 @@ var schema = new Schema({
     },
     status: {
       type: String,
-      enum: ["Pending", "Completed", "Declined"],
-      default: "Pending"
+      enum: ["Approval Pending","Pending", "Completed", "Declined"]
     },
     timestamp: {
       type: Date,
