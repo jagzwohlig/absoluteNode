@@ -1242,6 +1242,7 @@ var model = {
         }
       },
     }).exec(function (err, found) {
+      console.log("update assignment",found);
       if (err) {
         callback(err, null);
       } else {
@@ -1268,6 +1269,7 @@ var model = {
             }
           }
         }).exec(function (err, data) {
+          console.log("update timeline",data);
           if (err) {
             callback(err, null);
           } else {

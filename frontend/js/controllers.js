@@ -10491,7 +10491,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         //   emailData.to =  _.uniq(emailData.to);
         switch (type) {
             case "Acknowledgment":
-                {
+                {   
                     var emails = {
                         name: 'Acknowledgment',
                         from: emailData.ownerEmail,
@@ -10508,6 +10508,20 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 {
                     var emails = {
                         name: 'Survey Assigned',
+                        from: emailData.ownerEmail,
+                        to: emailData.to,
+                        cc: emailData.cc,
+                        bcc: emailData.bcc,
+                        subject: "Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
+                        message: "<p style='font-size: 17px;'>Dear Sir/Madam,</p><p style='font-size: 17px;'>Thank you for retaining us to inspect & assess the subject loss. This is to confirm that " + emailData.surveyorName + " shall be attending this claim. He can be reached on " + emailData.surveyorNumber + ". Our reference number for this claim would be " + emailData.assignmentNo + "</p> <p style='font-size: 17px;'>Should you ever need any support / information / update, please feel at ease to get in touch with me.</p><br>" + "<p style='font-size: 17px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
+                    }
+                    $scope.emailData = emails;
+                }
+                break;
+             case "Deputation mail":
+                {
+                    var emails = {
+                        name: 'Deputation mail',
                         from: emailData.ownerEmail,
                         to: emailData.to,
                         cc: emailData.cc,
@@ -10545,9 +10559,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 emailData.ownerPhone = data.data.owner.mobile;
                 emailData.siteCity = data.data.city.name;
                 _.each(data.data.survey, function (values) {
-                    if (values.employee.status == "Pending") {
+                    console.log('survey : ',values);
+                    if (values.status == "Pending") {
                         emailData.surveyorNumber = values.employee.mobile;
                         emailData.surveyorName = values.employee.name;
+                        emailData.surveyorEmail = values.employee.email;
+                        emailData.surveyDate = values.surveyDate;
+                        console.log('survey in : ',emailData.surveyorNumber,emailData.surveyorName);
                     }
                 });
 
