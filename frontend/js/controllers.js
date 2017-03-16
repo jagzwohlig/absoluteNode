@@ -11956,8 +11956,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     })
 
-
-    .controller('EmailSingleCtrl', function ($scope, $window, $filter, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+.controller('EmailSingleCtrl', function ($scope, $window, $filter, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("email-single");
         $scope.menutitle = NavigationService.makeactive("Single Mail");
@@ -11984,177 +11983,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 });
 
             });
-<<<<<<< HEAD
-        } else {
-            $scope.Saved = true;
-            console.log("Data To Saveeee", $scope.forms.type);
-            NavigationService.editAssignmentTemplate($scope.forms, function (data) {
-                if (data.value) {
-                    var a = {};
-                    $scope.message.title = $stateParams.type + " Sent to Approval";
-                    // $scope.sendMessage("Template");
-                    a.type = "File",
-                        a.employee = $scope.message.employee,
-                        a.title = $scope.message.title,
-                        a.attachment = data.data.name;
-                    $scope.sendMessage2(_.cloneDeep(a));
-                    var obj = {
-                        assignId: $scope.assignment._id,
-                        _id: $scope.forms._id,
-                        approvalStatus: "Pending",
-                        type: $scope.forms.type
-                    }
-                    $scope.saveAssignment(obj);
-                    toastr.success("Updated " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
-                    // $state.go('timeline', {
-                    //     id: $scope.assignment._id
-                    // });
-                    $window.history.back();
-                } else {
-                    toastr.error("Error occured in Updating " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
-                }
-            });
-        }
-    };
-})
-
-.controller('TimelineCtrl', function ($scope, $window, TemplateService, NavigationService, AssignmentTemplate, $timeout, $uibModal, $stateParams, toastr, $filter, $state) {
-    $scope.template = TemplateService.changecontent("timeline");
-    $scope.menutitle = NavigationService.makeactive("Timeline");
-    TemplateService.title = $scope.menutitle;
-    $scope.navigation = NavigationService.getnav();
-    $scope.emailData = {};
-    $scope.email = {
-        message: ""
-    };
-    $scope.surveyDate;
-    $scope.getAllSurveyors = [];
-    $scope.finalSurveyors = [];
-    $scope.assignment = {};
-    $scope.emailtos = [{
-        name: 'Mahesh',
-        email: 'mahesh@wohlig.com'
-    }, {
-        name: 'Jagruti',
-        email: 'jagruti@wohlig.com'
-    }, {
-        name: 'Tushar',
-        email: 'tushar@wohlig.com'
-    }, {
-        name: 'Chintan',
-        email: 'chintan@wohlig.com'
-    }, {
-        name: 'Harsh',
-        email: 'harsh@wohlig.com'
-    }, {
-        name: 'Raj',
-        email: 'raj@wohlig.com'
-    }];
-
-
-    $scope.emailersData = function (type, emailData, index) {
-        console.log("email Data", emailData);
-        $scope.emailData = {};
-        // emailData.to =  _.uniq(emailData.to);
-        var i = 0;
-        var toData = [];
-        _.map(emailData.to, function (values) {
-            values.email.toString();
-            values.name.toString();
-
-        });
-        emailData.to = _.uniqBy(emailData.to, "email");
-        console.log("values array ", emailData.to);
-
-        emailData.assignmentNo = (emailData.assignmentNo ? emailData.assignmentNo : "");
-        emailData.ownerName = (emailData.ownerName ? emailData.ownerName : "");
-        emailData.ownerEmail = (emailData.ownerEmail ? emailData.ownerEmail : "");
-        emailData.ownerPhone = (emailData.ownerPhone ? emailData.ownerPhone : "");
-        emailData.siteCity = (emailData.siteCity ? emailData.siteCity : "");
-        emailData.to = (emailData.to ? emailData.to : []);
-        emailData.cc = (emailData.cc ? emailData.cc : []);
-        emailData.bcc = (emailData.bcc ? emailData.bcc : []);
-        emailData.surveyorNumber = (emailData.surveyorNumber ? emailData.surveyorNumber : "");
-        emailData.surveyorName = (emailData.surveyorName ? emailData.surveyorName : "");
-        //   emailData.to =  _.uniq(emailData.to);
-        switch (type) {
-            case "Acknowledgment":
-                {   
-                    var emails = {
-                        name: 'Acknowledgment',
-                        from: emailData.ownerEmail,
-                        to: emailData.to,
-                        cc: emailData.cc,
-                        bcc: emailData.bcc,
-                        subject: "Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
-                        message: "<p style='font-size: 17px;'>Dear Sir/Madam,</p><p style='font-size: 17px;'>Thank you for retaining us to inspect & assess the subject loss. This is to confirm that " + emailData.surveyorName + " shall be attending this claim. He can be reached on " + emailData.surveyorNumber + ". Our reference number for this claim would be " + emailData.assignmentNo + "</p> <p style='font-size: 17px;'>Should you ever need any support / information / update, please feel at ease to get in touch with me.</p><br>" + "<p style='font-size: 17px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
-                    }
-                    $scope.emailData = emails;
-                }
-                break;
-            case "Survey Assigned":
-                {
-                    var emails = {
-                        name: 'Survey Assigned',
-                        from: emailData.ownerEmail,
-                        to: emailData.to,
-                        cc: emailData.cc,
-                        bcc: emailData.bcc,
-                        subject: "Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
-                        message: "<p style='font-size: 17px;'>Dear Sir/Madam,</p><p style='font-size: 17px;'>Thank you for retaining us to inspect & assess the subject loss. This is to confirm that " + emailData.surveyorName + " shall be attending this claim. He can be reached on " + emailData.surveyorNumber + ". Our reference number for this claim would be " + emailData.assignmentNo + "</p> <p style='font-size: 17px;'>Should you ever need any support / information / update, please feel at ease to get in touch with me.</p><br>" + "<p style='font-size: 17px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
-                    }
-                    $scope.emailData = emails;
-                }
-                break;
-             case "Deputation mail":
-                {
-                    var emails = {
-                        name: 'Deputation mail',
-                        from: emailData.ownerEmail,
-                        to: emailData.to,
-                        cc: emailData.cc,
-                        bcc: emailData.bcc,
-                        subject: "Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
-                        message: "<p style='font-size: 17px;'>Dear Sir/Madam,</p><p style='font-size: 17px;'>Thank you for retaining us to inspect & assess the subject loss. This is to confirm that " + emailData.surveyorName + " shall be attending this claim. He can be reached on " + emailData.surveyorNumber + ". Our reference number for this claim would be " + emailData.assignmentNo + "</p> <p style='font-size: 17px;'>Should you ever need any support / information / update, please feel at ease to get in touch with me.</p><br>" + "<p style='font-size: 17px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
-                    }
-                    $scope.emailData = emails;
-                }
-                break;
-
-            default:
-                {
-                    // $scope.formData.push($scope.newjson);
-                }
-
-        }
-
-    }
-
-    var i = 0;
-    $scope.search = {
-        keyword: ""
-    };
-    $scope.getMail = function (type) {
-        console.log("$stateParams.id", $stateParams.id,"type",type);
-        NavigationService.getOneAssignment({
-            _id: $stateParams.id
-        }, ++i, function (data, ini) {
-            if (ini == i) {
-                var emailData = {};
-                emailData.assignmentNo = data.data.name;
-                emailData.ownerName = data.data.owner.name;
-                emailData.ownerEmail = data.data.owner.email;
-                emailData.ownerPhone = data.data.owner.mobile;
-                emailData.siteCity = data.data.city.name;
-                _.each(data.data.survey, function (values) {
-                    console.log('survey : ',values);
-                    if (values.status == "Pending") {
-                        emailData.surveyorNumber = values.employee.mobile;
-                        emailData.surveyorName = values.employee.name;
-                        emailData.surveyorEmail = values.employee.email;
-                        emailData.surveyDate = values.surveyDate;
-                        console.log('survey in : ',emailData.surveyorNumber,emailData.surveyorName);
-=======
         };
         NavigationService.detailEmail({
             "messageId": $stateParams.id
@@ -12218,7 +12046,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                                 console.log($scope.email.attachment);
                             }
                         });
->>>>>>> 0cd16c89920cca4b27e98ef57396115327856457
                     }
                     break;
 
@@ -12260,6 +12087,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.emailSnippet = '<div dir="ltr">Dear Chintan,<div><br></div><div>Seen the links. What next?</div></div><div data-smartmail="gmail_signature"><div><br></div><div>Warm Regards,</div><div><br></div><div><b>Arun Arora</b></div><div><font color="#666666">M: +91 81080 99789</font></div><div>______________________________<wbr>____________________</div><div><br></div><div><b><font color="#000099">Absolute Insurance Surveyors &amp; Loss Assessors Pvt Ltd</font></b></div><div><font color="#666666">501/502, Ideal Trade Centre, Sector 11,&nbsp;CBD Belapur, Navi Mumbai 400 614</font></div><div><font color="#666666">T: +91 22 2756 2983 | F: +91 22 2756 2984</font></div></div>';
 
     })
+
 
     // .controller('ApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64) {
     //     //Used to name the .html file
