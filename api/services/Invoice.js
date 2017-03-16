@@ -88,6 +88,14 @@ var schema = new Schema({
         ref: "TemplateInvoice",
         index: true
     },
+    approvalStatus: {
+        type: String,
+        enum:["Pending","Revised","Accepted"]
+    },
+    timestamp: {
+      type: Date,
+      default: Date.now()
+    },
     status: {
         type: Boolean
     }

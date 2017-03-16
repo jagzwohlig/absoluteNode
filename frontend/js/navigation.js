@@ -376,6 +376,11 @@ var navigationservice = angular.module('navigationservice', [])
                     classis: "active",
                     anchor: "lorApproval-list",
                     icon: "pencil"
+                },{
+                    name: "Invoice Approval",
+                    classis: "active",
+                    anchor: "invoiceApproval-list",
+                    icon: "pencil"
                 }]
             },
         ];

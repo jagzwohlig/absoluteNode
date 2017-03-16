@@ -446,7 +446,7 @@ var schema = new Schema({
     },
     timestamp: {
       type: Date,
-      default: Date.now
+      default: Date.now()
     },
     approvalStatus: {
       type: String,
@@ -475,7 +475,7 @@ var schema = new Schema({
     },
     timestamp: {
       type: Date,
-      default: Date.now
+      default: Date.now()
     },
     approvalStatus: {
       type: String,
@@ -504,7 +504,7 @@ var schema = new Schema({
     },
     timestamp: {
       type: Date,
-      default: Date.now
+      default: Date.now()
     },
     approvalStatus: {
       type: String,
@@ -533,7 +533,7 @@ var schema = new Schema({
     },
     timestamp: {
       type: Date,
-      default: Date.now
+      default: Date.now()
     },
     approvalStatus: {
       type: String,
@@ -2127,7 +2127,7 @@ var model = {
     var type = data.type;
     var unwind1 = {};
     var match1 = {};
-    
+
     if (type == "templateIla") {
       unwind1 = {
         "$unwind": "$templateIla"

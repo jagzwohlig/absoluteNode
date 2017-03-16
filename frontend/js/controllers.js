@@ -9988,6 +9988,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             console.log("Data of Pdf");
             $scope.formData.createdBy = $scope.message.employee;
             $scope.formData.assignment = $stateParams.assignmentId;
+            $scope.formData.approvalStatus = "Pending";
             NavigationService.modelSave("Invoice", $scope.formData, function (data) {
                 if (data.value === true) {
                     console.log("Data of Pdf");
@@ -10109,6 +10110,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.formData.roundOff = round.toFixed(2);
         }
         $scope.saveModel = function (data) {
+            $scope.formData.approvalStatus = "Pending";
             NavigationService.modelSave("Invoice", $scope.formData, function (data) {
                 if (data.value === true) {
                     $scope.formData.assignment = $stateParams.assignmentId;
@@ -10118,7 +10120,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                             console.log("Data of Pdf", data.data.name);
                             $scope.sendMessage(data.data.name);
                             $window.history.back();
-                            toastr.success("Invoice Template " + formData.name + " created successfully.", "Invoice Template Created");
+                            toastr.success("Invoice Template " + $scope.formData.name + " created successfully.", "Invoice Template Created");
                         } else {
                             toastr.error("Invoice Template creation failed.", "Invoice Template creation error");
                         }
@@ -12199,7 +12201,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     })
 
-        .controller('LorApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64, $stateParams, $state, toastr) {
+    .controller('LorApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64, $stateParams, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("lor-approval");
         $scope.menutitle = NavigationService.makeactive("Approvals");
@@ -12335,6 +12337,152 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 }
                 $scope.saveAssignment(obj);
                 toastr.success("Revised LOR for " + $scope.assignment.name);
+            });
+        }
+
+    })
+
+    .controller('InvoiceApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64, $stateParams, $state, toastr) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("invoice-approval");
+        $scope.menutitle = NavigationService.makeactive("Approvals");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.currentPage = $stateParams.page;
+        var i = 0;
+        NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
+            $scope.employee = data.data._id;
+            console.log("In $scope.ownersId", $scope.employee);
+        });
+        $scope.getAll = function (data) {
+            console.log(data);
+            $scope.approvalType = data.value;
+            $scope.showAll();
+        }
+        $scope.search = {
+            keyword: ""
+        };
+        if ($stateParams.keyword) {
+            $scope.search.keyword = $stateParams.keyword;
+        }
+        $scope.approvalType = "invoice";
+        $scope.showAll = function (keywordChange) {
+            $scope.totalItems = undefined;
+            if (keywordChange) {
+                $scope.currentPage = 1;
+            }
+            NavigationService.searchModel("Invoice", {
+                page: $scope.currentPage,
+                keyword: $scope.search.keyword,
+                filter: {
+                    approvalStatus: "Pending"
+                }
+            }, ++i, function (data, ini) {
+                if (ini == i) {
+                    $scope.invoiceList = data.data.results;
+                    $scope.totalItems = data.data.total;
+                    $scope.maxRow = data.data.options.count;
+                    console.log("modelList", $scope.invoiceList);
+                }
+            });
+        };
+
+        // 
+        $scope.viewInvoice = function (invoice, assignment) {
+            $state.go("editInvoice", {
+                "invoiceId": invoice,
+                "assignmentId": assignment._id
+            });
+        }
+        // 
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+        $scope.changePage = function (page) {
+            console.log("Page", page);
+            var goTo = "lorApproval-list";
+            if ($scope.search.keyword) {
+                goTo = "lorApproval-list";
+            }
+            $state.go(goTo, {
+                page: page,
+                keyword: $scope.search.keyword
+            });
+        };
+        $scope.showAll();
+        // $scope.someDate = moment().subtract(24, "hours").toDate();
+        $scope.getDelayClass = function (val) {
+            var retClass = "";
+            var hours = moment().diff(moment(val), "hours");
+            if (hours >= 0 && hours <= 6) {
+                retClass = "delay-6";
+            } else if (hours >= 7 && hours <= 24) {
+                retClass = "delay-24";
+            } else if (hours >= 25 && hours <= 48) {
+                retClass = "delay-48";
+            } else if (hours >= 49) {
+                retClass = "delay-72";
+            }
+            console.log(retClass);
+            return retClass;
+
+        };
+
+        $scope.viewTemplates = function (temp, getApi, data) {
+            $scope.allTemplate = temp;
+            $scope.api = getApi;
+            console.log("$scope.api", $scope.api);
+            console.log("In Else");
+            $state.go("template-view", {
+                "assignmentTemplate": data._id,
+                "type": getApi
+            });
+        };
+        $scope.saveOnTimeline = function () {
+            NavigationService.saveChat($scope.timeline, function (data) {
+                console.log("FFFFF", data);
+            });
+        }
+        $scope.acceptInvoice = function (data, assignment) {
+            $scope.invoice = data
+            $scope.assignment = assignment;
+            NavigationService.getOneModel("Timeline", $scope.assignment.timeline[0], function (data) {
+                $scope.timeline = data.data;
+                var a = {};
+                a.title = "Invoice " + $scope.invoice.invoiceNumber + " Approved ";
+                a.type = "Normal",
+                    a.employee = $scope.employee,
+                    $scope.timeline.chat.push(a);
+                $scope.saveOnTimeline();
+                $scope.invoice.approvalStatus = "Approved";
+                NavigationService.modelSave("Invoice", $scope.invoice, function (data) {
+                    if (data.value == true) {
+                        console.log("sdfghjk");
+                        toastr.success("Approved Invoice for " + $scope.assignment.name);
+                        $scope.showAll();
+                    }
+                });
+            });
+        };
+
+        $scope.reviseInvoice = function (data, assignment) {
+            $scope.invoice = data
+            $scope.assignment = assignment;
+            NavigationService.getOneModel("Timeline", $scope.assignment.timeline[0], function (data) {
+                $scope.timeline = data.data;
+                var a = {};
+                a.title = "Invoice " + $scope.invoice.invoiceNumber + " Revised ";
+                a.type = "Normal",
+                    a.employee = $scope.employee,
+                    $scope.timeline.chat.push(a);
+                $scope.saveOnTimeline();
+                $scope.invoice.approvalStatus = "Approved";
+                NavigationService.modelSave("Invoice", $scope.invoice, function (data) {
+                    if (data.value == true) {
+                        toastr.success("Revised Invoice for " + $scope.assignment.name);
+                        $scope.showAll();
+                    }
+                });
             });
         }
 
