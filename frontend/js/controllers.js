@@ -10499,7 +10499,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         cc: emailData.cc,
                         bcc: emailData.bcc,
                         subject: "Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
-                        content: "<p style='font-size: 17px;'>Dear Sir/Madam,</p><p style='font-size: 17px;'>Thank you for retaining us to inspect & assess the subject loss. This is to confirm that " + emailData.surveyorName + " shall be attending this claim. He can be reached on " + emailData.surveyorNumber + ". Our reference number for this claim would be " + emailData.assignmentNo + "</p> <p style='font-size: 17px;'>Should you ever need any support / information / update, please feel at ease to get in touch with me.</p><br>" + "<p style='font-size: 17px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
+                        message: "<p style='font-size: 17px;'>Dear Sir/Madam,</p><p style='font-size: 17px;'>Thank you for retaining us to inspect & assess the subject loss. This is to confirm that " + emailData.surveyorName + " shall be attending this claim. He can be reached on " + emailData.surveyorNumber + ". Our reference number for this claim would be " + emailData.assignmentNo + "</p> <p style='font-size: 17px;'>Should you ever need any support / information / update, please feel at ease to get in touch with me.</p><br>" + "<p style='font-size: 17px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
                     }
                     $scope.emailData = emails;
                 }
@@ -10513,7 +10513,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         cc: emailData.cc,
                         bcc: emailData.bcc,
                         subject: "Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
-                        content: "<p style='font-size: 17px;'>Dear Sir/Madam,</p><p style='font-size: 17px;'>Thank you for retaining us to inspect & assess the subject loss. This is to confirm that " + emailData.surveyorName + " shall be attending this claim. He can be reached on " + emailData.surveyorNumber + ". Our reference number for this claim would be " + emailData.assignmentNo + "</p> <p style='font-size: 17px;'>Should you ever need any support / information / update, please feel at ease to get in touch with me.</p><br>" + "<p style='font-size: 17px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
+                        message: "<p style='font-size: 17px;'>Dear Sir/Madam,</p><p style='font-size: 17px;'>Thank you for retaining us to inspect & assess the subject loss. This is to confirm that " + emailData.surveyorName + " shall be attending this claim. He can be reached on " + emailData.surveyorNumber + ". Our reference number for this claim would be " + emailData.assignmentNo + "</p> <p style='font-size: 17px;'>Should you ever need any support / information / update, please feel at ease to get in touch with me.</p><br>" + "<p style='font-size: 17px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
                     }
                     $scope.emailData = emails;
                 }
@@ -11221,23 +11221,23 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.sendEmail = function (modalForm) {
 
         $scope.msgSend = "Sending..";
-        $scope.newTo = angular.copy($scope.email);
+        $scope.newTo = angular.copy($scope.emailData);
         $scope.newTo.to = [];
-        _.each($scope.email.to, function (n) {
+        _.each($scope.emailData.to, function (n) {
             $scope.newTo.to.push(n.email);
         });
         $scope.newTo.cc = [];
-        _.each($scope.email.cc, function (n) {
+        _.each($scope.emailData.cc, function (n) {
             $scope.newTo.cc.push(n.email);
         });
         $scope.newTo.bcc = [];
-        _.each($scope.email.bcc, function (n) {
+        _.each($scope.emailData.bcc, function (n) {
             $scope.newTo.bcc.push(n.email);
         });
         $scope.newTo.to = $scope.newTo.to.join();
         $scope.newTo.cc = $scope.newTo.cc.join();
         $scope.newTo.bcc = $scope.newTo.bcc.join();
-        console.log($scope.newTo);
+        console.log("newTo : ",$scope.newTo);
         NavigationService.sendEmail($scope.newTo, function (data) {
             console.log(data);
             if (data.value) {
