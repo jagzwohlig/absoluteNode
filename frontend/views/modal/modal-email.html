@@ -12,7 +12,7 @@
             <div class="row">
                 <div class="col-md-6 field">
                     <label>To <span>*</span>  </label>
-                    <ui-select name="to" ng-required="true" multiple tagging ng-model="email.to">
+                    <ui-select name="to" ng-required="true" multiple tagging ng-model="emailData.to">
                         <ui-select-match placeholder="">{{$item.name}} &lt;{{$item.email}}&gt;</ui-select-match>
                         <ui-select-choices repeat="emailto in emailtos">{{emailto.email}}</ui-select-choices>
                     </ui-select>
@@ -20,27 +20,27 @@
                 </div>
                 <div class="col-md-6 field">
                     <label>Cc </label>
-                    <ui-select multiple tagging ng-model="email.cc">
+                    <ui-select multiple tagging ng-model="emailData.cc">
                         <ui-select-match placeholder="">{{$item.name}} &lt;{{$item.email}}&gt;</ui-select-match>
                         <ui-select-choices repeat="emailto in emailtos">{{emailto.email}}</ui-select-choices>
                     </ui-select>
                 </div>
                 <div class="col-md-12 field">
                     <label>Bcc</label>
-                    <ui-select multiple tagging ng-model="email.bcc">
+                    <ui-select multiple tagging ng-model="emailData.bcc">
                         <ui-select-match placeholder="">{{$item.name}} &lt;{{$item.email}}&gt;</ui-select-match>
                         <ui-select-choices repeat="emailto in emailtos">{{emailto.email}}</ui-select-choices>
                     </ui-select>
                 </div>
                 <div class="col-md-12 field">
                     <label>Subject <span>*</span></label>
-                    <input name="subject" type="text" placeholder="" ng-model="email.subject" required>
+                    <input name="subject" type="text" placeholder="" ng-model="emailData.subject" required>
                     <div class="error-msg" ng-show="modalForm.subject.$invalid && modalForm.subject.$touched">Please enter subject</div>
                 </div>
                 <div class="col-md-12 field">
                     <label>Message <span>*</span></label>
-                    <textarea name="message" ui-tinymce="tinymceOptions" ng-model="email.message" required></textarea>
-                    <div class="error-msg" ng-show="modalForm.message.$invalid && modalForm.message.$touched">Please enter email message</div>
+                    <textarea name="content" ui-tinymce="tinymceOptions" ng-model="emailData.content" required>{{emailData.content}}</textarea>
+                    <div class="error-msg" ng-show="modalForm.content.$invalid && modalForm.content.$touched">Please enter email message</div>
 
                 </div>
                 <div class="col-md-12 field">
