@@ -64,7 +64,7 @@
                                     <td>{{data.createdBy.name}}</td>
                                     <td style="text-align:right;">{{data.grandTotal}}</td>
                                     <td>
-                                        <a class="btn btn-primary" ui-sref="editInvoice({invoiceId:data._id})"><i class="fa fa-pencil"></i></a>
+                                        <a class="btn btn-primary" ui-sref="editInvoice({invoiceId:data._id,assignmentId:data.assignment._id})"><i class="fa fa-pencil"></i></a>
                                         <a class="btn btn-danger" ng-click="deleteModel(data._id)"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>

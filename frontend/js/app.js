@@ -1585,7 +1585,15 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
             templateUrl: "frontend/views/template.html",
             controller: 'EditInvoiceCtrl'
         })
-
+        .state('invoiceApproval-list', {
+            url: "/invoiceApproval-list/{page:.*}/{keyword:.*}/{model:.*}",
+            templateUrl: "frontend/views/template.html",
+            controller: 'InvoiceApprovalsCtrl',
+            params: {
+                page: "1",
+                keyword: ""
+            }
+        })
         .state('edittemplateInvoice', {
             url: "/templateInvoice-edit/:id",
             templateUrl: "frontend/views/template.html",
