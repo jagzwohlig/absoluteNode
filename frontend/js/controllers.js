@@ -9988,6 +9988,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         console.log("Data of Pdf");
         $scope.formData.createdBy = $scope.message.employee;
         $scope.formData.assignment = $stateParams.assignmentId;
+        $scope.formData.approvalStatus = "Pending";
         NavigationService.modelSave("Invoice", $scope.formData, function (data) {
             if (data.value === true) {
                 console.log("Data of Pdf");
@@ -10109,6 +10110,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.formData.roundOff = round.toFixed(2);
     }
     $scope.saveModel = function (data) {
+        $scope.formData.approvalStatus = "Pending";
         NavigationService.modelSave("Invoice", $scope.formData, function (data) {
             if (data.value === true) {
                 $scope.formData.assignment = $stateParams.assignmentId;
