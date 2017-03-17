@@ -469,6 +469,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.filter.department = departments;
             });
         };
+        $scope.forceClose=function(data){
+            var formData={};
+            formData._id=data._id;
+            formData.timelineStatus="Force Closed";
+            NavigationService.modelSave("Assignment",formData,function(data){
+                if(data.value==true){
+                    console.log("DDDDD");
+                    $scope.showAssignment();
+                }
+            })
+        };
         $scope.changePages = function (page, filter) {
 
             console.log("In Change Page", filter, "page", page);

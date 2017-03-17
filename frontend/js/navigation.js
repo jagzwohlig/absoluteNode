@@ -998,6 +998,7 @@ var navigationservice = angular.module('navigationservice', [])
                 $http.post(adminurl + 'Claims/save', formData).success(callback);
             },
             modelSave: function (modal, formData, callback) {
+                console.log("formData",modal,formData);
                 $http.post(adminurl + modal + '/save', formData).success(callback);
             },
             getAssignmentTemplate: function (data, callback) {
