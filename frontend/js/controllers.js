@@ -10564,13 +10564,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     emailData.ownerPhone = data.data.owner.mobile;
                     emailData.siteCity = data.data.city.name;
                     _.each(data.data.survey, function (values) {
-<<<<<<< HEAD
                         console.log("survey: ",values);
                         if (values.status == "Approval Pending") {
-=======
-                        console.log("survey: ", values);
-                        if (values.status == "Pending") {
->>>>>>> e24b522f4922240bcaa4adce06d4d23b58f9552a
                             emailData.surveyorNumber = values.employee.mobile;
                             emailData.surveyorName = values.employee.name;
                             emailData.surveyorEmail = values.employee.email;
