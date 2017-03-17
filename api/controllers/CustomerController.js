@@ -28,6 +28,9 @@ var controller = {
             });
         }
     },
+     generateExcel : function (req, res) {
+      req.model.generateExcel(req.query,res);
+  },
     import: function (req, res) {
         var xlsx = require('node-xlsx').default;
         var jsonExcel = xlsx.parse("./custommer.ods");

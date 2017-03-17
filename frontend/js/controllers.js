@@ -10564,8 +10564,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     emailData.ownerPhone = data.data.owner.mobile;
                     emailData.siteCity = data.data.city.name;
                     _.each(data.data.survey, function (values) {
+<<<<<<< HEAD
                         console.log("survey: ",values);
                         if (values.status == "Approval Pending") {
+=======
+                        console.log("survey: ", values);
+                        if (values.status == "Pending") {
+>>>>>>> e24b522f4922240bcaa4adce06d4d23b58f9552a
                             emailData.surveyorNumber = values.employee.mobile;
                             emailData.surveyorName = values.employee.name;
                             emailData.surveyorEmail = values.employee.email;
@@ -10590,7 +10595,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                             });
                         });
                     }
-                    
+
                     console.log("emailers to", emailData.to);
                     $scope.emailersData("Survey has been attended", emailData);
                     console.log("emailers", $scope.emailData);
@@ -10894,7 +10899,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.assignmentSurvey = function () {
             // console.log("$scope.assignment.survey Data", $scope.assignment.survey);
             _.each($scope.assignment.survey, function (n, key) {
-                console.log("$scope.assignment",$scope.assignment);
+                console.log("$scope.assignment", $scope.assignment);
                 // if (n.status === "Pending" && (($scope.employee._id === $scope.assignment.owner._id))) {
                 if (n.status === "Pending" && ((n.employee._id === $scope.employee._id) || ($scope.employee._id === $scope.assignment.owner._id))) {
                     console.log("IN If", n, validSurveyor);
@@ -12683,13 +12688,15 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         }
         $scope.acceptSbc = function (assignment) {
+            console.log("ASSIGNMENT.....", assignment);
             $scope.assignment = assignment;
             NavigationService.getOneModel("Timeline", $scope.assignment.timeline[0], function (data) {
                 $scope.timeline = data.data;
                 var a = {};
                 a.title = "Surveyor " + $scope.assignment.survey.employee.name + " Approved";
                 a.type = "Normal",
-                    a.employee = $scope.employee,
+                    a.surveyor = $scope.assignment.survey.employee._id,
+                a.employee = $scope.employee,
                     $scope.timeline.chat.push(a);
                 $scope.saveOnTimeline();
                 var obj = {

@@ -22,7 +22,7 @@ var schema = new Schema({
     },
     name: {
         type: String,
-        unique:true
+        unique: true
     },
     TOFShortName: {
         type: String
@@ -208,7 +208,7 @@ var model = {
         });
         var Search = Model.find(data.filter)
 
-        .order(options)
+            .order(options)
             .deepPopulate("city.district.state.zone.country customerSegment")
             .keyword(options)
             .page(options, callback);
@@ -257,7 +257,60 @@ var model = {
 
 
     },
-
+    generateExcel: function (data, res) {
+        Customer.find()
+            .sort({
+                createdAt: -1
+            })
+            .deepPopulate("customerSegment customerCompany typeOfOffice city")
+            .exec(
+                function (err, data1) {
+                    if (err) {
+                        console.log(err);
+                        res(err, null);
+                    } else if (data1) {
+                        if (_.isEmpty(data1)) {
+                            res("No Payment found.", null);
+                        } else {
+                            // console.log("Done", data1[37]);
+                            var excelData = [];
+                            _.each(data1, function (n, key) {
+                                console.log("Key", key);
+                                var obj = {};
+                                obj.name = n.name;
+                                if (n.customerCompany == null) {} else {
+                                    obj.customerCompany = n.customerCompany.name;
+                                }
+                                if (n.customerSegment == null) {} else {
+                                    obj.customerSegment = n.customerSegment.name;
+                                }
+                                if (n.typeOfOffice == null) {} else {
+                                    obj.typeOfOffice = n.typeOfOffice.name;
+                                }
+                                if (n.city == null) {} else {
+                                    obj.city = n.city.name;
+                                }
+                                obj.companyShortName = n.companyShortName;
+                                obj.officeCode = n.officeCode;
+                                obj.category = n.category;
+                                obj.creditLimitExhausted = n.creditLimitExhausted;
+                                obj.creditLimitAlloted = n.creditLimitAlloted;
+                                obj.creditLimitPending = n.creditLimitPending;
+                                obj.address = n.address;
+                                obj.pincode = n.pincode;
+                                obj.direct = n.direct;
+                                obj.phone1 = n.phone1;
+                                obj.phone2 = n.phone2;
+                                obj.email = n.email;
+                                excelData.push(obj);
+                            });
+                            Config.generateExcel("Customer", excelData, res);
+                        }
+                    } else {
+                        res("Invalid data", null);
+                    }
+                });
+    }
 
 };
 
