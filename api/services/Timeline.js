@@ -17,6 +17,11 @@ var schema = new Schema({
         key: "timeline"
     },
     chat: [{
+        surveyor: {
+            type: Schema.Types.ObjectId,
+            ref: "Employee",
+            index: true
+        },
         employee: {
             type: Schema.Types.ObjectId,
             ref: "Employee",

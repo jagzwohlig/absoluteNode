@@ -10544,7 +10544,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     emailData.ownerPhone = data.data.owner.mobile;
                     emailData.siteCity = data.data.city.name;
                     _.each(data.data.survey, function (values) {
-                        console.log("survey: ",values);
+                        console.log("survey: ", values);
                         if (values.status == "Pending") {
                             emailData.surveyorNumber = values.employee.mobile;
                             emailData.surveyorName = values.employee.name;
@@ -10568,7 +10568,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                             });
                         });
                     }
-                    
+
                     console.log("emailers to", emailData.to);
                     // emailData.assignmentNo = data.data.name;
                     // emailData.assignmentNo = data.data.name;
@@ -10875,7 +10875,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.assignmentSurvey = function () {
             // console.log("$scope.assignment.survey Data", $scope.assignment.survey);
             _.each($scope.assignment.survey, function (n, key) {
-                console.log("$scope.assignment",$scope.assignment);
+                console.log("$scope.assignment", $scope.assignment);
                 // if (n.status === "Pending" && (($scope.employee._id === $scope.assignment.owner._id))) {
                 if (n.status === "Pending" && ((n.employee._id === $scope.employee._id) || ($scope.employee._id === $scope.assignment.owner._id))) {
                     console.log("IN If", n, validSurveyor);
@@ -12664,13 +12664,15 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         }
         $scope.acceptSbc = function (assignment) {
+            console.log("ASSIGNMENT.....", assignment);
             $scope.assignment = assignment;
             NavigationService.getOneModel("Timeline", $scope.assignment.timeline[0], function (data) {
                 $scope.timeline = data.data;
                 var a = {};
                 a.title = "Surveyor " + $scope.assignment.survey.employee.name + " Approved";
                 a.type = "Normal",
-                    a.employee = $scope.employee,
+                    a.surveyor = $scope.assignment.survey.employee._id,
+                a.employee = $scope.employee,
                     $scope.timeline.chat.push(a);
                 $scope.saveOnTimeline();
                 var obj = {
