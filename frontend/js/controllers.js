@@ -10473,7 +10473,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             _.map(emailData.to, function (values) {
                 values.email.toString();
                 values.name.toString();
-
             });
             emailData.to = _.uniqBy(emailData.to, "email");
             console.log("values array ", emailData.to);
@@ -10545,7 +10544,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     emailData.ownerPhone = data.data.owner.mobile;
                     emailData.siteCity = data.data.city.name;
                     _.each(data.data.survey, function (values) {
-                        if (values.employee.status == "Pending") {
+                        console.log("survey: ",values);
+                        if (values.status == "Pending") {
                             emailData.surveyorNumber = values.employee.mobile;
                             emailData.surveyorName = values.employee.name;
                         }
@@ -10568,11 +10568,12 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                             });
                         });
                     }
+                    
                     console.log("emailers to", emailData.to);
                     // emailData.assignmentNo = data.data.name;
                     // emailData.assignmentNo = data.data.name;
                     // emailData.assignmentNo = data.data.name;
-                    $scope.emailersData("Survey Assigned", emailData);
+                    $scope.emailersData("Acknowledgment", emailData);
                     console.log("emailers", $scope.emailData);
                     $scope.results = data;
                     console.log("data.results", $scope.results);
