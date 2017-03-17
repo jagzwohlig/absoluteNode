@@ -10873,13 +10873,18 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         var validSurveyor = false;
         $scope.assignmentSurvey = function () {
+            // console.log("$scope.assignment.survey Data", $scope.assignment.survey);
             _.each($scope.assignment.survey, function (n, key) {
-                if (n.status === "Pending" && n.employee === $scope.employee._id) {
+                console.log("$scope.assignment",$scope.assignment);
+                // if (n.status === "Pending" && (($scope.employee._id === $scope.assignment.owner._id))) {
+                if (n.status === "Pending" && ((n.employee._id === $scope.employee._id) || ($scope.employee._id === $scope.assignment.owner._id))) {
+                    console.log("IN If", n, validSurveyor);
                     $scope.offlineSurvey.surveyId = n._id;
                     validSurveyor = true;
                 }
             });
             if (validSurveyor) {
+                console.log("validSurveyor", validSurveyor);
                 var modalInstance = $uibModal.open({
                     scope: $scope,
                     templateUrl: '/frontend/views/modal/assignment-survey.html',
@@ -10887,6 +10892,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 });
                 validSurveyor = false;
             } else {
+                console.log("validSurveyor", validSurveyor);
+
                 toastr.error("Invalid Surveyor");
             }
         };
@@ -11957,7 +11964,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     })
 
-.controller('EmailSingleCtrl', function ($scope, $window, $filter, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+    .controller('EmailSingleCtrl', function ($scope, $window, $filter, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("email-single");
         $scope.menutitle = NavigationService.makeactive("Single Mail");
@@ -12551,7 +12558,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     })
 
-    .controller('SbcApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64, $stateParams, $state, toastr,$uibModal) {
+    .controller('SbcApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64, $stateParams, $state, toastr, $uibModal) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("sbc-approval");
         $scope.menutitle = NavigationService.makeactive("Approvals");
@@ -12676,23 +12683,23 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
         $scope.surveyorFilter = function (assignment) {
-            $scope.assignment=assignment;
-            $scope.survey=assignment.survey._id;
-            console.log("surveyorFilter",$scope.assignment,$scope.survey);
+            $scope.assignment = assignment;
+            $scope.survey = assignment.survey._id;
+            console.log("surveyorFilter", $scope.assignment, $scope.survey);
             var modalInstance = $uibModal.open({
                 scope: $scope,
                 templateUrl: '/frontend/views/modal/surveyor-filter.html',
                 size: 'md'
             });
         };
-        $scope.changeSurveyor=function(data){
-            var formData={};
-            formData.employee=data.employee;
-            formData.surveyId=$scope.survey;
-            formData.assignId=$scope.assignment._id;
-            NavigationService.updateNewSurveyor(formData,function(data){
-            console.log("Data................",data);
-            $scope.showAll();
+        $scope.changeSurveyor = function (data) {
+            var formData = {};
+            formData.employee = data.employee;
+            formData.surveyId = $scope.survey;
+            formData.assignId = $scope.assignment._id;
+            NavigationService.updateNewSurveyor(formData, function (data) {
+                console.log("Data................", data);
+                $scope.showAll();
             });
         };
 
