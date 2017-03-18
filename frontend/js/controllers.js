@@ -11034,6 +11034,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.afterSurveyAssign = function (employee) {
             $scope.message.employee = employee;
             $scope.message.title = "Surveyor Pending For Approval";
+            $scope.message.event="Acknowledgment Email";
             $scope.surveyorAssigned = true;
             $scope.modalInstance.close();
             $timeout(function () {
@@ -12997,7 +12998,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 a.type = "Normal",
                     a.surveyor = $scope.assignment.survey.employee._id,
                     a.employee = $scope.employee,
-                    a.event="Acknowledgment Email",
+                    a.event="Deputation mail",
                     $scope.timeline.chat.push(a);
                 $scope.saveOnTimeline();
                 var obj = {
