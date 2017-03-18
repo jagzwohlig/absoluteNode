@@ -11509,6 +11509,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.timeline.chat.push($scope.message);
         NavigationService.saveChat($scope.timeline, function (data) {
             console.log("FFFFF", data);
+            NavigationService.updateEmailStatus({
+                        timelineId: $scope.timeline._id,
+                        chatId: $scope.chatId
+                    }, function (data) {
+                        console.log(data);
+                        if (data.value) {
+                           console.log("Mail Status Updated!!");
+                        } else {
+                            console.log("There was an error while updating email status !!");
+                        }
+                    });
             $scope.getTimeline();
         });
     };
@@ -11584,17 +11595,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     $scope.message.email.response = data;
                     $scope.sendMessage("Email");
                     toastr.success("Your message has been send.", "Send email.");
-                    NavigationService.updateEmailStatus({
-                        timelineId: $scope.timeline._id,
-                        chatId: $scope.chatId
-                    }, function (data) {
-                        console.log(data);
-                        if (data.value) {
-                           console.log("Mail Status Updated!!");
-                        } else {
-                            console.log("There was an error while updating email status !!");
-                        }
-                    });
+                    
                     $timeout(function () {
                         modalInstance.close();
                     }, 1000);
