@@ -1266,6 +1266,7 @@ var model = {
           newChat.surveyStartTime = new Date(data.startTime),
           newChat.surveyDate = new Date(data.surveyDate),
           newChat.address = data.address,
+          newChat.event="On Survey Attended",
           _.each(fileArray, function (n) {
             n.employee = data.empId,
               n.type = "Normal",
