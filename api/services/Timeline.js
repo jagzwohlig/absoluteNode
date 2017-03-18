@@ -17,8 +17,12 @@ var schema = new Schema({
         key: "timeline"
     },
     chat: [{
-        event:{
-            type:String
+        emailStatus: {
+            type: Boolean,
+            default: false
+        },
+        event: {
+            type: String
         },
         surveyor: {
             type: Schema.Types.ObjectId,
@@ -86,12 +90,37 @@ var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "chat.employee
 var model = {
     getTimeline: function (data, callback) {
         Timeline.findOne({
-           assignment:data.assignment
+            assignment: data.assignment
         }).limit(10).lean().exec(function (err, data2) {
             if (err) {
                 callback(err, null);
             } else {
                 callback(err, data2);
+            }
+        });
+    },
+    updateEmailStatus: function (data, callback) {
+        var matchObj = {};
+        var matchObj2 = {};
+        matchObj = {
+            _id: data.timelineId,
+            chat: {
+                $elemMatch: {
+                    _id: data.chatId
+                }
+            }
+        };
+        matchObj2 = {
+            $set: {
+                "chat.$.emailStatus": true
+            }
+        };
+
+        Timeline.update(matchObj, matchObj2).exec(function (err, data) {
+            if (err) {
+                callback(err, null);
+            } else {
+                callback(null, data);
             }
         });
     },
