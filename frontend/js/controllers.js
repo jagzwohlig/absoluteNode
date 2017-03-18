@@ -10599,10 +10599,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             emailData.ilaAuthDate = (emailData.ilaAuthDate ? emailData.ilaAuthDate : "");
 
             switch (type) {
-                case "Acknowledgment":
+                case "Acknowledgment Email":
                     {
                         var emails = {
-                            name: 'Acknowledgment',
+                            name: 'Acknowledgment Email',
                             from: emailData.ownerEmail,
                             to: emailData.to,
                             cc: emailData.cc,
@@ -10613,7 +10613,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         $scope.emailData = emails;
                     }
                     break;
-                case "Surveyor confirmed by SBC":
+                case "Deputation mail":
                     {
                         var to = [];
                         to.push({
@@ -10621,7 +10621,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                             email: emailData.surveyorEmail
                         })
                         var emails = {
-                            name: 'Surveyor confirmed by SBC',
+                            name: 'Deputation mail',
                             from: emailData.ownerEmail,
                             to: to,
                             cc: emailData.cc,
@@ -10894,7 +10894,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     }
 
                     console.log("emailers to", emailData.to);
-                    $scope.emailersData("Acknowledgment", emailData);
+                    $scope.emailersData("Acknowledgment Email", emailData);
                     console.log("emailers", $scope.emailData);
                     $scope.results = data;
                     console.log("data.results", $scope.results);
