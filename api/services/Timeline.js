@@ -17,6 +17,9 @@ var schema = new Schema({
         key: "timeline"
     },
     chat: [{
+        event:{
+            type:String
+        },
         surveyor: {
             type: Schema.Types.ObjectId,
             ref: "Employee",
