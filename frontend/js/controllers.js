@@ -10861,7 +10861,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 emailData.siteCity = data.data.city.name;
                 emailData.insuredName = data.data.insured.name;
                 emailData.ilaAuthDate = data.data.templateIla[0].authTimestamp;
-                emailData.surveyDate = (surveyDate ? surveyDate: "");
+                emailData.surveyDate = (surveyDate ? moment(surveyDate).format("DD/MM/YYYY") : "");
                 if (surveyor != undefined) {
                     _.each(data.data.survey, function (values) {
                         var id1 = "";
