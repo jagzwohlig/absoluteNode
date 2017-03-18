@@ -12997,6 +12997,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 a.type = "Normal",
                     a.surveyor = $scope.assignment.survey.employee._id,
                     a.employee = $scope.employee,
+                    a.event="Acknowledgment Email",
                     $scope.timeline.chat.push(a);
                 $scope.saveOnTimeline();
                 var obj = {
