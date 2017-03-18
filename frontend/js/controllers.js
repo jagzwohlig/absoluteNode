@@ -10846,8 +10846,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         keyword: ""
     };
 
-    $scope.getMail = function (type, surveyor,surveyDate) {
-
+    $scope.getMail = function (type, surveyor, surveyDate,chatId) {
+        $scope.chatId = "";
+        $scope.chatId = chatId
         console.log("$stateParams.id", $stateParams.id, "type", type, "surveyor", surveyor);
         NavigationService.getOneAssignment({
             _id: $stateParams.id
@@ -11578,6 +11579,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
                     toastr.error(data.data.error.code + " Code " + data.data.error.message, "Send email.");
                 } else {
+                    NavigationService.updateEmailStatus({
+                        timelineId: $scope.timeline._id,
+                        chatId: $scope.chatId
+                    }, function (data) {
+                        console.log(data);
+                        if (data.value) {
+                           console.log("Mail Status Updated!!");
+                        } else {
+                            console.log("There was an error while updating email status !!");
+                        }
+                    });
                     $scope.message.email = $scope.newTo;
                     $scope.message.email.response = data;
                     $scope.sendMessage("Email");

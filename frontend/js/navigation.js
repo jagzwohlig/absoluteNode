@@ -473,6 +473,9 @@ var navigationservice = angular.module('navigationservice', [])
                 data.accessToken = $.jStorage.get("accessToken");
                 $http.post(adminurl + 'user/sendEmail', data).success(callback);
             },
+            updateEmailStatus: function (data, callback) {
+                $http.post(adminurl + 'timeline/updateEmailStatus', data).success(callback);
+            },
             profile: function (callback, errorCallback) {
                 var data = {
                     accessToken: $.jStorage.get("accessToken")
