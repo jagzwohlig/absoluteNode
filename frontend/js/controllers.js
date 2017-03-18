@@ -11579,6 +11579,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
                     toastr.error(data.data.error.code + " Code " + data.data.error.message, "Send email.");
                 } else {
+                    
+                    $scope.message.email = $scope.newTo;
+                    $scope.message.email.response = data;
+                    $scope.sendMessage("Email");
+                    toastr.success("Your message has been send.", "Send email.");
                     NavigationService.updateEmailStatus({
                         timelineId: $scope.timeline._id,
                         chatId: $scope.chatId
@@ -11590,10 +11595,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                             console.log("There was an error while updating email status !!");
                         }
                     });
-                    $scope.message.email = $scope.newTo;
-                    $scope.message.email.response = data;
-                    $scope.sendMessage("Email");
-                    toastr.success("Your message has been send.", "Send email.");
                     $timeout(function () {
                         modalInstance.close();
                     }, 1000);
