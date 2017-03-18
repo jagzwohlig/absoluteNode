@@ -514,7 +514,6 @@ var navigationservice = angular.module('navigationservice', [])
                 });
             },
             searchLorCategory: function (formData, i, callback) {
-                console.log("formData : ", formData);
                 $http.post(adminurl + 'LorCategory/search', formData).success(function (data) {
                     callback(data, i);
                 });
@@ -1043,7 +1042,6 @@ var navigationservice = angular.module('navigationservice', [])
                 $http.post(adminurl + 'Employee/getLoginEmployee', data).success(callback);
             },
             getOneModel: function (model, id, callback) {
-                console.log("model", model, id);
                 $http.post(adminurl + model + '/getOne', {
                     _id: id
                 }).success(callback);

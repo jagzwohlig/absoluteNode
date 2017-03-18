@@ -90,7 +90,7 @@ var schema = new Schema({
     },
     approvalStatus: {
         type: String,
-        enum:["Pending","Revised","Accepted"]
+        enum:["Pending","Revised","Approved"]
     },
     timestamp: {
       type: Date,

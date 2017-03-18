@@ -447,9 +447,12 @@ var schema = new Schema({
       type: Date,
       default: Date.now()
     },
+    authTimestamp:{
+      type: Date
+    },
     approvalStatus: {
       type: String,
-      enum: ["Pending", "Approved", "Reject", "Revise"],
+      enum: ["Pending", "Approved", "Reject", "Revised"],
       default: "Pending"
     }
   }],
@@ -476,9 +479,12 @@ var schema = new Schema({
       type: Date,
       default: Date.now()
     },
+    authTimestamp:{
+      type: Date
+    },
     approvalStatus: {
       type: String,
-      enum: ["Pending", "Approved", "Reject", "Revise"],
+      enum: ["Pending", "Approved", "Reject", "Revised"],
       default: "Pending"
     }
   }],
@@ -505,9 +511,12 @@ var schema = new Schema({
       type: Date,
       default: Date.now()
     },
+    authTimestamp:{
+      type: Date
+    },
     approvalStatus: {
       type: String,
-      enum: ["Pending", "Approved", "Reject", "Revise"],
+      enum: ["Pending", "Approved", "Reject", "Revised"],
       default: "Pending"
     }
   }],
@@ -533,6 +542,9 @@ var schema = new Schema({
     timestamp: {
       type: Date,
       default: Date.now()
+    },
+    authTimestamp:{
+      type: Date
     },
     approvalStatus: {
       type: String,
@@ -2385,10 +2397,12 @@ var model = {
       };
       matchObj2 = {
         $set: {
-          "templateIla.$.approvalStatus": data.approvalStatus
+          "templateIla.$.approvalStatus": data.approvalStatus,
+          "templateIla.$.authTimestamp":data.authTimestamp
         }
       };
     } else if (data.type == "templateLor") {
+      console.log("In templateLor",data);
       matchObj = {
         _id: data.assignId,
         templateLor: {
@@ -2399,7 +2413,8 @@ var model = {
       };
       matchObj2 = {
         $set: {
-          "templateLor.$.approvalStatus": data.approvalStatus
+          "templateLor.$.approvalStatus": data.approvalStatus,
+          "templateLor.$.authTimestamp":data.authTimestamp
         }
       };
     } else if (data.type == "survey") {

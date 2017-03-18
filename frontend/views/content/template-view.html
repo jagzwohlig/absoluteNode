@@ -1,4 +1,4 @@
-<form name="formName" ng-submit="saveModel(forms)">
+<form name="formName">
     <div class="heading-sec">
         <div class="row">
             <div class="col-md-12 column">
@@ -107,7 +107,7 @@
                                         </p>
                                     </div>-->
                                     <div class="col-item">
-                                        <ui-select placeholder="Select" ng-model="item"ng-change="getOneDescription(item,$index,outerIndex)" theme="bootstrap" sortable="true">
+                                        <ui-select placeholder="Select" ng-model="item" ng-change="getOneDescription(item,$index,outerIndex)" theme="bootstrap" sortable="true">
                                             <ui-select-match placeholder="Select">
                                                 <span class="detail-title" ng-if="!flag" title="{{$select.selected.name}}">{{$select.selected.name}}</span>
                                                 <span class="detail-title" ng-if="flag" title="{{$select.selected.name}}">{{$select.selected.category}}</span>
@@ -147,20 +147,20 @@
                                     </div>
                                     <!-- LOR -->
                                     <div class="col-item" ng-if="item.type=='Copy'||item.type=='Original'">
-                                        
-                                                <select class="form-control" ng-model="item.type">
+
+                                        <select class="form-control" ng-model="item.type">
                                             <option value="{{item.value}}" ng-repeat="item in itemTypes">{{item.name}}</option>
                                         </select>
-                                           
+
                                     </div>
-                                     
+
                                     <div class="col-item" ng-if="item.type=='Copy' || item.type=='Original' && item.submit">
-                                        <input type="date" date-model placeholder="Enter submitted date" class="form-control" ng-model="item.date" >    
+                                        <input type="date" date-model placeholder="Enter submitted date" class="form-control" ng-model="item.date">
                                     </div>
                                     <div class="col-item" ng-if="item.type=='Copy'||item.type=='Original'">
-                                               <toggle-switch on-label="Submitted" off-label="Not Submitted" ng-model="item.submit" class="switch-small switch-success m5 mt5"></toggle-switch>
+                                        <toggle-switch on-label="Submitted" off-label="Not Submitted" ng-model="item.submit" class="switch-small switch-success m5 mt5"></toggle-switch>
                                     </div>
-                                   
+
                                     <!-- DROPDOWN -->
                                     <div class="col-item" ng-if="item.type=='Dropdown'">
                                         <select class="form-control" ng-model="item.field">
@@ -180,8 +180,10 @@
         </div>
         <div class="clearfix"></div>
         <div class="text-center mt20 odd-even-button" ng-hide="Saved">
-            <button class="btn btn-default" type="submit" ng-disabled="formName.$invalid">Save</button>
-            <a class="btn btn-default" ng-click="cancel()">Cancel</a>
+            <button class="btn btn-primary" ng-click="saveModel(forms)" ng-if="approval==false">Save</button>
+            <button class="btn btn-primary" ng-click="saveModel(forms)" ng-if="approval==true">Accept</button>
+            <button class="btn btn-warning" ng-click="comment()" ng-if="approval==true">Revise</button>
+            <a class="btn btn-danger" ng-click="cancel()">Cancel</a>
             <!--<a class="btn btn-default" ui-sref="timeline({id:assignment._id})">Cancel</a>-->
         </div>
     </div>

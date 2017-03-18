@@ -469,12 +469,12 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.filter.department = departments;
             });
         };
-        $scope.forceClose=function(data){
-            var formData={};
-            formData._id=data._id;
-            formData.timelineStatus="Force Closed";
-            NavigationService.modelSave("Assignment",formData,function(data){
-                if(data.value==true){
+        $scope.forceClose = function (data) {
+            var formData = {};
+            formData._id = data._id;
+            formData.timelineStatus = "Force Closed";
+            NavigationService.modelSave("Assignment", formData, function (data) {
+                if (data.value == true) {
                     console.log("DDDDD");
                     $scope.showAssignment();
                 }
@@ -9922,8 +9922,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.sendMessage = function (fileName) {
             console.log("In Send MSG", fileName);
             $scope.message.type = "File";
-            $scope.message.title = "Updated Invoice";
-            $scope.message.title = "Invoice Sent For Approval";
+            $scope.message.title = "Invoice " + $scope.invoiceNumber + " Sent For Approval";
             $scope.message.attachment.push(fileName);
             $scope.timeline.chat.push($scope.message);
             NavigationService.saveChat($scope.timeline, function (data) {
@@ -10001,11 +10000,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.formData.assignment = $stateParams.assignmentId;
             $scope.formData.approvalStatus = "Pending";
             NavigationService.modelSave("Invoice", $scope.formData, function (data) {
+                console.log("New Invoice", data);
                 if (data.value === true) {
                     console.log("Data of Pdf");
                     var invoice = {
                         _id: data.data._id
                     };
+                    $scope.invoiceNumber = data.data.invoiceNumber;
                     $scope.assignment.invoice.push(data.data._id);
                     $scope.assignment.timelineStatus = "BBND";
                     NavigationService.modelSave("Assignment", $scope.assignment, function (data) {
@@ -10034,7 +10035,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     })
 
 
-    .controller('EditInvoiceCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+    .controller('EditInvoiceCtrl', function ($scope, $window, $uibModal, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("invoice-detail");
         $scope.menutitle = NavigationService.makeactive("Edit Invoice");
@@ -10048,6 +10049,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             console.log("ABCDEF", $scope.formData.invoiceList);
             _.each($scope.formData.invoiceList)
         });
+        $scope.approval = false;
+        if ($stateParams.approval) {
+            $scope.approval = true;
+        }
         $scope.formData.status = true;
         $scope.required = true;
         $scope.showForm = true;
@@ -10087,7 +10092,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             console.log("In Send MSG", fileName);
             $scope.message.type = "File";
             // $scope.message.title = "Updated Invoice";
-            $scope.message.title = "Invoice Sent For Approval";
+            if ($scope.approval) {
+                $scope.message.title = "Invoice " + $scope.formData.invoiceNumber + " Approved";
+            } else {
+                $scope.message.title = $scope.formData.invoiceNumber + "Invoice Sent For Approval";
+            }
             $scope.message.attachment.push(fileName);
             $scope.timeline.chat.push($scope.message);
             NavigationService.saveChat($scope.timeline, function (data) {
@@ -10121,8 +10130,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.formData.roundOff = round.toFixed(2);
         }
         $scope.saveModel = function (data) {
-            $scope.formData.approvalStatus = "Pending";
+            if ($scope.approval) {
+                $scope.formData.approvalStatus = "Approved";
+            } else {
+                $scope.formData.approvalStatus = "Pending";
+            }
             NavigationService.modelSave("Invoice", $scope.formData, function (data) {
+                console.log("New Invoice", data);
                 if (data.value === true) {
                     $scope.formData.assignment = $stateParams.assignmentId;
                     console.log($scope.formData.assignment, $scope.formData, "$scope.formData.assignment");
@@ -10142,6 +10156,28 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
+        $scope.comment = function () {
+            var modalInstance = $uibModal.open({
+                scope: $scope,
+                templateUrl: '/frontend/views/modal/revise-comment.html',
+                size: 'md'
+            });
+        };
+        $scope.submitRevise = function (filter) {
+            var goto = "invoiceApproval-list";
+            var a = {};
+            a.title = "Invoice " + $scope.formData.invoiceNumber + " Revised";
+            a.type = "Normal",
+                a.employee = $scope.message.employee,
+                a.message = filter.comment;
+            $scope.timeline.chat.push(a);
+            NavigationService.saveChat($scope.timeline, function (data) {});
+            $scope.formData.approvalStatus = "Approved";
+            NavigationService.modelSave("Invoice", $scope.formData, function (data) {});
+            $timeout(function () {
+                $state.go(goto, {});
+            }, 1000);
+        };
     })
 
     .controller('TemplateLORCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
@@ -10179,7 +10215,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
     })
 
-    .controller('TemplateViewCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, AssignmentTemplate) {
+    .controller('TemplateViewCtrl', function ($scope, $uibModal, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, AssignmentTemplate) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("template-view");
         $scope.menutitle = NavigationService.makeactive("Form Name");
@@ -10189,6 +10225,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.header = {
             "name": "Form Name"
         };
+        $scope.approval = false;
+        if ($stateParams.approval) {
+            $scope.approval = true;
+        }
         $scope.itemTypes = [{
             value: '',
             name: 'Select Status'
@@ -10232,7 +10272,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.tempt = $stateParams.type;
         NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
             $scope.message.employee = data.data;
-            console.log("In Employee", $scope.employee, data);
         });
         if ($stateParams.assignmentTemplate === "") {
             NavigationService.getOneModel($stateParams.type, $stateParams.template, function (data) {
@@ -10245,23 +10284,18 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             };
             NavigationService.getAssignmentTemplate(a, function (data) {
                 _.each(data.data.forms, function (n) {
-                    console.log("In Forms");
                     _.each(n.items, function (m) {
-                        console.log("In Items", m);
                         if (m.value == "Date") {
                             m.field = moment(m.field, 'ddd, MMM Do, YYYY').toDate();
                         }
                         if (m.type == "Dropdown") {
                             m.dropdownValues = [];
                             m.dropdownValues = _.split(m.value, ",");
-                            console.log("DropdownValues", m.dropdownValues);
                         }
                     });
                 });
-                console.log(data);
                 $scope.forms = data.data;
                 $scope.forms.templateName = data.data.assignment.name;
-                console.log("CCCCCCCCCCCCCCCCCCC", $scope.forms);
                 $scope.assignment = data.data.assignment;
                 $scope.getTimeline();
             });
@@ -10305,7 +10339,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             };
             NavigationService.searchLorMaster(formData, 1, function (data) {
                 $scope.descriptions = data.data.results;
-                console.log("Tax", $scope.descriptions);
             });
         }
         $scope.getCategories = function (data) {
@@ -10313,12 +10346,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             formData.keyword = data;
             NavigationService.searchLorCategory(formData, 1, function (data) {
                 $scope.categories = data.data.results;
-                console.log("Categories", $scope.categories);
             });
         }
         $scope.getOneDescription = function (invoice, $index, outerIndex) {
             $scope.flag = false;
-            console.log("Invoice", invoice, $index, outerIndex);
             $scope.lorCategory = invoice._id;
             $scope.forms.forms[outerIndex].items[$index].category = invoice.name;
             $scope.getdescriptions();
@@ -10410,23 +10441,49 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 });
             } else {
                 $scope.Saved = true;
-                console.log("Data To Saveeee", $scope.forms.type);
+                console.log("Data To Saveeee", $scope.forms);
                 NavigationService.editAssignmentTemplate($scope.forms, function (data) {
                     if (data.value) {
                         var a = {};
-                        $scope.message.title = $stateParams.type + " Sent to Approval";
-                        // $scope.sendMessage("Template");
+                        if (templateObj.type == "templateIla") {
+                            if ($stateParams.approval) {
+                                $scope.message.title = "ILA " + templateObj.templateName + " Approved";
+                            } else {
+                                $scope.message.title = "ILA " + templateObj.templateName + " Sent to Approval";
+                            }
+                        } else if (templateObj.type == "templateLor") {
+                            if ($stateParams.approval) {
+                                $scope.message.title = "LOR " + templateObj.templateName + " Approved";
+                            } else {
+                                $scope.message.title = "LOR " + templateObj.templateName + " Sent to Approval";
+                            }
+                        } else {
+                            $scope.message.title = $stateParams.type + " Sent to Approval";
+                        }
                         a.type = "File",
                             a.employee = $scope.message.employee,
                             a.title = $scope.message.title,
                             a.attachment = data.data.name;
                         $scope.sendMessage2(_.cloneDeep(a));
-                        var obj = {
-                            assignId: $scope.assignment._id,
-                            _id: $scope.forms._id,
-                            approvalStatus: "Pending",
-                            type: $scope.forms.type
+                        var obj = {};
+                        if ($stateParams.approval) {
+                            console.log("$stateParams.approval");
+                            var obj = {
+                                assignId: $scope.assignment._id,
+                                _id: $scope.forms._id,
+                                approvalStatus: "Approved",
+                                authTimestamp: Date.now(),
+                                type: $scope.forms.type
+                            }
+                        } else {
+                            var obj = {
+                                assignId: $scope.assignment._id,
+                                _id: $scope.forms._id,
+                                approvalStatus: "Pending",
+                                type: $scope.forms.type
+                            }
                         }
+                        console.log("$stateParams.approval", obj);
                         $scope.saveAssignment(obj);
                         toastr.success("Updated " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
                         // $state.go('timeline', {
@@ -10438,6 +10495,45 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     }
                 });
             }
+        };
+        $scope.comment = function () {
+            console.log("In", $scope.forms._id);
+            var modalInstance = $uibModal.open({
+                scope: $scope,
+                templateUrl: '/frontend/views/modal/revise-comment.html',
+                size: 'md'
+            });
+        };
+        $scope.submitRevise = function (filter) {
+            var goto = "";
+            console.log("$scope.forms.type", $scope.forms.type);
+            if ($scope.forms.type == "templateIla") {
+                goto = "ilaApproval-list";
+                a.title = "ILA " + $scope.forms.templateName + " Revised";
+            } else if ($scope.forms.type == "templateLor") {
+                goto = "lorApproval-list";
+                a.title = "LOR " + $scope.forms.templateName + " Revised";
+            } else {
+                a.title = $scope.forms.templateName + " Revised";
+            }
+            a.type = "Normal",
+                a.employee = $scope.message.employee,
+                a.message = filter.comment;
+            $scope.sendMessage2(_.cloneDeep(a));
+            var obj = {
+                assignId: $scope.assignment._id,
+                _id: $scope.forms._id,
+                approvalStatus: "Revised",
+                type: $scope.forms.type
+            }
+            console.log("IN ...", obj);
+            $scope.saveAssignment(obj);
+
+            $timeout(function () {
+                $state.go(goto, {});
+            }, 1000);
+
+
         };
     })
 
@@ -10498,8 +10594,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             emailData.bcc = (emailData.bcc ? emailData.bcc : []);
             emailData.surveyorNumber = (emailData.surveyorNumber ? emailData.surveyorNumber : "");
             emailData.surveyorName = (emailData.surveyorName ? emailData.surveyorName : "");
-            emailData.surveyorEmail = (emailData.surveyorEmail ? emailData.surveyorEmail : "");    
-            //   emailData.to =  _.uniq(emailData.to);
+            emailData.surveyorEmail = (emailData.surveyorEmail ? emailData.surveyorEmail : "");
+            emailData.insuredName = (emailData.insuredName ? emailData.insuredName : "");
+            emailData.ilaAuthDate = (emailData.ilaAuthDate ? emailData.ilaAuthDate : "");
+
             switch (type) {
                 case "Acknowledgment":
                     {
@@ -10517,10 +10615,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     break;
                 case "Surveyor confirmed by SBC":
                     {
-                        var to  = [];
+                        var to = [];
                         to.push({
                             name: emailData.surveyorName,
-                            email: emailData.surveyorEmail 
+                            email: emailData.surveyorEmail
                         })
                         var emails = {
                             name: 'Surveyor confirmed by SBC',
@@ -10548,6 +10646,192 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         $scope.emailData = emails;
                     }
                     break;
+                case "ILA Authorization":
+                    {
+                        var emails = {
+                            name: 'ILA Authorization',
+                            from: emailData.ownerEmail,
+                            to: emailData.to,
+                            cc: emailData.cc,
+                            bcc: emailData.bcc,
+                            subject: "ILA Authorized of Assignment : " + emailData.assignmentNo,
+                            message: "<p style='font-size: 16px;'>Dear " + emailData.ownerName + "</p><p style='font-size: 16px;'>I have gone through the ILA prepared for " + emailData.insuredName + ", Assignment No. " + emailData.assignmentNo + " and have  authorized the same. It is OK to release</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
+                        }
+                        $scope.emailData = emails;
+                    }
+                    break;
+
+                case "ILA Back to Regenerate":
+                    {
+                        var emails = {
+                            name: 'ILA Back to Regenerate',
+                            from: emailData.ownerEmail,
+                            to: emailData.to,
+                            cc: emailData.cc,
+                            bcc: emailData.bcc,
+                            subject: "ILA Sent back for regeneration of Assignment : " + emailData.assignmentNo,
+                            message: "<p style='font-size: 16px;'>Dear " + emailData.ownerName + "</p><p style='font-size: 16px;'>This is to inform you that ILA No. " + emailData.assignmentNo + " has NOT been authorized on " + emailData.ilaAuthDate + ". Please regenrate as per the comments.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
+                        }
+                        $scope.emailData = emails;
+                    }
+                    break;
+
+                case "ILA Release":
+                    {
+                        var emails = {
+                            name: 'ILA Release',
+                            from: emailData.ownerEmail,
+                            to: emailData.to,
+                            cc: emailData.cc,
+                            bcc: emailData.bcc,
+                            subject: "ILA Authorized of Assignment : " + emailData.assignmentNo,
+                            message: "<p style='font-size: 16px;'>Dear Sir/Madam,</p><p style='font-size: 16px;'>We are pleased to release the ILA in respect of our Assignment No. " + emailData.assignmentNo + " and your #ClaimNo# and #PolicyNo#.</p><p style='font-size: 16px;'>We hope that the same shall serve your purpose. Should you ever need any support / information / update please feel at ease to get in touch with me. I will be more than willing to assist.</p>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
+                        }
+                        $scope.emailData = emails;
+                    }
+                    break;
+
+                case "ILA Send for Authorization":
+                    {
+                        var emails = {
+                            name: 'ILA Send for Authorization',
+                            from: emailData.ownerEmail,
+                            to: "",
+                            cc: emailData.cc,
+                            bcc: emailData.bcc,
+                            subject: "ILA Send for Authorization Mail of Assignment : " + emailData.assignmentNo,
+                            message: "<p style='font-size: 16px;'>Please go through the ILA for Assignment No. " + emailData.assignmentNo + " in respect of loss sustained by " + emailData.insuredName + " on account of damage to #ProductDetails# and authorize the same.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
+                        }
+                        $scope.emailData = emails;
+                    }
+                    break;
+
+                case "Invoice Authorization":
+                    {
+                        var emails = {
+                            name: 'Invoice Authorization',
+                            from: emailData.ownerEmail,
+                            to: emailData.to,
+                            cc: emailData.cc,
+                            bcc: emailData.bcc,
+                            subject: "Invoice Authorization : #InvoiceNo#",
+                            message: "<p style='font-size: 16px;'>I have gone through the Invoice prepared for " + emailData.insuredName + ", Invoice No.#InvoiceNo# and authorized the same. It is OK to release.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
+                        }
+                        $scope.emailData = emails;
+                    }
+                    break;
+
+                case "Invoice Back to Regenerate":
+                    {
+                        var emails = {
+                            name: 'Invoice Back to Regenerate',
+                            from: emailData.ownerEmail,
+                            to: emailData.to,
+                            cc: emailData.cc,
+                            bcc: emailData.bcc,
+                            subject: "Invoice Back to Regenerate : #InvoiceNo#",
+                            message: "<p style='font-size: 16px;'>I have gone through the Invoice prepared for " + emailData.insuredName + ", Invoice No. #InvoiceNo#. Kindly make the changes as advised to you & resend for authorization.</p><p style='font-size: 16px;'>Please let me know if assistance required.</p>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
+                        }
+                        $scope.emailData = emails;
+                    }
+                    break;
+
+                case "Invoice Cancel":
+                    {
+                        var emails = {
+                            name: 'Invoice Cancel',
+                            from: emailData.ownerEmail,
+                            to: emailData.to,
+                            cc: emailData.cc,
+                            bcc: emailData.bcc,
+                            subject: "Invoice Cancel : #InvoiceNo#",
+                            message: "<p style='font-size: 16px;'>This is to inform all that the Invoice #InvoiceNo# has been canceled.</p><p style='font-size: 16px;'>You may update your record accordingly.</p>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
+                        }
+                        $scope.emailData = emails;
+                    }
+                    break;
+
+                case "Invoice Release":
+                    {
+                        var emails = {
+                            name: 'Invoice Release',
+                            from: emailData.ownerEmail,
+                            to: emailData.to,
+                            cc: emailData.cc,
+                            bcc: emailData.bcc,
+                            subject: "",
+                            message: "<p style='font-size: 16px;'>Dear Sir/Madam,We are pleased to attach our bill for professional services rendered for your kind perusal & payment. Our bank details are as follows: #BankDetails# You are requested to kindly release our payment & confirm in order to enable us to release the report.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
+                        }
+                        $scope.emailData = emails;
+                    }
+                    break;
+
+                case "Invoice Revise":
+                    {
+                        var emails = {
+                            name: 'Invoice Revise',
+                            from: emailData.ownerEmail,
+                            to: emailData.to,
+                            cc: emailData.cc,
+                            bcc: emailData.bcc,
+                            subject: "Invoice Revise : #InvoiceNo#",
+                            message: "<p style='font-size: 16px;'>Invoice #InvoiceNo# has been revised, you are requested to kindly make a note of the same. Copy of the revised invoice is attached for perusal.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
+                        }
+                        $scope.emailData = emails;
+                    }
+                    break;
+
+                case "Invoice Send Authorization":
+                    {
+                        var emails = {
+                            name: 'Invoice Send Authorization',
+                            from: emailData.ownerEmail,
+                            to: emailData.to,
+                            cc: emailData.cc,
+                            bcc: emailData.bcc,
+                            subject: "Invoice Send Authorization : #InvoiceNo#",
+                            message: "<p style='font-size: 16px;'>Please go through the Invoice for Assignment No. " + emailData.assignmentNo + " in respect of loss sustained by " + emailData.insuredName + " on account of damage to #ProductDetails# and authorize the same</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
+                        }
+                        $scope.emailData = emails;
+                    }
+                    break;
+
+                case "LOR Authorization":
+                    {
+
+                        var to = [];
+                        to.push({
+                            name: $.jStorage.get("profile").name,
+                            email: $.jStorage.get("profile").email
+                        })
+                        var emails = {
+                            name: 'LOR Authorization',
+                            from: emailData.ownerEmail,
+                            to: to,
+                            cc: emailData.cc,
+                            bcc: emailData.bcc,
+                            subject: "LOR is Authorizaed For Assignment : " + emailData.assignmentNo,
+                            message: "<p style='font-size: 16px;'>I have gone through the LOR prepared for " + emailData.insuredName + ", Assignment " + emailData.assignmentNo + " and have authorized the same. It is OK to release.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + $.jStorage.get("profile").name + "</p>"
+                        }
+                        $scope.emailData = emails;
+                    }
+                    break;
+
+                case "LOR Back to Regenerate":
+                    {
+                        var emails = {
+                            name: 'LOR Back to Regenerate',
+                            from: emailData.ownerEmail,
+                            to: emailData.to,
+                            cc: emailData.cc,
+                            bcc: emailData.bcc,
+                            subject: "LOR Back to Regenerate For Assignment No :" + emailData.assignmentNo,
+                            message: "<p style='font-size: 16px;'>I have gone through the LOR prepared for " + emailData.insuredName + ", assignment " + emailData.assignmentNo + " Kindly make the changes as advised to you & resend for authorization. Please let me know if assistance required.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + $.jStorage.get("profile").name + "</p>"
+                        }
+                        $scope.emailData = emails;
+                    }
+                    break;
+
                 default:
                     {
                         // $scope.formData.push($scope.newjson);
@@ -10562,8 +10846,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             keyword: ""
         };
 
-        $scope.getMail = function (type) {
-            console.log("$stateParams.id", $stateParams.id, "type", type);
+        $scope.getMail = function (type, surveyor) {
+            console.log("$stateParams.id", $stateParams.id, "type", type, "surveyor", surveyor);
             NavigationService.getOneAssignment({
                 _id: $stateParams.id
             }, ++i, function (data, ini) {
@@ -10574,9 +10858,16 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     emailData.ownerEmail = data.data.owner.email;
                     emailData.ownerPhone = data.data.owner.mobile;
                     emailData.siteCity = data.data.city.name;
+                    emailData.insuredName = data.data.insured.name;
+                    emailData.ilaAuthDate = data.data.templateIla[0].authTimestamp;
                     _.each(data.data.survey, function (values) {
-                        console.log("survey: ",values);
-                        if (values.status == "Approval Pending") {
+                        var id1 = "";
+                        var id2 = "";
+                        id1 = values.employee._id.toString();
+                        id2 = surveyor.toString();
+                        console.log("id1", id1, "id2", id2, "survey: ", values);
+                        if (id1 === id2) {
+                            console.log("In surveyor");
                             emailData.surveyorNumber = values.employee.mobile;
                             emailData.surveyorName = values.employee.name;
                             emailData.surveyorEmail = values.employee.email;
@@ -10603,7 +10894,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     }
 
                     console.log("emailers to", emailData.to);
-                    $scope.emailersData("Survey has been attended", emailData);
+                    $scope.emailersData("Acknowledgment", emailData);
                     console.log("emailers", $scope.emailData);
                     $scope.results = data;
                     console.log("data.results", $scope.results);
@@ -12241,7 +12532,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             console.log("In Else");
             $state.go("template-view", {
                 "assignmentTemplate": data._id,
-                "type": getApi
+                "type": getApi,
+                "approval": true
             });
         };
         $scope.saveOnTimeline = function () {
@@ -12378,11 +12670,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.viewTemplates = function (temp, getApi, data) {
             $scope.allTemplate = temp;
             $scope.api = getApi;
-            console.log("$scope.api", $scope.api);
-            console.log("In Else");
             $state.go("template-view", {
                 "assignmentTemplate": data._id,
-                "type": getApi
+                "type": getApi,
+                "approval": true
             });
         };
         $scope.saveOnTimeline = function () {
@@ -12491,7 +12782,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.viewInvoice = function (invoice, assignment) {
             $state.go("editInvoice", {
                 "invoiceId": invoice,
-                "assignmentId": assignment._id
+                "assignmentId": assignment._id,
+                "approval": true
             });
         }
         // 
@@ -12535,7 +12827,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             console.log("In Else");
             $state.go("template-view", {
                 "assignmentTemplate": data._id,
-                "type": getApi
+                "type": getApi,
+                "approval": true
             });
         };
         $scope.saveOnTimeline = function () {
@@ -12685,7 +12978,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             console.log("In Else");
             $state.go("template-view", {
                 "assignmentTemplate": data._id,
-                "type": getApi
+                "type": getApi,
+                "approval": true
             });
         };
         $scope.saveOnTimeline = function () {
@@ -12702,7 +12996,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 a.title = "Surveyor " + $scope.assignment.survey.employee.name + " Approved";
                 a.type = "Normal",
                     a.surveyor = $scope.assignment.survey.employee._id,
-                a.employee = $scope.employee,
+                    a.employee = $scope.employee,
                     $scope.timeline.chat.push(a);
                 $scope.saveOnTimeline();
                 var obj = {

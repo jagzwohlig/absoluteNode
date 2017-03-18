@@ -58,13 +58,13 @@
                             </thead>
                             <tbody ng-repeat="data in invoiceList track by $index">
                                 <tr ng-class="getDelayClass(data.timestamp)">
-                                    <td><span class="label label-default">{{data.timestamp|getHours}}hrs</span></td>
+                                    <td>{{data.timestamp|getHours}} hrs</td>
                                     <td>{{data.invoiceNumber}}</td>
                                     <td>{{data.grandTotal | number}}</td>
                                     <td>
-                                        <button class="btn btn-primary" uib-tooltip="Edit" ng-click="viewInvoice(data._id,data.assignment)"><i class="fa fa-pencil"></i></button>
-                                        <button class="btn btn-success" uib-tooltip="Accept" ng-click="acceptInvoice(data,data.assignment)"><i class="fa fa-check"></i></button>
-                                        <button class="btn btn-primary" uib-tooltip="Revise/Comment" ng-click="reviseInvoice(data,data.assignment)"><i class="fa fa-reply"></i></button>
+                                        <button class="btn btn-primary" uib-tooltip="Open" ng-click="viewInvoice(data._id,data.assignment)">Open</button>
+                                        <!--<button class="btn btn-success" uib-tooltip="Accept" ng-click="acceptInvoice(data,data.assignment)"><i class="fa fa-check"></i></button>
+                                        <button class="btn btn-primary" uib-tooltip="Revise/Comment" ng-click="reviseInvoice(data,data.assignment)"><i class="fa fa-reply"></i></button>-->
                                         <!--<button class="btn btn-danger" uib-tooltip="Reject"><i class="fa fa-times"></i></button>-->
                                     </td>
                                 </tr>

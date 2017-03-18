@@ -59,15 +59,15 @@
                             </thead>
                             <tbody ng-repeat="data in ilaList track by $index">
                                 <tr ng-class="getDelayClass(data.templateIla.timestamp)">
-                                    <td><span class="label label-default">{{data.templateIla.timestamp|getHours}}hrs</span></td>
+                                    <td>{{data.templateIla.timestamp|getHours}} hrs</td>
                                     <td>{{data.name}}</td>
                                     <td>ILA</td>
                                     <td>{{data.owner.name}}</td>
                                     <td>
-                                        <button class="btn btn-primary" uib-tooltip="Edit" ng-click="viewTemplates('ILAs','TemplateIla',data.templateIla)"><i class="fa fa-pencil"></i></button>
-                                        <button class="btn btn-success" uib-tooltip="Accept" ng-click="acceptIla(data)"><i class="fa fa-check"></i></button>
+                                        <button class="btn btn-primary" uib-tooltip="Open" ng-click="viewTemplates('ILAs','TemplateIla',data.templateIla)">Open</button>
+                                        <!--<button class="btn btn-success" uib-tooltip="Accept" ng-click="acceptIla(data)"><i class="fa fa-check"></i></button>
                                         <button class="btn btn-primary" uib-tooltip="Revise/Comment" ng-click="reviseIla(data)"><i class="fa fa-reply"></i></button>
-                                        <!--<button class="btn btn-danger" uib-tooltip="Reject"><i class="fa fa-times"></i></button>-->
+                                        <button class="btn btn-danger" uib-tooltip="Reject"><i class="fa fa-times"></i></button>-->
                                     </td>
                                 </tr>
                             </tbody>

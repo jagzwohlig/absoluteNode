@@ -1581,7 +1581,7 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
             controller: 'CreateInvoiceCtrl'
         })
         .state('editInvoice', {
-            url: "/Invoice-edit/:assignmentId/:invoiceId",
+            url: "/Invoice-edit/:assignmentId/:invoiceId/:approval",
             templateUrl: "frontend/views/template.html",
             controller: 'EditInvoiceCtrl'
         })
@@ -1628,7 +1628,7 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
 
 
         .state('template-view', {
-            url: "/template-view/:template/:assignmentTemplate/:assignment/:type",
+            url: "/template-view/:template/:assignmentTemplate/:assignment/:type/:approval",
             templateUrl: "frontend/views/template.html",
             controller: 'TemplateViewCtrl'
         })
