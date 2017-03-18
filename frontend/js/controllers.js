@@ -10860,7 +10860,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 emailData.ownerEmail = data.data.owner.email;
                 emailData.ownerPhone = data.data.owner.mobile;
                 emailData.siteCity = data.data.city.name;
-                emailData.insuredName = data.data.insured.name;
+                emailData.insuredName = (data.data.insured.name ? data.data.insured.name : "" );
                 emailData.ilaAuthDate = data.data.templateIla[0].authTimestamp;
                 emailData.surveyDate = (surveyDate ? moment(surveyDate).format("DD/MM/YYYY") : "");
                 if (surveyor != undefined) {
