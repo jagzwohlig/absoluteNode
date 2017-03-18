@@ -10632,10 +10632,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         $scope.emailData = emails;
                     }
                     break;
-                case "Survey has been attended":
+                case "On Survey Attended":
                     {
                         var emails = {
-                            name: 'Survey has been attended',
+                            name: 'On Survey Attended',
                             from: emailData.ownerEmail,
                             to: emailData.to,
                             cc: emailData.cc,
@@ -10894,7 +10894,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     }
 
                     console.log("emailers to", emailData.to);
-                    $scope.emailersData("Acknowledgment Email", emailData);
+                    $scope.emailersData(type, emailData);
                     console.log("emailers", $scope.emailData);
                     $scope.results = data;
                     console.log("data.results", $scope.results);
