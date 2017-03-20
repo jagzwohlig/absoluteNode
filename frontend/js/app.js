@@ -2431,7 +2431,7 @@ firstapp.directive('multipleSelect', function ($document, $timeout) {
             filter: "@filter",
             ngName: "=ngName",
             create: "@ngCreate",
-
+            readonly:"=ngRead"
         },
         restrict: 'EA',
         replace: false,
