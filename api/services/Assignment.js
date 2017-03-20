@@ -38,8 +38,8 @@ var schema = new Schema({
       type: Date,
       default: Date.now()
     },
-    approvalTime:{
-      type:Date
+    approvalTime: {
+      type: Date
     },
     completionTime: {
       type: Date
@@ -450,7 +450,7 @@ var schema = new Schema({
       type: Date,
       default: Date.now()
     },
-    authTimestamp:{
+    authTimestamp: {
       type: Date
     },
     approvalStatus: {
@@ -482,7 +482,7 @@ var schema = new Schema({
       type: Date,
       default: Date.now()
     },
-    authTimestamp:{
+    authTimestamp: {
       type: Date
     },
     approvalStatus: {
@@ -514,7 +514,7 @@ var schema = new Schema({
       type: Date,
       default: Date.now()
     },
-    authTimestamp:{
+    authTimestamp: {
       type: Date
     },
     approvalStatus: {
@@ -546,7 +546,7 @@ var schema = new Schema({
       type: Date,
       default: Date.now()
     },
-    authTimestamp:{
+    authTimestamp: {
       type: Date
     },
     approvalStatus: {
@@ -1257,7 +1257,7 @@ var model = {
         }
       },
     }).exec(function (err, found) {
-      console.log("update assignment",found);
+      console.log("update assignment", found);
       if (err) {
         callback(err, null);
       } else {
@@ -1269,7 +1269,7 @@ var model = {
           newChat.surveyStartTime = new Date(data.startTime),
           newChat.surveyDate = new Date(data.surveyDate),
           newChat.address = data.address,
-          newChat.event="On Survey Attended",
+          newChat.event = "On Survey Attended",
           _.each(fileArray, function (n) {
             n.employee = data.empId,
               n.type = "Normal",
@@ -1285,7 +1285,7 @@ var model = {
             }
           }
         }).exec(function (err, data) {
-          console.log("update timeline",data);
+          console.log("update timeline", data);
           if (err) {
             callback(err, null);
           } else {
@@ -2142,16 +2142,28 @@ var model = {
     var unwind1 = {};
     var match1 = {};
     var sort1 = {};
-
+    if (_.isEmpty(data.name)) {
+      var name = {
+        $match: {
+          "survey.status": "Approval Pending"
+        }
+      }
+    } else {
+      var name = {
+        $match: {
+          "survey.status": "Approval Pending",
+          "name": {
+            $regex: data.name,
+            $options: 'i'
+          }
+        }
+      }
+    }
     aggText = [{
         $unwind: {
           path: "$survey"
         }
-      }, {
-        $match: {
-          "survey.status": "Approval Pending"
-        }
-      }, {
+      }, name, {
         $lookup: {
           from: "cities",
           localField: "city",
@@ -2186,11 +2198,7 @@ var model = {
         $unwind: {
           path: "$survey"
         }
-      }, {
-        $match: {
-          "survey.status": "Approval Pending"
-        }
-      }, {
+      }, name, {
         $lookup: {
           from: "cities",
           localField: "city",
@@ -2201,7 +2209,7 @@ var model = {
         $unwind: {
           path: "$city"
         }
-      },{
+      }, {
         $lookup: {
           from: "employees",
           localField: "survey.employee",
@@ -2424,11 +2432,11 @@ var model = {
       matchObj2 = {
         $set: {
           "templateIla.$.approvalStatus": data.approvalStatus,
-          "templateIla.$.authTimestamp":data.authTimestamp
+          "templateIla.$.authTimestamp": data.authTimestamp
         }
       };
     } else if (data.type == "templateLor") {
-      console.log("In templateLor",data);
+      console.log("In templateLor", data);
       matchObj = {
         _id: data.assignId,
         templateLor: {
@@ -2440,7 +2448,7 @@ var model = {
       matchObj2 = {
         $set: {
           "templateLor.$.approvalStatus": data.approvalStatus,
-          "templateLor.$.authTimestamp":data.authTimestamp
+          "templateLor.$.authTimestamp": data.authTimestamp
         }
       };
     } else if (data.type == "survey") {
@@ -2468,17 +2476,17 @@ var model = {
   },
   updateNewSurveyor: function (data, callback) {
     Assignment.update({
-      _id:data.assignId,
+      _id: data.assignId,
       survey: {
-          $elemMatch: {
-            _id: data.surveyId
-          }
+        $elemMatch: {
+          _id: data.surveyId
         }
+      }
     }, {
-        $set: {
-          "survey.$.employee": data.employee
-        }
-      }).exec(function (err, data) {
+      $set: {
+        "survey.$.employee": data.employee
+      }
+    }).exec(function (err, data) {
       if (err) {
         callback(err, null);
       } else {

@@ -12932,7 +12932,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.currentPage = 1;
             }
             NavigationService.getSurveyorApprovalList({
-                page: $scope.currentPage
+                page: $scope.currentPage,
+                name: $scope.search.keyword,
             }, ++i, function (data, ini) {
                 if (ini == i) {
                     $scope.sbcList = data.data.results;
