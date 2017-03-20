@@ -60,7 +60,7 @@
                             </thead>
                             <tbody ng-repeat="data in sbcList track by $index">
                                 <tr ng-class="getDelayClass(data.survey.timestamp)">
-                                    <td><span class="label label-default">{{data.survey.timestamp|getHours}}hrs</span></td>
+                                    <td>{{data.survey.timestamp|getHours}} hrs</td>
                                     <td>{{data.name}}</td>
                                     <td>{{data.surveyDate | Date}}</td>    
                                     <td>{{data.city.name}}</td>                                                                    
