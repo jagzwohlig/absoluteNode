@@ -11027,7 +11027,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         assignment._id = $stateParams.id,
             assignment.survey = {
                 employee: empId,
-                status: "Approval Pending"
+                status: "Approval Pending",
+                surveyDate:$scope.surveyDate
             }
 
         console.log("Assignment Survey", assignment);
@@ -12938,7 +12939,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     $scope.totalItems = data.data.total;
                     $scope.maxRow = data.data.options.count;
                 }
-                console.log("$scope.lorList", $scope.lorList);
             });
         };
 
@@ -13024,7 +13024,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     assignId: $scope.assignment._id,
                     _id: $scope.assignment.survey._id,
                     approvalStatus: "Pending",
-                    type: "survey"
+                    type: "survey",
+                    approvalTime:Date.now()
                 }
                 $scope.saveAssignment(obj);
             });

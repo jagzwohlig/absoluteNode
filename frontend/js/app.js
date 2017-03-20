@@ -2499,6 +2499,13 @@ firstapp.filter('ageFilter', function () {
         return calculateAge(birthdate);
     };
 });
+firstapp.filter('Date', function () {
+    return function (input) {
+        console.log("Input",input);
+        var retText = moment(new Date(input)).add(5, "hours").add(30, "minutes").format("DD/MM/YYYY");
+        return retText;
+    };
+});
 firstapp.filter('capitalize', function () {
     return function (input, all) {
         var reg = (all) ? /([^\W_]+[^\s-]*) */g : /([^\W_]+[^\s-]*)/;

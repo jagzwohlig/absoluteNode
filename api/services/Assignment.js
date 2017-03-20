@@ -38,6 +38,9 @@ var schema = new Schema({
       type: Date,
       default: Date.now()
     },
+    approvalTime:{
+      type:Date
+    },
     completionTime: {
       type: Date
     },
@@ -2150,6 +2153,17 @@ var model = {
         }
       }, {
         $lookup: {
+          from: "cities",
+          localField: "city",
+          foreignField: "_id",
+          as: "city"
+        }
+      }, {
+        $unwind: {
+          path: "$city"
+        }
+      }, {
+        $lookup: {
           from: "employees",
           localField: "survey.employee",
           foreignField: "_id",
@@ -2177,6 +2191,17 @@ var model = {
           "survey.status": "Approval Pending"
         }
       }, {
+        $lookup: {
+          from: "cities",
+          localField: "city",
+          foreignField: "_id",
+          as: "city"
+        }
+      }, {
+        $unwind: {
+          path: "$city"
+        }
+      },{
         $lookup: {
           from: "employees",
           localField: "survey.employee",
