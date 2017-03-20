@@ -919,9 +919,9 @@ var navigationservice = angular.module('navigationservice', [])
             },
             searchSalvageElse: function (formData, i, callback) {
                 $http.post(adminurl + 'salvage/search', formData).success(function (data) {
-                    _.remove(data.data.results, function (n) {
-                        return n.sequence === "1";
-                    });
+                    // _.remove(data.data.results, function (n) {
+                    //     return n.sequence === "1";
+                    // });
                     callback(data, i);
                 });
             },
