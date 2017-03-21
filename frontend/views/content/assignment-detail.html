@@ -8,15 +8,18 @@
                             <a class="btn btn-danger pull-right clone-red" ui-sref="createassignment({assignment:formData._id})" ng-if="header.name=='Edit Assignment'">Clone</a>
                         </li>-->
                         <li>
+                            <a class="btn btn-success" class="switch-small switch-success pull-right" ui-sref="timeline({id:formData._id})">
+                                            Timeline
+                            </a>
+                        </li>
+                        <li>
                             <toggle-switch ng-model="formData.status" class="switch-small switch-success pull-right"></toggle-switch>
                         </li>
                     </ul>
                     <h2>{{header.name}} {{formData.name}}</h2>
                 </div>
             </div>
-            <a class="btn btn-success" ui-sref="timeline({id:formData._id})">
-                                            Timeline
-            </a>
+
             <div class="col-md-6" ng-if="!formData._id">
                 <div class="form-group">
                     <label>Clone From</label>
@@ -25,8 +28,8 @@
             </div>
             <div class="text-center mt20 odd-even-button" ng-if="!formData._id">
                 <button class="btn btn-default padding-clone" ng-click="clone(formData.clone)">Clone</button>
-            </div>{{formData._id}}
-            
+            </div>
+
         </div>
     </div>
     <!-- Top Bar Chart -->
