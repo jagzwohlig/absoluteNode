@@ -386,6 +386,16 @@ var navigationservice = angular.module('navigationservice', [])
                     classis: "active",
                     anchor: "sbcApproval-list",
                     icon: "pencil"
+                },{
+                    name: "ForceClosed Approval",
+                    classis: "active",
+                    anchor: "forceCloseApproval-list",
+                    icon: "pencil"
+                },{
+                    name: "SBC Approval",
+                    classis: "active",
+                    anchor: "reOpenApproval-list",
+                    icon: "pencil"
                 }]
             },
         ];

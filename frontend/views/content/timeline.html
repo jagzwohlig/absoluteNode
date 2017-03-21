@@ -45,12 +45,12 @@
                             <span uib-dropdown class="inline">
                   <button class="btn btn-blue btn-round" id="upload-files" uib-dropdown-toggle><i class="ln-cloud-upload"></i> Upload Files</button>
                   <ul class="dropdown-menu info-dropdown" uib-dropdown-menu role="menu" aria-labelledby="upload-files">
-                    <li role="menuitem"><a href="">Upload Images</a></li>
-                    <li role="menuitem"><a href="">Upload Documents</a></li>
+                    <li role="menuitem" ng-click="forceClose();"><a href="">Force Close</a></li>
+                    <li role="menuitem" ng-click="forceClose();"><a href="">Re-Open</a></li>
                   </ul>
                 </span>
                             <div class="padder"></div>
-                            <button class="btn btn-orange btn-round"><i class="ln-register"></i> Start Survey</button>
+                            <button class="btn btn-orange btn-round" ng-click="forceClose();"><i class="ln-register"></i> Force Close</button>
                             <button class="btn btn-red btn-round" ng-click="newEmail();"><i class="ln-envelope"></i> Send Email</button>
                         </div>
                         <div class="pull-right">

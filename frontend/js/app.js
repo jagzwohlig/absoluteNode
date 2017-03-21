@@ -1603,6 +1603,24 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
                 keyword: ""
             }
         })
+        .state('forceCloseApproval-list', {
+            url: "/forceCloseApproval-list/{page:.*}/{keyword:.*}/{model:.*}",
+            templateUrl: "frontend/views/template.html",
+            controller: 'ForceCloseApprovalsCtrl',
+            params: {
+                page: "1",
+                keyword: ""
+            }
+        })
+        .state('reOpenApproval-list', {
+            url: "/reOpenApproval-list/{page:.*}/{keyword:.*}/{model:.*}",
+            templateUrl: "frontend/views/template.html",
+            controller: 'ReOpenApprovalApprovalsCtrl',
+            params: {
+                page: "1",
+                keyword: ""
+            }
+        })
         .state('edittemplateInvoice', {
             url: "/templateInvoice-edit/:id",
             templateUrl: "frontend/views/template.html",
