@@ -7,7 +7,7 @@
                         <!--<li>
                             <a class="btn btn-danger pull-right clone-red" ui-sref="createassignment({assignment:formData._id})" ng-if="header.name=='Edit Assignment'">Clone</a>
                         </li>-->
-                        <li>
+                        <li ng-if="formData._id">
                             <a class="btn btn-success" class="switch-small switch-success pull-right" ui-sref="timeline({id:formData._id})">
                                             Timeline
                             </a>
