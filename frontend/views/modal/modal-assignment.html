@@ -86,8 +86,8 @@
                         theme="bootstrap" required>
                         <ui-select-match>{{$item.name}}</ui-select-match>
                         <ui-select-choices repeat="natureOfLoss in shareWith | filter:$select.search" refresh-delay="0" refresh="refreshShareWith($select.search,modalData.office)">{{natureOfLoss.name}}, <b>{{natureOfLoss.postedAt.name}}</b></ui-select-choices>
-                        </ui-select>
-                        <div class="error-msg" ng-show="formName.Persons.$invalid && formName.Persons.$touched">Please Enter name to Share With</div>
+                    </ui-select>
+                    <div class="error-msg" ng-show="formName.Persons.$invalid && formName.Persons.$touched">Please Enter name to Share With</div>
                 </div>
             </div>
         </div>
@@ -149,7 +149,7 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <label>Vehicle Number*</label>
-                    <input type="text" class="form-control" name="vehicleNumber" ng-model="modalData.vehicleNumber" required="">
+                    <input type="text" class="form-control" name="vehicleNumber" alpha-numeric-vehical ng-model="modalData.vehicleNumber" required>
                     <div class="error-msg" ng-show="modalForm1.vehicleNumber.$invalid && modalForm1.vehicleNumber.$touched">Please Enter Vehicle Number</div>
                 </div>
             </div>
@@ -252,7 +252,7 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label>Rate* </label>
-                    <input type="number" step="0.01"    class="form-control" name="rate" ng-model="modalData.rate" required>
+                    <input type="number" step="0.01" class="form-control" name="rate" ng-model="modalData.rate" required>
                     <div class="error-msg" ng-show="modalForm1.rate.$invalid && modalForm1.rate.$touched">Please Enter Rate</div>
                 </div>
             </div>
@@ -260,8 +260,8 @@
                 <div class="form-group">
                     <label>From Date*</label>
                     <div class="input-group">
-                        <input type="text" name="validFrom" class="form-control" uib-datepicker-popup="{{format}}" ng-model="modalData.validFrom" required
-                            is-open="popup.fromDate" datepicker-options="dateOptions" readonly/>
+                        <input type="text" name="validFrom" class="form-control" uib-datepicker-popup="{{format}}" ng-model="modalData.validFrom"
+                            required is-open="popup.fromDate" datepicker-options="dateOptions" readonly/>
                         <div class="error-msg" ng-show="modalForm1.validFrom.$invalid && modalForm1.validFrom.$touched">Please Enter From Date</div>
                         <span class="input-group-btn">
                           <button type="button" class="btn btn-default" ng-click="popup.fromDate = true">
@@ -275,8 +275,8 @@
                 <div class="form-group">
                     <label>To Date</label>
                     <div class="input-group">
-                        <input type="text" name="validTo" class="form-control" uib-datepicker-popup="{{format}}" ng-model="modalData.validTo"
-                            is-open="popup.fromLicense" datepicker-options="dateOptions" readonly/>
+                        <input type="text" name="validTo" class="form-control" uib-datepicker-popup="{{format}}" ng-model="modalData.validTo" is-open="popup.fromLicense"
+                            datepicker-options="dateOptions" readonly/>
                         <div class="error-msg" ng-show="modalForm1.validTo.$invalid && modalForm1.validTo.$touched">Please Enter To Date</div>
                         <span class="input-group-btn">
                           <button type="button" class="btn btn-default" ng-click="popup.fromLicense = true">

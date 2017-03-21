@@ -1796,6 +1796,9 @@ firstapp.filter('getHours', function () {
 });
 
 
+
+
+
 firstapp.directive('myEnter', function () {
     return function (scope, element, attrs) {
         element.bind("keydown keypress", function (event) {
@@ -1808,7 +1811,7 @@ firstapp.directive('myEnter', function () {
             }
         });
     };
-})
+});
 
 firstapp.directive('imageonload', function () {
     return {
@@ -2539,12 +2542,29 @@ firstapp.config(function ($translateProvider) {
     $translateProvider.preferredLanguage('en');
 });
 
-firstapp.directive('alphaNumeric', function () {
+// firstapp.directive('alphaNumeric', function () {
+//     return {
+//         require: 'ngModel',
+//         link: function (scope, element, attr, ngModelCtrl) {
+//             function fromUser(text) {
+//                 var transformedInput = text.replace(/[^0-9a-zA-Z]/g, '');
+//                 if (transformedInput !== text) {
+//                     ngModelCtrl.$setViewValue(transformedInput);
+//                     ngModelCtrl.$render();
+//                 }
+//                 return transformedInput; // or return Number(transformedInput)
+//             }
+//             ngModelCtrl.$parsers.push(fromUser);
+//         }
+//     };
+// });
+
+firstapp.directive('alphaNumericVehical', function () {
     return {
         require: 'ngModel',
         link: function (scope, element, attr, ngModelCtrl) {
             function fromUser(text) {
-                var transformedInput = text.replace(/[^0-9a-zA-Z]/g, '');
+                var transformedInput = text.replace(/[^0-9A-Z,]/g, '');
                 if (transformedInput !== text) {
                     ngModelCtrl.$setViewValue(transformedInput);
                     ngModelCtrl.$render();

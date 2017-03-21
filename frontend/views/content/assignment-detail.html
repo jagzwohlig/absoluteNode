@@ -940,7 +940,7 @@
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="data in formData.LRs track by $index">
-                                            <td>{{data.lrNumber}} #</td>
+                                            <td>{{data.lrNumber}}</td>
                                             <td>{{data.lrNumberDate| date:'dd MMM yyyy'}}</td>
                                             <td>
                                                 <a class="btn btn-primary" ng-click="addModal( 'modal-assignment',$index,
@@ -976,7 +976,7 @@
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="data in formData.vehicleNumber track by $index">
-                                            <td>{{data.vehicleNumber}} #</td>
+                                            <td>{{data.vehicleNumber}}</td>
                                             <td>
                                                 <a class="btn btn-primary" ng-click="addModal( 'modal-assignment',$index,
                         'Vehicle',data, '',formData.vehicleNumber)">
