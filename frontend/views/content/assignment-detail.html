@@ -801,18 +801,23 @@
                         </div>
                     </div>
                 </div>
-                <div class="row" ng-if="formData.typeOfClaim || formData.isDesktopAddress">
-                    <div class="col-md-6">
+                <div class="row">
+                    <div class="form-group" ng-if="!formData.typeOfClaim">
+                        <label>Site Address</label>
+                        <toggle-switch ng-model="formData.showAddressForDesktop" on-label="Yes" off-label="No" class="switch-small switch-success"></toggle-switch>
+                    </div>
+                    <div class="col-md-6" ng-if="formData.showAddressForDesktop || formData.typeOfClaim">
                         <div class="widget">
                             <div class="form-elements-sec">
                                 <div class="widget-title">
-                                    <h3>Site Address</h3>
                                 </div>
-                                <address-form ng-valid="companyForm" ng-model="formData"></address-form>
+                                <div>
+                                    <address-form ng-valid="companyForm" ng-model="formData"></address-form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6" ng-if="formData.showAddressForDesktop || formData.typeOfClaim">
                         <div class="widget">
                             <div class="form-elements-sec">
                                 <div class="widget-title">

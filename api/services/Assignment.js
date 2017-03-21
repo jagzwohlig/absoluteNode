@@ -96,6 +96,10 @@ var schema = new Schema({
     type: Boolean,
     required: true
   },
+  showAddressForDesktop: {
+    type: Boolean,
+    required: true
+  },
   department: {
     type: Schema.Types.ObjectId,
     ref: "Department",
