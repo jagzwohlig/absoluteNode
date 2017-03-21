@@ -412,8 +412,13 @@ var navigationservice = angular.module('navigationservice', [])
                 }
             });
             if (data.currentRole.length > 0) {
-                data.currentRole = data.currentRole[0];
-                nav.isView = data.currentRole.view.val;
+                var value = false;
+                _.each(data.currentRole,function(n) {
+                    if(n.view.val) {
+                        value = true;
+                    }
+                });
+                nav.isView = value;
             }
         }
 
@@ -919,9 +924,9 @@ var navigationservice = angular.module('navigationservice', [])
             },
             searchSalvageElse: function (formData, i, callback) {
                 $http.post(adminurl + 'salvage/search', formData).success(function (data) {
-                    _.remove(data.data.results, function (n) {
-                        return n.sequence === "1";
-                    });
+                    // _.remove(data.data.results, function (n) {
+                    //     return n.sequence === "1";
+                    // });
                     callback(data, i);
                 });
             },

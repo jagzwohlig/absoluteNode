@@ -2433,7 +2433,7 @@ firstapp.directive('multipleSelect', function ($document, $timeout) {
             filter: "@filter",
             ngName: "=ngName",
             create: "@ngCreate",
-
+            readonly:"=ngRead"
         },
         restrict: 'EA',
         replace: false,
@@ -2499,6 +2499,13 @@ firstapp.filter('ageFilter', function () {
 
     return function (birthdate) {
         return calculateAge(birthdate);
+    };
+});
+firstapp.filter('Date', function () {
+    return function (input) {
+        console.log("Input",input);
+        var retText = moment(new Date(input)).add(5, "hours").add(30, "minutes").format("DD/MM/YYYY");
+        return retText;
     };
 });
 firstapp.filter('capitalize', function () {

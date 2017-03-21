@@ -1719,7 +1719,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             }
             $scope.formData.dateOfIntimation = new Date(data.data.dateOfIntimation);
             $scope.formData.dateOfAppointment = new Date(data.data.dateOfAppointment);
-            $scope.formData.insuredOfficer = data.data.insuredOfficer._id;
+            if (data.data.insuredOfficer !== undefined) {
+                $scope.formData.insuredOfficer = data.data.insuredOfficer._id;
+            }
+            
             $scope.MRnumber = data.data.city.district.state.zone.country.countryCode;
             $scope.formData.country = data.data.city.district.state.zone.country._id;
             $scope.formData.zone = data.data.city.district.state.zone._id;
@@ -8308,6 +8311,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.template = TemplateService;
     $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
         $(window).scrollTop(0);
+        // if viewable is not there in navigation state send to dashboard
     });
     globalfunction.confDel = function (callback) {
 
@@ -11027,7 +11031,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         assignment._id = $stateParams.id,
             assignment.survey = {
                 employee: empId,
-                status: "Approval Pending"
+                status: "Approval Pending",
+                surveyDate:$scope.surveyDate
             }
 
         console.log("Assignment Survey", assignment);
@@ -12931,14 +12936,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.currentPage = 1;
             }
             NavigationService.getSurveyorApprovalList({
-                page: $scope.currentPage
+                page: $scope.currentPage,
+                name: $scope.search.keyword,
             }, ++i, function (data, ini) {
                 if (ini == i) {
                     $scope.sbcList = data.data.results;
                     $scope.totalItems = data.data.total;
                     $scope.maxRow = data.data.options.count;
                 }
-                console.log("$scope.lorList", $scope.lorList);
             });
         };
 
@@ -13024,7 +13029,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     assignId: $scope.assignment._id,
                     _id: $scope.assignment.survey._id,
                     approvalStatus: "Pending",
-                    type: "survey"
+                    type: "survey",
+                    approvalTime:Date.now()
                 }
                 $scope.saveAssignment(obj);
             });

@@ -14,16 +14,19 @@
                     <h2>{{header.name}} {{formData.name}}</h2>
                 </div>
             </div>
+            <a class="btn btn-success" ui-sref="timeline({id:formData._id})">
+                                            Timeline
+            </a>
             <div class="col-md-6" ng-if="!formData._id">
                 <div class="form-group">
                     <label>Clone From</label>
-                    <multiple-select my-enter name="customer" ng-model="formData.clone" 
-                        ng-name="name.clone" api="searchAssignment"></multiple-select>
+                    <multiple-select my-enter name="customer" ng-model="formData.clone" ng-name="name.clone" api="searchAssignment"></multiple-select>
                 </div>
             </div>
             <div class="text-center mt20 odd-even-button" ng-if="!formData._id">
                 <button class="btn btn-default padding-clone" ng-click="clone(formData.clone)">Clone</button>
-            </div>
+            </div>{{formData._id}}
+            
         </div>
     </div>
     <!-- Top Bar Chart -->
@@ -68,7 +71,12 @@
                                         <div class="error-msg" ng-show="formName.department.$invalid">Please Select Department </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6" ng-if="formData._id">
+                                    <label>Owner*</label>
+                                    <input type="text" name="owner" class="form-control" ng-model="formData.owner.name" ng-name="name.owner" api="searchEmployee"
+                                        readonly/>
+                                </div>
+                                <div class="col-md-6" ng-if="!formData._id">
                                     <div class="form-group">
                                         <label>Owner*</label>
                                         <multiple-select my-enter name="owner" required ng-model="formData.owner" ng-name="name.owner" api="searchEmployee" filter='{"branch":"{{formData.branch}}"}'></multiple-select>
@@ -1021,7 +1029,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="widget">
+                <div class="widget" ng-if="!name.department=='Marine Cargo' || !name.department=='Motor'">
                     <div class="form-elements-sec">
                         <div class="widget-title">
                             <a class="btn btn-primary pull-right" ng-click="addModal( 'modal-assignment', '', 'Location',
@@ -1057,7 +1065,7 @@
                     </div>
                 </div>
                 <!--End Here-->
-                <div class="widget">
+                <div class="widget" ng-if="!name.department=='Marine Cargo' || !name.department=='Motor'">
                     <div class="form-elements-sec">
                         <div class="widget-title">
                             <a class="btn btn-primary pull-right" ng-click="addModal( 'modal-assignment', '', 'Product',
