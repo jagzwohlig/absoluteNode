@@ -18,7 +18,7 @@
                             <!--<button class="btn btn-primary btn-round pull-right mt-5" ng-click="transfer(assignment);"><i class="fa fa-share"></i> Transfer</button>-->
                             <button class="btn btn-primary btn-round pull-right mt-5" ng-click="assignmentSurvey();">Offline Survey</button>
                             <!--<button class="btn btn-primary" ng-click="assignmentSurvey()">Offline Survey</button>-->
-                        </div>
+                        </div>  
                         <div class="compny">
                             <h3><span class="dif">{{assignment.city.name}},<b>{{assignment.city.district.name}}</b>,<br>{{assignment.city.district.state.name}},<b>{{assignment.city.district.state.zone.name}}</b>,{{assignment.city.district.state.zone.country.name}}-{{assignment.pincode}}</span></h3>
                             <p>{{assignment.name}}</p>
@@ -308,7 +308,7 @@
                                     <div class="form-group">
                                         <!--<label class="ml-4">Assignment</label>-->
                                         <a class="btn btn-success" ui-sref="editassignment({id:assignment._id})">
-                                            Edit Assignment
+                                            Edit This Assignment
                                         </a>
                                     </div>
                                 </div>

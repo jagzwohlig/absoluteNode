@@ -7,6 +7,7 @@
         </div>
     </div>
 </div>
+{{ email.body | base64url }}
 <div class="panel-content">
     <div class="row">
         <div class="col-md-12">
@@ -23,7 +24,7 @@
                         <p>To {{email.payload.headers | from:"To"}}</p>
                     </div>
                     <div class="clearfix"></div>
-                    <div class="sec email-sec" ng-bind-html="email.body|base64url"></div>
+                    <div class="sec email-sec" ng-bind-html="email.body | base64url"></div>
                     <div class="col-md-2 mter mt-18" ng-repeat="f in email.attachment" ng-click="openAttachment(f)">
                         <div class="filebx">
                             <i class="ln-document"></i>

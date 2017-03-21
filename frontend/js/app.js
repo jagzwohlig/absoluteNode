@@ -2320,6 +2320,7 @@ firstapp.directive('oI', function ($document) {
         }
     };
 });
+
 firstapp.directive('slimscroll', function ($document) {
     return {
         restrict: 'EA',
@@ -2419,6 +2420,7 @@ firstapp.directive('addressForm', function ($document) {
         },
     };
 });
+
 var aa = {};
 firstapp.directive('multipleSelect', function ($document, $timeout) {
     return {

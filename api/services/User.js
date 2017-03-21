@@ -186,6 +186,7 @@ var model = {
       }
     });
   },
+
   gmailCall: function (req, callback) {
     var noTry = 0;
     var labelIds = "";
@@ -194,6 +195,7 @@ var model = {
       if (!req.body.other) {
         req.body.other = "";
       }
+      
       if (!req.body.labelIds) {
         req.body.labelIds = "";
       }
