@@ -1731,14 +1731,12 @@ firstapp.filter('toobject', function () {
                     }
                 });
             }
+            if (obj.value == undefined) {
+                obj.value = "NA"
+            }
             returnStr = returnStr + obj.value;
             return obj;
         });
-        // var a= Date.parse(returnStr);
-        // if(a>0){
-        //    returnStr= moment(returnStr).format("DD/MM/YYYY");
-        //     return returnStr;
-        // }
         var ifDate = returnStr.split(":");
         if ((returnStr.charAt(returnStr.length - 1) == "Z" || returnStr.charAt(returnStr.length - 1) == "z") && ifDate.length == 3) {
             returnStr = moment(returnStr).format("DD/MM/YYYY");
@@ -2436,7 +2434,7 @@ firstapp.directive('multipleSelect', function ($document, $timeout) {
             filter: "@filter",
             ngName: "=ngName",
             create: "@ngCreate",
-            readonly:"=ngRead"
+            readonly: "=ngRead"
         },
         restrict: 'EA',
         replace: false,
@@ -2506,7 +2504,7 @@ firstapp.filter('ageFilter', function () {
 });
 firstapp.filter('Date', function () {
     return function (input) {
-        console.log("Input",input);
+        console.log("Input", input);
         var retText = moment(new Date(input)).add(5, "hours").add(30, "minutes").format("DD/MM/YYYY");
         return retText;
     };
