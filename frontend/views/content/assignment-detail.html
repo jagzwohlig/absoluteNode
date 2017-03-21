@@ -14,6 +14,9 @@
                     <h2>{{header.name}} {{formData.name}}</h2>
                 </div>
             </div>
+            <a class="btn btn-success" ui-sref="timeline({id:formData._id})">
+                                            Timeline
+            </a>
             <div class="col-md-6" ng-if="!formData._id">
                 <div class="form-group">
                     <label>Clone From</label>
@@ -22,7 +25,8 @@
             </div>
             <div class="text-center mt20 odd-even-button" ng-if="!formData._id">
                 <button class="btn btn-default padding-clone" ng-click="clone(formData.clone)">Clone</button>
-            </div>
+            </div>{{formData._id}}
+            
         </div>
     </div>
     <!-- Top Bar Chart -->

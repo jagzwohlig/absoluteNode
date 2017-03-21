@@ -412,8 +412,13 @@ var navigationservice = angular.module('navigationservice', [])
                 }
             });
             if (data.currentRole.length > 0) {
-                data.currentRole = data.currentRole[0];
-                nav.isView = data.currentRole.view.val;
+                var value = false;
+                _.each(data.currentRole,function(n) {
+                    if(n.view.val) {
+                        value = true;
+                    }
+                });
+                nav.isView = value;
             }
         }
 

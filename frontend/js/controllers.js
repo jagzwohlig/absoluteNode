@@ -1719,7 +1719,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             }
             $scope.formData.dateOfIntimation = new Date(data.data.dateOfIntimation);
             $scope.formData.dateOfAppointment = new Date(data.data.dateOfAppointment);
-            $scope.formData.insuredOfficer = data.data.insuredOfficer._id;
+            if (data.data.insuredOfficer !== undefined) {
+                $scope.formData.insuredOfficer = data.data.insuredOfficer._id;
+            }
+            
             $scope.MRnumber = data.data.city.district.state.zone.country.countryCode;
             $scope.formData.country = data.data.city.district.state.zone.country._id;
             $scope.formData.zone = data.data.city.district.state.zone._id;
@@ -8308,6 +8311,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.template = TemplateService;
     $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
         $(window).scrollTop(0);
+        // if viewable is not there in navigation state send to dashboard
     });
     globalfunction.confDel = function (callback) {
 
