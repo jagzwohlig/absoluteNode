@@ -26,7 +26,6 @@
                 <td>{{Invoice.invoiceNumber}}</td>
                 <td align="right">{{Invoice.grandTotal | number}}</td>
                 <td>{{Invoice.approvalStatus}}</td>
-                
                 <td>
                     <div ng-if="Invoice.file!==''">
                         <a class="btn btn-primary" download="{{Invoice.file}}" ng-href="{{Invoice.file|downloadImage}}">
