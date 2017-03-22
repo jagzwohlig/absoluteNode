@@ -32,7 +32,7 @@
                 <button class="btn btn-green btn-round" id="new-tasks" uib-dropdown-toggle><i class="ln-circle-plus"></i> New Tasks</button>
  <!--ng-if="assignment.assignedTo!==undefined"-->
                 <ul class="dropdown-menu info-dropdown" uib-dropdown-menu role="menu" aria-labelledby="new-tasks">
-                  <li role="menuitem"><a ng-if="assignment.typeOfClaim" ng-click="assignSurveyor();">Assign Surveyor</a></li>
+                  <li role="menuitem"><a ng-if="assignment.typeOfClaim && assignment.branch.STAT" ng-click="assignSurveyor();">Assign Surveyor</a></li>
                   <li role="menuitem"><a href="">New JIR</a></li>
                   <li role="menuitem"><a href="">New ILA</a></li>
                   <li role="menuitem"><a href="">New ILR</a></li>
@@ -46,7 +46,9 @@
                   <button class="btn btn-blue btn-round" id="upload-files" uib-dropdown-toggle><i class="ln-cloud-upload"></i> Upload Files</button>
                   <ul class="dropdown-menu info-dropdown" uib-dropdown-menu role="menu" aria-labelledby="upload-files">
                     <li role="menuitem" ng-click="forceClose();"><a href="">Force Close</a></li>
-                    <li role="menuitem" ng-click="forceClose();"><a href="">Re-Open</a></li>
+                    <li role="menuitem" ng-click="reopen();"><a href="">Re-Open</a></li>
+                    <li role="menuitem" ng-click="onhold();"><a href="">OnHold</a></li>
+                    <li role="menuitem" ng-click="unhold();"><a href="">UnHold</a></li>                    
                   </ul>
                 </span>
                             <div class="padder"></div>

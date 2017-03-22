@@ -71,23 +71,25 @@ var schema = new Schema({
   forceClosedRespTime: {
     type: Date
   },
-  reopenClosedComment: String,
-  reopenClosedReqTime: {
+  reopenReqTime: {
     type: Date
   },
-  reopenClosedRespTime: {
+  reopenRespTime: {
     type: Date
   },
-  onholdClosedComment: String,
-  onholdClosedReqTime: {
+  onholdComment: String,
+  onholdReqTime: {
     type: Date
   },
-  onholdClosedRespTime: {
+  onholdRespTime: {
     type: Date
+  },
+  prevtimelineStatus: {
+    type: String
   },
   timelineStatus: {
     type: String,
-    enum: ["Pending", "Survey Pending", "Survey Assigned", "ILA Pending", "LOR Pending", "Dox Pending", "Part Dox Pending", "Assessment Pending", "Consent Pending", "JIR Pending", "FSR Pending", "BBND", "Collected", "Dispatched", "Force Closed", "Reopened", "ForceClosed"],
+    enum: ["Pending", "Survey Pending", "Survey Assigned", "ILA Pending", "LOR Pending", "Dox Pending", "Part Dox Pending", "Assessment Pending", "Consent Pending", "JIR Pending", "FSR Pending", "BBND", "Collected", "Dispatched", "Force Closed", "ReOpened", "ForceClosed","OnHold"],
     default: "Survey Pending"
   },
   brokerClaimId: {
@@ -602,7 +604,7 @@ schema.plugin(deepPopulate, {
       select: 'name _id'
     },
     'branch': {
-      select: 'name _id office'
+      select: 'name _id office FSR ITAT LTAT R2NR STAT'
     },
     'office': {
       select: 'name _id'
@@ -2522,6 +2524,93 @@ var model = {
         callback(null, data);
       }
     });
+  },
+  getAssignmentApprovalList: function (data, callback) {
+    var Model = this;
+    var maxRow = Config.maxRow;
+    var pagestartfrom = (data.page - 1) * maxRow;
+    var page = 1;
+    var aggText = [];
+    var aggTextCount = [];
+    var arr = ["Pending ForceClosed", "Pending ReOpened", "Pending OnHold"];
+
+    aggText = [{
+        $match: {
+          assignmentapprovalStatus: {
+            $in: arr
+          }
+        }
+      }, {
+        $skip: parseInt(pagestartfrom)
+      }, {
+        $limit: maxRow
+      }],
+      aggTextCount = [{
+        $match: {
+          assignmentapprovalStatus: {
+            $in: arr
+          }
+        }
+      }, {
+        $group: {
+          _id: null,
+          count: {
+            $sum: 1
+          }
+        }
+      }, {
+        $project: {
+          "_id": 1,
+          "count": 1
+        }
+      }]
+    async.parallel([
+        function (callback) {
+          Model.aggregate(aggText,
+            function (err, data1) {
+              if (err) {
+                callback(err, null);
+              } else {
+                callback(null, data1)
+              }
+
+            });
+        },
+        function (callback) {
+          Model.aggregate(aggTextCount,
+            function (err, data2) {
+              if (err) {
+                callback(err, null);
+              } else {
+                callback(null, data2)
+              }
+
+            });
+        }
+      ],
+      function (err, data4) {
+        if (err) {
+          callback(err, null);
+        } else {
+          if (_.isEmpty(data4[1])) {
+            var data5 = {
+              results: data4[0],
+              options: {
+                count: 0
+              }
+            };
+          } else {
+            var data5 = {
+              results: data4[0],
+              options: {
+                count: maxRow
+              }
+            };
+            data5.total = data4[1][0].count;
+          }
+          callback(null, data5);
+        }
+      });
   },
 
   getMailaData: function (data, callback) {

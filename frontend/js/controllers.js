@@ -10735,15 +10735,80 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 size: 'md'
             });
         }
+        $scope.reopen = function () {
+            var modalInstance = $uibModal.open({
+                scope: $scope,
+                templateUrl: '/frontend/views/modal/reopen-comment.html',
+                size: 'md'
+            });
+        }
+        $scope.onhold = function () {
+            var modalInstance = $uibModal.open({
+                scope: $scope,
+                templateUrl: '/frontend/views/modal/onhold-comment.html',
+                size: 'md'
+            });
+        }
+        $scope.unhold = function(){
+            $scope.assignment.timelineStatus = $scope.assignment.prevtimelineStatus;
+            var newChat = {};
+            newChat.employee = $scope.message.employee._id;
+            newChat.title = "Assignment " + $scope.assignment.name + " UnHold";
+            newChat.type = "Normal";
+            NavigationService.modelSave('assignment', $scope.assignment, function (data) {
+                if (data.value === true) {
+                    $scope.sendMessage2(newChat);
+                    toastr.success($scope.assignment.name + " Updated", "Assignment " + $scope.assignment.name);
+                } else {
+                    toastr.error("Error in updating " + $scope.assignment.name + ".", "Assignment " + $scope.assignment.name);
+                }
+            });
+        }
 
         $scope.submitForceClose = function (data) {
             $scope.assignment.forceClosedComment = data.comment;
-            $scope.assignment.forceClosedReqTime=Date.now();
+            $scope.assignment.forceClosedReqTime = Date.now();
             $scope.assignment.assignmentapprovalStatus = "Pending ForceClosed";
             console.log($scope.assignment.forceCloseComment);
             var newChat = {};
             newChat.employee = $scope.message.employee._id;
             newChat.title = "Assignment " + $scope.assignment.name + " Sent for ForceClose";
+            newChat.message = data.comment;
+            newChat.type = "Normal";
+            NavigationService.modelSave('assignment', $scope.assignment, function (data) {
+                if (data.value === true) {
+                    $scope.sendMessage2(newChat);
+                    toastr.success($scope.assignment.name + " Updated", "Assignment " + $scope.assignment.name);
+                } else {
+                    toastr.error("Error in updating " + $scope.assignment.name + ".", "Assignment " + $scope.assignment.name);
+                }
+            });
+        }
+        $scope.submitReopen = function (data) {
+            $scope.assignment.forceClosedComment = data.comment;
+            $scope.assignment.reopenReqTime = Date.now();
+            $scope.assignment.assignmentapprovalStatus = "Pending ReOpened";
+            var newChat = {};
+            newChat.employee = $scope.message.employee._id;
+            newChat.title = "Assignment " + $scope.assignment.name + " Sent for ReOpen";
+            newChat.message = data.comment;
+            newChat.type = "Normal";
+            NavigationService.modelSave('assignment', $scope.assignment, function (data) {
+                if (data.value === true) {
+                    $scope.sendMessage2(newChat);
+                    toastr.success($scope.assignment.name + " Updated", "Assignment " + $scope.assignment.name);
+                } else {
+                    toastr.error("Error in updating " + $scope.assignment.name + ".", "Assignment " + $scope.assignment.name);
+                }
+            });
+        }
+        $scope.submitOnhold = function (data) {
+            $scope.assignment.forceClosedComment = data.comment;
+            $scope.assignment.onholdReqTime = Date.now();
+            $scope.assignment.assignmentapprovalStatus = "Pending OnHold";
+            var newChat = {};
+            newChat.employee = $scope.message.employee._id;
+            newChat.title = "Assignment " + $scope.assignment.name + " Sent for OnHold";
             newChat.message = data.comment;
             newChat.type = "Normal";
             NavigationService.modelSave('assignment', $scope.assignment, function (data) {
@@ -13269,7 +13334,171 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.search.keyword = $stateParams.keyword;
         }
         $scope.approvalType = "sbc";
-         $scope.showAll = function (keywordChange) {
+        $scope.showAll = function (keywordChange) {
+            $scope.totalItems = undefined;
+            if (keywordChange) {
+                $scope.currentPage = 1;
+            }
+            NavigationService.getAssignmentApprovalList({
+                page: $scope.currentPage,
+                keyword: $scope.search.keyword,
+            }, ++i, function (data, ini) {
+                if (ini == i) {
+                    $scope.modelList = data.data.results;
+                    $scope.totalItems = data.data.total;
+                    $scope.maxRow = data.data.options.count;
+                }
+                console.log("$scope.lorList", $scope.lorList);
+            });
+            // NavigationService.searchModel("assignment", {
+            //     page: $scope.currentPage,
+            //     keyword: $scope.search.keyword,
+            // }, ++i, function (data, ini) {
+            //     if (ini == i) {
+            //         $scope.modelList = data.data.results;
+            //         $scope.totalItems = data.data.total;
+            //         $scope.maxRow = data.data.options.count;
+            //         console.log("modelListSearchmodel", $scope.modelList);
+            //         TemplateService.removeLoader();
+            //     }
+            // });
+        };
+
+        // 
+        $scope.viewInvoice = function (invoice, assignment) {
+            $state.go("editInvoice", {
+                "invoiceId": invoice,
+                "assignmentId": assignment._id
+            });
+        }
+
+        // 
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+        $scope.changePage = function (page) {
+            console.log("Page", page);
+            var goTo = "lorApproval-list";
+            if ($scope.search.keyword) {
+                goTo = "lorApproval-list";
+            }
+            $state.go(goTo, {
+                page: page,
+                keyword: $scope.search.keyword
+            });
+        };
+        $scope.showAll();
+        $scope.saveAssignment = function (obj) {
+            console.log("Approval", obj);
+            NavigationService.saveAssignmentTemplate(obj, function (data) {
+                console.log("Done", data);
+                $scope.showAll();
+            });
+        };
+        // $scope.someDate = moment().subtract(24, "hours").toDate();
+        $scope.getDelayClass = function (val) {
+            var retClass = "";
+            var hours = moment().diff(moment(val), "hours");
+            if (hours >= 0 && hours <= 6) {
+                retClass = "delay-6";
+            } else if (hours >= 7 && hours <= 24) {
+                retClass = "delay-24";
+            } else if (hours >= 25 && hours <= 48) {
+                retClass = "delay-48";
+            } else if (hours >= 49) {
+                retClass = "delay-72";
+            }
+            console.log(retClass);
+            return retClass;
+
+        };
+
+        $scope.viewTemplates = function (temp, getApi, data) {
+            $scope.allTemplate = temp;
+            $scope.api = getApi;
+            console.log("$scope.api", $scope.api);
+            console.log("In Else");
+            $state.go("template-view", {
+                "assignmentTemplate": data._id,
+                "type": getApi,
+                "approval": true
+            });
+        };
+        $scope.saveOnTimeline = function () {
+            NavigationService.saveChat($scope.timeline, function (data) {
+                console.log("FFFFF", data);
+            });
+        }
+        $scope.acceptForceClosed = function (assignment) {
+            console.log("ASSIGNMENT.....", assignment);
+            $scope.assignment = assignment;
+            NavigationService.getOneModel("Timeline", $scope.assignment.timeline[0], function (data) {
+                $scope.timeline = data.data;
+                var a = {};
+                if ($scope.assignment.assignmentapprovalStatus == "Pending ForceClosed") {
+                    a.title = "Assignment " + $scope.assignment.name + " ForceClosed";
+                } else if ($scope.assignment.assignmentapprovalStatus == "Pending ReOpened") {
+                    a.title = "Assignment " + $scope.assignment.name + " ReOpened";
+                } else if ($scope.assignment.assignmentapprovalStatus == "Pending OnHold") {
+                    a.title = "Assignment " + $scope.assignment.name + " OnHold";
+                }
+                a.type = "Normal",
+                    a.employee = $scope.employee,
+                    $scope.timeline.chat.push(a);
+                $scope.saveOnTimeline();
+                formData = {};
+                if ($scope.assignment.assignmentapprovalStatus == "Pending ForceClosed") {
+                    formData._id = assignment._id;
+                    formData.timelineStatus = "Force Closed";
+                    formData.forceClosedRespTime = Date.now();
+                    formData.assignmentapprovalStatus = "ForceClosed";
+                } else if ($scope.assignment.assignmentapprovalStatus == "Pending ReOpened") {
+                    formData._id = assignment._id;
+                    formData.timelineStatus = "ReOpened";
+                    formData.reopenRespTime = Date.now();
+                    formData.assignmentapprovalStatus = "ReOpened";
+                } else if ($scope.assignment.assignmentapprovalStatus == "Pending OnHold") {
+                    formData.prevtimelineStatus = $scope.assignment.timelineStatus;
+                    formData._id = assignment._id;
+                    formData.timelineStatus = "OnHold";
+                    formData.reopenRespTime = Date.now();
+                    formData.assignmentapprovalStatus = "OnHold";
+                }
+                NavigationService.modelSave("Assignment", formData, function (data) {
+                    if (data.value == true) {
+                        $scope.showAll();
+                    }
+                })
+            });
+        };
+
+    })
+
+    .controller('ReOpenApprovalApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64, $stateParams, $state, toastr, $uibModal) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("reopen-approval");
+        $scope.menutitle = NavigationService.makeactive("Approvals");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.currentPage = $stateParams.page;
+        var i = 0;
+        NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
+            $scope.employee = data.data._id;
+            console.log("In $scope.ownersId", $scope.employee);
+        });
+        $scope.getAll = function (data) {
+            console.log(data);
+            $scope.approvalType = data.value;
+            $scope.showAll();
+        }
+        $scope.search = {
+            keyword: ""
+        };
+        if ($stateParams.keyword) {
+            $scope.search.keyword = $stateParams.keyword;
+        }
+        $scope.approvalType = "sbc";
+        $scope.showAll = function (keywordChange) {
             TemplateService.getLoader();
             $scope.totalItems = undefined;
             if (keywordChange) {
@@ -13278,8 +13507,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             NavigationService.searchModel("assignment", {
                 page: $scope.currentPage,
                 keyword: $scope.search.keyword,
-                filter:{
-                    assignmentapprovalStatus:"Pending ForceClosed"
+                filter: {
+                    assignmentapprovalStatus: "Pending ReOpened"
                 }
             }, ++i, function (data, ini) {
                 if (ini == i) {
@@ -13357,47 +13586,27 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 console.log("FFFFF", data);
             });
         }
-        $scope.acceptForceClosed = function (assignment) {
+        $scope.acceptReOpen = function (assignment) {
             console.log("ASSIGNMENT.....", assignment);
             $scope.assignment = assignment;
             NavigationService.getOneModel("Timeline", $scope.assignment.timeline[0], function (data) {
                 $scope.timeline = data.data;
                 var a = {};
-                a.title = "Assignment " + $scope.assignment.name + " ForceClosed";
+                a.title = "Assignment " + $scope.assignment.name + " ReOpen";
                 a.type = "Normal",
                     a.employee = $scope.employee,
                     $scope.timeline.chat.push(a);
                 $scope.saveOnTimeline();
-                formData={};
-                formData._id=assignment._id;
-                formData.timelineStatus="Force Closed";
-                formData.forceClosedRespTime=Date.now();
-                formData.assignmentapprovalStatus="ForceClosed";
+                formData = {};
+                formData._id = assignment._id;
+                formData.timelineStatus = "Reopened";
+                formData.reopenRespTime = Date.now();
+                formData.assignmentapprovalStatus = "ReOpened";
                 NavigationService.modelSave("Assignment", formData, function (data) {
-                if (data.value == true) {
-                    $scope.showAll();
-                }
-            })
-            });
-        };
-        $scope.surveyorFilter = function (assignment) {
-            $scope.assignment = assignment;
-            $scope.survey = assignment.survey._id;
-            console.log("surveyorFilter", $scope.assignment, $scope.survey);
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/surveyor-filter.html',
-                size: 'md'
-            });
-        };
-        $scope.changeSurveyor = function (data) {
-            var formData = {};
-            formData.employee = data.employee;
-            formData.surveyId = $scope.survey;
-            formData.assignId = $scope.assignment._id;
-            NavigationService.updateNewSurveyor(formData, function (data) {
-                console.log("Data................", data);
-                $scope.showAll();
+                    if (data.value == true) {
+                        $scope.showAll();
+                    }
+                })
             });
         };
 

@@ -16,7 +16,7 @@
     <div class="row">
         <div class="col-md-4 column">
             <div class="heading-profile">
-                <h2>ForceClose Approvals</h2>
+                <h2>ReOpen Approvals</h2>
             </div>
         </div>
     </div>
@@ -43,19 +43,17 @@
                             <thead>
                                 <tr>
                                     <th>Assignment</th>
-                                    <th>Status</th>
                                     <th>Reason</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody ng-repeat="data in modelList track by $index">
                                 <tr ng-class="getDelayClass(data.survey.timestamp)">
-                                    <td>{{data.name}}</td>   
-                                    <td>{{data.assignmentapprovalStatus}}</td>                                                              
-                                    <td>{{data.forceClosedComment}}</td>
+                                    <td>{{data.name}}</td>                                                                 
+                                    <td>{{data.reopenComment}}</td>
                                     <td>
                                         <button class="btn btn-primary" uib-tooltip="Edit" ui-sref="editassignment({id:data._id})"><i class="fa fa-pencil"></i></button>
-                                        <button class="btn btn-success" uib-tooltip="Accept" ng-click="acceptForceClosed(data)"><i class="fa fa-check"></i></button>
+                                        <button class="btn btn-success" uib-tooltip="Accept" ng-click="acceptReOpen(data)"><i class="fa fa-check"></i></button>
                                       </td>
                                 </tr>
                             </tbody>

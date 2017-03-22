@@ -387,14 +387,9 @@ var navigationservice = angular.module('navigationservice', [])
                     anchor: "sbcApproval-list",
                     icon: "pencil"
                 },{
-                    name: "ForceClosed Approval",
+                    name: "Assignment Approval",
                     classis: "active",
                     anchor: "forceCloseApproval-list",
-                    icon: "pencil"
-                },{
-                    name: "SBC Approval",
-                    classis: "active",
-                    anchor: "reOpenApproval-list",
                     icon: "pencil"
                 }]
             },
@@ -578,6 +573,11 @@ var navigationservice = angular.module('navigationservice', [])
 
             getApprovalList:function(formData,i,callback){
                 $http.post(adminurl + 'Assignment/getApprovalList', formData).success(function (data) {
+                    callback(data,i);
+                });
+            },
+            getAssignmentApprovalList:function(formData,i,callback){
+                $http.post(adminurl + 'Assignment/getAssignmentApprovalList', formData).success(function (data) {
                     callback(data,i);
                 });
             },
