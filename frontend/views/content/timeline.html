@@ -52,7 +52,7 @@
                   </ul>
                 </span>
                             <div class="padder"></div>
-                            <button class="btn btn-orange btn-round" ng-click="forceClose();"><i class="ln-register"></i> Force Close</button>
+                            <button class="btn btn-orange btn-round" ui-sref="editassignment({id:assignment._id})"><i class="ln-register"></i> Edit This Assignment</button>
                             <button class="btn btn-red btn-round" ng-click="newEmail();"><i class="ln-envelope"></i> Send Email</button>
                         </div>
                         <div class="pull-right">
@@ -305,16 +305,16 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="widget cust-widg">
+                            <!--<div class="widget cust-widg">
                                 <div class="only-email">
                                     <div class="form-group">
-                                        <!--<label class="ml-4">Assignment</label>-->
+                                        <label class="ml-4">Assignment</label>
                                         <a class="btn btn-success" ui-sref="editassignment({id:assignment._id})">
                                             Edit This Assignment
                                         </a>
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
                             <div class="widget cust-widg">
                                 <div class="only-email">
                                     <div class="form-group">
