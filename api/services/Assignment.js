@@ -112,7 +112,7 @@ var schema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Company",
     index: true,
-    required: true,
+    // required: true,
     key: "assignment"
   },
   assignmentNumber: {
@@ -120,12 +120,10 @@ var schema = new Schema({
     default: 0
   },
   typeOfClaim: {
-    type: Boolean,
-    required: true
+    type: Boolean
   },
   showAddressForDesktop: {
-    type: Boolean,
-    required: true
+    type: Boolean
   },
   department: {
     type: Schema.Types.ObjectId,
@@ -178,7 +176,7 @@ var schema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Employee",
     index: true,
-    required: true,
+    // required: true,
     key: "assignment"
   },
   customer: {
@@ -191,7 +189,7 @@ var schema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "CustomerSegment",
     index: true,
-    required: true,
+    // required: true,
     key: "assignment"
   },
   insuredOffice: {
@@ -311,7 +309,6 @@ var schema = new Schema({
       type: Schema.Types.ObjectId,
       ref: "Product",
       index: true,
-      required: true,
       key: "assignment"
     },
     item: {
