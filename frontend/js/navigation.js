@@ -389,7 +389,7 @@ var navigationservice = angular.module('navigationservice', [])
                 },{
                     name: "Assignment Approval",
                     classis: "active",
-                    anchor: "forceCloseApproval-list",
+                    anchor: "assignmentApproval-list",
                     icon: "pencil"
                 }]
             },

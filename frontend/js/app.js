@@ -1603,10 +1603,10 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
                 keyword: ""
             }
         })
-        .state('forceCloseApproval-list', {
-            url: "/forceCloseApproval-list/{page:.*}/{keyword:.*}/{model:.*}",
+        .state('assignmentApproval-list', {
+            url: "/assignmentApproval-list/{page:.*}/{keyword:.*}/{model:.*}",
             templateUrl: "frontend/views/template.html",
-            controller: 'ForceCloseApprovalsCtrl',
+            controller: 'AssignmentApprovalsCtrl',
             params: {
                 page: "1",
                 keyword: ""

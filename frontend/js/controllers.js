@@ -13214,9 +13214,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         $scope.changePage = function (page) {
             console.log("Page", page);
-            var goTo = "lorApproval-list";
+            var goTo = "sbc-approval";
             if ($scope.search.keyword) {
-                goTo = "lorApproval-list";
+                goTo = "sbc-approval";
             }
             $state.go(goTo, {
                 page: page,
@@ -13310,9 +13310,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
 
     })
-    .controller('ForceCloseApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64, $stateParams, $state, toastr, $uibModal) {
+    .controller('AssignmentApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64, $stateParams, $state, toastr, $uibModal) {
         //Used to name the .html file
-        $scope.template = TemplateService.changecontent("forceclose-approval");
+        $scope.template = TemplateService.changecontent("assignment-approval");
         $scope.menutitle = NavigationService.makeactive("Approvals");
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
@@ -13378,9 +13378,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         $scope.changePage = function (page) {
             console.log("Page", page);
-            var goTo = "lorApproval-list";
+            var goTo = "assignment-approval";
             if ($scope.search.keyword) {
-                goTo = "lorApproval-list";
+                goTo = "assignment-approval";
             }
             $state.go(goTo, {
                 page: page,
