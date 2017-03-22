@@ -58,8 +58,8 @@
                                 </tr>
                             </thead>
                             <tbody ng-repeat="data in ilaList track by $index">
-                                <tr ng-class="getDelayClass(data.templateIla.timestamp)">
-                                    <td>{{data.templateIla.timestamp|getHours}} hrs</td>
+                                <tr ng-class="getDelayClass(data.templateIla.reqtimestamp)">
+                                    <td>{{data.templateIla.reqtimestamp|getHours}} hrs</td>
                                     <td>{{data.name}}</td>
                                     <td>ILA</td>
                                     <td>{{data.owner.name}}</td>

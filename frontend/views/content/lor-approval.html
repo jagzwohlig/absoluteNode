@@ -57,8 +57,8 @@
                                 </tr>
                             </thead>
                             <tbody ng-repeat="data in lorList track by $index">
-                                <tr ng-class="getDelayClass(data.templateLor.timestamp)">
-                                    <td><span class="label label-default">{{data.templateLor.timestamp|getHours}}hrs</span></td>
+                                <tr ng-class="getDelayClass(data.templateLor.reqtimestamp)">
+                                    <td><span class="label label-default">{{data.templateLor.reqtimestamp|getHours}}hrs</span></td>
                                     <td>{{data.name}}</td>
                                     <td>{{data.owner.name}}</td>
                                     <td>

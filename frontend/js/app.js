@@ -1808,6 +1808,7 @@ firstapp.filter('reverse', function () {
 firstapp.filter('getHours', function () {
     return function (date) {
         return moment().diff(moment(date), "hours");
+        // return moment().diff(moment(date).add(5, "hours").add(30, "minutes"), "hours");
     };
 });
 
@@ -2521,6 +2522,13 @@ firstapp.filter('ageFilter', function () {
     };
 });
 firstapp.filter('Date', function () {
+    return function (input) {
+        console.log("Input", input);
+        var retText = moment(new Date(input)).add(5, "hours").add(30, "minutes").format("DD/MM/YYYY");
+        return retText;
+    };
+});
+firstapp.filter('Time', function () {
     return function (input) {
         console.log("Input", input);
         var retText = moment(new Date(input)).add(5, "hours").add(30, "minutes").format("DD/MM/YYYY");

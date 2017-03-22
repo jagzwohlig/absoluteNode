@@ -89,7 +89,7 @@ var schema = new Schema({
   },
   timelineStatus: {
     type: String,
-    enum: ["Pending", "Survey Pending", "Survey Assigned", "ILA Pending", "LOR Pending", "Dox Pending", "Part Dox Pending", "Assessment Pending", "Consent Pending", "JIR Pending", "FSR Pending", "BBND", "Collected", "Dispatched", "Force Closed", "ReOpened", "ForceClosed","OnHold"],
+    enum: ["Pending", "Survey Pending", "Survey Assigned", "ILA Pending", "LOR Pending", "Dox Pending", "Part Dox Pending", "Assessment Pending", "Consent Pending", "JIR Pending", "FSR Pending", "BBND", "Collected", "Dispatched", "Force Closed", "ReOpened", "ForceClosed", "OnHold"],
     default: "Survey Pending"
   },
   brokerClaimId: {
@@ -474,6 +474,12 @@ var schema = new Schema({
       ref: "TemplateIla",
       key: "assignment"
     },
+    reqtimestamp: {
+      type: Date
+    },
+    restimestamp: {
+      type: Date
+    },
     timestamp: {
       type: Date,
       default: Date.now()
@@ -481,8 +487,8 @@ var schema = new Schema({
     authTimestamp: {
       type: Date
     },
-    file:{
-      type:String
+    file: {
+      type: String
     },
     approvalStatus: {
       type: String,
@@ -516,8 +522,8 @@ var schema = new Schema({
     authTimestamp: {
       type: Date
     },
-    file:{
-      type:String
+    file: {
+      type: String
     },
     approvalStatus: {
       type: String,
@@ -576,6 +582,12 @@ var schema = new Schema({
       ref: "TemplateLor",
       key: "assignment"
     },
+    reqtimestamp: {
+      type: Date
+    },
+    restimestamp: {
+      type: Date
+    },
     timestamp: {
       type: Date,
       default: Date.now()
@@ -583,8 +595,8 @@ var schema = new Schema({
     authTimestamp: {
       type: Date
     },
-    file:{
-      type:String
+    file: {
+      type: String
     },
     approvalStatus: {
       type: String,
@@ -2455,7 +2467,7 @@ var model = {
       });
   },
   saveTemplate: function (data, callback) {
-    console.log("file",data.file);
+    console.log("file", data.file);
     var matchObj = {};
     var matchObj2 = {};
     if (data.type == "templateIla") {
@@ -2471,7 +2483,8 @@ var model = {
         $set: {
           "templateIla.$.approvalStatus": data.approvalStatus,
           "templateIla.$.authTimestamp": data.authTimestamp,
-          "templateIla.$.file":data.file
+          "templateIla.$.file": data.file,
+          "templateIla.$.reqtimestamp": data.reqtimestamp
         }
       };
     } else if (data.type == "templateLor") {
@@ -2488,7 +2501,8 @@ var model = {
         $set: {
           "templateLor.$.approvalStatus": data.approvalStatus,
           "templateLor.$.authTimestamp": data.authTimestamp,
-          "templateLor.$.file":data.file
+          "templateLor.$.reqtimestamp": data.reqtimestamp,
+          "templateLor.$.file": data.file
         }
       };
     } else if (data.type == "survey") {

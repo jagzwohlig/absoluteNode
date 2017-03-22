@@ -10157,6 +10157,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.formData.createdBy = $scope.message.employee;
             $scope.formData.assignment = $stateParams.assignmentId;
             $scope.formData.approvalStatus = "Pending";
+            $scope.formData.reqtimestamp=Date.now();
             NavigationService.modelSave("Invoice", $scope.formData, function (data) {
                 console.log("New Invoice", data);
                 if (data.value === true) {
@@ -10294,6 +10295,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.formData.approvalTime=Date.now();
             } else {
                 $scope.formData.approvalStatus = "Pending";
+                $scope.formData.reqtimestamp=Date.now();
             }
             NavigationService.modelSave("Invoice", $scope.formData, function (data) {
                 console.log("New Invoice", data);
@@ -10333,7 +10335,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 a.message = filter.comment;
             $scope.timeline.chat.push(a);
             NavigationService.saveChat($scope.timeline, function (data) {});
-            $scope.formData.approvalStatus = "Approved";
+            $scope.formData.approvalStatus = "Revised";
             NavigationService.modelSave("Invoice", $scope.formData, function (data) {});
             $timeout(function () {
                 $state.go(goto, {});
@@ -10646,10 +10648,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                                 assignId: $scope.assignment._id,
                                 _id: $scope.forms._id,
                                 approvalStatus: "Pending",
+                                reqtimestamp:Date.now(),
                                 type: $scope.forms.type
                             }
                         }
-                        console.log("$stateParams.approval", obj);
+                        console.log("$stateParams.approval hi am here", obj);
                         $scope.saveAssignment(obj);
                         toastr.success("Updated " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
                         // $state.go('timeline', {
@@ -12797,6 +12800,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.getDelayClass = function (val) {
             var retClass = "";
             var hours = moment().diff(moment(val), "hours");
+            // var hours = moment().diff(moment(val).add(5, "hours").add(30, "minutes"), "hours");
             if (hours >= 0 && hours <= 6) {
                 retClass = "delay-6";
             } else if (hours >= 7 && hours <= 24) {
