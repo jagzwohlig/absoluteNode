@@ -8498,21 +8498,22 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             }
         };
         $scope.$watch('formData.typeOfOffice', function () {
-            console.log("typeOfOffice", $scope.formData.typeOfOffice);
+            // console.log("typeOfOffice", $scope.formData.TOFShortName);
             if ($scope.formData.typeOfOffice) {
                 NavigationService.getOneModel('TypeOfOffice', $scope.formData.typeOfOffice, function (data) {
-                    $scope.formData.TOFShortName = data.data.shortCode;
+                   console.log("data.data.shortCode",data.data.shortCode);
+                    $scope.formData.TOFShortName1 = data.data.shortCode;
                     console.log("CIty Detalis", $scope.formData);
                     if ($scope.formData.officeCode === "") {
                         arr = _.split($scope.formData.city1, ",", 1);
                         $scope.formData.city1 = arr[0];
                         // $scope.formData.sname = $scope.formData.TOFShortName ;
-                        $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.city1;
+                        $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName1 + ' ' + $scope.formData.city1;
                     } else {
                         arr = _.split($scope.formData.city1, ",", 1);
                         $scope.formData.city1 = arr[0];
                         //  $scope.formData.sname = $scope.formData.TOFShortName ;
-                        $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.officeCode + ' ' + $scope.formData.city1;
+                        $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName1 + ' ' + $scope.formData.officeCode + ' ' + $scope.formData.city1;
                     }
                 });
             }
@@ -8524,11 +8525,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     if ($scope.formData.officeCode === "") {
                         arr = _.split($scope.formData.city1, ",", 1);
                         $scope.formData.city1 = arr[0];
-                        $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.city1;
+                        $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName1 + ' ' + $scope.formData.city1;
                     } else {
                         arr = _.split($scope.formData.city1, ",", 1);
                         $scope.formData.city1 = arr[0];
-                        $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.officeCode + ' ' + $scope.formData.city1;
+                        $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName1 + ' ' + $scope.formData.officeCode + ' ' + $scope.formData.city1;
                     }
                 });
             }
@@ -8537,22 +8538,23 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             if ($scope.formData.officeCode === "") {
                 arr = _.split($scope.formData.city1, ",", 1);
                 $scope.formData.city1 = arr[0];
-                $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.city1;
+                $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName1 + ' ' + $scope.formData.city1;
             } else {
                 arr = _.split($scope.formData.city1, ",", 1);
                 $scope.formData.city1 = arr[0];
-                $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.officeCode + ' ' + $scope.formData.city1;
+                $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName1 + ' ' + $scope.formData.officeCode + ' ' + $scope.formData.city1;
             }
         });
         $scope.$watch('formData.city1', function () {
+            console.log($scope.formData);
             if ($scope.formData.officeCode === "") {
                 arr = _.split($scope.formData.city1, ",", 1);
                 $scope.formData.city1 = arr[0];
-                $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.city1;
+                $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName1 + ' ' + $scope.formData.city1;
             } else {
                 arr = _.split($scope.formData.city1, ",", 1);
                 $scope.formData.city1 = arr[0];
-                $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName + ' ' + $scope.formData.officeCode + ' ' + $scope.formData.city1;
+                $scope.formData.name = $scope.formData.companyShortName + ' ' + $scope.formData.TOFShortName1 + ' ' + $scope.formData.officeCode + ' ' + $scope.formData.city1;
             }
         });
         $scope.addOfficer = function () {
