@@ -484,6 +484,9 @@ var schema = new Schema({
     authTimestamp: {
       type: Date
     },
+    file:{
+      type:String
+    },
     approvalStatus: {
       type: String,
       enum: ["Pending", "Approved", "Reject", "Revised"],
@@ -515,6 +518,9 @@ var schema = new Schema({
     },
     authTimestamp: {
       type: Date
+    },
+    file:{
+      type:String
     },
     approvalStatus: {
       type: String,
@@ -580,6 +586,9 @@ var schema = new Schema({
     authTimestamp: {
       type: Date
     },
+    file:{
+      type:String
+    },
     approvalStatus: {
       type: String,
       enum: ["Pending", "Approved", "Rejected", "Revised"],
@@ -610,7 +619,7 @@ schema.plugin(deepPopulate, {
       select: 'name _id'
     },
     'invoice': {
-      select: 'name invoiceNumber _id grandTotal createdBy'
+      select: 'name invoiceNumber _id grandTotal createdBy approvalStatus file'
     },
     'invoice.createdBy': {
       select: 'name _id'
@@ -2449,6 +2458,7 @@ var model = {
       });
   },
   saveTemplate: function (data, callback) {
+    console.log("file",data.file);
     var matchObj = {};
     var matchObj2 = {};
     if (data.type == "templateIla") {
@@ -2463,7 +2473,8 @@ var model = {
       matchObj2 = {
         $set: {
           "templateIla.$.approvalStatus": data.approvalStatus,
-          "templateIla.$.authTimestamp": data.authTimestamp
+          "templateIla.$.authTimestamp": data.authTimestamp,
+          "templateIla.$.file":data.file
         }
       };
     } else if (data.type == "templateLor") {
@@ -2479,7 +2490,8 @@ var model = {
       matchObj2 = {
         $set: {
           "templateLor.$.approvalStatus": data.approvalStatus,
-          "templateLor.$.authTimestamp": data.authTimestamp
+          "templateLor.$.authTimestamp": data.authTimestamp,
+          "templateLor.$.file":data.file
         }
       };
     } else if (data.type == "survey") {

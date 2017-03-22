@@ -10248,14 +10248,15 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         $scope.sendMessage = function (fileName) {
             console.log("In Send MSG", fileName);
-            $scope.message.type = "File";
             // $scope.message.title = "Updated Invoice";
             if ($scope.approval) {
                 $scope.message.title = "Invoice " + $scope.formData.invoiceNumber + " Approved";
+                $scope.message.type = "File";
+                $scope.message.attachment.push(fileName);
             } else {
-                $scope.message.title = $scope.formData.invoiceNumber + "Invoice Sent For Approval";
+                $scope.message.title = $scope.formData.invoiceNumber + " Invoice Sent For Approval";
+                $scope.message.type = "Normal";
             }
-            $scope.message.attachment.push(fileName);
             $scope.timeline.chat.push($scope.message);
             NavigationService.saveChat($scope.timeline, function (data) {
                 console.log("FFFFF", data);
@@ -10297,11 +10298,12 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 console.log("New Invoice", data);
                 if (data.value === true) {
                     $scope.formData.assignment = $stateParams.assignmentId;
-                    console.log($scope.formData.assignment, $scope.formData, "$scope.formData.assignment");
                     NavigationService.generateInvoicePdf($scope.formData, function (data) {
                         if (data.value === true) {
                             console.log("Data of Pdf", data.data.name);
                             $scope.sendMessage(data.data.name);
+                            $scope.formData.file=data.data.name;
+                            NavigationService.modelSave("Invoice", $scope.formData, function (data) {});
                             $window.history.back();
                             toastr.success("Invoice Template " + formData.name + " created successfully.", "Invoice Template Created");
                         } else {
@@ -10601,28 +10603,32 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.Saved = true;
                 console.log("Data To Saveeee", $scope.forms);
                 NavigationService.editAssignmentTemplate($scope.forms, function (data) {
+                    console.log("After PDF Generate",data);
                     if (data.value) {
                         var a = {};
                         if (templateObj.type == "templateIla") {
                             if ($stateParams.approval) {
                                 $scope.message.title = "ILA " + templateObj.templateName + " Approved";
+                                a.type = "File",
+                                a.attachment = data.data.name;
                             } else {
                                 $scope.message.title = "ILA " + templateObj.templateName + " Sent to Approval";
                             }
                         } else if (templateObj.type == "templateLor") {
                             if ($stateParams.approval) {
                                 $scope.message.title = "LOR " + templateObj.templateName + " Approved";
+                                a.type = "File",
+                                a.attachment = data.data.name;
                             } else {
                                 $scope.message.title = "LOR " + templateObj.templateName + " Sent to Approval";
+                                a.type = "Normal"
                             }
                         } else {
                             $scope.message.title = $stateParams.type + " Sent to Approval";
                         }
-                        a.type = "File",
-                            a.employee = $scope.message.employee,
+                        a.employee = $scope.message.employee,
                             a.title = $scope.message.title,
-                            a.attachment = data.data.name;
-                        $scope.sendMessage2(_.cloneDeep(a));
+                            $scope.sendMessage2(_.cloneDeep(a));
                         var obj = {};
                         if ($stateParams.approval) {
                             console.log("$stateParams.approval");
@@ -10630,6 +10636,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                                 assignId: $scope.assignment._id,
                                 _id: $scope.forms._id,
                                 approvalStatus: "Approved",
+                                file:data.data.name,
                                 authTimestamp: Date.now(),
                                 type: $scope.forms.type
                             }
@@ -10749,7 +10756,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 size: 'md'
             });
         }
-        $scope.unhold = function(){
+        $scope.unhold = function () {
             $scope.assignment.timelineStatus = $scope.assignment.prevtimelineStatus;
             var newChat = {};
             newChat.employee = $scope.message.employee._id;

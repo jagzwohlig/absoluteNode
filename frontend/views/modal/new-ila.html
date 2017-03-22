@@ -15,6 +15,7 @@
         <th>ILA Template</th>
         <th>MR #</th>
         <th>Date</th>
+        <th>Status</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -24,7 +25,13 @@
         <td>{{ilas.name}}</td>
         <td>{{assignment.name}}</td>
         <td>{{ilas.timestamp|date:'dd-MM-yyyy'}}</td>
+        <td>{{ilas.approvalStatus}}</td>
         <td>
+          <div ng-if="ilas.file!=='undefined'">
+            <a class="btn btn-primary" download="{{ilas.file}}" ng-href="{{ilas.file|downloadImage}}">
+                                            <i class="ln-download"></i>
+          </a>
+          </div>
           <button class="btn btn-clear" ng-click="viewTemplates('ILAs','TemplateIla',ilas)"><i class="ln-pencil"></i></button>
           <button class="btn btn-clear" ng-click="deleteTemplate('templateIla',$index)"><i class="ln-trash2"></i></button>
           <!--<button class="btn btn-clear"><i class="ln-download"></i></button>-->

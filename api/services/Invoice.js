@@ -96,6 +96,9 @@ var schema = new Schema({
       type: Date,
       default: Date.now()
     },
+    file:{
+        type:String
+    },
     status: {
         type: Boolean
     }

@@ -24,7 +24,13 @@
         <td>{{lor.name}}</td>
         <td>{{lor.templateName}}</td>
         <td>{{lor.timestamp|date:'dd-MM-yyyy'}}</td>
+        <td>{{lor.approvalStatus}}</td>
         <td>
+          <div ng-if="lor.file!=='undefined'">
+            <a class="btn btn-primary" download="{{lor.file}}" ng-href="{{lor.file|downloadImage}}">
+                                            <i class="ln-download"></i>
+          </a>
+          </div>
           <button class="btn btn-clear" ng-click="viewTemplates('LORs','TemplateLor',lor)"><i class="ln-pencil"></i></button>
           <button class="btn btn-clear" ng-click="deleteTemplate('templateLor',$index)"><i class="ln-trash2"></i></button>
           <!--<button class="btn btn-clear"><i class="ln-download"></i></button>-->
