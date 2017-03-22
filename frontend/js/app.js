@@ -1807,8 +1807,8 @@ firstapp.filter('reverse', function () {
 
 firstapp.filter('getHours', function () {
     return function (date) {
-        // return moment().diff(moment(date), "hours");
-        return moment().diff(moment(date).add(5, "hours").add(30, "minutes"), "hours");
+        return moment().diff(moment(date), "hours");
+        // return moment().diff(moment(date).add(5, "hours").add(30, "minutes"), "hours");
     };
 });
 
