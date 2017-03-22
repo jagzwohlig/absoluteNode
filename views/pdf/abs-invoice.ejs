@@ -112,7 +112,7 @@ function toWords (num) {
                 </div>
                 <div style="width: 49%;display: inline-block;margin-left: 0;">
                     <div class="size"><i style="padding:0 5px;">Invoice No</i><span style="padding:0 12px;"><%= data.invoiceNumber%></span></div>
-                    <div class="size"> <i style="padding:0 5px;">Invoice Date</i><span style="padding:0 3px;"><%= moment(new Date(data.createdAt)).format("L")%></span></div>
+                    <div class="size"> <i style="padding:0 5px;">Invoice Date</i><span style="padding:0 3px;"><%= moment(new Date(data.approvalTime)).format("L")%></span></div>
                 </div>
             </div>
             <div style="clear:both;"></div>

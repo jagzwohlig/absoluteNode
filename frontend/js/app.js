@@ -1335,7 +1335,7 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
 
 
         .state('assignment-list', {
-            url: "/assignment-list",
+            url: "/assignment-list/{page:.*}/{keyword:.*}/{model:.*}/{timelineStatus:.*}/{ownerStatus:.*}/{name:.*}/{from:.*}/{to:.*}/{fromDate:.*}/{toDate:.*}",
             templateUrl: "frontend/views/template.html",
             controller: 'ModelViewCtrl',
             params: {

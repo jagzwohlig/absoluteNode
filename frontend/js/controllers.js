@@ -10291,6 +10291,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.saveModel = function (data) {
             if ($scope.approval) {
                 $scope.formData.approvalStatus = "Approved";
+                $scope.formData.approvalTime=Date.now();
             } else {
                 $scope.formData.approvalStatus = "Pending";
             }

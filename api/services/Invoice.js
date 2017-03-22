@@ -92,6 +92,9 @@ var schema = new Schema({
         type: String,
         enum:["Pending","Revised","Approved"]
     },
+    approvalTime:{
+        type: Date
+    },
     timestamp: {
       type: Date,
       default: Date.now()
