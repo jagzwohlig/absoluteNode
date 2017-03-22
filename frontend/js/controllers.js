@@ -12799,8 +12799,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         // $scope.someDate = moment().subtract(24, "hours").toDate();
         $scope.getDelayClass = function (val) {
             var retClass = "";
-            var hours = moment().diff(moment(val), "hours");
-            // var hours = moment().diff(moment(val).add(5, "hours").add(30, "minutes"), "hours");
+            // var hours = moment().diff(moment(val), "hours");
+            var hours = moment().diff(moment(val).add(5, "hours").add(30, "minutes"), "hours");
             if (hours >= 0 && hours <= 6) {
                 retClass = "delay-6";
             } else if (hours >= 7 && hours <= 24) {
