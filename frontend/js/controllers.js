@@ -10715,7 +10715,23 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 console.log("Done", data);
             });
         };
-
+        $scope.saveDraft=function(templateObj){
+             NavigationService.editAssignmentTemplate($scope.forms, function (data) {
+                    console.log("After PDF Generate", data);
+                    if (data.value) {
+                         var obj = {
+                                assignId: $scope.assignment._id,
+                                _id: $scope.forms._id,
+                                approvalStatus: "Draft",
+                                reqtimestamp: Date.now(),
+                                type: $scope.forms.type
+                            }
+                        console.log("$stateParams.Draft hi am here", obj);
+                        $scope.saveAssignment(obj);
+                        $window.history.back();
+                    }
+             });
+        },
         $scope.saveModel = function (templateObj) {
             console.log("Save Data", templateObj);
             //  Config.generatePdf("pdf/abs-synopsis", templateObj.forms, res.callback);

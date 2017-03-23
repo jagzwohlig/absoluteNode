@@ -492,7 +492,7 @@ var schema = new Schema({
     },
     approvalStatus: {
       type: String,
-      enum: ["Pending", "Approved", "Reject", "Revised"],
+      enum: ["Pending", "Approved", "Reject", "Revised","Draft"],
       default: "Pending"
     }
   }],
@@ -527,7 +527,7 @@ var schema = new Schema({
     },
     approvalStatus: {
       type: String,
-      enum: ["Pending", "Approved", "Reject", "Revised"],
+      enum: ["Pending", "Approved", "Reject", "Revised","Draft"],
       default: "Pending"
     }
   }],
@@ -559,7 +559,7 @@ var schema = new Schema({
     },
     approvalStatus: {
       type: String,
-      enum: ["Pending", "Approved", "Reject", "Revised"],
+      enum: ["Pending", "Approved", "Reject", "Revised","Draft"],
       default: "Pending"
     }
   }],
@@ -600,7 +600,7 @@ var schema = new Schema({
     },
     approvalStatus: {
       type: String,
-      enum: ["Pending", "Approved", "Rejected", "Revised"],
+      enum: ["Pending", "Approved", "Rejected", "Revised","Draft"],
       default: "Pending"
     }
   }],
