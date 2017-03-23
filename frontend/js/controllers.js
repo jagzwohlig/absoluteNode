@@ -1456,6 +1456,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 delete $scope.formData.lat;
                 delete $scope.formData.lng;
                 delete $scope.formData.dateOfLoss;
+                delete $scope.formData.timelineStatus;
+                delete $scope.formData.prevtimelineStatus;
                 $scope.formData.products = [];
                 $scope.formData.invoices = [];
                 $scope.formData.LRs = [];
