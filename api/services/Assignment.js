@@ -3746,14 +3746,117 @@ updateThreadId: function (data, callback) {
             to: emailData.to,
             cc: emailData.cc,
             bcc: emailData.bcc,
-            subject: "LOR Back to Regenerate For Assignment No :" + emailData.assignmentNo,
+            subject: "LOR Back to Regenerate For Assignment No : " + emailData.assignmentNo,
             message: "<html><body><p style='font-size: 16px;'>I have gone through the LOR prepared for " + emailData.insuredName + ", assignment " + emailData.assignmentNo + " Kindly make the changes as advised to you & resend for authorization. Please let me know if assistance required.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.assignmentAuthorizer + "</p></body></html>"
           }
           callback(null, emails);
         }
         break;
 
+         case "Assignment Force Close Aprproved":
+        {
+          var emails = {
+            name: 'Assignment Force Close Aprproved',
+            from: emailData.ownerEmail,
+            to: emailData.to,
+            cc: emailData.cc,
+            bcc: emailData.bcc,
+            subject: "Assignment Force Close Approved for Assignment : " + emailData.assignmentNo,
+            message: "<html><body><p style='font-size: 16px;'>Dear "+ emailData.ownerName +" ,<br> As per your request, i have Force Closed the assignment.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+          }
+          callback(null, emails);
+        }
+        break;
 
+         case "Assignment Force Close Rejected":
+        {
+          var emails = {
+            name: 'Assignment Force Close Rejected',
+            from: emailData.ownerEmail,
+            to: emailData.to,
+            cc: emailData.cc,
+            bcc: emailData.bcc,
+            subject: "Assignment Force Close Rejected for Assignment : " + emailData.assignmentNo,
+            message: "<html><body><p style='font-size: 16px;'>Dear "+ emailData.ownerName +" ,<br> Your Request for Force Closing the Assignment is Rejected. #Reason#</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+          }
+          callback(null, emails);
+        }
+        break;
+
+         case "Assignment Reopen Approved":
+        {
+          var emails = {
+            name: 'Assignment Reopen Approved',
+            from: emailData.ownerEmail,
+            to: emailData.to,
+            cc: emailData.cc,
+            bcc: emailData.bcc,
+            subject: "Assignment Reopen Request Approved for Assignment : " + emailData.assignmentNo,
+            message: "<html><body><p style='font-size: 16px;'>Dear "+ emailData.ownerName +" ,<br> As requested, Assignment " + emailData.assignmentNo + " has been re-opened.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+          }
+          callback(null, emails);
+        }
+        break;
+
+         case "Assignment Reopen Rejected":
+        {
+          var emails = {
+            name: 'Assignment Reopen Rejected',
+            from: emailData.ownerEmail,
+            to: emailData.to,
+            cc: emailData.cc,
+            bcc: emailData.bcc,
+            subject: "Assignment Reopen Request Rejected for Assignment : " + emailData.assignmentNo,
+            message: "<html><body><p style='font-size: 16px;'>Dear "+ emailData.ownerName +",<br> Your Request for Re-opening the Assignment has been Rejected. #Reason#</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+          }
+          callback(null, emails);
+        }
+        break;
+
+         case "Assignment Reopen Request":
+        {
+          var emails = {
+            name: 'Assignment Reopen Request',
+            from: emailData.ownerEmail,
+            to: emailData.to,
+            cc: emailData.cc,
+            bcc: emailData.bcc,
+            subject: "Request for Reopening of Assignment : " + emailData.assignmentNo,
+            message: "<html><body><p style='font-size: 16px;'>Dear #SupervisorsName#, Requesting you to please Re-open the Assignment due to some reasons. #Reason#</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+          }
+          callback(null, emails);
+        }
+        break;
+
+         case "Assignment Transfer":
+        {
+          var emails = {
+            name: 'Assignment Transfer',
+            from: emailData.ownerEmail,
+            to: emailData.to,
+            cc: emailData.cc,
+            bcc: emailData.bcc,
+            subject: "Transfer of Assignment : " + emailData.assignmentNo,
+            message: "<html><body><p style='font-size: 16px;'>This is to inform you that the Assignment No. "+ emailData.assignmentNo +" being handled by #PreviousOwner# so far has been now transferred to #NewAssignmentOwner# for operational reasons.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+          }
+          callback(null, emails);
+        }
+        break;
+
+         case "Invoice Send Authorization":
+        {
+          var emails = {
+            name: 'Invoice Send Authorization',
+            from: emailData.ownerEmail,
+            to: emailData.to,
+            cc: emailData.cc,
+            bcc: emailData.bcc,
+            subject: "Invoice Send Authorization : #InvoiceNo#",
+            message: "<html><body><p style='font-size: 16px;'>Please go through the Invoice for Assignment No. " + emailData.assignmentNo + " in respect of loss sustained by " + emailData.insuredName + " on account of damage to #ProductDetails# and authorize the same</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+          }
+          callback(null, emails);
+        }
+        break;
       default:
         {
           // $scope.formData.push($scope.newjson);
