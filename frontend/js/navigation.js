@@ -392,6 +392,17 @@ var navigationservice = angular.module('navigationservice', [])
                     anchor: "assignmentApproval-list",
                     icon: "pencil"
                 }]
+            },{
+                name: "Logistic",
+                classis: "active",
+                anchor: "logistic",
+                icon: "money",
+                subnav: [{
+                    name: "Logistic Detail",
+                    classis: "active",
+                    anchor: "logistic-list",
+                    icon: "user"
+                }]
             },
         ];
         var membershipLevel = [{
@@ -558,6 +569,16 @@ var navigationservice = angular.module('navigationservice', [])
                 });
             },
             searchAssignment: function (formData, i, callback) {
+                 console.log("FormData in search", formData);
+                $http.post(adminurl + 'Assignment/search', formData).success(function (data) {
+                    callback(data, i);
+                });
+            },
+            searchLogistic: function (formData, i, callback) {
+                formData.filter={},
+                formData.filter = {
+                    timelineStatus: "BBND"
+                }
                  console.log("FormData in search", formData);
                 $http.post(adminurl + 'Assignment/search', formData).success(function (data) {
                     callback(data, i);

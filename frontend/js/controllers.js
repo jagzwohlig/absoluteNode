@@ -578,7 +578,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             //     }
             // })
         }
-        $scope.timelineStatus = ["Survey Pending", "Survey Assigned", "ILA Pending", "LOR Pending", "Dox Pending", "Part Dox Pending", "Assessment Pending", "Consent Pending", "FSR Pending", "BBND", "Dispatched", "Collected"];
+        $scope.timelineStatus = ["Unassigned", "Survey Pending", "ILA Pending", "LOR Pending", "Dox Pending", "Part Dox Pending", "Assessment Pending", "Consent Pending", "FSR Pending", "BBND", "Dispatched", "Collected"];
         $scope.refreshInsurer = function (data, insurer) {
             var formdata = {};
             formdata.keyword = data;
@@ -5928,6 +5928,70 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             NavigationService.searchCity({
                 page: $scope.currentPage,
                 keyword: $scope.search.keyword
+            }, ++i, function (data, ini) {
+                console.log(data.data);
+
+                if (ini == i) {
+                    console.log(data.data);
+                    $scope.allCities = data.data.results;
+                    $scope.totalItems = data.data.total;
+                    $scope.maxRow = data.data.options.count;
+
+                }
+            });
+        };
+
+        $scope.changePage = function (page) {
+            var goTo = "city-list";
+            if ($scope.search.keyword) {
+                goTo = "city-list";
+            }
+            $state.go(goTo, {
+                page: page,
+                keyword: $scope.search.keyword
+            });
+        };
+        $scope.showAllCountries();
+
+        $scope.deleteCity = function (id) {
+            globalfunction.confDel(function (value) {
+                console.log(value);
+                if (value) {
+                    NavigationService.deleteCity(id, function (data) {
+                        if (data.value) {
+                            $scope.showAllCountries();
+                            toastr.success("City deleted successfully.", "City deleted");
+                        } else {
+                            toastr.error("There was an error while deleting City", "City deleting error");
+                        }
+                    });
+                }
+            });
+        };
+    })
+
+        .controller('LogisticCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("logistic-list");
+        $scope.menutitle = NavigationService.makeactive("Logistic Lists");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.currentPage = $stateParams.page;
+        var i = 0;
+        $scope.search = {
+            keyword: ""
+        };
+        if ($stateParams.keyword) {
+            $scope.search.keyword = $stateParams.keyword;
+        }
+        $scope.showAllCountries = function (keywordChange) {
+            $scope.totalItems = undefined;
+            if (keywordChange) {
+                $scope.currentPage = 1;
+            }
+            NavigationService.searchLogistic({
+                page: $scope.currentPage,
+                keyword: $scope.search.keyword,
             }, ++i, function (data, ini) {
                 console.log(data.data);
 

@@ -1335,7 +1335,7 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
 
 
         .state('assignment-list', {
-            url: "/assignment-list/{page:.*}/{keyword:.*}/{model:.*}/{timelineStatus:.*}/{ownerStatus:.*}/{name:.*}/{from:.*}/{to:.*}/{fromDate:.*}/{toDate:.*}",
+            url: "/assignment-list",
             templateUrl: "frontend/views/template.html",
             controller: 'ModelViewCtrl',
             params: {
@@ -1377,6 +1377,16 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
                 page: "1",
                 keyword: "",
                 model: "template"
+            }
+        })
+        
+        .state('logistic-list', {
+            url: "/logistic-list/{page:.*}/{keyword:.*}",
+            templateUrl: "frontend/views/template.html",
+            controller: 'LogisticCtrl',
+            params: {
+                page: "1",
+                keyword: ""
             }
         })
 

@@ -89,8 +89,8 @@ var schema = new Schema({
   },
   timelineStatus: {
     type: String,
-    enum: ["Pending", "Survey Pending", "Survey Assigned", "ILA Pending", "LOR Pending", "Dox Pending", "Part Dox Pending", "Assessment Pending", "Consent Pending", "JIR Pending", "FSR Pending", "BBND", "Collected", "Dispatched", "Force Closed", "ReOpened", "ForceClosed", "OnHold"],
-    default: "Survey Pending"
+    enum: ["Pending", "Unassigned", "Survey Pending", "ILA Pending", "LOR Pending", "Dox Pending", "Part Dox Pending", "Assessment Pending", "Consent Pending", "JIR Pending", "FSR Pending", "BBND", "Collected", "Dispatched", "Force Closed", "ReOpened", "ForceClosed", "OnHold"],
+    default: "Unassigned"
   },
   brokerClaimId: {
     type: String
@@ -1091,7 +1091,7 @@ var model = {
     Assignment.update({
       _id: data._id
     }, {
-      timelineStatus: "Survey Assigned",
+      timelineStatus: "Survey Pending",
       $push: {
         survey: data.survey
       }
@@ -1212,7 +1212,7 @@ var model = {
       $set: {
         "survey.$.status": "Declined",
         "survey.$.declineTime": Date.now(),
-        timelineStatus: "Survey Pending",
+        timelineStatus: "Unassigned",
       }
     }).exec(function (err, found) {
 
