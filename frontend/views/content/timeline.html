@@ -45,10 +45,10 @@
                             <span uib-dropdown class="inline">
                   <button class="btn btn-blue btn-round" id="upload-files" uib-dropdown-toggle><i class="ln-cloud-upload"></i> Upload Files</button>
                   <ul class="dropdown-menu info-dropdown" uib-dropdown-menu role="menu" aria-labelledby="upload-files">
-                    <li role="menuitem" ng-click="forceClose();"><a href="">Force Close</a></li>
-                    <li role="menuitem" ng-click="reopen();"><a href="">Re-Open</a></li>
-                    <li role="menuitem" ng-click="onhold();"><a href="">OnHold</a></li>
-                    <li role="menuitem" ng-click="unhold();"><a href="">UnHold</a></li>                    
+                    <li role="menuitem" ng-if="assignment.timelineStatus!='BBND'"ng-click="forceClose();"><a href="">Force Close</a></li>
+                    <li role="menuitem" ng-if="assignment.timelineStatus=='BBND' || assignment.timelineStatus=='Dispatched' || assignment.timelineStatus=='Collected' " ng-click="reopen();"><a href="">Re-Open</a></li>
+                    <li role="menuitem" ng-if="assignment.timelineStatus!='OnHold'" ng-click="onhold();"><a href="">OnHold</a></li>
+                    <li role="menuitem" ng-if="assignment.timelineStatus=='OnHold'" ng-click="unhold();"><a href="">UnHold</a></li>                    
                   </ul>
                 </span>
                             <div class="padder"></div>
@@ -325,7 +325,7 @@
                             </div>
                             <div class="widget cust-widg">
                                 <div class="only-email">
-                                    <div class="form-group">
+                                    <div class="form-group" ng-if="assignment.templateIla.length==0 && assignment.dateOfLoss && assignment.branch.ITAT && assignment.typeOfClaim && assignment.isInsured">
                                         <label class="ml-4">ILA </label>
                                         <toggle-switch ng-model="assignment.ilaStatus" class="switch-mini switch-success pull-right" ng-change="saveILA(assignment)"></toggle-switch>
                                     </div>
@@ -333,7 +333,7 @@
                             </div>
                             <div class="widget cust-widg" ng-hide="assignment.ilaStatus">
                                 <div class="only-email">
-                                    <div class="form-group">
+                                    <div class="form-group" ng-if="assignment.dateOfLoss && assignment.branch.LTAT">
                                         <label class="ml-4">LOR </label>
                                         <toggle-switch ng-model="assignment.lorStatus" class="switch-mini switch-success pull-right" ng-change="saveILA(assignment)"></toggle-switch>
                                     </div>

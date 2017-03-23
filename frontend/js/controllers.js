@@ -1854,6 +1854,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 
         $scope.submit = function (formData) {
+            if(!$scope.formData.typeOfClaim){
+                $scope.formData.timelineStatus="LOR Pending";
+            }
             console.log($scope.formData);
             NavigationService.assignmentSave($scope.formData, function (data) {
                 console.log(data);
@@ -8501,7 +8504,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             // console.log("typeOfOffice", $scope.formData.TOFShortName);
             if ($scope.formData.typeOfOffice) {
                 NavigationService.getOneModel('TypeOfOffice', $scope.formData.typeOfOffice, function (data) {
-                   console.log("data.data.shortCode",data.data.shortCode);
+                    console.log("data.data.shortCode", data.data.shortCode);
                     $scope.formData.TOFShortName1 = data.data.shortCode;
                     console.log("CIty Detalis", $scope.formData);
                     if ($scope.formData.officeCode === "") {
@@ -10159,7 +10162,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.formData.createdBy = $scope.message.employee;
             $scope.formData.assignment = $stateParams.assignmentId;
             $scope.formData.approvalStatus = "Pending";
-            $scope.formData.reqtimestamp=Date.now();
+            $scope.formData.reqtimestamp = Date.now();
             NavigationService.modelSave("Invoice", $scope.formData, function (data) {
                 console.log("New Invoice", data);
                 if (data.value === true) {
@@ -10294,10 +10297,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.saveModel = function (data) {
             if ($scope.approval) {
                 $scope.formData.approvalStatus = "Approved";
-                $scope.formData.approvalTime=Date.now();
+                $scope.formData.approvalTime = Date.now();
             } else {
                 $scope.formData.approvalStatus = "Pending";
-                $scope.formData.reqtimestamp=Date.now();
+                $scope.formData.reqtimestamp = Date.now();
             }
             NavigationService.modelSave("Invoice", $scope.formData, function (data) {
                 console.log("New Invoice", data);
@@ -10307,7 +10310,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         if (data.value === true) {
                             console.log("Data of Pdf", data.data.name);
                             $scope.sendMessage(data.data.name);
-                            $scope.formData.file=data.data.name;
+                            $scope.formData.file = data.data.name;
                             NavigationService.modelSave("Invoice", $scope.formData, function (data) {});
                             $window.history.back();
                             toastr.success("Invoice Template " + formData.name + " created successfully.", "Invoice Template Created");
@@ -10608,14 +10611,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.Saved = true;
                 console.log("Data To Saveeee", $scope.forms);
                 NavigationService.editAssignmentTemplate($scope.forms, function (data) {
-                    console.log("After PDF Generate",data);
+                    console.log("After PDF Generate", data);
                     if (data.value) {
                         var a = {};
                         if (templateObj.type == "templateIla") {
                             if ($stateParams.approval) {
                                 $scope.message.title = "ILA " + templateObj.templateName + " Approved";
                                 a.type = "File",
-                                a.attachment = data.data.name;
+                                    a.attachment = data.data.name;
                             } else {
                                 $scope.message.title = "ILA " + templateObj.templateName + " Sent to Approval";
                             }
@@ -10623,7 +10626,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                             if ($stateParams.approval) {
                                 $scope.message.title = "LOR " + templateObj.templateName + " Approved";
                                 a.type = "File",
-                                a.attachment = data.data.name;
+                                    a.attachment = data.data.name;
                             } else {
                                 $scope.message.title = "LOR " + templateObj.templateName + " Sent to Approval";
                                 a.type = "Normal"
@@ -10641,7 +10644,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                                 assignId: $scope.assignment._id,
                                 _id: $scope.forms._id,
                                 approvalStatus: "Approved",
-                                file:data.data.name,
+                                file: data.data.name,
                                 authTimestamp: Date.now(),
                                 type: $scope.forms.type
                             }
@@ -10650,7 +10653,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                                 assignId: $scope.assignment._id,
                                 _id: $scope.forms._id,
                                 approvalStatus: "Pending",
-                                reqtimestamp:Date.now(),
+                                reqtimestamp: Date.now(),
                                 type: $scope.forms.type
                             }
                         }
@@ -11593,10 +11596,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         var modalInstance = function () {};
         $scope.allTemplate = "";
         $scope.saveAssignmentTemplate = function (name, temp) {
-            console.log(temp);
+            console.log("Raj", temp);
             NavigationService.modelSave('assignment', temp, function (data) {
                 if (data.value === true) {
-                    $scope.message.title = name + " Deleted.";
+                    // $scope.message.title = name + " Deleted.";
                     $scope.sendMessage("Normal");
                     toastr.success($scope.assignment.name + " Updated", "Assignment " + $scope.assignment.name);
                 } else {
@@ -11604,7 +11607,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 }
             });
         };
-        $scope.deleteTemplate = function (type, index) {
+        $scope.deleteTemplate = function (type, index, name) {
+            console.log("Raj2", $scope.assignment[type][index]),
+                $scope.message.title = name + " " + $scope.assignment[type][index].templateName + " Deleted"
             $scope.assignment[type].splice(index, 1);
             var newAssignment = {
                 "_id": $scope.assignment._id

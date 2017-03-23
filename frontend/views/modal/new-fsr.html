@@ -37,7 +37,7 @@
                                         </div>
                                     </td>
                                     <td>{{fsr.fileName | date:'ddMMMyy, hh:mm'}}</td>
-                                    <td><button class="btn btn-clear" data-ng-click="deleteTemplate('fsrs',$index)"><i class="ln-trash2"></i></button>
+                                    <td><button class="btn btn-clear" data-ng-click="deleteTemplate('fsrs',$index,'FSR')"><i class="ln-trash2"></i></button>
                                     <button class="btn btn-clear">
                                         <a class="btn btn-primary" download="{{fsr.file}}" ng-href="{{fsr.file|downloadImage}}">
                                         <i class="ln-download"></i>

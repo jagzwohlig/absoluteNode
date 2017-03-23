@@ -36,8 +36,8 @@
                                     </div>
                                 </td>
                                 <td>{{doc.fileName | date:'ddMMMyy, hh:mm'}}</td>
-                                <td>
-                                    <button class="btn btn-clear" ng-click="deleteTemplate('docs',$index)"><i class="ln-trash2"></i></button>
+                                <td>    
+                                    <button class="btn btn-clear" ng-click="deleteTemplate('docs',$index,'Docs')"><i class="ln-trash2"></i></button>
                                     <button class="btn btn-clear"> 
                                         <a class="btn btn-primary" download="{{doc.file}}" ng-href="{{doc.file|downloadImage}}">
                                         <i class="ln-download"></i>
