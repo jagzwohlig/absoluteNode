@@ -8480,7 +8480,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         }];
         $scope.salutations = ["Mr.", "Mrs.", "Ms.", "Dr."];
         $scope.formData.companyShortName = "";
-        $scope.formData.TOFShortName = "";
+        $scope.formData.TOFShortName1 = "";
         $scope.formData.officeCode = "";
         $scope.formData.city1 = "";
 
