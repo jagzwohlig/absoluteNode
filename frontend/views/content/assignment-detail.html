@@ -1039,7 +1039,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="widget" ng-if="!name.department=='Marine Cargo' || !name.department=='Motor'">
+                <div class="widget" ng-if="name.department!='Marine Cargo' && name.department!='Motor'">
                     <div class="form-elements-sec">
                         <div class="widget-title">
                             <a class="btn btn-primary pull-right" ng-click="addModal( 'modal-assignment', '', 'Location',
@@ -1075,7 +1075,7 @@
                     </div>
                 </div>
                 <!--End Here-->
-                <div class="widget" ng-if="!name.department=='Marine Cargo' || !name.department=='Motor'">
+                <div class="widget" ng-if="name.department!='Marine Cargo' && name.department!='Motor'">
                     <div class="form-elements-sec">
                         <div class="widget-title">
                             <a class="btn btn-primary pull-right" ng-click="addModal( 'modal-assignment', '', 'Product',
