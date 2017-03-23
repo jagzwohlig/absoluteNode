@@ -175,6 +175,7 @@ var model = {
       if (err) {
         callback(err);
       } else if (body) {
+        console.log("body",body);
         body = JSON.parse(body);
         if (noTry === 0 && body.error) {
           refreshToken();
@@ -207,19 +208,21 @@ var model = {
           "Authorization": "Bearer " + req.user.googleAccessToken
         }
       };
+      
       if (req.form) {
         callAPI.multipart = [{
           "content-type": "application/json",
           body: JSON.stringify(req.form)
         }];
       }
-
-      console.log(callAPI);
+      
+      console.log("callAPI : ",callAPI);
       request(callAPI, function (err, httpResponse, body) {
         if (err) {
           callback(err);
         } else if (body) {
           body = JSON.parse(body);
+          console.log("body ====: ",body);
           if (noTry === 0 && body.error) {
             refreshToken();
           } else {
@@ -241,6 +244,7 @@ var model = {
           grant_type: 'refresh_token',
         }
       });
+      
       request.post({
         url: 'https://www.googleapis.com/oauth2/v4/token',
         form: {
@@ -249,7 +253,9 @@ var model = {
           client_secret: GoogleclientSecret,
           grant_type: 'refresh_token',
         }
-      }, function (err, httpResponse, body) {
+      }, 
+      
+      function (err, httpResponse, body) {
         console.log(err);
         console.log(body);
         if (err) {
@@ -257,6 +263,7 @@ var model = {
         } else if (body) {
 
           body = JSON.parse(body);
+          console.log("body in refreshb token ====: ",body);
           req.user.googleAccessToken = body.access_token;
           User.updateAccessToken(req.user.id, body.access_token);
           noTry = 1;

@@ -54,6 +54,14 @@
                                     <div class="col-item" ng-if="item.value=='Textarea'">
                                         <textarea class="form-control" ng-model="item.field" placeholder="Enter {{item.name}}"></textarea>
                                     </div>
+                                    <!-- NUMBER -->
+                                    <div class="col-item" ng-if="item.value=='Number'">
+                                        <input type="number" placeholder="Enter {{item.name}}" class="form-control" ng-model="item.field">
+                                    </div>
+                                    <!-- Currency -->
+                                    <div class="col-item" ng-if="item.value=='Currency'">
+                                        <input type="number" placeholder="Enter {{item.name}}" class="form-control" ng-model="item.field">
+                                    </div>
                                     <!-- SYSTEM FIELD -->
                                     <div class="col-item" ng-if="item.type=='System Fields'">
                                         <p>{{item.value|toobject:assignment}}</p>

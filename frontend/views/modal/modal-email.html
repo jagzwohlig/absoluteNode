@@ -6,7 +6,7 @@
     </div>
     <h5 class="modal-title">Compose an email</h5>
 </div>
-<form name="modalForm" ng-submit="sendEmail(modalForm)" class="min-hit">
+<form name="modalForm" ng-submit="sendEmail(modalForm); $dismiss()" class="min-hit">
     <div class="modal-body">
         <div class="billing-sec no-float">
             <div class="row">

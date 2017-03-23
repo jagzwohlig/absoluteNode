@@ -636,7 +636,14 @@ var schema = new Schema({
   },
   documentDetails: {
     type: String
+  },
+  email: {
+    type: {}
+  },
+  threadId: {
+    type: String
   }
+
 });
 
 schema.plugin(deepPopulate, {
@@ -1119,6 +1126,26 @@ var model = {
       .page(options, callback);
 
   },
+// Priyank
+  // updateSurveyor: function (data, callback) {
+  //   data.survey.timestamp=Date.now();
+  //   Assignment.update({
+  //     _id: data._id
+  //   }, {
+  //     timelineStatus: "Survey Pending",
+  //     $push: {
+  //       survey: data.survey
+  //     }
+  //   }).exec(function (err, found) {
+  //     if (err) {
+  //       callback(err, null);
+  //     } else if (found) {
+  //       callback(null, found);
+  //     } else {
+  //       callback(null, found);
+  //     }
+  //   });
+  // },
 
   updateSurveyor: function (data, callback) {
     data.survey.timestamp=Date.now();
@@ -1132,13 +1159,141 @@ var model = {
     }).exec(function (err, found) {
       if (err) {
         callback(err, null);
-      } else if (found) {
-        callback(null, found);
       } else {
-        callback(null, found);
+        if (found.nModified == 1) {
+          Assignment.getOne({
+            _id: data._id
+          }, function (err, assignmentData) {
+            console.log("assignmentData =========", assignmentData);
+            if (err) {
+              console.log("err", err);
+              callback("No data found in assignment", null);
+            } else {
+              console.log("assignmentData else", assignmentData);
+              if (_.isEmpty(assignmentData)) {
+                callback("No data found in assignment search", null);
+              } else {
+                console.log("assignmentData In ", assignmentData);
+                var emailData = {};
+                emailData.assignmentNo = assignmentData.name;
+                emailData.ownerName = assignmentData.owner.name;
+                emailData.ownerEmail = assignmentData.owner.email;
+                emailData.ownerPhone = assignmentData.owner.mobile;
+                emailData.siteCity = assignmentData.city.name;
+                emailData.insuredName = (assignmentData.insured.name ? assignmentData.insured.name : "");
+                emailData.ilaAuthDate = assignmentData.templateIla[0].authTimestamp;
+                // emailData.surveyDate = (surveyDate ? moment(surveyDate).format("DD/MM/YYYY") : "");
+                // console.log("emailData In 1 ", emailData);
+                if (assignmentData.survey) {
+                  _.each(assignmentData.survey, function (values) {
+                    console.log("survey: ", values);
+                    if (values.status == "Approval Pending") {
+                      console.log("In surveyor");
+                      console.log(" values.employee.mobile", values.employee.mobile);
+                      emailData.surveyorNumber = values.employee.mobile;
+                      emailData.surveyorName = values.employee.name;
+                      emailData.surveyorEmail = values.employee.email;
+                      emailData.surveyDate = values.surveyDate;
+                    }
+                  });
+                }
+
+
+                // console.log("emailData In 2 ", emailData);
+                emailData.to = [];
+                emailData.to.push({
+                  name: assignmentData.owner.name,
+                  email: assignmentData.owner.email
+                });
+
+                // if (assignmentData.shareWith) {
+                //   _.each(assignmentData.shareWith, function (values) {
+                //     console.log("values", values);
+                //     _.each(values.persons, function (personss) {
+                //       console.log("persons", personss);
+                //       emailData.to.push({
+                //         name: personss.name,
+                //         email: personss.email
+                //       })
+                //     });
+                //   });
+                // }
+
+
+                //Find Acknowledgment Email data
+                var mailData = [];
+                mailData[0] = "Acknowledgment Email";
+                mailData[1] = emailData;
+                mailData[2] = data._id;
+                mailData[3] = data.accessToken;
+                console.log('mailData', mailData);
+                callback(null, mailData);
+              }
+            }
+          });
+        } else {
+          callback("There was an error while assigning surveyor", found);
+        }
       }
     });
   },
+
+  getEmailsData: function (data, callback) {
+    console.log("getEmailsData ==== ", data);
+    Assignment.getMailData(data, function (err, emailData) {
+      console.log("emailData ==== ", emailData);
+      if (err) {
+        console.log("err", err);
+      } else {
+        if (_.isEmpty(emailData)) {
+          callback("No mail data found", null);
+        } else {
+          //Find create assignment mail
+          Assignment.getAssignmentCreateMail({
+            _id: data[2]
+          }, function (err, firstMailData) {
+            console.log("firstMailData", firstMailData);
+            if (err) {
+              callback(err, null);
+              console.log("err", err);
+            } else {
+              if (_.isEmpty(firstMailData)) {
+                console.log("No first create assignment mail data found", null);
+                callback("No first create assignment mail data found", null);
+              } else {
+                emailData.message = emailData.message + firstMailData;
+                console.log("emailData.message", emailData.message);
+                emailData.accessToken = data[3];
+                callback(null, emailData);
+
+                //Update thread id
+                // Assignment.updateThreadId({
+                //   _id: data[2]._id,
+                //   threadId: mailData.threadId
+                // }, function (err, threadData) {
+                //   console.log("threadData", threadData);
+                //   if (err) {
+                //     callback(err, null);
+                //     console.log("err", err);
+                //   } else {
+                //     if (_.isEmpty(threadData)) {
+                //       console.log("There was an updating data in survey thread", null);
+                //       callback(err, null);
+                //     } else {
+                //       callback(null, threadData);
+                //     }
+                //   }
+                // });
+
+              }
+            }
+          });
+
+        }
+      }
+    });
+  },
+
   //    TASK LIST
   taskList: function (data, callback) {
     Assignment.aggregate([{
@@ -2500,8 +2655,72 @@ var model = {
         }
       });
   },
-  saveTemplate: function (data, callback) {
-    console.log("file", data.file);
+  // Priyank
+  // saveTemplate: function (data, callback) {
+  //   console.log("file", data.file);
+  //   var matchObj = {};
+  //   var matchObj2 = {};
+  //   if (data.type == "templateIla") {
+  //     matchObj = {
+  //       _id: data.assignId,
+  //       templateIla: {
+  //         $elemMatch: {
+  //           _id: data._id
+  //         }
+  //       }
+  //     };
+  //     matchObj2 = {
+  //       $set: {
+  //         "templateIla.$.approvalStatus": data.approvalStatus,
+  //         "templateIla.$.authTimestamp": data.authTimestamp,
+  //         "templateIla.$.file": data.file,
+  //         "templateIla.$.reqtimestamp": data.reqtimestamp
+  //       }
+  //     };
+  //   } else if (data.type == "templateLor") {
+  //     console.log("In templateLor", data);
+  //     matchObj = {
+  //       _id: data.assignId,
+  //       templateLor: {
+  //         $elemMatch: {
+  //           _id: data._id
+  //         }
+  //       }
+  //     };
+  //     matchObj2 = {
+  //       $set: {
+  //         "templateLor.$.approvalStatus": data.approvalStatus,
+  //         "templateLor.$.authTimestamp": data.authTimestamp,
+  //         "templateLor.$.reqtimestamp": data.reqtimestamp,
+  //         "templateLor.$.file": data.file
+  //       }
+  //     };
+  //   } else if (data.type == "survey") {
+  //     matchObj = {
+  //       _id: data.assignId,
+  //       survey: {
+  //         $elemMatch: {
+  //           _id: data._id
+  //         }
+  //       }
+  //     };
+  //     matchObj2 = {
+  //       $set: {
+  //         "survey.$.status": "Pending"
+  //       }
+  //     };
+  //   }
+  //   Assignment.update(matchObj, matchObj2).exec(function (err, data) {
+  //     if (err) {
+  //       callback(err, null);
+  //     } else {
+  //       callback(null, data);
+  //     }
+  //   });
+  // },
+
+
+saveTemplate: function (data, callback) {
     var matchObj = {};
     var matchObj2 = {};
     if (data.type == "templateIla") {
@@ -2554,14 +2773,244 @@ var model = {
         }
       };
     }
-    Assignment.update(matchObj, matchObj2).exec(function (err, data) {
+    Assignment.update(matchObj, matchObj2).exec(function (err, updated) {
       if (err) {
         callback(err, null);
       } else {
-        callback(null, data);
+        console.log("else  survey");
+
+        Assignment.getOne({
+          _id: data.assignId
+        }, function (err, assignmentData) {
+          console.log("assignmentData =========", assignmentData);
+          if (err) {
+            console.log("err", err);
+            callback("No data found in assignment", null);
+          } else {
+            console.log("assignmentData else", assignmentData);
+            if (_.isEmpty(assignmentData)) {
+              callback("No data found in assignment search", null);
+            } else {
+              console.log("assignmentData In ", assignmentData);
+              var emailData = {};
+              emailData.assignmentNo = assignmentData.name;
+              emailData.ownerName = assignmentData.owner.name;
+              emailData.ownerEmail = assignmentData.owner.email;
+              emailData.ownerPhone = assignmentData.owner.mobile;
+              emailData.siteCity = assignmentData.city.name;
+              if (assignmentData.insured) {
+                if (assignmentData.insured.name) {
+                  emailData.insuredName = (assignmentData.insured.name ? assignmentData.insured.name : "");
+                } else {
+                  emailData.insuredName = "";
+                }
+              } else {
+                emailData.insuredName = "";
+              }
+              if (assignmentData.templateIla) {
+                emailData.ilaAuthDate = assignmentData.templateIla[0].authTimestamp;
+              }
+              // emailData.surveyDate = (surveyDate ? moment(surveyDate).format("DD/MM/YYYY") : "");
+              // console.log("emailData In 1 ", emailData);
+              if (assignmentData.survey) {
+                _.each(assignmentData.survey, function (values) {
+                  console.log("survey: ", values);
+                  if (values.status == "Pending") {
+                    console.log("In surveyor");
+                    console.log(" values.employee.mobile", values.employee.mobile);
+                    emailData.surveyorNumber = values.employee.mobile;
+                    emailData.surveyorName = values.employee.name;
+                    emailData.surveyorEmail = values.employee.email;
+                    emailData.surveyDate = values.surveyDate;
+                  }
+                });
+              }
+
+
+              // console.log("emailData In 2 ", emailData);
+              emailData.to = [];
+              emailData.to.push({
+                name: assignmentData.owner.name,
+                email: assignmentData.owner.email
+              });
+
+              if (assignmentData.shareWith) {
+                _.each(assignmentData.shareWith, function (values) {
+                  console.log("values", values);
+                  _.each(values.persons, function (personss) {
+                    console.log("persons", personss);
+                    emailData.to.push({
+                      name: personss.name,
+                      email: personss.email
+                    })
+                  });
+                });
+              }
+
+              if(data.user){
+                emailData.assignmentAuthorizer = data.user.name;
+              }
+              console.log('mailData', mailData);
+              if (data.type == "survey") {
+                console.log("IN survey");
+                //Find Acknowledgment Email data
+                var mailData = [];
+                mailData[0] = "Deputation mail";
+                mailData[1] = emailData;
+                mailData[2] = data.accessToken;
+                mailData[3] = data.user.email;
+                Assignment.getMailAndSendMail(mailData, function (err, newData) {
+                  if (err) {
+                    callback(null, err);
+                  } else {
+                    if (_.isEmpty(newData)) {
+                      callback("There was an error while sending mail", null);
+                    } else {
+                      callback(null, newData);
+                    }
+                  }
+                });
+              } else if (data.type == "templateIla") {
+                console.log("IN templateIla");
+                //Find Acknowledgment Email data
+                if (data.approvalStatus == "Approved") {
+                 
+                  var mailData = [];
+                  mailData[0] = "ILA Authorization";
+                  mailData[1] = emailData;
+                  mailData[2] = data.accessToken;
+                  mailData[3] = data.user.email;
+                  Assignment.getMailAndSendMail(mailData, function (err, newData) {
+                  if (err) {
+                    callback(null, err);
+                  } else {
+                    if (_.isEmpty(newData)) {
+                      callback("There was an error while sending mail", null);
+                    } else {
+                      callback(null, newData);
+                    }
+                  }
+                });
+                } else if (data.approvalStatus == "Revised") {
+                  var mailData = [];
+                  mailData[0] = "ILA Back to Regenerate";
+                  mailData[1] = emailData;
+                  mailData[2] = data.accessToken;
+                  mailData[3] = data.user.email;
+                  Assignment.getMailAndSendMail(mailData, function (err, newData) {
+                  if (err) {
+                    callback(null, err);
+                  } else {
+                    if (_.isEmpty(newData)) {
+                      callback("There was an error while sending mail", null);
+                    } else {
+                      callback(null, newData);
+                    }
+                  }
+                });
+                } else {
+                  callback(null,updated);
+                }
+              }  else if (data.type == "templateLor") {
+                console.log("IN templateIlor");
+                //Find Acknowledgment Email data
+                if (data.approvalStatus == "Approved") {
+                 
+                  var mailData = [];
+                  mailData[0] = "LOR Authorization";
+                  mailData[1] = emailData;
+                  mailData[2] = data.accessToken;
+                  mailData[3] = data.user.email;
+                  Assignment.getMailAndSendMail(mailData, function (err, newData) {
+                  if (err) {
+                    callback(null, err);
+                  } else {
+                    if (_.isEmpty(newData)) {
+                      callback("There was an error while sending mail", null);
+                    } else {
+                      callback(null, newData);
+                    }
+                  }
+                });
+                } else if (data.approvalStatus == "Revised") {
+                  var mailData = [];
+                  mailData[0] = "LOR Back to Regenerate";
+                  mailData[1] = emailData;
+                  mailData[2] = data.accessToken;
+                  mailData[3] = data.user.email;
+                  Assignment.getMailAndSendMail(mailData, function (err, newData) {
+                  if (err) {
+                    callback(null, err);
+                  } else {
+                    if (_.isEmpty(newData)) {
+                      callback("There was an error while sending mail", null);
+                    } else {
+                      callback(null, newData);
+                    }
+                  }
+                });
+                } else {
+                  callback(null,updated);
+                }
+              } else {
+                callback(null, updated);
+              }
+            }
+          }
+        });
       }
     });
   },
+
+  getMailAndSendMail: function (data, callback) {
+    Assignment.getMailData(data, function (err, emailData) {
+      console.log("emailData ==== ", emailData);
+      if (err) {
+        console.log("err", err);
+      } else {
+        if (_.isEmpty(emailData)) {
+          callback("No mail data found", null);
+        } else {
+          emailData.accessToken = data[2];
+          //Get User google accessToken
+          Assignment.getUserData({
+            email: data[3]
+          }, function (err, userdata) {
+            if (err) {
+              callback(err, null);
+              console.log("err", err);
+            } else {
+              if (_.isEmpty(userdata)) {
+                console.log("No user data found!", null);
+                callback(err, null);
+              } else {
+                emailData.user = userdata;
+                console.log(emailData.user, "email user");
+                callback(null, emailData);
+                //Send email
+                // Assignment.sendEmails(emailData, function (err, mailData) {
+                //   console.log("mailData", mailData);
+                //   if (err) {
+                //     callback(err, null);
+                //     console.log("err", err);
+                //   } else {
+                //     if (_.isEmpty(mailData)) {
+                //       console.log("There was an Error while sending email!", null);
+                //       callback(err, null);
+                //     } else {
+                //       callback(null, mailData);
+                //     }
+                //   }
+                // });
+              }
+            }
+          });
+
+        }
+      }
+    });
+  },
+// 
   updateNewSurveyor: function (data, callback) {
     Assignment.update({
       _id: data.assignId,
@@ -2582,6 +3031,7 @@ var model = {
       }
     });
   },
+
   getAssignmentApprovalList: function (data, callback) {
     var Model = this;
     var maxRow = Config.maxRow;
@@ -2757,278 +3207,679 @@ var model = {
         }
       });
   },
-  getMailaData: function (data, callback) {
-    $scope.emailersData = function (type, emailData, index) {
-      console.log("email Data", emailData);
-      $scope.emailData = {};
-      // emailData.to =  _.uniq(emailData.to);
-      var i = 0;
-      var toData = [];
-      _.map(emailData.to, function (values) {
-        values.email.toString();
-        values.name.toString();
-      });
-      emailData.to = _.uniqBy(emailData.to, "email");
-      console.log("values array ", emailData.to);
 
-      emailData.assignmentNo = (emailData.assignmentNo ? emailData.assignmentNo : "");
-      emailData.ownerName = (emailData.ownerName ? emailData.ownerName : "");
-      emailData.ownerEmail = (emailData.ownerEmail ? emailData.ownerEmail : "");
-      emailData.ownerPhone = (emailData.ownerPhone ? emailData.ownerPhone : "");
-      emailData.siteCity = (emailData.siteCity ? emailData.siteCity : "");
-      emailData.to = (emailData.to ? emailData.to : []);
-      emailData.cc = (emailData.cc ? emailData.cc : []);
-      emailData.bcc = (emailData.bcc ? emailData.bcc : []);
-      emailData.surveyorNumber = (emailData.surveyorNumber ? emailData.surveyorNumber : "");
-      emailData.surveyorName = (emailData.surveyorName ? emailData.surveyorName : "");
-      emailData.surveyorEmail = (emailData.surveyorEmail ? emailData.surveyorEmail : "");
-      emailData.insuredName = (emailData.insuredName ? emailData.insuredName : "");
-      emailData.ilaAuthDate = (emailData.ilaAuthDate ? emailData.ilaAuthDate : "");
+  // getMailaData: function (data, callback) {
+  //   $scope.emailersData = function (type, emailData, index) {
+  //     console.log("email Data", emailData);
+  //     $scope.emailData = {};
+  //     // emailData.to =  _.uniq(emailData.to);
+  //     var i = 0;
+  //     var toData = [];
+  //     _.map(emailData.to, function (values) {
+  //       values.email.toString();
+  //       values.name.toString();
+  //     });
+  //     emailData.to = _.uniqBy(emailData.to, "email");
+  //     console.log("values array ", emailData.to);
 
-      switch (type) {
-        case "Acknowledgment Email":
-          {
-            var emails = {
-              name: 'Acknowledgment Email',
-              from: emailData.ownerEmail,
-              to: emailData.to,
-              cc: emailData.cc,
-              bcc: emailData.bcc,
-              subject: "Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
-              message: "<p style='font-size: 16px;'>Dear Sir/Madam,</p><p style='font-size: 16px;'>Thank you for retaining us to inspect & assess the subject loss. This is to confirm that " + emailData.surveyorName + " shall be attending this claim. He can be reached on " + emailData.surveyorNumber + ". Our reference number for this claim would be " + emailData.assignmentNo + "</p> <p style='font-size: 16px;'>Should you ever need any support / information / update, please feel at ease to get in touch with me.</p><br>" + "<p style='font-size: 16px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
-            }
-            $scope.emailData = emails;
-          }
-          break;
-        case "Deputation mail":
-          {
-            var to = [];
-            to.push({
-              name: emailData.surveyorName,
-              email: emailData.surveyorEmail
-            })
-            var emails = {
-              name: 'Deputation mail',
-              from: emailData.ownerEmail,
-              to: to,
-              cc: emailData.cc,
-              bcc: emailData.bcc,
-              subject: "Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
-              message: "<p style='font-size: 16px;'>Dear " + emailData.surveyorName + ",</p><p style='font-size: 16px;'>Please refer to our telecom, in respect of the subject claim. You are requested to kindly attend the loss inline with the discussions held and specific requirements of the claim. Our reference number for this claim would be " + emailData.assignmentNo + "</p> <p style='font-size: 16px;'>In order to assist you, we are attaching relevant format of JIR. Please ensure to capture every detail there in & get the same duly signed by the concerned person. In an unlikely event wherein there is a difference of opinion between yourself & the concerned person, both the opinions may be recorded. We would appreciate a brief call from the site while you are attending the loss as this helps us update the insurer's of the developments. Should you ever need any support / information / update please feel at ease to get in touch with me. I will be more than willing to assist.</p><br>" + "<p style='font-size: 16px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
-            }
-            $scope.emailData = emails;
-          }
-          break;
-        case "On Survey Attended":
-          {
-            var emails = {
-              name: 'On Survey Attended',
-              from: emailData.ownerEmail,
-              to: emailData.to,
-              cc: emailData.cc,
-              bcc: emailData.bcc,
-              subject: "Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
-              message: "<p style='font-size: 16px;'>We are pleased to inform you that the survey for the said claim has been attended on " + emailData.surveyDate + " No sooner we receive further details, we shall update you in this regard. Meanwhile, request you to kindly bear with us. Should you ever need any support / information / update please feel at ease to get in touch with me. I will be more than willing to assist.</p><br>" + "<p style='font-size: 16px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
-            }
-            $scope.emailData = emails;
-          }
-          break;
-        case "ILA Authorization":
-          {
-            var emails = {
-              name: 'ILA Authorization',
-              from: emailData.ownerEmail,
-              to: emailData.to,
-              cc: emailData.cc,
-              bcc: emailData.bcc,
-              subject: "ILA Authorized of Assignment : " + emailData.assignmentNo,
-              message: "<p style='font-size: 16px;'>Dear " + emailData.ownerName + "</p><p style='font-size: 16px;'>I have gone through the ILA prepared for " + emailData.insuredName + ", Assignment No. " + emailData.assignmentNo + " and have  authorized the same. It is OK to release</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
-            }
-            $scope.emailData = emails;
-          }
-          break;
+  //     emailData.assignmentNo = (emailData.assignmentNo ? emailData.assignmentNo : "");
+  //     emailData.ownerName = (emailData.ownerName ? emailData.ownerName : "");
+  //     emailData.ownerEmail = (emailData.ownerEmail ? emailData.ownerEmail : "");
+  //     emailData.ownerPhone = (emailData.ownerPhone ? emailData.ownerPhone : "");
+  //     emailData.siteCity = (emailData.siteCity ? emailData.siteCity : "");
+  //     emailData.to = (emailData.to ? emailData.to : []);
+  //     emailData.cc = (emailData.cc ? emailData.cc : []);
+  //     emailData.bcc = (emailData.bcc ? emailData.bcc : []);
+  //     emailData.surveyorNumber = (emailData.surveyorNumber ? emailData.surveyorNumber : "");
+  //     emailData.surveyorName = (emailData.surveyorName ? emailData.surveyorName : "");
+  //     emailData.surveyorEmail = (emailData.surveyorEmail ? emailData.surveyorEmail : "");
+  //     emailData.insuredName = (emailData.insuredName ? emailData.insuredName : "");
+  //     emailData.ilaAuthDate = (emailData.ilaAuthDate ? emailData.ilaAuthDate : "");
 
-        case "ILA Back to Regenerate":
-          {
-            var emails = {
-              name: 'ILA Back to Regenerate',
-              from: emailData.ownerEmail,
-              to: emailData.to,
-              cc: emailData.cc,
-              bcc: emailData.bcc,
-              subject: "ILA Sent back for regeneration of Assignment : " + emailData.assignmentNo,
-              message: "<p style='font-size: 16px;'>Dear " + emailData.ownerName + "</p><p style='font-size: 16px;'>This is to inform you that ILA No. " + emailData.assignmentNo + " has NOT been authorized on " + emailData.ilaAuthDate + ". Please regenrate as per the comments.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
-            }
-            $scope.emailData = emails;
-          }
-          break;
+  //     switch (type) {
+  //       case "Acknowledgment Email":
+  //         {
+  //           var emails = {
+  //             name: 'Acknowledgment Email',
+  //             from: emailData.ownerEmail,
+  //             to: emailData.to,
+  //             cc: emailData.cc,
+  //             bcc: emailData.bcc,
+  //             subject: "Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
+  //             message: "<p style='font-size: 16px;'>Dear Sir/Madam,</p><p style='font-size: 16px;'>Thank you for retaining us to inspect & assess the subject loss. This is to confirm that " + emailData.surveyorName + " shall be attending this claim. He can be reached on " + emailData.surveyorNumber + ". Our reference number for this claim would be " + emailData.assignmentNo + "</p> <p style='font-size: 16px;'>Should you ever need any support / information / update, please feel at ease to get in touch with me.</p><br>" + "<p style='font-size: 16px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
+  //           }
+  //           $scope.emailData = emails;
+  //         }
+  //         break;
+  //       case "Deputation mail":
+  //         {
+  //           var to = [];
+  //           to.push({
+  //             name: emailData.surveyorName,
+  //             email: emailData.surveyorEmail
+  //           })
+  //           var emails = {
+  //             name: 'Deputation mail',
+  //             from: emailData.ownerEmail,
+  //             to: to,
+  //             cc: emailData.cc,
+  //             bcc: emailData.bcc,
+  //             subject: "Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
+  //             message: "<p style='font-size: 16px;'>Dear " + emailData.surveyorName + ",</p><p style='font-size: 16px;'>Please refer to our telecom, in respect of the subject claim. You are requested to kindly attend the loss inline with the discussions held and specific requirements of the claim. Our reference number for this claim would be " + emailData.assignmentNo + "</p> <p style='font-size: 16px;'>In order to assist you, we are attaching relevant format of JIR. Please ensure to capture every detail there in & get the same duly signed by the concerned person. In an unlikely event wherein there is a difference of opinion between yourself & the concerned person, both the opinions may be recorded. We would appreciate a brief call from the site while you are attending the loss as this helps us update the insurer's of the developments. Should you ever need any support / information / update please feel at ease to get in touch with me. I will be more than willing to assist.</p><br>" + "<p style='font-size: 16px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
+  //           }
+  //           $scope.emailData = emails;
+  //         }
+  //         break;
+  //       case "On Survey Attended":
+  //         {
+  //           var emails = {
+  //             name: 'On Survey Attended',
+  //             from: emailData.ownerEmail,
+  //             to: emailData.to,
+  //             cc: emailData.cc,
+  //             bcc: emailData.bcc,
+  //             subject: "Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
+  //             message: "<p style='font-size: 16px;'>We are pleased to inform you that the survey for the said claim has been attended on " + emailData.surveyDate + " No sooner we receive further details, we shall update you in this regard. Meanwhile, request you to kindly bear with us. Should you ever need any support / information / update please feel at ease to get in touch with me. I will be more than willing to assist.</p><br>" + "<p style='font-size: 16px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
+  //           }
+  //           $scope.emailData = emails;
+  //         }
+  //         break;
+  //       case "ILA Authorization":
+  //         {
+  //           var emails = {
+  //             name: 'ILA Authorization',
+  //             from: emailData.ownerEmail,
+  //             to: emailData.to,
+  //             cc: emailData.cc,
+  //             bcc: emailData.bcc,
+  //             subject: "ILA Authorized of Assignment : " + emailData.assignmentNo,
+  //             message: "<p style='font-size: 16px;'>Dear " + emailData.ownerName + "</p><p style='font-size: 16px;'>I have gone through the ILA prepared for " + emailData.insuredName + ", Assignment No. " + emailData.assignmentNo + " and have  authorized the same. It is OK to release</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
+  //           }
+  //           $scope.emailData = emails;
+  //         }
+  //         break;
 
-        case "ILA Release":
-          {
-            var emails = {
-              name: 'ILA Release',
-              from: emailData.ownerEmail,
-              to: emailData.to,
-              cc: emailData.cc,
-              bcc: emailData.bcc,
-              subject: "ILA Authorized of Assignment : " + emailData.assignmentNo,
-              message: "<p style='font-size: 16px;'>Dear Sir/Madam,</p><p style='font-size: 16px;'>We are pleased to release the ILA in respect of our Assignment No. " + emailData.assignmentNo + " and your #ClaimNo# and #PolicyNo#.</p><p style='font-size: 16px;'>We hope that the same shall serve your purpose. Should you ever need any support / information / update please feel at ease to get in touch with me. I will be more than willing to assist.</p>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
-            }
-            $scope.emailData = emails;
-          }
-          break;
+  //       case "ILA Back to Regenerate":
+  //         {
+  //           var emails = {
+  //             name: 'ILA Back to Regenerate',
+  //             from: emailData.ownerEmail,
+  //             to: emailData.to,
+  //             cc: emailData.cc,
+  //             bcc: emailData.bcc,
+  //             subject: "ILA Sent back for regeneration of Assignment : " + emailData.assignmentNo,
+  //             message: "<p style='font-size: 16px;'>Dear " + emailData.ownerName + "</p><p style='font-size: 16px;'>This is to inform you that ILA No. " + emailData.assignmentNo + " has NOT been authorized on " + emailData.ilaAuthDate + ". Please regenrate as per the comments.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
+  //           }
+  //           $scope.emailData = emails;
+  //         }
+  //         break;
 
-        case "ILA Send for Authorization":
-          {
-            var emails = {
-              name: 'ILA Send for Authorization',
-              from: emailData.ownerEmail,
-              to: "",
-              cc: emailData.cc,
-              bcc: emailData.bcc,
-              subject: "ILA Send for Authorization Mail of Assignment : " + emailData.assignmentNo,
-              message: "<p style='font-size: 16px;'>Please go through the ILA for Assignment No. " + emailData.assignmentNo + " in respect of loss sustained by " + emailData.insuredName + " on account of damage to #ProductDetails# and authorize the same.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
-            }
-            $scope.emailData = emails;
-          }
-          break;
+  //       case "ILA Release":
+  //         {
+  //           var emails = {
+  //             name: 'ILA Release',
+  //             from: emailData.ownerEmail,
+  //             to: emailData.to,
+  //             cc: emailData.cc,
+  //             bcc: emailData.bcc,
+  //             subject: "ILA Authorized of Assignment : " + emailData.assignmentNo,
+  //             message: "<p style='font-size: 16px;'>Dear Sir/Madam,</p><p style='font-size: 16px;'>We are pleased to release the ILA in respect of our Assignment No. " + emailData.assignmentNo + " and your #ClaimNo# and #PolicyNo#.</p><p style='font-size: 16px;'>We hope that the same shall serve your purpose. Should you ever need any support / information / update please feel at ease to get in touch with me. I will be more than willing to assist.</p>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
+  //           }
+  //           $scope.emailData = emails;
+  //         }
+  //         break;
 
-        case "Invoice Authorization":
-          {
-            var emails = {
-              name: 'Invoice Authorization',
-              from: emailData.ownerEmail,
-              to: emailData.to,
-              cc: emailData.cc,
-              bcc: emailData.bcc,
-              subject: "Invoice Authorization : #InvoiceNo#",
-              message: "<p style='font-size: 16px;'>I have gone through the Invoice prepared for " + emailData.insuredName + ", Invoice No.#InvoiceNo# and authorized the same. It is OK to release.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
-            }
-            $scope.emailData = emails;
-          }
-          break;
+  //       case "ILA Send for Authorization":
+  //         {
+  //           var emails = {
+  //             name: 'ILA Send for Authorization',
+  //             from: emailData.ownerEmail,
+  //             to: "",
+  //             cc: emailData.cc,
+  //             bcc: emailData.bcc,
+  //             subject: "ILA Send for Authorization Mail of Assignment : " + emailData.assignmentNo,
+  //             message: "<p style='font-size: 16px;'>Please go through the ILA for Assignment No. " + emailData.assignmentNo + " in respect of loss sustained by " + emailData.insuredName + " on account of damage to #ProductDetails# and authorize the same.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
+  //           }
+  //           $scope.emailData = emails;
+  //         }
+  //         break;
 
-        case "Invoice Back to Regenerate":
-          {
-            var emails = {
-              name: 'Invoice Back to Regenerate',
-              from: emailData.ownerEmail,
-              to: emailData.to,
-              cc: emailData.cc,
-              bcc: emailData.bcc,
-              subject: "Invoice Back to Regenerate : #InvoiceNo#",
-              message: "<p style='font-size: 16px;'>I have gone through the Invoice prepared for " + emailData.insuredName + ", Invoice No. #InvoiceNo#. Kindly make the changes as advised to you & resend for authorization.</p><p style='font-size: 16px;'>Please let me know if assistance required.</p>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
-            }
-            $scope.emailData = emails;
-          }
-          break;
+  //       case "Invoice Authorization":
+  //         {
+  //           var emails = {
+  //             name: 'Invoice Authorization',
+  //             from: emailData.ownerEmail,
+  //             to: emailData.to,
+  //             cc: emailData.cc,
+  //             bcc: emailData.bcc,
+  //             subject: "Invoice Authorization : #InvoiceNo#",
+  //             message: "<p style='font-size: 16px;'>I have gone through the Invoice prepared for " + emailData.insuredName + ", Invoice No.#InvoiceNo# and authorized the same. It is OK to release.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
+  //           }
+  //           $scope.emailData = emails;
+  //         }
+  //         break;
 
-        case "Invoice Cancel":
-          {
-            var emails = {
-              name: 'Invoice Cancel',
-              from: emailData.ownerEmail,
-              to: emailData.to,
-              cc: emailData.cc,
-              bcc: emailData.bcc,
-              subject: "Invoice Cancel : #InvoiceNo#",
-              message: "<p style='font-size: 16px;'>This is to inform all that the Invoice #InvoiceNo# has been canceled.</p><p style='font-size: 16px;'>You may update your record accordingly.</p>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
-            }
-            $scope.emailData = emails;
-          }
-          break;
+  //       case "Invoice Back to Regenerate":
+  //         {
+  //           var emails = {
+  //             name: 'Invoice Back to Regenerate',
+  //             from: emailData.ownerEmail,
+  //             to: emailData.to,
+  //             cc: emailData.cc,
+  //             bcc: emailData.bcc,
+  //             subject: "Invoice Back to Regenerate : #InvoiceNo#",
+  //             message: "<p style='font-size: 16px;'>I have gone through the Invoice prepared for " + emailData.insuredName + ", Invoice No. #InvoiceNo#. Kindly make the changes as advised to you & resend for authorization.</p><p style='font-size: 16px;'>Please let me know if assistance required.</p>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
+  //           }
+  //           $scope.emailData = emails;
+  //         }
+  //         break;
 
-        case "Invoice Release":
-          {
-            var emails = {
-              name: 'Invoice Release',
-              from: emailData.ownerEmail,
-              to: emailData.to,
-              cc: emailData.cc,
-              bcc: emailData.bcc,
-              subject: "",
-              message: "<p style='font-size: 16px;'>Dear Sir/Madam,We are pleased to attach our bill for professional services rendered for your kind perusal & payment. Our bank details are as follows: #BankDetails# You are requested to kindly release our payment & confirm in order to enable us to release the report.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
-            }
-            $scope.emailData = emails;
-          }
-          break;
+  //       case "Invoice Cancel":
+  //         {
+  //           var emails = {
+  //             name: 'Invoice Cancel',
+  //             from: emailData.ownerEmail,
+  //             to: emailData.to,
+  //             cc: emailData.cc,
+  //             bcc: emailData.bcc,
+  //             subject: "Invoice Cancel : #InvoiceNo#",
+  //             message: "<p style='font-size: 16px;'>This is to inform all that the Invoice #InvoiceNo# has been canceled.</p><p style='font-size: 16px;'>You may update your record accordingly.</p>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
+  //           }
+  //           $scope.emailData = emails;
+  //         }
+  //         break;
 
-        case "Invoice Revise":
-          {
-            var emails = {
-              name: 'Invoice Revise',
-              from: emailData.ownerEmail,
-              to: emailData.to,
-              cc: emailData.cc,
-              bcc: emailData.bcc,
-              subject: "Invoice Revise : #InvoiceNo#",
-              message: "<p style='font-size: 16px;'>Invoice #InvoiceNo# has been revised, you are requested to kindly make a note of the same. Copy of the revised invoice is attached for perusal.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
-            }
-            $scope.emailData = emails;
-          }
-          break;
+  //       case "Invoice Release":
+  //         {
+  //           var emails = {
+  //             name: 'Invoice Release',
+  //             from: emailData.ownerEmail,
+  //             to: emailData.to,
+  //             cc: emailData.cc,
+  //             bcc: emailData.bcc,
+  //             subject: "",
+  //             message: "<p style='font-size: 16px;'>Dear Sir/Madam,We are pleased to attach our bill for professional services rendered for your kind perusal & payment. Our bank details are as follows: #BankDetails# You are requested to kindly release our payment & confirm in order to enable us to release the report.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
+  //           }
+  //           $scope.emailData = emails;
+  //         }
+  //         break;
 
-        case "Invoice Send Authorization":
-          {
-            var emails = {
-              name: 'Invoice Send Authorization',
-              from: emailData.ownerEmail,
-              to: emailData.to,
-              cc: emailData.cc,
-              bcc: emailData.bcc,
-              subject: "Invoice Send Authorization : #InvoiceNo#",
-              message: "<p style='font-size: 16px;'>Please go through the Invoice for Assignment No. " + emailData.assignmentNo + " in respect of loss sustained by " + emailData.insuredName + " on account of damage to #ProductDetails# and authorize the same</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
-            }
-            $scope.emailData = emails;
-          }
-          break;
+  //       case "Invoice Revise":
+  //         {
+  //           var emails = {
+  //             name: 'Invoice Revise',
+  //             from: emailData.ownerEmail,
+  //             to: emailData.to,
+  //             cc: emailData.cc,
+  //             bcc: emailData.bcc,
+  //             subject: "Invoice Revise : #InvoiceNo#",
+  //             message: "<p style='font-size: 16px;'>Invoice #InvoiceNo# has been revised, you are requested to kindly make a note of the same. Copy of the revised invoice is attached for perusal.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
+  //           }
+  //           $scope.emailData = emails;
+  //         }
+  //         break;
 
-        case "LOR Authorization":
-          {
+  //       case "Invoice Send Authorization":
+  //         {
+  //           var emails = {
+  //             name: 'Invoice Send Authorization',
+  //             from: emailData.ownerEmail,
+  //             to: emailData.to,
+  //             cc: emailData.cc,
+  //             bcc: emailData.bcc,
+  //             subject: "Invoice Send Authorization : #InvoiceNo#",
+  //             message: "<p style='font-size: 16px;'>Please go through the Invoice for Assignment No. " + emailData.assignmentNo + " in respect of loss sustained by " + emailData.insuredName + " on account of damage to #ProductDetails# and authorize the same</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>"
+  //           }
+  //           $scope.emailData = emails;
+  //         }
+  //         break;
 
-            var to = [];
-            to.push({
-              name: $.jStorage.get("profile").name,
-              email: $.jStorage.get("profile").email
-            })
-            var emails = {
-              name: 'LOR Authorization',
-              from: emailData.ownerEmail,
-              to: to,
-              cc: emailData.cc,
-              bcc: emailData.bcc,
-              subject: "LOR is Authorizaed For Assignment : " + emailData.assignmentNo,
-              message: "<p style='font-size: 16px;'>I have gone through the LOR prepared for " + emailData.insuredName + ", Assignment " + emailData.assignmentNo + " and have authorized the same. It is OK to release.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + $.jStorage.get("profile").name + "</p>"
-            }
-            $scope.emailData = emails;
-          }
-          break;
+  //       case "LOR Authorization":
+  //         {
 
-        case "LOR Back to Regenerate":
-          {
-            var emails = {
-              name: 'LOR Back to Regenerate',
-              from: emailData.ownerEmail,
-              to: emailData.to,
-              cc: emailData.cc,
-              bcc: emailData.bcc,
-              subject: "LOR Back to Regenerate For Assignment No :" + emailData.assignmentNo,
-              message: "<p style='font-size: 16px;'>I have gone through the LOR prepared for " + emailData.insuredName + ", assignment " + emailData.assignmentNo + " Kindly make the changes as advised to you & resend for authorization. Please let me know if assistance required.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + $.jStorage.get("profile").name + "</p>"
-            }
-            $scope.emailData = emails;
-          }
-          break;
+  //           var to = [];
+  //           to.push({
+  //             name: $.jStorage.get("profile").name,
+  //             email: $.jStorage.get("profile").email
+  //           })
+  //           var emails = {
+  //             name: 'LOR Authorization',
+  //             from: emailData.ownerEmail,
+  //             to: to,
+  //             cc: emailData.cc,
+  //             bcc: emailData.bcc,
+  //             subject: "LOR is Authorizaed For Assignment : " + emailData.assignmentNo,
+  //             message: "<p style='font-size: 16px;'>I have gone through the LOR prepared for " + emailData.insuredName + ", Assignment " + emailData.assignmentNo + " and have authorized the same. It is OK to release.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + $.jStorage.get("profile").name + "</p>"
+  //           }
+  //           $scope.emailData = emails;
+  //         }
+  //         break;
 
-        default:
-          {
-            // $scope.formData.push($scope.newjson);
-          }
+  //       case "LOR Back to Regenerate":
+  //         {
+  //           var emails = {
+  //             name: 'LOR Back to Regenerate',
+  //             from: emailData.ownerEmail,
+  //             to: emailData.to,
+  //             cc: emailData.cc,
+  //             bcc: emailData.bcc,
+  //             subject: "LOR Back to Regenerate For Assignment No :" + emailData.assignmentNo,
+  //             message: "<p style='font-size: 16px;'>I have gone through the LOR prepared for " + emailData.insuredName + ", assignment " + emailData.assignmentNo + " Kindly make the changes as advised to you & resend for authorization. Please let me know if assistance required.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + $.jStorage.get("profile").name + "</p>"
+  //           }
+  //           $scope.emailData = emails;
+  //         }
+  //         break;
 
+  //       default:
+  //         {
+  //           // $scope.formData.push($scope.newjson);
+  //         }
+
+  //     }
+
+  //   }
+  // }
+updateThreadId: function (data, callback) {
+    Assignment.update({
+      _id: data._id,
+    }, {
+      threadId: data.threadId
+    }).exec(function (err, data) {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, data);
       }
+    });
+  },
+
+  getMailData: function (data, callback) {
+    var mailData = data[1];
+    // if(data[3]){
+    //   emailData.assignmentAuthorizerEmail = (data[3] ? data[3] : "NA");
+    // }
+    console.log("email Data == in ", data);
+    emailData = {};
+    var i = 0;
+    var toData = [];
+    _.map(mailData.to, function (values) {
+      values.email.toString();
+      values.name.toString();
+    });
+    emailData.to = _.uniqBy(mailData.to, "email");
+    console.log("values array ", mailData.to,emailData.to);
+
+    emailData.assignmentNo = (mailData.assignmentNo ? mailData.assignmentNo : "NA");
+    emailData.assignmentAuthorizer = (mailData.assignmentAuthorizer ? mailData.assignmentAuthorizer : "NA");
+    emailData.ownerName = (mailData.ownerName ? mailData.ownerName : "NA");
+    emailData.ownerEmail = (mailData.ownerEmail ? mailData.ownerEmail : "NA");
+    emailData.ownerPhone = (mailData.ownerPhone ? mailData.ownerPhone : "NA");
+    emailData.siteCity = (mailData.siteCity ? mailData.siteCity : "NA");
+    emailData.to = (mailData.to ? mailData.to : []);
+    emailData.cc = (mailData.cc ? mailData.cc : []);
+    emailData.bcc = (mailData.bcc ? mailData.bcc : []);
+    emailData.surveyorNumber = (mailData.surveyorNumber ? mailData.surveyorNumber : "NA");
+    emailData.surveyorName = (mailData.surveyorName ? mailData.surveyorName : "NA");
+    emailData.surveyorEmail = (mailData.surveyorEmail ? mailData.surveyorEmail : "NA");
+    emailData.insuredName = (mailData.insuredName ? mailData.insuredName : "NA");
+    emailData.ilaAuthDate = (mailData.ilaAuthDate ? mailData.ilaAuthDate : "NA");
+
+    switch (data[0]) {
+      case "Acknowledgment Email":
+        {
+          var emails = {
+            name: 'Acknowledgment Email',
+            from: emailData.ownerEmail,
+            to: emailData.to,
+            cc: emailData.cc,
+            bcc: emailData.bcc,
+            subject: "Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
+            message: "<html><body><p style='font-size: 16px;'>Dear Sir/Madam,</p><p style='font-size: 16px;'>Thank you for retaining us to inspect & assess the subject loss. This is to confirm that " + emailData.surveyorName + " shall be attending this claim. He can be reached on " + emailData.surveyorNumber + ". Our reference number for this claim would be " + emailData.assignmentNo + "</p> <p style='font-size: 16px;'>Should you ever need any support / information / update, please feel at ease to get in touch with me.</p><br>" + "<p style='font-size: 16px;'>Warm Regards, <br>" + emailData.assignmentAuthorizer + "</p></body></html>"
+          }
+          callback(null, emails);
+        }
+        break;
+      case "Deputation mail":
+        {
+          var to = [];
+          to.push({
+            name: emailData.surveyorName,
+            email: emailData.surveyorEmail
+          })
+          var emails = {
+            name: 'Deputation mail',
+            from: emailData.ownerEmail,
+            to: to,
+            cc: emailData.cc,
+            bcc: emailData.bcc,
+            subject: "Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
+            message: "<html><body><p style='font-size: 16px;'>Dear " + emailData.surveyorName + ",</p><p style='font-size: 16px;'>Please refer to our telecom, in respect of the subject claim. You are requested to kindly attend the loss inline with the discussions held and specific requirements of the claim. Our reference number for this claim would be " + emailData.assignmentNo + "</p> <p style='font-size: 16px;'>In order to assist you, we are attaching relevant format of JIR. Please ensure to capture every detail there in & get the same duly signed by the concerned person. In an unlikely event wherein there is a difference of opinion between yourself & the concerned person, both the opinions may be recorded. We would appreciate a brief call from the site while you are attending the loss as this helps us update the insurer's of the developments. Should you ever need any support / information / update please feel at ease to get in touch with me. I will be more than willing to assist.</p><br>" + "<p style='font-size: 16px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+          }
+          callback(null, emails);
+        }
+        break;
+      case "On Survey Attended":
+        {
+          var emails = {
+            name: 'On Survey Attended',
+            from: emailData.ownerEmail,
+            to: emailData.to,
+            cc: emailData.cc,
+            bcc: emailData.bcc,
+            subject: "Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
+            message: "<html><body><p style='font-size: 16px;'>We are pleased to inform you that the survey for the said claim has been attended on " + emailData.surveyDate + " No sooner we receive further details, we shall update you in this regard. Meanwhile, request you to kindly bear with us. Should you ever need any support / information / update please feel at ease to get in touch with me. I will be more than willing to assist.</p><br>" + "<p style='font-size: 16px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+          }
+          callback(null, emails);
+        }
+        break;
+      case "ILA Authorization":
+        {
+          var emails = {
+            name: 'ILA Authorization',
+            from: emailData.ownerEmail,
+            to: emailData.to,
+            cc: emailData.cc,
+            bcc: emailData.bcc,
+            subject: "ILA Authorized of Assignment : " + emailData.assignmentNo,
+            message: "<html><body><p style='font-size: 16px;'>Dear " + emailData.ownerName + "</p><p style='font-size: 16px;'>I have gone through the ILA prepared for " + emailData.insuredName + ", Assignment No. " + emailData.assignmentNo + " and have  authorized the same. It is OK to release</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.assignmentAuthorizer + "</p></body></html>"
+          }
+          callback(null, emails);
+        }
+        break;
+
+      case "ILA Back to Regenerate":
+        {
+          var emails = {
+            name: 'ILA Back to Regenerate',
+            from: emailData.ownerEmail,
+            to: emailData.to,
+            cc: emailData.cc,
+            bcc: emailData.bcc,
+            subject: "ILA Sent back for regeneration of Assignment : " + emailData.assignmentNo,
+            message: "<html><body><p style='font-size: 16px;'>Dear " + emailData.ownerName + "</p><p style='font-size: 16px;'>This is to inform you that ILA No. " + emailData.assignmentNo + " has NOT been authorized on " + emailData.ilaAuthDate + ". Please regenrate as per the comments.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.assignmentAuthorizer + "</p></body></html>"
+          }
+          callback(null, emails);
+        }
+        break;
+
+      case "ILA Release":
+        {
+          var emails = {
+            name: 'ILA Release',
+            from: emailData.ownerEmail,
+            to: emailData.to,
+            cc: emailData.cc,
+            bcc: emailData.bcc,
+            subject: "ILA Authorized of Assignment : " + emailData.assignmentNo,
+            message: "<html><body><p style='font-size: 16px;'>Dear Sir/Madam,</p><p style='font-size: 16px;'>We are pleased to release the ILA in respect of our Assignment No. " + emailData.assignmentNo + " and your #ClaimNo# and #PolicyNo#.</p><p style='font-size: 16px;'>We hope that the same shall serve your purpose. Should you ever need any support / information / update please feel at ease to get in touch with me. I will be more than willing to assist.</p>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+          }
+          callback(null, emails);
+        }
+        break;
+
+      case "ILA Send for Authorization":
+        {
+          var emails = {
+            name: 'ILA Send for Authorization',
+            from: emailData.ownerEmail,
+            to: "",
+            cc: emailData.cc,
+            bcc: emailData.bcc,
+            subject: "ILA Send for Authorization Mail of Assignment : " + emailData.assignmentNo,
+            message: "<html><body><p style='font-size: 16px;'>Please go through the ILA for Assignment No. " + emailData.assignmentNo + " in respect of loss sustained by " + emailData.insuredName + " on account of damage to #ProductDetails# and authorize the same.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.assignmentAuthorizer + "</p></body></html>"
+          }
+          callback(null, emails);
+        }
+        break;
+
+      case "Invoice Authorization":
+        {
+          var emails = {
+            name: 'Invoice Authorization',
+            from: emailData.ownerEmail,
+            to: emailData.to,
+            cc: emailData.cc,
+            bcc: emailData.bcc,
+            subject: "Invoice Authorization : #InvoiceNo#",
+            message: "<html><body><p style='font-size: 16px;'>I have gone through the Invoice prepared for " + emailData.insuredName + ", Invoice No.#InvoiceNo# and authorized the same. It is OK to release.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+          }
+          callback(null, emails);
+        }
+        break;
+
+      case "Invoice Back to Regenerate":
+        {
+          var emails = {
+            name: 'Invoice Back to Regenerate',
+            from: emailData.ownerEmail,
+            to: emailData.to,
+            cc: emailData.cc,
+            bcc: emailData.bcc,
+            subject: "Invoice Back to Regenerate : #InvoiceNo#",
+            message: "<html><body><p style='font-size: 16px;'>I have gone through the Invoice prepared for " + emailData.insuredName + ", Invoice No. #InvoiceNo#. Kindly make the changes as advised to you & resend for authorization.</p><p style='font-size: 16px;'>Please let me know if assistance required.</p>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+          }
+          callback(null, emails);
+        }
+        break;
+
+      case "Invoice Cancel":
+        {
+          var emails = {
+            name: 'Invoice Cancel',
+            from: emailData.ownerEmail,
+            to: emailData.to,
+            cc: emailData.cc,
+            bcc: emailData.bcc,
+            subject: "Invoice Cancel : #InvoiceNo#",
+            message: "<html><body><p style='font-size: 16px;'>This is to inform all that the Invoice #InvoiceNo# has been canceled.</p><p style='font-size: 16px;'>You may update your record accordingly.</p>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+          }
+          callback(null, emails);
+        }
+        break;
+
+      case "Invoice Release":
+        {
+          var emails = {
+            name: 'Invoice Release',
+            from: emailData.ownerEmail,
+            to: emailData.to,
+            cc: emailData.cc,
+            bcc: emailData.bcc,
+            subject: "",
+            message: "<html><body><p style='font-size: 16px;'>Dear Sir/Madam,We are pleased to attach our bill for professional services rendered for your kind perusal & payment. Our bank details are as follows: #BankDetails# You are requested to kindly release our payment & confirm in order to enable us to release the report.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+          }
+          callback(null, emails);
+        }
+        break;
+
+      case "Invoice Revise":
+        {
+          var emails = {
+            name: 'Invoice Revise',
+            from: emailData.ownerEmail,
+            to: emailData.to,
+            cc: emailData.cc,
+            bcc: emailData.bcc,
+            subject: "Invoice Revise : #InvoiceNo#",
+            message: "<html><body><p style='font-size: 16px;'>Invoice #InvoiceNo# has been revised, you are requested to kindly make a note of the same. Copy of the revised invoice is attached for perusal.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+          }
+          callback(null, emails);
+        }
+        break;
+
+      case "Invoice Send Authorization":
+        {
+          var emails = {
+            name: 'Invoice Send Authorization',
+            from: emailData.ownerEmail,
+            to: emailData.to,
+            cc: emailData.cc,
+            bcc: emailData.bcc,
+            subject: "Invoice Send Authorization : #InvoiceNo#",
+            message: "<html><body><p style='font-size: 16px;'>Please go through the Invoice for Assignment No. " + emailData.assignmentNo + " in respect of loss sustained by " + emailData.insuredName + " on account of damage to #ProductDetails# and authorize the same</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+          }
+          callback(null, emails);
+        }
+        break;
+
+      case "LOR Authorization":
+        {
+
+          var emails = {
+            name: 'LOR Authorization',
+            from: emailData.ownerEmail,
+            to: emailData.to,
+            cc: emailData.cc,
+            bcc: emailData.bcc,
+            subject: "LOR is Authorizaed For Assignment : " + emailData.assignmentNo,
+            message: "<html><body><p style='font-size: 16px;'>I have gone through the LOR prepared for " + emailData.insuredName + ", Assignment " + emailData.assignmentNo + " and have authorized the same. It is OK to release.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.assignmentAuthorizer + "</p></body></html>"
+          }
+          callback(null, emails);
+        }
+        break;
+
+      case "LOR Back to Regenerate":
+        {
+          var emails = {
+            name: 'LOR Back to Regenerate',
+            from: emailData.ownerEmail,
+            to: emailData.to,
+            cc: emailData.cc,
+            bcc: emailData.bcc,
+            subject: "LOR Back to Regenerate For Assignment No :" + emailData.assignmentNo,
+            message: "<html><body><p style='font-size: 16px;'>I have gone through the LOR prepared for " + emailData.insuredName + ", assignment " + emailData.assignmentNo + " Kindly make the changes as advised to you & resend for authorization. Please let me know if assistance required.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.assignmentAuthorizer + "</p></body></html>"
+          }
+          callback(null, emails);
+        }
+        break;
+
+
+      default:
+        {
+          // $scope.formData.push($scope.newjson);
+          // cal
+          console.log("IN default switch!!");
+        }
 
     }
-  }
+  },
 
+
+  getDataFromHeader(data, name, callback) {
+    _.each(data, function (values) {
+      // console.log("values =  ", values);
+      if (values.name === name) {
+        // console.log("values = ", values.name);
+        callback(null, values.value);
+      }
+    });
+  },
+
+  getAssignmentCreateMail: function (data, callback) {
+    console.log("getassignment ", data);
+    Assignment.findOne({
+      _id: data._id
+    }).exec(function (err, emailData) {
+      console.log("payload", emailData);
+      if (err) {
+        console.log("No Assignment mail data found", err);
+        callback(null, "No Assignment mail data found");
+      } else {
+        var From = "";
+        var Subject = "";
+        var To = "";
+        var Cc = "";
+        var Date = "";
+        var decodeMessage = "";
+        if (emailData.email) {
+          if (emailData.email.payload) {
+            Assignment.getDataFromHeader(emailData.email.payload.headers, "From", function (err, value) {
+              From = (value ? value : "");
+            });
+            Assignment.getDataFromHeader(emailData.email.payload.headers, "Subject", function (err, value) {
+              Subject = (value ? value : "");
+            });
+            Assignment.getDataFromHeader(emailData.email.payload.headers, "To", function (err, value) {
+              To = (value ? value : "");
+            });
+            Assignment.getDataFromHeader(emailData.email.payload.headers, "Cc", function (err, value) {
+              Cc = (value ? value : "");
+            });
+            Assignment.getDataFromHeader(emailData.email.payload.headers, "Date", function (err, value) {
+              Date = (value ? value : "");
+            });
+          }
+
+          console.log("payload", emailData.email.payload.body.data);
+          console.log("from", From, "Subject", Subject, "To", To, "Cc", Cc);
+          if (emailData.email.payload) {
+            if (emailData.email.payload.body.data) {
+              var decodeMessage = base64url.decode(emailData.email.payload.body.data);
+            } else {
+              var decodeMessage = "";
+            }
+          } else {
+            var decodeMessage = "";
+          }
+          var message =
+            "<br>---------- Forwarded message ----------<br>" +
+            "From: " + From + "<br>" +
+            "Date: " + Date + "<br>" +
+            "Subject: " + Subject + "<br>" +
+            "To: " + To + "<br>" +
+            "Cc: " + Cc + "<br>" + decodeMessage
+        } else {
+          var message = "-";
+        }
+
+        callback(null, message);
+      }
+    });
+  },
+
+  sendEmails: function (req, callback) {
+
+    if (_.isEmpty(req.threadId)) {
+      req.threadId = ""
+    }
+    console.log("mail", req.message, "threadID", req.threadId, "req.user", req.user);
+    var obj = {
+      body: {
+        url: "messages/send",
+        method: "POST"
+      },
+      user: req.user
+    };
+
+    var rawData =
+      "From: " + req.from + "\r\n" +
+      "To: " + req.to + "\r\n" +
+      "Cc: " + req.cc + "\r\n" +
+      "Bcc: " + req.bcc + "\r\n" +
+      "Subject: " + req.subject + "\r\n" +
+      "Content-Type: text/html; charset=UTF-8\r\n" +
+      "Content-Transfer-Encoding: QUOTED-PRINTABLE\r\n" +
+      "Content-Disposition: inline\r\n\r\n" +
+      "" + req.message + "";
+    var rawDataProcessed = btoa(rawData).replace(/\+/g, '-').replace(/\//g, '_');
+    obj.form = {
+      raw: rawDataProcessed,
+      threadId: req.threadId
+    };
+    User.gmailCall(obj, callback);
+  },
+
+  getUserData: function (data, callback) {
+    User.findOne({
+      email: data.email
+    }).lean().exec(function (err, userData) {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, userData);
+      }
+    });
+  }
 };
 
 module.exports = _.assign(module.exports, exports, model);

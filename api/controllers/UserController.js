@@ -94,7 +94,15 @@ var controller = {
         };
         User.gmailCall(obj, res.callback);
     },
-    sendEmail: function (req, res) {
+
+
+    sendEmail: function (req, res) {    
+        console.log("mail",req.body.message);
+        console.log("req.user",req.user);
+        if(_.isEmpty(req.body.threadId)){
+            req.body.threadId = ""
+        }
+
         var obj = {
             body: {
                 url: "messages/send",
@@ -102,7 +110,9 @@ var controller = {
             },
             user: req.user
         };
-        var rawData = "From: " + req.user.email + "\r\n" +
+
+        var rawData = 
+            "From: " + req.user.email + "\r\n" +
             "To: " + req.body.to + "\r\n" +
             "Cc: " + req.body.cc + "\r\n" +
             "Bcc: " + req.body.bcc + "\r\n" +
@@ -113,10 +123,12 @@ var controller = {
             "" + req.body.message + "";
         var rawDataProcessed = btoa(rawData).replace(/\+/g, '-').replace(/\//g, '_');
         obj.form = {
-            raw: rawDataProcessed
+            raw: rawDataProcessed,
+            threadId: req.body.threadId
         };
         User.gmailCall(obj, res.callback);
     },
+
     getAttachment: function (req, res) {
         var obj = {
             body: {

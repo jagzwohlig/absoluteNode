@@ -684,7 +684,16 @@ var navigationservice = angular.module('navigationservice', [])
             saveTemplate: function (data, callback) {
                 $http.post(adminurl + 'Template/save', data).success(callback);
             },
+            // Priyank
+            // saveAssignmentTemplate: function (data, callback) {
+
+            //     $http.post(adminurl + 'Assignment/saveTemplate', data).success(callback);
+            // },
             saveAssignmentTemplate: function (data, callback) {
+                 var email = { email: $.jStorage.get("profile").email,
+                                name: $.jStorage.get("profile").name };
+                data.user = email; 
+                data.accessToken = $.jStorage.get("accessToken");
                 $http.post(adminurl + 'Assignment/saveTemplate', data).success(callback);
             },
             assignmentSave: function (data, callback) {
@@ -696,7 +705,14 @@ var navigationservice = angular.module('navigationservice', [])
             saveEmployeeAssignment: function (data, callback) {
                 $http.post(adminurl + 'Employee/saveEmployeeAssignment', data).success(callback);
             },
+            // Priyank
+            // updateSurveyor: function (data, callback) {
+            //     $http.post(adminurl + 'Assignment/updateSurveyor', data).success(callback);
+            // },
             updateSurveyor: function (data, callback) {
+                var email = { email: $.jStorage.get("profile").email };
+                data.user = email; 
+                data.accessToken = $.jStorage.get("accessToken");
                 $http.post(adminurl + 'Assignment/updateSurveyor', data).success(callback);
             },
             searchModel: function (model, formData, i, callback) {

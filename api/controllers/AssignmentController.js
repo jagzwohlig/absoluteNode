@@ -47,9 +47,39 @@ var controller = {
     //         });
     //     }
     // },
+    // Priyank
+    // updateSurveyor: function (req, res) {
+    //     if (req.body) {
+    //         req.model.updateSurveyor(req.body, res.callback);
+    //     } else {
+    //         res.json({
+    //             value: false,
+    //             data: "Invalid Request"
+    //         });
+    //     }
+    // },
+    // 
     updateSurveyor: function (req, res) {
         if (req.body) {
-            req.model.updateSurveyor(req.body, res.callback);
+            req.model.updateSurveyor(req.body, function (err, mailData) {
+                console.log("mailData =  = ", mailData);
+                Assignment.getEmailsData(mailData, function (err, allData) {
+                    console.log("allData in ", allData);
+                    if (err) {
+                        callback(err, null);
+                    } else {
+                        if (_.isEmpty(allData)) {
+                            callback("No mail data found!", null);
+                        } else {
+                            var emailsData = {};
+                            emailsData = allData;
+                            emailsData.user = req.user;
+                            Assignment.sendEmails(emailsData, res.callback);
+                        }
+                    }
+                });
+
+            });
         } else {
             res.json({
                 value: false,
@@ -261,9 +291,30 @@ var controller = {
             });
         }
     },
+    // Priyank
+    // updateOfficeId: function (req, res) {
+    //     if (req.body) {
+    //         req.model.updateOfficeId(req.body, res.callback);
+    //     } else {
+    //         res.json({
+    //             value: false,
+    //             data: "Invalid Request"
+    //         });
+    //     }
+    // }
     updateOfficeId: function (req, res) {
         if (req.body) {
             req.model.updateOfficeId(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: "Invalid Request"
+            });
+        }
+    },
+    getAssignmentCreateMail: function (req, res) {
+        if (req.body) {
+            req.model.getAssignmentCreateMail(req.body, res.callback);
         } else {
             res.json({
                 value: false,
