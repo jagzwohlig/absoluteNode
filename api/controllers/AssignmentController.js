@@ -119,6 +119,17 @@ var controller = {
             });
         }
     },
+     searchLogistic: function (req, res) {
+        if (req.body) {
+            req.model.searchLogistic(req.body, res.callback);
+
+        } else {
+            res.json({
+                value: false,
+                data: "Invalid Request"
+            });
+        }
+    },
     getApprovalList: function (req, res) {
         if (req.body) {
             req.model.getApprovalList(req.body, res.callback);

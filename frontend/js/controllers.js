@@ -1856,8 +1856,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 
         $scope.submit = function (formData) {
-            if(!$scope.formData.typeOfClaim){
-                $scope.formData.timelineStatus="LOR Pending";
+            if (!$scope.formData.typeOfClaim) {
+                $scope.formData.timelineStatus = "LOR Pending";
             }
             console.log($scope.formData);
             NavigationService.assignmentSave($scope.formData, function (data) {
@@ -5970,7 +5970,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
     })
 
-        .controller('LogisticCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+    .controller('LogisticCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("logistic-list");
         $scope.menutitle = NavigationService.makeactive("Logistic Lists");
@@ -6033,6 +6033,63 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
     })
+    .controller('EditLogisticCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("logistic-detail");
+        $scope.menutitle = NavigationService.makeactive("Edit Logistic");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+
+        $scope.header = {
+            "name": "Edit Logistic"
+        };
+        NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
+            $scope.formData = data.data;
+            console.log(data.data.outwardDate, data.data.docketDate)
+            if (data.data.outwardDate !== undefined) {
+                $scope.formData.outwardDate = new Date(data.data.outwardDate);
+            }
+            if (data.data.docketDate !== undefined) {
+                $scope.formData.docketDate = new Date(data.data.docketDate);
+            }
+            if (data.data.recievedDate !== undefined) {
+                $scope.formData.recievedDate = new Date(data.data.recievedDate);
+            }
+        });
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+        hotkeys.bindTo($scope).add({
+            combo: 'ctrl+enter',
+            callback: function (formData) {
+                NavigationService.modelSave("Assignment", $scope.formData, function (data) {
+                    if (data.value === true) {
+
+                        $window.history.back();
+                        toastr.success("Logistic" + " " + formData.name + " created successfully.", "Assignment" + " Created");
+                    } else {
+                        toastr.error("Assignment" + " creation failed.", "Assignment" + " creation error");
+                    }
+                });
+            }
+        });
+        $scope.saveLogistic = function (formValid) {
+            if ($scope.formData.timelineStatus == "BBND") {
+                $scope.formData.timelineStatus = "DBND"
+            } else {
+                $scope.formData.timelineStatus = "Delivered"
+            }
+            NavigationService.modelSave("Assignment", $scope.formData, function (data) {
+                if (data.value === true) {
+                    $window.history.back();
+                    toastr.success("Logistic" + " " + formData.name + " created successfully.", "Assignment" + " Created");
+                } else {
+                    toastr.error("Assignment" + " creation failed.", "Assignment" + " creation error");
+                }
+            });
+        };
+    })
+
     .controller('CreateCityCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $state, $stateParams, toastr) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("city-detail");
@@ -10238,7 +10295,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     };
                     $scope.invoiceNumber = data.data.invoiceNumber;
                     $scope.assignment.invoice.push(data.data._id);
-                    $scope.assignment.timelineStatus = "BBND";
+                    // $scope.assignment.timelineStatus = "BBND";
                     NavigationService.modelSave("Assignment", $scope.assignment, function (data) {
                         if (data.value === true) {
                             console.log("Data of Pdf", invoice);
@@ -10290,6 +10347,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.message.attachment = [];
         $scope.timeline = {};
         $scope.descriptions = [];
+        $scope.assignment = {};
+        $scope.assignment._id = $stateParams.assignmentId;
+
+
         $scope.cancel = function () {
             $window.history.back();
         }
@@ -10362,6 +10423,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         }
         $scope.saveModel = function (data) {
             if ($scope.approval) {
+                $scope.assignment.timelineStatus = "BBND";
                 $scope.formData.approvalStatus = "Approved";
                 $scope.formData.approvalTime = Date.now();
             } else {
@@ -10378,6 +10440,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                             $scope.sendMessage(data.data.name);
                             $scope.formData.file = data.data.name;
                             NavigationService.modelSave("Invoice", $scope.formData, function (data) {});
+                            NavigationService.modelSave("Assignment", $scope.assignment, function (data) {});
                             $window.history.back();
                             toastr.success("Invoice Template " + formData.name + " created successfully.", "Invoice Template Created");
                         } else {

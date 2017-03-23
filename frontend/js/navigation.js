@@ -575,12 +575,8 @@ var navigationservice = angular.module('navigationservice', [])
                 });
             },
             searchLogistic: function (formData, i, callback) {
-                formData.filter={},
-                formData.filter = {
-                    timelineStatus: "BBND"
-                }
                  console.log("FormData in search", formData);
-                $http.post(adminurl + 'Assignment/search', formData).success(function (data) {
+                $http.post(adminurl + 'Assignment/searchLogistic', formData).success(function (data) {
                     callback(data, i);
                 });
             },

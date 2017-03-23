@@ -58,15 +58,12 @@
                             </thead>
                             <tbody ng-repeat="data in lorList track by $index">
                                 <tr ng-class="getDelayClass(data.templateLor.reqtimestamp)">
-                                    <td><span class="label label-default">{{data.templateLor.reqtimestamp|getHours}}hrs</span></td>
+                                    <td>{{data.templateLor.reqtimestamp|getHours}}hrs</td>
                                     <td>{{data.name}}</td>
                                     <td>{{data.owner.name}}</td>
                                     <td>
                                         <button class="btn btn-primary" uib-tooltip="Open" ng-click="viewTemplates('LORs','TemplateLor',data.templateLor)">Open</button>
-                                        <!--<button class="btn btn-success" uib-tooltip="Accept" ng-click="acceptLor(data)"><i class="fa fa-check"></i></button>
-                                        <button class="btn btn-primary" uib-tooltip="Revise/Comment" ng-click="reviseLor(data)"><i class="fa fa-reply"></i></button>-->
-                                        <!--<button class="btn btn-danger" uib-tooltip="Reject"><i class="fa fa-times"></i></button>-->
-                                    </td>
+                                      </td>
                                 </tr>
                             </tbody>
                         </table>

@@ -1395,6 +1395,11 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
             templateUrl: "frontend/views/template.html",
             controller: 'CreateTemplateCtrl'
         })
+        .state('editlogistic', {
+            url: "/logistic-edit/:id",
+            templateUrl: "frontend/views/template.html",
+            controller: 'EditLogisticCtrl'
+        })
 
         .state('edittemplate', {
             url: "/template-edit/:id",

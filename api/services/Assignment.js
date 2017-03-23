@@ -89,7 +89,7 @@ var schema = new Schema({
   },
   timelineStatus: {
     type: String,
-    enum: ["Pending", "Unassigned", "Survey Pending", "ILA Pending", "LOR Pending", "Dox Pending", "Part Dox Pending", "Assessment Pending", "Consent Pending", "JIR Pending", "FSR Pending", "BBND", "Collected", "Dispatched", "Force Closed", "ReOpened", "ForceClosed", "OnHold"],
+    enum: ["Pending", "Unassigned", "Survey Pending", "ILA Pending", "LOR Pending", "Dox Pending", "Part Dox Pending", "Assessment Pending", "Consent Pending", "JIR Pending", "FSR Pending", "BBND", "DBND", "Collected", "Dispatched", "Force Closed", "ReOpened", "ForceClosed", "OnHold","Delivered"],
     default: "Unassigned"
   },
   brokerClaimId: {
@@ -603,7 +603,40 @@ var schema = new Schema({
       enum: ["Pending", "Approved", "Rejected", "Revised"],
       default: "Pending"
     }
-  }]
+  }],
+  outwardDate: {
+    type: Date
+  },
+  logistictype: {
+    type: String
+  },
+  sentTo: {
+    type: String
+  },
+  courier: {
+    type: String
+  },
+  docketDate: {
+    type: Date
+  },
+  docketNumber: {
+    type: String
+  },
+  by: {
+    type: String
+  },
+  recievedDate: {
+    type: String
+  },
+  recievedTime: {
+    type: Date
+  },
+  remark: {
+    type: String
+  },
+  documentDetails: {
+    type: String
+  }
 });
 
 schema.plugin(deepPopulate, {
@@ -1088,6 +1121,7 @@ var model = {
   },
 
   updateSurveyor: function (data, callback) {
+    data.survey.timestamp=Date.now();
     Assignment.update({
       _id: data._id
     }, {
@@ -2636,6 +2670,93 @@ var model = {
       });
   },
 
+  searchLogistic: function (data, callback) {
+    var Model = this;
+    var maxRow = Config.maxRow;
+    var pagestartfrom = (data.page - 1) * maxRow;
+    var page = 1;
+    var aggText = [];
+    var aggTextCount = [];
+    var arr = ["BBND", "Dispatched","DBND","Delivered"];
+
+    aggText = [{
+        $match: {
+          timelineStatus: {
+            $in: arr
+          }
+        }
+      }, {
+        $skip: parseInt(pagestartfrom)
+      }, {
+        $limit: maxRow
+      }],
+      aggTextCount = [{
+        $match: {
+          timelineStatus: {
+            $in: arr
+          }
+        }
+      }, {
+        $group: {
+          _id: null,
+          count: {
+            $sum: 1
+          }
+        }
+      }, {
+        $project: {
+          "_id": 1,
+          "count": 1
+        }
+      }]
+    async.parallel([
+        function (callback) {
+          Model.aggregate(aggText,
+            function (err, data1) {
+              if (err) {
+                callback(err, null);
+              } else {
+                callback(null, data1)
+              }
+
+            });
+        },
+        function (callback) {
+          Model.aggregate(aggTextCount,
+            function (err, data2) {
+              if (err) {
+                callback(err, null);
+              } else {
+                callback(null, data2)
+              }
+
+            });
+        }
+      ],
+      function (err, data4) {
+        if (err) {
+          callback(err, null);
+        } else {
+          if (_.isEmpty(data4[1])) {
+            var data5 = {
+              results: data4[0],
+              options: {
+                count: 0
+              }
+            };
+          } else {
+            var data5 = {
+              results: data4[0],
+              options: {
+                count: maxRow
+              }
+            };
+            data5.total = data4[1][0].count;
+          }
+          callback(null, data5);
+        }
+      });
+  },
   getMailaData: function (data, callback) {
     $scope.emailersData = function (type, emailData, index) {
       console.log("email Data", emailData);

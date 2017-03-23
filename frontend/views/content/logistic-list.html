@@ -37,7 +37,7 @@
                               </button>
                           </form>
                         </div>
-                        <h3>List of Cities <span class="tableTotal">(Total : {{totalItems}}) </span></h3>
+                        <h3>List of Logistic <span class="tableTotal">(Total : {{totalItems}}) </span></h3>
                     </div>
                     <div class="table-responsive" ng-show="totalItems>0">
                         <table class="table table-striped">
@@ -46,27 +46,20 @@
                                   <th>
                                     #
                                   </th>
-                                    <th>City</th>
-                                    <th>District</th>
-                                    <th>State</th>
-                                    <th>Zone</th>
-                                    <th>Country</th>
+                                    <th>MR #</th>
+                                    <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="city in allCities">
+                                <tr ng-repeat="logistic in allCities">
                                   <td>
                                     {{($index + 1)+((currentPage-1)*maxRow)}}
                                   </td>
-                                    <td>{{city.name}}</td>
-                                    <td>{{city.district.name}}</td>
-                                    <td>{{city.district.state.name}}</td>
-                                    <td>{{city.district.state.zone.name}}</td>
-                                    <td>{{city.district.state.zone.country.name}}</td>
+                                    <td>{{logistic.name}}</td>
+                                    <td>{{logistic.timelineStatus}}</td>
                                     <td>
-                                      <a class="btn btn-primary" ui-sref="editcity({id:city._id})"><i class="fa fa-pencil"></i></a>
-                                      <a class="btn btn-danger" ng-click="deleteCity(city._id)"><i class="fa fa-trash"></i></a>
+                                      <a class="btn btn-primary" ui-sref="editlogistic({id:logistic._id})"><i class="fa fa-pencil"></i></a>
                                     </td>
                                 </tr>
                             </tbody>
