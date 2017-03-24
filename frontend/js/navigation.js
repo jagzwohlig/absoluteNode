@@ -1048,6 +1048,10 @@ var navigationservice = angular.module('navigationservice', [])
                 $http.post(adminurl + 'Claims/save', formData).success(callback);
             },
             modelSave: function (modal, formData, callback) {
+                var email = { email: $.jStorage.get("profile").email,
+                                name: $.jStorage.get("profile").name };
+                formData.user = email; 
+                formData.accessToken = $.jStorage.get("accessToken");
                 console.log("formData",modal,formData);
                 $http.post(adminurl + modal + '/save', formData).success(callback);
             },

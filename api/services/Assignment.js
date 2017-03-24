@@ -89,7 +89,7 @@ var schema = new Schema({
   },
   timelineStatus: {
     type: String,
-    enum: ["Pending", "Unassigned", "Survey Pending", "ILA Pending", "LOR Pending", "Dox Pending", "Part Dox Pending", "Assessment Pending", "Consent Pending", "JIR Pending", "FSR Pending", "BBND", "DBND", "Collected", "Dispatched", "Force Closed", "ReOpened", "ForceClosed", "OnHold","Delivered"],
+    enum: ["Pending", "Unassigned", "Survey Pending", "ILA Pending", "LOR Pending", "Dox Pending", "Part Dox Pending", "Assessment Pending", "Consent Pending", "JIR Pending", "FSR Pending", "BBND", "DBND", "Collected", "Dispatched", "Force Closed", "ReOpened", "ForceClosed", "OnHold", "Delivered"],
     default: "Unassigned"
   },
   brokerClaimId: {
@@ -492,7 +492,7 @@ var schema = new Schema({
     },
     approvalStatus: {
       type: String,
-      enum: ["Pending", "Approved", "Reject", "Revised","Draft"],
+      enum: ["Pending", "Approved", "Reject", "Revised", "Draft"],
       default: "Pending"
     }
   }],
@@ -527,7 +527,7 @@ var schema = new Schema({
     },
     approvalStatus: {
       type: String,
-      enum: ["Pending", "Approved", "Reject", "Revised","Draft"],
+      enum: ["Pending", "Approved", "Reject", "Revised", "Draft"],
       default: "Pending"
     }
   }],
@@ -559,7 +559,7 @@ var schema = new Schema({
     },
     approvalStatus: {
       type: String,
-      enum: ["Pending", "Approved", "Reject", "Revised","Draft"],
+      enum: ["Pending", "Approved", "Reject", "Revised", "Draft"],
       default: "Pending"
     }
   }],
@@ -600,7 +600,7 @@ var schema = new Schema({
     },
     approvalStatus: {
       type: String,
-      enum: ["Pending", "Approved", "Rejected", "Revised","Draft"],
+      enum: ["Pending", "Approved", "Rejected", "Revised", "Draft"],
       default: "Pending"
     }
   }],
@@ -797,7 +797,131 @@ var model = {
           }, function (err) {
             data2.update(data, {
               w: 1
-            }, callback);
+            }, function (err, updated) {
+              if (err) {
+                callback(err, null);
+              } else {
+                console.log("updated data", updated, data);
+                // callback(null,updated);
+                Assignment.getOne({
+                  _id: data._id
+                }, function (err, assignmentData) {
+                  console.log("assignmentData =========", assignmentData);
+                  if (err) {
+                    console.log("err", err);
+                    callback("No data found in assignment", null);
+                  } else {
+                    console.log("assignmentData else", assignmentData);
+                    if (_.isEmpty(assignmentData)) {
+                      callback("No data found in assignment search", null);
+                    } else {
+                      console.log("assignmentData In ", assignmentData);
+                      var emailData = {};
+                      emailData.assignmentNo = assignmentData.name;
+                      emailData.ownerName = assignmentData.owner.name;
+                      emailData.ownerEmail = assignmentData.owner.email;
+                      emailData.ownerPhone = assignmentData.owner.mobile;
+                      emailData.siteCity = assignmentData.city.name;
+                      emailData.invoiceNumber = data.invoiceNumber;
+                      if (assignmentData.insured) {
+                        if (assignmentData.insured.name) {
+                          emailData.insuredName = (assignmentData.insured.name ? assignmentData.insured.name : "");
+                        } else {
+                          emailData.insuredName = "";
+                        }
+                      } else {
+                        emailData.insuredName = "";
+                      }
+                      if (assignmentData.templateIla) {
+                        emailData.ilaAuthDate = assignmentData.templateIla[0].authTimestamp;
+                      }
+                      // emailData.surveyDate = (surveyDate ? moment(surveyDate).format("DD/MM/YYYY") : "");
+                      // console.log("emailData In 1 ", emailData);
+                      if (assignmentData.survey) {
+                        _.each(assignmentData.survey, function (values) {
+                          console.log("survey: ", values);
+                          if (values.status == "Pending") {
+                            console.log("In surveyor");
+                            console.log(" values.employee.mobile", values.employee.mobile);
+                            emailData.surveyorNumber = values.employee.mobile;
+                            emailData.surveyorName = values.employee.name;
+                            emailData.surveyorEmail = values.employee.email;
+                            emailData.surveyDate = values.surveyDate;
+                          }
+                        });
+                      }
+
+
+                      // console.log("emailData In 2 ", emailData);
+                      emailData.to = [];
+                      emailData.to.push({
+                        name: assignmentData.owner.name,
+                        email: assignmentData.owner.email
+                      });
+
+                      if (assignmentData.shareWith) {
+                        _.each(assignmentData.shareWith, function (values) {
+                          console.log("values", values);
+                          _.each(values.persons, function (personss) {
+                            console.log("persons", personss);
+                            emailData.to.push({
+                              name: personss.name,
+                              email: personss.email
+                            })
+                          });
+                        });
+                      }
+
+                      if (data.user) {
+                        emailData.assignmentAuthorizer = data.user.name;
+                      }
+                      console.log('mailData', mailData);
+
+                      //Find Acknowledgment Email data
+                      if (data.assignmentapprovalStatus == "ForceClosed") {
+
+                        var mailData = [];
+                        mailData[0] = "Assignment Force Close Aprproved";
+                        mailData[1] = emailData;
+                        mailData[2] = data.accessToken;
+                        mailData[3] = data.user.email;
+                        Assignment.getMailAndSendMail(mailData, function (err, newData) {
+                          if (err) {
+                            callback(null, err);
+                          } else {
+                            if (_.isEmpty(newData)) {
+                              callback("There was an error while sending mail", null);
+                            } else {
+                              callback(null, newData);
+                            }
+                          }
+                        });
+                      } else if (data.assignmentapprovalStatus == "ReOpened") {
+                        var mailData = [];
+                        mailData[0] = "Assignment Reopen Approved";
+                        mailData[1] = emailData;
+                        mailData[2] = data.accessToken;
+                        mailData[3] = data.user.email;
+                        Assignment.getMailAndSendMail(mailData, function (err, newData) {
+                          if (err) {
+                            callback(null, err);
+                          } else {
+                            if (_.isEmpty(newData)) {
+                              callback("There was an error while sending mail", null);
+                            } else {
+                              callback(null, newData);
+                            }
+                          }
+                        });
+                      } else {
+                        callback(null, updated);
+                      }
+
+                    }
+                  }
+                });
+              }
+            });
           });
         } else {
           callback("No Data Found", data2);
@@ -1072,9 +1196,9 @@ var model = {
       } else {
         $scope.data = data2;
         var filter = {
-          _id: data2.assignment.policyDoc
-        }
-        // For policyNumber
+            _id: data2.assignment.policyDoc
+          }
+          // For policyNumber
         PolicyDoc.getPolicyDoc({
           filter
         }, function (err, data4) {
@@ -1126,7 +1250,7 @@ var model = {
       .page(options, callback);
 
   },
-// Priyank
+  // Priyank
   // updateSurveyor: function (data, callback) {
   //   data.survey.timestamp=Date.now();
   //   Assignment.update({
@@ -1148,7 +1272,7 @@ var model = {
   // },
 
   updateSurveyor: function (data, callback) {
-    data.survey.timestamp=Date.now();
+    data.survey.timestamp = Date.now();
     Assignment.update({
       _id: data._id
     }, {
@@ -2720,7 +2844,7 @@ var model = {
   // },
 
 
-saveTemplate: function (data, callback) {
+  saveTemplate: function (data, callback) {
     var matchObj = {};
     var matchObj2 = {};
     if (data.type == "templateIla") {
@@ -2847,7 +2971,7 @@ saveTemplate: function (data, callback) {
                 });
               }
 
-              if(data.user){
+              if (data.user) {
                 emailData.assignmentAuthorizer = data.user.name;
               }
               console.log('mailData', mailData);
@@ -2874,23 +2998,23 @@ saveTemplate: function (data, callback) {
                 console.log("IN templateIla");
                 //Find Acknowledgment Email data
                 if (data.approvalStatus == "Approved") {
-                 
+
                   var mailData = [];
                   mailData[0] = "ILA Authorization";
                   mailData[1] = emailData;
                   mailData[2] = data.accessToken;
                   mailData[3] = data.user.email;
                   Assignment.getMailAndSendMail(mailData, function (err, newData) {
-                  if (err) {
-                    callback(null, err);
-                  } else {
-                    if (_.isEmpty(newData)) {
-                      callback("There was an error while sending mail", null);
+                    if (err) {
+                      callback(null, err);
                     } else {
-                      callback(null, newData);
+                      if (_.isEmpty(newData)) {
+                        callback("There was an error while sending mail", null);
+                      } else {
+                        callback(null, newData);
+                      }
                     }
-                  }
-                });
+                  });
                 } else if (data.approvalStatus == "Revised") {
                   var mailData = [];
                   mailData[0] = "ILA Back to Regenerate";
@@ -2898,40 +3022,40 @@ saveTemplate: function (data, callback) {
                   mailData[2] = data.accessToken;
                   mailData[3] = data.user.email;
                   Assignment.getMailAndSendMail(mailData, function (err, newData) {
-                  if (err) {
-                    callback(null, err);
-                  } else {
-                    if (_.isEmpty(newData)) {
-                      callback("There was an error while sending mail", null);
+                    if (err) {
+                      callback(null, err);
                     } else {
-                      callback(null, newData);
+                      if (_.isEmpty(newData)) {
+                        callback("There was an error while sending mail", null);
+                      } else {
+                        callback(null, newData);
+                      }
                     }
-                  }
-                });
+                  });
                 } else {
-                  callback(null,updated);
+                  callback(null, updated);
                 }
-              }  else if (data.type == "templateLor") {
+              } else if (data.type == "templateLor") {
                 console.log("IN templateIlor");
                 //Find Acknowledgment Email data
                 if (data.approvalStatus == "Approved") {
-                 
+
                   var mailData = [];
                   mailData[0] = "LOR Authorization";
                   mailData[1] = emailData;
                   mailData[2] = data.accessToken;
                   mailData[3] = data.user.email;
                   Assignment.getMailAndSendMail(mailData, function (err, newData) {
-                  if (err) {
-                    callback(null, err);
-                  } else {
-                    if (_.isEmpty(newData)) {
-                      callback("There was an error while sending mail", null);
+                    if (err) {
+                      callback(null, err);
                     } else {
-                      callback(null, newData);
+                      if (_.isEmpty(newData)) {
+                        callback("There was an error while sending mail", null);
+                      } else {
+                        callback(null, newData);
+                      }
                     }
-                  }
-                });
+                  });
                 } else if (data.approvalStatus == "Revised") {
                   var mailData = [];
                   mailData[0] = "LOR Back to Regenerate";
@@ -2939,18 +3063,18 @@ saveTemplate: function (data, callback) {
                   mailData[2] = data.accessToken;
                   mailData[3] = data.user.email;
                   Assignment.getMailAndSendMail(mailData, function (err, newData) {
-                  if (err) {
-                    callback(null, err);
-                  } else {
-                    if (_.isEmpty(newData)) {
-                      callback("There was an error while sending mail", null);
+                    if (err) {
+                      callback(null, err);
                     } else {
-                      callback(null, newData);
+                      if (_.isEmpty(newData)) {
+                        callback("There was an error while sending mail", null);
+                      } else {
+                        callback(null, newData);
+                      }
                     }
-                  }
-                });
+                  });
                 } else {
-                  callback(null,updated);
+                  callback(null, updated);
                 }
               } else {
                 callback(null, updated);
@@ -3010,7 +3134,7 @@ saveTemplate: function (data, callback) {
       }
     });
   },
-// 
+  // 
   updateNewSurveyor: function (data, callback) {
     Assignment.update({
       _id: data.assignId,
@@ -3127,7 +3251,7 @@ saveTemplate: function (data, callback) {
     var page = 1;
     var aggText = [];
     var aggTextCount = [];
-    var arr = ["BBND", "Dispatched","DBND","Delivered"];
+    var arr = ["BBND", "Dispatched", "DBND", "Delivered"];
 
     aggText = [{
         $match: {
@@ -3479,7 +3603,7 @@ saveTemplate: function (data, callback) {
 
   //   }
   // }
-updateThreadId: function (data, callback) {
+  updateThreadId: function (data, callback) {
     Assignment.update({
       _id: data._id,
     }, {
@@ -3507,7 +3631,7 @@ updateThreadId: function (data, callback) {
       values.name.toString();
     });
     emailData.to = _.uniqBy(mailData.to, "email");
-    console.log("values array ", mailData.to,emailData.to);
+    console.log("values array ", mailData.to, emailData.to);
 
     emailData.assignmentNo = (mailData.assignmentNo ? mailData.assignmentNo : "NA");
     emailData.assignmentAuthorizer = (mailData.assignmentAuthorizer ? mailData.assignmentAuthorizer : "NA");
@@ -3515,6 +3639,7 @@ updateThreadId: function (data, callback) {
     emailData.ownerEmail = (mailData.ownerEmail ? mailData.ownerEmail : "NA");
     emailData.ownerPhone = (mailData.ownerPhone ? mailData.ownerPhone : "NA");
     emailData.siteCity = (mailData.siteCity ? mailData.siteCity : "NA");
+    emailData.invoiceNumber = (mailData.invoiceNumber ? mailData.invoiceNumber : "NA");
     emailData.to = (mailData.to ? mailData.to : []);
     emailData.cc = (mailData.cc ? mailData.cc : []);
     emailData.bcc = (mailData.bcc ? mailData.bcc : []);
@@ -3640,8 +3765,8 @@ updateThreadId: function (data, callback) {
             to: emailData.to,
             cc: emailData.cc,
             bcc: emailData.bcc,
-            subject: "Invoice Authorization : #InvoiceNo#",
-            message: "<html><body><p style='font-size: 16px;'>I have gone through the Invoice prepared for " + emailData.insuredName + ", Invoice No.#InvoiceNo# and authorized the same. It is OK to release.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+            subject: "Invoice Authorization : " + emailData.invoiceNumber,
+            message: "<html><body><p style='font-size: 16px;'>I have gone through the Invoice prepared for " + emailData.insuredName + ", Invoice No. " + emailData.invoiceNumber + " and authorized the same. It is OK to release.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
           }
           callback(null, emails);
         }
@@ -3655,8 +3780,8 @@ updateThreadId: function (data, callback) {
             to: emailData.to,
             cc: emailData.cc,
             bcc: emailData.bcc,
-            subject: "Invoice Back to Regenerate : #InvoiceNo#",
-            message: "<html><body><p style='font-size: 16px;'>I have gone through the Invoice prepared for " + emailData.insuredName + ", Invoice No. #InvoiceNo#. Kindly make the changes as advised to you & resend for authorization.</p><p style='font-size: 16px;'>Please let me know if assistance required.</p>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+            subject: "Invoice Back to Regenerate : " + emailData.invoiceNumber,
+            message: "<html><body><p style='font-size: 16px;'>I have gone through the Invoice prepared for " + emailData.insuredName + ", Invoice No. " + emailData.invoiceNumber + ", Kindly make the changes as advised to you & resend for authorization.</p><p style='font-size: 16px;'>Please let me know if assistance required.</p>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
           }
           callback(null, emails);
         }
@@ -3753,7 +3878,7 @@ updateThreadId: function (data, callback) {
         }
         break;
 
-         case "Assignment Force Close Aprproved":
+      case "Assignment Force Close Aprproved":
         {
           var emails = {
             name: 'Assignment Force Close Aprproved',
@@ -3762,13 +3887,13 @@ updateThreadId: function (data, callback) {
             cc: emailData.cc,
             bcc: emailData.bcc,
             subject: "Assignment Force Close Approved for Assignment : " + emailData.assignmentNo,
-            message: "<html><body><p style='font-size: 16px;'>Dear "+ emailData.ownerName +" ,<br> As per your request, i have Force Closed the assignment.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+            message: "<html><body><p style='font-size: 16px;'>Dear " + emailData.ownerName + " ,<br> As per your request, i have Force Closed the assignment.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
           }
           callback(null, emails);
         }
         break;
 
-         case "Assignment Force Close Rejected":
+      case "Assignment Force Close Rejected":
         {
           var emails = {
             name: 'Assignment Force Close Rejected',
@@ -3777,13 +3902,13 @@ updateThreadId: function (data, callback) {
             cc: emailData.cc,
             bcc: emailData.bcc,
             subject: "Assignment Force Close Rejected for Assignment : " + emailData.assignmentNo,
-            message: "<html><body><p style='font-size: 16px;'>Dear "+ emailData.ownerName +" ,<br> Your Request for Force Closing the Assignment is Rejected. #Reason#</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+            message: "<html><body><p style='font-size: 16px;'>Dear " + emailData.ownerName + " ,<br> Your Request for Force Closing the Assignment is Rejected. #Reason#</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
           }
           callback(null, emails);
         }
         break;
 
-         case "Assignment Reopen Approved":
+      case "Assignment Reopen Approved":
         {
           var emails = {
             name: 'Assignment Reopen Approved',
@@ -3792,13 +3917,13 @@ updateThreadId: function (data, callback) {
             cc: emailData.cc,
             bcc: emailData.bcc,
             subject: "Assignment Reopen Request Approved for Assignment : " + emailData.assignmentNo,
-            message: "<html><body><p style='font-size: 16px;'>Dear "+ emailData.ownerName +" ,<br> As requested, Assignment " + emailData.assignmentNo + " has been re-opened.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+            message: "<html><body><p style='font-size: 16px;'>Dear " + emailData.ownerName + " ,<br> As requested, Assignment " + emailData.assignmentNo + " has been re-opened.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
           }
           callback(null, emails);
         }
         break;
 
-         case "Assignment Reopen Rejected":
+      case "Assignment Reopen Rejected":
         {
           var emails = {
             name: 'Assignment Reopen Rejected',
@@ -3807,13 +3932,13 @@ updateThreadId: function (data, callback) {
             cc: emailData.cc,
             bcc: emailData.bcc,
             subject: "Assignment Reopen Request Rejected for Assignment : " + emailData.assignmentNo,
-            message: "<html><body><p style='font-size: 16px;'>Dear "+ emailData.ownerName +",<br> Your Request for Re-opening the Assignment has been Rejected. #Reason#</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+            message: "<html><body><p style='font-size: 16px;'>Dear " + emailData.ownerName + ",<br> Your Request for Re-opening the Assignment has been Rejected. #Reason#</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
           }
           callback(null, emails);
         }
         break;
 
-         case "Assignment Reopen Request":
+      case "Assignment Reopen Request":
         {
           var emails = {
             name: 'Assignment Reopen Request',
@@ -3828,7 +3953,7 @@ updateThreadId: function (data, callback) {
         }
         break;
 
-         case "Assignment Transfer":
+      case "Assignment Transfer":
         {
           var emails = {
             name: 'Assignment Transfer',
@@ -3837,26 +3962,26 @@ updateThreadId: function (data, callback) {
             cc: emailData.cc,
             bcc: emailData.bcc,
             subject: "Transfer of Assignment : " + emailData.assignmentNo,
-            message: "<html><body><p style='font-size: 16px;'>This is to inform you that the Assignment No. "+ emailData.assignmentNo +" being handled by #PreviousOwner# so far has been now transferred to #NewAssignmentOwner# for operational reasons.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+            message: "<html><body><p style='font-size: 16px;'>This is to inform you that the Assignment No. " + emailData.assignmentNo + " being handled by #PreviousOwner# so far has been now transferred to #NewAssignmentOwner# for operational reasons.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
           }
           callback(null, emails);
         }
         break;
 
-         case "Invoice Send Authorization":
-        {
-          var emails = {
-            name: 'Invoice Send Authorization',
-            from: emailData.ownerEmail,
-            to: emailData.to,
-            cc: emailData.cc,
-            bcc: emailData.bcc,
-            subject: "Invoice Send Authorization : #InvoiceNo#",
-            message: "<html><body><p style='font-size: 16px;'>Please go through the Invoice for Assignment No. " + emailData.assignmentNo + " in respect of loss sustained by " + emailData.insuredName + " on account of damage to #ProductDetails# and authorize the same</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
-          }
-          callback(null, emails);
-        }
-        break;
+        //  case "Invoice Send Authorization":
+        // {
+        //   var emails = {
+        //     name: 'Invoice Send Authorization',
+        //     from: emailData.ownerEmail,
+        //     to: emailData.to,
+        //     cc: emailData.cc,
+        //     bcc: emailData.bcc,
+        //     subject: "Invoice Send Authorization : #InvoiceNo#",
+        //     message: "<html><body><p style='font-size: 16px;'>Please go through the Invoice for Assignment No. " + emailData.assignmentNo + " in respect of loss sustained by " + emailData.insuredName + " on account of damage to #ProductDetails# and authorize the same</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+        //   }
+        //   callback(null, emails);
+        // }
+        // break;
       default:
         {
           // $scope.formData.push($scope.newjson);

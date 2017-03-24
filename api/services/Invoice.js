@@ -7,29 +7,29 @@ var schema = new Schema({
         ref: "Customer",
         index: true
     },
-    narrationFee:{
-        type:String,
+    narrationFee: {
+        type: String,
     },
-    grossAssessedLoss:{
-        type:Number,
+    grossAssessedLoss: {
+        type: Number,
     },
-    grossSalvage:{
-        type:Number,
+    grossSalvage: {
+        type: Number,
     },
-    taxes:{
-        type:Number,
+    taxes: {
+        type: Number,
     },
-    excessFranchise:{
-        type:Number,
+    excessFranchise: {
+        type: Number,
     },
-    grossDepreciation:{
-        type:Number,
+    grossDepreciation: {
+        type: Number,
     },
-    grossUnderInsurance:{
-        type:Number,
+    grossUnderInsurance: {
+        type: Number,
     },
-    netPayable:{
-        type:Number,
+    netPayable: {
+        type: Number,
     },
     assignment: {
         type: Schema.Types.ObjectId,
@@ -90,20 +90,20 @@ var schema = new Schema({
     },
     approvalStatus: {
         type: String,
-        enum:["Pending","Revised","Approved"]
+        enum: ["Pending", "Revised", "Approved"]
     },
-    approvalTime:{
+    approvalTime: {
         type: Date
     },
     timestamp: {
-      type: Date,
-      default: Date.now()
+        type: Date,
+        default: Date.now()
     },
-     reqtimestamp: {
-      type: Date
+    reqtimestamp: {
+        type: Date
     },
-    file:{
-        type:String
+    file: {
+        type: String
     },
     status: {
         type: Boolean
@@ -133,7 +133,7 @@ schema.plugin(deepPopulate, {
         'billedTo.customerCompany': {
             select: 'name _id'
         },
-        'createdBy':{
+        'createdBy': {
             select: 'name'
         },
         'assignment': {
@@ -208,44 +208,44 @@ module.exports = mongoose.model('Invoice', schema);
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "assignment.company assignment.products.product.category billedTo createdBy", "assignment.companyassignment.products.product.category billedTo createdBy"));
 var model = {
     search: function (data, callback) {
-    var Model = this;
-    var Const = this(data);
-    var maxRow = Config.maxRow;
-    var page = 1;
-    if (data.page) {
-      page = data.page;
-    }
-    var field = data.field;
-    var options = {
-      field: data.field,
-      filters: {
-        keyword: {
-          fields: ['invoiceNumber'],
-          term: data.keyword
+        var Model = this;
+        var Const = this(data);
+        var maxRow = Config.maxRow;
+        var page = 1;
+        if (data.page) {
+            page = data.page;
         }
-      },
-      sort: {
-        desc: 'invoiceNumber'
-      },
-      start: (page - 1) * maxRow,
-      count: maxRow
-    };
-    var Search = Invoice.find(data.filter)
-      .order(options)
-      .keyword(options)
-      .deepPopulate("assignment.company assignment.products.product.category billedTo createdBy")
-      .page(options,function(err,found){
-        if (err) {
-          callback(err, found);
-        } else {
-         if(_.isEmpty(found)){
-             callback("No data found!!",found);
-         } else {
-             callback(null,found);
-         }
-        }
-      });
-  },
+        var field = data.field;
+        var options = {
+            field: data.field,
+            filters: {
+                keyword: {
+                    fields: ['invoiceNumber'],
+                    term: data.keyword
+                }
+            },
+            sort: {
+                desc: 'invoiceNumber'
+            },
+            start: (page - 1) * maxRow,
+            count: maxRow
+        };
+        var Search = Invoice.find(data.filter)
+            .order(options)
+            .keyword(options)
+            .deepPopulate("assignment.company assignment.products.product.category billedTo createdBy")
+            .page(options, function (err, found) {
+                if (err) {
+                    callback(err, found);
+                } else {
+                    if (_.isEmpty(found)) {
+                        callback("No data found!!", found);
+                    } else {
+                        callback(null, found);
+                    }
+                }
+            });
+    },
 
     saveData: function (data, callback) {
         var Model = this;
@@ -273,7 +273,131 @@ var model = {
                     }, function (err) {
                         data2.update(data, {
                             w: 1
-                        }, callback);
+                        }, function (err, updated) {
+                            if (err) {
+                                callback(err, null);
+                            } else {
+                                console.log("updated data", updated, data);
+                                // callback(null,updated);
+                                Assignment.getOne({
+                                    _id: data.assignment._id
+                                }, function (err, assignmentData) {
+                                    console.log("assignmentData =========", assignmentData);
+                                    if (err) {
+                                        console.log("err", err);
+                                        callback("No data found in assignment", null);
+                                    } else {
+                                        console.log("assignmentData else", assignmentData);
+                                        if (_.isEmpty(assignmentData)) {
+                                            callback("No data found in assignment search", null);
+                                        } else {
+                                            console.log("assignmentData In ", assignmentData);
+                                            var emailData = {};
+                                            emailData.assignmentNo = assignmentData.name;
+                                            emailData.ownerName = assignmentData.owner.name;
+                                            emailData.ownerEmail = assignmentData.owner.email;
+                                            emailData.ownerPhone = assignmentData.owner.mobile;
+                                            emailData.siteCity = assignmentData.city.name;
+                                            emailData.invoiceNumber = data.invoiceNumber;
+                                            if (assignmentData.insured) {
+                                                if (assignmentData.insured.name) {
+                                                    emailData.insuredName = (assignmentData.insured.name ? assignmentData.insured.name : "");
+                                                } else {
+                                                    emailData.insuredName = "";
+                                                }
+                                            } else {
+                                                emailData.insuredName = "";
+                                            }
+                                            if (assignmentData.templateIla) {
+                                                emailData.ilaAuthDate = assignmentData.templateIla[0].authTimestamp;
+                                            }
+                                            // emailData.surveyDate = (surveyDate ? moment(surveyDate).format("DD/MM/YYYY") : "");
+                                            // console.log("emailData In 1 ", emailData);
+                                            if (assignmentData.survey) {
+                                                _.each(assignmentData.survey, function (values) {
+                                                    console.log("survey: ", values);
+                                                    if (values.status == "Pending") {
+                                                        console.log("In surveyor");
+                                                        console.log(" values.employee.mobile", values.employee.mobile);
+                                                        emailData.surveyorNumber = values.employee.mobile;
+                                                        emailData.surveyorName = values.employee.name;
+                                                        emailData.surveyorEmail = values.employee.email;
+                                                        emailData.surveyDate = values.surveyDate;
+                                                    }
+                                                });
+                                            }
+
+
+                                            // console.log("emailData In 2 ", emailData);
+                                            emailData.to = [];
+                                            emailData.to.push({
+                                                name: assignmentData.owner.name,
+                                                email: assignmentData.owner.email
+                                            });
+
+                                            if (assignmentData.shareWith) {
+                                                _.each(assignmentData.shareWith, function (values) {
+                                                    console.log("values", values);
+                                                    _.each(values.persons, function (personss) {
+                                                        console.log("persons", personss);
+                                                        emailData.to.push({
+                                                            name: personss.name,
+                                                            email: personss.email
+                                                        })
+                                                    });
+                                                });
+                                            }
+
+                                            if (data.user) {
+                                                emailData.assignmentAuthorizer = data.user.name;
+                                            }
+                                            console.log('mailData', mailData);
+
+                                            //Find Acknowledgment Email data
+                                            if (data.approvalStatus == "Approved") {
+
+                                                var mailData = [];
+                                                mailData[0] = "Invoice Authorization";
+                                                mailData[1] = emailData;
+                                                mailData[2] = data.accessToken;
+                                                mailData[3] = data.user.email;
+                                                Assignment.getMailAndSendMail(mailData, function (err, newData) {
+                                                    if (err) {
+                                                        callback(null, err);
+                                                    } else {
+                                                        if (_.isEmpty(newData)) {
+                                                            callback("There was an error while sending mail", null);
+                                                        } else {
+                                                            callback(null, newData);
+                                                        }
+                                                    }
+                                                });
+                                            } else if (data.approvalStatus == "Revised") {
+                                                var mailData = [];
+                                                mailData[0] = "Invoice Back to Regenerate";
+                                                mailData[1] = emailData;
+                                                mailData[2] = data.accessToken;
+                                                mailData[3] = data.user.email;
+                                                Assignment.getMailAndSendMail(mailData, function (err, newData) {
+                                                    if (err) {
+                                                        callback(null, err);
+                                                    } else {
+                                                        if (_.isEmpty(newData)) {
+                                                            callback("There was an error while sending mail", null);
+                                                        } else {
+                                                            callback(null, newData);
+                                                        }
+                                                    }
+                                                });
+                                            } else {
+                                                callback(null, updated);
+                                            }
+
+                                        }
+                                    }
+                                });
+                            }
+                        });
                     });
                 } else {
                     callback("No Data Found", data2);
