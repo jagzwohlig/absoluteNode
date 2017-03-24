@@ -27,11 +27,11 @@
                 <td align="right">{{Invoice.grandTotal | number}}</td>
                 <td>{{Invoice.approvalStatus}}</td>
                 <td>
-                    <div ng-if="Invoice.file!==''">
+                    <button class="btn btn-clear" ng-if="Invoice.file!==''">
                         <a class="btn btn-primary temp-btnbg" download="{{Invoice.file}}" ng-href="{{Invoice.file|downloadImage}}">
                             <i class="ln-download"></i>
                         </a>
-                    </div>
+                    </button>
                     <button class="btn btn-clear" ng-click="viewInvoice(assignment,Invoice)"><i class="ln-pencil"></i></button>
                     <!--<button class="btn btn-clear" ng-click="deleteTemplate('invoice',$index,'INVOICE')"><i class="ln-trash2"></i></button>-->
                 </td>
