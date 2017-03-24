@@ -25,15 +25,19 @@
                     <div class="col-md-3" ng-repeat="data in Arr">
                         <a ui-sref="assignment-list({timelineStatus:[data._id]})">
                             <div class="widget">
-                            <div class="widget-controls">
+                            <!--<div class="widget-controls">
                                 <span class="refresh-content"><i class="fa fa-refresh"></i></span>
-                            </div>
+                            </div>-->
                             <!-- Widget Controls -->
-                            <div class="mini-stats">
+                            <!--<div class="mini-stats">
                                 <span class="{{ colors[$index]}}-skin"><i class="fa fa-area-chart"></i></span>
                                 <p><i class="fa  fa-arrow-up up"></i>{{ data._id}}</p>
                                 <h3>{{ data.count }}</h3>
-                            </div>
+                            </div>-->
+                            <div class="mini-stats tmp-mini-stats" ng-style="{'background':'{{statusColor[$index]}}'}">
+                                <h2 class="display-inblock marg0">{{ data.count }}</h2>
+                                <p class="mini-stats_color display-inblock marg0">{{ data._id}}</p>
+							</div>
                         </div>
                     </a>
                     </div>

@@ -5,7 +5,7 @@
             <i class="ln-cross"></i>
         </button>
     </div>
-    <h5 class="modal-title">All FSR's</h5>
+    <h5 class="modal-title">All FSR</h5>
 </div>
 <div class="modal-body">
     <form name="companyForm" ng-submit="saveCompany(formData)" ng-if="showCreate">
@@ -39,7 +39,7 @@
                                     <td>{{fsr.fileName | date:'ddMMMyy, hh:mm'}}</td>
                                     <td><button class="btn btn-clear" data-ng-click="deleteTemplate('fsrs',$index,'FSR')"><i class="ln-trash2"></i></button>
                                     <button class="btn btn-clear">
-                                        <a class="btn btn-primary" download="{{fsr.file}}" ng-href="{{fsr.file|downloadImage}}">
+                                        <a class="btn btn-primary temp-btnbg" download="{{fsr.file}}" ng-href="{{fsr.file|downloadImage}}">
                                         <i class="ln-download"></i>
                                     </a></button></td>
                                 </tr>
