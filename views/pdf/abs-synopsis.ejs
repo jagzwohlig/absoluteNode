@@ -116,22 +116,16 @@ function getAssignmentTemplateValue (input, assignment) {
                         </tr>
                         <% for(var j=0; j<data.forms[i].items.length; j++) {%>
                             <tr>
+                                    <% if(data.forms[i].items[j].submit=="Pending" || data.forms[i].items[j].submit=="Partially Recieved"){ %>
+                            
                                 <td>
                                     <%= data.forms[i].items[j].name %>
                                 </td>
                                 <td>
                                     <%= data.forms[i].items[j].type %>
                                 </td>
-                                <td>
-                                    <%= moment(new Date(data.forms[i].items[j].date)).format("DD/MM/YYYY") %>
-                                </td>
-                                <td>
-                                    <% if(data.forms[i].items[j].submit){ %>
-                                    Submitted
-                                    <%}else{%> 
-                                    Not Submitted
-                                    <%}%>                                   
-                                </td>
+                                
+                                     <%}%>
                             </tr>
                             <% } %>
                                 <% } %>
