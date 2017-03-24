@@ -118,7 +118,7 @@
                 <%=assignment.products[0].item%>
         </p>
         <p>Location ID :
-          <%if(assignment.locationArr===undefined){%>
+          <%if(assignment.locationArr===undefined || assignment.locationArr.length<1){%>
             NA
             <%}else{%>
               <%=assignment.locationArr[0].locationString%>

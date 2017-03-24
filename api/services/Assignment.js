@@ -1200,7 +1200,7 @@ var model = {
       } else {
         $scope.assignment = findObj._id;
         if ($scope.data.type == "templateLor") {
-          console.log("LOR DATA.................................................", $scope.assignment.locationArr);
+          console.log("LOR DATA.................................................", $scope.assignment.locationArr.length);
           Config.generatePdf("pdf/lor", $scope, callback);
         } else {
           Config.generatePdf("pdf/abs-synopsis", $scope, callback);
