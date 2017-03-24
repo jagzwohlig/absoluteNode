@@ -99,8 +99,13 @@ function toWords (num) {
                 <h4 class="size" style="margin:0;">
                     <%=data.billedTo.name%>
                 </h4>
-                <div style="width:49%;text-align:left;display:inline-block;vertical-align:middle;">
-                    <p class="size" style="margin: 5px 0;padding-right: 40px;">
+            </div>
+            <div style="clear:both;"></div>
+            <table class="tdata noborder">
+                <tbody>
+                    <tr>
+                        <td class="noborder">
+  <p class="size" style="margin: 5px 0;padding-right: 40px;">
                         <%=data.billedTo.customerCompany.name%>,<br>
                             <%=data.billedTo.address%><br>
                                 <%=data.billedTo.city.name%>,
@@ -109,16 +114,18 @@ function toWords (num) {
                                             <%=data.billedTo.city.district.state.name%>,<br>
                                                 <%=data.billedTo.city.district.state.zone.country.name%>
                     </p>
-                </div>
-                <div style="width: 49%;display: inline-block;margin-left: 0;">
+                        </td>
+                        <td  class="noborder">
+                        </td>
+                        <td class="noborder">
                     <div class="size"><i style="padding:0 5px;">Invoice No</i><span style="padding:0 12px;"><%= data.invoiceNumber%></span></div>
                     <div class="size"> <i style="padding:0 5px;">Invoice Date</i><span style="padding:0 3px;"><%= moment(new Date(data.approvalTime)).format("L")%></span></div>
-                </div>
-            </div>
-            <div style="clear:both;"></div>
-            <table class="tdata noborder">
-                <tbody>
-                    <tr>
+                        </td>
+                        <td class="noborder">
+
+                        </td>
+                    </tr>
+                  <tr>
                         <td style="width: 100px;" class="noborder">Appointed By</td>
                         <td style="width: 250px;" class="noborder">
                             <%=data.assignment.customer.name%>

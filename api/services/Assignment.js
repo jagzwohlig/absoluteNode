@@ -662,9 +662,18 @@ schema.plugin(deepPopulate, {
       select: 'name _id'
     },
     'branch': {
-      select: 'name _id office FSR ITAT LTAT R2NR STAT'
+      select: ''
     },
     'office': {
+      select: ''
+    },
+    'office.city': {
+      select: 'name _id district'
+    },
+     'office.city.district': {
+      select: 'name _id state'
+    },
+    'office.city.district.state': {
       select: 'name _id'
     },
     'invoice': {
@@ -725,6 +734,15 @@ schema.plugin(deepPopulate, {
       select: 'name _id'
     },
     'insuredOffice': {
+      select: ''
+    },
+    'insuredOffice.city': {
+      select: 'name _id district'
+    },
+     'insuredOffice.city.district': {
+      select: 'name _id state'
+    },
+    'insuredOffice.city.district.state': {
       select: 'name _id'
     },
     'products.product': {
@@ -1112,7 +1130,7 @@ var model = {
 
         Model.findOne({
           _id: data[0]._id
-        }).deepPopulate("city.district.state.zone.country products.product.category.industry shareWith.persons branch natureOfLoss department insurerOffice insuredOffice owner owner.func company company.city assessment.employee customer docs.employee fsrs.employee photos.employee causeOfLoss insurer policyType insured salvage natureOfLoss", "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insurerOffice insuredOffice").lean().exec(function (err, data3) {
+        }).deepPopulate("city.district.state.zone.country insuredOffice.city.district.state products.product.category.industry shareWith.persons branch natureOfLoss department insurerOffice office office.city office.city.district office.city.district.state insuredOffice owner owner.func company company.city assessment.employee customer docs.employee fsrs.employee photos.employee causeOfLoss insurer policyType insured salvage natureOfLoss", "city.district.state.zone.country products.product.category.industry shareWith.persons natureOfLoss insurerOffice insuredOffice").lean().exec(function (err, data3) {
           if (err) {
             callback(err, data3);
           } else {
@@ -1126,6 +1144,7 @@ var model = {
                 data2.assignment = data3;
                 callback(null, data2);
               } else {
+                console.log("Data4- Policy.....", data4);
                 data2.assignment = data3;
                 data2.assignment.policyNumber = data4.results[0].policyNo;
                 callback(null, data2);
@@ -1180,7 +1199,12 @@ var model = {
         callback(err, null);
       } else {
         $scope.assignment = findObj._id;
-        Config.generatePdf("pdf/abs-synopsis", $scope, callback);
+        if ($scope.data.type == "templateLor") {
+          console.log("LOR DATA.................................................", $scope.assignment.locationArr);
+          Config.generatePdf("pdf/lor", $scope, callback);
+        } else {
+          Config.generatePdf("pdf/abs-synopsis", $scope, callback);
+        }
       }
     });
   },
@@ -1196,9 +1220,9 @@ var model = {
       } else {
         $scope.data = data2;
         var filter = {
-            _id: data2.assignment.policyDoc
-          }
-          // For policyNumber
+          _id: data2.assignment.policyDoc
+        }
+        // For policyNumber
         PolicyDoc.getPolicyDoc({
           filter
         }, function (err, data4) {
@@ -1288,16 +1312,16 @@ var model = {
           Assignment.getOne({
             _id: data._id
           }, function (err, assignmentData) {
-            console.log("assignmentData =========", assignmentData);
+            // console.log("assignmentData =========", assignmentData);
             if (err) {
-              console.log("err", err);
+              // console.log("err", err);
               callback("No data found in assignment", null);
             } else {
-              console.log("assignmentData else", assignmentData);
+              // console.log("assignmentData else", assignmentData);
               if (_.isEmpty(assignmentData)) {
                 callback("No data found in assignment search", null);
               } else {
-                console.log("assignmentData In ", assignmentData);
+                // console.log("assignmentData In ", assignmentData);
                 var emailData = {};
                 emailData.assignmentNo = assignmentData.name;
                 emailData.ownerName = assignmentData.owner.name;
@@ -1310,10 +1334,10 @@ var model = {
                 // console.log("emailData In 1 ", emailData);
                 if (assignmentData.survey) {
                   _.each(assignmentData.survey, function (values) {
-                    console.log("survey: ", values);
+                    // console.log("survey: ", values);
                     if (values.status == "Approval Pending") {
-                      console.log("In surveyor");
-                      console.log(" values.employee.mobile", values.employee.mobile);
+                      // console.log("In surveyor");
+                      // console.log(" values.employee.mobile", values.employee.mobile);
                       emailData.surveyorNumber = values.employee.mobile;
                       emailData.surveyorName = values.employee.name;
                       emailData.surveyorEmail = values.employee.email;
@@ -1350,7 +1374,7 @@ var model = {
                 mailData[1] = emailData;
                 mailData[2] = data._id;
                 mailData[3] = data.accessToken;
-                console.log('mailData', mailData);
+                // console.log('mailData', mailData);
                 callback(null, mailData);
               }
             }
@@ -1363,11 +1387,11 @@ var model = {
   },
 
   getEmailsData: function (data, callback) {
-    console.log("getEmailsData ==== ", data);
+    // console.log("getEmailsData ==== ", data);
     Assignment.getMailData(data, function (err, emailData) {
-      console.log("emailData ==== ", emailData);
+      // console.log("emailData ==== ", emailData);
       if (err) {
-        console.log("err", err);
+        // console.log("err", err);
       } else {
         if (_.isEmpty(emailData)) {
           callback("No mail data found", null);
@@ -1376,17 +1400,17 @@ var model = {
           Assignment.getAssignmentCreateMail({
             _id: data[2]
           }, function (err, firstMailData) {
-            console.log("firstMailData", firstMailData);
+            // console.log("firstMailData", firstMailData);
             if (err) {
               callback(err, null);
-              console.log("err", err);
+              // console.log("err", err);
             } else {
               if (_.isEmpty(firstMailData)) {
-                console.log("No first create assignment mail data found", null);
+                // console.log("No first create assignment mail data found", null);
                 callback("No first create assignment mail data found", null);
               } else {
                 emailData.message = emailData.message + firstMailData;
-                console.log("emailData.message", emailData.message);
+                // console.log("emailData.message", emailData.message);
                 emailData.accessToken = data[3];
                 callback(null, emailData);
 
@@ -1619,7 +1643,7 @@ var model = {
         }
       },
     }).exec(function (err, found) {
-      console.log("update assignment", found);
+      // console.log("update assignment", found);
       if (err) {
         callback(err, null);
       } else {
@@ -1647,7 +1671,7 @@ var model = {
             }
           }
         }).exec(function (err, data) {
-          console.log("update timeline", data);
+          // console.log("update timeline", data);
           if (err) {
             callback(err, null);
           } else {
@@ -1973,7 +1997,7 @@ var model = {
       }
     }
     var ownerStatus = Object.assign(timelineStatus, name, owner, insurer, insurerd, department, ownerId, intimatedLoss, city, branch, createdAt, shareWith);
-    console.log(data.pagenumber);
+    // console.log(data.pagenumber);
     var pageStartFrom = (data.pagenumber - 1) * data.pagelimit;
     var allTable = [{
       $lookup: {
@@ -2461,7 +2485,7 @@ var model = {
       branch: 1
     }).populate("branch", "office").lean().exec(function (err, findData) {
       if (err) {
-        console.log("err", err);
+        // console.log("err", err);
         callback(err, null);
       } else {
         if (_.isEmpty(findData)) {
@@ -2469,7 +2493,7 @@ var model = {
         } else {
           // callback(null,findData);
           async.eachSeries(findData, function (n, callback1) {
-            console.log("n", n);
+            // console.log("n", n);
             Assignment.update({
               _id: n._id
             }, {
@@ -2901,21 +2925,16 @@ var model = {
       if (err) {
         callback(err, null);
       } else {
-        console.log("else  survey");
 
         Assignment.getOne({
           _id: data.assignId
         }, function (err, assignmentData) {
-          console.log("assignmentData =========", assignmentData);
           if (err) {
-            console.log("err", err);
             callback("No data found in assignment", null);
           } else {
-            console.log("assignmentData else", assignmentData);
             if (_.isEmpty(assignmentData)) {
               callback("No data found in assignment search", null);
             } else {
-              console.log("assignmentData In ", assignmentData);
               var emailData = {};
               emailData.assignmentNo = assignmentData.name;
               emailData.ownerName = assignmentData.owner.name;
@@ -2938,10 +2957,10 @@ var model = {
               // console.log("emailData In 1 ", emailData);
               if (assignmentData.survey) {
                 _.each(assignmentData.survey, function (values) {
-                  console.log("survey: ", values);
+                  // console.log("survey: ", values);
                   if (values.status == "Pending") {
-                    console.log("In surveyor");
-                    console.log(" values.employee.mobile", values.employee.mobile);
+                    // console.log("In surveyor");
+                    // console.log(" values.employee.mobile", values.employee.mobile);
                     emailData.surveyorNumber = values.employee.mobile;
                     emailData.surveyorName = values.employee.name;
                     emailData.surveyorEmail = values.employee.email;
@@ -2960,9 +2979,9 @@ var model = {
 
               if (assignmentData.shareWith) {
                 _.each(assignmentData.shareWith, function (values) {
-                  console.log("values", values);
+                  // console.log("values", values);
                   _.each(values.persons, function (personss) {
-                    console.log("persons", personss);
+                    // console.log("persons", personss);
                     emailData.to.push({
                       name: personss.name,
                       email: personss.email
@@ -2974,9 +2993,9 @@ var model = {
               if (data.user) {
                 emailData.assignmentAuthorizer = data.user.name;
               }
-              console.log('mailData', mailData);
+              // console.log('mailData', mailData);
               if (data.type == "survey") {
-                console.log("IN survey");
+                // console.log("IN survey");
                 //Find Acknowledgment Email data
                 var mailData = [];
                 mailData[0] = "Deputation mail";
@@ -2995,7 +3014,7 @@ var model = {
                   }
                 });
               } else if (data.type == "templateIla") {
-                console.log("IN templateIla");
+                // console.log("IN templateIla");
                 //Find Acknowledgment Email data
                 if (data.approvalStatus == "Approved") {
 
@@ -3036,7 +3055,7 @@ var model = {
                   callback(null, updated);
                 }
               } else if (data.type == "templateLor") {
-                console.log("IN templateIlor");
+                // console.log("IN templateIlor");
                 //Find Acknowledgment Email data
                 if (data.approvalStatus == "Approved") {
 
@@ -3088,9 +3107,9 @@ var model = {
 
   getMailAndSendMail: function (data, callback) {
     Assignment.getMailData(data, function (err, emailData) {
-      console.log("emailData ==== ", emailData);
+      // console.log("emailData ==== ", emailData);
       if (err) {
-        console.log("err", err);
+        // console.log("err", err);
       } else {
         if (_.isEmpty(emailData)) {
           callback("No mail data found", null);
@@ -3102,26 +3121,25 @@ var model = {
           }, function (err, userdata) {
             if (err) {
               callback(err, null);
-              console.log("err", err);
+              // console.log("err", err);
             } else {
               if (_.isEmpty(userdata)) {
-                console.log("No user data found!", null);
+                // console.log("No user data found!", null);
                 callback(err, null);
               } else {
                 emailData.user = userdata;
-                console.log(emailData.user, "email user");
-                // callback(null, emailData);
+                callback(null, emailData);
                 //Send email
-                Assignment.sendEmails(emailData, function (err, mailData) {
-                  console.log("mailData", mailData);
-                  if (err) {
-                    callback(err, null);
-                    console.log("err", err);
-                  } else {
-                      console.log("mail datas", mailData);
-                      callback(null, mailData);
-                  }
-                });
+                // Assignment.sendEmails(emailData, function (err, mailData) {
+                //   console.log("mailData", mailData);
+                //   if (err) {
+                //     callback(err, null);
+                //     console.log("err", err);
+                //   } else {
+                //       console.log("mail datas", mailData);
+                //       callback(null, mailData);
+                //   }
+                // });
               }
             }
           });
@@ -3618,7 +3636,7 @@ var model = {
     // if(data[3]){
     //   emailData.assignmentAuthorizerEmail = (data[3] ? data[3] : "NA");
     // }
-    console.log("email Data == in ", data);
+    // console.log("email Data == in ", data);
     emailData = {};
     var i = 0;
     var toData = [];
@@ -3627,7 +3645,7 @@ var model = {
       values.name.toString();
     });
     emailData.to = _.uniqBy(mailData.to, "email");
-    console.log("values array ", mailData.to, emailData.to);
+    // console.log("values array ", mailData.to, emailData.to);
 
     emailData.assignmentNo = (mailData.assignmentNo ? mailData.assignmentNo : "NA");
     emailData.assignmentAuthorizer = (mailData.assignmentAuthorizer ? mailData.assignmentAuthorizer : "NA");
@@ -3982,7 +4000,7 @@ var model = {
         {
           // $scope.formData.push($scope.newjson);
           // cal
-          console.log("IN default switch!!");
+          // console.log("IN default switch!!");
         }
 
     }

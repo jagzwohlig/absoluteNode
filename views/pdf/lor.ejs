@@ -1,0 +1,174 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+<head>
+  <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <style>
+    body {
+      font-family: sans-serif;
+      font-size: 8px;
+    }
+    
+    .subject {
+      font-weight: bold;
+    }
+    
+    .claim-table {
+      width: 100%;
+    }
+    
+    .claim-detail>tr>td:first-child(1) {
+      width: 80%;
+    }
+    
+    table,
+    th,
+    td {
+      border: 1px solid black;
+      border-collapse: collapse;
+      font-size: 8px;
+      padding: 8px 4px 2px;
+      width: 80%;
+    }
+    
+    .date>p {
+      margin: 2px 0;
+    }
+    
+    .justify {
+      text-align: justify;
+    }
+    
+    p {
+      font-size: 8px;
+    }
+    
+    .content-head {
+      margin: 20px 0;
+    }
+    
+    .content-lineheight {
+      line-height: 1.5;
+    }
+  </style>
+</head>
+
+<body>
+  <div style="padding:0;margin:0">
+    <div style="width:555px;margin:0 auto">
+      <div style="float:right">
+        <img src="http://absolute.wohlig.co.in/api/upload/readFile?file=589c558c1d8a3a0fc6eb4c6e.png" style="width:150px">
+      </div>
+      <div>
+        <div style="width:190px">
+          <p>
+            <%=assignment.branch.name%>,<br>
+              <%=assignment.office.address%>,<br>
+                <%=assignment.office.city.name%>,
+                  <%=assignment.office.city.district.state.name%>.<br> Phone #:
+                    <%=assignment.office.phone%>,<br> FAX #:
+                      <%=assignment.office.fax%>
+          </p>
+        </div>
+      </div>
+      <p style="margin:20px 0;text-align:right;text-decoration:underline">WITHOUT PREJUDICE</p>
+      <div style="clear:both">
+      </div>
+      <h4 style="margin:5px 0;text-align:center;">LIST OF REQUIREMENT</h4>
+      <div class="date">
+        <p>
+          <%=assignment.name%>
+        </p>
+        <p>
+          <%= moment(new Date(data.authTimestamp)).format("dddd, MMMM Do YYYY")%>
+        </p>
+      </div>
+      <div>
+        <p class="content-lineheight">
+          <%=assignment.siteNumber%>,<br>
+            <%=assignment.siteMobile%><br>
+              <%=assignment.insuredOffice.name%>,<br>
+                <%=assignment.insuredOffice.address%>,<br>
+                  <%=assignment.insuredOffice.city.name%>,<br>
+                    <%=assignment.insuredOffice.city.district.state.name%>-
+                      <%=assignment.insuredOffice.pincode%><br>
+        </p>
+      </div>
+      <div class="subject">
+        <p>Subject:</p>
+        <p>Insured :
+          <%=assignment.insured.name%>.</p>
+        <p> Policy # & Type :
+          <%=assignment.policyNumber%> -
+            <%=assignment.policyType.name%>
+        </p>
+        <p>Cause of Loss / Nature of Loss:
+          <%=assignment.causeOfLoss.name%>-
+            <% for(var j=0; j<assignment.natureOfLoss.length; j++) {%>
+              <%=assignment.natureOfLoss[j].name%>
+                <%if(j<assignment.natureOfLoss.length-1){%>,
+                  <%}%>
+                    <% } %>
+
+        </p>
+        <p>
+          <%=assignment.products[0].product.name%>,
+            <%=assignment.products[0].product.category.name%>,
+              <%=assignment.products[0].product.category.industry.name%> -
+                <%=assignment.products[0].item%>
+        </p>
+        <p>Location ID :
+          <%if(assignment.locationArr===undefined){%>
+            NA
+            <%}else{%>
+              <%=assignment.locationArr[0].locationString%>
+                <% } %>
+        </p>
+      </div>
+      <div>
+        <p class="content-head">Dear Sir/Madam</p>
+        <p class="content-lineheight justify">
+          Thank you very much for extending your cooperation during our visit . To enable us to proceed further and finalize the loss
+          you are requested to mail courier, complete. Clear and legible copies of the documents / information as indicated
+          below. An earty timely action in the matter help us & insurers serve you promptly.
+        </p>
+      </div>
+      <div style="clear:both"></div>
+      <table class="claim-table">
+        <tbody>
+          <% for(var i=0; i<data.forms.length; i++) {%>
+            <tr>
+              <td colspan="4"><b><%= data.forms[i].name %></b></td>
+            </tr>
+            <% for(var j=0; j<data.forms[i].items.length; j++) {%>
+              <tr>
+                <% if(data.forms[i].items[j].submit=="Pending" || data.forms[i].items[j].submit=="Partially Recieved"){ %>
+
+                  <td>
+                    <%= j+1 %>.
+                      <%= data.forms[i].items[j].name %>
+                  </td>
+                  <td style="text-align:right;">
+                    <%= data.forms[i].items[j].type %>
+                  </td>
+
+                  <%}%>
+              </tr>
+              <% } %>
+                <% } %>
+
+
+        </tbody>
+      </table>
+      <div class="content-head">
+        <p class="content-lineheight">Kindly ensure that every copy is duly signed,stamped and marked as "Certified True Copy".On the basis of your reply
+          and supporting submitted,further queries / clarification would be asked for if need be.</p>
+      </div>
+      <div>
+        <p>Sincerely,</p>
+        <p class="subject">For, Absolute Insurace Surveyors & Loss Assessors Pvt Ltd</p>
+      </div>
+
+</body>
+
+</html>
