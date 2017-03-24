@@ -11304,6 +11304,24 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 }
                 break;
                 
+                case "Assignment Force Close Request":
+                {
+
+                    var to = [];
+                    var emails = {
+                        name: 'Assignment Force Close Request',
+                        from: emailData.ownerEmail,
+                        to: to,
+                        cc: emailData.cc,
+                        bcc: emailData.bcc,
+                        subject: "",
+                        message: "<html><body><p style='font-size: 16px;'>Dear #SupervisorsName#,Requesting you to please Force Close the Assignment.Reason mentioned below. #Reason#</p><br> Warm Regards, <br>" + $.jStorage.get("profile").name + "<br> " +  $.jStorage.get("profile").mobile + "<br>" +  $.jStorage.get("profile").email + "</p></body></html>"
+                    }
+                    $scope.emailData = emails;
+                }
+                break;
+
+               
 
 
             default:
