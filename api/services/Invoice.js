@@ -360,7 +360,7 @@ var model = {
                                                 mailData[0] = "Invoice Authorization";
                                                 mailData[1] = emailData;
                                                 mailData[2] = data.accessToken;
-                                                mailData[3] = data.user.email;
+                                                mailData[3] = data.users.email;
                                                 Assignment.getMailAndSendMail(mailData, function (err, newData) {
                                                     if (err) {
                                                         callback(null, err);
@@ -377,7 +377,7 @@ var model = {
                                                 mailData[0] = "Invoice Back to Regenerate";
                                                 mailData[1] = emailData;
                                                 mailData[2] = data.accessToken;
-                                                mailData[3] = data.user.email;
+                                                mailData[3] = data.users.email;
                                                 Assignment.getMailAndSendMail(mailData, function (err, newData) {
                                                     if (err) {
                                                         callback(null, err);
