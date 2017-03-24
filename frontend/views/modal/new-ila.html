@@ -5,15 +5,16 @@
       <i class="ln-cross"></i>
     </button>
   </div>
-  <h5 class="modal-title">View ILAs</h5>
+  <h5 class="modal-title">View ILA</h5>
 </div>
 <div class="modal-body">
   <table class="file-list table" ng-if="assignment.templateIla != ''">
     <thead>
       <tr>
         <th>#</th>
-        <th>ILA Template</th>
-        <th>MR #</th>
+         <th>MR #</th>
+        <th>ILA Template Type</th>
+       
         <th>Date</th>
         <th>Status</th>
         <th>Actions</th>
@@ -22,16 +23,17 @@
     <tbody>
       <tr ng-repeat="ilas in assignment.templateIla track by $index">
         <td>{{$index + 1}}</td>
-        <td>{{ilas.name}}</td>
         <td>{{assignment.name}}</td>
+        <td>{{ilas.name}}</td>
+        
         <td>{{ilas.timestamp|date:'dd-MM-yyyy'}}</td>
         <td>{{ilas.approvalStatus}}</td>
         <td>
-          <div ng-if="ilas.file!=='undefined'">
-            <a class="btn btn-primary" download="{{ilas.file}}" ng-href="{{ilas.file|downloadImage}}">
+          <button class="btn btn-clear" ng-if="ilas.file!=='undefined'">
+            <a class="btn btn-primary temp-btnbg" download="{{ilas.file}}" ng-href="{{ilas.file|downloadImage}}">
                                             <i class="ln-download"></i>
           </a>
-          </div>
+          </button>
           <button class="btn btn-clear" ng-click="viewTemplates('ILAs','TemplateIla',ilas)"><i class="ln-pencil"></i></button>
           <button class="btn btn-clear" ng-click="deleteTemplate('templateIla',$index,'ILA')"><i class="ln-trash2"></i></button>
           <!--<button class="btn btn-clear"><i class="ln-download"></i></button>-->

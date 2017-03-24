@@ -126,11 +126,13 @@ a {
 
 .who-post-detail {
     >h3 {
-        font-size: 16px;
+        // font-size: 16px;
+        font-size: 14px;
     }
     >span {
         color: #202020;
-        font-size: 12px;
+        // font-size: 12px;
+        font-size: 18px;
         a {
             color: $blue;
             font-weight: bold;
@@ -417,9 +419,12 @@ $trans-black: rgba( black, .15);
         line-height: 23px;
     }
 }
-
+.activity-timeline:before {
+    display: none;
+}
 .activity-timeline>li {
     margin-bottom: 30px;
+    padding-left: 0px;
 }
 
 .side-header,
@@ -1423,7 +1428,7 @@ img.uploadingImage {
 }
 
 .img-view {
-    background-color: white;
+    // background-color: white;
     padding: 0;
     margin-top: 0;
     width: auto;
@@ -1435,7 +1440,7 @@ img.uploadingImage {
         text-align: center;
         font-weight: bold;
         margin: 0;
-        background-color: white;
+        // background-color: white;
     }
 }
 
@@ -1503,17 +1508,112 @@ img.uploadingImage {
 .mt5 {
     margin-top: 5px;
 }
+// .delay-6 {
+//     background: #ffff68
+// }
+// .delay-24 {
+//     background: #ffcb4b
+// }
+// .delay-48 {
+//     background: #ff7642
+// }
+// .delay-72 {
+//     background: #ff5555
+// }
 .delay-6 {
-    background: #ffff68
+    background: #ffff72;
 }
 .delay-24 {
-    background: #ffcb4b
+    background: #ffd172;
 }
 .delay-48 {
-    background: #ff7642
+    background: #ff9a72;
 }
 .delay-72 {
-    background: #ff5555
+    background: #ff7272;
+}
+/* Start writing sass here */
+.temp-btnbg{
+
+    background-color: white;
+    color:black;
+    border-color:white;
+    
+}
+// dashboard css
+.display-inblock {
+    display: inline-block;
+}
+
+.marg0 {
+    margin: 0;
+}
+
+.tmp-mini-stats {
+    min-height: 110px;
+    padding: 25px 16px;
+    h2 {
+        font-size: 46px;
+    }
+    p {
+        margin: 0;
+        display: inline-block;
+        overflow: inherit !important;
+        text-overflow: inherit !important;
+        white-space: inherit !important;
+    }
+    .display-inblock {
+        vertical-align: middle;
+    }
+    .mini-stats_color {
+        color: #000;
+        font-size: 16px;
+        // word-wrap: break-word;
+        // width: 50%;
+        padding-left: 10px;
+    }
+}
+.incomingEmail{
+background: #ffff80;
+}
+.outgoingMail{
+background: #bfff7f;
+}
+.incomingMassage{
+background: #ffaf5f;
+}
+.ownerMassage{
+background: #7fbfff;
+}
+.statusChanges{
+background: #9f9fff;
+}
+.unassigned{
+    background: #ff88c4;
+}
+.surveyPending{
+    background: #ff88ff;
+}
+.ilaPending{
+    background: #c488ff;
+}
+.lorPending{
+    background: #8888ff;
+}
+.doxPending{
+    background: #88c4ff;
+}
+.consentPending{
+    background: #88ffff;
+}
+.tbr{
+    background: #88ffc4;
+}
+.bbnd{
+    background: #88ff88;
+}
+.onHold{
+    background: #ff8888;
 }
 /* Start writing sass here */
 
