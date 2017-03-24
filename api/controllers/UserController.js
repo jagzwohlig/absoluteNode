@@ -110,7 +110,6 @@ var controller = {
             },
             user: req.user
         };
-
         var rawData = 
             "From: " + req.user.email + "\r\n" +
             "To: " + req.body.to + "\r\n" +
@@ -126,6 +125,7 @@ var controller = {
             raw: rawDataProcessed,
             threadId: req.body.threadId
         };
+         console.log("obj  = ", obj);
         User.gmailCall(obj, res.callback);
     },
 

@@ -6,6 +6,11 @@ var schema = new Schema({
         uniqueCaseInsensitive: true,
         capitalizeAll: true,
     },
+    bankType: String,
+    accountName:String,
+    accountNumber: String,
+    neftCode:String,
+    branchName:String,
     status: {
         type: Boolean,
         default:true

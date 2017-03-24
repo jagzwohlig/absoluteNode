@@ -712,8 +712,8 @@ schema.plugin(deepPopulate, {
     'company.city.district.state': {
       select: 'name _id'
     },
-    'bank': {
-      select: 'name _id'
+    'company.bank': {
+      select: ''
     },
     'natureOfLoss': {
       select: 'name _id'
@@ -768,7 +768,7 @@ schema.plugin(timestamps);
 
 module.exports = mongoose.model('Assignment', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country products.product.category.industry department shareWith.persons policyType natureOfLoss invoice invoice.createdBy insured insuredOffice owner owner.func company company.city insurerOffice company.city.district.state assessment.employee docs.employee fsrs.employee photos.employee causeOfLoss insurer assignedTo office branch survey.employee", "city.district.state.zone.country products.product.category.industry department shareWith.persons natureOfLoss invoice invoice.createdBy insuredOffice assignedTo insurerOffice office branch survey.employee"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country products.product.category.industry department shareWith.persons policyType natureOfLoss invoice invoice.createdBy insured insuredOffice owner owner.func company company.city insurerOffice company.city.district.state assessment.employee docs.employee fsrs.employee photos.employee causeOfLoss insurer assignedTo office branch survey.employee company.bank", "city.district.state.zone.country products.product.category.industry department shareWith.persons natureOfLoss company invoice invoice.createdBy insuredOffice assignedTo insurerOffice office branch survey.employee company.bank"));
 
 var model = {
   saveData: function (data, callback) {
@@ -3110,22 +3110,18 @@ var model = {
               } else {
                 emailData.user = userdata;
                 console.log(emailData.user, "email user");
-                callback(null, emailData);
+                // callback(null, emailData);
                 //Send email
-                // Assignment.sendEmails(emailData, function (err, mailData) {
-                //   console.log("mailData", mailData);
-                //   if (err) {
-                //     callback(err, null);
-                //     console.log("err", err);
-                //   } else {
-                //     if (_.isEmpty(mailData)) {
-                //       console.log("There was an Error while sending email!", null);
-                //       callback(err, null);
-                //     } else {
-                //       callback(null, mailData);
-                //     }
-                //   }
-                // });
+                Assignment.sendEmails(emailData, function (err, mailData) {
+                  console.log("mailData", mailData);
+                  if (err) {
+                    callback(err, null);
+                    console.log("err", err);
+                  } else {
+                      console.log("mail datas", mailData);
+                      callback(null, mailData);
+                  }
+                });
               }
             }
           });
@@ -4007,7 +4003,7 @@ var model = {
     console.log("getassignment ", data);
     Assignment.findOne({
       _id: data._id
-    }).exec(function (err, emailData) {
+    }).lean().exec(function (err, emailData) {
       console.log("payload", emailData);
       if (err) {
         console.log("No Assignment mail data found", err);
@@ -4080,21 +4076,29 @@ var model = {
     };
 
     var rawData =
-      "From: " + req.from + "\r\n" +
+      "From: " + req.user.email + "\r\n" +
       "To: " + req.to + "\r\n" +
       "Cc: " + req.cc + "\r\n" +
       "Bcc: " + req.bcc + "\r\n" +
       "Subject: " + req.subject + "\r\n" +
       "Content-Type: text/html; charset=UTF-8\r\n" +
       "Content-Transfer-Encoding: QUOTED-PRINTABLE\r\n" +
-      "Content-Disposition: inline\r\n\r\n" +
-      "" + req.message + "";
+      "Content-Disposition: inline\r\n\r\n" + "" + req.message + "";
     var rawDataProcessed = btoa(rawData).replace(/\+/g, '-').replace(/\//g, '_');
     obj.form = {
       raw: rawDataProcessed,
       threadId: req.threadId
     };
-    User.gmailCall(obj, callback);
+      console.log("obj  = ", obj);
+    User.gmailCall(obj, function(err,userData){
+      if(err){
+        console.log("err : ",err);
+        callback(err,null);
+      } else {
+        console.log("userData  : ",userData);
+        callback(null,userData);
+      }
+    });
   },
 
   getUserData: function (data, callback) {

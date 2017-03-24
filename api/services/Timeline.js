@@ -65,6 +65,9 @@ var schema = new Schema({
         },
         address: {
             type: String
+        },
+        invoiceNumber: {
+            type: String
         }
     }]
 });

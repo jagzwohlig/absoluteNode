@@ -1566,6 +1566,7 @@ var navigationservice = angular.module('navigationservice', [])
                     }
                 }).success(callback);
             },
+
             PolicyTypeEditSave: function (id, callback) {
                 // console.log('form data: ', formData);
                 $http({
@@ -1653,15 +1654,10 @@ var navigationservice = angular.module('navigationservice', [])
                 }).success(callback);
             },
             getOnePolicyDoc: function (id, callback) {
-                // console.log('form data: ', formData);
-                $http({
-                    url: adminurl + 'policydoc/getOne',
-                    method: 'POST',
-                    withCredentials: true,
-                    data: {
-                        "_id": id
-                    }
-                }).success(callback);
+                console.log('policy form data: ', id);
+                var formData={};
+                formData._id = id;
+                 $http.post(adminurl + 'policyDoc/getOne', formData).success(callback);
             },
             PolicyDocEditSave: function (id, callback) {
                 // console.log('form data: ', formData);
@@ -2365,10 +2361,11 @@ var navigationservice = angular.module('navigationservice', [])
                     "_id": id,
                 }).success(callback);
             },
-            getOneBank: function (id, callback) {
-                $http.post(adminurl + 'bank/getOne', {
-                    "_id": id
-                }).success(callback);
+            getOneBank: function (formData, callback) {
+                // $http.post(adminurl + 'bank/getOne', {
+                //     "_id": id
+                // }).success(callback);
+                $http.post(adminurl + 'bank/getOne', formData).success(callback);
             },
             bankSave: function (formData, callback) {
                 $http.post(adminurl + 'bank/save', formData).success(callback);
