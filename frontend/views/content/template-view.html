@@ -154,7 +154,7 @@
                                         <p>{{item.value|toobject:assignment}}</p>
                                     </div>
                                     <!-- LOR -->
-                                    <div class="col-item" ng-if="item.type=='Copy'||item.type=='Original'">
+                                    <div class="col-item" ng-if="item.type=='Copy'||item.type=='Original'" style="flex:0.5;">
 
                                         <select class="form-control" ng-model="item.type">
                                             <option value="{{item.value}}" ng-repeat="item in itemTypes">{{item.name}}</option>
@@ -162,15 +162,17 @@
 
                                     </div>
 
-                                    <div class="col-item" ng-if="item.type=='Copy' || item.type=='Original' && item.submit">
+                                    <div class="col-item" ng-if="item.type=='Copy' || item.type=='Original' && item.submit" style="flex:0.5;">
                                         <input type="date" date-model placeholder="Enter submitted date" class="form-control" ng-model="item.date">
                                     </div>
-                                    <div class="col-item" ng-if="item.type=='Copy'||item.type=='Original'">
-                                        <toggle-switch on-label="Submitted" off-label="Not Submitted" ng-model="item.submit" class="switch-small switch-success m5 mt5"></toggle-switch>
-                                        <!--<button class="btn btn-primary btn-small">But1</button>
-                                        <button class="btn btn-primary btn-small">But1</button>
-                                        <button class="btn btn-primary btn-small">But1</button>
-                                        <button class="btn btn-primary btn-small">But1</button>-->
+                                    <div class="col-item" ng-if="item.type=='Copy'||item.type=='Original'" style="flex:2;">
+                                        <!--<toggle-switch on-label="Submitted" off-label="Not Submitted" ng-model="item.submit" class="switch-small switch-success m5 mt5"></toggle-switch>-->
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': item.submit=='Partially Recieved'}" ng-click="item.submit='Partially Recieved'">Partial</button>
+                                            <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': item.submit=='Pending'}" ng-click="item.submit='Pending'">Pending</button>
+                                            <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': item.submit=='Recieved'}" ng-click="item.submit='Recieved'">Recieved</button>
+                                            <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': item.submit=='Waived'}" ng-click="item.submit='Waived'">Waived</button>
+                                        </div>
                                     </div>
 
                                     <!-- DROPDOWN -->
