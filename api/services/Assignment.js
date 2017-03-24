@@ -902,7 +902,7 @@ var model = {
                         mailData[0] = "Assignment Force Close Aprproved";
                         mailData[1] = emailData;
                         mailData[2] = data.accessToken;
-                        mailData[3] = data.user.email;
+                        mailData[3] = data.users.email;
                         Assignment.getMailAndSendMail(mailData, function (err, newData) {
                           if (err) {
                             callback(null, err);
@@ -919,7 +919,7 @@ var model = {
                         mailData[0] = "Assignment Reopen Approved";
                         mailData[1] = emailData;
                         mailData[2] = data.accessToken;
-                        mailData[3] = data.user.email;
+                        mailData[3] = data.users.email;
                         Assignment.getMailAndSendMail(mailData, function (err, newData) {
                           if (err) {
                             callback(null, err);
@@ -3001,7 +3001,7 @@ var model = {
                 mailData[0] = "Deputation mail";
                 mailData[1] = emailData;
                 mailData[2] = data.accessToken;
-                mailData[3] = data.user.email;
+                mailData[3] = data.users.email;
                 Assignment.getMailAndSendMail(mailData, function (err, newData) {
                   if (err) {
                     callback(null, err);
@@ -3022,7 +3022,7 @@ var model = {
                   mailData[0] = "ILA Authorization";
                   mailData[1] = emailData;
                   mailData[2] = data.accessToken;
-                  mailData[3] = data.user.email;
+                  mailData[3] = data.users.email;
                   Assignment.getMailAndSendMail(mailData, function (err, newData) {
                     if (err) {
                       callback(null, err);
@@ -3039,7 +3039,7 @@ var model = {
                   mailData[0] = "ILA Back to Regenerate";
                   mailData[1] = emailData;
                   mailData[2] = data.accessToken;
-                  mailData[3] = data.user.email;
+                  mailData[3] = data.users.email;
                   Assignment.getMailAndSendMail(mailData, function (err, newData) {
                     if (err) {
                       callback(null, err);
@@ -3063,7 +3063,7 @@ var model = {
                   mailData[0] = "LOR Authorization";
                   mailData[1] = emailData;
                   mailData[2] = data.accessToken;
-                  mailData[3] = data.user.email;
+                  mailData[3] = data.users.email;
                   Assignment.getMailAndSendMail(mailData, function (err, newData) {
                     if (err) {
                       callback(null, err);
@@ -3080,7 +3080,7 @@ var model = {
                   mailData[0] = "LOR Back to Regenerate";
                   mailData[1] = emailData;
                   mailData[2] = data.accessToken;
-                  mailData[3] = data.user.email;
+                  mailData[3] = data.users.email;
                   Assignment.getMailAndSendMail(mailData, function (err, newData) {
                     if (err) {
                       callback(null, err);

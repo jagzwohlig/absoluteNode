@@ -692,7 +692,7 @@ var navigationservice = angular.module('navigationservice', [])
             saveAssignmentTemplate: function (data, callback) {
                  var email = { email: $.jStorage.get("profile").email,
                                 name: $.jStorage.get("profile").name };
-                data.user = email; 
+                data.users = email; 
                 data.accessToken = $.jStorage.get("accessToken");
                 $http.post(adminurl + 'Assignment/saveTemplate', data).success(callback);
             },
@@ -711,7 +711,7 @@ var navigationservice = angular.module('navigationservice', [])
             // },
             updateSurveyor: function (data, callback) {
                 var email = { email: $.jStorage.get("profile").email };
-                data.user = email; 
+                data.users = email; 
                 data.accessToken = $.jStorage.get("accessToken");
                 $http.post(adminurl + 'Assignment/updateSurveyor', data).success(callback);
             },
