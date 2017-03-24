@@ -11362,7 +11362,39 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 }
                 break;
 
-               
+                case "Assignment Reopen Request":
+                {
+
+                    var to = [];
+                    var emails = {
+                        name: 'Assignment Reopen Request',
+                        from: emailData.ownerEmail,
+                        to: to,
+                        cc: emailData.cc,
+                        bcc: emailData.bcc,
+                        subject: "Request for Reopening of Assignment : " + emailData.assignmentNo,
+                        message: "<html><body><p style='font-size: 16px;'>Dear #SupervisorsName#,Requesting you to please Re-open the Assignment due to some reasons. #Reason#</p><br> Warm Regards, <br>" + $.jStorage.get("profile").name + "<br> " +  $.jStorage.get("profile").mobile + "<br>" +  $.jStorage.get("profile").email + "</p></body></html>"
+                    }
+                    $scope.emailData = emails;
+                }
+                break;
+
+                 case "Assignment Transfer":
+                {
+
+                    var to = [];
+                    var emails = {
+                        name: 'Assignment Reopen Request',
+                        from: emailData.ownerEmail,
+                        to: to,
+                        cc: emailData.cc,
+                        bcc: emailData.bcc,
+                        subject: "Transfer of Assignment : " + emailData.assignmentNo,
+                        message: "<html><body><p style='font-size: 16px;'>This is to inform you that the Assignment No. #AssignmentNo# being handled by #PreviousOwner# so far has been now transferred to #NewAssignmentOwner# for operational reasons</p><br> Warm Regards, <br>" + $.jStorage.get("profile").name + "<br> " +  $.jStorage.get("profile").mobile + "<br>" +  $.jStorage.get("profile").email + "</p></body></html>"
+                    }
+                    $scope.emailData = emails;
+                }
+                break;
 
 
             default:

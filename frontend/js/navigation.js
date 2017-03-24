@@ -1050,7 +1050,7 @@ var navigationservice = angular.module('navigationservice', [])
             modelSave: function (modal, formData, callback) {
                 var email = { email: $.jStorage.get("profile").email,
                                 name: $.jStorage.get("profile").name };
-                formData.user = email; 
+                formData.users = email; 
                 formData.accessToken = $.jStorage.get("accessToken");
                 console.log("formData",modal,formData);
                 $http.post(adminurl + modal + '/save', formData).success(callback);
