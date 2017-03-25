@@ -855,7 +855,7 @@ var model = {
                       } else {
                         emailData.insuredName = "";
                       }
-                      if (assignmentData.templateIla) {
+                      if (assignmentData.templateIla[0]) {
                         emailData.ilaAuthDate = assignmentData.templateIla[0].authTimestamp;
                       }
                       // emailData.surveyDate = (surveyDate ? moment(surveyDate).format("DD/MM/YYYY") : "");

@@ -12,7 +12,7 @@
             <div class="row">
                 <div class="col-md-6 field">
                     <label>To <span>*</span>  </label>
-                    <ui-select name="to" ng-required="true" multiple tagging ng-model="emailData.to">
+                    <ui-select name="to" ng-required="true" multiple  tagging ng-model="emailData.to">
                         <ui-select-match placeholder="">{{$item.name}} &lt;{{$item.email}}&gt;</ui-select-match>
                         <ui-select-choices repeat="emailto in emailtos">{{emailto.email}}</ui-select-choices>
                     </ui-select>
