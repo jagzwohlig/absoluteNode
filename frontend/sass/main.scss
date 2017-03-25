@@ -1615,6 +1615,35 @@ background: #9f9fff;
 .onHold{
     background: #ff8888;
 }
+
+.temp-btnsuccess{
+
+ margin-top: -19px !important;
+ padding: 1px 12px !important;
+    
+       
+       
+}
+.temp-siteadd{
+        padding-left: 42px;
+    margin-top: 37px;
+    padding-bottom: 20px;
+    label{
+            margin-right: 5px;
+    }
+}
+.temp-siteform{
+   margin-top: -27px;
+}
+.temp-siteform2{
+   margin-top: -27px;
+}
+.temp-elements-sec{
+        margin-top: -30px;
+}
+.temp-elements-sec2{
+        margin-top: -52px;
+}
 /* Start writing sass here */
 
 @import "fancybox-override";
