@@ -203,7 +203,7 @@ var controller = {
             })
         }
     },
-        getLoginEmployee: function (req, res) {
+    getLoginEmployee: function (req, res) {
         if (req.body) {
             Employee.getLoginEmployee(req.body, res.callback);
         } else {
@@ -215,7 +215,7 @@ var controller = {
             })
         }
     },
-     getAllBranch: function (req, res) {
+    getAllBranch: function (req, res) {
         if (req.body) {
             Employee.getAllBranch(req.body, res.callback);
         } else {
@@ -227,17 +227,17 @@ var controller = {
             })
         }
     },
-    
+
     mobileSubmit: function (req, res) {
-      if (req.body) {
-          Employee.mobileSubmit(req.body, res.callback);
-      } else {
-          res.json({
-              value: false,
-              data: "Invalid Request"
-          });
-      }
-  },
+        if (req.body) {
+            Employee.mobileSubmit(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: "Invalid Request"
+            });
+        }
+    },
     getTask: function (req, res) {
         if (req.body) {
             Employee.getTask(req.body, res.callback);
@@ -272,9 +272,9 @@ var controller = {
                     message: "Invalid Request"
                 }
             })
-        } 
+        }
     },
-    getDashboardCount : function (req, res) {
+    getDashboardCount: function (req, res) {
         if (req.body) {
             Employee.getDashboardCount(req.body, res.callback);
         } else {
@@ -284,10 +284,10 @@ var controller = {
                     message: "Invalid Request"
                 }
             })
-        } 
+        }
     },
-    
-    getDashboardCounts : function (req, res) {
+
+    getDashboardCounts: function (req, res) {
         if (req.body) {
             Employee.getDashboardCounts(req.body, res.callback);
         } else {
@@ -297,10 +297,10 @@ var controller = {
                     message: "Invalid Request"
                 }
             })
-        } 
+        }
     },
-    employeeSearch: function(req, res){
-          if (req.body) {
+    employeeSearch: function (req, res) {
+        if (req.body) {
             Employee.employeeSearch(req.body, res.callback);
         } else {
             res.json({
@@ -309,7 +309,13 @@ var controller = {
                     message: "Invalid Request"
                 }
             })
-        } 
-    }   
+        }
+    },
+    getParentEmployee: function (req, res) {
+        Employee.getParentEmployee(req.body, res.callback);
+    },
+    getChildEmployee: function (req, res) {
+        Employee.getChildEmployee(req.body, res.callback);
+    }
 };
 module.exports = _.assign(module.exports, controller);
