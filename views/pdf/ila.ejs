@@ -93,8 +93,8 @@
             </div>
             <div class="clearfix"></div>
             <div>
-                <p class="float-left" style="font-weight: bold;">Cargo Immediate Loss Advice # 1106-1702-2101</p>
-                <p class="float-right">Date: <%= data.authTimestamp%></p>
+                <p class="float-left" style="font-weight: bold;"><%=assignment.policyType.name%> # <%=assignment.name%></p>
+                <p class="float-right">Date: <%= moment(new Date(data.authTimestamp)).format("D-MMM-YYYY")%></p>
             </div>
             <div class="clearfix"></div>
             <div>
@@ -138,6 +138,10 @@
         </div>
 
     </div>
+     <div>
+        <p>Sincerely,</p>
+        <p class="subject">For, Absolute Insurace Surveyors & Loss Assessors Pvt Ltd</p>
+      </div>
 </body>
 
 </html>
