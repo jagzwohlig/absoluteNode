@@ -1209,6 +1209,9 @@ var model = {
         if ($scope.data.type == "templateLor") {
           console.log("LOR DATA.................................................", $scope.data);
           Config.generatePdf("pdf/lor", $scope, callback);
+        } if ($scope.data.type == "templateIla") {
+          console.log("LOR DATA.................................................", $scope.data);
+          Config.generatePdf("pdf/ila", $scope, callback);
         } else {
           Config.generatePdf("pdf/abs-synopsis", $scope, callback);
         }
