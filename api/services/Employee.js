@@ -421,15 +421,15 @@ var model = {
             }, {
                 isField: true
             }]
-        },{
-            _id:1,
-            name:1
+        }, {
+            _id: 1,
+            name: 1
         }).exec(function (err, found) {
             if (err) {
                 callback(err, null);
             } else {
-                var data={};
-                data.results=found;
+                var data = {};
+                data.results = found;
                 console.log(found);
                 callback(null, data);
             }
@@ -839,5 +839,66 @@ var model = {
             }
         });
     },
+    getChildEmployee: function (data, callback) {
+        var allEmployee = [];
+        var Model = this;
+        var Search = Model.find({
+            "employee": data._id
+        }).lean().exec(function (err, data2) {
+            if (err) {
+                callback(err, allEmployee);
+            } else {
+                allEmployee = _.map(data2, function (n) {
+                    return n._id + "";
+                });
+                if (allEmployee.length > 0) {
+                    async.parallel(allEmployee, function (n, callback) {
+                        Model.getChildEmployee({
+                            _id: n
+                        }, function (err, data) {
+                            if (err) {
+                                callback();
+                            } else {
+                                allEmployee = _.concat(allEmployee, data);
+                            }
+                        });
+                    }, function (err, data) {
+                        callback(err, allEmployee);
+                    });
+                } else {
+                    callback(err, allEmployee);
+                }
+
+            }
+        });
+    },
+    getParentEmployee: function (data, callback) {
+        var allEmployee = [];
+        var Model = this;
+        var Search = Model.findOne({
+            "_id": data._id
+        }).lean().exec(function (err, data2) {
+            if (err) {
+                callback(err, allEmployee);
+            } else {
+                if (data2.employee) {
+                    Model.getParentEmployee({
+                        _id: n
+                    }, function (err, data) {
+                        if (err) {
+
+                        } else {
+                            allEmployee = _.concat(allEmployee, data);
+                        }
+                        callback(allEmployee);
+                    });
+
+                } else {
+                    callback(null, allEmployee);
+                }
+
+            }
+        });
+    }
 };
 module.exports = _.assign(module.exports, exports, model);
