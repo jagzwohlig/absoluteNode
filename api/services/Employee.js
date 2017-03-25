@@ -852,7 +852,7 @@ var model = {
                     return n._id + "";
                 });
                 if (allEmployee.length > 0) {
-                    console.log(allEmployee);
+
                     async.each(allEmployee, function (n, callback) {
 
                         Model.getChildEmployee({
@@ -884,22 +884,22 @@ var model = {
             if (err) {
                 callback(err, allEmployee);
             } else {
+                console.log(data2);
                 if (data2.employee) {
+                    allEmployee.push(data2.employee);
                     Model.getParentEmployee({
                         _id: data2.employee
-                    }, function (err, data) {
+                    }, function (err, data3) {
                         if (err) {
 
                         } else {
-                            allEmployee = _.concat(allEmployee, data);
+                            allEmployee = _.concat(allEmployee, data3);
                         }
-                        callback(allEmployee);
+                        callback(null, allEmployee);
                     });
-
                 } else {
                     callback(null, allEmployee);
                 }
-
             }
         });
     }
