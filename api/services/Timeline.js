@@ -20,6 +20,9 @@ var schema = new Schema({
         viewEmailStatus:{
             type:String
         },
+        isSurveyApproved: {
+            type:Boolean
+        },
         emailStatus: {
             type: Boolean,
             default: false
