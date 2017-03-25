@@ -11936,6 +11936,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.offlineSurvey.surveyDate = data.surveyDate;
             $scope.offlineSurvey.assignId = $stateParams.id;
             $scope.offlineSurvey.empId = $scope.employee._id;
+            $scope.offlineSurvey.onSurveyAttended = true;
             NavigationService.mobileSubmit($scope.offlineSurvey, function (data) {
                 console.log("Success Assignment Survey", data);
             });
