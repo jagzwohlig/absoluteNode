@@ -17,6 +17,9 @@ var schema = new Schema({
         key: "timeline"
     },
     chat: [{
+        viewEmailStatus:{
+            type:String
+        },
         emailStatus: {
             type: Boolean,
             default: false
