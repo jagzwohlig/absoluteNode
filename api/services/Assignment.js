@@ -1208,7 +1208,7 @@ var model = {
       } else {
         $scope.assignment = findObj._id;
         if ($scope.data.type == "templateLor") {
-          console.log("LOR DATA.................................................", $scope.assignment);
+          console.log("LOR DATA.................................................", $scope.data);
           Config.generatePdf("pdf/lor", $scope, callback);
         } else if ($scope.data.type == "templateIla") {
           console.log("LOR DATA.................................................", $scope.data);
@@ -2939,8 +2939,9 @@ var model = {
         };
       }
     }
+
     var set2 = Object.assign(approvalStatus, authTimestamp, file, reqtimestamp, lorCount);
-    console.log("Set2", set2);
+    console.log("Set2................................................", set2);
     if (data.type == "templateIla") {
       matchObj = {
         _id: data.assignId,

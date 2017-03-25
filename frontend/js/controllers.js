@@ -10439,7 +10439,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.message.invoiceNumber = $scope.formData.invoiceNumber;
                 $scope.message.type = "File";
                 $scope.message.viewEmailStatus = "true",
-                $scope.message.event = "Invoice Release"
+                    $scope.message.event = "Invoice Release"
                 $scope.message.attachment.push(fileName);
             } else {
                 $scope.message.title = $scope.formData.invoiceNumber + " Invoice Sent For Approval";
@@ -10906,8 +10906,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             };
 
         $scope.acceptModel = function (templateObj) {
-            console.log("Save Data", templateObj, $scope.assignment);
+            console.log("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", $scope.forms);
             $scope.Saved = true;
+            // For authTimestamp In Assignment
+            $scope.forms.authTimestamp=new Date();
             NavigationService.editAssignmentTemplate($scope.forms, function (data) {
                 console.log("After PDF Generate", data);
                 if (data.value) {
@@ -10916,17 +10918,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         if ($stateParams.approval) {
                             $scope.message.title = "ILA " + templateObj.templateName + " Approved";
                             a.type = "File",
-                            a.event="ILA Release",
-                            a.viewEmailStatus="true",
-                            a.attachment = data.data.name;
+                                a.event = "ILA Release",
+                                a.viewEmailStatus = "true",
+                                a.attachment = data.data.name;
                         }
                     } else if (templateObj.type == "templateLor") {
                         if ($stateParams.approval) {
                             $scope.message.title = "LOR " + templateObj.templateName + " Approved";
                             a.type = "File",
-                            a.event="LOR Release",
-                            a.viewEmailStatus="true",
-                            a.attachment = data.data.name;
+                                a.event = "LOR Release",
+                                a.viewEmailStatus = "true",
+                                a.attachment = data.data.name;
                         }
                     } else {
                         $scope.message.title = $stateParams.type + " Sent to Approval";
@@ -10942,7 +10944,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                             _id: $scope.forms._id,
                             approvalStatus: "Approved",
                             file: data.data.name,
-                            authTimestamp: Date.now(),
+                            authTimestamp: new Date(),
                             type: $scope.forms.type
                         }
                     }
@@ -13542,12 +13544,12 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.timeline = data.data;
                 var a = {};
                 a.title = "Invoice " + $scope.invoice.invoiceNumber + " Approved ";
-                a.event="Invoice Release",
-                a.viewEmailStatus="true",
-                a.invoiceNumber = $scope.invoice.invoiceNumber;
+                a.event = "Invoice Release",
+                    a.viewEmailStatus = "true",
+                    a.invoiceNumber = $scope.invoice.invoiceNumber;
                 a.type = "Normal",
-                a.employee = $scope.employee,
-                $scope.timeline.chat.push(a);
+                    a.employee = $scope.employee,
+                    $scope.timeline.chat.push(a);
                 $scope.saveOnTimeline();
                 $scope.invoice.approvalStatus = "Approved";
                 NavigationService.modelSave("Invoice", $scope.invoice, function (data) {
