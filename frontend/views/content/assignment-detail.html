@@ -8,7 +8,7 @@
                             <a class="btn btn-danger pull-right clone-red" ui-sref="createassignment({assignment:formData._id})" ng-if="header.name=='Edit Assignment'">Clone</a>
                         </li>-->
                         <li ng-if="formData._id">
-                            <a class="btn btn-success" class="switch-small switch-success pull-right" ui-sref="timeline({id:formData._id})">
+                            <a class="btn btn-success temp-btnsuccess" class="switch-small switch-success pull-right" ui-sref="timeline({id:formData._id})">
                                             Timeline
                             </a>
                         </li>
@@ -20,13 +20,13 @@
                 </div>
             </div>
 
-            <div class="col-md-6" ng-if="!formData._id">
+            <div class="col-md-3" ng-if="!formData._id">
                 <div class="form-group">
                     <label>Clone From</label>
                     <multiple-select my-enter name="customer" ng-model="formData.clone" ng-name="name.clone" api="searchAssignment"></multiple-select>
                 </div>
             </div>
-            <div class="text-center mt20 odd-even-button" ng-if="!formData._id">
+            <div class="mt20 odd-even-button" ng-if="!formData._id">
                 <button class="btn btn-default padding-clone" ng-click="clone(formData.clone)">Clone</button>
             </div>
 
@@ -803,42 +803,44 @@
                 </div>
                 <div class="widget">
                     <div class="form-group" ng-if="!formData.typeOfClaim">
-                        <label>Site Address</label>
-                        <toggle-switch ng-model="formData.showAddressForDesktop" on-label="Yes" off-label="No" class="switch-small switch-success"></toggle-switch>
+                        <div class="temp-siteadd">
+                            <label>Site Details</label>
+                            <toggle-switch ng-model="formData.showAddressForDesktop" on-label="Yes" off-label="No" class="switch-small switch-success"></toggle-switch>
+                        </div>
                     </div>
                     <div class="row">
-                    <div class="col-md-6" ng-if="formData.showAddressForDesktop || formData.typeOfClaim">
-                        <div class="widget">
-                            <div class="form-elements-sec">
-                                <div class="widget-title">
-                                </div>
-                                <div>
-                                    <address-form ng-valid="companyForm" ng-model="formData"></address-form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6" ng-if="formData.showAddressForDesktop || formData.typeOfClaim">
-                        <div class="widget">
-                            <div class="form-elements-sec">
-                                <div class="widget-title">
-                                    <h3>Site Person Details</h3>
-                                </div>
-                                <div class="form-group">
-                                    <label>Site Person</label>
-                                    <input type="text" class="form-control" ng-model="formData.siteNumber">
-                                </div>
-                                <div class="form-group">
-                                    <label>Site Phone</label>
-                                    <input type="text" class="form-control" ng-model="formData.siteMobile">
-                                </div>
-                                <div class="form-group">
-                                    <label>Site Email</label>
-                                    <input type="email" class="form-control" ng-model="formData.siteEmail">
+                        <div class="col-md-6 temp-siteform" ng-if="formData.showAddressForDesktop || formData.typeOfClaim">
+                            <div class="widget">
+                                <div class="form-elements-sec temp-elements-sec">
+                                    <div class="widget-title">
+                                    </div>
+                                    <div>
+                                        <address-form ng-valid="companyForm" ng-model="formData"></address-form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        <div class="col-md-6 temp-siteform2" ng-if="formData.showAddressForDesktop || formData.typeOfClaim">
+                            <div class="widget">
+                                <div class="form-elements-sec temp-elements-sec2">
+                                    <div class="widget-title">
+                                        <h3>Site Person Details</h3>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Site Person</label>
+                                        <input type="text" class="form-control" ng-model="formData.siteNumber">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Site Phone</label>
+                                        <input type="text" class="form-control" ng-model="formData.siteMobile">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Site Email</label>
+                                        <input type="email" class="form-control" ng-model="formData.siteEmail">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="widget">
