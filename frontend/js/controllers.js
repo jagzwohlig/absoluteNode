@@ -10438,6 +10438,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $scope.message.title = "Invoice " + $scope.formData.invoiceNumber + " Approved";
                 $scope.message.invoiceNumber = $scope.formData.invoiceNumber;
                 $scope.message.type = "File";
+                $scope.message.viewEmailStatus = "true",
+                $scope.message.event = "Invoice Release"
                 $scope.message.attachment.push(fileName);
             } else {
                 $scope.message.title = $scope.formData.invoiceNumber + " Invoice Sent For Approval";
@@ -11248,7 +11250,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                             cc: emailData.cc,
                             bcc: emailData.bcc,
                             subject: "ILA Authorized of Assignment : " + emailData.assignmentNo,
-                            message: "<html><body><p style='font-size: 16px;'>Dear Sir/Madam,</p><p style='font-size: 16px;'>We are pleased to release the ILA in respect of our Assignment No. " + emailData.assignmentNo + " and your" + emailData.claimNo + " and " + emailData.policyNo + ".</p><p style='font-size: 16px;'>We hope that the same shall serve your purpose. Should you ever need any support / information / update please feel at ease to get in touch with me. I will be more than willing to assist.</p>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+                            message: "<html><body><p style='font-size: 16px;'>Dear Sir/Madam,</p><p style='font-size: 16px;'>We are pleased to release the ILA in respect of our Assignment No. " + emailData.assignmentNo + " and your claim " + emailData.claimNo + " and policy " + emailData.policyDoc + ".</p><p style='font-size: 16px;'>We hope that the same shall serve your purpose. Should you ever need any support / information / update please feel at ease to get in touch with me. I will be more than willing to assist.</p>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
                         }
                         $scope.emailData = emails;
                     }
@@ -11323,7 +11325,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                             cc: emailData.cc,
                             bcc: emailData.bcc,
                             subject: "",
-                            message: "<html><body><p style='font-size: 16px;'>Dear Sir/Madam,We are pleased to attach our bill for professional services rendered for your kind perusal & payment. Our bank details are as follows: " + emailData.bankDetails + " You are requested to kindly release our payment & confirm in order to enable us to release the report.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+                            message: "<html><body><p style='font-size: 16px;'>Dear Sir/Madam, We are pleased to attach our bill for professional services rendered for your kind perusal & payment. Our bank details are as follows: " + emailData.bankDetails + " You are requested to kindly release our payment & confirm in order to enable us to release the report.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
                         }
                         $scope.emailData = emails;
                     }
@@ -13698,7 +13700,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 a.type = "Normal",
                     a.surveyor = $scope.assignment.survey.employee._id,
                     a.employee = $scope.employee,
-                    a.event = "Deputation mail",
+                    a.isSurveyApproved = true,
                     $scope.timeline.chat.push(a);
                 $scope.saveOnTimeline();
                 var obj = {

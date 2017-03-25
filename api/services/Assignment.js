@@ -863,13 +863,14 @@ var model = {
                       if (assignmentData.survey) {
                         _.each(assignmentData.survey, function (values) {
                           console.log("survey: ", values);
-                          if (values.status == "Pending") {
+                          if (values.status == "Approval Pending") {
                             console.log("In surveyor");
                             console.log(" values.employee.mobile", values.employee.mobile);
                             emailData.surveyorNumber = values.employee.mobile;
                             emailData.surveyorName = values.employee.name;
                             emailData.surveyorEmail = values.employee.email;
-                            emailData.surveyDate = values.surveyDate;
+                            emailData.surveyDate = (values.surveyDate ? moment(values.surveyDate).format("DD/MM/YYYY") : "");
+                            emailData.siteAddress = values.address;
                           }
                         });
                       }
@@ -1230,9 +1231,9 @@ var model = {
       } else {
         $scope.data = data2;
         var filter = {
-          _id: data2.assignment.policyDoc
-        }
-        // For policyNumber
+            _id: data2.assignment.policyDoc
+          }
+          // For policyNumber
         PolicyDoc.getPolicyDoc({
           filter
         }, function (err, data4) {
@@ -1353,7 +1354,8 @@ var model = {
                       emailData.surveyorNumber = values.employee.mobile;
                       emailData.surveyorName = values.employee.name;
                       emailData.surveyorEmail = values.employee.email;
-                      emailData.surveyDate = values.surveyDate;
+                      emailData.surveyDate = (values.surveyDate ? moment(values.surveyDate).format("DD/MM/YYYY") : "");
+                      emailData.siteAddress = values.address;
                     }
                   });
                 }
@@ -1382,7 +1384,7 @@ var model = {
 
                 //Find Acknowledgment Email data
                 var mailData = [];
-                mailData[0] = "Acknowledgment Email";
+                mailData[0] = "SBC For Approval";
                 mailData[1] = emailData;
                 mailData[2] = data._id;
                 mailData[3] = data.accessToken;
@@ -1409,19 +1411,19 @@ var model = {
           callback("No mail data found", null);
         } else {
           //Find create assignment mail
-          Assignment.getAssignmentCreateMail({
-            _id: data[2]
-          }, function (err, firstMailData) {
-            // console.log("firstMailData", firstMailData);
-            if (err) {
-              callback(err, null);
-              // console.log("err", err);
-            } else {
-              if (_.isEmpty(firstMailData)) {
-                // console.log("No first create assignment mail data found", null);
-                callback("No first create assignment mail data found", null);
-              } else {
-                emailData.message = emailData.message + firstMailData;
+          // Assignment.getAssignmentCreateMail({
+          //   _id: data[2]
+          // }, function (err, firstMailData) {
+          //   // console.log("firstMailData", firstMailData);
+          //   if (err) {
+          //     callback(err, null);
+          //     // console.log("err", err);
+          //   } else {
+          //     if (_.isEmpty(firstMailData)) {
+          //       // console.log("No first create assignment mail data found", null);
+          //       callback("No first create assignment mail data found", null);
+          //     } else {
+          //       emailData.message = emailData.message + firstMailData;
                 // console.log("emailData.message", emailData.message);
                 emailData.accessToken = data[3];
                 callback(null, emailData);
@@ -1445,9 +1447,9 @@ var model = {
                 //   }
                 // });
 
-              }
-            }
-          });
+          //     }
+          //   }
+          // });
 
         }
       }
@@ -3022,7 +3024,8 @@ var model = {
                     emailData.surveyorNumber = values.employee.mobile;
                     emailData.surveyorName = values.employee.name;
                     emailData.surveyorEmail = values.employee.email;
-                    emailData.surveyDate = values.surveyDate;
+                    emailData.surveyDate = (values.surveyDate ? moment(values.surveyDate).format("DD/MM/YYYY") : "");
+                    emailData.siteAddress = values.address;
                   }
                 });
               }
@@ -3056,11 +3059,11 @@ var model = {
                 // console.log("IN survey");
                 //Find Acknowledgment Email data
                 var mailData = [];
-                mailData[0] = "Deputation mail";
+                mailData[0] = "SBC Approves Surveyor";
                 mailData[1] = emailData;
                 mailData[2] = data.accessToken;
                 mailData[3] = data.users.email;
-                mailData[4] = assignmentData.threadId;
+                // mailData[4] = assignmentData.threadId;
                 Assignment.getMailAndSendMail(mailData, function (err, newData) {
                   if (err) {
                     callback(null, err);
@@ -3727,6 +3730,11 @@ var model = {
     emailData.surveyorEmail = (mailData.surveyorEmail ? mailData.surveyorEmail : "NA");
     emailData.insuredName = (mailData.insuredName ? mailData.insuredName : "NA");
     emailData.ilaAuthDate = (mailData.ilaAuthDate ? mailData.ilaAuthDate : "NA");
+    emailData.surveyorNumber = (mailData.surveyorNumber ? mailData.surveyorNumber : "NA");
+    emailData.surveyorName = (mailData.surveyorName ? mailData.surveyorName : "NA");
+    emailData.surveyorEmail =(mailData.surveyorEmail ? mailData.surveyorEmail : "NA");
+    emailData.surveyDate = (mailData.surveyDate ? mailData.surveyDate : "NA");
+    emailData.siteAddress = (mailData.siteAddress ? mailData.siteAddress : "NA");
 
     switch (data[0]) {
       case "Acknowledgment Email":
@@ -3739,7 +3747,7 @@ var model = {
             bcc: emailData.bcc,
             subject: "Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
             message: "<html><body><p style='font-size: 16px;'>Dear Sir/Madam,</p><p style='font-size: 16px;'>Thank you for retaining us to inspect & assess the subject loss. This is to confirm that " + emailData.surveyorName + " shall be attending this claim. He can be reached on " + emailData.surveyorNumber + ". Our reference number for this claim would be " + emailData.assignmentNo + "</p> <p style='font-size: 16px;'>Should you ever need any support / information / update, please feel at ease to get in touch with me.</p><br>" + "<p style='font-size: 16px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
-        }
+          }
           callback(null, emails);
         }
         break;
@@ -4047,6 +4055,36 @@ var model = {
         }
         break;
 
+      case "SBC For Approval":
+        {
+          var emails = {
+            name: 'SBC For Approval',
+            from: emailData.ownerEmail,
+            to: emailData.to,
+            cc: emailData.cc,
+            bcc: emailData.bcc,
+            subject: "Request for deputation of Surveyor : " + emailData.surveyorName + " for Assignment : " + emailData.assignmentNo,
+            message: "<html><body><p style='font-size: 16px;'>Please approve " + emailData.surveyorName + " for " + emailData.assignmentNo + " on " + emailData.surveyDate + " at " + emailData.siteAddress + "</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+          }
+          callback(null, emails);
+        }
+        break;
+
+      case "SBC Approves Surveyor":
+        {
+          var emails = {
+            name: 'SBC Approves Surveyor',
+            from: emailData.ownerEmail,
+            to: emailData.to,
+            cc: emailData.cc,
+            bcc: emailData.bcc,
+            subject: "Request approved of Surveyor : " + emailData.surveyorName + " for Assignment : " + emailData.assignmentNo,
+            message: "<html><body><p style='font-size: 16px;'>" + emailData.surveyorName + " has been authorized for " + emailData.assignmentNo + " on " + emailData.surveyDate + " at " + emailData.siteAddress + "</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "</p></body></html>"
+          }
+          callback(null, emails);
+        }
+        break;
+
         //  case "Invoice Send Authorization":
         // {
         //   var emails = {
@@ -4061,6 +4099,7 @@ var model = {
         //   callback(null, emails);
         // }
         // break;
+
       default:
         {
           // $scope.formData.push($scope.newjson);
@@ -4161,13 +4200,13 @@ var model = {
     //   name: "priyank",
     //   email: "priyank.parmar@wohlig.com"
     // }];
-    req.to = _.join(_.map(req.to,function(n) {
+    req.to = _.join(_.map(req.to, function (n) {
       return n.email;
-    }),",");
-    
+    }), ",");
+
     // console.log('req.to ',req.to.toString);
     // req.to = _.cloneDeep(req.to);
-    console.log('req.to ',req.to);
+    console.log('req.to ', req.to);
     // var to = req.to.toString;  
     var rawData =
       "From: " + req.user.email + "\r\n" +
@@ -4183,14 +4222,14 @@ var model = {
       raw: rawDataProcessed,
       threadId: req.threadId
     };
-      console.log("obj  = ", obj,rawData);
-    User.gmailCall(obj, function(err,userData){
-      if(err){
-        console.log("err : ",err);
-        callback(err,null);
+    console.log("obj  = ", obj, rawData);
+    User.gmailCall(obj, function (err, userData) {
+      if (err) {
+        console.log("err : ", err);
+        callback(err, null);
       } else {
-        console.log("userData  : ",userData);
-        callback(null,userData);
+        console.log("userData  : ", userData);
+        callback(null, userData);
       }
     });
   },
