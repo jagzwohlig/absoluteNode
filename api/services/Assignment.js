@@ -1210,7 +1210,7 @@ var model = {
         if ($scope.data.type == "templateLor") {
           console.log("LOR DATA.................................................", $scope.data);
           Config.generatePdf("pdf/lor", $scope, callback);
-        } if ($scope.data.type == "templateIla") {
+        } else if ($scope.data.type == "templateIla") {
           console.log("LOR DATA.................................................", $scope.data);
           Config.generatePdf("pdf/ila", $scope, callback);
         } else {
@@ -2939,8 +2939,9 @@ var model = {
         };
       }
     }
+
     var set2 = Object.assign(approvalStatus, authTimestamp, file, reqtimestamp, lorCount);
-    console.log("Set2", set2);
+    console.log("Set2................................................", set2);
     if (data.type == "templateIla") {
       matchObj = {
         _id: data.assignId,

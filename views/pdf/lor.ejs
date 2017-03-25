@@ -87,13 +87,17 @@
       </div>
       <div>
         <p class="content-lineheight">
-          <%=assignment.siteNumber%>,<br>
-            <%=assignment.siteMobile%><br>
-              <%=assignment.insuredOffice.name%>,<br>
-                <%=assignment.insuredOffice.address%>,<br>
-                  <%=assignment.insuredOffice.city.name%>,<br>
-                    <%=assignment.insuredOffice.city.district.state.name%>-
-                      <%=assignment.insuredOffice.pincode%><br>
+          <%if(assignment.siteNumber!=undefined){%>
+            <%=assignment.siteNumber%>,<br>
+              <%}%>
+                <%if(assignment.siteMobile!=undefined){%>
+                  <%=assignment.siteMobile%><br>
+                    <%}%>
+                      <%=assignment.insuredOffice.name%>,<br>
+                        <%=assignment.insuredOffice.address%>,<br>
+                          <%=assignment.insuredOffice.city.name%>,<br>
+                            <%=assignment.insuredOffice.city.district.state.name%>-
+                              <%=assignment.insuredOffice.pincode%><br>
         </p>
       </div>
       <div class="subject">
