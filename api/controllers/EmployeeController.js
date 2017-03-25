@@ -308,7 +308,7 @@ var controller = {
                 data: {
                     message: "Invalid Request"
                 }
-            })
+            });
         }
     },
     getParentEmployee: function (req, res) {
