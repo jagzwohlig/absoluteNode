@@ -602,7 +602,12 @@ var schema = new Schema({
       type: String,
       enum: ["Pending", "Approved", "Rejected", "Revised", "Draft"],
       default: "Pending"
-    }
+    },
+    lorCount: {
+      type: String,
+      enum: ["NA", "LOR", "Reminder 1", "Reminder 2", "Notice"],
+      default: "NA"
+    },
   }],
   outwardDate: {
     type: Date
@@ -670,7 +675,7 @@ schema.plugin(deepPopulate, {
     'office.city': {
       select: 'name _id district'
     },
-     'office.city.district': {
+    'office.city.district': {
       select: 'name _id state'
     },
     'office.city.district.state': {
@@ -739,7 +744,7 @@ schema.plugin(deepPopulate, {
     'insuredOffice.city': {
       select: 'name _id district'
     },
-     'insuredOffice.city.district': {
+    'insuredOffice.city.district': {
       select: 'name _id state'
     },
     'insuredOffice.city.district.state': {
@@ -890,8 +895,8 @@ var model = {
                         });
                       }
 
-                      if (data.user) {
-                        emailData.assignmentAuthorizer = data.user.name;
+                      if (data.users) {
+                        emailData.assignmentAuthorizer = data.users.name;
                       }
                       console.log('mailData', mailData);
 
@@ -1146,7 +1151,9 @@ var model = {
               } else {
                 console.log("Data4- Policy.....", data4);
                 data2.assignment = data3;
-                data2.assignment.policyNumber = data4.results[0].policyNo;
+                if (data4.results[0]) {
+                  data2.assignment.policyNumber = (data4.results[0].policyNo ? data4.results[0].policyNo : "");
+                }
                 callback(null, data2);
               }
             });
@@ -1229,7 +1236,9 @@ var model = {
           if (err) {
             Config.generatePdf("pdf/abs-invoice", $scope, callback);
           } else {
-            $scope.data.assignment.policyNumber = data4.results[0].policyNo;
+            if (data4.results[0]) {
+              $scope.data.assignment.policyNumber = (data4.results[0].policyNo ? data4.results[0].policyNo : "");
+            }
             Config.generatePdf("pdf/abs-invoice", $scope, callback);
           }
         });
@@ -1354,18 +1363,18 @@ var model = {
                   email: assignmentData.owner.email
                 });
 
-                // if (assignmentData.shareWith) {
-                //   _.each(assignmentData.shareWith, function (values) {
-                //     console.log("values", values);
-                //     _.each(values.persons, function (personss) {
-                //       console.log("persons", personss);
-                //       emailData.to.push({
-                //         name: personss.name,
-                //         email: personss.email
-                //       })
-                //     });
-                //   });
-                // }
+                if (assignmentData.shareWith) {
+                  _.each(assignmentData.shareWith, function (values) {
+                    console.log("values", values);
+                    _.each(values.persons, function (personss) {
+                      console.log("persons", personss);
+                      emailData.to.push({
+                        name: personss.name,
+                        email: personss.email
+                      })
+                    });
+                  });
+                }
 
 
                 //Find Acknowledgment Email data
@@ -2871,6 +2880,62 @@ var model = {
   saveTemplate: function (data, callback) {
     var matchObj = {};
     var matchObj2 = {};
+    var approvalStatus = {};
+    var authTimestamp = {};
+    var reqtimestamp = {};
+    var file = {};
+    var lorCount = {};
+    if (data.type == "templateIla") {
+      if (!_.isEmpty(data.approvalStatus)) {
+        var approvalStatus = {
+          "templateIla.$.approvalStatus": data.approvalStatus
+        };
+      }
+      if (!_.isEmpty(data.authTimestamp)) {
+        var authTimestamp = {
+          "templateIla.$.authTimestamp": data.authTimestamp
+        };
+      }
+      if (!_.isEmpty(data.file)) {
+        var file = {
+          "templateIla.$.file": data.file
+        };
+      }
+      if (!_.isEmpty(data.reqtimestamp)) {
+        var reqtimestamp = {
+          "templateIla.$.reqtimestamp": data.reqtimestamp
+        };
+      }
+    }
+    if (data.type == "templateLor") {
+      if (!_.isEmpty(data.approvalStatus)) {
+        var approvalStatus = {
+          "templateLor.$.approvalStatus": data.approvalStatus
+        };
+      }
+      if (!_.isEmpty(data.authTimestamp)) {
+        var authTimestamp = {
+          "templateLor.$.authTimestamp": data.authTimestamp
+        };
+      }
+      if (!_.isEmpty(data.file)) {
+        var file = {
+          "templateLor.$.file": data.file
+        };
+      }
+      if (!_.isEmpty(data.reqtimestamp)) {
+        var reqtimestamp = {
+          "templateLor.$.reqtimestamp": data.reqtimestamp
+        };
+      }
+      if (!_.isEmpty(data.lorCount)) {
+        var lorCount = {
+          "templateLor.$.lorCount": data.lorCount
+        };
+      }
+    }
+    var set2 = Object.assign(approvalStatus, authTimestamp, file, reqtimestamp, lorCount);
+    console.log("Set2", set2);
     if (data.type == "templateIla") {
       matchObj = {
         _id: data.assignId,
@@ -2881,12 +2946,7 @@ var model = {
         }
       };
       matchObj2 = {
-        $set: {
-          "templateIla.$.approvalStatus": data.approvalStatus,
-          "templateIla.$.authTimestamp": data.authTimestamp,
-          "templateIla.$.file": data.file,
-          "templateIla.$.reqtimestamp": data.reqtimestamp
-        }
+        $set: set2
       };
     } else if (data.type == "templateLor") {
       console.log("In templateLor", data);
@@ -2899,12 +2959,7 @@ var model = {
         }
       };
       matchObj2 = {
-        $set: {
-          "templateLor.$.approvalStatus": data.approvalStatus,
-          "templateLor.$.authTimestamp": data.authTimestamp,
-          "templateLor.$.reqtimestamp": data.reqtimestamp,
-          "templateLor.$.file": data.file
-        }
+        $set: set2
       };
     } else if (data.type == "survey") {
       matchObj = {
@@ -2990,8 +3045,8 @@ var model = {
                 });
               }
 
-              if (data.user) {
-                emailData.assignmentAuthorizer = data.user.name;
+              if (data.users) {
+                emailData.assignmentAuthorizer = data.users.name;
               }
               // console.log('mailData', mailData);
               if (data.type == "survey") {
@@ -3002,6 +3057,7 @@ var model = {
                 mailData[1] = emailData;
                 mailData[2] = data.accessToken;
                 mailData[3] = data.users.email;
+                mailData[4] = assignmentData.threadId;
                 Assignment.getMailAndSendMail(mailData, function (err, newData) {
                   if (err) {
                     callback(null, err);
@@ -3107,7 +3163,7 @@ var model = {
 
   getMailAndSendMail: function (data, callback) {
     Assignment.getMailData(data, function (err, emailData) {
-      // console.log("emailData ==== ", emailData);
+      console.log("emailData ==== ", emailData);
       if (err) {
         // console.log("err", err);
       } else {
@@ -3128,18 +3184,23 @@ var model = {
                 callback(err, null);
               } else {
                 emailData.user = userdata;
-                callback(null, emailData);
+                // callback(null, emailData);
                 //Send email
-                // Assignment.sendEmails(emailData, function (err, mailData) {
-                //   console.log("mailData", mailData);
-                //   if (err) {
-                //     callback(err, null);
-                //     console.log("err", err);
-                //   } else {
-                //       console.log("mail datas", mailData);
-                //       callback(null, mailData);
-                //   }
-                // });
+
+                if (data[4]) {
+                  emailData.threadId = data[4];
+                }
+
+                Assignment.sendEmails(emailData, function (err, mailData) {
+                  console.log("mailData", mailData);
+                  if (err) {
+                    callback(err, null);
+                    console.log("err", err);
+                  } else {
+                    console.log("mail datas", mailData);
+                    callback(null, mailData);
+                  }
+                });
               }
             }
           });
@@ -3640,6 +3701,7 @@ var model = {
     emailData = {};
     var i = 0;
     var toData = [];
+    mailData.to = _.cloneDeep(mailData.to);
     _.map(mailData.to, function (values) {
       values.email.toString();
       values.name.toString();
@@ -3673,8 +3735,8 @@ var model = {
             cc: emailData.cc,
             bcc: emailData.bcc,
             subject: "Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
-            message: "<html><body><p style='font-size: 16px;'>Dear Sir/Madam,</p><p style='font-size: 16px;'>Thank you for retaining us to inspect & assess the subject loss. This is to confirm that " + emailData.surveyorName + " shall be attending this claim. He can be reached on " + emailData.surveyorNumber + ". Our reference number for this claim would be " + emailData.assignmentNo + "</p> <p style='font-size: 16px;'>Should you ever need any support / information / update, please feel at ease to get in touch with me.</p><br>" + "<p style='font-size: 16px;'>Warm Regards, <br>" + emailData.assignmentAuthorizer + "</p></body></html>"
-          }
+            message: "<html><body><p style='font-size: 16px;'>Dear Sir/Madam,</p><p style='font-size: 16px;'>Thank you for retaining us to inspect & assess the subject loss. This is to confirm that " + emailData.surveyorName + " shall be attending this claim. He can be reached on " + emailData.surveyorNumber + ". Our reference number for this claim would be " + emailData.assignmentNo + "</p> <p style='font-size: 16px;'>Should you ever need any support / information / update, please feel at ease to get in touch with me.</p><br>" + "<p style='font-size: 16px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+        }
           callback(null, emails);
         }
         break;
@@ -4092,7 +4154,18 @@ var model = {
       },
       user: req.user
     };
-
+    // req.to = [{
+    //   name: "priyank",
+    //   email: "priyank.parmar@wohlig.com"
+    // }];
+    req.to = _.join(_.map(req.to,function(n) {
+      return n.email;
+    }),",");
+    
+    // console.log('req.to ',req.to.toString);
+    // req.to = _.cloneDeep(req.to);
+    console.log('req.to ',req.to);
+    // var to = req.to.toString;  
     var rawData =
       "From: " + req.user.email + "\r\n" +
       "To: " + req.to + "\r\n" +
@@ -4107,7 +4180,7 @@ var model = {
       raw: rawDataProcessed,
       threadId: req.threadId
     };
-      console.log("obj  = ", obj);
+      console.log("obj  = ", obj,rawData);
     User.gmailCall(obj, function(err,userData){
       if(err){
         console.log("err : ",err);

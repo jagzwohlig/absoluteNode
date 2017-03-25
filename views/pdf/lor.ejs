@@ -63,11 +63,13 @@
         <div style="width:190px">
           <p>
             <%=assignment.branch.name%>,<br>
-              <%=assignment.office.address%>,<br>
-                <%=assignment.office.city.name%>,
-                  <%=assignment.office.city.district.state.name%>.<br> Phone #:
-                    <%=assignment.office.phone%>,<br> FAX #:
-                      <%=assignment.office.fax%>
+              <% if(assignment.office) { %>
+                <%=assignment.office.address%>,<br>
+                  <%=assignment.office.city.name%>,
+                    <%=assignment.office.city.district.state.name%>.<br> Phone #:
+                      <%=assignment.office.phone%>,<br> FAX #:
+                        <%=assignment.office.fax%>
+                          <% } %>
           </p>
         </div>
       </div>

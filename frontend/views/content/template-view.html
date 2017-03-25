@@ -195,8 +195,8 @@
         <div class="clearfix"></div>
         <div class="text-center mt20 odd-even-button" ng-hide="Saved">
             <button class="btn btn-primary" ng-click="saveDraft(forms)" ng-if="approval==false">Draft</button>
-            <button class="btn btn-primary" ng-click="saveModel(forms)" ng-if="approval==false">Save</button>
-            <button class="btn btn-primary" ng-click="saveModel(forms)" ng-if="approval==true">Accept</button>
+            <button class="btn btn-primary" ng-click="saveModel(forms)" ng-if="approval==false">Sent For Approval</button>
+            <button class="btn btn-primary" ng-click="acceptModel(forms)" ng-if="approval==true">Accept</button>
             <button class="btn btn-warning" ng-click="comment()" ng-if="approval==true">Revise</button>
             <a class="btn btn-danger" ng-click="cancel()">Cancel</a>
             <!--<a class="btn btn-default" ui-sref="timeline({id:assignment._id})">Cancel</a>-->

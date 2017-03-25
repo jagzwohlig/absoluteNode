@@ -47,10 +47,28 @@ var controller = {
     //         });
     //     }
     // },
-    // Priyank
+
     // updateSurveyor: function (req, res) {
     //     if (req.body) {
-    //         req.model.updateSurveyor(req.body, res.callback);
+    //         req.model.updateSurveyor(req.body, function (err, mailData) {
+    //             console.log("mailData =  = ", mailData);
+    //             Assignment.getEmailsData(mailData, function (err, allData) {
+    //                 console.log("allData in ", allData);
+    //                 if (err) {
+    //                     callback(err, null);
+    //                 } else {
+    //                     if (_.isEmpty(allData)) {
+    //                         callback("No mail data found!", null);
+    //                     } else {
+    //                         var emailsData = {};
+    //                         emailsData = allData;
+    //                         emailsData.user = req.user;
+    //                         Assignment.sendEmails(emailsData, res.callback);
+    //                     }
+    //                 }
+    //             });
+
+    //         });
     //     } else {
     //         res.json({
     //             value: false,
@@ -58,7 +76,6 @@ var controller = {
     //         });
     //     }
     // },
-    // 
     updateSurveyor: function (req, res) {
         if (req.body) {
             req.model.updateSurveyor(req.body, function (err, mailData) {
@@ -74,7 +91,19 @@ var controller = {
                             var emailsData = {};
                             emailsData = allData;
                             emailsData.user = req.user;
-                            Assignment.sendEmails(emailsData, res.callback);
+                            Assignment.sendEmails(emailsData, function (err, threadData) {
+                                console.log("threadData in ", threadData);
+                                if (err) {
+                                    callback(err, null);
+                                } else {
+                                    if (_.isEmpty(threadData)) {
+                                        callback("No mail data found!", null);
+                                    } else {
+                                        threadData._id = mailData[2];
+                                        Assignment.updateThreadId(threadData, res.callback);
+                                    }
+                                }
+                            });
                         }
                     }
                 });

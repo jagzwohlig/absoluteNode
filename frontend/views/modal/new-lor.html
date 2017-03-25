@@ -12,28 +12,35 @@
     <thead>
       <tr>
         <th>#</th>
-        <th>LOR Template Type</th>
-        <!--<th>Template Name</th>-->
+        <th>LOR Stage</th>
+        <th>MR #</th>
         <th>Date</th>
         <th>Status</th>
+        <th>PDF</th>
         <th>Actions</th>
       </tr>
     </thead>
     <tbody>
       <tr ng-repeat="lor in assignment.templateLor track by $index">
         <td>{{$index + 1}}</td>
-        <td>{{lor.name}}</td>
-        <!--<td>{{lor.templateName}}</td>-->
-        <td>{{lor.timestamp|date:'dd-MM-yyyy'}}</td>
-         <td>{{lor.approvalStatus}}</td>
-       
         <td>
-          <button class="btn btn-clear" ng-if="lor.file!=='undefined'">
+          <div ng-if="$index==0">LOR</div>
+          <div ng-if="$index==1">Reminder 1</div>
+          <div ng-if="$index==2">Reminder 2</div>
+          <div ng-if="$index==3">Notice</div>
+        </td>
+        <td>{{lor.templateName}}</td>
+        <td>{{lor.timestamp|date:'dd-MM-yyyy'}}</td>
+        <td>{{lor.approvalStatus}}</td>
+        <td>
+          <button class="btn btn-clear" ng-if="lor.file!=undefined">
             <a class="btn btn-primary temp-btnbg" download="{{lor.file}}" ng-href="{{lor.file|downloadImage}}">
                                             <i class="ln-download"></i>
           </a>
           </button>
-          <button class="btn btn-clear" ng-click="viewTemplates('LORs','TemplateLor',lor)"><i class="ln-pencil"></i></button>
+          </td>
+          <td>
+          <button class="btn btn-clear" ng-click="viewTemplates('LORs','TemplateLor',lor)" ng-if="$index==assignment.templateLor.length-1"><i class="ln-pencil"></i></button>
           <button class="btn btn-clear" ng-click="deleteTemplate('templateLor',$index,'LOR')"><i class="ln-trash2"></i></button>
           <!--<button class="btn btn-clear"><i class="ln-download"></i></button>-->
         </td>
