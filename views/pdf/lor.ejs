@@ -129,11 +129,34 @@
       </div>
       <div>
         <p class="content-head">Dear Sir/Madam</p>
-        <p class="content-lineheight justify">
-          Thank you very much for extending your cooperation during our visit . To enable us to proceed further and finalize the loss
-          you are requested to mail courier, complete. Clear and legible copies of the documents / information as indicated
-          below. An earty timely action in the matter help us & insurers serve you promptly.
-        </p>
+        <%if(data.lorCount=="LOR"){%>
+          <p class="content-lineheight justify">
+            Thank you very much for extending your cooperation during our visit. To enable us to proceed further and finalize the loss
+            you are requested to submit / mail / courier, complete, clear and legible copies of the documents / information
+            as indicated below. An early / timely action in the matter would help us & Insurers serve you promptly.
+          </p>
+          <%}%>
+            <%if(data.lorCount=="Reminder 1"){%>
+              <p class="content-lineheight justify">
+                This refers to your claim and the list of requirements shared earlier. We regret to state that we are yet to receive these
+                documents/information from your end. You are requested to kindly expedite the same. This refers to your claim,
+                the list of requirements shared earlier and your revert on the same. We appreciate that part of the information
+                / documents asked for have been provided to us. However, we are yet to receive following documents / information
+                from your end. You are requested to kindly expedite the same.
+              </p>
+              <%}%>
+                <%if(data.lorCount=="Reminder 2"){%>
+                  <p class="content-lineheight justify">
+                    This refers to your claim and our two earlier mails. We regret to state that we are yet to receive following documents /
+                    information from your end. You are requested to kindly expedite the same.
+                  </p>
+                  <%}%>
+                    <%if(data.lorCount=="Notice"){%>
+                      <p class="content-lineheight justify">
+                        This refers to your claim and our three earlier mails. We regret to state that we are yet to receive following documents
+                        / information from your end.
+                      </p>
+                      <%}%>
       </div>
       <div style="clear:both"></div>
       <table class="claim-table">
@@ -163,8 +186,42 @@
         </tbody>
       </table>
       <div class="content-head">
-        <p class="content-lineheight">Kindly ensure that every copy is duly signed,stamped and marked as "Certified True Copy".On the basis of your reply
-          and supporting submitted,further queries / clarification would be asked for if need be.</p>
+        <%if(data.lorCount=="LOR"){%>
+          <p class="content-lineheight justify">
+            Kindly ensure that every copy is duly signed, stamped and marked as “Certified True Copy”. On the basis of your reply and
+            supportings submitted, further queries / clarification would be asked for if need be. We are aware that some
+            of the information asked for above may take some time for you to arrange. You are, therefore, advised to provide
+            the rest of the documents at the earliest, and let us have the schedule for submission of balance information
+            to enable us to apprise your Insurers of the time frame possible for our reporting.<br>Thanking you
+            and assuring you of best possible attention at all times.
+
+          </p>
+          <%}%>
+            <%if(data.lorCount=="Reminder 1"){%>
+              <p class="content-lineheight justify">
+                We are aware that some of the information asked for above may take some time for you to arrange. You are, therefore, advised
+                to provide the rest of the documents at the earliest, and let us have the schedule for submission of balance
+                information to enable us to apprise your Insurers of the time frame possible for our reporting. Thanking
+                you & assuring you of best possible attention at all times. Let us have the schedule for submission of balance
+                information to enable us to update the insuers. Thanking you & assuring you of best possible attention at
+                all times.
+              </p>
+              <%}%>
+                <%if(data.lorCount=="Reminder 2"){%>
+                  <p class="content-lineheight justify">
+                    Kindly ensure that every documents / information is in In Duplicate, complete, clear & legible and is duly signed, stamped
+                    and marked as “Certified True Copy”. Thanking you & assuring you of best possible attention at all times.
+                  </p>
+                  <%}%>
+                    <%if(data.lorCount=="Notice"){%>
+                      <p class="content-lineheight justify">
+                        You will appreciate that it is not possible for us to keep the file open endlessly. You are therefore requested to submit
+                        the above within 10 days of receipt of this letter, failing which, we shall presume that you are
+                        not interested to pursue the claim and shall release our independent report on the basis of available
+                        information / documents to your insurers without any further communication to you from our end. Thanking
+                        you & assuring you of best possible attention at all times.
+                      </p>
+                      <%}%>
       </div>
       <div>
         <p>Sincerely,</p>
