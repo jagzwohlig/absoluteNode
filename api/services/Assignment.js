@@ -694,7 +694,7 @@ schema.plugin(deepPopulate, {
       select: 'name _id district'
     },
     'owner': {
-      select: 'name _id func houseColor photo email mobile'
+      select: 'name _id func houseColor photo email mobile officeEmail'
     },
     'owner.func': {
       select: 'name'
@@ -890,7 +890,7 @@ var model = {
                             console.log("persons", personss);
                             emailData.to.push({
                               name: personss.name,
-                              email: personss.email
+                              email: personss.officeEmail
                             })
                           });
                         });
@@ -1379,7 +1379,7 @@ var model = {
                 }
 
 
-                // console.log("emailData In 2 ", emailData);
+                console.log("assignmentData.owner.officeEmail ",assignmentData.owner.officeEmail);
                 emailData.to = [];
                 emailData.to.push({
                   name: assignmentData.owner.name,
@@ -3730,7 +3730,11 @@ var model = {
     var toData = [];
     mailData.to = _.cloneDeep(mailData.to);
     _.map(mailData.to, function (values) {
-      values.officeEmail.toString();
+      console.log("mailData values",values);
+      if(values.email == undefined){
+        values.email = "";
+      }
+      values.email.toString();
       values.name.toString();
     });
     emailData.to = _.uniqBy(mailData.to, "email");
