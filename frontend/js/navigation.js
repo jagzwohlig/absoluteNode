@@ -495,6 +495,7 @@ var navigationservice = angular.module('navigationservice', [])
                 $http.post(adminurl + 'user/sendEmail', data).success(callback);
             },
             updateEmailStatus: function (data, callback) {
+                console.log("data email",data);
                 $http.post(adminurl + 'timeline/updateEmailStatus', data).success(callback);
             },
             profile: function (callback, errorCallback) {
@@ -670,6 +671,7 @@ var navigationservice = angular.module('navigationservice', [])
                 $http.post(adminurl + 'NatureLoss/save', data).success(callback);
             },
             saveChat: function (data, callback) {
+                
                 $http.post(adminurl + 'Timeline/save', data).success(callback);
             },
             createTimeline: function (data, callback) {
@@ -2255,6 +2257,12 @@ var navigationservice = angular.module('navigationservice', [])
                     method: 'POST',
                     withCredentials: true,
                     data: id
+                }).success(callback);
+            },
+              getEmployeeData: function (id, callback) {
+                console.log('get parent data: ', id);
+                 $http.post(adminurl + 'Employee/getEmployeeData', {
+                    _id: id
                 }).success(callback);
             },
             employeeEditSave: function (id, callback) {

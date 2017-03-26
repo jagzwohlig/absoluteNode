@@ -2968,6 +2968,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.formData = data.data;
         });
 
+
         $scope.itemTypes = [{
             value: '',
             name: 'Select type of item'
@@ -9671,7 +9672,18 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             name: 'Textarea'
         }];
 
+         $scope.getParentEmployee = function () {
+            // console.log("Approval", obj);
+             NavigationService.getEmployeeData("582bfc534954ce2de1bfd180", function (data) {
+            // NavigationService.getEmployeeData($.jStorage.get("profile")._id, function (data) {
+                console.log("getparent data",data);
+                $scope.forms.employee = [];
+                $scope.forms.employee = data.data;
+                console.log("$scope.forms.employee",$scope.forms.employee);
+            });
+        };
 
+        $scope.getParentEmployee();
         $scope.addHead = function () {
             $scope.formData.forms.push({
                 head: $scope.formData.forms.length + 1,
@@ -10618,6 +10630,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 dropdownValues: ['Mumbai', 'Bihar', 'Orissa']
             }]
         }];
+        $scope.getParentEmployee = function () {
+            // console.log("Approval", obj);
+             NavigationService.getEmployeeData("582bfc534954ce2de1bfd180", function (data) {
+            // NavigationService.getEmployeeData($.jStorage.get("profile")._id, function (data) {
+                console.log("getparent data",data);
+                $scope.employee = [];
+                $scope.employee = data.data;
+                console.log("$scope.forms.employee",$scope.employee);
+            });
+        };
+        $scope.getParentEmployee();
         $scope.assignment = {};
         $scope.assignment.templateIla = [];
         $scope.assignment.templateIsr = [];
@@ -10788,6 +10811,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 $window.history.back();
             });
         };
+
         $scope.saveDraft = function (templateObj) {
                 NavigationService.editAssignmentTemplate($scope.forms, function (data) {
                     console.log("After PDF Generate", data);
@@ -10805,6 +10829,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 });
             },
             $scope.saveModel = function (templateObj) {
+                console.log("assignment employee",$scope.assignment.employee);
                 console.log("Save Data", templateObj, $scope.assignment);
                 if ($stateParams.assignment !== "") {
                     delete templateObj._id;
@@ -11247,7 +11272,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             emailData.surveyorEmail = (emailData.surveyorEmail ? emailData.surveyorEmail : "NA");
             emailData.insuredName = (emailData.insuredName ? emailData.insuredName : "NA");
             emailData.ilaAuthDate = (emailData.ilaAuthDate ? emailData.ilaAuthDate : "NA");
-            emailData.claimNo = (emailData.ilaAuthDate ? emailData.ilaAuthDate : "NA");
+            emailData.claimNo = (emailData.claimNo ? emailData.claimNo : "NA");
             emailData.productName = (emailData.productName ? emailData.productName : "NA");
             emailData.policyDoc = (emailData.policyDoc ? emailData.policyDoc : "NA");
             emailData.bankDetails = (emailData.bankDetails ? emailData.bankDetails : "NA");
@@ -11263,7 +11288,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                             cc: emailData.cc,
                             bcc: emailData.bcc,
                             subject: "Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
-                            message: "<html><body><p style='font-size: 16px;'>Dear Sir/Madam,</p><p style='font-size: 16px;'>Thank you for retaining us to inspect & assess the subject loss. This is to confirm that " + emailData.surveyorName + " shall be attending this claim. He can be reached on " + emailData.surveyorNumber + ". Our reference number for this claim would be " + emailData.assignmentNo + "</p> <p style='font-size: 16px;'>Should you ever need any support / information / update, please feel at ease to get in touch with me.</p><br>" + "<p style='font-size: 16px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+                            message: "<html><body><p style='font-size: 16px;'>Dear Sir/Madam,</p><p style='font-size: 16px;'>Thank you for retaining us to inspect & assess the subject loss. This is to confirm that " + emailData.surveyorName + " shall be attending this claim. He can be reached on " + emailData.surveyorNumber + ". Our reference number for this claim would be " + emailData.assignmentNo + "</p> <p style='font-size: 16px;'>Should you ever need any support / information / update, please feel at ease to get in touch with me.</p><br>" + "<p style='font-size: 16px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>",
+                            mailType : "updateThreadId"
                         }
                         $scope.emailData = emails;
                     }
@@ -11281,8 +11307,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                             cc: emailData.cc,
                             bcc: emailData.bcc,
                             subject: "Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
-                            message: "<html><body><p style='font-size: 16px;'>Dear " + emailData.surveyorName + ",</p><p style='font-size: 16px;'>Please refer to our telecom, in respect of the subject claim. You are requested to kindly attend the loss inline with the discussions held and specific requirements of the claim. Our reference number for this claim would be " + emailData.assignmentNo + "</p> <p style='font-size: 16px;'>In order to assist you, we are attaching relevant format of JIR. Please ensure to capture every detail there in & get the same duly signed by the concerned person. In an unlikely event wherein there is a difference of opinion between yourself & the concerned person, both the opinions may be recorded. We would appreciate a brief call from the site while you are attending the loss as this helps us update the insurer's of the developments. Should you ever need any support / information / update please feel at ease to get in touch with me. I will be more than willing to assist.</p><br>" + "<p style='font-size: 16px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
-                            // threadId: emailData.threadId
+                            message: "<html><body><p style='font-size: 16px;'>Dear " + emailData.surveyorName + ",</p><p style='font-size: 16px;'>Please refer to our telecom, in respect of the subject claim. You are requested to kindly attend the loss inline with the discussions held and specific requirements of the claim. Our reference number for this claim would be " + emailData.assignmentNo + "</p> <p style='font-size: 16px;'>In order to assist you, we are attaching relevant format of JIR. Please ensure to capture every detail there in & get the same duly signed by the concerned person. In an unlikely event wherein there is a difference of opinion between yourself & the concerned person, both the opinions may be recorded. We would appreciate a brief call from the site while you are attending the loss as this helps us update the insurer's of the developments. Should you ever need any support / information / update please feel at ease to get in touch with me. I will be more than willing to assist.</p><br>" + "<p style='font-size: 16px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>",
+                            threadId: emailData.threadId
                         }
                         $scope.emailData = emails;
                     }
@@ -11296,8 +11322,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                             cc: emailData.cc,
                             bcc: emailData.bcc,
                             subject: "Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
-                            message: "<html><body><p style='font-size: 16px;'>We are pleased to inform you that the survey for the said claim has been attended on " + emailData.surveyDate + " No sooner we receive further details, we shall update you in this regard. Meanwhile, request you to kindly bear with us. Should you ever need any support / information / update please feel at ease to get in touch with me. I will be more than willing to assist.</p><br>" + "<p style='font-size: 16px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
-                            // threadId: emailData.threadId
+                            message: "<html><body><p style='font-size: 16px;'>We are pleased to inform you that the survey for the said claim has been attended on " + emailData.surveyDate + " No sooner we receive further details, we shall update you in this regard. Meanwhile, request you to kindly bear with us. Should you ever need any support / information / update please feel at ease to get in touch with me. I will be more than willing to assist.</p><br>" + "<p style='font-size: 16px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>",
+                            threadId: emailData.threadId
                         }
                         $scope.emailData = emails;
                     }
@@ -11586,14 +11612,18 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.search = {
             keyword: ""
         };
+        $scope.event = "";
         $scope.getMail = function (chat, mailType) {
+           
             var type = chat.event;
+
             if (mailType != undefined) {
                 type = mailType
+                $scope.event = mailType;
                 console.log("mailType", mailType);
             }
-            $scope.chatId = chat.chatId;
-            console.log("$stateParams.id", $stateParams.id, "chat", chat);
+            $scope.chatId = chat._id;
+            console.log("$stateParams.id", $stateParams.id, "chat", chat,"chatID", $scope.chatId);
 
             var emailData = {};
 
@@ -11629,6 +11659,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         emailData.productName = (data.data.products[0].product.name ? data.data.products[0].product.name : "");
                         emailData.surveyDate = (chat.surveyDate ? moment(chat.surveyDate).format("DD/MM/YYYY") : "");
                         emailData.invoiceNumber = (chat.invoiceNumber ? chat.invoiceNumber : "");
+                        emailData.threadId =  (data.data.threadId ? data.data.threadId : "");
+                        console.log("threadId : ",data.data.threadId);
                         if (chat.surveyor != undefined) {
                             _.each(data.data.survey, function (values) {
                                 var id1 = "";
@@ -11650,10 +11682,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         emailData.to = [];
                         console.log("email office ", data.data.owner.officeEmail);
                         emailData.to.push({
+<<<<<<< HEAD
 
+=======
+>>>>>>> 77da01f59f2dd0ba5dbab9b67643d168a28b079a
                             name: data.data.owner.name,
                             email: data.data.owner.officeEmail
                         });
+
                         emailData.cc = [];
                         if (!_.isEmpty(data.data.shareWith)) {
                             _.each(data.data.shareWith, function (values) {
@@ -12290,7 +12326,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 console.log("FFFFF", data);
                 NavigationService.updateEmailStatus({
                     timelineId: $scope.timeline._id,
-                    chatId: $scope.chatId
+                    chatId: $scope.chatId,
+                    event: $scope.event
                 }, function (data) {
                     console.log(data);
                     if (data.value) {
@@ -12361,12 +12398,12 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.newTo.to = $scope.newTo.to.join();
             $scope.newTo.cc = $scope.newTo.cc.join();
             $scope.newTo.bcc = $scope.newTo.bcc.join();
+            $scope.newTo._id =  $stateParams.id;
             console.log("newTo : ", $scope.newTo);
             NavigationService.sendEmail($scope.newTo, function (data) {
                 console.log(data);
                 if (data.value) {
                     if (data.data.error) {
-
                         toastr.error(data.data.error.code + " Code " + data.data.error.message, "Send email.");
                     } else {
 

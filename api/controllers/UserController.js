@@ -96,10 +96,10 @@ var controller = {
     },
 
 
-    sendEmail: function (req, res) {    
-        console.log("mail",req.body.message);
-        console.log("req.user",req.user);
-        if(_.isEmpty(req.body.threadId)){
+    sendEmail: function (req, res) {
+        console.log("mail", req.body);
+        console.log("req.user", req.user);
+        if (_.isEmpty(req.body.threadId)) {
             req.body.threadId = ""
         }
 
@@ -110,7 +110,7 @@ var controller = {
             },
             user: req.user
         };
-        var rawData = 
+        var rawData =
             "From: " + req.user.officeEmail + "\r\n" +
             "To: " + req.body.to + "\r\n" +
             "Cc: " + req.body.cc + "\r\n" +
@@ -125,8 +125,27 @@ var controller = {
             raw: rawDataProcessed,
             threadId: req.body.threadId
         };
-         console.log("obj  = ", obj);
-        User.gmailCall(obj, res.callback);
+        console.log("obj  = ", obj);
+        User.gmailCall(obj, function (err, threadData) {
+            if (err) {
+                callback(err, null);
+            } else {
+                if (req.body.mailType == "updateThreadId") {
+                    if (threadData.threadId) {
+                        var formData = {};
+                        formData._id = req.body._id;
+                        formData.threadId = threadData.threadId;
+                        console.log("threadData",formData);
+                        Assignment.updateThreadId(formData, res.callback);
+                    } else {
+                        res.callback(null, threadData);
+                    }
+                } else {
+                    res.callback(null, threadData);
+                }
+
+            }
+        });
     },
 
     getAttachment: function (req, res) {
@@ -303,24 +322,23 @@ var controller = {
                     var obj = _.filter($scope.email.payload.headers, function (n) {
                         return n.name == input;
                     });
-                    if(obj.length == 0){
+                    if (obj.length == 0) {
                         return "Unknown";
-                    }
-                    else{                        
+                    } else {
                         return obj[0].value;
-                    } 
+                    }
                 }
 
-                
+
                 $scope.email.date = getFromHeader("Date");
-                $scope.email.date=moment($scope.email.date).format('llll');
+                $scope.email.date = moment($scope.email.date).format('llll');
                 $scope.email.subject = getFromHeader("Subject");
                 $scope.email.from = getFromHeader("From");
                 $scope.email.to = getFromHeader("To");
                 $scope.email.cc = getFromHeader("Cc");
                 $scope.email.deliveredTo = getFromHeader("Delivered-To");
                 $scope.email.body = base64url.decode($scope.email.body);
-                console.log("Email attachment.................................",$scope.email.body);
+                console.log("Email attachment.................................", $scope.email.body);
                 Config.generatePdf("pdf/abs-emailer", $scope, res.callback);
             }
         });
