@@ -12108,9 +12108,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             delete tmp._id;
             if ($scope.api === "TemplateInvoice") {
                 var newObj = {};
-
                 $scope.assignment[_.camelCase($scope.api)].push(tmp);
             } else {
+                tmp.approvalStatus="Draft";
+                // approvalStatus
                 $scope.assignment[_.camelCase($scope.api)].push(tmp);
             }
 

@@ -62,7 +62,8 @@ var schema = new Schema({
   }],
   assignmentapprovalStatus: {
     type: String,
-    enum: ["Pending ForceClosed", "ForceClosed", "Pending ReOpened", "ReOpened", "Pending OnHold", "OnHold"]
+    enum: ["Pending ForceClosed", "ForceClosed", "Pending ReOpened", "ReOpened", "Pending OnHold", "OnHold"],
+    index: true
   },
   forceClosedComment: String,
   forceClosedReqTime: {
@@ -90,7 +91,8 @@ var schema = new Schema({
   timelineStatus: {
     type: String,
     enum: ["Pending", "Unassigned", "Survey Pending", "ILA Pending", "LOR Pending", "Dox Pending", "Part Dox Pending", "Assessment Pending", "Consent Pending", "JIR Pending", "FSR Pending", "BBND", "DBND", "Collected", "Dispatched", "Force Closed", "ReOpened", "ForceClosed", "OnHold", "Delivered"],
-    default: "Unassigned"
+    default: "Unassigned",
+    index: true
   },
   brokerClaimId: {
     type: String
@@ -493,7 +495,8 @@ var schema = new Schema({
     approvalStatus: {
       type: String,
       enum: ["Pending", "Approved", "Reject", "Revised", "Draft"],
-      default: "Pending"
+      default: "Pending",
+      index: true
     }
   }],
   templateIsr: [{
@@ -513,7 +516,8 @@ var schema = new Schema({
     templateIsr: {
       type: Schema.Types.ObjectId,
       ref: "TemplateIsr",
-      key: "assignment"
+      key: "assignment",
+      index: true
     },
     timestamp: {
       type: Date,
@@ -528,7 +532,8 @@ var schema = new Schema({
     approvalStatus: {
       type: String,
       enum: ["Pending", "Approved", "Reject", "Revised", "Draft"],
-      default: "Pending"
+      default: "Pending",
+      index: true
     }
   }],
   templateJir: [{
@@ -560,7 +565,8 @@ var schema = new Schema({
     approvalStatus: {
       type: String,
       enum: ["Pending", "Approved", "Reject", "Revised", "Draft"],
-      default: "Pending"
+      default: "Pending",
+      index: true
     }
   }],
   templateLor: [{
@@ -601,7 +607,8 @@ var schema = new Schema({
     approvalStatus: {
       type: String,
       enum: ["Pending", "Approved", "Rejected", "Revised", "Draft"],
-      default: "Pending"
+      default: "Pending",
+      index: true
     },
     lorCount: {
       type: String,
@@ -1231,9 +1238,9 @@ var model = {
       } else {
         $scope.data = data2;
         var filter = {
-            _id: data2.assignment.policyDoc
-          }
-          // For policyNumber
+          _id: data2.assignment.policyDoc
+        }
+        // For policyNumber
         PolicyDoc.getPolicyDoc({
           filter
         }, function (err, data4) {
@@ -1825,81 +1832,83 @@ var model = {
         }
         callback(null, sixthDigit);
       }
-    })
+    });
   },
 
   getAll: function (data, callback) {
+    var sort = {};
     if (_.isEmpty(data.sorting[0])) {
-      var sort = {
+      sort = {
         $sort: {
           createdAt: -1
         }
-      }
+      };
     }
     if (data.sorting[0] == "name") {
-      var sort = {
+      sort = {
         $sort: {
           name: data.sorting[1]
         }
-      }
+      };
     }
     if (data.sorting[0] == "intimatedLoss") {
-      var sort = {
+      sort = {
         $sort: {
           intimatedLoss: data.sorting[1]
         }
-      }
+      };
     }
     if (data.sorting[0] == "owner") {
-      var sort = {
+      sort = {
         $sort: {
           "owner.name": data.sorting[1]
         }
-      }
+      };
     }
     if (data.sorting[0] == "insurer") {
-      var sort = {
+      sort = {
         $sort: {
           "insurer.name": data.sorting[1]
         }
-      }
+      };
     }
     if (data.sorting[0] == "insurerd") {
-      var sort = {
+      sort = {
         $sort: {
           "insurerd.name": data.sorting[1]
         }
-      }
+      };
     }
     if (data.sorting[0] == "department") {
-      var sort = {
+      sort = {
         $sort: {
           "department.name": data.sorting[1]
         }
-      }
+      };
     }
     if (data.sorting[0] == "city") {
-      var sort = {
+      sort = {
         $sort: {
           "city.name": data.sorting[1]
         }
-      }
+      };
     }
     if (data.sorting[0] == "timelineStatus") {
-      var sort = {
+      sort = {
         $sort: {
           timelineStatus: data.sorting[1]
         }
-      }
+      };
     }
+    var timelineStatus = {};
     if (_.isEmpty(data.timelineStatus)) {
-      var timelineStatus = {}
+
     } else {
-      var timelineStatus = {
+      timelineStatus = {
         timelineStatus: {
           $in: data.timelineStatus
         }
-      }
+      };
     }
     if (data.from === "" && data.to === "") {
       var intimatedLoss = {}
@@ -1909,7 +1918,7 @@ var model = {
           "$gte": data.from,
           "$lte": data.to
         }
-      }
+      };
     }
     if (data.fromDate === "" && data.toDate === "") {
       var createdAt = {}
@@ -1919,7 +1928,7 @@ var model = {
           "$gte": new Date(data.fromDate),
           "$lte": new Date(data.toDate)
         }
-      }
+      };
     }
 
     if (_.isEmpty(data.name)) {
@@ -1930,7 +1939,7 @@ var model = {
           $regex: data.name,
           $options: 'i'
         }
-      }
+      };
     }
 
 
@@ -1942,11 +1951,10 @@ var model = {
         ownerArr.push(objectid(values));
       });
       var owner = {
-
         'owner._id': {
           $in: ownerArr
         },
-      }
+      };
     }
     if (_.isEmpty(data.city)) {
       var city = {}
@@ -1959,46 +1967,49 @@ var model = {
         'city._id': {
           $in: cityArr
         },
-      }
+      };
     }
+    var branch = {};
     if (_.isEmpty(data.branch)) {
-      var branch = {}
+
     } else {
       var branchArr = [];
       _.each(data.branch, function (values) {
         branchArr.push(objectid(values));
       });
-      var branch = {
+      branch = {
         'branch._id': {
           $in: branchArr
         },
-      }
+      };
     }
+    insurer = {}
     if (_.isEmpty(data.insurer)) {
-      var insurer = {}
+
     } else {
       var insurerArr = [];
       _.each(data.insurer, function (values) {
         insurerArr.push(objectid(values));
       });
-      var insurer = {
+      insurer = {
         'insurer._id': {
           $in: insurerArr
         },
-      }
+      };
     }
+    var insurerd = {};
     if (_.isEmpty(data.insurerd)) {
-      var insurerd = {}
+
     } else {
       var insurerdArr = [];
       _.each(data.insurerd, function (values) {
         insurerdArr.push(objectid(values));
       });
-      var insurerd = {
+      insurerd = {
         'insurerd._id': {
           $in: insurerdArr
         },
-      }
+      };
     }
     if (_.isEmpty(data.department)) {
       var department = {}
@@ -2011,16 +2022,16 @@ var model = {
         'department._id': {
           $in: departmentArr
         },
-      }
+      };
     }
-
+    var ownerId = {};
     if (data.ownerStatus == "My files") {
       if (data.ownerId === "") {
-        var ownerId = {}
+
       } else {
-        var ownerId = {
+        ownerId = {
           'owner._id': objectid(data.ownerId),
-        }
+        };
       }
 
     } else if (data.ownerStatus == "Shared with me") {
@@ -2029,13 +2040,17 @@ var model = {
       } else {
         var shareWith = {
           'shareWith.persons': objectid(data.ownerId),
-        }
+        };
       }
     }
     var ownerStatus = Object.assign(timelineStatus, name, owner, insurer, insurerd, department, ownerId, intimatedLoss, city, branch, createdAt, shareWith);
     // console.log(data.pagenumber);
     var pageStartFrom = (data.pagenumber - 1) * data.pagelimit;
     var allTable = [{
+      $match: {
+        $and: [ownerStatus]
+      }
+    }, {
       $lookup: {
         from: "cities",
         localField: "city",
@@ -2106,10 +2121,6 @@ var model = {
       $unwind: {
         path: "$department",
         preserveNullAndEmptyArrays: true
-      }
-    }, {
-      $match: {
-        $and: [ownerStatus]
       }
     }, sort, {
       $skip: parseInt(pageStartFrom)
@@ -2131,6 +2142,10 @@ var model = {
     }];
 
     var countAllData = [{
+      $match: {
+        $and: [ownerStatus]
+      }
+    }, {
       $lookup: {
         from: "cities",
         localField: "city",
@@ -2203,10 +2218,6 @@ var model = {
         preserveNullAndEmptyArrays: true
       }
     }, {
-      $match: {
-        $and: [ownerStatus]
-      }
-    }, {
       $group: {
         _id: null,
         count: {
@@ -2223,7 +2234,7 @@ var model = {
       countAllData.unshift(unwindEmp);
       var unwindSharewith = {
         $unwind: "$shareWith"
-      }
+      };
       allTable.unshift(unwindSharewith);
       countAllData.unshift(unwindSharewith);
     }
