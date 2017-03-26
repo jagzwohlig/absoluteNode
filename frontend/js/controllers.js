@@ -9878,7 +9878,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
         $scope.formData.forms = [{
             head: '',
-            items: [{}, {}]
+            items: [{submit:"Pending"}, {submit:"Pending"}]
         }];
 
         $scope.required = true;
@@ -9934,7 +9934,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         $scope.addItem = function (obj) {
             var index = $scope.formData.forms.indexOf(obj);
-            $scope.formData.forms[index].items.push({});
+            $scope.formData.forms[index].items.push({
+                submit:"Pending"
+            });
         };
 
         $scope.removeItem = function (obj, indexItem) {
@@ -9996,7 +9998,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.formData.status = true;
         $scope.formData.forms = [{
             head: '',
-            items: [{}, {}]
+            items: [{submit:"Pending"}, {submit:"Pending"}]
         }];
 
         $scope.required = true;
@@ -10020,7 +10022,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
         $scope.addItem = function (obj) {
             var index = $scope.formData.forms.indexOf(obj);
-            $scope.formData.forms[index].items.push({});
+            $scope.formData.forms[index].items.push({
+                submit:"Pending"
+            });
         };
 
         $scope.removeItem = function (obj, indexItem) {
@@ -10637,7 +10641,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 type: _.camelCase($stateParams.type)
             };
             NavigationService.getAssignmentTemplate(a, function (data) {
-                
+
                 _.each(data.data.forms, function (n) {
                     _.each(n.items, function (m) {
                         if (m.value == "Date") {
@@ -10647,7 +10651,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                             m.dropdownValues = [];
                             m.dropdownValues = _.split(m.value, ",");
                         }
-                      
+
                     });
                 });
                 $scope.forms = data.data;
@@ -10674,8 +10678,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             }
         };
         $scope.addItem = function (obj) {
-            var index = $scope.forms.forms.indexOf(obj);
-            $scope.forms.forms[index].items.push({});
+            console.log("Add Item", obj,$scope.forms.type);
+            if ($scope.forms.type == "templateLor") {
+                console.log("Add Item In If", obj);
+                var index = $scope.forms.forms.indexOf(obj);
+                $scope.forms.forms[index].items.push({
+                    submit: "Pending"
+                });
+            } else {
+                var index = $scope.forms.forms.indexOf(obj);
+                $scope.forms.forms[index].items.push({});
+            }
         };
 
         $scope.removeItem = function (obj, indexItem) {
@@ -10772,7 +10785,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             console.log("Approval", obj);
             NavigationService.saveAssignmentTemplate(obj, function (data) {
                 console.log("Done", data);
-                 $window.history.back();
+                $window.history.back();
             });
         };
         $scope.saveDraft = function (templateObj) {
@@ -10812,7 +10825,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 } else {
                     if (templateObj.type == "templateLor") {
                         $scope.Saved = true;
-                        console.log("Data To Saveeee", $scope.forms);
+                        console.log("Data To Saveeee", $scope.forms.forms);
+                        _.each($scope.forms.forms,function(n){
+                                    console.log("N",n);                                
+                            _.each(n.items,function(m){
+                                    console.log("M",m.date);                                
+                                if(m.date=="Invalid Date"){
+                                    delete m.date;
+                                    console.log("M",m.date);
+                                }
+                            })
+                        });
                         if (templateObj.lorCount == "NA") {
                             NavigationService.editAssignmentTemplate($scope.forms, function (data) {
                                 console.log("After PDF Generate", data);
@@ -10833,7 +10856,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                                     }
                                     $scope.saveAssignment(obj);
                                     toastr.success("Updated " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
-                                   
+
                                 } else {
                                     toastr.error("Error occured in Updating " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
                                 }
@@ -10872,25 +10895,25 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         }
                     } else if (templateObj.type == "templateIla") {
                         $scope.goToILA = false;
-                            // Apply Before TimeOut To Check If Custom Input & dropdown is Selected
-                            console.log("In $timeout",templateObj.forms);
-                            _.each(templateObj.forms, function (n) {
-                                _.each(n.items, function (m) {
-                                    if(m.type=="Custom Input"){
-                                        if(m.field==undefined || m.field=="" || m.field=="Invalid Date"){
-                                            $scope.goToILA=true;
-                                        console.log("ab",m.field);                                            
-                                        }
+                        // Apply Before TimeOut To Check If Custom Input & dropdown is Selected
+                        console.log("In $timeout", templateObj.forms);
+                        _.each(templateObj.forms, function (n) {
+                            _.each(n.items, function (m) {
+                                if (m.type == "Custom Input") {
+                                    if (m.field == undefined || m.field == "" || m.field == "Invalid Date") {
+                                        $scope.goToILA = true;
+                                        console.log("ab", m.field);
                                     }
-                                    if(m.type=="Dropdown"){
-                                        if(m.field==undefined || m.field==""){
-                                            $scope.goToILA=true;
-                                        console.log("ab",m.field);                                            
-                                        }
-                                        console.log("a",m.field);
+                                }
+                                if (m.type == "Dropdown") {
+                                    if (m.field == undefined || m.field == "") {
+                                        $scope.goToILA = true;
+                                        console.log("ab", m.field);
                                     }
-                                });
+                                    console.log("a", m.field);
+                                }
                             });
+                        });
 
                         $timeout(function () {
                             if ($scope.goToILA) {
@@ -10923,7 +10946,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                                         }
                                         $scope.saveAssignment(obj);
                                         toastr.success("Updated " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
-                                       
+
                                     } else {
                                         toastr.error("Error occured in Updating " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
                                     }
@@ -10958,7 +10981,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                                 }
                                 $scope.saveAssignment(obj);
                                 toastr.success("Updated " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
-                                
+
                             } else {
                                 toastr.error("Error occured in Updating " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
                             }
@@ -10977,9 +11000,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 console.log("After PDF Generate", data);
                 if (data.value) {
                     var a = {};
-                    var goto=""
+                    var goto = ""
                     if (templateObj.type == "templateIla") {
-                        goto="ilaApproval-list"
+                        goto = "ilaApproval-list"
                         if ($stateParams.approval) {
                             $scope.message.title = "ILA " + templateObj.templateName + " Approved";
                             a.type = "File",
@@ -11578,7 +11601,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 _id: $stateParams.id
             }, ++i, function (data, ini) {
                 if (ini == i) {
-                    
+
                     console.log("bank comopany ", data.data.company.bank);
                     var accountNumber = (data.data.company.bank.accountNumber ? data.data.company.bank.accountNumber : "");
                     var neftCode = (data.data.company.bank.neftCode ? data.data.company.bank.neftCode : "");
@@ -11625,9 +11648,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 
                         emailData.to = [];
-                        console.log("email office ",data.data.owner.officeEmail);
+                        console.log("email office ", data.data.owner.officeEmail);
                         emailData.to.push({
-                            
+
                             name: data.data.owner.name,
                             email: data.data.owner.officeEmail
                         });
@@ -11644,7 +11667,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                                 });
                             });
                         }
-                        console.log("emailers cc", emailData.cc,"emailers to", emailData.to);
+                        console.log("emailers cc", emailData.cc, "emailers to", emailData.to);
                         $scope.emailersData(type, emailData);
                         console.log("emailers", $scope.emailData);
                         $scope.results = data;
@@ -12103,7 +12126,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 var newObj = {};
                 $scope.assignment[_.camelCase($scope.api)].push(tmp);
             } else {
-                tmp.approvalStatus="Draft";
+                tmp.approvalStatus = "Draft";
                 // approvalStatus
                 $scope.assignment[_.camelCase($scope.api)].push(tmp);
             }

@@ -72,14 +72,20 @@
                                             <option value="{{item.value}}" ng-repeat="item in itemTypes">{{item.name}}</option>
                                         </select>
                                     </div>
-                                    <div class="col-item col-item-25" ng-if="item.type == 'Submitted'">
+                                    <div class="col-item col-item-25">
                                         <input type="date" ng-model="item.value" class="form-control lorDate">
                                     </div>
-                                    <div class="col-item col-item-25" ng-if="item.type != 'Submitted'">
+                                    <!--<div class="col-item col-item-25" ng-if="item.type != 'Submitted'">
                                         <p>Required
                                             <toggle-switch on-label="Yes" off-label="No" ng-model="item.value" class="switch-mini switch-success ml-25"></toggle-switch>
                                         </p>
-                                    </div>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': item.submit=='Pending'}" ng-click="item.submit='Pending'">Pending</button>                                            
+                                            <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': item.submit=='Partially Recieved'}" ng-click="item.submit='Partially Recieved'">Partial</button>
+                                            <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': item.submit=='Recieved'}" ng-click="item.submit='Recieved'">Recieved</button>
+                                            <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': item.submit=='Waived'}" ng-click="item.submit='Waived'">Waived</button>
+                                        </div>
+                                    </div>-->
                                     <div class="mark-float">
                                         <i class="fa fa-plus-circle success" ng-click="addItem(form);"></i>
                                         <i class="fa fa-minus-circle danger" ng-click="removeItem(form, $index);"></i>

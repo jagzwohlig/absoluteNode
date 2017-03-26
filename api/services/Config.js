@@ -424,8 +424,10 @@ var models = {
                 callback(err);
             } else {
                 var options = {
-                    format: 'A4'
+                    format: 'A4',
+                    border: '2'
                 };
+
                 var id = mongoose.Types.ObjectId();
                 var newFilename = id + ".pdf";
                 var writestream = gfs.createWriteStream({
