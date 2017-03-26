@@ -733,7 +733,7 @@ schema.plugin(deepPopulate, {
       select: 'name _id'
     },
     'shareWith.persons': {
-      select: 'name _id email'
+      select: 'name _id email officeEmail'
     },
     'insured': {
       select: 'name _id'
@@ -781,7 +781,7 @@ schema.plugin(deepPopulate, {
       select: 'name _id'
     },
     'survey.employee': {
-      select: 'name _id email mobile'
+      select: 'name _id email mobile officeEmail'
     }
   }
 });
@@ -1342,9 +1342,9 @@ var model = {
                     isSBC: true
                   }
                 };
-                Assignment.search(filter, function (err, sbc) {
-                  console.log("searchEmployee", sbc.data.results);
-                  _.each(sbc.data.results, function (values) {
+                Employee.employeeSearch(filter, function (err, sbc) {
+                  console.log("searchEmployee", sbc);
+                  _.each(sbc.results, function (values) {
                     console.log("sbcTo", values);
                     emailData.sbcTo.push({
                       name: values.name,
@@ -1353,8 +1353,7 @@ var model = {
                   });
                   console.log("emailData.sbcTo", emailData.sbcTo);
 
-                });
-                emailData.assignmentNo = assignmentData.name;
+                  emailData.assignmentNo = assignmentData.name;
                 emailData.ownerName = assignmentData.owner.name;
                 emailData.ownerEmail = assignmentData.owner.officeEmail;
                 emailData.ownerPhone = assignmentData.owner.mobile;
@@ -1409,6 +1408,9 @@ var model = {
                 mailData[3] = data.accessToken;
                 // console.log('mailData', mailData);
                 callback(null, mailData);
+
+                });
+                
               }
             }
           });

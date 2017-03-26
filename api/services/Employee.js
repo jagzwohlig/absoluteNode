@@ -750,7 +750,9 @@ var model = {
                 }
                 callback(null, data5);
             });
+            console.log("data.filter",data.filter);
         } else {
+            console.log("data.filter",data.filter);
             var Search = Model.find(data.filter)
                 .order(options)
                 .deepPopulate("postedAt grade")

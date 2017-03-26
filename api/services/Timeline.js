@@ -17,16 +17,24 @@ var schema = new Schema({
         key: "timeline"
     },
     chat: [{
-        viewEmailStatus:{
-            type:String
+        viewEmailStatus: {
+            type: String
         },
         isSurveyApproved: {
-            type:Boolean
+            type: Boolean
         },
         onSurveyAttended: {
-            type:Boolean
+            type: Boolean
         },
         emailStatus: {
+            type: Boolean,
+            default: false
+        },
+        acknowledgmentStatus: {
+            type: Boolean,
+            default: false
+        },
+        deputationStatus: {
             type: Boolean,
             default: false
         },
@@ -122,11 +130,26 @@ var model = {
                 }
             }
         };
-        matchObj2 = {
-            $set: {
-                "chat.$.emailStatus": true
-            }
-        };
+        if (data.event == "Acknowledgment Email") {
+            matchObj2 = {
+                $set: {
+                    "chat.$.acknowledgmentStatus": true
+                }
+            };
+        } else if (data.event == "Deputation mail") {
+            matchObj2 = {
+                $set: {
+                    "chat.$.deputationStatus": true
+                }
+            };
+        } else {
+            matchObj2 = {
+                $set: {
+                    "chat.$.emailStatus": true
+                }
+            };
+        }
+
 
         Timeline.update(matchObj, matchObj2).exec(function (err, data) {
             if (err) {
