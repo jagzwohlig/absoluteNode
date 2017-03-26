@@ -1,5 +1,39 @@
 <html>
+<%
+function getAssignmentTemplateValue (input, assignment) {
+        var sInput = _.split(input, '+');
+        var returnStr = "";
+        sInput = _.map(sInput, function (n) {
+            var obj = {};
+            n = _.trim(n);
+            if (_.startsWith(n, '"')) {
+                obj.type = "String";
+                obj.value = n.substr(1, n.length - 2);
+            } else {
+                obj.type = "Object";
+                var splitVal = _.split(n, ".");
+                obj.value = assignment;
+                _.each(splitVal, function (m) {
+                    if (obj.value) {
+                        obj.value = obj.value[m];
+                    }
 
+                });
+            }
+            if (obj.value == undefined) {
+                obj.value = "NA"
+            }
+            returnStr = returnStr + obj.value;
+            return obj;
+        });
+        var ifDate=returnStr.split(":");
+        if ((returnStr.charAt(returnStr.length-1)=="Z" || returnStr.charAt(returnStr.length-1)=="z") && ifDate.length==3) {
+            returnStr = moment(returnStr).format("DD/MM/YYYY");
+            return returnStr;
+        }
+        return returnStr;
+};
+%>
 <head>
     <style>
         body {

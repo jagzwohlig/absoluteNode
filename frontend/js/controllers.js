@@ -10637,6 +10637,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 type: _.camelCase($stateParams.type)
             };
             NavigationService.getAssignmentTemplate(a, function (data) {
+                
                 _.each(data.data.forms, function (n) {
                     _.each(n.items, function (m) {
                         if (m.value == "Date") {
@@ -10646,6 +10647,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                             m.dropdownValues = [];
                             m.dropdownValues = _.split(m.value, ",");
                         }
+                      
                     });
                 });
                 $scope.forms = data.data;
@@ -10770,6 +10772,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             console.log("Approval", obj);
             NavigationService.saveAssignmentTemplate(obj, function (data) {
                 console.log("Done", data);
+                 $window.history.back();
             });
         };
         $scope.saveDraft = function (templateObj) {
@@ -10785,7 +10788,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         }
                         console.log("$stateParams.Draft hi am here", obj);
                         $scope.saveAssignment(obj);
-                        $window.history.back();
                     }
                 });
             },
@@ -10831,7 +10833,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                                     }
                                     $scope.saveAssignment(obj);
                                     toastr.success("Updated " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
-                                    $window.history.back();
+                                   
                                 } else {
                                     toastr.error("Error occured in Updating " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
                                 }
@@ -10868,6 +10870,66 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                                 }
                             });
                         }
+                    } else if (templateObj.type == "templateIla") {
+                        $scope.goToILA = false;
+                            // Apply Before TimeOut To Check If Custom Input & dropdown is Selected
+                            console.log("In $timeout",templateObj.forms);
+                            _.each(templateObj.forms, function (n) {
+                                _.each(n.items, function (m) {
+                                    if(m.type=="Custom Input"){
+                                        if(m.field==undefined || m.field=="" || m.field=="Invalid Date"){
+                                            $scope.goToILA=true;
+                                        console.log("ab",m.field);                                            
+                                        }
+                                    }
+                                    if(m.type=="Dropdown"){
+                                        if(m.field==undefined || m.field==""){
+                                            $scope.goToILA=true;
+                                        console.log("ab",m.field);                                            
+                                        }
+                                        console.log("a",m.field);
+                                    }
+                                });
+                            });
+
+                        $timeout(function () {
+                            if ($scope.goToILA) {
+                                toastr.error("Please Enter All Fields");
+                            } else {
+                                $scope.Saved = true;
+                                console.log("Data To Saveeee", $scope.forms);
+                                NavigationService.editAssignmentTemplate($scope.forms, function (data) {
+                                    console.log("After PDF Generate", data);
+                                    if (data.value) {
+                                        var a = {};
+                                        if (templateObj.type == "templateIla") {
+                                            $scope.message.title = "ILA " + templateObj.templateName + " Sent to Approval";
+                                            a.type = "Normal"
+                                        } else if (templateObj.type == "templateLor") {
+                                            $scope.message.title = "LOR " + templateObj.templateName + " Sent to Approval";
+                                            a.type = "Normal"
+                                        } else {
+                                            $scope.message.title = $stateParams.type + " Sent to Approval";
+                                        }
+                                        a.employee = $scope.message.employee,
+                                            a.title = $scope.message.title,
+                                            $scope.sendMessage2(_.cloneDeep(a));
+                                        var obj = {
+                                            assignId: $scope.assignment._id,
+                                            _id: $scope.forms._id,
+                                            approvalStatus: "Pending",
+                                            reqtimestamp: Date.now(),
+                                            type: $scope.forms.type
+                                        }
+                                        $scope.saveAssignment(obj);
+                                        toastr.success("Updated " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
+                                       
+                                    } else {
+                                        toastr.error("Error occured in Updating " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
+                                    }
+                                });
+                            }
+                        }, 2000);
                     } else {
                         $scope.Saved = true;
                         console.log("Data To Saveeee", $scope.forms);
@@ -10896,12 +10958,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                                 }
                                 $scope.saveAssignment(obj);
                                 toastr.success("Updated " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
-                                $window.history.back();
+                                
                             } else {
                                 toastr.error("Error occured in Updating " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
                             }
                         });
                     }
+
                 }
             };
 
@@ -10909,12 +10972,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             console.log("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", $scope.forms);
             $scope.Saved = true;
             // For authTimestamp In Assignment
-            $scope.forms.authTimestamp=new Date();
+            $scope.forms.authTimestamp = new Date();
             NavigationService.editAssignmentTemplate($scope.forms, function (data) {
                 console.log("After PDF Generate", data);
                 if (data.value) {
                     var a = {};
+                    var goto=""
                     if (templateObj.type == "templateIla") {
+                        goto="ilaApproval-list"
                         if ($stateParams.approval) {
                             $scope.message.title = "ILA " + templateObj.templateName + " Approved";
                             a.type = "File",
@@ -10950,8 +11015,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     }
                     console.log("$stateParams.approval hi am here", obj);
                     $scope.saveAssignment(obj);
-                    toastr.success("Updated " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
-                    $window.history.back();
+                    toastr.success("Approved " + templateObj.templateName + " for " + $scope.assignment.name, $stateParams.type);
+                    //  $state.go(goto, {});
                 } else {
                     toastr.error("Error occured in Updating " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
                 }
@@ -11499,11 +11564,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             keyword: ""
         };
 
-        $scope.getMail = function (chat,mailType) {
+        $scope.getMail = function (chat, mailType) {
             var type = chat.event;
-            if(mailType != undefined){
+            if (mailType != undefined) {
                 type = mailType
-                console.log("mailType",mailType);
+                console.log("mailType", mailType);
             }
             $scope.chatId = chat.chatId;
             console.log("$stateParams.id", $stateParams.id, "chat", chat);
