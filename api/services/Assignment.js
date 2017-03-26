@@ -1336,6 +1336,24 @@ var model = {
               } else {
                 // console.log("assignmentData In ", assignmentData);
                 var emailData = {};
+                emailData.sbcTo = [];
+                var filter = {
+                  filter: {
+                    isSBC: true
+                  }
+                };
+                Assignment.search(filter, function (err, sbc) {
+                  console.log("searchEmployee", sbc.data.results);
+                  _.each(sbc.data.results, function (values) {
+                    console.log("sbcTo", values);
+                    emailData.sbcTo.push({
+                      name: values.name,
+                      email: values.officeEmail
+                    });
+                  });
+                  console.log("emailData.sbcTo", emailData.sbcTo);
+
+                });
                 emailData.assignmentNo = assignmentData.name;
                 emailData.ownerName = assignmentData.owner.name;
                 emailData.ownerEmail = assignmentData.owner.officeEmail;
@@ -1425,28 +1443,28 @@ var model = {
           //       callback("No first create assignment mail data found", null);
           //     } else {
           //       emailData.message = emailData.message + firstMailData;
-                // console.log("emailData.message", emailData.message);
-                emailData.accessToken = data[3];
-                callback(null, emailData);
+          // console.log("emailData.message", emailData.message);
+          emailData.accessToken = data[3];
+          callback(null, emailData);
 
-                //Update thread id
-                // Assignment.updateThreadId({
-                //   _id: data[2]._id,
-                //   threadId: mailData.threadId
-                // }, function (err, threadData) {
-                //   console.log("threadData", threadData);
-                //   if (err) {
-                //     callback(err, null);
-                //     console.log("err", err);
-                //   } else {
-                //     if (_.isEmpty(threadData)) {
-                //       console.log("There was an updating data in survey thread", null);
-                //       callback(err, null);
-                //     } else {
-                //       callback(null, threadData);
-                //     }
-                //   }
-                // });
+          //Update thread id
+          // Assignment.updateThreadId({
+          //   _id: data[2]._id,
+          //   threadId: mailData.threadId
+          // }, function (err, threadData) {
+          //   console.log("threadData", threadData);
+          //   if (err) {
+          //     callback(err, null);
+          //     console.log("err", err);
+          //   } else {
+          //     if (_.isEmpty(threadData)) {
+          //       console.log("There was an updating data in survey thread", null);
+          //       callback(err, null);
+          //     } else {
+          //       callback(null, threadData);
+          //     }
+          //   }
+          // });
 
           //     }
           //   }
@@ -1664,19 +1682,19 @@ var model = {
       } else {
         var newChat = {};
         newChat.employee = data.empId;
-          newChat.type = "SurveyDone";
-          newChat.title = "Survey Done";
-          newChat.surveyEndTime = new Date(data.endTime);
-          newChat.surveyStartTime = new Date(data.startTime);
-          newChat.surveyDate = new Date(data.surveyDate);
-          newChat.address = data.address;
-          newChat.event = "On Survey Attended";
-          newChat.onSurveyAttended = true
-          _.each(fileArray, function (n) {
-            n.employee = data.empId,
-              n.type = "Normal",
-              n.title = "Survey Done";
-          })
+        newChat.type = "SurveyDone";
+        newChat.title = "Survey Done";
+        newChat.surveyEndTime = new Date(data.endTime);
+        newChat.surveyStartTime = new Date(data.startTime);
+        newChat.surveyDate = new Date(data.surveyDate);
+        newChat.address = data.address;
+        newChat.event = "On Survey Attended";
+        newChat.onSurveyAttended = true
+        _.each(fileArray, function (n) {
+          n.employee = data.empId,
+            n.type = "Normal",
+            n.title = "Survey Done";
+        })
         fileArray.push(newChat);
         Timeline.update({
           assignment: data.assignId
@@ -3712,12 +3730,12 @@ var model = {
     var toData = [];
     mailData.to = _.cloneDeep(mailData.to);
     _.map(mailData.to, function (values) {
-      values.email.toString();
+      values.officeEmail.toString();
       values.name.toString();
     });
     emailData.to = _.uniqBy(mailData.to, "email");
     // console.log("values array ", mailData.to, emailData.to);
-
+    emailData.sbcTo = (mailData.sbcTo ? mailData.sbcTo : "NA");
     emailData.assignmentNo = (mailData.assignmentNo ? mailData.assignmentNo : "NA");
     emailData.assignmentAuthorizer = (mailData.assignmentAuthorizer ? mailData.assignmentAuthorizer : "NA");
     emailData.ownerName = (mailData.ownerName ? mailData.ownerName : "NA");
@@ -3735,7 +3753,7 @@ var model = {
     emailData.ilaAuthDate = (mailData.ilaAuthDate ? mailData.ilaAuthDate : "NA");
     emailData.surveyorNumber = (mailData.surveyorNumber ? mailData.surveyorNumber : "NA");
     emailData.surveyorName = (mailData.surveyorName ? mailData.surveyorName : "NA");
-    emailData.surveyorEmail =(mailData.surveyorEmail ? mailData.surveyorEmail : "NA");
+    emailData.surveyorEmail = (mailData.surveyorEmail ? mailData.surveyorEmail : "NA");
     emailData.surveyDate = (mailData.surveyDate ? mailData.surveyDate : "NA");
     emailData.siteAddress = (mailData.siteAddress ? mailData.siteAddress : "NA");
 
@@ -4063,7 +4081,7 @@ var model = {
           var emails = {
             name: 'SBC For Approval',
             from: emailData.ownerEmail,
-            to: emailData.to,
+            to: emailData.sbcTo,
             cc: emailData.cc,
             bcc: emailData.bcc,
             subject: "Request for deputation of Surveyor : " + emailData.surveyorName + " for Assignment : " + emailData.assignmentNo,
@@ -4082,7 +4100,7 @@ var model = {
             cc: emailData.cc,
             bcc: emailData.bcc,
             subject: "Request approved of Surveyor : " + emailData.surveyorName + " for Assignment : " + emailData.assignmentNo,
-            message: "<html><body><p style='font-size: 16px;'>" + emailData.surveyorName + " has been authorized for " + emailData.assignmentNo + " on " + emailData.surveyDate + " at " + emailData.siteAddress + "</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "</p></body></html>"
+            message: "<html><body><p style='font-size: 16px;'>" + emailData.surveyorName + " has been authorized for " + emailData.assignmentNo + " on " + emailData.surveyDate + " at " + emailData.siteAddress + "</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.assignmentAuthorizer + "</p></body></html>"
           }
           callback(null, emails);
         }
@@ -4212,7 +4230,7 @@ var model = {
     console.log('req.to ', req.to);
     // var to = req.to.toString;  
     var rawData =
-      "From: " + req.user.email + "\r\n" +
+      "From: " + req.user.officeEmail + "\r\n" +
       "To: " + req.to + "\r\n" +
       "Cc: " + req.cc + "\r\n" +
       "Bcc: " + req.bcc + "\r\n" +
