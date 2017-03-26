@@ -11444,7 +11444,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                             cc: emailData.cc,
                             bcc: emailData.bcc,
                             subject: "",
-                            message: "<html><body><p style='font-size: 16px;'>Dear #SupervisorsName#,Requesting you to please Force Close the Assignment.Reason mentioned below. #Reason#</p><br> Warm Regards, <br>" + $.jStorage.get("profile").name + "<br> " + $.jStorage.get("profile").mobile + "<br>" + $.jStorage.get("profile").email + "</p></body></html>"
+                            message: "<html><body><p style='font-size: 16px;'>Dear #SupervisorsName#,Requesting you to please Force Close the Assignment.Reason mentioned below. #Reason#</p><br> Warm Regards, <br>" + $.jStorage.get("profile").name + "<br> " + $.jStorage.get("profile").mobile + "<br>" + $.jStorage.get("profile").officeEmail + "</p></body></html>"
                         }
                         $scope.emailData = emails;
                     }
@@ -11461,7 +11461,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                             cc: emailData.cc,
                             bcc: emailData.bcc,
                             subject: "Request for Reopening of Assignment : " + emailData.assignmentNo,
-                            message: "<html><body><p style='font-size: 16px;'>Dear #SupervisorsName#,Requesting you to please Re-open the Assignment due to some reasons. #Reason#</p><br> Warm Regards, <br>" + $.jStorage.get("profile").name + "<br> " + $.jStorage.get("profile").mobile + "<br>" + $.jStorage.get("profile").email + "</p></body></html>"
+                            message: "<html><body><p style='font-size: 16px;'>Dear #SupervisorsName#,Requesting you to please Re-open the Assignment due to some reasons. #Reason#</p><br> Warm Regards, <br>" + $.jStorage.get("profile").name + "<br> " + $.jStorage.get("profile").mobile + "<br>" + $.jStorage.get("profile").officeEmail + "</p></body></html>"
                         }
                         $scope.emailData = emails;
                     }
@@ -11512,14 +11512,16 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     isSBC:true
                 }
             };
-
+            var emailData = {};
+            emailData.sbcTo = [];
              NavigationService.employeeSearch(filter, 1, function (data) {
                 console.log("searchEmployee", data.data.results);
                 _.each(data.data.results,function(values){
+                    console.log("sbcTo",values);
                     emailData.sbcTo.push({
                         name:values.name,
-                        email:values.email
-                    }) ;
+                        email:values.officeEmail
+                    });
                 });
                 console.log("emailData.sbcTo",emailData.sbcTo);
 
@@ -11529,7 +11531,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 _id: $stateParams.id
             }, ++i, function (data, ini) {
                 if (ini == i) {
-                    var emailData = {};
+                    
                     console.log("bank comopany ", data.data.company.bank);
                     var accountNumber = (data.data.company.bank.accountNumber ? data.data.company.bank.accountNumber : "");
                     var neftCode = (data.data.company.bank.neftCode ? data.data.company.bank.neftCode : "");
@@ -11548,7 +11550,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
                         emailData.assignmentNo = data.data.name;
                         emailData.ownerName = data.data.owner.name;
-                        emailData.ownerEmail = data.data.owner.email;
+                        emailData.ownerEmail = data.data.owner.officeEmail;
                         emailData.ownerPhone = data.data.owner.mobile;
                         emailData.siteCity = data.data.city.name;
                         emailData.insuredName = (data.data.insured.name ? data.data.insured.name : "");
@@ -11568,7 +11570,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                                     console.log("In surveyor");
                                     emailData.surveyorNumber = values.employee.mobile;
                                     emailData.surveyorName = values.employee.name;
-                                    emailData.surveyorEmail = values.employee.email;
+                                    emailData.surveyorEmail = values.employee.officeEmail;
                                     emailData.surveyDate = values.surveyDate;
                                 }
                             });
@@ -11578,21 +11580,22 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         emailData.to = [];
                         emailData.to.push({
                             name: data.data.owner.name,
-                            email: data.data.owner.email
+                            email: data.data.owner.officeEmail
                         });
+                        emailData.cc = [];
                         if (!_.isEmpty(data.data.shareWith)) {
                             _.each(data.data.shareWith, function (values) {
                                 console.log("values", values);
                                 _.each(values.persons, function (personss) {
                                     console.log("persons", personss);
-                                    emailData.to.push({
+                                    emailData.cc.push({
                                         name: personss.name,
-                                        email: personss.email
+                                        email: personss.officeEmail
                                     })
                                 });
                             });
                         }
-                        console.log("emailers to", emailData.to);
+                        console.log("emailers cc", emailData.cc,"emailers to", emailData.to);
                         $scope.emailersData(type, emailData);
                         console.log("emailers", $scope.emailData);
                         $scope.results = data;

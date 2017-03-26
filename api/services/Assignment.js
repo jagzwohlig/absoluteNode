@@ -842,7 +842,7 @@ var model = {
                       var emailData = {};
                       emailData.assignmentNo = assignmentData.name;
                       emailData.ownerName = assignmentData.owner.name;
-                      emailData.ownerEmail = assignmentData.owner.email;
+                      emailData.ownerEmail = assignmentData.owner.officeEmail;
                       emailData.ownerPhone = assignmentData.owner.mobile;
                       emailData.siteCity = assignmentData.city.name;
                       emailData.invoiceNumber = data.invoiceNumber;
@@ -868,7 +868,7 @@ var model = {
                             console.log(" values.employee.mobile", values.employee.mobile);
                             emailData.surveyorNumber = values.employee.mobile;
                             emailData.surveyorName = values.employee.name;
-                            emailData.surveyorEmail = values.employee.email;
+                            emailData.surveyorEmail = values.employee.officeEmail;
                             emailData.surveyDate = (values.surveyDate ? moment(values.surveyDate).format("DD/MM/YYYY") : "");
                             emailData.siteAddress = values.address;
                           }
@@ -880,7 +880,7 @@ var model = {
                       emailData.to = [];
                       emailData.to.push({
                         name: assignmentData.owner.name,
-                        email: assignmentData.owner.email
+                        email: assignmentData.owner.officeEmail
                       });
 
                       if (assignmentData.shareWith) {
@@ -1338,7 +1338,7 @@ var model = {
                 var emailData = {};
                 emailData.assignmentNo = assignmentData.name;
                 emailData.ownerName = assignmentData.owner.name;
-                emailData.ownerEmail = assignmentData.owner.email;
+                emailData.ownerEmail = assignmentData.owner.officeEmail;
                 emailData.ownerPhone = assignmentData.owner.mobile;
                 emailData.siteCity = assignmentData.city.name;
                 emailData.insuredName = (assignmentData.insured.name ? assignmentData.insured.name : "");
@@ -1353,7 +1353,7 @@ var model = {
                       // console.log(" values.employee.mobile", values.employee.mobile);
                       emailData.surveyorNumber = values.employee.mobile;
                       emailData.surveyorName = values.employee.name;
-                      emailData.surveyorEmail = values.employee.email;
+                      emailData.surveyorEmail = values.employee.officeEmail;
                       emailData.surveyDate = (values.surveyDate ? moment(values.surveyDate).format("DD/MM/YYYY") : "");
                       emailData.siteAddress = values.address;
                     }
@@ -1365,17 +1365,18 @@ var model = {
                 emailData.to = [];
                 emailData.to.push({
                   name: assignmentData.owner.name,
-                  email: assignmentData.owner.email
+                  email: assignmentData.owner.officeEmail
                 });
 
+                emailData.cc = [];
                 if (assignmentData.shareWith) {
                   _.each(assignmentData.shareWith, function (values) {
                     console.log("values", values);
                     _.each(values.persons, function (personss) {
                       console.log("persons", personss);
-                      emailData.to.push({
+                      emailData.cc.push({
                         name: personss.name,
-                        email: personss.email
+                        email: personss.officeEmail
                       })
                     });
                   });
@@ -3000,7 +3001,7 @@ var model = {
               var emailData = {};
               emailData.assignmentNo = assignmentData.name;
               emailData.ownerName = assignmentData.owner.name;
-              emailData.ownerEmail = assignmentData.owner.email;
+              emailData.ownerEmail = assignmentData.owner.officeEmail;
               emailData.ownerPhone = assignmentData.owner.mobile;
               emailData.siteCity = assignmentData.city.name;
               if (assignmentData.insured) {
@@ -3025,7 +3026,7 @@ var model = {
                     // console.log(" values.employee.mobile", values.employee.mobile);
                     emailData.surveyorNumber = values.employee.mobile;
                     emailData.surveyorName = values.employee.name;
-                    emailData.surveyorEmail = values.employee.email;
+                    emailData.surveyorEmail = values.employee.officeEmail;
                     emailData.surveyDate = (values.surveyDate ? moment(values.surveyDate).format("DD/MM/YYYY") : "");
                     emailData.siteAddress = values.address;
                   }
@@ -3037,17 +3038,17 @@ var model = {
               emailData.to = [];
               emailData.to.push({
                 name: assignmentData.owner.name,
-                email: assignmentData.owner.email
+                email: assignmentData.owner.officeEmail
               });
-
+              emailData.cc = [];
               if (assignmentData.shareWith) {
                 _.each(assignmentData.shareWith, function (values) {
                   // console.log("values", values);
                   _.each(values.persons, function (personss) {
                     // console.log("persons", personss);
-                    emailData.to.push({
+                    emailData.cc.push({
                       name: personss.name,
-                      email: personss.email
+                      email: personss.officeEmail
                     })
                   });
                 });
