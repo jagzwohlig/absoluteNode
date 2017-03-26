@@ -750,9 +750,9 @@ var model = {
                 }
                 callback(null, data5);
             });
-            console.log("data.filter",data.filter);
+            console.log("data.filter", data.filter);
         } else {
-            console.log("data.filter",data.filter);
+            console.log("data.filter", data.filter);
             var Search = Model.find(data.filter)
                 .order(options)
                 .deepPopulate("postedAt grade")
@@ -877,6 +877,7 @@ var model = {
             }
         });
     },
+
     getParentEmployee: function (data, callback) {
         var allEmployee = [];
         var Model = this;
@@ -886,7 +887,7 @@ var model = {
             if (err) {
                 callback(err, allEmployee);
             } else {
-                console.log(data2);
+                console.log("data2");
                 if (data2.employee) {
                     allEmployee.push(data2.employee);
                     Model.getParentEmployee({
@@ -904,6 +905,49 @@ var model = {
                 }
             }
         });
+    },
+
+    getEmployeeData: function (data, callback) {
+        Employee.getParentEmployee(data, function (err, empData) {
+            if (err) {
+                callback(err, null);
+            } else {
+                if (_.isEmpty(empData)) {
+                    callback(err, null);
+                } else {
+                    Employee.find({
+                        _id: {
+                            $in: empData
+                        }
+                    }, {
+                        _id: 1,
+                        name: 1,
+                        officeEmail: 1
+                    }).lean().exec(function (err, userData) {
+                        if (err) {
+                            callback(err, null);
+                        } else {
+                            if(_.isEmpty(userData)){
+                                callback([], null);
+                            }
+                            else {
+                                var newData = [];
+                                _.each(userData,function(values){
+                                    newData.push({
+                                        name:values.name,
+                                        email:values.officeEmail
+                                    });
+                                });
+                                 callback(null, newData);
+                            }
+                           
+                        }
+                    });
+                }
+            }
+        });
+
     }
+
 };
 module.exports = _.assign(module.exports, exports, model);

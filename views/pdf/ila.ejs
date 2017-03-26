@@ -127,7 +127,7 @@ function getAssignmentTemplateValue (input, assignment) {
             </div>
             <div class="clearfix"></div>
             <div>
-                <p class="float-left" style="font-weight: bold;"><%=assignment.policyType.name%> # <%=assignment.name%></p>
+                <p class="float-left" style="font-weight: bold;"><% if(assignment.policyType)  {%><%=assignment.policyType.name%> # <%=assignment.name%><% } %></p>
                 <p class="float-right">Date: <%= moment(new Date(data.authTimestamp)).format("D-MMM-YYYY")%></p>
             </div>
             <div class="clearfix"></div>

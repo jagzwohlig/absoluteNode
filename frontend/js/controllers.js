@@ -2968,6 +2968,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.formData = data.data;
         });
 
+
         $scope.itemTypes = [{
             value: '',
             name: 'Select type of item'
@@ -9671,7 +9672,18 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             name: 'Textarea'
         }];
 
+         $scope.getParentEmployee = function () {
+            // console.log("Approval", obj);
+             NavigationService.getEmployeeData("582bfc534954ce2de1bfd180", function (data) {
+            // NavigationService.getEmployeeData($.jStorage.get("profile")._id, function (data) {
+                console.log("getparent data",data);
+                $scope.forms.employee = [];
+                $scope.forms.employee = data.data;
+                console.log("$scope.forms.employee",$scope.forms.employee);
+            });
+        };
 
+        $scope.getParentEmployee();
         $scope.addHead = function () {
             $scope.formData.forms.push({
                 head: $scope.formData.forms.length + 1,
@@ -10614,6 +10626,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 dropdownValues: ['Mumbai', 'Bihar', 'Orissa']
             }]
         }];
+        $scope.getParentEmployee = function () {
+            // console.log("Approval", obj);
+             NavigationService.getEmployeeData("582bfc534954ce2de1bfd180", function (data) {
+            // NavigationService.getEmployeeData($.jStorage.get("profile")._id, function (data) {
+                console.log("getparent data",data);
+                $scope.employee = [];
+                $scope.employee = data.data;
+                console.log("$scope.forms.employee",$scope.employee);
+            });
+        };
+        $scope.getParentEmployee();
         $scope.assignment = {};
         $scope.assignment.templateIla = [];
         $scope.assignment.templateIsr = [];
@@ -10775,6 +10798,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                  $window.history.back();
             });
         };
+
         $scope.saveDraft = function (templateObj) {
                 NavigationService.editAssignmentTemplate($scope.forms, function (data) {
                     console.log("After PDF Generate", data);
@@ -10792,6 +10816,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 });
             },
             $scope.saveModel = function (templateObj) {
+                console.log("assignment employee",$scope.assignment.employee);
                 console.log("Save Data", templateObj, $scope.assignment);
                 if ($stateParams.assignment !== "") {
                     delete templateObj._id;

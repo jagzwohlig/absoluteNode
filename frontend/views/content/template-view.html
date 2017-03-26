@@ -3,6 +3,7 @@
         <div class="row">
             <div class="col-md-12 column">
                 <div class="heading-profile">
+                    <!--{{forms.employee}}-->
                     <h2>{{forms.name}}</h2>
                 </div>
             </div>
@@ -87,7 +88,7 @@
             </div>
         </div>
         <div class="widget" ng-if="forms.type=='templateLor'">
-            <div class="form-elements-sec">
+            <div class="form-elements-sec">sss
                 <div class="sec">
                     <div class="clearfix"></div>
                     <div class="form-builder">
@@ -155,26 +156,22 @@
                                     </div>
                                     <!-- LOR -->
                                     <div class="col-item" ng-if="item.type=='Copy'||item.type=='Original'" style="flex:0.5;">
-
                                         <select class="form-control" ng-model="item.type">
                                             <option value="{{item.value}}" ng-repeat="item in itemTypes">{{item.name}}</option>
                                         </select>
-
                                     </div>
-
                                     <div class="col-item" ng-if="item.type=='Copy' || item.type=='Original' && item.submit" style="flex:0.5;">
                                         <input type="date" date-model placeholder="Enter submitted date" class="form-control" ng-model="item.date">
                                     </div>
                                     <div class="col-item" ng-if="item.type=='Copy'||item.type=='Original'" style="flex:2;">
                                         <!--<toggle-switch on-label="Submitted" off-label="Not Submitted" ng-model="item.submit" class="switch-small switch-success m5 mt5"></toggle-switch>-->
                                         <div class="btn-group">
-                                            <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': item.submit=='Pending'}" ng-click="item.submit='Pending'">Pending</button>                                            
+                                            <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': item.submit=='Pending'}" ng-click="item.submit='Pending'">Pending</button>
                                             <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': item.submit=='Partially Recieved'}" ng-click="item.submit='Partially Recieved'">Partial</button>
                                             <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': item.submit=='Recieved'}" ng-click="item.submit='Recieved'">Recieved</button>
                                             <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': item.submit=='Waived'}" ng-click="item.submit='Waived'">Waived</button>
                                         </div>
                                     </div>
-
                                     <!-- DROPDOWN -->
                                     <div class="col-item" ng-if="item.type=='Dropdown'">
                                         <select class="form-control" ng-model="item.field">
@@ -192,6 +189,11 @@
                 </div>
             </div>
         </div>
+        <!--<div class="col-item" style="flex:2;">
+            <select class="form-control" ng-model="assignment.employee">
+                    <option value="{{employees.officeEmail}}" ng-repeat="employees in employee">{{employees.name}} &lt;{{employees.email}}&gt;</option>
+             </select>
+        </div>-->
         <div class="clearfix"></div>
         <div class="text-center mt20 odd-even-button" ng-hide="Saved">
             <button class="btn btn-primary" ng-click="saveDraft(forms)" ng-if="approval==false">Draft</button>

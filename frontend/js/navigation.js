@@ -2259,6 +2259,12 @@ var navigationservice = angular.module('navigationservice', [])
                     data: id
                 }).success(callback);
             },
+              getEmployeeData: function (id, callback) {
+                console.log('get parent data: ', id);
+                 $http.post(adminurl + 'Employee/getEmployeeData', {
+                    _id: id
+                }).success(callback);
+            },
             employeeEditSave: function (id, callback) {
                 // console.log('form data: ', formData);
                 $http({
