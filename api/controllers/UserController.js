@@ -111,7 +111,7 @@ var controller = {
             user: req.user
         };
         var rawData = 
-            "From: " + req.user.email + "\r\n" +
+            "From: " + req.user.officeEmail + "\r\n" +
             "To: " + req.body.to + "\r\n" +
             "Cc: " + req.body.cc + "\r\n" +
             "Bcc: " + req.body.bcc + "\r\n" +

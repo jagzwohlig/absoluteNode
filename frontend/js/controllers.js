@@ -11563,7 +11563,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.search = {
             keyword: ""
         };
-
         $scope.getMail = function (chat, mailType) {
             var type = chat.event;
             if (mailType != undefined) {
@@ -11572,25 +11571,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             }
             $scope.chatId = chat.chatId;
             console.log("$stateParams.id", $stateParams.id, "chat", chat);
-            var filter = {
-                filter:{
-                    isSBC:true
-                }
-            };
-            var emailData = {};
-            emailData.sbcTo = [];
-             NavigationService.employeeSearch(filter, 1, function (data) {
-                console.log("searchEmployee", data.data.results);
-                _.each(data.data.results,function(values){
-                    console.log("sbcTo",values);
-                    emailData.sbcTo.push({
-                        name:values.name,
-                        email:values.officeEmail
-                    });
-                });
-                console.log("emailData.sbcTo",emailData.sbcTo);
 
-            });
+            var emailData = {};
 
             NavigationService.getOneAssignment({
                 _id: $stateParams.id
@@ -11643,7 +11625,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
 
                         emailData.to = [];
+                        console.log("email office ",data.data.owner.officeEmail);
                         emailData.to.push({
+                            
                             name: data.data.owner.name,
                             email: data.data.owner.officeEmail
                         });
