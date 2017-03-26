@@ -1662,14 +1662,15 @@ var model = {
         callback(err, null);
       } else {
         var newChat = {};
-        newChat.employee = data.empId,
-          newChat.type = "SurveyDone",
-          newChat.title = "Survey Done",
-          newChat.surveyEndTime = new Date(data.endTime),
-          newChat.surveyStartTime = new Date(data.startTime),
-          newChat.surveyDate = new Date(data.surveyDate),
-          newChat.address = data.address,
-          newChat.event = "On Survey Attended",
+        newChat.employee = data.empId;
+          newChat.type = "SurveyDone";
+          newChat.title = "Survey Done";
+          newChat.surveyEndTime = new Date(data.endTime);
+          newChat.surveyStartTime = new Date(data.startTime);
+          newChat.surveyDate = new Date(data.surveyDate);
+          newChat.address = data.address;
+          newChat.event = "On Survey Attended";
+          newChat.onSurveyAttended = true
           _.each(fileArray, function (n) {
             n.employee = data.empId,
               n.type = "Normal",

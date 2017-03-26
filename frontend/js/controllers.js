@@ -11193,8 +11193,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                             cc: emailData.cc,
                             bcc: emailData.bcc,
                             subject: "Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
-                            message: "<html><body><p style='font-size: 16px;'>Dear " + emailData.surveyorName + ",</p><p style='font-size: 16px;'>Please refer to our telecom, in respect of the subject claim. You are requested to kindly attend the loss inline with the discussions held and specific requirements of the claim. Our reference number for this claim would be " + emailData.assignmentNo + "</p> <p style='font-size: 16px;'>In order to assist you, we are attaching relevant format of JIR. Please ensure to capture every detail there in & get the same duly signed by the concerned person. In an unlikely event wherein there is a difference of opinion between yourself & the concerned person, both the opinions may be recorded. We would appreciate a brief call from the site while you are attending the loss as this helps us update the insurer's of the developments. Should you ever need any support / information / update please feel at ease to get in touch with me. I will be more than willing to assist.</p><br>" + "<p style='font-size: 16px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>",
-                            threadId: emailData.threadId
+                            message: "<html><body><p style='font-size: 16px;'>Dear " + emailData.surveyorName + ",</p><p style='font-size: 16px;'>Please refer to our telecom, in respect of the subject claim. You are requested to kindly attend the loss inline with the discussions held and specific requirements of the claim. Our reference number for this claim would be " + emailData.assignmentNo + "</p> <p style='font-size: 16px;'>In order to assist you, we are attaching relevant format of JIR. Please ensure to capture every detail there in & get the same duly signed by the concerned person. In an unlikely event wherein there is a difference of opinion between yourself & the concerned person, both the opinions may be recorded. We would appreciate a brief call from the site while you are attending the loss as this helps us update the insurer's of the developments. Should you ever need any support / information / update please feel at ease to get in touch with me. I will be more than willing to assist.</p><br>" + "<p style='font-size: 16px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+                            // threadId: emailData.threadId
                         }
                         $scope.emailData = emails;
                     }
@@ -11208,8 +11208,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                             cc: emailData.cc,
                             bcc: emailData.bcc,
                             subject: "Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
-                            message: "<html><body><p style='font-size: 16px;'>We are pleased to inform you that the survey for the said claim has been attended on " + emailData.surveyDate + " No sooner we receive further details, we shall update you in this regard. Meanwhile, request you to kindly bear with us. Should you ever need any support / information / update please feel at ease to get in touch with me. I will be more than willing to assist.</p><br>" + "<p style='font-size: 16px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>",
-                            threadId: emailData.threadId
+                            message: "<html><body><p style='font-size: 16px;'>We are pleased to inform you that the survey for the said claim has been attended on " + emailData.surveyDate + " No sooner we receive further details, we shall update you in this regard. Meanwhile, request you to kindly bear with us. Should you ever need any support / information / update please feel at ease to get in touch with me. I will be more than willing to assist.</p><br>" + "<p style='font-size: 16px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+                            // threadId: emailData.threadId
                         }
                         $scope.emailData = emails;
                     }
@@ -11507,6 +11507,24 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             }
             $scope.chatId = chat.chatId;
             console.log("$stateParams.id", $stateParams.id, "chat", chat);
+            var filter = {
+                filter:{
+                    isSBC:true
+                }
+            };
+
+             NavigationService.employeeSearch(filter, 1, function (data) {
+                console.log("searchEmployee", data.data.results);
+                _.each(data.data.results,function(values){
+                    emailData.sbcTo.push({
+                        name:values.name,
+                        email:values.email
+                    }) ;
+                });
+                console.log("emailData.sbcTo",emailData.sbcTo);
+
+            });
+
             NavigationService.getOneAssignment({
                 _id: $stateParams.id
             }, ++i, function (data, ini) {
@@ -11936,7 +11954,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.offlineSurvey.surveyDate = data.surveyDate;
             $scope.offlineSurvey.assignId = $stateParams.id;
             $scope.offlineSurvey.empId = $scope.employee._id;
-            $scope.offlineSurvey.onSurveyAttended = true;
             NavigationService.mobileSubmit($scope.offlineSurvey, function (data) {
                 console.log("Success Assignment Survey", data);
             });
