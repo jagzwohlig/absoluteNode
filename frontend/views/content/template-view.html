@@ -168,8 +168,8 @@
                                     <div class="col-item" ng-if="item.type=='Copy'||item.type=='Original'" style="flex:2;">
                                         <!--<toggle-switch on-label="Submitted" off-label="Not Submitted" ng-model="item.submit" class="switch-small switch-success m5 mt5"></toggle-switch>-->
                                         <div class="btn-group">
+                                            <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': item.submit=='Pending'}" ng-click="item.submit='Pending'">Pending</button>                                            
                                             <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': item.submit=='Partially Recieved'}" ng-click="item.submit='Partially Recieved'">Partial</button>
-                                            <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': item.submit=='Pending'}" ng-click="item.submit='Pending'">Pending</button>
                                             <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': item.submit=='Recieved'}" ng-click="item.submit='Recieved'">Recieved</button>
                                             <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': item.submit=='Waived'}" ng-click="item.submit='Waived'">Waived</button>
                                         </div>
