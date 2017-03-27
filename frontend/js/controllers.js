@@ -11061,7 +11061,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             };
 
         $scope.acceptModel = function (templateObj) {
-            console.log("assignment employee",$scope.emp.officeEmail);
+            console.log("assignment employee",$scope.forms.officeEmail);
             console.log("FFFFF", $scope.forms);
             $scope.Saved = true;
             // For authTimestamp In Assignment
