@@ -640,11 +640,7 @@ var navigationservice = angular.module('navigationservice', [])
                 });
             },
             searchInsurerOffice: function (formData, i, callback) {
-                console.log("AAAAAAAA");
-                // formData.customerSegment = "Insurer";
-                formData.filter = {
-                    customerSegment: "57c3ef9b6fb3c3420233a00d"
-                }
+                console.log("AAAAAAAA",formData);
                 $http.post(adminurl + 'CustomerCompany/search', formData).success(function (data) {
                     callback(data, i);
                 });

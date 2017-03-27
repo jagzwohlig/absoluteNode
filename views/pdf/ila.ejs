@@ -169,23 +169,7 @@ function getAssignmentTemplateValue (input, assignment) {
                 <div class="float-right">
                     <p class="without logo">without prejudice</p>
                 </div>
-<<<<<<< HEAD
-                <div class="clearfix"></div>
-                <div class="plus-size">
-                    <p class="float-left" style="font-weight: bold;">
-                        <%=assignment.policyType.name%> #
-                            <%=assignment.name%>
-                    </p>
-                    <p class="float-right">Date:
-                        <%= moment(new Date(data.authTimestamp)).format("D-MMM-YYYY")%>
-                    </p>
-                </div>
-                <div class="clearfix"></div>
-                <div>
-                    <table id="report-table">
-                        <tbody>
-                            <% for(var i=0; i<data.forms.length; i++) {%>
-=======
+
             </div>
             <div class="clearfix"></div>
             <div class="float-right">
@@ -208,7 +192,6 @@ function getAssignmentTemplateValue (input, assignment) {
                                 </th>
                             </tr>
                             <% for(var j=0; j<data.forms[i].items.length; j++) {%>
->>>>>>> 77da01f59f2dd0ba5dbab9b67643d168a28b079a
                                 <tr>
                                     <th colspan="2">
                                         <%= i+1 %>
