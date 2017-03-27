@@ -41,11 +41,11 @@ function getAssignmentTemplateValue (input, assignment) {
                 font-size: 10px;
                 font-family: sans-serif;
             }
-            
+
             .plus-size {
                 font-size: 13px;
             }
-            
+
             .container-width {
                 width: 800px;
                 margin: 0 auto;
@@ -53,46 +53,46 @@ function getAssignmentTemplateValue (input, assignment) {
                 display: block;
                 position: relative;
             }
-            
+
             .float-left {
                 float: left;
             }
-            
+
             .float-right {
                 float: right;
             }
-            
+
             .marg0>p {
                 margin: 0;
             }
-            
+
             .clearfix {
                 clear: both;
             }
-            
+
             .without {
                 text-transform: uppercase;
                 text-decoration: underline;
             }
-            
+
             table {
                 width: 100%;
             }
-            
+
             table>tbody>tr>td:first-child {
                 font-style: italic;
                 width: 30%;
             }
-            
+
             tr>th,
             td {
                 text-align: left;
             }
-            
+
             tr>th {
                 text-transform: uppercase;
             }
-            
+
             table,
             th,
             td {
@@ -101,29 +101,31 @@ function getAssignmentTemplateValue (input, assignment) {
                 font-size: 12px;
                 padding: 8px 4px 2px;
             }
-            
+
             .border-none {
                 border-bottom: 1px solid transparent;
             }
-            
+
             #pageFooter {
                 font-size: 7px;
             }
-            .height-blank{
-                height:30px;
+
+            .height-blank {
+                height: 30px;
             }
+
             .bt-foot {
                 padding-top: 3px;
                 border-top: 1px solid black;
             }
             /* applied to our table */
-            
+
             #report-table {
                 /*-webkit-region-break-inside: auto; //tried for Chrome */
                 page-break-inside: auto
             }
             /* applied to all our <tr> */
-            
+
             #report-table tbody tr,
             #report-table .behave-tbody .behave-tr {
                 /*-webkit-region-break-inside: avoid; //tried for Chrome */
@@ -132,7 +134,7 @@ function getAssignmentTemplateValue (input, assignment) {
                 page-break-after: auto;
             }
             /* page break specific class */
-            
+
             .page-break {
                 break-after: always;
                 /*-webkit-region-break-after: always; //tried for Chrome */
@@ -146,7 +148,7 @@ function getAssignmentTemplateValue (input, assignment) {
             <div style="width:555px;margin:0 auto">
 
                 <div>
-                    <div class="float-left marg0">
+                    <div class="float-left marg0" style="max-width: 50%;">
                         <p>
                             <%=assignment.branch.name%>,<br></p>
                         <% if(assignment.office) { %>
@@ -167,7 +169,7 @@ function getAssignmentTemplateValue (input, assignment) {
                         <img src="http://absolute.wohlig.co.in/api/upload/readFile?file=589c558c1d8a3a0fc6eb4c6e.png" style="width:200px">
                     </div>
                 </div>
-               
+
 
             </div>
             <div class="clearfix"></div>
@@ -199,13 +201,13 @@ function getAssignmentTemplateValue (input, assignment) {
                                     </th>
                                 </tr>
                                 <%}else{%>
-                                
+
                                     <tr>
                                         <th colspan="2" class="height-blank">
-                                               
+
                                         </th>
                                     </tr>
-                                    
+
                                     <tr>
                                         <th colspan="2">
                                             <%= i+1 %>
@@ -216,7 +218,8 @@ function getAssignmentTemplateValue (input, assignment) {
                                         <% for(var j=0; j<data.forms[i].items.length; j++) {%>
                                             <tr>
                                                 <td>
-                                                    <%=i+1%>.<%=j+1%>
+                                                    <%=i+1%>.
+                                                        <%=j+1%>
                                                             <%= data.forms[i].items[j].name %>
                                                 </td>
                                                 <% if(data.forms[i].items[j].type=="Custom Input") {  %>
@@ -241,25 +244,26 @@ function getAssignmentTemplateValue (input, assignment) {
                     </tbody>
                 </table>
             </div>
-        
 
 
-        <p>Sincerely,</p>
-        <p class="subject">For, Absolute Insurace Surveyors & Loss Assessors Pvt Ltd</p>
-        <br><br><br><br> Authorised Signatory,<br>    
-    </div>
+
+            <p>Sincerely,</p>
+            <p class="subject">For, Absolute Insurace Surveyors & Loss Assessors Pvt Ltd</p>
+            <br><br><br><br> Authorised Signatory,<br>
+        </div>
 
 
-   
 
-            <div id="pageFooter">
-                <div class="bt-foot">
-                    <div class="float-right">
-                        Assignment # <%=assignment.name%> - Page {{page}} of {{pages}}
-                    </div>
-                    Absolute Insurance Surveyors &amp; Loss Assessors Pvt Ltd
+
+        <div id="pageFooter">
+            <div class="bt-foot">
+                <div class="float-right">
+                    Assignment #
+                    <%=assignment.name%> - Page {{page}} of {{pages}}
                 </div>
+                Absolute Insurance Surveyors &amp; Loss Assessors Pvt Ltd
             </div>
+        </div>
     </body>
 
 </html>
