@@ -320,6 +320,9 @@ schema.plugin(deepPopulate, {
         },
         'IIISLACertificate.department': {
             select: 'name _id'
+        },
+        'employee':{
+            select: 'name _id officeEmail email'
         }
     }
 });
@@ -327,7 +330,7 @@ schema.plugin(deepPopulate, {
 schema.plugin(timestamps);
 module.exports = mongoose.model('Employee', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country func grade department IIISLACertificate.department allBranch role", "city.district.state.zone.country  func grade postedAt allBranch role"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country func grade department IIISLACertificate.department allBranch role employee", "city.district.state.zone.country  func grade postedAt allBranch role employee"));
 var model = {
     // Start
     getBackendEmployee: function (data, callback) {
@@ -374,7 +377,7 @@ var model = {
     getLoginEmployee: function (data, callback) {
         Employee.findOne({
             officeEmail: data.email
-        }).deepPopulate("role").exec(function (err, found) {
+        }).deepPopulate("role employee").exec(function (err, found) {
             if (err) {
                 callback(err, null);
             } else {
@@ -887,8 +890,9 @@ var model = {
             if (err) {
                 callback(err, allEmployee);
             } else {
-                console.log("data2");
-                if (data2.employee) {
+                console.log("data2",data2);
+                // if (data2.employee) {
+                if(data2!=null) {
                     allEmployee.push(data2.employee);
                     Model.getParentEmployee({
                         _id: data2.employee

@@ -1256,6 +1256,11 @@ var model = {
               } else {
                 emailData.insuredName = "";
               }
+              if (assignmentData.products[0]) {
+                if (assignmentData.products[0].product) {
+                  emailData.productName = (assignmentData.products[0].product.name ? assignmentData.products[0].product.name : "NA");
+                }
+              }
               if (assignmentData.templateIla) {
                 emailData.ilaAuthDate = assignmentData.templateIla[0].authTimestamp;
               }
@@ -1291,7 +1296,7 @@ var model = {
                 emailData.assignmentAuthorizer = body.users.name;
               }
               // console.log('mailData', mailData);
-              var mailData= [];
+              var mailData = [];
               if ($scope.data.type == "templateLor") {
                 mailData[0] = "LOR Send Authorization";
                 mailData[1] = emailData;
@@ -3616,6 +3621,7 @@ var model = {
     emailData.surveyorEmail = (mailData.surveyorEmail ? mailData.surveyorEmail : "NA");
     emailData.surveyDate = (mailData.surveyDate ? mailData.surveyDate : "NA");
     emailData.siteAddress = (mailData.siteAddress ? mailData.siteAddress : "NA");
+    emailData.productName = (mailData.productName ? mailData.productName : "NA");
 
     switch (data[0]) {
       case "Acknowledgment Email":
@@ -3719,7 +3725,7 @@ var model = {
             cc: emailData.cc,
             bcc: emailData.bcc,
             subject: "ILA Send for Authorization Mail of Assignment : " + emailData.assignmentNo,
-            message: "<html><body><p style='font-size: 16px;'>Please go through the ILA for Assignment No. " + emailData.assignmentNo + " in respect of loss sustained by " + emailData.insuredName + " on account of damage to #ProductDetails# and authorize the same.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.assignmentAuthorizer + "</p></body></html>"
+            message: "<html><body><p style='font-size: 16px;'>Please go through the ILA for Assignment No. " + emailData.assignmentNo + " in respect of loss sustained by " + emailData.insuredName + " on account of damage to " + emailData.productName + " and authorize the same.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.assignmentAuthorizer + "</p></body></html>"
           }
           callback(null, emails);
         }
@@ -3808,8 +3814,8 @@ var model = {
             to: emailData.to,
             cc: emailData.cc,
             bcc: emailData.bcc,
-            subject: "Invoice Send Authorization : #InvoiceNo#",
-            message: "<html><body><p style='font-size: 16px;'>Please go through the Invoice for Assignment No. " + emailData.assignmentNo + " in respect of loss sustained by " + emailData.insuredName + " on account of damage to #ProductDetails# and authorize the same</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+            subject: "Invoice Send Authorization : " + emailData.invoiceNumber,
+            message: "<html><body><p style='font-size: 16px;'>Please go through the Invoice for Assignment No. " + emailData.assignmentNo + " in respect of loss sustained by " + emailData.insuredName + " on account of damage to " + emailData.productName + " and authorize the same</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
           }
           callback(null, emails);
         }
@@ -3846,7 +3852,7 @@ var model = {
         }
         break;
 
-       case "LOR Send Authorization":
+      case "LOR Send Authorization":
         {
           var emails = {
             name: 'LOR Send Authorization',
@@ -3855,7 +3861,7 @@ var model = {
             cc: emailData.cc,
             bcc: emailData.bcc,
             subject: "LOR is Send For Authorization For Assignment : " + emailData.assignmentNo,
-            message: "<html><body><p style='font-size: 16px;'>Requesting you to go through the LOR prepared for "+ emailData.insuredName +", assignment "+ emailData.assignmentNo +" and authorize the same.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.assignmentAuthorizer + "</p></body></html>"
+            message: "<html><body><p style='font-size: 16px;'>Requesting you to go through the LOR prepared for " + emailData.insuredName + ", assignment " + emailData.assignmentNo + " and authorize the same.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.assignmentAuthorizer + "</p></body></html>"
           }
           callback(null, emails);
         }

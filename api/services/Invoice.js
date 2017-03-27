@@ -311,6 +311,12 @@ var model = {
                                             if (assignmentData.templateIla) {
                                                 emailData.ilaAuthDate = assignmentData.templateIla[0].authTimestamp;
                                             }
+                                            if(assignmentData.products[0]){
+                                                if(assignmentData.products[0].product){
+                                                emailData.productName = (assignmentData.products[0].product.name ? assignmentData.products[0].product.name : "NA");
+                                                }
+                                            }
+                                            
                                             // emailData.surveyDate = (surveyDate ? moment(surveyDate).format("DD/MM/YYYY") : "");
                                             // console.log("emailData In 1 ", emailData);
                                             if (assignmentData.survey) {
@@ -354,7 +360,27 @@ var model = {
                                             console.log('mailData', mailData);
 
                                             //Find Acknowledgment Email data
-                                            if (data.approvalStatus == "Approved") {
+                                             if (data.approvalStatus == "Pending") {
+
+                                                var mailData = [];
+                                                mailData[0] = "Invoice Send Authorization";
+                                                mailData[1] = emailData;
+                                                mailData[2] = data.accessToken;
+                                                mailData[3] = data.users.email;
+                                                Assignment.getMailAndSendMail(mailData, function (err, newData) {
+                                                    if (err) {
+                                                        callback(null, err);
+                                                    } else {
+                                                        if (_.isEmpty(newData)) {
+                                                            callback("There was an error while sending mail", null);
+                                                        } else {
+                                                            callback(null, newData);
+                                                        }
+                                                    }
+                                                });
+                                            }
+
+                                            else if (data.approvalStatus == "Approved") {
 
                                                 var mailData = [];
                                                 mailData[0] = "Invoice Authorization";
