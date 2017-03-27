@@ -10896,8 +10896,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         },
         $scope.saveModel = function (templateObj) {
-            console.log("assignment employee", $scope.emp.officeEmail);
-            console.log("assignment employee", $scope.assignment.employee);
             console.log("Save Data", templateObj, $scope.assignment);
             if ($stateParams.assignment !== "") {
                 delete templateObj._id;
