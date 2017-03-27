@@ -11061,7 +11061,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             };
 
         $scope.acceptModel = function (templateObj) {
-            console.log("assignment employee",$scope.emp.officeEmail);
+            console.log("assignment employee",$scope.forms.officeEmail);
             console.log("FFFFF", $scope.forms);
             $scope.Saved = true;
             // For authTimestamp In Assignment
@@ -11341,6 +11341,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     break;
                 case "Deputation mail":
                     {
+                        if(emailData.surveyorName == "NA"){
+                            emailData.surveyorName="";
+                        }
+                        if(emailData.surveyorEmail == "NA"){
+                            emailData.surveyorEmail="";
+                        }
+                        
                         emailData.to.push({
                             name: emailData.surveyorName,
                             email: emailData.surveyorEmail

@@ -94,10 +94,10 @@ var controller = {
                             Assignment.sendEmails(emailsData, function (err, threadData) {
                                 console.log("threadData in ", threadData);
                                 if (err) {
-                                    callback(err, null);
+                                    res.callback(err, null);
                                 } else {
                                     if (_.isEmpty(threadData)) {
-                                        callback("No mail data found!", null);
+                                        res.callback("No mail data found!", null);
                                     } else {
                                         threadData._id = mailData[2];
                                         Assignment.updateThreadId(threadData, res.callback);
