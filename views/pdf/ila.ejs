@@ -109,7 +109,9 @@ function getAssignmentTemplateValue (input, assignment) {
             #pageFooter {
                 font-size: 7px;
             }
-            
+            .height-blank{
+                height:30px;
+            }
             .bt-foot {
                 padding-top: 3px;
                 border-top: 1px solid black;
@@ -177,60 +179,77 @@ function getAssignmentTemplateValue (input, assignment) {
             </div>
             <div class="clearfix"></div>
             <div>
-                <p class="float-left" style="font-weight: bold;"><% if(assignment.policyType)  {%><%=assignment.policyType.name%> # <%=assignment.name%><% } %></p>
-                <p class="float-right">Date: <%= moment(new Date(data.authTimestamp)).format("D-MMM-YYYY")%></p>
+                <p class="float-left" style="font-weight: bold;">
+                    <% if(assignment.policyType)  {%>
+                        <%=assignment.policyType.name%> #
+                            <%=assignment.name%>
+                                <% } %>
+                </p>
+                <p class="float-right">Date:
+                    <%= moment(new Date(data.authTimestamp)).format("D-MMM-YYYY")%>
+                </p>
             </div>
             <div class="clearfix"></div>
             <div>
                 <table>
                     <tbody>
                         <% for(var i=0; i<data.forms.length; i++) {%>
-                            <tr>
-                                <th colspan="2">
-                                    <%= i+1 %>
-                                        <%= data.forms[i].name %>
-                                </th>
-                            </tr>
-                            <% for(var j=0; j<data.forms[i].items.length; j++) {%>
+                            <% if(i==0){%>
                                 <tr>
                                     <th colspan="2">
                                         <%= i+1 %>
                                             <%= data.forms[i].name %>
                                     </th>
                                 </tr>
-                                <% for(var j=0; j<data.forms[i].items.length; j++) {%>
+                                <%}else{%>
+                                
                                     <tr>
-                                        <td>
-                                            <%=i+1%>.
-                                                <%=j+1%>
-                                                    <%= data.forms[i].items[j].name %>
-                                        </td>
-                                        <% if(data.forms[i].items[j].type=="Custom Input") {  %>
-                                            <td>
-                                                <%= data.forms[i].items[j].field %>
-                                            </td>
-                                            <%} else if(data.forms[i].items[j].type=="Dropdown") {  %>
-                                                <td>
-                                                    <%= data.forms[i].items[j].field %>
-                                                </td>
-
-                                                <% }else{%>
-                                                    <td>
-                                                        <%= getAssignmentTemplateValue(data.forms[i].items[j].value,assignment) %>
-                                                    </td>
-                                                    <% }%>
+                                        <th colspan="2" class="height-blank">
+                                               
+                                        </th>
                                     </tr>
-                                    <% } %>
-                                        <% } %>
+                                    
+                                    <tr>
+                                        <th colspan="2">
+                                            <%= i+1 %>
+                                                <%= data.forms[i].name %>
+                                        </th>
+                                    </tr>
+                                    <%}%>
+                                        <% for(var j=0; j<data.forms[i].items.length; j++) {%>
+                                            <tr>
+                                                <td>
+                                                    <%=i+1%>.
+                                                        <%=j+1%>
+                                                            <%= data.forms[i].items[j].name %>
+                                                </td>
+                                                <% if(data.forms[i].items[j].type=="Custom Input") {  %>
+                                                    <td>
+                                                        <%= data.forms[i].items[j].field %>
+                                                    </td>
+                                                    <%} else if(data.forms[i].items[j].type=="Dropdown") {  %>
+                                                        <td>
+                                                            <%= data.forms[i].items[j].field %>
+                                                        </td>
 
-                        </tbody>
-                    </table>
-                </div>
+                                                        <% }else{%>
+                                                            <td>
+                                                                <%= getAssignmentTemplateValue(data.forms[i].items[j].value,assignment) %>
+                                                            </td>
+                                                            <% }%>
+                                            </tr>
+                                            <% } %>
+                                                <% } %>
+
+
+                    </tbody>
+                </table>
             </div>
+        </div>
 
 
-            <p>Sincerely,</p>
-            <p class="subject">For, Absolute Insurace Surveyors & Loss Assessors Pvt Ltd</p>
+        <p>Sincerely,</p>
+        <p class="subject">For, Absolute Insurace Surveyors & Loss Assessors Pvt Ltd</p>
         </div><br><br><br><br> Authorised Signatory,<br>
 
 
