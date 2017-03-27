@@ -1280,18 +1280,18 @@ var model = {
               // console.log("emailData In 2 ", emailData);
               emailData.to = [];
               emailData.to.push({
-                name: toName,
-                email: toEmail
+                name: "Priyank",
+                email: "priyank.parmar@wohlig.com"
               });
               console.log("emaildata.to ", emailData.to);
 
               emailData.cc = [];
 
-              if (data.users) {
-                emailData.assignmentAuthorizer = data.users.name;
+              if (body.users) {
+                emailData.assignmentAuthorizer = body.users.name;
               }
               // console.log('mailData', mailData);
-
+              var mailData= [];
               if ($scope.data.type == "templateLor") {
                 mailData[0] = "LOR Send Authorization";
                 mailData[1] = emailData;
@@ -3855,7 +3855,7 @@ var model = {
             cc: emailData.cc,
             bcc: emailData.bcc,
             subject: "LOR is Send For Authorization For Assignment : " + emailData.assignmentNo,
-            message: "<html><body><p style='font-size: 16px;'>Requesting you to go through the LOR prepared for "+ emailData.insuredName +", assignment "+ emailData.insuredName +" and authorize the same.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.assignmentAuthorizer + "</p></body></html>"
+            message: "<html><body><p style='font-size: 16px;'>Requesting you to go through the LOR prepared for "+ emailData.insuredName +", assignment "+ emailData.assignmentNo +" and authorize the same.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.assignmentAuthorizer + "</p></body></html>"
           }
           callback(null, emails);
         }

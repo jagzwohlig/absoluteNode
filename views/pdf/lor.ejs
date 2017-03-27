@@ -103,10 +103,14 @@
       <div class="subject">
         <p>Subject:</p>
         <p>Insured :
-          <%=assignment.insured.name%>.</p>
+         <%if(assignment.insured){%>
+          <%=assignment.insured.name%>.
+          <% } %></p>
         <p> Policy # & Type :
           <%=assignment.policyNumber%> -
+           <%if(assignment.policyType){%>
             <%=assignment.policyType.name%>
+            <% } %>
         </p>
         <p>Cause of Loss / Nature of Loss:
           <%=assignment.causeOfLoss.name%>-
