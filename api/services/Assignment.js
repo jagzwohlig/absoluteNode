@@ -701,10 +701,13 @@ schema.plugin(deepPopulate, {
       select: 'name _id district'
     },
     'owner': {
-      select: 'name _id func houseColor photo email mobile officeEmail'
+      select: 'name _id func houseColor photo email mobile officeEmail employee'
     },
     'owner.func': {
       select: 'name'
+    },
+    'owner.employee': {
+      select: 'name officeEmail'
     },
     'city.district': {
       select: 'name _id state'
@@ -798,7 +801,7 @@ schema.plugin(timestamps);
 
 module.exports = mongoose.model('Assignment', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country products.product.category.industry department shareWith.persons policyType natureOfLoss invoice invoice.createdBy insured insuredOffice owner owner.func company company.city insurerOffice company.city.district.state assessment.employee docs.employee fsrs.employee photos.employee causeOfLoss insurer assignedTo office branch survey.employee company.bank", "city.district.state.zone.country products.product.category.industry department shareWith.persons natureOfLoss company invoice invoice.createdBy insuredOffice assignedTo insurerOffice office branch survey.employee company.bank"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country products.product.category.industry department shareWith.persons policyType natureOfLoss invoice invoice.createdBy insured insuredOffice owner owner.func company company.city insurerOffice company.city.district.state assessment.employee docs.employee fsrs.employee photos.employee causeOfLoss insurer assignedTo office branch survey.employee company.bank owner.employee", "city.district.state.zone.country products.product.category.industry department shareWith.persons natureOfLoss company invoice invoice.createdBy insuredOffice assignedTo insurerOffice office branch survey.employee company.bank owner.employee"));
 
 var model = {
   saveData: function (data, callback) {

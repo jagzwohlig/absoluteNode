@@ -10630,6 +10630,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 dropdownValues: ['Mumbai', 'Bihar', 'Orissa']
             }]
         }];
+        $scope.emp = {};
+        $scope.emp.officeEmail = "";
         $scope.getParentEmployee = function () {
             // console.log("Approval", obj);
              NavigationService.getEmployeeData("582bfc534954ce2de1bfd180", function (data) {
@@ -10653,6 +10655,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.tempt = $stateParams.type;
         NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
             $scope.message.employee = data.data;
+            console.log("message employee",$scope.message.employee)
         });
         if ($stateParams.assignmentTemplate === "") {
             NavigationService.getOneModel($stateParams.type, $stateParams.template, function (data) {
@@ -10829,6 +10832,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 });
             },
             $scope.saveModel = function (templateObj) {
+                 
+                 console.log("assignment employee",$scope.emp.officeEmail);
                 console.log("assignment employee",$scope.assignment.employee);
                 console.log("Save Data", templateObj, $scope.assignment);
                 if ($stateParams.assignment !== "") {
@@ -11017,7 +11022,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             };
 
         $scope.acceptModel = function (templateObj) {
-            console.log("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", $scope.forms);
+            console.log("assignment employee",$scope.emp.officeEmail);
+            console.log("FFFFF", $scope.forms);
             $scope.Saved = true;
             // For authTimestamp In Assignment
             $scope.forms.authTimestamp = new Date();

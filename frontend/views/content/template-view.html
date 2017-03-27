@@ -189,15 +189,20 @@
                 </div>
             </div>
         </div>
-        <!--<div class="col-item" style="flex:2;">
-            <select class="form-control" ng-model="assignment.employee">
-                    <option value="{{employees.officeEmail}}" ng-repeat="employees in employee">{{employees.name}} &lt;{{employees.email}}&gt;</option>
+        <!--<div class="col-item" style="flex:1;">-->
+            <!--<select class="form-control" >
+                    <option ng-model="forms.officeEmail" value="{{employees.officeEmail}}" ng-repeat="employees in employee">{{employees.name}} &lt;{{employees.email}}&gt;</option>
              </select>
-        </div>-->
+             {{forms.officeEmail}}-->
+           
+            <!--<select ng-model="selectedItem" name="state" ng-options="employees.officeEmail as employees.name for employees in employee">
+                 <option value="">- Select To Employee -</option>
+            </select>-->
+        <!--</div>-->
         <div class="clearfix"></div>
         <div class="text-center mt20 odd-even-button" ng-hide="Saved">
             <button class="btn btn-primary" ng-click="saveDraft(forms)" ng-if="approval==false">Save as Draft</button>
-            <button class="btn btn-primary" ng-click="saveModel(forms)" ng-if="approval==false">Send for Authorisation</button>
+            <button class="btn btn-primary" ng-click="saveModel(forms)" ng-if="approval==false">Send for Authorization</button>
             <button class="btn btn-primary" ng-click="acceptModel(forms)" ng-if="approval==true">Authorise</button>
             <button class="btn btn-warning" ng-click="comment()" ng-if="approval==true">Send for Revision</button>
             <a class="btn btn-danger" ng-click="cancel()">Cancel</a>
