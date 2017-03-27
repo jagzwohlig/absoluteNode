@@ -1285,8 +1285,8 @@ var model = {
               // console.log("emailData In 2 ", emailData);
               emailData.to = [];
               emailData.to.push({
-                name: "Priyank",
-                email: "priyank.parmar@wohlig.com"
+                name: toName,
+                email: toEmail
               });
               console.log("emaildata.to ", emailData.to);
 

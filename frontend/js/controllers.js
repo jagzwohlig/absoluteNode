@@ -10670,9 +10670,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             dropdownValues: ['Mumbai', 'Bihar', 'Orissa']
         }]
     }];
-   
-   
-    
+
+
+
     $scope.assignment = {};
     $scope.assignment.templateIla = [];
     $scope.assignment.templateIsr = [];
@@ -10688,7 +10688,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.getParentEmployee();
         console.log("message employee", $scope.message.employee)
     });
-     $scope.getParentEmployee = function () {
+    $scope.getParentEmployee = function () {
         // console.log("Approval", obj);
         // NavigationService.getEmployeeData("582bfc534954ce2de1bfd180", function (data) {
         NavigationService.getEmployeeData($.jStorage.get("profile")._id, function (data) {
@@ -11246,6 +11246,29 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
     }
 
+    $scope.refreshResults= function($select) {
+        var search = $select.search,
+            list = angular.copy($select.items),
+            FLAG = -1;
+        //remove last user input
+        list = list.filter(function (item) {
+            return item.id !== FLAG;
+        });
+
+        if (!search) {
+            //use the predefined list
+            $select.items = list;
+        } else {
+            //manually add user input and set selection
+            var userInputItem = {
+                id: FLAG,
+                description: search
+            };
+            $select.items = [userInputItem].concat(list);
+            $select.selected = userInputItem;
+        }
+    }
+    
     $scope.submitForceClose = function (data) {
         $scope.assignment.forceClosedComment = data.comment;
         $scope.assignment.forceClosedReqTime = Date.now();
