@@ -9934,7 +9934,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.addHead = function () {
         $scope.formData.forms.push({
             head: $scope.formData.forms.length + 1,
-            items: [{}]
+            items: [{
+                submit: "Pending"
+            }]
         });
     };
     $scope.removeHead = function (index) {
@@ -10058,7 +10060,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.addHead = function () {
         $scope.formData.forms.push({
             head: $scope.formData.forms.length + 1,
-            items: [{}]
+            items: [{
+                submit: "Pending"
+            }]
         });
     };
     $scope.removeHead = function (index) {
@@ -10748,7 +10752,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.addHead = function () {
         $scope.forms.forms.push({
             head: $scope.forms.forms.length + 1,
-            items: [{}]
+            items: [{
+                submit: "Pending"
+            }]
         });
     };
     $scope.removeHead = function (index) {
