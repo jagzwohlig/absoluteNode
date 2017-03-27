@@ -31,7 +31,7 @@ var schema = new Schema({
     }],
     employee: {
         type: Schema.Types.ObjectId,
-        ref: "employee"
+        ref: "Employee"
     },
     role: [{
         type: Schema.Types.ObjectId,
