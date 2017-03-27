@@ -11341,6 +11341,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     break;
                 case "Deputation mail":
                     {
+                        if(emailData.surveyorName == "NA"){
+                            emailData.surveyorName="";
+                        }
+                        if(emailData.surveyorEmail == "NA"){
+                            emailData.surveyorEmail="";
+                        }
+                        
                         emailData.to.push({
                             name: emailData.surveyorName,
                             email: emailData.surveyorEmail

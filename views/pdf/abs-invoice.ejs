@@ -172,7 +172,9 @@ function toWords (num) {
                     <tr>
                         <td class="noborder">Policy Type</td>
                         <td class="noborder">
+                         <%if(data.assignment.policyType){%>
                             <%=data.assignment.policyType.name%>
+                         <%  } %>
                         </td>
                         <td class="noborder">Product</td>
                         <td class="noborder">
