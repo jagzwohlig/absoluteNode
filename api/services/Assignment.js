@@ -1364,63 +1364,63 @@ var model = {
                   console.log("emailData.sbcTo", emailData.sbcTo);
 
                   emailData.assignmentNo = assignmentData.name;
-                emailData.ownerName = assignmentData.owner.name;
-                emailData.ownerEmail = assignmentData.owner.officeEmail;
-                emailData.ownerPhone = assignmentData.owner.mobile;
-                emailData.siteCity = assignmentData.city.name;
-                emailData.insuredName = (assignmentData.insured.name ? assignmentData.insured.name : "");
-                emailData.ilaAuthDate = assignmentData.templateIla[0].authTimestamp;
-                // emailData.surveyDate = (surveyDate ? moment(surveyDate).format("DD/MM/YYYY") : "");
-                // console.log("emailData In 1 ", emailData);
-                if (assignmentData.survey) {
-                  _.each(assignmentData.survey, function (values) {
-                    // console.log("survey: ", values);
-                    if (values.status == "Approval Pending") {
-                      // console.log("In surveyor");
-                      // console.log(" values.employee.mobile", values.employee.mobile);
-                      emailData.surveyorNumber = values.employee.mobile;
-                      emailData.surveyorName = values.employee.name;
-                      emailData.surveyorEmail = values.employee.officeEmail;
-                      emailData.surveyDate = (values.surveyDate ? moment(values.surveyDate).format("DD/MM/YYYY") : "");
-                      emailData.siteAddress = values.address;
-                    }
-                  });
-                }
-
-
-                console.log("assignmentData.owner.officeEmail ",assignmentData.owner.officeEmail);
-                emailData.to = [];
-                emailData.to.push({
-                  name: assignmentData.owner.name,
-                  email: assignmentData.owner.officeEmail
-                });
-
-                emailData.cc = [];
-                if (assignmentData.shareWith) {
-                  _.each(assignmentData.shareWith, function (values) {
-                    console.log("values", values);
-                    _.each(values.persons, function (personss) {
-                      console.log("persons", personss);
-                      emailData.cc.push({
-                        name: personss.name,
-                        email: personss.officeEmail
-                      })
+                  emailData.ownerName = assignmentData.owner.name;
+                  emailData.ownerEmail = assignmentData.owner.officeEmail;
+                  emailData.ownerPhone = assignmentData.owner.mobile;
+                  emailData.siteCity = assignmentData.city.name;
+                  if (assignmentData.insured) {
+                    emailData.insuredName = (assignmentData.insured.name ? assignmentData.insured.name : "");
+                  }
+                  emailData.ilaAuthDate = assignmentData.templateIla[0].authTimestamp;
+                  if (assignmentData.survey) {
+                    _.each(assignmentData.survey, function (values) {
+                      // console.log("survey: ", values);
+                      if (values.status == "Approval Pending") {
+                        // console.log("In surveyor");
+                        // console.log(" values.employee.mobile", values.employee.mobile);
+                        emailData.surveyorNumber = values.employee.mobile;
+                        emailData.surveyorName = values.employee.name;
+                        emailData.surveyorEmail = values.employee.officeEmail;
+                        emailData.surveyDate = (values.surveyDate ? moment(values.surveyDate).format("DD/MM/YYYY") : "");
+                        emailData.siteAddress = values.address;
+                      }
                     });
+                  }
+
+
+                  console.log("assignmentData.owner.officeEmail ", assignmentData.owner.officeEmail);
+                  emailData.to = [];
+                  emailData.to.push({
+                    name: assignmentData.owner.name,
+                    email: assignmentData.owner.officeEmail
                   });
-                }
+
+                  emailData.cc = [];
+                  if (assignmentData.shareWith) {
+                    _.each(assignmentData.shareWith, function (values) {
+                      console.log("values", values);
+                      _.each(values.persons, function (personss) {
+                        console.log("persons", personss);
+                        emailData.cc.push({
+                          name: personss.name,
+                          email: personss.officeEmail
+                        })
+                      });
+                    });
+                  }
 
 
-                //Find Acknowledgment Email data
-                var mailData = [];
-                mailData[0] = "SBC For Approval";
-                mailData[1] = emailData;
-                mailData[2] = data._id;
-                mailData[3] = data.accessToken;
-                // console.log('mailData', mailData);
-                callback(null, mailData);
+                  //Find Acknowledgment Email data
+                  var mailData = [];
+                  mailData[0] = "SBC For Approval";
+                  mailData[1] = emailData;
+                  mailData[2] = data._id;
+                  mailData[3] = data.accessToken;
+                  // console.log('mailData', mailData);
+                  callback(null, mailData);
 
                 });
-                
+
               }
             }
           });
@@ -3746,8 +3746,8 @@ var model = {
     var toData = [];
     mailData.to = _.cloneDeep(mailData.to);
     _.map(mailData.to, function (values) {
-      console.log("mailData values",values);
-      if(values.email == undefined){
+      console.log("mailData values", values);
+      if (values.email == undefined) {
         values.email = "";
       }
       values.email.toString();
