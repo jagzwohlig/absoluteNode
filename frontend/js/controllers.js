@@ -639,18 +639,18 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
         // $scope.refreshInsurer();
-        var formData2 = {}
-        formData2.filter = {
+        var formData3 = {}
+        formData3.filter = {
             "name": "Insured"
         }
-        NavigationService.searchModel("CustomerSegment",formData2, 1, function (data) {
-            $scope.customerSegmentId = data.data.results[0]._id;
+        NavigationService.searchModel("CustomerSegment",formData3, 1, function (data) {
+            $scope.customerSegmentInsurerdId = data.data.results[0]._id;
         });
         $scope.refreshInsurerd = function (data, insurerd) {
             var formdata = {};
             formdata.keyword = data;
             formdata.filter = {
-                "customerSegment": $scope.customerSegmentId
+                "customerSegment": $scope.customerSegmentInsurerdId
             };
             NavigationService.searchCustomer(formdata, 1, function (data) {
                 console.log("searchCustomer", data.data.results);
@@ -6603,7 +6603,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             console.log("Data Inn", data);
             var formdata = {};
             formdata.keyword = data;
-            formData.filter = {
+            formdata.filter = {
                 customerSegment: $scope.customerSegmentId
             }
             NavigationService.searchInsurerOffice(formdata, 1, function (data) {
@@ -6674,9 +6674,19 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             "name": "Edit Policy Type"
         };
         $scope.insurers = [];
+        var formData2 = {}
+        formData2.filter = {
+            "name": "Insurer"
+        }
+        NavigationService.searchModel("CustomerSegment",formData2, 1, function (data) {
+            $scope.customerSegmentId = data.data.results[0]._id;
+        });
         $scope.refreshInsurer = function (data) {
             var formdata = {};
             formdata.keyword = data;
+            formdata.filter = {
+                customerSegment: $scope.customerSegmentId
+            }
             NavigationService.searchInsurerOffice(formdata, 1, function (data) {
                 $scope.insurers = data.data.results;
             });
@@ -13876,6 +13886,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     approvalTime: Date.now()
                 }
                 $scope.saveAssignment(obj);
+                 $state.go("sbcApproval-list", {
+                "page": 1
+            });
             });
         };
         $scope.surveyorFilter = function (assignment) {

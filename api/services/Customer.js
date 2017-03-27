@@ -257,12 +257,66 @@ var model = {
 
 
     },
+    //   generateExcel: function (data, res) {
+    //     Customer.find()
+    //         .sort({
+    //             createdAt: -1
+    //         })
+    //         .deepPopulate("customerSegment customerCompany typeOfOffice city")
+    //         .exec(
+    //             function (err, data1) {
+    //                 if (err) {
+    //                     console.log(err);
+    //                     res(err, null);
+    //                 } else if (data1) {
+    //                     if (_.isEmpty(data1)) {
+    //                         res("No Payment found.", null);
+    //                     } else {
+    //                         // console.log("Done", data1[37]);
+    //                         var excelData = [];
+    //                         _.each(data1, function (n, key) {
+    //                             console.log("Key", key);
+    //                             var obj = {};
+    //                             obj.name = n.name;
+    //                             if (n.customerCompany == null) {} else {
+    //                                 obj.customerCompany = n.customerCompany.name;
+    //                             }
+    //                             if (n.customerSegment == null) {} else {
+    //                                 obj.customerSegment = n.customerSegment.name;
+    //                             }
+    //                             if (n.typeOfOffice == null) {} else {
+    //                                 obj.typeOfOffice = n.typeOfOffice.name;
+    //                             }
+    //                             if (n.city == null) {} else {
+    //                                 obj.city = n.city.name;
+    //                             }
+    //                             obj.companyShortName = n.companyShortName;
+    //                             obj.officeCode = n.officeCode;
+    //                             obj.category = n.category;
+    //                             obj.creditLimitExhausted = n.creditLimitExhausted;
+    //                             obj.creditLimitAlloted = n.creditLimitAlloted;
+    //                             obj.creditLimitPending = n.creditLimitPending;
+    //                             obj.address = n.address;
+    //                             obj.pincode = n.pincode;
+    //                             obj.direct = n.direct;
+    //                             obj.phone1 = n.phone1;
+    //                             obj.phone2 = n.phone2;
+    //                             obj.email = n.email;
+    //                             excelData.push(obj);
+    //                         });
+    //                         Config.generateExcel("Customer", excelData, res);
+    //                     }
+    //                 } else {
+    //                     res("Invalid data", null);
+    //                 }
+    //             });
+    // }
     generateExcel: function (data, res) {
-        Customer.find()
+        Product.find()
             .sort({
                 createdAt: -1
             })
-            .deepPopulate("customerSegment customerCompany typeOfOffice city")
+            .deepPopulate("category category.industry")
             .exec(
                 function (err, data1) {
                     if (err) {
@@ -274,37 +328,20 @@ var model = {
                         } else {
                             // console.log("Done", data1[37]);
                             var excelData = [];
+                            console.log(data1[0]);
                             _.each(data1, function (n, key) {
-                                console.log("Key", key);
+                                // console.log("Key",);
                                 var obj = {};
-                                obj.name = n.name;
-                                if (n.customerCompany == null) {} else {
-                                    obj.customerCompany = n.customerCompany.name;
+                                obj.product = n.name;
+                                if (n.category == null) {} else {
+                                obj.category = n.category.name;                                  
+                            }
+                            if (n.category.industry == null) {} else {
+                                obj.industry = n.category.industry.name;                                  
                                 }
-                                if (n.customerSegment == null) {} else {
-                                    obj.customerSegment = n.customerSegment.name;
-                                }
-                                if (n.typeOfOffice == null) {} else {
-                                    obj.typeOfOffice = n.typeOfOffice.name;
-                                }
-                                if (n.city == null) {} else {
-                                    obj.city = n.city.name;
-                                }
-                                obj.companyShortName = n.companyShortName;
-                                obj.officeCode = n.officeCode;
-                                obj.category = n.category;
-                                obj.creditLimitExhausted = n.creditLimitExhausted;
-                                obj.creditLimitAlloted = n.creditLimitAlloted;
-                                obj.creditLimitPending = n.creditLimitPending;
-                                obj.address = n.address;
-                                obj.pincode = n.pincode;
-                                obj.direct = n.direct;
-                                obj.phone1 = n.phone1;
-                                obj.phone2 = n.phone2;
-                                obj.email = n.email;
                                 excelData.push(obj);
                             });
-                            Config.generateExcel("Customer", excelData, res);
+                            Config.generateExcel("Product", excelData, res);
                         }
                     } else {
                         res("Invalid data", null);
