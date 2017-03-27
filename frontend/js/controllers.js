@@ -13818,9 +13818,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
         $scope.changePage = function (page) {
             console.log("Page", page);
-            var goTo = "sbc-approval";
+            var goTo = "sbcApproval-list";
             if ($scope.search.keyword) {
-                goTo = "sbc-approval";
+                goTo = "sbcApproval-list";
             }
             $state.go(goTo, {
                 page: page,
