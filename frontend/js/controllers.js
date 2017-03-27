@@ -11682,10 +11682,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         emailData.to = [];
                         console.log("email office ", data.data.owner.officeEmail);
                         emailData.to.push({
-<<<<<<< HEAD
-
-=======
->>>>>>> 77da01f59f2dd0ba5dbab9b67643d168a28b079a
                             name: data.data.owner.name,
                             email: data.data.owner.officeEmail
                         });
