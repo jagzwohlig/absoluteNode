@@ -1721,6 +1721,8 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
     $locationProvider.html5Mode(isproduction);
 
 });
+
+
 firstapp.filter('amt', function () {
     return function (nStr) {
         nStr += '';

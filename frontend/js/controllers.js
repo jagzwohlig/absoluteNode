@@ -11201,29 +11201,35 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.emailtos = [];
     $scope.tinymceModel = 'Initial content';
     $scope.tinymceOptions = {
-        resize:true,
+        resize: true,
         plugins: 'link image code print textcolor',
         toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
     };
-    // $scope.emailtos = [{
-    //     name: 'Mahesh',
-    //     email: 'mahesh@wohlig.com'
-    // }, {
-    //     name: 'Jagruti',
-    //     email: 'jagruti@wohlig.com'
-    // }, {
-    //     name: 'Tushar',
-    //     email: 'tushar@wohlig.com'
-    // }, {
-    //     name: 'Chintan',
-    //     email: 'chintan@wohlig.com'
-    // }, {
-    //     name: 'Harsh',
-    //     email: 'harsh@wohlig.com'
-    // }, {
-    //     name: 'Raj',
-    //     email: 'raj@wohlig.com'
-    // }];
+    $scope.tagHandler = function (tag) {
+            return {
+                name: "",
+                email: tag
+            }
+        }
+        // $scope.emailtos = [{
+        //     name: 'Mahesh',
+        //     email: 'mahesh@wohlig.com'
+        // }, {
+        //     name: 'Jagruti',
+        //     email: 'jagruti@wohlig.com'
+        // }, {
+        //     name: 'Tushar',
+        //     email: 'tushar@wohlig.com'
+        // }, {
+        //     name: 'Chintan',
+        //     email: 'chintan@wohlig.com'
+        // }, {
+        //     name: 'Harsh',
+        //     email: 'harsh@wohlig.com'
+        // }, {
+        //     name: 'Raj',
+        //     email: 'raj@wohlig.com'
+        // }];
 
     $scope.forceClose = function () {
         var modalInstance = $uibModal.open({
@@ -11399,8 +11405,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         emailData.cc = (emailData.cc ? emailData.cc : []);
         emailData.bcc = (emailData.bcc ? emailData.bcc : []);
         emailData.surveyorNumber = (emailData.surveyorNumber ? emailData.surveyorNumber : "NA");
-        emailData.surveyorName = (emailData.surveyorName ? emailData.surveyorName : "NA");
-        emailData.surveyorEmail = (emailData.surveyorEmail ? emailData.surveyorEmail : "NA");
+        emailData.surveyorName = (emailData.surveyorName ? emailData.surveyorName : "");
+        emailData.surveyorEmail = (emailData.surveyorEmail ? emailData.surveyorEmail : "");
         emailData.insuredName = (emailData.insuredName ? emailData.insuredName : "NA");
         emailData.ilaAuthDate = (emailData.ilaAuthDate ? emailData.ilaAuthDate : "NA");
         emailData.claimNo = (emailData.claimNo ? emailData.claimNo : "NA");
@@ -11427,12 +11433,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 break;
             case "Deputation mail":
                 {
-                    if (emailData.surveyorName == "NA") {
-                        emailData.surveyorName = "";
-                    }
-                    if (emailData.surveyorEmail == "NA") {
-                        emailData.surveyorEmail = "";
-                    }
 
                     emailData.to.push({
                         name: emailData.surveyorName,
@@ -11998,7 +11998,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         }, 1000);
     };
 
-    
+
     $scope.repeat = _.times(20, Number);
     $scope.assignSurveyor = function () {
         $scope.modalInstance = $uibModal.open({

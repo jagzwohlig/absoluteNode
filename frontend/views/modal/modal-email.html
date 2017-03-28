@@ -12,24 +12,29 @@
             <div class="row">
                 <div class="col-md-6 field">
                     <label>To <span>*</span> </label>
-                    <ui-select name="to" ng-required="true" multiple tagging="tagTransform" tagging-label="(press enter to add new)" ng-model="emailData.to">
+                    <ui-select name="to" ng-disabled="disabled" ng-required="true" multiple  tagging="tagHandler" tagging-label="(press enter to add new)" ng-model="emailData.to">
                         <ui-select-match placeholder="">{{$item.name}} &lt;{{$item.email}}&gt;</ui-select-match>
-                        <ui-select-choices refresh="refreshEmployee($select.search)" refresh-delay="0" repeat="emailto in employee | filter:$select.search">{{emailto.name}} &lt;{{emailto.email}}&gt;</ui-select-choices>
+                        <ui-select-choices refresh="refreshEmployee($select.search)" refresh-delay="0" repeat="emailto in employee | filter:$select.search">
+                            <div ng-bind-html="(emailto.name | highlight: $select.search ) +' '+'&lt;' +(emailto.email | highlight: $select.search ) + '&gt;'"></div></ui-select-choices>
                     </ui-select>
                     <div class="error-msg" ng-show="modalForm.to.$invalid && modalForm.to.$touched">Please specify at least one recipient.</div>
                 </div>
                 <div class="col-md-6 field">
                     <label>Cc </label>
-                    <ui-select name="cc" multiple tagging="tagTransform" tagging-label="(press enter to add new)" ng-model="emailData.cc">
+                    <ui-select name="cc" multiple tagging="tagHandler" tagging-label="(press enter to add new)" ng-model="emailData.cc">
                         <ui-select-match placeholder="" >{{$item.name}} &lt;{{$item.email}} &gt;</ui-select-match>
-                        <ui-select-choices refresh="refreshEmployee($select.search)" refresh-delay="0" repeat="emailto in employee | filter:$select.search">{{emailto.name}} &lt;{{emailto.email}}&gt;</ui-select-choices>
+                        <ui-select-choices refresh="refreshEmployee($select.search)" refresh-delay="0" repeat="emailto in employee | filter:$select.search">
+                            <div ng-bind-html="(emailto.name | highlight: $select.search ) +' '+'&lt;' +(emailto.email | highlight: $select.search ) + '&gt;'"></div>
+                        </ui-select-choices>
                     </ui-select>
                 </div>
                 <div class="col-md-12 field">
                     <label>Bcc</label>
-                    <ui-select name="bcc"multiple tagging="tagTransform" tagging-label="(press enter to add new)" ng-model="emailData.bcc">
+                    <ui-select name="bcc"multiple tagging="tagHandler" tagging-label="(press enter to add new)" ng-model="emailData.bcc">
                         <ui-select-match placeholder="">{{$item.name}} &lt;{{$item.email}} &gt;</ui-select-match>
-                        <ui-select-choices refresh="refreshEmployee($select.search)" refresh-delay="0" repeat="emailto in employee | filter:$select.search">{{emailto.name}} &lt;{{emailto.email}}&gt;</ui-select-choices>
+                        <ui-select-choices refresh="refreshEmployee($select.search)" refresh-delay="0" repeat="emailto in employee | filter:$select.search">
+                            <div ng-bind-html="(emailto.name | highlight: $select.search ) +' '+'&lt;' +(emailto.email | highlight: $select.search ) + '&gt;'"></div>
+                        </ui-select-choices>
                     </ui-select>
                 </div>
                 <div class="col-md-12 field">

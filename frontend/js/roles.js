@@ -80,7 +80,7 @@ angular.module('rolesController', ['templateservicemod', 'navigationservice', 'a
         addRoles("Location", "Country", "", "location,country-list", true, true, true, true, false, false, false, false, true);
         addRoles("Location", "Zone", "", "location,zone-list", true, true, true, true, false, false, false, false, true);
         addRoles("Location", "State", "", "location,state-list", true, true, true, true, false, false, false, false, true);
-        addRoles("Location", "District", "location,district-list", "", true, true, true, true, false, false, false, false, true);
+        addRoles("Location", "District","", "location,district-list",  true, true, true, true, false, false, false, false, true);
         addRoles("Location", "City", "", "location,city-list", true, true, true, true, false, false, false, false, true);
         addRoles("Products", "Industry", "", "product,industry-list", true, true, true, true, true, true, true, true, true);
         addRoles("Products", "Category", "", "product,category-list", true, true, true, true, true, true, true, true, true);
