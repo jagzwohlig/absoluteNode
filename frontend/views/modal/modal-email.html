@@ -12,24 +12,24 @@
             <div class="row">
                 <div class="col-md-6 field">
                     <label>To <span>*</span> </label>
-                    <ui-select name="to" ng-required="true" multiple  tagging ng-model="emailData.to">
+                    <ui-select name="to" ng-required="true" multiple tagging="tagTransform" tagging-label="(press enter to add new)" ng-model="emailData.to">
                         <ui-select-match placeholder="">{{$item.name}} &lt;{{$item.email}}&gt;</ui-select-match>
-                        <ui-select-choices  repeat="emailto in emailtos">{{emailto.email}}</ui-select-choices>
+                        <ui-select-choices refresh="refreshEmployee($select.search)" refresh-delay="0" repeat="emailto in employee | filter:$select.search">{{emailto.name}} &lt;{{emailto.email}}&gt;</ui-select-choices>
                     </ui-select>
                     <div class="error-msg" ng-show="modalForm.to.$invalid && modalForm.to.$touched">Please specify at least one recipient.</div>
                 </div>
                 <div class="col-md-6 field">
                     <label>Cc </label>
                     <ui-select multiple tagging ng-model="emailData.cc">
-                        <ui-select-match placeholder="">{{$item.name}} &lt;{{$item.email}}&gt;</ui-select-match>
-                        <ui-select-choices repeat="emailto in emailtos">{{emailto.email}}</ui-select-choices>
+                        <ui-select-match placeholder="" refresh="refreshEmployee($select.search)" refresh-delay="0" repeat="emailto in employee | filter:$select.search">{{$item.name}} &lt;{{$item.email}} &gt;</ui-select-match>
+                        <ui-select-choices repeat="emailto in emailtos">{{emailto.name}} &lt;{{emailto.email}}&gt;</ui-select-choices>
                     </ui-select>
                 </div>
                 <div class="col-md-12 field">
                     <label>Bcc</label>
                     <ui-select multiple tagging ng-model="emailData.bcc">
-                        <ui-select-match placeholder="">{{$item.name}} &lt;{{$item.email}}&gt;</ui-select-match>
-                        <ui-select-choices repeat="emailto in emailtos">{{emailto.email}}</ui-select-choices>
+                        <ui-select-match placeholder="" refresh="refreshEmployee($select.search)" refresh-delay="0" repeat="emailto in employee | filter:$select.search">{{$item.name}} &lt;{{$item.email}} &gt;</ui-select-match>
+                        <ui-select-choices repeat="emailto in emailtos">{{emailto.name}} &lt;{{emailto.email}}&gt;</ui-select-choices>
                     </ui-select>
                 </div>
                 <div class="col-md-12 field">
@@ -41,7 +41,6 @@
                     <label>Message <span>*</span></label>
                     <textarea name="message" ui-tinymce="tinymceOptions" ng-model="emailData.message" required>{{emailData.message}}</textarea>
                     <div class="error-msg" ng-show="modalForm.message.$invalid && modalForm.message.$touched">Please enter email message</div>
-
                 </div>
                 <div class="col-md-12 field">
                     <label>Attachments</label>

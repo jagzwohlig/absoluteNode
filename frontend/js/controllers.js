@@ -608,6 +608,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 size: 'lg'
             });
         }
+        $scope.assignmentFilter = function () {
+            var modalInstance = $uibModal.open({
+                scope: $scope,
+                templateUrl: '/frontend/views/modal/assignment-filter.html',
+                size: 'lg'
+            });
+        }
 
         $scope.doFilter = function (data) {
             console.log("Form Data To Filter", data);
@@ -9934,7 +9941,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.addHead = function () {
         $scope.formData.forms.push({
             head: $scope.formData.forms.length + 1,
-            items: [{}]
+            items: [{
+                submit: "Pending"
+            }]
         });
     };
     $scope.removeHead = function (index) {
@@ -10058,7 +10067,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.addHead = function () {
         $scope.formData.forms.push({
             head: $scope.formData.forms.length + 1,
-            items: [{}]
+            items: [{
+                submit: "Pending"
+            }]
         });
     };
     $scope.removeHead = function (index) {
@@ -10748,7 +10759,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.addHead = function () {
         $scope.forms.forms.push({
             head: $scope.forms.forms.length + 1,
-            items: [{}]
+            items: [{
+                submit: "Pending"
+            }]
         });
     };
     $scope.removeHead = function (index) {
@@ -10890,8 +10903,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         },
         $scope.saveModel = function (templateObj) {
-            console.log("assignment employee", $scope.emp.officeEmail);
-            console.log("assignment employee", $scope.assignment.employee);
             console.log("Save Data", templateObj, $scope.assignment);
             if ($stateParams.assignment !== "") {
                 delete templateObj._id;
@@ -11246,19 +11257,54 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
     }
 
-    $scope.refreshEmployee= function(emp) {
-        console.log("refreshEmp",emp);
-        var i=1;
+    // $scope.refreshResults = function ($select) {
+    //     var search = $select.search,
+    //         list = angular.copy($select.items),
+    //         FLAG = -1;
+    //     //remove last user input
+    //     list = list.filter(function (item) {
+    //         return item.id !== FLAG;
+    //     });
+
+    //     if (!search) {
+    //         //use the predefined list
+    //         $select.items = list;
+    //     } else {
+    //         //manually add user input and set selection
+    //         var userInputItem = {
+    //             id: FLAG,
+    //             description: search
+    //         };
+    //         $select.items = [userInputItem].concat(list);
+    //         $select.selected = userInputItem;
+    //     }
+    // }
+
+    $scope.refreshEmployee = function (select) {
+        console.log("$select", select);
+
+        // console.log("refreshEmp",$select);
+        var i = 1;
         var formdata = {};
-            formdata.keyword = emp;
-            // formdata.filter = {
-            //     "_id": causeloss
-            // };
-         NavigationService.employeeSearch(formdata,i, function (data) {
+        formdata.keyword = select;
+        // formdata.filter = {
+        //     "_id": causeloss
+        // };
+        NavigationService.employeeSearch(formdata, i, function (data) {
+            console.log("1data", data);
             if (data.value === true) {
-                $scope.emailData.to = data.data.results;
+                $scope.employee = data.data.results;
+                // var employees = data.data.results;
+                // $scocpe.employee = [];
+                // _.each(employees,function(values){
+                //     $scocpe.employee.push({
+                //         name:values.name,
+                //         email:values.officeEmail
+                //     });
+                // }); 
+                console.log("$scope.employee", $scope.employee);
             } else {
-                $scope.emailData.to = [];
+                $scope.employee = [];
             }
         });
     }
@@ -11742,7 +11788,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     emailData.siteCity = data.data.city.name;
                     emailData.insuredName = (data.data.insured.name ? data.data.insured.name : "");
                     emailData.claimNo = (data.data.insurerClaimId ? data.data.insurerClaimId : "");
-                    emailData.ilaAuthDate = data.data.templateIla[0].authTimestamp;
+                    if (data.data.templateIla[0]) {
+                        emailData.ilaAuthDate = data.data.templateIla[0].authTimestamp;
+                    }
                     emailData.productName = (data.data.products[0].product.name ? data.data.products[0].product.name : "");
                     emailData.surveyDate = (chat.surveyDate ? moment(chat.surveyDate).format("DD/MM/YYYY") : "");
                     emailData.invoiceNumber = (chat.invoiceNumber ? chat.invoiceNumber : "");
@@ -11790,19 +11838,20 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     $scope.emailersData(type, emailData);
                     console.log("emailers", $scope.emailData);
                     $scope.results = data;
+                    console.log("emailers to", emailData.to);
+                    $scope.emailersData(type, emailData);
+                    console.log("emailers", $scope.emailData);
+                    $scope.results = data;
+                    console.log("data.results", $scope.results);
+                    var modalInstance = $uibModal.open({
+                        scope: $scope,
+                        templateUrl: '/frontend/views/modal/modal-email.html',
+                        size: 'lg'
+                    });
                 });
 
 
-                console.log("emailers to", emailData.to);
-                $scope.emailersData(type, emailData);
-                console.log("emailers", $scope.emailData);
-                $scope.results = data;
-                console.log("data.results", $scope.results);
-                var modalInstance = $uibModal.open({
-                    scope: $scope,
-                    templateUrl: '/frontend/views/modal/modal-email.html',
-                    size: 'lg'
-                });
+
             }
         });
     };

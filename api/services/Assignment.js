@@ -1357,9 +1357,9 @@ var model = {
       } else {
         $scope.data = data2;
         var filter = {
-            _id: data2.assignment.policyDoc
-          }
-          // For policyNumber
+          _id: data2.assignment.policyDoc
+        }
+        // For policyNumber
         PolicyDoc.getPolicyDoc({
           filter
         }, function (err, data4) {
@@ -2399,6 +2399,344 @@ var model = {
         }
       }
     });
+  },
+
+  generateAssignmentExcel: function (data, callback) {
+    var sort = {};
+    if (_.isEmpty(data.sorting[0])) {
+      sort = {
+        $sort: {
+          createdAt: -1
+        }
+      };
+    }
+    if (data.sorting[0] == "name") {
+      sort = {
+        $sort: {
+          name: data.sorting[1]
+        }
+      };
+    }
+    if (data.sorting[0] == "intimatedLoss") {
+      sort = {
+        $sort: {
+          intimatedLoss: data.sorting[1]
+        }
+      };
+    }
+    if (data.sorting[0] == "owner") {
+      sort = {
+        $sort: {
+          "owner.name": data.sorting[1]
+        }
+      };
+    }
+    if (data.sorting[0] == "insurer") {
+      sort = {
+        $sort: {
+          "insurer.name": data.sorting[1]
+        }
+      };
+    }
+    if (data.sorting[0] == "insurerd") {
+      sort = {
+        $sort: {
+          "insurerd.name": data.sorting[1]
+        }
+      };
+    }
+    if (data.sorting[0] == "department") {
+      sort = {
+        $sort: {
+          "department.name": data.sorting[1]
+        }
+      };
+    }
+    if (data.sorting[0] == "city") {
+      sort = {
+        $sort: {
+          "city.name": data.sorting[1]
+        }
+      };
+    }
+    if (data.sorting[0] == "timelineStatus") {
+      sort = {
+        $sort: {
+          timelineStatus: data.sorting[1]
+        }
+      };
+    }
+    var timelineStatus = {};
+    if (_.isEmpty(data.timelineStatus)) {
+
+    } else {
+      timelineStatus = {
+        timelineStatus: {
+          $in: data.timelineStatus
+        }
+      };
+    }
+    if (data.from === "" && data.to === "") {
+      var intimatedLoss = {}
+    } else {
+      var intimatedLoss = {
+        intimatedLoss: {
+          "$gte": data.from,
+          "$lte": data.to
+        }
+      };
+    }
+    if (data.fromDate === "" && data.toDate === "") {
+      var createdAt = {}
+    } else {
+      var createdAt = {
+        createdAt: {
+          "$gte": new Date(data.fromDate),
+          "$lte": new Date(data.toDate)
+        }
+      };
+    }
+
+    if (_.isEmpty(data.name)) {
+      var name = {}
+    } else {
+      var name = {
+        name: {
+          $regex: data.name,
+          $options: 'i'
+        }
+      };
+    }
+
+
+    if (_.isEmpty(data.owner)) {
+      var owner = {}
+    } else {
+      var ownerArr = [];
+      _.each(data.owner, function (values) {
+        ownerArr.push(objectid(values));
+      });
+      var owner = {
+        'owner._id': {
+          $in: ownerArr
+        },
+      };
+    }
+    if (_.isEmpty(data.city)) {
+      var city = {}
+    } else {
+      var cityArr = [];
+      _.each(data.city, function (values) {
+        cityArr.push(objectid(values));
+      });
+      var city = {
+        'city._id': {
+          $in: cityArr
+        },
+      };
+    }
+    var branch = {};
+    if (_.isEmpty(data.branch)) {
+
+    } else {
+      var branchArr = [];
+      _.each(data.branch, function (values) {
+        branchArr.push(objectid(values));
+      });
+      branch = {
+        'branch._id': {
+          $in: branchArr
+        },
+      };
+    }
+    insurer = {}
+    if (_.isEmpty(data.insurer)) {
+
+    } else {
+      var insurerArr = [];
+      _.each(data.insurer, function (values) {
+        insurerArr.push(objectid(values));
+      });
+      insurer = {
+        'insurer._id': {
+          $in: insurerArr
+        },
+      };
+    }
+    var insurerd = {};
+    if (_.isEmpty(data.insurerd)) {
+
+    } else {
+      var insurerdArr = [];
+      _.each(data.insurerd, function (values) {
+        insurerdArr.push(objectid(values));
+      });
+      insurerd = {
+        'insurerd._id': {
+          $in: insurerdArr
+        },
+      };
+    }
+    if (_.isEmpty(data.department)) {
+      var department = {}
+    } else {
+      var departmentArr = [];
+      _.each(data.department, function (values) {
+        departmentArr.push(objectid(values));
+      });
+      var department = {
+        'department._id': {
+          $in: departmentArr
+        },
+      };
+    }
+    var ownerId = {};
+    if (data.ownerStatus == "My files") {
+      if (data.ownerId === "") {
+
+      } else {
+        ownerId = {
+          'owner._id': objectid(data.ownerId),
+        };
+      }
+
+    } else if (data.ownerStatus == "Shared with me") {
+      if (data.ownerId === "") {
+        var shareWith = {}
+      } else {
+        var shareWith = {
+          'shareWith.persons': objectid(data.ownerId),
+        };
+      }
+    }
+    var ownerStatus = Object.assign(timelineStatus, name, owner, insurer, insurerd, department, ownerId, intimatedLoss, city, branch, createdAt, shareWith);
+    console.log(ownerStatus);
+    var allTable = [{
+      $match: {
+        $and: [ownerStatus]
+      }
+    }, {
+      $lookup: {
+        from: "cities",
+        localField: "city",
+        foreignField: "_id",
+        as: "city"
+      }
+    }, {
+      $unwind: {
+        path: "$city",
+        preserveNullAndEmptyArrays: true
+      }
+    }, {
+      $lookup: {
+        from: "branches",
+        localField: "branch",
+        foreignField: "_id",
+        as: "branch"
+      }
+    }, {
+      $unwind: {
+        path: "$branch",
+        preserveNullAndEmptyArrays: true
+      }
+    }, {
+      $lookup: {
+        from: "customers",
+        localField: "insurerOffice",
+        foreignField: "_id",
+        as: "insurer"
+      }
+    }, {
+      $unwind: {
+        path: "$insurer",
+        preserveNullAndEmptyArrays: true
+      }
+    }, {
+      $lookup: {
+        from: "employees",
+        localField: "owner",
+        foreignField: "_id",
+        as: "owner"
+      }
+    }, {
+      $unwind: {
+        path: "$owner",
+        preserveNullAndEmptyArrays: true
+      }
+    }, {
+      $lookup: {
+        from: "customers",
+        localField: "insuredOffice",
+        foreignField: "_id",
+        as: "insurerd"
+      }
+    }, {
+      $unwind: {
+        path: "$insurerd",
+        preserveNullAndEmptyArrays: true
+      }
+    }, {
+      $lookup: {
+        from: "departments",
+        localField: "department",
+        foreignField: "_id",
+        as: "department"
+      }
+    }, {
+      $unwind: {
+        path: "$department",
+        preserveNullAndEmptyArrays: true
+      }
+    }, sort, {
+      $project: {
+        _id: 1,
+        name: 1,
+        owner: "$owner.name",
+        insurerName: "$insurer.name",
+        insurerdName: "$insurerd.name",
+        department: "$department.name",
+        city: "$city.name",
+        intimatedLoss: 1,
+        timelineStatus: 1,
+        status: 1
+      }
+    }];
+
+
+
+    Assignment.aggregate(allTable).allowDiskUse(true).exec(function (err, data1) {
+      if (err) {
+        console.log("In IF");
+        callback(null, data1);
+      } else {
+        console.log("In Else", data1); {
+          if (_.isEmpty(data1)) {
+            res("No Payment found.", null);
+          } else {
+            // console.log("Done", data1[37]);
+            var excelData = [];
+            console.log(data1[0]);
+            _.each(data1, function (n, key) {
+              // console.log("Key",);
+              var obj = {};
+              obj.name = n.name;
+              obj.intimatedLoss = n.intimatedLoss;
+              obj.timelineStatus = n.timelineStatus,
+                obj.owner = n.owner;
+              obj.insurerName = n.insurerName;
+              obj.department = n.department;
+              obj.city = n.city;
+              excelData.push(obj);
+            });
+            Config.generateExcel("Assignment", excelData, res);
+          }
+        }
+        // callback(null, data1);
+      }
+    });
+
+
+
   },
 
   // updateAllIntimatedLoss: function (data, callback) {
