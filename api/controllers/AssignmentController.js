@@ -76,6 +76,7 @@ var controller = {
     //         });
     //     }
     // },
+
     updateSurveyor: function (req, res) {
         if (req.body) {
             req.model.updateSurveyor(req.body, function (err, mailData) {
@@ -178,7 +179,7 @@ var controller = {
             });
         }
     },
-     searchLogistic: function (req, res) {
+    searchLogistic: function (req, res) {
         if (req.body) {
             req.model.searchLogistic(req.body, res.callback);
 
@@ -291,14 +292,7 @@ var controller = {
         }
     },
     generateAssignmentExcel: function (req, res) {
-        if (req.body) {
-            req.model.generateAssignmentExcel(req.body, res.callback);
-        } else {
-            res.json({
-                value: false,
-                data: "Invalid Request"
-            });
-        }
+        req.model.generateExcel(req.query, res);
     },
     getAll: function (req, res) {
         if (req.body) {
@@ -360,6 +354,9 @@ var controller = {
                 data: "Invalid Request"
             });
         }
-    }
+    },
+
+
+
 };
 module.exports = _.assign(module.exports, controller);

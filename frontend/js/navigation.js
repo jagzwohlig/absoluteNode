@@ -725,6 +725,18 @@ var navigationservice = angular.module('navigationservice', [])
                 callback(data, i);
             });
         },
+        generateAssignmentExcel: function (model, formData, callback) {
+            console.log("generateAssignmentExcel Nav", formData);
+            $http({
+                url: adminurl + model + '/generateAssignmentExcel',
+                method: "GET",
+                params: formData
+            }).success(function (data) {
+                console.log("Data of Excel");
+                callback(data);
+            });
+
+        },
         searchKnowledgeBase: function (model, formData, i, callback) {
             $http.post(adminurl + model + '/search', formData).success(function (data) {
                 callback(data, i);

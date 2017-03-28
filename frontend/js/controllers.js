@@ -309,6 +309,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.filter.department = [];
         }
 
+        $scope.generateAssignmentExcel = function () {
+            window.open('http://wohlig.io/api/Assignment/generateAssignmentExcel', '_blank');
+            window.close();
+        };
+
         $scope.MyFiles = function () {
             console.log("In MyFiles", ownerId);
             NavigationService.searchModel($scope.ModelApi, {
@@ -671,7 +676,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             // formdata.filter = {
             //     "_id": causeloss
             // };
-            NavigationService.employeeSearch(formdata, 1, function (data) {
+            NavigationService.getSurveyor(formdata, 1, function (data) {
                 console.log("searchEmployee", data.data.results);
                 $scope.ownerData = data.data.results;
             });
@@ -1713,6 +1718,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.submit = function (formData) {
             delete formData._id;
             $scope.hideSaveCancel = true;
+            if (!$scope.formData.typeOfClaim) {
+                $scope.formData.timelineStatus = "LOR Pending"
+            }
             $scope.formData.email = ($.jStorage.get("assignmentEmail") ? $.jStorage.get("assignmentEmail") : {});
             NavigationService.assignmentSave($scope.formData, function (data) {
                 console.log(data);

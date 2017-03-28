@@ -16,7 +16,7 @@
                             <button class="btn btn-green btn-round pull-right mt-5" ng-click="newMessage();"><i class="ln-comments"></i> Send Message</button>
                             <div class="padder"></div>
                             <!--<button class="btn btn-primary btn-round pull-right mt-5" ng-click="transfer(assignment);"><i class="fa fa-share"></i> Transfer</button>-->
-                            <button class="btn btn-primary btn-round pull-right mt-5" ng-click="assignmentSurvey();">Offline Survey</button>
+                            <button class="btn btn-primary btn-round pull-right mt-5" ng-if="assignment.typeOfClaim && assignment.branch.STAT" ng-click="assignmentSurvey();">Offline Survey</button>
                             <!--<button class="btn btn-primary" ng-click="assignmentSurvey()">Offline Survey</button>-->
                         </div>
                         <div class="compny">

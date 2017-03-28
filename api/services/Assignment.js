@@ -689,7 +689,7 @@ schema.plugin(deepPopulate, {
       select: 'name _id'
     },
     'invoice': {
-      select: 'name invoiceNumber _id grandTotal createdBy approvalStatus file'
+      select: 'name invoiceNumber _id grandTotal createdBy approvalStatus file approvalTime'
     },
     'invoice.createdBy': {
       select: 'name _id'
@@ -1406,6 +1406,7 @@ var model = {
         n = undefined;
       }
     });
+
     var Search = Model.find(data.filter)
       .order(options)
       .deepPopulate("city.district.state.zone.country products.product.category.industry department shareWith.persons policyType natureOfLoss invoice invoice.createdBy insured insuredOffice owner owner.func company company.city insurerOffice company.city.district.state assessment.employee docs.employee fsrs.employee photos.employee causeOfLoss insurer assignedTo office branch survey.employee")
@@ -4488,6 +4489,176 @@ var model = {
         callback(null, userData);
       }
     });
+  },
+
+  generateExcelDone: function (data, res) {
+    Assignment.find()
+      .sort({
+        createdAt: -1
+      })
+      .deepPopulate("branch insurerOffice insuredOffice invoice owner natureOfLoss department brokerOffice insuredOffice insurerOffice")
+      .exec(
+        function (err, data1) {
+          if (err) {
+            console.log(err);
+            res(err, null);
+          } else if (data1) {
+            if (_.isEmpty(data1)) {
+              res("No Payment found.", null);
+            } else {
+              // console.log("Done", data1[37]);
+              var excelData = [];
+              console.log(data1[0]);
+              _.each(data1, function (n, key) {
+                // console.log("Key",);
+                var obj = {};
+                obj.sr = key + 1;
+                obj.MR_Number = n.name;
+                if (n.branch == null) {} else {
+                  obj.Branch = n.branch.name;
+                }
+                obj.Insurer_Claim_Id = n.insurerClaimId;
+                obj.Insured_Claim_Id = n.insuredClaimId;
+                obj.Broker_Claim_Id = n.brokerClaimId;
+                obj.Date_Of_Assignment = moment(n.createdAt).format("DD-MM-YYYY");
+                if (n.insuredOffice == null) {} else {
+                  obj.Insured = n.insuredOffice.name;
+                }
+                if (n.insurerOffice == null) {} else {
+                  obj.Insurer = n.insurerOffice.name;
+                }
+                if (n.brokerOffice == null) {} else {
+                  obj.Broker = n.brokerOffice.name;
+                }
+                if (n.department == null) {} else {
+                  obj.Department = n.department.name;
+                }
+                if (n.natureOfLoss) {
+                  if (n.natureOfLoss.length > 0) {
+                    obj.Nature_Of_Loss = n.natureOfLoss[0].name;
+                  }
+                }
+
+
+                obj.Estimated_Loss = n.intimatedLoss;
+                if (n.owner == null) {} else {
+                  obj.Owner = n.owner.name;
+                }
+                if (n.survey) {
+                  if (n.survey.length > 0) {
+                    obj.Survey_Date = n.survey[0].surveyDate;
+                  }
+                }
+                if (n.invoice) {
+                  if (n.invoice.length > 0) {
+                    // n.invoice.length
+                    obj.Date_Of_Intimation = moment(n.invoice[n.invoice.length - 1].approvalTime).format("DD-MM-YYYY");
+                  }
+                }
+                obj.Status = n.timelineStatus
+                excelData.push(obj);
+              });
+              Config.generateExcel("Assignment", excelData, res);
+            }
+          } else {
+            res("Invalid data", null);
+          }
+        });
+  },
+
+  generateExcel: function (data, res) {
+    Invoice.find()
+      .sort({
+        createdAt: -1
+      })
+      .deepPopulate("assignment assignment.branch billedTo assignment.insured")
+      .exec(
+        function (err, data1) {
+          if (err) {
+            console.log(err);
+            res(err, null);
+          } else if (data1) {
+            if (_.isEmpty(data1)) {
+              res("No Payment found.", null);
+            } else {
+              // console.log("Done", data1[37]);
+              var excelData = [];
+              console.log(data1[0]);
+              _.each(data1, function (n, key) {
+                // console.log("Key",);
+                var obj = {};
+                obj.sr = key + 1;
+                if (n.assignment != null) {
+                  if (n.assignment.branch == null) {} else {
+                    obj.Branch = n.assignment.branch.name;
+                  }
+                }
+                obj.Invoice_Number = n.invoiceNumber;
+                if (n.billedTo == null) {} else {
+                  obj.Billed_To = n.billedTo.name;
+                }
+                if (n.assignment != null) {
+                  if (n.assignment.insurerClaimId == null) {
+                    obj.Insurer_Claim_No = n.assignment.insurerClaimId;
+                  }
+                }
+                if (n.assignment != null) {
+                  if (n.assignment.insured == null) {
+                    obj.Insurer_Claim_No = n.assignment.insured;
+                  }
+                }
+
+
+                // if (n.branch == null) {} else {
+                //   obj.Branch = n.branch.name;
+                // }
+                // obj.Insurer_Claim_Id = n.insurerClaimId;
+                // obj.Insured_Claim_Id = n.insuredClaimId;
+                // obj.Broker_Claim_Id = n.brokerClaimId;
+                // obj.Date_Of_Assignment = moment(n.createdAt).format("DD-MM-YYYY");
+                // if (n.insuredOffice == null) {} else {
+                //   obj.Insured = n.insuredOffice.name;
+                // }
+                // if (n.insurerOffice == null) {} else {
+                //   obj.Insurer = n.insurerOffice.name;
+                // }
+                // if (n.brokerOffice == null) {} else {
+                //   obj.Broker = n.brokerOffice.name;
+                // }
+                // if (n.department == null) {} else {
+                //   obj.Department = n.department.name;
+                // }
+                // if (n.natureOfLoss) {
+                //   if (n.natureOfLoss.length > 0) {
+                //     obj.Nature_Of_Loss = n.natureOfLoss[0].name;
+                //   }
+                // }
+
+
+                // obj.Estimated_Loss = n.intimatedLoss;
+                // if (n.owner == null) {} else {
+                //   obj.Owner = n.owner.name;
+                // }
+                // if (n.survey) {
+                //   if (n.survey.length > 0) {
+                //     obj.Survey_Date = n.survey[0].surveyDate;
+                //   }
+                // }
+                // if (n.invoice) {
+                //   if (n.invoice.length > 0) {
+                //     // n.invoice.length
+                //     obj.Date_Of_Intimation = moment(n.invoice[n.invoice.length - 1].approvalTime).format("DD-MM-YYYY");
+                //   }
+                // }
+                // obj.Status = n.timelineStatus
+                excelData.push(obj);
+              });
+              Config.generateExcel("Assignment", excelData, res);
+            }
+          } else {
+            res("Invalid data", null);
+          }
+        });
   }
 };
 

@@ -199,6 +199,9 @@ schema.plugin(deepPopulate, {
         'assignment.policyType': {
             select: ''
         },
+        'assignment.branch': {
+            select: ''
+        },
     }
 });
 schema.plugin(uniqueValidator);
@@ -233,7 +236,7 @@ var model = {
         var Search = Invoice.find(data.filter)
             .order(options)
             .keyword(options)
-            .deepPopulate("assignment.company assignment.products.product.category billedTo createdBy")
+            .deepPopulate("assignment.company assignment.insuredOffice assignment.products.product.category billedTo createdBy")
             .page(options, function (err, found) {
                 if (err) {
                     callback(err, found);

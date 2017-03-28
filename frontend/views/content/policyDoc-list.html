@@ -56,7 +56,7 @@
                             </thead>
                             <tbody ng-show="totalItems>0">
                                 <tr ng-repeat="data in modelList">
-                                    <td>{{data.insuredCompany.name}}</td>
+                                    <td>{{data.insuredOffice.name}}</td>
                                     <!-- <td>{{data.PolicyType}}</td> -->
                                     <td>
                                       <toggle-switch ng-model="data.status" class="switch-mini switch-success" ng-change="changeStatus(data)"></toggle-switch>

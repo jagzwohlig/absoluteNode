@@ -45,9 +45,9 @@
                                     <th>#</th>
                                     <!--<th>Name</th>-->
                                     <th>Billed To</th>
-                                    <th>Assignment</th>
                                     <th>Invoice Number</th>
                                     <th>Created By</th>
+                                    <th>Insured</th>
                                     <th>Grand Total</th>
                                     <th>Actions</th>
                                 </tr>
@@ -59,10 +59,10 @@
                                     </td>
                                     <!--<td>{{data.name}}</td>-->
                                     <td>{{data.billedTo.name}}</td>
-                                    <td>{{data.assignment.name}}</td>
                                     <td>{{data.invoiceNumber}}</td>
                                     <td>{{data.createdBy.name}}</td>
-                                    <td style="text-align:right;">{{data.grandTotal}}</td>
+                                    <td>{{data.assignment.insuredOffice.name}}</td>
+                                    <td style="text-align:right;">{{data.grandTotal | number}}</td>
                                     <td>
                                         <a class="btn btn-primary" ui-sref="editInvoice({invoiceId:data._id,assignmentId:data.assignment._id})"><i class="fa fa-pencil"></i></a>
                                         <a class="btn btn-danger" ng-click="deleteModel(data._id)"><i class="fa fa-trash"></i></a>
