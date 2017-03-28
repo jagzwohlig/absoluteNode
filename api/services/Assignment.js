@@ -1487,7 +1487,10 @@ var model = {
                   if (assignmentData.insured) {
                     emailData.insuredName = (assignmentData.insured.name ? assignmentData.insured.name : "");
                   }
-                  emailData.ilaAuthDate = assignmentData.templateIla[0].authTimestamp;
+                  if (assignmentData.templateIla[0]) {
+                    emailData.ilaAuthDate = assignmentData.templateIla[0].authTimestamp;
+                  }
+                  
                   if (assignmentData.survey) {
                     _.each(assignmentData.survey, function (values) {
                       // console.log("survey: ", values);
@@ -2102,7 +2105,7 @@ var model = {
         },
       };
     }
-    insurer = {}
+    var insurer = {}
     if (_.isEmpty(data.insurer)) {
 
     } else {
@@ -2163,7 +2166,7 @@ var model = {
       }
     }
     var ownerStatus = Object.assign(timelineStatus, name, owner, insurer, insurerd, department, ownerId, intimatedLoss, city, branch, createdAt, shareWith);
-    // console.log(data.pagenumber);
+    console.log("ownerStatus",ownerStatus);
     var pageStartFrom = (data.pagenumber - 1) * data.pagelimit;
     var allTable = [{
       $match: {
@@ -2357,6 +2360,7 @@ var model = {
       allTable.unshift(unwindSharewith);
       countAllData.unshift(unwindSharewith);
     }
+
     async.parallel([
 
       //get assignment
@@ -2367,7 +2371,7 @@ var model = {
           } else {
             callback(null, data1);
           }
-        });
+        }); 
       },
 
       //get all assignment count

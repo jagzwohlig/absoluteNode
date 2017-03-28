@@ -11246,29 +11246,23 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
     }
 
-    $scope.refreshResults= function($select) {
-        var search = $select.search,
-            list = angular.copy($select.items),
-            FLAG = -1;
-        //remove last user input
-        list = list.filter(function (item) {
-            return item.id !== FLAG;
+    $scope.refreshEmployee= function(emp) {
+        console.log("refreshEmp",emp);
+        var i=1;
+        var formdata = {};
+            formdata.keyword = emp;
+            // formdata.filter = {
+            //     "_id": causeloss
+            // };
+         NavigationService.employeeSearch(formdata,i, function (data) {
+            if (data.value === true) {
+                $scope.emailData.to = data.data.results;
+            } else {
+                $scope.emailData.to = [];
+            }
         });
-
-        if (!search) {
-            //use the predefined list
-            $select.items = list;
-        } else {
-            //manually add user input and set selection
-            var userInputItem = {
-                id: FLAG,
-                description: search
-            };
-            $select.items = [userInputItem].concat(list);
-            $select.selected = userInputItem;
-        }
     }
-    
+
     $scope.submitForceClose = function (data) {
         $scope.assignment.forceClosedComment = data.comment;
         $scope.assignment.forceClosedReqTime = Date.now();
