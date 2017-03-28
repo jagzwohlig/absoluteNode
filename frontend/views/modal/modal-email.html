@@ -20,16 +20,16 @@
                 </div>
                 <div class="col-md-6 field">
                     <label>Cc </label>
-                    <ui-select multiple tagging ng-model="emailData.cc">
-                        <ui-select-match placeholder="" refresh="refreshEmployee($select.search)" refresh-delay="0" repeat="emailto in employee | filter:$select.search">{{$item.name}} &lt;{{$item.email}} &gt;</ui-select-match>
-                        <ui-select-choices repeat="emailto in emailtos">{{emailto.name}} &lt;{{emailto.email}}&gt;</ui-select-choices>
+                    <ui-select name="cc" multiple tagging="tagTransform" tagging-label="(press enter to add new)" ng-model="emailData.cc">
+                        <ui-select-match placeholder="" >{{$item.name}} &lt;{{$item.email}} &gt;</ui-select-match>
+                        <ui-select-choices refresh="refreshEmployee($select.search)" refresh-delay="0" repeat="emailto in employee | filter:$select.search">{{emailto.name}} &lt;{{emailto.email}}&gt;</ui-select-choices>
                     </ui-select>
                 </div>
                 <div class="col-md-12 field">
                     <label>Bcc</label>
-                    <ui-select multiple tagging ng-model="emailData.bcc">
-                        <ui-select-match placeholder="" refresh="refreshEmployee($select.search)" refresh-delay="0" repeat="emailto in employee | filter:$select.search">{{$item.name}} &lt;{{$item.email}} &gt;</ui-select-match>
-                        <ui-select-choices repeat="emailto in emailtos">{{emailto.name}} &lt;{{emailto.email}}&gt;</ui-select-choices>
+                    <ui-select name="bcc"multiple tagging="tagTransform" tagging-label="(press enter to add new)" ng-model="emailData.bcc">
+                        <ui-select-match placeholder="">{{$item.name}} &lt;{{$item.email}} &gt;</ui-select-match>
+                        <ui-select-choices refresh="refreshEmployee($select.search)" refresh-delay="0" repeat="emailto in employee | filter:$select.search">{{emailto.name}} &lt;{{emailto.email}}&gt;</ui-select-choices>
                     </ui-select>
                 </div>
                 <div class="col-md-12 field">
