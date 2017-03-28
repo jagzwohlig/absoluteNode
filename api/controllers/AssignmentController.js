@@ -290,6 +290,16 @@ var controller = {
             });
         }
     },
+    generateAssignmentExcel: function (req, res) {
+        if (req.body) {
+            req.model.generateAssignmentExcel(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: "Invalid Request"
+            });
+        }
+    },
     getAll: function (req, res) {
         if (req.body) {
             req.model.getAll(req.body, res.callback);
