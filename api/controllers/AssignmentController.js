@@ -292,7 +292,7 @@ var controller = {
         }
     },
     generateAssignmentExcel: function (req, res) {
-        req.model.generateExcel(req.query, res);
+        req.model.generateExcelDone(req.query, res);
     },
     getAll: function (req, res) {
         if (req.body) {
