@@ -39,7 +39,7 @@
                 </div>
                 <div class="col-md-12 field">
                     <label>Message <span>*</span></label>
-                    <textarea name="message" ui-tinymce="tinymceOptions" ng-model="emailData.message" required>{{emailData.message}}</textarea>
+                    <textarea name="message" tiny ui-tinymce="tinymceOptions" ng-model="emailData.message" required>{{emailData.message}}</textarea>
                     <div class="error-msg" ng-show="modalForm.message.$invalid && modalForm.message.$touched">Please enter email message</div>
                 </div>
                 <div class="col-md-12 field">
