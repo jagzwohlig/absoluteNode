@@ -11199,7 +11199,12 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.finalSurveyors = [];
     $scope.assignment = {};
     $scope.emailtos = [];
-
+    $scope.tinymceModel = 'Initial content';
+    $scope.tinymceOptions = {
+        resize:true,
+        plugins: 'link image code print textcolor',
+        toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
+    };
     // $scope.emailtos = [{
     //     name: 'Mahesh',
     //     email: 'mahesh@wohlig.com'
@@ -11993,11 +11998,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         }, 1000);
     };
 
-    $scope.tinymceModel = 'Initial content';
-    $scope.tinymceOptions = {
-        plugins: 'link image code',
-        toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
-    };
+    
     $scope.repeat = _.times(20, Number);
     $scope.assignSurveyor = function () {
         $scope.modalInstance = $uibModal.open({
