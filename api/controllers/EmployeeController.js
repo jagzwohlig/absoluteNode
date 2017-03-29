@@ -27,6 +27,7 @@ var controller = {
                 return undefined;
             }
         }
+        
         async.eachSeries(excelDataToExport, function (n, callback) {
                 n = _.map(n, function (m, key) {
                     var b = _.trim(m);

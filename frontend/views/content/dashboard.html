@@ -34,7 +34,7 @@
                                 <p><i class="fa  fa-arrow-up up"></i>{{ data._id}}</p>
                                 <h3>{{ data.count }}</h3>
                             </div>-->
-                            <div class="mini-stats tmp-mini-stats" ng-style="{'background':'{{statusColor[$index]}}'}">
+                            <div class="mini-stats tmp-mini-stats" ng-style="{'background':'{{data._id | timeline }}'}">
                                 <h2 class="display-inblock marg0">{{ data.count }}</h2>
                                 <p class="mini-stats_color display-inblock marg0">{{ data._id}}</p>
 							</div>

@@ -16,46 +16,58 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         // console.log("Dashboard",data);
         $scope.Arr = data.data;
         $scope.statusColor = [];
-
+        $scope.arrTimeline = [{
+            status:"Dox Pending",
+            color: "#88c4ff"
+        },{
+            status:"Survey Assigned",
+            color: "#ff88ff"
+        },{
+            status:"ILA Pending",
+            color: "#c488ff"
+        },{
+            status:"Consent Pending",
+            color: "#8888ff"
+        }];
 
         console.log("$scope.Arr", $scope.Arr);
-        _.each($scope.Arr, function (n) {
-            console.log("names = ", n._id);
-            // console.log(n._id == 'BBND');
-            if (n._id == 'Dox Pending') {
-                console.log('DOX Pending');
-                $scope.statusColor.push('#88c4ff');
-            }
-            if (n._id == 'Survey Assigned') {
-                console.log('Survey Assigned');
-                $scope.statusColor.push("#ff88ff");
-            }
-            if (n._id == 'ILA Pending') {
-                console.log('ILA Assigned');
-                $scope.statusColor.push("#c488ff");
-            }
-            if (n._id == 'Consent Pending') {
-                console.log('Consent Pending');
-                $scope.statusColor.push("#c488ff");
-            }
-            if (n._id == 'LOR Pending') {
-                console.log('LOR Pending');
-                $scope.statusColor.push("#8888ff");
-            }
-            if (n._id == 'OnHold') {
-                console.log('OnHold');
-                $scope.statusColor.push("#ff8888");
-            }
-            if (n._id == 'BBND') {
-                console.log('BBND');
-                $scope.statusColor.push("#88ff88");
-            }
-            if (n._id == 'Unassigned') {
-                console.log('Unassigned');
-                $scope.statusColor.push("#ff88c4");
-            }
-            console.log($scope.statusColor);
-        });
+        // _.each($scope.Arr, function (n) {
+        //     console.log("names = ", n._id);
+        //     // console.log(n._id == 'BBND');
+        //     if (n._id == 'Dox Pending') {
+        //         console.log('DOX Pending');
+        //         $scope.statusColor.push('#88c4ff');
+        //     }
+        //     if (n._id == 'Survey Assigned') {
+        //         console.log('Survey Assigned');
+        //         $scope.statusColor.push("#ff88ff");
+        //     }
+        //     if (n._id == 'ILA Pending') {
+        //         console.log('ILA Assigned');
+        //         $scope.statusColor.push("#c488ff");
+        //     }
+        //     if (n._id == 'Consent Pending') {
+        //         console.log('Consent Pending');
+        //         $scope.statusColor.push("#c488ff");
+        //     }
+        //     if (n._id == 'LOR Pending') {
+        //         console.log('LOR Pending');
+        //         $scope.statusColor.push("#8888ff");
+        //     }
+        //     if (n._id == 'OnHold') {
+        //         console.log('OnHold');
+        //         $scope.statusColor.push("#ff8888");
+        //     }
+        //     if (n._id == 'BBND') {
+        //         console.log('BBND');
+        //         $scope.statusColor.push("#88ff88");
+        //     }
+        //     if (n._id == 'Unassigned') {
+        //         console.log('Unassigned');
+        //         $scope.statusColor.push("#ff88c4");
+        //     }
+        //     console.log($scope.statusColor);
+        // });
     });
     $scope.colors = ["red", "pink", "sky", "purple", "red", "pink", "sky", "purple"];
 
