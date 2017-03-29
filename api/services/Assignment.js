@@ -4556,7 +4556,6 @@ var model = {
                   }
                 }
                 obj.Status = n.timelineStatus
-                console.log('obj : ',obj);
                 excelData.push(obj);
               });
               Config.generateExcel("Assignment", excelData, res);
