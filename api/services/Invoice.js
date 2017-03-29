@@ -65,7 +65,9 @@ var schema = new Schema({
             type: Number,
             default: 0
         },
-        type: Boolean
+        type: {
+            type:Boolean
+        }
     }],
     tax: [{
         name: String,
@@ -180,6 +182,9 @@ schema.plugin(deepPopulate, {
             select: 'name _id'
         },
         'assignment.company': {
+            select: ''
+        },
+        'assignment.company.bank': {
             select: ''
         },
         'assignment.company.city': {

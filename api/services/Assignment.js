@@ -1352,7 +1352,7 @@ var model = {
     $scope = {};
     Invoice.findOne({
       _id: data._id
-    }).lean().deepPopulate("assignment assignment.department assignment.products.product.category assignment.natureOfLoss assignment.causeOfLoss assignment.policyType assignment.customer assignment.insurerOffice assignment.insuredOffice billedTo.customerCompany billedTo.city.district.state.zone.country assignment.city.district.state.zone.country assignment.company.city.district.state").exec(function (err, data2) {
+    }).lean().deepPopulate("assignment assignment.company assignment.company.bank assignment.department assignment.products.product.category assignment.natureOfLoss assignment.causeOfLoss assignment.policyType assignment.customer assignment.insurerOffice assignment.insuredOffice billedTo.customerCompany billedTo.city.district.state.zone.country assignment.city.district.state.zone.country assignment.company.city.district.state").exec(function (err, data2) {
       if (err) {
         callback(err, null);
       } else {
@@ -1365,11 +1365,14 @@ var model = {
           filter
         }, function (err, data4) {
           if (err) {
+            green($scope.data);
+            console.log("Name Of Bank.........................................",$scope.data.assignment.company.bank.name,$scope.data.assignment.company.bank.accountNumber);            
             Config.generatePdf("pdf/abs-invoice", $scope, callback);
           } else {
             if (data4.results[0]) {
               $scope.data.assignment.policyNumber = (data4.results[0].policyNo ? data4.results[0].policyNo : "");
             }
+            console.log("Name Of Bank...........................................",$scope.data.assignment.company.bank.name,$scope.data.assignment.company.bank.accountNumber);
             Config.generatePdf("pdf/abs-invoice", $scope, callback);
           }
         });
