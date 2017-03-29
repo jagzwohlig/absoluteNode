@@ -2388,11 +2388,10 @@ var navigationservice = angular.module('navigationservice', [])
                 "_id": id,
             }).success(callback);
         },
-        getOneBank: function (formData, callback) {
-            // $http.post(adminurl + 'bank/getOne', {
-            //     "_id": id
-            // }).success(callback);
-            $http.post(adminurl + 'bank/getOne', formData).success(callback);
+        getOneBank: function (id, callback) {
+            $http.post(adminurl + 'bank/getOne', {
+                "_id": id
+            }).success(callback);
         },
         bankSave: function (formData, callback) {
             $http.post(adminurl + 'bank/save', formData).success(callback);
