@@ -12,6 +12,10 @@ var schema = new Schema({
         type: Boolean,
         default: true
     },
+     type: {
+        type: Boolean,
+        default: false
+    },
     rateArray: [{
         rate: Number,
         validFrom: Date,

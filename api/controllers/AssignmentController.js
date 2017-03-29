@@ -291,8 +291,8 @@ var controller = {
             });
         }
     },
-    generateAssignmentExcel: function (req, res) {
-        req.model.generateExcelDone(req.query, res);
+     generateMRExcel: function (req, res) {
+        req.model.generateMRExcel(req.query, res);
     },
     getAll: function (req, res) {
         if (req.body) {
@@ -355,6 +355,7 @@ var controller = {
             });
         }
     },
+   
 
 
 

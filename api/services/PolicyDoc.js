@@ -12,7 +12,8 @@ var schema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "Customer",
         required: true,
-        key: "policydoc"
+        key: "policydoc",
+        unique:true
     },
     listOfDocuments: [{
         name: {

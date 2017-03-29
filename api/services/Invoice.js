@@ -64,7 +64,8 @@ var schema = new Schema({
         amount: {
             type: Number,
             default: 0
-        }
+        },
+        type: Boolean
     }],
     tax: [{
         name: String,
@@ -314,12 +315,12 @@ var model = {
                                             if (assignmentData.templateIla) {
                                                 emailData.ilaAuthDate = assignmentData.templateIla[0].authTimestamp;
                                             }
-                                            if(assignmentData.products[0]){
-                                                if(assignmentData.products[0].product){
-                                                emailData.productName = (assignmentData.products[0].product.name ? assignmentData.products[0].product.name : "NA");
+                                            if (assignmentData.products[0]) {
+                                                if (assignmentData.products[0].product) {
+                                                    emailData.productName = (assignmentData.products[0].product.name ? assignmentData.products[0].product.name : "NA");
                                                 }
                                             }
-                                            
+
                                             // emailData.surveyDate = (surveyDate ? moment(surveyDate).format("DD/MM/YYYY") : "");
                                             // console.log("emailData In 1 ", emailData);
                                             if (assignmentData.survey) {
@@ -363,7 +364,7 @@ var model = {
                                             console.log('mailData', mailData);
 
                                             //Find Acknowledgment Email data
-                                             if (data.approvalStatus == "Pending") {
+                                            if (data.approvalStatus == "Pending") {
 
                                                 var mailData = [];
                                                 mailData[0] = "Invoice Send Authorization";
@@ -381,9 +382,7 @@ var model = {
                                                         }
                                                     }
                                                 });
-                                            }
-
-                                            else if (data.approvalStatus == "Approved") {
+                                            } else if (data.approvalStatus == "Approved") {
 
                                                 var mailData = [];
                                                 mailData[0] = "Invoice Authorization";

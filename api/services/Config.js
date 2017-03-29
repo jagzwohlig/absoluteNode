@@ -428,8 +428,20 @@ var models = {
                     border: '2'
                 };
 
-                var id = mongoose.Types.ObjectId();
-                var newFilename = id + ".pdf";
+                var Name;
+                // console.log("In Pdf Object.......................", obj);
+                if (obj.data.type != undefined) {
+                    if (obj.data.type == "templateLor") {
+                        Name = obj.data.templateName + " " + obj.data.lorCount;
+                    } else if (obj.data.type == "templateIla") {
+                        Name = obj.data.templateName + " ILA";
+                    }
+                } else if (obj.data.invoiceNumber != undefined) {
+                    Name = obj.data.invoiceNumber + " Invoice";
+                } else {
+                    Name = mongoose.Types.ObjectId();
+                }
+                var newFilename = Name + ".pdf";
                 var writestream = gfs.createWriteStream({
                     filename: newFilename
                 });

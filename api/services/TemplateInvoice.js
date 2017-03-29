@@ -78,6 +78,7 @@ var model = {
                     a.name = n.InvoiceExpenditure.name;
                     a.unit = n.InvoiceExpenditure.unit;
                     a.rate = n.InvoiceExpenditure.rate;
+                    a.type = n.InvoiceExpenditure.type;
                     arr.push(a);
                 })
                 callback(null, arr);

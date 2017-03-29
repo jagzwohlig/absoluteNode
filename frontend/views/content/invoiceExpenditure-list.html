@@ -40,7 +40,7 @@
                                     <th>Name</th>
                                     <th>Unit</th>
                                     <th>Rate</th>
-                                    <th>Status</th>
+                                    <th>Type</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -52,8 +52,11 @@
                                     <td>{{data.name}}</td>
                                     <td>{{data.unit}}</td>
                                     <td>{{data.rate}}</td>
-                                    <td>
-                                        <toggle-switch ng-model="data.status" class="switch-mini switch-success" ng-change="changeStatus(data)"></toggle-switch>
+                                    <td ng-if="data.type">
+                                            Fee
+                                    </td>
+                                    <td ng-if="!data.type">
+                                            Expense
                                     </td>
                                     <td>
                                         <a class="btn btn-primary" ui-sref="editInvoiceExpenditure({id:data._id})">

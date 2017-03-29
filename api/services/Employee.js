@@ -546,11 +546,13 @@ var model = {
     },
 
     getEmployeeByOfficeEmail: function (data, callback) {
+        console.log("officeEmail",officeEmail);
         Employee.findOne({
-            officeEmail: data.officeEmail
+            email: data.email
         }, {
             name: 1,
-            officeEmail: 1
+            officeEmail: 1,
+            email:1
         }).exec(function (err, employee) {
             if (err) {
                 callback(err, null);

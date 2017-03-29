@@ -834,7 +834,7 @@ var model = {
               if (err) {
                 callback(err, null);
               } else {
-                console.log("updated data", updated, data);
+                // console.log("updated data", updated, data);
                 // callback(null,updated);
                 Assignment.getOne({
                   _id: data._id
@@ -963,6 +963,7 @@ var model = {
       });
     } else {
       Const.save(function (err, data2) {
+        console.log("data2",data2);
         if (err) {
           callback(err, data2);
         } else {
@@ -3506,7 +3507,7 @@ var model = {
               } else {
                 emailData.insuredName = "";
               }
-              if (assignmentData.templateIla) {
+              if (assignmentData.templateIla[0]) {
                 emailData.ilaAuthDate = assignmentData.templateIla[0].authTimestamp;
               }
               // emailData.surveyDate = (surveyDate ? moment(surveyDate).format("DD/MM/YYYY") : "");
@@ -4412,7 +4413,7 @@ var model = {
           } else {
             var decodeMessage = "";
           }
-          
+
           var message =
             "<br>---------- Forwarded message ----------<br>" +
             "From: " + From + "<br>" +
@@ -4492,7 +4493,7 @@ var model = {
     });
   },
 
-  generateExcelDone: function (data, res) {
+  generateMRExcel: function (data, res) {
     Assignment.find()
       .sort({
         createdAt: -1
