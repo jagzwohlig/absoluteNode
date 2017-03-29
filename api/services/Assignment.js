@@ -791,8 +791,23 @@ schema.plugin(deepPopulate, {
       select: 'name _id'
     },
     'survey.employee': {
-      select: 'name _id email mobile officeEmail address '
-    }
+      select: 'name _id email mobile officeEmail address city'
+    },
+     'survey.employee.city': {
+      select: 'name _id state'
+    },
+     'survey.employee.city.district': {
+      select: 'name _id state'
+    },
+    'survey.employee.city.district.state': {
+      select: 'name _id zone'
+    },
+    'survey.employee.city.district.state.zone': {
+      select: 'name _id country'
+    },
+    'survey.employee.city.district.state.zone.country': {
+      select: 'name countryCode _id'
+    },
   }
 });
 autoIncrement.initialize(mongoose.connection);
@@ -801,7 +816,7 @@ schema.plugin(timestamps);
 
 module.exports = mongoose.model('Assignment', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country products.product.category.industry department shareWith.persons policyType natureOfLoss invoice invoice.createdBy insured insuredOffice owner owner.func company company.city insurerOffice company.city.district.state assessment.employee docs.employee fsrs.employee photos.employee causeOfLoss insurer assignedTo office branch survey.employee company.bank owner.employee", "city.district.state.zone.country products.product.category.industry department shareWith.persons natureOfLoss company invoice invoice.createdBy insuredOffice assignedTo insurerOffice office branch survey.employee company.bank owner owner.employee"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district.state.zone.country products.product.category.industry department shareWith.persons policyType natureOfLoss invoice invoice.createdBy insured insuredOffice owner owner.func company company.city insurerOffice company.city.district.state assessment.employee docs.employee fsrs.employee photos.employee causeOfLoss insurer assignedTo office branch survey.employee survey.employee.city company.bank owner.employee survey.employee.city.district survey.employee.city.district.state survey.employee.city.district.state.zone survey.employee.city.district.state.zone.country", "city.district.state.zone.country products.product.category.industry department shareWith.persons natureOfLoss company invoice invoice.createdBy insuredOffice assignedTo insurerOffice office branch survey.employee company.bank owner owner.employee survey.employee.city.district survey.employee.city.district.state survey.employee.city.district.state.zone survey.employee.city.district.state.zone.country survey.employee.city"));
 
 var model = {
   saveData: function (data, callback) {
@@ -1410,7 +1425,7 @@ var model = {
 
     var Search = Model.find(data.filter)
       .order(options)
-      .deepPopulate("city.district.state.zone.country products.product.category.industry department shareWith.persons policyType natureOfLoss invoice invoice.createdBy insured insuredOffice owner owner.func company company.city insurerOffice company.city.district.state assessment.employee docs.employee fsrs.employee photos.employee causeOfLoss insurer assignedTo office branch survey.employee")
+      .deepPopulate("city.district.state.zone.country products.product.category.industry department shareWith.persons policyType natureOfLoss invoice invoice.createdBy insured insuredOffice owner owner.func company company.city insurerOffice company.city.district.state assessment.employee docs.employee fsrs.employee photos.employee causeOfLoss insurer assignedTo office branch survey.employee survey.employee.city survey.employee.city.district survey.employee.city.district.state survey.employee.city.district.state.zone survey.employee.city.district.state.zone.country")
       .keyword(options)
       .page(options, callback);
 
