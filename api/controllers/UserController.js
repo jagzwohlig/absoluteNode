@@ -128,7 +128,7 @@ var controller = {
         console.log("obj  = ", obj);
         User.gmailCall(obj, function (err, threadData) {
             if (err) {
-                callback(err, null);
+                res.callback(err, null);
             } else {
                 if (req.body.mailType == "updateThreadId") {
                     if (threadData.threadId) {

@@ -430,14 +430,18 @@ var models = {
 
                 var Name;
                 // console.log("In Pdf Object.......................", obj);
-                if (obj.data.type != undefined) {
-                    if (obj.data.type == "templateLor") {
-                        Name = obj.data.templateName + " " + obj.data.lorCount;
-                    } else if (obj.data.type == "templateIla") {
-                        Name = obj.data.templateName + " ILA";
+                if (obj.data) {
+                    if (obj.data.type != undefined) {
+                        if (obj.data.type == "templateLor") {
+                            Name = obj.data.templateName + " " + obj.data.lorCount;
+                        } else if (obj.data.type == "templateIla") {
+                            Name = obj.data.templateName + " ILA";
+                        }
+                    } else if (obj.data.invoiceNumber != undefined) {
+                        Name = obj.data.invoiceNumber + " Invoice";
+                    } else {
+                        Name = mongoose.Types.ObjectId();
                     }
-                } else if (obj.data.invoiceNumber != undefined) {
-                    Name = obj.data.invoiceNumber + " Invoice";
                 } else {
                     Name = mongoose.Types.ObjectId();
                 }

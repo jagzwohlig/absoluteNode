@@ -791,7 +791,7 @@ schema.plugin(deepPopulate, {
       select: 'name _id'
     },
     'survey.employee': {
-      select: 'name _id email mobile officeEmail'
+      select: 'name _id email mobile officeEmail address '
     }
   }
 });
@@ -1262,7 +1262,7 @@ var model = {
                   emailData.productName = (assignmentData.products[0].product.name ? assignmentData.products[0].product.name : "NA");
                 }
               }
-              if (assignmentData.templateIla) {
+              if (assignmentData.templateIla[0]) {
                 emailData.ilaAuthDate = assignmentData.templateIla[0].authTimestamp;
               }
               // emailData.surveyDate = (surveyDate ? moment(surveyDate).format("DD/MM/YYYY") : "");
