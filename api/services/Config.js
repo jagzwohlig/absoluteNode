@@ -427,7 +427,6 @@ var models = {
                     format: 'A4',
                     border: '2'
                 };
-
                 var Name;
                 // console.log("In Pdf Object.......................", obj);
                 if (obj.data) {

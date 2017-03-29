@@ -378,8 +378,14 @@ function toWords (num) {
                     <b class="size">INR <%=toWords(data.grandTotal)%> </b>
                     <p class="size" style="margin: 5px 0 0;padding-right: 55px;">E. and O.E.<br> Subjected to Ahmedabad Jurisdiction <br>Service Tax No:
                         <%=data.assignment.company.serviceTax%> <br>(Insurance Auxiliary Services)<br> PAN No:
-                            <%=data.assignment.company.pan%>.<br> CIN:
+                            <%=data.assignment.company.pan%>.<br>CIN:
                                 <%=data.assignment.company.cin%>
+                                 Bank Name:
+                                <%=data.assignment.company.bank.name%><br>
+                                 Current A/C:
+                                <%=data.assignment.company.bank.accountNumber%><br>
+                                 IFSC Code:
+                                <%=data.assignment.company.bank.neftCode%><br>
                     </p>
                 </div>
                 <p class="size" style="margin-top: 10px;margin-bottom: 0;text-align: right;"> Authorized Signatory</p>
