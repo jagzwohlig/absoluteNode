@@ -317,7 +317,7 @@ var model = {
                                             } else {
                                                 emailData.insuredName = "";
                                             }
-                                            if (assignmentData.templateIla) {
+                                            if (assignmentData.templateIla[0]) {
                                                 emailData.ilaAuthDate = assignmentData.templateIla[0].authTimestamp;
                                             }
                                             if (assignmentData.products[0]) {
