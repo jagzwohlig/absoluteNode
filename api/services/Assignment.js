@@ -1348,7 +1348,7 @@ var model = {
   },
 
   generateInvoicePdf: function (data, callback) {
-    green(data);
+    green(data._id);
     $scope = {};
     Invoice.findOne({
       _id: data._id
