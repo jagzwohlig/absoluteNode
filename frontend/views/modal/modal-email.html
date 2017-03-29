@@ -25,17 +25,17 @@
                     <ui-select name="cc" multiple tagging="tagHandler" tagging-label="(press enter to add new)" ng-model="emailData.cc">
                         <ui-select-match placeholder="" >{{$item.name}} &lt;{{$item.email}} &gt;</ui-select-match>
                         <ui-select-choices refresh="refreshEmployee($select.search)" refresh-delay="0" repeat="emailto in employee | filter:$select.search">
-                            <div ng-bind-html="(emailto.name | highlight: $select.search ) +' '+'&lt;' +(emailto.email | highlight: $select.search ) + '&gt;'"></div>
-                        </ui-select-choices>
+                             <small><img ng-src="{{emailto.photo | uploadpath:50:50}}" alt="{{emailto.name}}" width=50 height=50 class="dp" /></small>
+                            {{emailto.name}} &lt; {{emailto.email }} &gt; </ui-select-choices>
                     </ui-select>
                 </div>
                 <div class="col-md-12 field">
                     <label>Bcc</label>
-                    <ui-select name="bcc"multiple tagging="tagHandler" tagging-label="(press enter to add new)" ng-model="emailData.bcc">
+                    <ui-select name="bcc" multiple tagging="tagHandler" tagging-label="(press enter to add new)" ng-model="emailData.bcc">
                         <ui-select-match placeholder="">{{$item.name}} &lt;{{$item.email}} &gt;</ui-select-match>
                         <ui-select-choices refresh="refreshEmployee($select.search)" refresh-delay="0" repeat="emailto in employee | filter:$select.search">
-                            <div ng-bind-html="(emailto.name | highlight: $select.search ) +' '+'&lt;' +(emailto.email | highlight: $select.search ) + '&gt;'"></div>
-                        </ui-select-choices>
+                             <small><img ng-src="{{emailto.photo | uploadpath:50:50}}" alt="{{emailto.name}}" width=50 height=50 class="dp" /></small>
+                            {{emailto.name}} &lt; {{emailto.email }} &gt;</ui-select-choices>
                     </ui-select>
                 </div>
                 <div class="col-md-12 field">

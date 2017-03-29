@@ -1880,44 +1880,38 @@ firstapp.filter('numberFixedLen', function () {
 
 firstapp.filter('timeline', function () {
     var arrTimeline = [{
-        status: "Force Closed",
-        color: "#88c4ff"
-    }, {
-        status: "Assessment Pending",
-        color: "#88c4ff"
-    }, {
-        status: "Dox Pending",
-        color: "#88c4ff"
-    }, {
-        status: "BBND",
-        color: "#ff88ff"
-    }, {
-        status: "DBND",
-        color: "#ff88ff"
-    }, {
-        status: "ILA Pending",
-        color: "#c488ff"
-    }, {
         status: "Unassigned",
-        color: "#c488ff"
-    }, {
-        status: "Consent Pending",
-        color: "#8888ff"
-    }, {
-        status: "Survey Assigned",
-        color: "#ff88ff"
+        color: "#ff88c4"
     }, {
         status: "Survey Pending",
         color: "#ff88ff"
-    }, {
+    },{
         status: "ILA Pending",
         color: "#c488ff"
-    }, {
+    },{
         status: "LOR Pending",
         color: "#8888ff"
+    },{
+        status: "Dox Pending",
+        color: "#88c4ff"
+    },{
+        status: "Consent Pending",
+        color: "#88ffff"
+    },{
+        status: "TBR",
+        color: "#88ffc4"
+    }, {
+        status: "BBND",
+        color: "#88ff88"
+    }, {
+        status: "ff8888",
+        color: "#88c4ff"
+    },{
+        status: "Part Dox Pending",
+        color: "#88c4ff"
     }];
     return function (n) {
-        var color = "#fff111";
+        var color = "#ffffff";
         _.each(arrTimeline, function (values) {
             if (n == values.status) {
                 color = values.color

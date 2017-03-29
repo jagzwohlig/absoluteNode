@@ -1575,7 +1575,7 @@ var model = {
           //       callback("No first create assignment mail data found", null);
           //     } else {
           //       emailData.message = emailData.message + firstMailData;
-          // console.log("emailData.message", emailData.message);
+          // console.log("emailData.message", emailDasta.message);
           emailData.accessToken = data[3];
           callback(null, emailData);
 
@@ -4412,6 +4412,7 @@ var model = {
           } else {
             var decodeMessage = "";
           }
+          
           var message =
             "<br>---------- Forwarded message ----------<br>" +
             "From: " + From + "<br>" +

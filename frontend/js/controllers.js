@@ -12,23 +12,11 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     //     console.log("Dashboard",data);
     //     $scope.Arr=data.data;
     // })
+
     NavigationService.getDashboardCounts(function (data) {
         // console.log("Dashboard",data);
         $scope.Arr = data.data;
         $scope.statusColor = [];
-        $scope.arrTimeline = [{
-            status:"Dox Pending",
-            color: "#88c4ff"
-        },{
-            status:"Survey Assigned",
-            color: "#ff88ff"
-        },{
-            status:"ILA Pending",
-            color: "#c488ff"
-        },{
-            status:"Consent Pending",
-            color: "#8888ff"
-        }];
 
         console.log("$scope.Arr", $scope.Arr);
         // _.each($scope.Arr, function (n) {
@@ -11453,15 +11441,15 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 break;
             case "Deputation mail":
                 {
-
-                    emailData.to.push({
+                    var to = [];
+                    to.push({
                         name: emailData.surveyorName,
                         email: emailData.surveyorEmail
                     });
                     var emails = {
                         name: 'Deputation mail',
                         from: emailData.ownerEmail,
-                        to: emailData.to,
+                        to: to,
                         cc: emailData.cc,
                         bcc: emailData.bcc,
                         subject: "Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
@@ -13308,6 +13296,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.email = data.data;
         console.log("Email ............", $scope.email, data);
         var a = $filter("base64url")(data.data.raw);
+        console.log("a = ",a);
 
         $scope.email.attachment = [];
         switch ($scope.email.payload.mimeType) {
