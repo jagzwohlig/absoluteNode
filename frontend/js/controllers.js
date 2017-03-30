@@ -310,8 +310,12 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         }
 
         $scope.generateMRExcel = function () {
-            NavigationService($scope.filter, function (data) {
+
+
+            NavigationService.saveJsonStore($scope.filter2, function (data) {
                 console.log(data);
+
+                window.open(adminurl + 'Assignment/generateExcel?id=' + data, '_blank');
             });
         };
         $scope.generateSalesRegisterExcel = function () {
@@ -436,43 +440,36 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
             var cities = [];
             cities = $scope.filter.city;
-            $scope.filter.city = [];
-            _.each(cities, function (values) {
-                $scope.filter.city.push(values._id);
+            $scope.filter.city = _.map(cities, function (values) {
+                return values._id;
             });
             console.log("filter city", $scope.filter.city);
 
             var branches = [];
             branches = $scope.filter.branch;
-            $scope.filter.branch = [];
-            _.each(branches, function (values) {
-                $scope.filter.branch.push(values._id);
+            $scope.filter.branch = _.map(branches, function (values) {
+                return values._id;
             });
             console.log("filter branch", $scope.filter.branch);
 
             var departments = [];
             departments = $scope.filter.department;
-            $scope.filter.department = [];
-            _.each(departments, function (values) {
-                $scope.filter.department.push(values._id);
+            $scope.filter.department = _.map(departments, function (values) {
+                return values._id;
             });
             console.log("filter department", $scope.filter.department);
 
             var insurers = [];
             insurers = $scope.filter.insurer;
-            $scope.filter.insurer = [];
-            console.log("$stateParams.insurer", $stateParams.insurer);
-            _.each(insurers, function (values) {
-                $scope.filter.insurer.push(values._id);
+            $scope.filter.insurer = _.map(insurers, function (values) {
+                return values._id;
             });
             console.log("filter insurer", $scope.filter.insurer);
 
             var insurerds = [];
             insurerds = $scope.filter.insurerd;
-            $scope.filter.insurerd = [];
-            console.log("$stateParams.insurerd", $stateParams.insurerd);
-            _.each(insurerds, function (values) {
-                $scope.filter.insurerd.push(values._id);
+            $scope.filter.insurerd = _.map(insurerds, function (values) {
+                return values._id;
             });
             console.log("filter insurerd", $scope.filter.insurerd);
 
@@ -486,7 +483,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 ownerId = data.data._id;
                 // $scope.ownersId = data.data._id;
                 console.log("In $scope.ownersId", ownerId);
-                NavigationService.getAllAssignment($scope.ModelApi, {
+                $scope.filter2 = {
                     sorting: [$scope.filter.sortName, $scope.filter.sortNumber],
                     pagenumber: $scope.currentPage,
                     pagelimit: 10,
@@ -504,7 +501,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     department: $scope.filter.department,
                     fromDate: $scope.filter.fromDate,
                     toDate: $scope.filter.toDate
-                }, ++i, function (data, ini) {
+                };
+                NavigationService.getAllAssignment($scope.ModelApi, $scope.filter2, ++i, function (data, ini) {
                     if (ini == i) {
                         $scope.modelList = data.data.results;
                         $scope.totalItems = data.data.total;

@@ -2430,7 +2430,9 @@ var navigationservice = angular.module('navigationservice', [])
                 });
             },
             saveJsonStore: function (data, callback) {
-                $http.post(adminurl + 'jsonStore/save', data).success(function (response) {
+                $http.post(adminurl + 'jsonStore/save', {
+                    json: data
+                }).success(function (response) {
                     if (response && response.data && response.data._id) {
                         callback(response.data._id);
                     }
