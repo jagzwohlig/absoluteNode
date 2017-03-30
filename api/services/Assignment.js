@@ -1199,10 +1199,10 @@ var model = {
     var timelStatus = body.assignment.timelineStatus;
     var approvalType = "None";
     var approvalStatus = "Pending";
-    if (body.type == "templateIla") {
+    if (body.type == "templateIla" && body.approvalStatus=="Approved") {
       timelStatus = "LOR Pending";
       approvalType = "ILA";
-    } else if (body.type == "templateLor") {
+    } else if (body.type == "templateLor" && body.approvalStatus=="Approved") {
       timelStatus = "Dox Pending";
       approvalType = "LOR";
     }
