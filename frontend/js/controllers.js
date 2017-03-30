@@ -11927,13 +11927,16 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                             var obj = _.filter(data.data.email.payload.headers, function (n) {
                                 return n.name == input;
                             });
+                            if (obj.length == 0) {
+                                return "NA";
+                            } else {
+                                return obj[0].value;
+                            }
+                        } else {
+                            return "NA";
                         }
 
-                        if (obj.length == 0) {
-                            return "NA";
-                        } else {
-                            return obj[0].value;
-                        }
+
                     }
                     emailData.originalDate = getFromHeader("Date");
                     emailData.originalDate = moment(emailData.originaldate).format('llll');
