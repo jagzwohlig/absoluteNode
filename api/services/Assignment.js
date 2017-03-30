@@ -2166,33 +2166,20 @@ var model = {
         },
       };
     }
-    var ownerId = {};
+    // var ownerId = {};
     if (data.ownerStatus == "My files") {
       if (data.ownerId === "") {
-
+        var ownerId = {};
       } else {
         ownerId = {
           'owner._id': objectid(data.ownerId),
         };
       }
-
-    } else if (data.ownerStatus == "Shared with me") {
-      if (data.ownerId === "") {
-        var shareWith = {}
-      } else {
-        var shareWith = {
-          'shareWith.persons': objectid(data.ownerId),
-        };
-      }
-    }
-    var ownerStatus = Object.assign(timelineStatus, name, owner, insurer, insurerd, department, ownerId, intimatedLoss, city, branch, createdAt, shareWith);
+    } 
+    var ownerStatus = Object.assign(timelineStatus, name, owner, insurer, insurerd, department, ownerId, intimatedLoss, city, branch, createdAt);
     console.log("ownerStatus",ownerStatus);
     var pageStartFrom = (data.pagenumber - 1) * data.pagelimit;
     var allTable = [{
-      $match: {
-        $and: [ownerStatus]
-      }
-    }, {
       $lookup: {
         from: "cities",
         localField: "city",
@@ -2263,6 +2250,10 @@ var model = {
       $unwind: {
         path: "$department",
         preserveNullAndEmptyArrays: true
+      }
+    },{
+      $match: {
+        $and: [ownerStatus]
       }
     }, sort, {
       $skip: parseInt(pageStartFrom)
@@ -2284,10 +2275,6 @@ var model = {
     }];
 
     var countAllData = [{
-      $match: {
-        $and: [ownerStatus]
-      }
-    }, {
       $lookup: {
         from: "cities",
         localField: "city",
@@ -2360,6 +2347,10 @@ var model = {
         preserveNullAndEmptyArrays: true
       }
     }, {
+      $match: {
+        $and: [ownerStatus]
+      }
+    },{
       $group: {
         _id: null,
         count: {
@@ -2369,17 +2360,19 @@ var model = {
     }];
 
     if (data.ownerStatus == "Shared with me") {
-      var unwindEmp = {
-        $unwind: "$shareWith.persons"
-      };
-      allTable.unshift(unwindEmp);
-      countAllData.unshift(unwindEmp);
+      // var unwindEmp = {
+      //   $unwind: "$shareWith.persons"
+      // };
+      // allTable.unshift(unwindEmp);
+      // countAllData.unshift(unwindEmp);
       var unwindSharewith = {
         $unwind: "$shareWith"
       };
       allTable.unshift(unwindSharewith);
       countAllData.unshift(unwindSharewith);
     }
+    console.log("allTable",allTable);
+    console.log("countAllData",countAllData);
 
     async.parallel([
 
