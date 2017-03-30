@@ -310,8 +310,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         }
 
         $scope.generateMRExcel = function () {
-            window.open('http://wohlig.io/api/Assignment/generateMRExcel', '_blank');
-            window.close();
+            NavigationService($scope.filter, function (data) {
+                console.log(data);
+            });
         };
         $scope.generateSalesRegisterExcel = function () {
             window.open('http://wohlig.io/api/Invoice/generateSalesRegisterExcel', '_blank');

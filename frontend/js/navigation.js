@@ -2429,14 +2429,11 @@ var navigationservice = angular.module('navigationservice', [])
                     callback(data, i);
                 });
             },
-            saveJsonStore: function () {
-                $http({
-                    url: "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=AIzaSyC62zlixVsjaq4zDaL4cefNCubjCgxkte4",
-                    method: 'GET',
-                    withCredentials: false,
-                }).success(function (data) {
-                    console.log("getLatLng In Nav", data, i);
-                    callback(data, i);
+            saveJsonStore: function (data, callback) {
+                $http.post(adminurl + 'jsonStore/save', data).success(function (response) {
+                    if (response && response.data && response.data._id) {
+                        callback(response.data._id);
+                    }
                 });
             }
 
