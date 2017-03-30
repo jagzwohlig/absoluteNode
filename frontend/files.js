@@ -34,6 +34,7 @@ module.exports = [
   "bower_components/ngInfiniteScroll/build/ng-infinite-scroll.min.js",
   'bower_components/lodash/lodash.js',
   'bower_components/dragular/dist/dragular.js',
+  "bower_components/cleave.js/dist/cleave-angular.js",
   "frontend/js/app.js",
   "frontend/js/controllers.js",
   "frontend/js/roles.js",

@@ -3,43 +3,47 @@ templateservicemod.service('TemplateService', function (NavigationService, $filt
   this.title = "Home";
   this.meta = "Google";
   this.metadesc = "Home";
-    this.isLoader = false;
-    this.removeLoaderNum = 0;
-    this.removeLoaderTemp = 0;
+  this.isLoader = false;
+  this.removeLoaderNum = 0;
+  this.removeLoaderTemp = 0;
   this.pageMax = 10;
   this.profile = $.jStorage.get("profile");
   var d = new Date();
   var role = $.jStorage.get("role");
   this.year = d.getFullYear();
- 
+
+  this.currency = {
+    numeral: true,
+    numeralThousandsGroupStyle: 'thousand'
+  };
 
   this.init = function () {
     this.header = "frontend/views/header.html";
     this.menu = "frontend/views/menu.html";
-            this.isLoader = false;
+    this.isLoader = false;
     this.content = "frontend/views/content/content.html";
     this.footer = "frontend/views/footer.html";
-    this.profile = $.jStorage.get("profile"); 
-        this.removeLoaderTemp = 0;
-        this.removeLoaderNum = 0;
+    this.profile = $.jStorage.get("profile");
+    this.removeLoaderTemp = 0;
+    this.removeLoaderNum = 0;
   };
 
-    // this.removeLoader = function() {
-    //     this.removeLoaderTemp++;
-    //     if (this.removeLoaderTemp >= this.removeLoaderNum) {
-    //         this.isLoader = false;
-    //     }
-    // };
-    this.getLoader = function() {
-        this.isLoader = true;
-    };
-    this.removeLoader = function() {
-        this.isLoader = false;
-    };
-    // this.removeLoaderOn = function(num) {
-    //     this.isLoader = true;
-    //     this.removeLoaderNum = num;
-    // };
+  // this.removeLoader = function() {
+  //     this.removeLoaderTemp++;
+  //     if (this.removeLoaderTemp >= this.removeLoaderNum) {
+  //         this.isLoader = false;
+  //     }
+  // };
+  this.getLoader = function () {
+    this.isLoader = true;
+  };
+  this.removeLoader = function () {
+    this.isLoader = false;
+  };
+  // this.removeLoaderOn = function(num) {
+  //     this.isLoader = true;
+  //     this.removeLoaderNum = num;
+  // };
 
   this.mrnumber = function (data, callback) {
     var MRNumber = "";
@@ -91,11 +95,13 @@ templateservicemod.service('TemplateService', function (NavigationService, $filt
       if (data.currentRole.length > 0) {
         data.currentRole = data.currentRole[0];
       }
-      var assignmentFilter =  _.filter(role.roles,{"subMenu":"Assignment"});
+      var assignmentFilter = _.filter(role.roles, {
+        "subMenu": "Assignment"
+      });
       console.log(assignmentFilter);
-      data.assignmentRole = _.groupBy(assignmentFilter,"subThirdMenu");
+      data.assignmentRole = _.groupBy(assignmentFilter, "subThirdMenu");
       console.log(data.assignmentRole);
-      _.each(data.assignmentRole,function(n,key) {
+      _.each(data.assignmentRole, function (n, key) {
         data.assignmentRole[key] = n[0];
       });
       console.log(data.assignmentRole);
