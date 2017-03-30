@@ -1,5 +1,5 @@
 var globalfunction = {};
-angular.module('phonecatControllers', ['templateservicemod', 'navigationservice', 'assignmenttemplate', 'ui.bootstrap', 'ui.select', 'ngAnimate', 'toastr', 'ngSanitize', 'angular-flexslider', 'ui.tinymce', 'imageupload', 'ngMap', 'toggle-switch', 'cfp.hotkeys', 'ui.sortable', 'infinite-scroll', 'dragularModule'])
+angular.module('phonecatControllers', ['templateservicemod', 'navigationservice', 'assignmenttemplate', 'ui.bootstrap', 'ui.select', 'ngAnimate', 'toastr', 'ngSanitize', 'angular-flexslider', 'ui.tinymce', 'imageupload', 'ngMap', 'toggle-switch', 'cfp.hotkeys', 'ui.sortable', 'infinite-scroll', 'dragularModule', 'cleave.js'])
 
     .controller('DashboardCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64) {
         //Used to name the .html file
@@ -736,7 +736,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 func: $scope.backEnd
             }
             NavigationService.getBackendEmployeeOnly(formdata, 1, function (data) {
-                
+
             });
         }
     })
@@ -4348,15 +4348,15 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         }
         $scope.resetTravelExpense = function () {
             $scope.totals.travelExpense = 0;
-        }
+        };
 
         $scope.calculatePocketExpense = function (data) {
             console.log("pocketExpenseTotal", data.pocketExpenseTotal);
             $scope.totals.pocketExpense += data.pocketExpenseTotal;
-        }
+        };
         $scope.resetPocketExpense = function () {
             $scope.totals.pocketExpense = 0;
-        }
+        };
 
         $scope.calculateGrandTotal = function (data) {
             console.log("Total data!", data);
@@ -4365,7 +4365,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 var dataExpense = data.expense;
                 console.log($scope.totals.expense, "expense--", dataExpense);
             } else {
-                var dataExpense = 0
+                var dataExpense = 0;
             }
             if (data.travelExpense) {
                 var dataTravelExpense = data.travelExpense;
