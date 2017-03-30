@@ -869,7 +869,24 @@ var model = {
                       emailData.ownerName = assignmentData.owner.name;
                       emailData.ownerEmail = assignmentData.owner.officeEmail;
                       emailData.ownerPhone = assignmentData.owner.mobile;
-                      emailData.siteCity = assignmentData.city.name;
+                      emailData.siteAddress = (assignmentData.address ? assignmentData.address : '' );
+                      if (assignmentData.city.name) {
+                        emailData.siteCity = assignmentData.city.name;
+                        if (assignmentData.city.district) {
+                          emailData.siteDistrict = assignmentData.city.district.name;
+                          if (assignmentData.city.district.state) {
+                            emailData.siteState = assignmentData.city.district.state.name;
+                            if (assignmentData.city.district.state.zone) {
+                              emailData.siteZone = assignmentData.city.district.state.zone.name;
+                              if (assignmentData.city.district.state.zone.country) {
+                                emailData.siteCountry = assignmentData.city.district.state.zone.country.name;
+                              }
+                            }
+                          }
+                        }
+                      }
+                      emailData.fullAddress = emailData.siteAddress + " " + emailData.siteCity + " " + emailData.siteState + " " + emailData.siteZone + " " + emailData.siteCountry;
+                      console.log("emaildata fullAddress", emailData.fullAddress);
                       emailData.invoiceNumber = data.invoiceNumber;
                       if (assignmentData.insured) {
                         if (assignmentData.insured.name) {
@@ -895,10 +912,6 @@ var model = {
                             emailData.surveyorName = values.employee.name;
                             emailData.surveyorEmail = values.employee.officeEmail;
                             emailData.surveyDate = (values.surveyDate ? moment(values.surveyDate).format("DD/MM/YYYY") : "");
-                            emailData.siteAddress = values.employee.address;
-                            if (values.employee.city) {
-                              emailData.surveyorCity = values.employee.city.name;
-                            }
                           }
                         });
                       }
@@ -1199,10 +1212,10 @@ var model = {
     var timelStatus = body.assignment.timelineStatus;
     var approvalType = "None";
     var approvalStatus = "Pending";
-    if (body.type == "templateIla" && body.approvalStatus=="Approved") {
+    if (body.type == "templateIla" && body.approvalStatus == "Approved") {
       timelStatus = "LOR Pending";
       approvalType = "ILA";
-    } else if (body.type == "templateLor" && body.approvalStatus=="Approved") {
+    } else if (body.type == "templateLor" && body.approvalStatus == "Approved") {
       timelStatus = "Dox Pending";
       approvalType = "LOR";
     }
@@ -1265,7 +1278,24 @@ var model = {
               emailData.ownerName = assignmentData.owner.name;
               emailData.ownerEmail = assignmentData.owner.officeEmail;
               emailData.ownerPhone = assignmentData.owner.mobile;
-              emailData.siteCity = assignmentData.city.name;
+              emailData.siteAddress = (assignmentData.address ? assignmentData.address : '' );
+              if (assignmentData.city.name) {
+                emailData.siteCity = assignmentData.city.name;
+                if (assignmentData.city.district) {
+                  emailData.siteDistrict = assignmentData.city.district.name;
+                  if (assignmentData.city.district.state) {
+                    emailData.siteState = assignmentData.city.district.state.name;
+                    if (assignmentData.city.district.state.zone) {
+                      emailData.siteZone = assignmentData.city.district.state.zone.name;
+                      if (assignmentData.city.district.state.zone.country) {
+                        emailData.siteCountry = assignmentData.city.district.state.zone.country.name;
+                      }
+                    }
+                  }
+                }
+              }
+              emailData.fullAddress = emailData.siteAddress + " " + emailData.siteCity + " " + emailData.siteState + " " + emailData.siteZone + " " + emailData.siteCountry;
+              console.log("emaildata fullAddress", emailData.fullAddress);
               if (assignmentData.insured) {
                 if (assignmentData.insured.name) {
                   emailData.insuredName = (assignmentData.insured.name ? assignmentData.insured.name : "");
@@ -1295,10 +1325,6 @@ var model = {
                     emailData.surveyorName = values.employee.name;
                     emailData.surveyorEmail = values.employee.officeEmail;
                     emailData.surveyDate = (values.surveyDate ? moment(values.surveyDate).format("DD/MM/YYYY") : "");
-                    emailData.siteAddress = values.employee.address;
-                    if (values.employee.city) {
-                      emailData.surveyorCity = values.employee.city.name;
-                    }
                   }
                 });
               }
@@ -1509,7 +1535,24 @@ var model = {
                   emailData.ownerName = assignmentData.owner.name;
                   emailData.ownerEmail = assignmentData.owner.officeEmail;
                   emailData.ownerPhone = assignmentData.owner.mobile;
-                  emailData.siteCity = assignmentData.city.name;
+                  emailData.siteAddress = (assignmentData.address ? assignmentData.address : '' );
+                  if (assignmentData.city.name) {
+                    emailData.siteCity = assignmentData.city.name;
+                    if (assignmentData.city.district) {
+                      emailData.siteDistrict = assignmentData.city.district.name;
+                      if (assignmentData.city.district.state) {
+                        emailData.siteState = assignmentData.city.district.state.name;
+                        if (assignmentData.city.district.state.zone) {
+                          emailData.siteZone = assignmentData.city.district.state.zone.name;
+                          if (assignmentData.city.district.state.zone.country) {
+                            emailData.siteCountry = assignmentData.city.district.state.zone.country.name;
+                          }
+                        }
+                      }
+                    }
+                  }
+                  emailData.fullAddress = emailData.siteAddress + " " + emailData.siteCity + " " + emailData.siteState + " " + emailData.siteZone + " " + emailData.siteCountry;
+                  console.log("emaildata fullAddress", emailData.fullAddress);
                   if (assignmentData.insured) {
                     emailData.insuredName = (assignmentData.insured.name ? assignmentData.insured.name : "");
                   }
@@ -1527,10 +1570,6 @@ var model = {
                         emailData.surveyorName = values.employee.name;
                         emailData.surveyorEmail = values.employee.officeEmail;
                         emailData.surveyDate = (values.surveyDate ? moment(values.surveyDate).format("DD/MM/YYYY") : "");
-                        emailData.siteAddress = values.employee.address;
-                        if (values.employee.city) {
-                          emailData.surveyorCity = values.employee.city.name;
-                        }
                       }
                     });
                   }
@@ -3517,7 +3556,24 @@ var model = {
               emailData.ownerName = assignmentData.owner.name;
               emailData.ownerEmail = assignmentData.owner.officeEmail;
               emailData.ownerPhone = assignmentData.owner.mobile;
-              emailData.siteCity = assignmentData.city.name;
+              emailData.siteAddress = (assignmentData.address ? assignmentData.address : '' );
+              if (assignmentData.city.name) {
+                emailData.siteCity = assignmentData.city.name;
+                if (assignmentData.city.district) {
+                  emailData.siteDistrict = assignmentData.city.district.name;
+                  if (assignmentData.city.district.state) {
+                    emailData.siteState = assignmentData.city.district.state.name;
+                    if (assignmentData.city.district.state.zone) {
+                      emailData.siteZone = assignmentData.city.district.state.zone.name;
+                      if (assignmentData.city.district.state.zone.country) {
+                        emailData.siteCountry = assignmentData.city.district.state.zone.country.name;
+                      }
+                    }
+                  }
+                }
+              }
+              emailData.fullAddress = emailData.siteAddress + " " + emailData.siteCity + " " + emailData.siteState + " " + emailData.siteZone + " " + emailData.siteCountry;
+              console.log("emaildata fullAddress", emailData.fullAddress);
               if (assignmentData.insured) {
                 if (assignmentData.insured.name) {
                   emailData.insuredName = (assignmentData.insured.name ? assignmentData.insured.name : "");
@@ -3530,6 +3586,7 @@ var model = {
               if (assignmentData.templateIla[0]) {
                 emailData.ilaAuthDate = assignmentData.templateIla[0].authTimestamp;
               }
+
               // emailData.surveyDate = (surveyDate ? moment(surveyDate).format("DD/MM/YYYY") : "");
               // console.log("emailData In 1 ", emailData);
               if (assignmentData.survey) {
@@ -3542,10 +3599,6 @@ var model = {
                     emailData.surveyorName = values.employee.name;
                     emailData.surveyorEmail = values.employee.officeEmail;
                     emailData.surveyDate = (values.surveyDate ? moment(values.surveyDate).format("DD/MM/YYYY") : "");
-                    emailData.siteAddress = values.employee.address;
-                    if (values.employee.city) {
-                      emailData.surveyorCity = values.employee.city.name;
-                    }
                   }
                 });
               }
@@ -3987,7 +4040,7 @@ var model = {
     emailData.surveyorName = (mailData.surveyorName ? mailData.surveyorName : "NA");
     emailData.surveyorEmail = (mailData.surveyorEmail ? mailData.surveyorEmail : "NA");
     emailData.surveyDate = (mailData.surveyDate ? mailData.surveyDate : "NA");
-    emailData.siteAddress = (mailData.siteAddress ? mailData.siteAddress : "NA");
+    emailData.fullAddress = (mailData.fullAddress ? mailData.fullAddress : "NA");
     emailData.surveyorCity = (mailData.surveyorCity ? mailData.surveyorCity : "NA");
     emailData.productName = (mailData.productName ? mailData.productName : "NA");
 
@@ -4334,7 +4387,7 @@ var model = {
             cc: emailData.cc,
             bcc: emailData.bcc,
             subject: "Request for deputation of Surveyor : " + emailData.surveyorName + " for Assignment : " + emailData.assignmentNo,
-            message: "<html><body><p style='font-size: 16px;'>Please approve " + emailData.surveyorName + " for " + emailData.assignmentNo + " on " + emailData.surveyDate + " at " + emailData.siteAddress + " " + emailData.surveyorCity + "</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+            message: "<html><body><p style='font-size: 16px;'>Please approve " + emailData.surveyorName + " for " + emailData.assignmentNo + " on " + emailData.surveyDate + " at " + emailData.fullAddress + "</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
           }
           callback(null, emails);
         }
@@ -4349,7 +4402,7 @@ var model = {
             cc: emailData.cc,
             bcc: emailData.bcc,
             subject: "Request approved of Surveyor : " + emailData.surveyorName + " for Assignment : " + emailData.assignmentNo,
-            message: "<html><body><p style='font-size: 16px;'>" + emailData.surveyorName + " has been authorized for " + emailData.assignmentNo + " on " + emailData.surveyDate + " at " + emailData.siteAddress + " " + emailData.surveyorCity + "</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.assignmentAuthorizer + "</p></body></html>"
+            message: "<html><body><p style='font-size: 16px;'>" + emailData.surveyorName + " has been authorized for " + emailData.assignmentNo + " on " + emailData.surveyDate + " at " + emailData.fullAddress + "</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.assignmentAuthorizer + "</p></body></html>"
           }
           callback(null, emails);
         }
