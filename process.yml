@@ -1,6 +1,6 @@
 apps:
   - script: "app.js"
     name: "Absolute ABM 3"
-    watch: true
-    args: "--prod"
+    watch: false
+    args: ""
     exec_mode: "cluster"
