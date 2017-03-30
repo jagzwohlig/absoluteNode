@@ -11541,7 +11541,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         cc: emailData.cc,
                         bcc: emailData.bcc,
                         subject: emailData.originalSubject + ". Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
-                        message: "<html><body><p style='font-size: 16px;'>Dear Sir/Madam,</p><p style='font-size: 16px;'>Thank you for retaining us to inspect & assess the subject loss. This is to confirm that " + emailData.surveyorName + " shall be attending this claim. He can be reached on " + emailData.surveyorNumber + ". Our reference number for this claim would be " + emailData.assignmentNo + "</p> <p style='font-size: 16px;'>Should you ever need any support / information / update, please feel at ease to get in touch with me.</p><br>" + "<p style='font-size: 16px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html><br>" + emailData.originalMessage,
+                        message: "<html><body><p style='font-size: 16px;'>Dear Sir/Madam,</p><p style='font-size: 16px;'>Thank you for retaining us to inspect & assess the subject loss. This is to confirm that " + emailData.surveyorName + " shall be attending this claim. He can be reached on " + emailData.surveyorNumber + ". Our reference number for this claim would be " + emailData.assignmentNo + "</p> <p style='font-size: 16px;'>Should you ever need any support / information / update, please feel at ease to get in touch with me.</p><br>" + "<p style='font-size: 16px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p>" + emailData.originalMessage + "</body></html><br>" ,
                         mailType: "updateThreadId"
                     }
                     $scope.emailData = emails;
@@ -11962,12 +11962,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     if (!_.isEmpty(emailData.originalFrom)) {
                         var temp = emailData.originalFrom.split("<");
                         toName = temp[0];
-                        console.log("toNAME", temp[0], "toemail", temp[1], "temp", temp);
-                        var temp2 = temp[1].split(">");
-                        Email = temp2[0];
+                        if (temp[1]) {
+                            var temp2 = temp[1].split(">");
+                            console.log("toNAME", temp[0], "toemail", temp[1], "temp", temp);
+                            Email = temp2[0];
+                        } else {
+                            Email = temp[0]
+                        }
+
                         emailData.toEmail.push({
-                            name: toName,
-                            email: Email
+                            name: (toName ? toName : ""),
+                            email: (Email ? Email : "")
                         });
                     }
 
