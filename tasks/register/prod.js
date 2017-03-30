@@ -17,5 +17,5 @@
  *
  */
 module.exports = function (grunt) {
-    grunt.registerTask('default', ['sass:production', 'copy:jsDevelopment', 'copy:assets', 'copy:development']);
+    grunt.registerTask('default', ['sass:production', 'copy:jsDevelopment', 'copy:assets', 'copy:development', 'sass:production']);
 };
