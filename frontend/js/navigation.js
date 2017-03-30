@@ -561,6 +561,13 @@ var navigationservice = angular.module('navigationservice', [])
                 callback(data, i);
             });
         },
+        getBackendEmployeeOnly: function (formData, i, callback) {
+            console.log("FormData in search", formData);
+            $http.post(adminurl + 'Employee/getBackendEmployeeOnly', formData).success(function (data) {
+                console.log("FormData in search", data);
+                callback(data, i);
+            });
+        },
         updateNewSurveyor: function (formData, callback) {
             console.log("formData : ", formData);
             $http.post(adminurl + 'Assignment/updateNewSurveyor', formData).success(function (data) {
