@@ -793,10 +793,10 @@ schema.plugin(deepPopulate, {
     'survey.employee': {
       select: 'name _id email mobile officeEmail address city'
     },
-     'survey.employee.city': {
+    'survey.employee.city': {
       select: 'name _id state'
     },
-     'survey.employee.city.district': {
+    'survey.employee.city.district': {
       select: 'name _id state'
     },
     'survey.employee.city.district.state': {
@@ -895,7 +895,10 @@ var model = {
                             emailData.surveyorName = values.employee.name;
                             emailData.surveyorEmail = values.employee.officeEmail;
                             emailData.surveyDate = (values.surveyDate ? moment(values.surveyDate).format("DD/MM/YYYY") : "");
-                            emailData.siteAddress = values.address;
+                            emailData.siteAddress = values.employee.address;
+                            if (values.employee.city) {
+                              emailData.surveyorCity = values.employee.city.name;
+                            }
                           }
                         });
                       }
@@ -978,7 +981,7 @@ var model = {
       });
     } else {
       Const.save(function (err, data2) {
-        console.log("data2",data2);
+        console.log("data2", data2);
         if (err) {
           callback(err, data2);
         } else {
@@ -1292,7 +1295,10 @@ var model = {
                     emailData.surveyorName = values.employee.name;
                     emailData.surveyorEmail = values.employee.officeEmail;
                     emailData.surveyDate = (values.surveyDate ? moment(values.surveyDate).format("DD/MM/YYYY") : "");
-                    emailData.siteAddress = values.address;
+                    emailData.siteAddress = values.employee.address;
+                    if (values.employee.city) {
+                      emailData.surveyorCity = values.employee.city.name;
+                    }
                   }
                 });
               }
@@ -1373,21 +1379,21 @@ var model = {
       } else {
         $scope.data = data2;
         var filter = {
-          _id: data2.assignment.policyDoc
-        }
-        // For policyNumber
+            _id: data2.assignment.policyDoc
+          }
+          // For policyNumber
         PolicyDoc.getPolicyDoc({
           filter
         }, function (err, data4) {
           if (err) {
             green($scope.data);
-            console.log("Name Of Bank.........................................",$scope.data.assignment.company.bank.name,$scope.data.assignment.company.bank.accountNumber);            
+            console.log("Name Of Bank.........................................", $scope.data.assignment.company.bank.name, $scope.data.assignment.company.bank.accountNumber);
             Config.generatePdf("pdf/abs-invoice", $scope, callback);
           } else {
             if (data4.results[0]) {
               $scope.data.assignment.policyNumber = (data4.results[0].policyNo ? data4.results[0].policyNo : "");
             }
-            console.log("Name Of Bank...........................................",$scope.data.assignment.company.bank.name,$scope.data.assignment.company.bank.accountNumber);
+            console.log("Name Of Bank...........................................", $scope.data.assignment.company.bank.name, $scope.data.assignment.company.bank.accountNumber);
             Config.generatePdf("pdf/abs-invoice", $scope, callback);
           }
         });
@@ -1510,7 +1516,7 @@ var model = {
                   if (assignmentData.templateIla[0]) {
                     emailData.ilaAuthDate = assignmentData.templateIla[0].authTimestamp;
                   }
-                  
+
                   if (assignmentData.survey) {
                     _.each(assignmentData.survey, function (values) {
                       // console.log("survey: ", values);
@@ -1521,7 +1527,10 @@ var model = {
                         emailData.surveyorName = values.employee.name;
                         emailData.surveyorEmail = values.employee.officeEmail;
                         emailData.surveyDate = (values.surveyDate ? moment(values.surveyDate).format("DD/MM/YYYY") : "");
-                        emailData.siteAddress = values.address;
+                        emailData.siteAddress = values.employee.address;
+                        if (values.employee.city) {
+                          emailData.surveyorCity = values.employee.city.name;
+                        }
                       }
                     });
                   }
@@ -2175,9 +2184,9 @@ var model = {
           'owner._id': objectid(data.ownerId),
         };
       }
-    } 
+    }
     var ownerStatus = Object.assign(timelineStatus, name, owner, insurer, insurerd, department, ownerId, intimatedLoss, city, branch, createdAt);
-    console.log("ownerStatus",ownerStatus);
+    console.log("ownerStatus", ownerStatus);
     var pageStartFrom = (data.pagenumber - 1) * data.pagelimit;
     var allTable = [{
       $lookup: {
@@ -2251,7 +2260,7 @@ var model = {
         path: "$department",
         preserveNullAndEmptyArrays: true
       }
-    },{
+    }, {
       $match: {
         $and: [ownerStatus]
       }
@@ -2350,7 +2359,7 @@ var model = {
       $match: {
         $and: [ownerStatus]
       }
-    },{
+    }, {
       $group: {
         _id: null,
         count: {
@@ -2384,7 +2393,7 @@ var model = {
           } else {
             callback(null, data1);
           }
-        }); 
+        });
       },
 
       //get all assignment count
@@ -3533,7 +3542,10 @@ var model = {
                     emailData.surveyorName = values.employee.name;
                     emailData.surveyorEmail = values.employee.officeEmail;
                     emailData.surveyDate = (values.surveyDate ? moment(values.surveyDate).format("DD/MM/YYYY") : "");
-                    emailData.siteAddress = values.address;
+                    emailData.siteAddress = values.employee.address;
+                    if (values.employee.city) {
+                      emailData.surveyorCity = values.employee.city.name;
+                    }
                   }
                 });
               }
@@ -3976,6 +3988,7 @@ var model = {
     emailData.surveyorEmail = (mailData.surveyorEmail ? mailData.surveyorEmail : "NA");
     emailData.surveyDate = (mailData.surveyDate ? mailData.surveyDate : "NA");
     emailData.siteAddress = (mailData.siteAddress ? mailData.siteAddress : "NA");
+    emailData.surveyorCity = (mailData.surveyorCity ? mailData.surveyorCity : "NA");
     emailData.productName = (mailData.productName ? mailData.productName : "NA");
 
     switch (data[0]) {
@@ -4321,7 +4334,7 @@ var model = {
             cc: emailData.cc,
             bcc: emailData.bcc,
             subject: "Request for deputation of Surveyor : " + emailData.surveyorName + " for Assignment : " + emailData.assignmentNo,
-            message: "<html><body><p style='font-size: 16px;'>Please approve " + emailData.surveyorName + " for " + emailData.assignmentNo + " on " + emailData.surveyDate + " at " + emailData.siteAddress + "</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+            message: "<html><body><p style='font-size: 16px;'>Please approve " + emailData.surveyorName + " for " + emailData.assignmentNo + " on " + emailData.surveyDate + " at " + emailData.siteAddress + " " + emailData.surveyorCity + "</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
           }
           callback(null, emails);
         }
@@ -4336,7 +4349,7 @@ var model = {
             cc: emailData.cc,
             bcc: emailData.bcc,
             subject: "Request approved of Surveyor : " + emailData.surveyorName + " for Assignment : " + emailData.assignmentNo,
-            message: "<html><body><p style='font-size: 16px;'>" + emailData.surveyorName + " has been authorized for " + emailData.assignmentNo + " on " + emailData.surveyDate + " at " + emailData.siteAddress + "</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.assignmentAuthorizer + "</p></body></html>"
+            message: "<html><body><p style='font-size: 16px;'>" + emailData.surveyorName + " has been authorized for " + emailData.assignmentNo + " on " + emailData.surveyDate + " at " + emailData.siteAddress + " " + emailData.surveyorCity + "</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.assignmentAuthorizer + "</p></body></html>"
           }
           callback(null, emails);
         }
