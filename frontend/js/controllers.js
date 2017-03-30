@@ -14479,4 +14479,27 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         TemplateService.title = $scope.menutitle;
         $scope.navigation = NavigationService.getnav();
 
+    })
+
+     .controller('AccordionLORCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("accordion-lor");
+        $scope.menutitle = NavigationService.makeactive("LOR");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+
+$scope.lorData = [{
+    name: "option 1",
+    values: ["check 1","check 2","check 3","check 4",],
+},{
+    name: "option 1",
+    values: ["check 1","check 2","check 3","check 4",],
+},{
+    name: "option 1",
+    values: ["check 1","check 2","check 3","check 4",],
+},{
+    name: "option 1",
+    values: ["check 1","check 2","check 3","check 4",],
+},]
+
     });

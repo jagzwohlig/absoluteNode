@@ -427,8 +427,10 @@ var models = {
                     format: 'A4',
                     border: '2'
                 };
-                var Name;
                 // console.log("In Pdf Object.......................", obj);
+
+                var Name;
+                console.log("In Pdf Object.......................", obj.data.invoiceList);
                 if (obj.data) {
                     if (obj.data.type != undefined) {
                         if (obj.data.type == "templateLor") {
@@ -448,6 +450,31 @@ var models = {
                 var writestream = gfs.createWriteStream({
                     filename: newFilename
                 });
+
+
+                // // 
+
+
+                // if (obj.data) {
+                //     if (obj.data.type != undefined) {
+                //         if (obj.data.type == "templateLor") {
+                //             Name = obj.data.templateName + " " + obj.data.lorCount;
+                //         } else if (obj.data.type == "templateIla") {
+                //             Name = obj.data.templateName + " ILA";
+                //         }
+                //     } else if (obj.data.invoiceNumber != undefined) {
+                //         // console.log("")
+                //         Name = obj.data.invoiceNumber + " Invoice";
+                //     } else {
+                //         Name = mongoose.Types.ObjectId();
+                //     }
+                // } else {
+                //     Name = mongoose.Types.ObjectId();
+                // }
+                // var newFilename = Name + ".pdf";
+                // var writestream = gfs.createWriteStream({
+                //     filename: newFilename
+                // });
                 writestream.on('finish', function () {
                     callback(null, {
                         name: newFilename
