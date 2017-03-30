@@ -726,17 +726,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         formData2.filter = {
             "name": "Back Office"
         }
-        NavigationService.searchModel("CustomerSegment", formData2, 1, function (data) {
-            $scope.customerSegmentId = data.data.results[0]._id;
+        NavigationService.searchModel("Func", formData2, 1, function (data) {
+            $scope.backEnd = data.data.results[0]._id;
         });
         $scope.getBackendEmployeeOnly = function (data) {
             var formdata = {};
             formdata.keyword = data;
-            formdata.filter={
-                
+            formdata.filter = {
+                func: $scope.backEnd
             }
             NavigationService.getBackendEmployeeOnly(formdata, 1, function (data) {
-
+                
             });
         }
     })
