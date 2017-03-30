@@ -11984,21 +11984,21 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         var toName = "";
                         emailData.toEmail = [];
                         if (!_.isEmpty(emailData.originalFrom)) {
-                        var temp = emailData.originalFrom.split("<");
-                        toName = temp[0];
-                        if (temp[1]) {
-                            var temp2 = temp[1].split(">");
-                            console.log("toNAME", temp[0], "toemail", temp[1], "temp", temp);
-                            Email = temp2[0];
-                        } else {
-                            Email = temp[0]
-                        }
+                            var temp = emailData.originalFrom.split("<");
+                            toName = temp[0];
+                            if (temp[1]) {
+                                var temp2 = temp[1].split(">");
+                                console.log("toNAME", temp[0], "toemail", temp[1], "temp", temp);
+                                Email = temp2[0];
+                            } else {
+                                Email = temp[0]
+                            }
 
-                        emailData.toEmail.push({
-                            name: (toName ? toName : ""),
-                            email: (Email ? Email : "")
-                        });
-                    }
+                            emailData.toEmail.push({
+                                name: (toName ? toName : ""),
+                                email: (Email ? Email : "")
+                            });
+                        }
 
                         if (chat.surveyor != undefined) {
                             _.each(data.data.survey, function (values) {
@@ -12361,19 +12361,21 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     validSurveyor = true;
                 }
             });
-            if (validSurveyor) {
-                console.log("validSurveyor", validSurveyor);
-                var modalInstance = $uibModal.open({
-                    scope: $scope,
-                    templateUrl: '/frontend/views/modal/assignment-survey.html',
-                    size: 'lg'
-                });
-                validSurveyor = false;
-            } else {
-                console.log("validSurveyor", validSurveyor);
+            $timeout(function () {
+                if (validSurveyor) {
+                    console.log("validSurveyor", validSurveyor);
+                    var modalInstance = $uibModal.open({
+                        scope: $scope,
+                        templateUrl: '/frontend/views/modal/assignment-survey.html',
+                        size: 'lg'
+                    });
+                    validSurveyor = false;
+                } else {
+                    console.log("validSurveyor", validSurveyor);
+                    toastr.error("Invalid Surveyor");
+                }
+            }, 1000);
 
-                toastr.error("Invalid Surveyor");
-            }
         };
         $scope.assignmentSurveyForm = function () {
             var modalInstance = $uibModal.open({
