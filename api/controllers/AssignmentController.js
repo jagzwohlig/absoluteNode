@@ -294,6 +294,19 @@ var controller = {
     generateMRExcel: function (req, res) {
         req.model.generateMRExcel(req.query, res);
     },
+    generateExcel: function (req, res) {
+        JsonStore.findOne({
+            _id: req.query.id
+        }).lean().exec(function (err, data) {
+            console.log("CITY");
+            console.log(data.json.city);
+            if (err || _.isEmpty(data)) {
+                res.badRequest();
+            } else {
+                req.model.generateAssignmentExcel(data.json, res.callback, res);
+            }
+        });
+    },
     getAll: function (req, res) {
         if (req.body) {
             req.model.getAll(req.body, res.callback);

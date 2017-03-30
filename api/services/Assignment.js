@@ -2462,7 +2462,7 @@ var model = {
     });
   },
 
-  generateAssignmentExcel: function (data, callback) {
+  generateAssignmentExcel: function (data, callback, res) {
     var sort = {};
     if (_.isEmpty(data.sorting[0])) {
       sort = {
@@ -2610,7 +2610,7 @@ var model = {
         },
       };
     }
-    insurer = {}
+    var insurer = {}
     if (_.isEmpty(data.insurer)) {
 
     } else {
@@ -2651,32 +2651,20 @@ var model = {
         },
       };
     }
-    var ownerId = {};
+    // var ownerId = {};
     if (data.ownerStatus == "My files") {
       if (data.ownerId === "") {
-
+        var ownerId = {};
       } else {
         ownerId = {
           'owner._id': objectid(data.ownerId),
         };
       }
-
-    } else if (data.ownerStatus == "Shared with me") {
-      if (data.ownerId === "") {
-        var shareWith = {}
-      } else {
-        var shareWith = {
-          'shareWith.persons': objectid(data.ownerId),
-        };
-      }
     }
-    var ownerStatus = Object.assign(timelineStatus, name, owner, insurer, insurerd, department, ownerId, intimatedLoss, city, branch, createdAt, shareWith);
-    console.log(ownerStatus);
+    var ownerStatus = Object.assign(timelineStatus, name, owner, insurer, insurerd, department, ownerId, intimatedLoss, city, branch, createdAt);
+    console.log("ownerStatus", ownerStatus);
+    var pageStartFrom = (data.pagenumber - 1) * data.pagelimit;
     var allTable = [{
-      $match: {
-        $and: [ownerStatus]
-      }
-    }, {
       $lookup: {
         from: "cities",
         localField: "city",
@@ -2748,7 +2736,15 @@ var model = {
         path: "$department",
         preserveNullAndEmptyArrays: true
       }
+    }, {
+      $match: {
+        $and: [ownerStatus]
+      }
     }, sort, {
+      $skip: parseInt(pageStartFrom)
+    }, {
+      $limit: data.pagelimit
+    }, {
       $project: {
         _id: 1,
         name: 1,
@@ -2763,7 +2759,103 @@ var model = {
       }
     }];
 
+    var countAllData = [{
+      $lookup: {
+        from: "cities",
+        localField: "city",
+        foreignField: "_id",
+        as: "city"
+      }
+    }, {
+      $unwind: {
+        path: "$city",
+        preserveNullAndEmptyArrays: true
+      }
+    }, {
+      $lookup: {
+        from: "branches",
+        localField: "branch",
+        foreignField: "_id",
+        as: "branch"
+      }
+    }, {
+      $unwind: {
+        path: "$branch",
+        preserveNullAndEmptyArrays: true
+      }
+    }, {
+      $lookup: {
+        from: "customers",
+        localField: "insurerOffice",
+        foreignField: "_id",
+        as: "insurer"
+      }
+    }, {
+      $unwind: {
+        path: "$insurer",
+        preserveNullAndEmptyArrays: true
+      }
+    }, {
+      $lookup: {
+        from: "employees",
+        localField: "owner",
+        foreignField: "_id",
+        as: "owner"
+      }
+    }, {
+      $unwind: {
+        path: "$owner",
+        preserveNullAndEmptyArrays: true
+      }
+    }, {
+      $lookup: {
+        from: "customers",
+        localField: "insuredOffice",
+        foreignField: "_id",
+        as: "insurerd"
+      }
+    }, {
+      $unwind: {
+        path: "$insurerd",
+        preserveNullAndEmptyArrays: true
+      }
+    }, {
+      $lookup: {
+        from: "departments",
+        localField: "department",
+        foreignField: "_id",
+        as: "department"
+      }
+    }, {
+      $unwind: {
+        path: "$department",
+        preserveNullAndEmptyArrays: true
+      }
+    }, {
+      $match: {
+        $and: [ownerStatus]
+      }
+    }, {
+      $group: {
+        _id: null,
+        count: {
+          $sum: 1
+        }
+      }
+    }];
 
+    if (data.ownerStatus == "Shared with me") {
+      var unwindEmp = {
+        $unwind: "$shareWith.persons"
+      };
+      allTable.unshift(unwindEmp);
+      countAllData.unshift(unwindEmp);
+      var unwindSharewith = {
+        $unwind: "$shareWith"
+      };
+      allTable.unshift(unwindSharewith);
+      countAllData.unshift(unwindSharewith);
+    }
 
     Assignment.aggregate(allTable).allowDiskUse(true).exec(function (err, data1) {
       if (err) {
@@ -2772,7 +2864,7 @@ var model = {
       } else {
         console.log("In Else", data1); {
           if (_.isEmpty(data1)) {
-            res("No Payment found.", null);
+            callback("No Payment found.", null);
           } else {
             // console.log("Done", data1[37]);
             var excelData = [];
