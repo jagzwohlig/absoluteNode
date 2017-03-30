@@ -66,7 +66,7 @@ var schema = new Schema({
             default: 0
         },
         type: {
-            type:Boolean
+            type: Boolean
         }
     }],
     tax: [{
@@ -300,6 +300,17 @@ var model = {
                                         if (_.isEmpty(assignmentData)) {
                                             callback("No data found in assignment search", null);
                                         } else {
+                                            toName = "";
+                                            toEmail = "";
+                                            if (data.officeEmail) {
+                                                console.log("office Email", data.officeEmail);
+                                                var to = data.officeEmail;
+                                                to = to.split("<");
+                                                // console.log("to[1]",to[1]);
+                                                toName = to[0];
+                                                var toEmails = to[1].split(">");
+                                                toEmail = toEmails[0];
+                                            }
                                             console.log("assignmentData In ", assignmentData);
                                             var emailData = {};
                                             emailData.assignmentNo = assignmentData.name;
@@ -355,7 +366,7 @@ var model = {
                                                     console.log("values", values);
                                                     _.each(values.persons, function (personss) {
                                                         console.log("persons", personss);
-                                                        emailData.to.push({
+                                                        emailData.cc.push({
                                                             name: personss.name,
                                                             email: personss.email
                                                         })
@@ -388,7 +399,11 @@ var model = {
                                                     }
                                                 });
                                             } else if (data.approvalStatus == "Approved") {
-
+                                                emailData.to = [];
+                                                emailData.to.push({
+                                                    name: toName,
+                                                    email: toEmail
+                                                });
                                                 var mailData = [];
                                                 mailData[0] = "Invoice Authorization";
                                                 mailData[1] = emailData;

@@ -215,6 +215,17 @@
                 </div>
             </div>
         </div>
+        <div class="col-item" style="flex:1; padding-left:25%; width:75%">
+            <select class="form-control" ng-model="formData.officeEmail" required>
+                    <option ng-value="{{employees.officeEmail}}" ng-repeat="employees in employee">{{employees.name}} &lt;{{employees.email}}&gt;</option>
+             </select>
+             <!--{{forms.officeEmail}}-->
+             <!--{{forms.officeEmail}}
+           
+            <!--<select ng-model="selectedItem" name="state" ng-options="employees.officeEmail as employees.name for employees in employee">
+                 <option value="">- Select To Employee -</option>
+            </select>-->
+        </div>
         <div class="clearfix"></div>
         <div class="text-center mt20 odd-even-button">
             <button class="btn btn-primary" ng-click="saveModel(formData)" ng-if="showForm && !approval" ng-disabled="formName.$invalid">Save</button>

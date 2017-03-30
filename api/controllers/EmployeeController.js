@@ -324,6 +324,19 @@ var controller = {
             });
         }
     },
+
+    getEmployeeNameEmail: function(req,res){
+         if (req.body) {
+            Employee.getEmployeeNameEmail(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: "Invalid Request"
+                }
+            });
+        }
+    },
     getParentEmployee: function (req, res) {
         Employee.getParentEmployee(req.body, res.callback);
     },

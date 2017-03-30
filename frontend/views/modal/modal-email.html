@@ -9,6 +9,7 @@
 <form name="modalForm" ng-submit="sendEmail(modalForm); $dismiss()" class="min-hit">
     <div class="modal-body">
         <div class="billing-sec no-float">
+            <pre>{{emailData|json}}</pre>
             <div class="row">
                 <div class="col-md-6 field">
                     <label>To <span>*</span> </label>
@@ -17,7 +18,7 @@
                         <ui-select-choices refresh="refreshEmployee($select.search)" refresh-delay="0" repeat="emailto in employee | filter:$select.search">
                             <small><img ng-src="{{emailto.photo | uploadpath:50:50}}" alt="{{emailto.name}}" width=50 height=50 class="dp" /></small>
                             {{emailto.name}} &lt; {{emailto.email }} &gt; </ui-select-choices>
-                    </ui-select>
+                        </ui-select>
                     <div class="error-msg" ng-show="modalForm.to.$invalid && modalForm.to.$touched">Please specify at least one recipient.</div>
                 </div>
                 <div class="col-md-6 field">
