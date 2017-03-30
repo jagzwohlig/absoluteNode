@@ -11550,7 +11550,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         emailData.productName = (emailData.productName ? emailData.productName : "NA");
         emailData.policyDoc = (emailData.policyDoc ? emailData.policyDoc : "NA");
         emailData.bankDetails = (emailData.bankDetails ? emailData.bankDetails : "NA");
-        emailData.threadId = (emailData.threadId ? emailData.threadId : "NA");
+        emailData.threadId = (emailData.threadId ? emailData.threadId : "");
         emailData.originalSubject = (emailData.originalSubject ? emailData.originalSubject : "NA");
         emailData.originalFrom = (emailData.originalFrom ? emailData.originalFrom : "NA");
         emailData.originalBody = (emailData.originalBody ? emailData.originalBody : "");
@@ -11722,7 +11722,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         to: emailData.toEmail,
                         cc: emailData.cc,
                         bcc: emailData.bcc,
-                        subject: "",
+                        subject: emailData.subject,
                         message: "<html><body><p style='font-size: 16px;'>Dear Sir/Madam, We are pleased to attach our bill for professional services rendered for your kind perusal & payment. Our bank details are as follows: " + emailData.bankDetails + " You are requested to kindly release our payment & confirm in order to enable us to release the report.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>",
                         threadId: emailData.threadId
                     }
@@ -11806,7 +11806,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         to: emailData.toEmail,
                         cc: emailData.cc,
                         bcc: emailData.bcc,
-                        subject: "",
+                        subject: emailData.subject,
                         message: "<html><body><p style='font-size: 16px;'>We are pleased to release LOR in respect of our Assignment : " + emailData.assignmentNo + " and your claim " + emailData.claimNo + " and Policy " + emailData.policyDoc + "</p><br>" + "<p style='font-size: 16px;'><p style='font-size: 16px;'>We hope that the same shall serve your purpose.Should you ever need any support / information / update please feel at ease to get in touch with me. I will be more than willing to assist.</p><br> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>",
                         threadId: emailData.threadId
                     }
@@ -11992,7 +11992,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     } else {
                         emailData.policyDoc = "NA"
                     }
-
+                    emailData.threadId = (data.data.threadId ? data.data.threadId : "");
                     emailData.assignmentNo = data.data.name;
                     emailData.ownerName = data.data.owner.name;
                     emailData.ownerEmail = data.data.owner.officeEmail;
@@ -12010,7 +12010,6 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
                     emailData.surveyDate = (chat.surveyDate ? moment(chat.surveyDate).format("DD/MM/YYYY") : "");
                     emailData.invoiceNumber = (chat.invoiceNumber ? chat.invoiceNumber : "");
-                    emailData.threadId = (data.data.threadId ? data.data.threadId : "");
                     console.log("threadId : ", data.data.threadId);
 
                     

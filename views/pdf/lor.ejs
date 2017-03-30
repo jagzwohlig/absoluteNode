@@ -137,10 +137,12 @@ function checkPending (input) {
 
           </p>
           <p>
+          <% if(assignment.products[0]) { %>
             <%=assignment.products[0].product.name%>,
               <%=assignment.products[0].product.category.name%>,
                 <%=assignment.products[0].product.category.industry.name%> -
                   <%=assignment.products[0].item%>
+                  <% } %>
           </p>
           <p>Location ID :
             <%if(assignment.locationArr===undefined || assignment.locationArr.length<1){%>

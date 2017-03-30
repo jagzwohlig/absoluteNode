@@ -58,6 +58,7 @@
                             </thead>
                             <tbody ng-repeat="data in invoiceList track by $index">
                                 <tr ng-class="getDelayClass(data.reqtimestamp)">
+                                    {{data.assignment}}
                                     <td>{{data.reqtimestamp|getHours}} hrs</td>
                                     <td>{{data.invoiceNumber}}</td>
                                     <td>{{data.grandTotal | number}}</td>
