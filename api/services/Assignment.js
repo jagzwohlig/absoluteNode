@@ -2360,19 +2360,19 @@ var model = {
     }];
 
     if (data.ownerStatus == "Shared with me") {
-      // var unwindEmp = {
-      //   $unwind: "$shareWith.persons"
-      // };
-      // allTable.unshift(unwindEmp);
-      // countAllData.unshift(unwindEmp);
+      var unwindEmp = {
+        $unwind: "$shareWith.persons"
+      };
+      allTable.unshift(unwindEmp);
+      countAllData.unshift(unwindEmp);
       var unwindSharewith = {
         $unwind: "$shareWith"
       };
       allTable.unshift(unwindSharewith);
       countAllData.unshift(unwindSharewith);
     }
-    console.log("allTable",allTable);
-    console.log("countAllData",countAllData);
+    // console.log("allTable",allTable);
+    // console.log("countAllData",countAllData);
 
     async.parallel([
 
