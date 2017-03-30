@@ -49,7 +49,8 @@
     "tinymce": "4.3.12",
     "angular-hotkeys": "https://github.com/chieffancypants/angular-hotkeys.git#^1.7.0",
     "moment": "^2.15.1",
-    "dragular": "^4.3.2"
+    "dragular": "^4.3.2",
+    "cleave.js": "^0.7.10"
   },
   "devDependencies": {
     "angular-translate": "^2.11.0"

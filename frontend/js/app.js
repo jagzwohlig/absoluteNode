@@ -1710,7 +1710,7 @@ firstapp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $lo
                 keyword: ""
             }
         })
-        .state('accordion-lor', {
+        .state('~', {
             url: "/accordion-lor",
             templateUrl: "frontend/views/template.html",
             controller: 'AccordionLORCtrl'

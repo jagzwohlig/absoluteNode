@@ -20,7 +20,7 @@
                     </ui-select>
                     <div class="error-msg" ng-show="modalForm.to.$invalid && modalForm.to.$touched">Please specify at least one recipient.</div>
                 </div>
-                <!--<div class="col-md-6 field">
+                <div class="col-md-6 field">
                     <label>Cc </label>
                     <ui-select name="cc" multiple tagging="tagHandler" tagging-label="(press enter to add new)" ng-model="emailData.cc">
                         <ui-select-match placeholder="" >{{$item.name}} &lt;{{$item.email}} &gt;</ui-select-match>
@@ -37,7 +37,7 @@
                              <small><img ng-src="{{emailto.photo | uploadpath:50:50}}" alt="{{emailto.name}}" width=50 height=50 class="dp" /></small>
                             {{emailto.name}} &lt; {{emailto.email }} &gt;</ui-select-choices>
                     </ui-select>
-                </div>-->
+                </div>
                 <div class="col-md-12 field">
                     <label>Subject <span>*</span></label>
                     <input name="subject" type="text" placeholder="" ng-model="emailData.subject" required>

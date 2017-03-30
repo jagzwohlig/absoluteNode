@@ -430,7 +430,7 @@ var models = {
                 // console.log("In Pdf Object.......................", obj);
 
                 var Name;
-                console.log("In Pdf Object.......................", obj.data.invoiceList);
+                // console.log("In Pdf Object.......................", obj.data.invoiceList);
                 if (obj.data) {
                     if (obj.data.type != undefined) {
                         if (obj.data.type == "templateLor") {
