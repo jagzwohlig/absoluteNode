@@ -11984,16 +11984,21 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         var toName = "";
                         emailData.toEmail = [];
                         if (!_.isEmpty(emailData.originalFrom)) {
-                            var temp = emailData.originalFrom.split("<");
-                            toName = temp[0];
-                            console.log("toNAME", temp[0], "toemail", temp[1], "temp", temp);
+                        var temp = emailData.originalFrom.split("<");
+                        toName = temp[0];
+                        if (temp[1]) {
                             var temp2 = temp[1].split(">");
+                            console.log("toNAME", temp[0], "toemail", temp[1], "temp", temp);
                             Email = temp2[0];
-                            emailData.toEmail.push({
-                                name: toName,
-                                email: Email
-                            });
+                        } else {
+                            Email = temp[0]
                         }
+
+                        emailData.toEmail.push({
+                            name: (toName ? toName : ""),
+                            email: (Email ? Email : "")
+                        });
+                    }
 
                         if (chat.surveyor != undefined) {
                             _.each(data.data.survey, function (values) {
