@@ -1199,10 +1199,10 @@ var model = {
     var timelStatus = body.assignment.timelineStatus;
     var approvalType = "None";
     var approvalStatus = "Pending";
-    if (body.type == "templateIla" && body.approvalStatus=="Approved") {
+    if (body.type == "templateIla" && body.approvalStatus == "Approved") {
       timelStatus = "LOR Pending";
       approvalType = "ILA";
-    } else if (body.type == "templateLor" && body.approvalStatus=="Approved") {
+    } else if (body.type == "templateLor" && body.approvalStatus == "Approved") {
       timelStatus = "Dox Pending";
       approvalType = "LOR";
     }
@@ -1379,9 +1379,9 @@ var model = {
       } else {
         $scope.data = data2;
         var filter = {
-            _id: data2.assignment.policyDoc
-          }
-          // For policyNumber
+          _id: data2.assignment.policyDoc
+        }
+        // For policyNumber
         PolicyDoc.getPolicyDoc({
           filter
         }, function (err, data4) {
