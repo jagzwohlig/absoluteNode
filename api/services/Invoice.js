@@ -291,7 +291,7 @@ var model = {
                                 Assignment.getOne({
                                     _id: data.assignment._id
                                 }, function (err, assignmentData) {
-                                    console.log("assignmentData =========", assignmentData);
+                                    // console.log("assignmentData =========", assignmentData);
                                     if (err) {
                                         console.log("err", err);
                                         callback("No data found in assignment", null);
@@ -366,7 +366,7 @@ var model = {
                                             if (data.user) {
                                                 emailData.assignmentAuthorizer = data.user.name;
                                             }
-                                            console.log('mailData', mailData);
+                                            console.log('emailData', emailData);
 
                                             //Find Acknowledgment Email data
                                             if (data.approvalStatus == "Pending") {

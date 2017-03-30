@@ -11583,7 +11583,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         to: to,
                         cc: emailData.cc,
                         bcc: emailData.bcc,
-                        subject: "Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
+                        subject: emailData.originalSubject + ". Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
                         message: "<html><body><p style='font-size: 16px;'>Dear " + emailData.surveyorName + ",</p><p style='font-size: 16px;'>Please refer to our telecom, in respect of the subject claim. You are requested to kindly attend the loss inline with the discussions held and specific requirements of the claim. Our reference number for this claim would be " + emailData.assignmentNo + "</p> <p style='font-size: 16px;'>In order to assist you, we are attaching relevant format of JIR. Please ensure to capture every detail there in & get the same duly signed by the concerned person. In an unlikely event wherein there is a difference of opinion between yourself & the concerned person, both the opinions may be recorded. We would appreciate a brief call from the site while you are attending the loss as this helps us update the insurer's of the developments. Should you ever need any support / information / update please feel at ease to get in touch with me. I will be more than willing to assist.</p><br>" + "<p style='font-size: 16px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html><br>" + emailData.originalMessage,
                         // threadId: emailData.threadId
                     }
@@ -11595,10 +11595,10 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     var emails = {
                         name: 'On Survey Attended',
                         from: emailData.ownerEmail,
-                        to: emailData.to,
+                        to: emailData.toEmail,
                         cc: emailData.cc,
                         bcc: emailData.bcc,
-                        subject: "Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
+                        subject: emailData.originalSubject + ". Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
                         message: "<html><body><p style='font-size: 16px;'>We are pleased to inform you that the survey for the said claim has been attended on " + emailData.surveyDate + " No sooner we receive further details, we shall update you in this regard. Meanwhile, request you to kindly bear with us. Should you ever need any support / information / update please feel at ease to get in touch with me. I will be more than willing to assist.</p><br>" + "<p style='font-size: 16px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>",
                         threadId: emailData.threadId
                     }
@@ -11643,7 +11643,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         to: emailData.toEmail,
                         cc: emailData.cc,
                         bcc: emailData.bcc,
-                        subject: "ILA Authorized of Assignment : " + emailData.assignmentNo,
+                        subject: emailData.originalSubject + ". Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
                         message: "<html><body><p style='font-size: 16px;'>Dear Sir/Madam,</p><p style='font-size: 16px;'>We are pleased to release the ILA in respect of our Assignment No. " + emailData.assignmentNo + " and your claim " + emailData.claimNo + " and policy " + emailData.policyDoc + ".</p><p style='font-size: 16px;'>We hope that the same shall serve your purpose. Should you ever need any support / information / update please feel at ease to get in touch with me. I will be more than willing to assist.</p>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>",
                         threadId: emailData.threadId
                         
@@ -11720,7 +11720,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         to: emailData.toEmail,
                         cc: emailData.cc,
                         bcc: emailData.bcc,
-                        subject: emailData.subject,
+                        subject: emailData.originalSubject + ". Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
                         message: "<html><body><p style='font-size: 16px;'>Dear Sir/Madam, We are pleased to attach our bill for professional services rendered for your kind perusal & payment. Our bank details are as follows: " + emailData.bankDetails + " You are requested to kindly release our payment & confirm in order to enable us to release the report.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>",
                         threadId: emailData.threadId
                     }
@@ -11804,7 +11804,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         to: emailData.toEmail,
                         cc: emailData.cc,
                         bcc: emailData.bcc,
-                        subject: emailData.subject,
+                        subject: emailData.originalSubject + ". Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
                         message: "<html><body><p style='font-size: 16px;'>We are pleased to release LOR in respect of our Assignment : " + emailData.assignmentNo + " and your claim " + emailData.claimNo + " and Policy " + emailData.policyDoc + "</p><br>" + "<p style='font-size: 16px;'><p style='font-size: 16px;'>We hope that the same shall serve your purpose.Should you ever need any support / information / update please feel at ease to get in touch with me. I will be more than willing to assist.</p><br> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>",
                         threadId: emailData.threadId
                     }
