@@ -1530,7 +1530,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 });
             }
         });
- var formData2 = {}
+        var formData2 = {}
         formData2.filter = {
             "name": "Back Office"
         }
@@ -11229,8 +11229,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             console.log("assignment employee", $scope.forms.officeEmail);
             console.log("FFFFF", $scope.forms);
             $scope.Saved = true;
-            // For authTimestamp In Assignment
+            // For authTimestamp In Assignment && timelineStatus
             $scope.forms.authTimestamp = new Date();
+            $scope.forms.approvalStatus = "Approved";
             NavigationService.editAssignmentTemplate($scope.forms, function (data) {
                 console.log("After PDF Generate", data);
                 if (data.value) {
