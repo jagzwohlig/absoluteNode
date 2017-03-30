@@ -8,14 +8,14 @@
 </div>
 <div class="modal-body">
     <form name="filterForm" class="form-horizontal">
-        <div class="form-group">
+        <div class="form-group">{{ownerData}}
             <label class="col-sm-2 control-label">Owner Name</label>
             <div class="col-sm-10">
                 <!--<input type="text" class="form-control" ng-model="filter.owner">-->
                 <ui-select multiple tagging="tagTransform" tagging-label="(press enter to add new)" name="owner" ng-model="filter.owner"
                     theme="bootstrap" required>
                     <ui-select-match>{{$item.name}}</ui-select-match>
-                    <ui-select-choices repeat="owner in ownerData | filter:$select.search" refresh-delay="0" refresh="refreshOwner($select.search)">{{owner.name}}</ui-select-choices>
+                    <ui-select-choices repeat="owner in ownerData | filter:$select.search" refresh-delay="0" refresh="getBackendEmployeeOnly($select.search)">{{owner.name}}</ui-select-choices>
                 </ui-select>
                 <div class="error-msg" ng-show="filterForm.owner.$invalid && filterForm.owner.$touched">Please Select Owner Name</div>
             </div>

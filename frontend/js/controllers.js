@@ -618,13 +618,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 size: 'lg'
             });
         }
-        $scope.assignmentFilter = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/assignment-filter.html',
-                size: 'lg'
-            });
-        }
+        // $scope.assignmentFilter = function () {
+        //     var modalInstance = $uibModal.open({
+        //         scope: $scope,
+        //         templateUrl: '/frontend/views/modal/assignment-filter.html',
+        //         size: 'lg'
+        //     });
+        // }
 
         $scope.doFilter = function (data) {
             console.log("Form Data To Filter", data);
@@ -675,17 +675,17 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         };
 
-        $scope.refreshOwner = function (data, insurerd) {
-            var formdata = {};
-            formdata.keyword = data;
-            // formdata.filter = {
-            //     "_id": causeloss
-            // };
-            NavigationService.getSurveyor(formdata, 1, function (data) {
-                console.log("searchEmployee", data.data.results);
-                $scope.ownerData = data.data.results;
-            });
-        };
+        // $scope.refreshOwner = function (data, insurerd) {
+        //     var formdata = {};
+        //     formdata.keyword = data;
+        //     // formdata.filter = {
+        //     //     "_id": causeloss
+        //     // };
+        //     NavigationService.getSurveyor(formdata, 1, function (data) {
+        //         console.log("searchEmployee", data.data.results);
+        //         $scope.ownerData = data.data.results;
+        //     });
+        // };
 
         $scope.refreshCity = function (data, insurerd) {
             var formdata = {};
@@ -728,17 +728,33 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         }
         NavigationService.searchModel("Func", formData2, 1, function (data) {
             $scope.backEnd = data.data.results[0]._id;
+            $scope.getBackendEmployeeOnly();
         });
         $scope.getBackendEmployeeOnly = function (data) {
+            console.log("Data Of OWner", data);
             var formdata = {};
-            formdata.keyword = data;
+            if (data !== undefined) {
+                formdata.keyword = data;
+            }
             formdata.filter = {
                 func: $scope.backEnd
             }
             NavigationService.getBackendEmployeeOnly(formdata, 1, function (data) {
-                
+                console.log("Backend", data);
+                $scope.ownerData = data.data.results;
             });
-        }
+        };
+        //         $scope.refreshOwner = function (data, insurerd) {
+        //     var formdata = {};
+        //     formdata.keyword = data;
+        //     // formdata.filter = {
+        //     //     "_id": causeloss
+        //     // };
+        //     NavigationService.getSurveyor(formdata, 1, function (data) {
+        //         console.log("searchEmployee", data.data.results);
+        //         $scope.ownerData = data.data.results;
+        //     });
+        // };
     })
 
 
@@ -1513,6 +1529,14 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     }
                 });
             }
+        });
+ var formData2 = {}
+        formData2.filter = {
+            "name": "Back Office"
+        }
+        NavigationService.searchModel("Func", formData2, 1, function (data) {
+            $scope.backEnd = data.data.results[0]._id;
+            $scope.getBackendEmployeeOnly();
         });
 
 
