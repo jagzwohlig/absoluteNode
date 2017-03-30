@@ -1,5 +1,5 @@
 var globalfunction = {};
-angular.module('phonecatControllers', ['templateservicemod', 'navigationservice', 'assignmenttemplate', 'ui.bootstrap', 'ui.select', 'ngAnimate', 'toastr', 'ngSanitize', 'angular-flexslider', 'ui.tinymce', 'imageupload', 'ngMap', 'toggle-switch', 'cfp.hotkeys', 'ui.sortable', 'infinite-scroll', 'dragularModule', 'cleave.js'])
+angular.module('phonecatControllers', ['templateservicemod', 'navigationservice', 'assignmenttemplate', 'ui.bootstrap', 'ui.select', 'ngAnimate', 'toastr', 'ngSanitize', 'angular-flexslider', 'ui.tinymce', 'imageupload', 'ngMap', 'toggle-switch', 'cfp.hotkeys', 'ui.sortable', 'infinite-scroll', 'dragularModule'])
 
     .controller('DashboardCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64) {
         //Used to name the .html file
@@ -1575,15 +1575,13 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             $scope.formData.company = data.data.results[0]._id;
         });
         //$scope.ownerEmail = $.jStorage.get("profile").email;
-        var owner = $.jStorage.get("profile").email;
-        // console.log("owner : ", $scope.ownerEmail);
         NavigationService.getEmployeeOfficeEmail({
-            email: owner
+            email: $.jStorage.get("profile").email
         }, 1, function (data) {
             console.log("getEmployeeOfficeEmail", data);
-            $scope.formData.ownerid = data.data._id;
-            // $scope.formData.owner = data.data.name;
-            $scope.formData.owner = data.data.officeEmail;
+            // $scope.formData.ownerid = data.data._id;
+            // // $scope.formData.owner = data.data.name;
+            // $scope.formData.owner = data.data.officeEmail;
             console.log("formdata : ", $scope.formData.owner);
 
         });
@@ -4348,15 +4346,15 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         }
         $scope.resetTravelExpense = function () {
             $scope.totals.travelExpense = 0;
-        };
+        }
 
         $scope.calculatePocketExpense = function (data) {
             console.log("pocketExpenseTotal", data.pocketExpenseTotal);
             $scope.totals.pocketExpense += data.pocketExpenseTotal;
-        };
+        }
         $scope.resetPocketExpense = function () {
             $scope.totals.pocketExpense = 0;
-        };
+        }
 
         $scope.calculateGrandTotal = function (data) {
             console.log("Total data!", data);
@@ -4365,7 +4363,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 var dataExpense = data.expense;
                 console.log($scope.totals.expense, "expense--", dataExpense);
             } else {
-                var dataExpense = 0;
+                var dataExpense = 0
             }
             if (data.travelExpense) {
                 var dataTravelExpense = data.travelExpense;
@@ -11925,14 +11923,20 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                         console.log("threadId : ", data.data.threadId);
 
                         function getFromHeader(input) {
-                            var obj = _.filter(data.data.email.payload.headers, function (n) {
-                                return n.name == input;
-                            });
-                            if (obj.length == 0) {
-                                return "Unknown";
+                            if (data.data.email) {
+                                var obj = _.filter(data.data.email.payload.headers, function (n) {
+                                    return n.name == input;
+                                });
+                                if (obj.length == 0) {
+                                    return "NA";
+                                } else {
+                                    return obj[0].value;
+                                }
                             } else {
-                                return obj[0].value;
+                                return "NA";
                             }
+
+
                         }
                         emailData.originalDate = getFromHeader("Date");
                         emailData.originalDate = moment(emailData.originaldate).format('llll');
