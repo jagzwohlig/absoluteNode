@@ -70,43 +70,48 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Gross Assessed Loss</label>
-                                <input type="number" ng-model="formData.grossAssessedLoss" placeholder="Enter Gross Assessed Loss" class="form-control">
+                                <input type="text" cleave="template.currencyNoDecimal" ng-model="formData.grossAssessedLoss" placeholder="Enter Gross Assessed Loss"
+                                    class="form-control">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Gross Salvage</label>
-                                <input type="number" ng-model="formData.grossSalvage" placeholder="Enter Gross Salvage" class="form-control">
+                                <input type="text" cleave="template.currencyNoDecimal" ng-model="formData.grossSalvage" placeholder="Enter Gross Salvage"
+                                    class="form-control">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Taxes</label>
-                                <input type="number" ng-model="formData.taxes" placeholder="Enter Taxes" class="form-control">
+                                <input type="text" cleave="template.currencyNoDecimal" ng-model="formData.taxes" placeholder="Enter Taxes" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Excess Franchise</label>
-                                <input type="number" ng-model="formData.excessFranchise" placeholder="Enter Excess Franchise" class="form-control">
+                                <input type="text" cleave="template.currencyNoDecimal" ng-model="formData.excessFranchise" placeholder="Enter Excess Franchise"
+                                    class="form-control">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Gross Depreciation</label>
-                                <input type="number" ng-model="formData.grossDepreciation" placeholder="Enter Gross Depreciation" class="form-control">
+                                <input type="text" cleave="template.currencyNoDecimal" ng-model="formData.grossDepreciation" placeholder="Enter Gross Depreciation"
+                                    class="form-control">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Gross Under Insurance</label>
-                                <input type="number" ng-model="formData.grossUnderInsurance" placeholder="Enter Gross Under Insurance" class="form-control">
+                                <input type="text" cleave="template.currencyNoDecimal" ng-model="formData.grossUnderInsurance" placeholder="Enter Gross Under Insurance"
+                                    class="form-control">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Net Payable</label>
-                                <input type="number" ng-model="formData.netPayable" placeholder="Enter Net Payable" class="form-control">
+                                <input type="text" cleave="template.currencyNoDecimal" ng-model="formData.netPayable" placeholder="Enter Net Payable" class="form-control">
                             </div>
                         </div>
                     </div>
@@ -165,7 +170,8 @@
                                         <input type="number" step="0.01" ng-model="form.rate" placeholder="Enter Rate" class="form-control text-right" ng-change="calAmt(form.rate,form.quantity,$index)">
                                     </div>
                                     <div class="col-item col-item-15">
-                                        <input type="number" step="0.01" min="0" ng-model="form.quantity" placeholder="Enter Quantity" class="form-control text-right" ng-change="calAmt(form.rate,form.quantity,$index)">
+                                        <input type="number" step="0.01" min="0" ng-model="form.quantity" placeholder="Enter Quantity" class="form-control text-right"
+                                            ng-change="calAmt(form.rate,form.quantity,$index)">
                                     </div>
                                     <div class="col-item col-item-15">
                                         <input type="number" ng-model="form.amount" placeholder="Total" class="form-control text-right" readonly>
