@@ -363,7 +363,6 @@ var controller = {
         var resValue = [];
         console.log(jsonExcel);
         async.eachLimit(jsonExcel, 20, function (n, callback) {
-
             Assignment.findOne({
                 name: n[2]
             }).exec(function (err, data) {
