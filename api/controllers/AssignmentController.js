@@ -363,7 +363,7 @@ var controller = {
         var resValue = [];
         console.log(jsonExcel);
         async.each(jsonExcel, function (n, callback) {
-            console.log(n[2]);
+
             Assignment.findOne({
                 name: n[2]
             }).exec(function (err, data) {
@@ -372,12 +372,12 @@ var controller = {
                     callback();
                 } else {
                     data.name = n[1];
-                    data.save(function (err, data) {
+                    data.save(function (err, data2) {
                         callback();
                         if (err) {
-                            resValue.push(err)
+                            resValue.push(err);
                         } else {
-                            resValue.push(data)
+                            resValue.push(data2);
                         }
                     });
                 }
