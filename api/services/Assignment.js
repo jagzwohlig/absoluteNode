@@ -869,7 +869,7 @@ var model = {
                       emailData.ownerName = assignmentData.owner.name;
                       emailData.ownerEmail = assignmentData.owner.officeEmail;
                       emailData.ownerPhone = assignmentData.owner.mobile;
-                      emailData.siteAddress = (assignmentData.address ? assignmentData.address : '' );
+                      emailData.siteAddress = (assignmentData.address ? assignmentData.address : '');
                       if (assignmentData.city.name) {
                         emailData.siteCity = assignmentData.city.name;
                         if (assignmentData.city.district) {
@@ -1278,7 +1278,7 @@ var model = {
               emailData.ownerName = assignmentData.owner.name;
               emailData.ownerEmail = assignmentData.owner.officeEmail;
               emailData.ownerPhone = assignmentData.owner.mobile;
-              emailData.siteAddress = (assignmentData.address ? assignmentData.address : '' );
+              emailData.siteAddress = (assignmentData.address ? assignmentData.address : '');
               if (assignmentData.city.name) {
                 emailData.siteCity = assignmentData.city.name;
                 if (assignmentData.city.district) {
@@ -1535,7 +1535,7 @@ var model = {
                   emailData.ownerName = assignmentData.owner.name;
                   emailData.ownerEmail = assignmentData.owner.officeEmail;
                   emailData.ownerPhone = assignmentData.owner.mobile;
-                  emailData.siteAddress = (assignmentData.address ? assignmentData.address : '' );
+                  emailData.siteAddress = (assignmentData.address ? assignmentData.address : '');
                   if (assignmentData.city.name) {
                     emailData.siteCity = assignmentData.city.name;
                     if (assignmentData.city.district) {
@@ -2026,7 +2026,11 @@ var model = {
   },
 
   getAll: function (data, callback) {
-    var sort = {};
+    var sort = sort = {
+      $sort: {
+        createdAt: -1
+      }
+    };
     if (_.isEmpty(data.sorting[0])) {
       sort = {
         $sort: {
@@ -3648,7 +3652,7 @@ var model = {
               emailData.ownerName = assignmentData.owner.name;
               emailData.ownerEmail = assignmentData.owner.officeEmail;
               emailData.ownerPhone = assignmentData.owner.mobile;
-              emailData.siteAddress = (assignmentData.address ? assignmentData.address : '' );
+              emailData.siteAddress = (assignmentData.address ? assignmentData.address : '');
               if (assignmentData.city.name) {
                 emailData.siteCity = assignmentData.city.name;
                 if (assignmentData.city.district) {

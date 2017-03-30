@@ -82,7 +82,7 @@
                 <div class="form-group">
                     <label>CTC Amount</label>
                     <div class="input-group">
-                        <input type="text" name="amount" class="form-control" ng-model="modalData.amount" required>
+                        <input type="text" name="amount" cleave="template.currencyNoDecimal" class="form-control" ng-model="modalData.amount" required>
                         <div class="error-msg" ng-show="modalForm.amount.$invalid && modalForm.amount.$touched">Please Enter CTC Amount</div>
 
                     </div>
