@@ -10459,10 +10459,9 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         }
         $scope.sendMessage = function (fileName) {
             console.log("In Send MSG", fileName);
-            $scope.message.type = "File";
+            $scope.message.type = "Normal";
             $scope.message.title = "Invoice " + $scope.invoiceNumber + " Sent For Approval";
             $scope.message.invoiceNumber = $scope.invoiceNumber;
-            $scope.message.attachment.push(fileName);
             $scope.timeline.chat.push($scope.message);
             NavigationService.saveChat($scope.timeline, function (data) {
                 console.log("FFFFF", data);
