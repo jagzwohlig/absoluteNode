@@ -4,6 +4,7 @@
         <button type="button" class="btn btn-default" ng-class="{'btn-primary': filter.ownerStatus=='Shared with me'}" ng-click="filter.ownerStatus='Shared with me';showAssignment(true)">Shared With Me</button>
         <button type="button" class="btn btn-default" ng-class="{'btn-primary': filter.ownerStatus=='All files'}" ng-click="filter.ownerStatus='All files';showAssignment(true);">All Assignment</button>
     </div>
+    <pre>{{filter|json}}</pre>
     <div class="row">
         <div class="col-md-4 column">
             <div class="heading-profile">
