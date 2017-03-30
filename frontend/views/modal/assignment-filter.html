@@ -23,7 +23,7 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">Insurer</label>
             <div class="col-sm-10">
-                <!--<input type="text" class="form-control" ng-model="filter.insurer">-->
+                <!-- <input type="text" class="form-control" ng-model="filter.insurer"> -->
                 <ui-select multiple tagging="tagTransform" tagging-label="(press enter to add new)" name="insurer" ng-model="filter.insurer"
                     theme="bootstrap" required>
                     <ui-select-match>{{$item.name}}</ui-select-match>
@@ -35,9 +35,6 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">Insured</label>
             <div class="col-sm-10">
-                <!--<input type="text" class="form-control" ng-model="filter.insurerd">-->
-                <!--<multiple-select my-enter name="insurerd" ng-model="formData.insurerd" ng-name="name.office" api="searchInsured"></multiple-select>
-                <div class="error-msg" ng-show="filterForm.insurerd.$invalid">Please Select Insured Company</div>-->
                 <ui-select multiple tagging="tagTransform" tagging-label="(press enter to add new)" name="insurerd" ng-model="filter.insurerd"
                     theme="bootstrap" required>
                     <ui-select-match>{{$item.name}}</ui-select-match>
@@ -123,8 +120,7 @@
             <div class="col-sm-4">
                 <!--<ui-select multiple tagging="tagTransform" tagging-label="(press enter to add new)"
                     name="timelineStatus" ng-model="filter.timelineStatus" theme="bootstrap" required>-->
-                <ui-select multiple tagging="tagTransform" name="timelineStatus" ng-model="filter.timelineStatus"
-                    theme="bootstrap" required>
+                <ui-select multiple tagging="tagTransform" name="timelineStatus" ng-model="filter.timelineStatus" theme="bootstrap" required>
                     <ui-select-match>{{$item}}</ui-select-match>
                     <ui-select-choices repeat="timeline in timelineStatus | filter:$select.search" refresh-delay="0">{{timeline}}</ui-select-choices>
                 </ui-select>

@@ -1405,9 +1405,9 @@ var model = {
       } else {
         $scope.data = data2;
         var filter = {
-            _id: data2.assignment.policyDoc
-          }
-          // For policyNumber
+          _id: data2.assignment.policyDoc
+        }
+        // For policyNumber
         PolicyDoc.getPolicyDoc({
           filter
         }, function (err, data4) {

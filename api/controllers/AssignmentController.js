@@ -291,7 +291,7 @@ var controller = {
             });
         }
     },
-     generateMRExcel: function (req, res) {
+    generateMRExcel: function (req, res) {
         req.model.generateMRExcel(req.query, res);
     },
     getAll: function (req, res) {
@@ -355,9 +355,39 @@ var controller = {
             });
         }
     },
-   
 
-
-
+    replaceExcel: function (req, res) {
+        var xlsx = require('node-xlsx').default;
+        var jsonExcel = xlsx.parse("./replace.xls");
+        jsonExcel = _.slice(jsonExcel[0].data, 1);
+        var resValue = [];
+        console.log(jsonExcel);
+        async.eachLimit(jsonExcel, 20, function (n, callback) {
+            Assignment.findOne({
+                name: n[2]
+            }).exec(function (err, data) {
+                if (err || _.isEmpty(data)) {
+                    resValue.push(err);
+                    callback();
+                } else {
+                    data.name = n[1];
+                    data.save(function (err, data2) {
+                        callback();
+                        if (err) {
+                            resValue.push(err);
+                        } else {
+                            resValue.push(data2);
+                        }
+                    });
+                }
+            });
+        }, function (err) {
+            if (err) {
+                res.callback(err);
+            } else {
+                res.callback(null, resValue);
+            }
+        });
+    }
 };
 module.exports = _.assign(module.exports, controller);

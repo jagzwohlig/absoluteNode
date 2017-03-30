@@ -2428,6 +2428,13 @@ var navigationservice = angular.module('navigationservice', [])
                     console.log("getLatLng In Nav", data, i);
                     callback(data, i);
                 });
+            },
+            saveJsonStore: function (data, callback) {
+                $http.post(adminurl + 'jsonStore/save', data).success(function (response) {
+                    if (response && response.data && response.data._id) {
+                        callback(response.data._id);
+                    }
+                });
             }
 
         };
