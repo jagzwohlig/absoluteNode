@@ -1538,9 +1538,9 @@ var model = {
       } else {
         $scope.data = data2;
         var filter = {
-            _id: data2.assignment.policyDoc
-          }
-          // For policyNumber
+          _id: data2.assignment.policyDoc
+        }
+        // For policyNumber
         PolicyDoc.getPolicyDoc({
           filter
         }, function (err, data4) {
@@ -2718,17 +2718,21 @@ var model = {
     if (_.isEmpty(data.owner)) {
       owner = {
         'owner._id': {
-          $in: _.compact(_.concat(user.children, user._id))
+          $in: _.map(_.concat(user.children, user._id), function (n) {
+            return objectid(n);
+          })
         },
-      }
+      };
     } else {
       var ownerArr = [];
       _.each(data.owner, function (values) {
-        ownerArr.push(objectid(values));
+        ownerArr.push(values);
       });
       owner = {
         'owner._id': {
-          $in: _.compact(_.concat(user.children, user._id, ownerArr))
+          $in: _.map(_.intersection(_.concat(user.children, user._id), ownerArr), function (n) {
+            return objectid(n);
+          })
         },
       };
     }
@@ -3155,7 +3159,7 @@ var model = {
               }
 
               obj.Status = n.timelineStatus
-                // obj.nature=n.natureOfLoss[0];
+              // obj.nature=n.natureOfLoss[0];
               excelData.push(obj);
             });
             Config.generateExcel("Assignment", excelData, res);
