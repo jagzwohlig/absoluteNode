@@ -1719,5 +1719,9 @@ img.uploadingImage {
     text-transform: uppercase !important;
 }
 
+.address {
+    text-transform: capitalize !important;
+}
+
 @import "fancybox-override";
 @import "other/mobile"
