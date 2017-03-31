@@ -30,26 +30,22 @@
                         <div class="info-btn inline">
                             <span uib-dropdown class="inline">
                 <button class="btn btn-green btn-round" id="new-tasks" uib-dropdown-toggle><i class="ln-circle-plus"></i> Survey</button>
- <!--ng-if="assignment.assignedTo!==undefined"-->
+                
                 <ul class="dropdown-menu info-dropdown" uib-dropdown-menu role="menu" aria-labelledby="new-tasks">
                   <li role="menuitem"><a ng-if="assignment.typeOfClaim && assignment.branch.STAT" ng-click="assignSurveyor();">Assign Surveyor</a></li>
                    <li role="menuitem"><a ng-if="assignment.typeOfClaim && assignment.branch.STAT" ng-click="assignmentSurvey();">Offline Survey</a></li>
-                  <!--<li role="menuitem"><a href="">New JIR</a></li>
-                  <li role="menuitem"><a href="">New ILA</a></li>
-                  <li role="menuitem"><a href="">New ILR</a></li>
-                  <li role="menuitem"><a href="">New LOR</a></li>
-                  <li role="menuitem"><a ng-click="allAssessment(true);">New Assessment</a></li>
-                  <li role="menuitem"><a href="">New FSR</a></li>   
-                  <li role="menuitem"><a ng-click="viewStaff();">New Invoice</a></li>-->
                 </ul>
+
                 </span>
                             <button class="btn btn-orange btn-round" ng-click="newMessage();"><i class="ln-comments"></i>Send Message</button>
                             <div class="padder"></div>
-                            <!--<button class="btn btn-orange btn-round" ui-sref="editassignment({id:assignment._id})"><i class="ln-register"></i> Assignment</button>-->
                             <span uib-dropdown class="inline">
+    
                   <button class="btn btn-blue btn-round" id="upload-files" uib-dropdown-toggle>
                       <i class="ln-register"></i>   
-                      Assignment</button>
+                      Assignment
+                    </button>
+
                   <ul class="dropdown-menu info-dropdown" uib-dropdown-menu role="menu" aria-labelledby="upload-files">
                     <li role="menuitem" ui-sref="editassignment({id:assignment._id})">
                         <!--<i class="ln-register"></i>--> <a href="">Edit</a></li>

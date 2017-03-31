@@ -1,5 +1,5 @@
-var templateservicemod = angular.module('templateservicemod', ['navigationservice']);
-templateservicemod.service('TemplateService', function (NavigationService, $filter) {
+var templateservicemod = angular.module('templateservicemod', []);
+templateservicemod.service('TemplateService', function ($filter) {
   this.title = "Home";
   this.meta = "Google";
   this.metadesc = "Home";
@@ -11,6 +11,10 @@ templateservicemod.service('TemplateService', function (NavigationService, $filt
   var d = new Date();
   var role = $.jStorage.get("role");
   this.year = d.getFullYear();
+
+  this.setRole = function () {
+    role = $.jStorage.get("role");
+  };
 
   this.currency = {
     numeral: true,
@@ -27,6 +31,7 @@ templateservicemod.service('TemplateService', function (NavigationService, $filt
   };
 
   this.init = function () {
+
     this.header = "frontend/views/header.html";
     this.menu = "frontend/views/menu.html";
     this.isLoader = false;
@@ -126,6 +131,7 @@ templateservicemod.service('TemplateService', function (NavigationService, $filt
   };
 
   this.getAssignmentRole = function (subMenu, thirdMenu) {
+    role = $.jStorage.get("role");
     var assignRole = _.filter(role.roles, function (n) {
       var level1Test = (n.mainMenu == "Assignments");
       var level2Test = (n.subMenu == subMenu);
