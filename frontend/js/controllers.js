@@ -11508,7 +11508,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
     }
     $scope.submitReopen = function (data) {
-        $scope.assignment.forceClosedComment = data.comment;
+        $scope.assignment.reopenComment = data.comment;
         $scope.assignment.reopenReqTime = Date.now();
         $scope.assignment.assignmentapprovalStatus = "Pending ReOpened";
         var newChat = {};
@@ -11526,7 +11526,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         });
     }
     $scope.submitOnhold = function (data) {
-        $scope.assignment.forceClosedComment = data.comment;
+        $scope.assignment.onholdComment = data.comment;
         $scope.assignment.onholdReqTime = Date.now();
         $scope.assignment.assignmentapprovalStatus = "Pending OnHold";
         var newChat = {};
@@ -14406,18 +14406,18 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 formData = {};
                 if ($scope.assignment.assignmentapprovalStatus == "Pending ForceClosed") {
                     formData._id = assignment._id;
-                    formData.timelineStatus = "Force Closed";
+                    // formData.timelineStatus = "Force Closed";
                     formData.forceClosedRespTime = Date.now();
                     formData.assignmentapprovalStatus = "ForceClosed";
                 } else if ($scope.assignment.assignmentapprovalStatus == "Pending ReOpened") {
                     formData._id = assignment._id;
-                    formData.timelineStatus = "ReOpened";
+                    // formData.timelineStatus = "ReOpened";
                     formData.reopenRespTime = Date.now();
                     formData.assignmentapprovalStatus = "ReOpened";
                 } else if ($scope.assignment.assignmentapprovalStatus == "Pending OnHold") {
                     formData.prevtimelineStatus = $scope.assignment.timelineStatus;
                     formData._id = assignment._id;
-                    formData.timelineStatus = "OnHold";
+                    // formData.timelineStatus = "OnHold";
                     formData.reopenRespTime = Date.now();
                     formData.assignmentapprovalStatus = "OnHold";
                 }
