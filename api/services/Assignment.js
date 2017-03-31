@@ -3031,19 +3031,19 @@ var model = {
                   console.log("hiiii", n.survey[n.survey.length - 1].status);
                   if (n.survey[n.survey.length - 1].status == "Completed") {
                     console.log("hiiii", n.survey[n.survey.length - 1].status, n.survey[n.survey.length - 1].surveyDate);
-                    obj.Survey_Date = moment(n.survey[n.survey.length - 1].surveyDate).format("DD-MM-YYYY");
+                    obj["Servey Date"] = moment(n.survey[n.survey.length - 1].surveyDate).format("DD-MM-YYYY");
                   }
                 }
               } else {
-                obj.Survey_Date = "NA"
+                obj["Servey Date"] = "NA"
               }
               if (n.invoice) {
                 if (n.invoice.length > 0) {
                   console.log("Invoice........", n.invoice[0]);
-                  obj.Reported_Date = moment(n.invoice[0]).format("DD-MM-YYYY");
+                  obj["Reported Date"] = moment(n.invoice[0]).format("DD-MM-YYYY");
                 }
               } else {
-                obj.Reported_Date = "NA"
+                obj["Reported Date"] = "NA"
               }
 
               obj.Status = n.timelineStatus
