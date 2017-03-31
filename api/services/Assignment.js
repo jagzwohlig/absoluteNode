@@ -2174,7 +2174,7 @@ var model = {
     if (_.isEmpty(data.owner)) {
       owner = {
         'owner._id': {
-          $in: _.concat(user.getParentEmployee, user._id)
+          $in: _.concat(user.children, user._id)
         },
       }
     } else {
@@ -2184,7 +2184,7 @@ var model = {
       });
       owner = {
         'owner._id': {
-          $in: _.concat(user.getParentEmployee, user._id, ownerArr)
+          $in: _.concat(user.children, user._id, ownerArr)
         },
       };
     }
@@ -2615,7 +2615,7 @@ var model = {
     if (_.isEmpty(data.owner)) {
       owner = {
         'owner._id': {
-          $in: _.compact(_.concat(user.getParentEmployee, user._id))
+          $in: _.compact(_.concat(user.children, user._id))
         },
       }
     } else {
@@ -2625,7 +2625,7 @@ var model = {
       });
       owner = {
         'owner._id': {
-          $in: _.compact(_.concat(user.getParentEmployee, user._id, ownerArr))
+          $in: _.compact(_.concat(user.children, user._id, ownerArr))
         },
       };
     }
