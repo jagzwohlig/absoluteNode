@@ -1771,8 +1771,8 @@ firstapp.filter('toobject', function () {
                     }
                 });
             }
-            if (obj.value == undefined) {
-                obj.value = "NA"
+            if (obj.value === undefined) {
+                obj.value = "NA";
             }
             returnStr = returnStr + obj.value;
             return obj;
@@ -2466,7 +2466,6 @@ firstapp.directive('addressForm', function ($document) {
                     if (data !== undefined && id !== "") {
                         value2 = data;
                         NavigationService.getOneModel(value, id, function (data) {
-                            console.log()
                             console.log("Before", $scope.formData.district, $scope.formData.state, $scope.formData.zone, $scope.formData.country);
                             $scope.formData = {};
                             if (value === "City") {
@@ -2645,23 +2644,6 @@ firstapp.config(function ($translateProvider) {
     $translateProvider.translations('hi', LanguageHindi);
     $translateProvider.preferredLanguage('en');
 });
-
-// firstapp.directive('alphaNumeric', function () {
-//     return {
-//         require: 'ngModel',
-//         link: function (scope, element, attr, ngModelCtrl) {
-//             function fromUser(text) {
-//                 var transformedInput = text.replace(/[^0-9a-zA-Z]/g, '');
-//                 if (transformedInput !== text) {
-//                     ngModelCtrl.$setViewValue(transformedInput);
-//                     ngModelCtrl.$render();
-//                 }
-//                 return transformedInput; // or return Number(transformedInput)
-//             }
-//             ngModelCtrl.$parsers.push(fromUser);
-//         }
-//     };
-// });
 
 firstapp.directive('alphaNumericVehical', function () {
     return {
