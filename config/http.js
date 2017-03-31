@@ -79,8 +79,6 @@ module.exports.http = {
                                                 value: false
                                             });
                                         } else {
-                                            console.log("Employee");
-                                            console.log(data2);
                                             data.employee = data2;
                                             callback();
                                         }
@@ -95,8 +93,6 @@ module.exports.http = {
                                                 value: false
                                             });
                                         } else {
-                                            console.log("Parents");
-                                            console.log(data2);
                                             data.parents = data2;
                                             callback();
                                         }
@@ -110,8 +106,6 @@ module.exports.http = {
                                                 value: false
                                             });
                                         } else {
-                                            console.log("Childrens");
-                                            console.log(data2);
                                             data.children = data2;
                                             callback();
                                         }
@@ -157,8 +151,6 @@ module.exports.http = {
                                                 value: false
                                             });
                                         } else {
-                                            console.log("Employee");
-                                            console.log(data2);
                                             data.employee = data2;
                                             callback();
                                         }
@@ -173,8 +165,6 @@ module.exports.http = {
                                                 value: false
                                             });
                                         } else {
-                                            console.log("Parents");
-                                            console.log(data2);
                                             data.parents = data2;
                                             callback();
                                         }
@@ -188,8 +178,6 @@ module.exports.http = {
                                                 value: false
                                             });
                                         } else {
-                                            console.log("Childrens");
-                                            console.log(data2);
                                             data.children = data2;
                                             callback();
                                         }
