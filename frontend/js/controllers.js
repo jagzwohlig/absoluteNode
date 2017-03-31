@@ -738,7 +738,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             }
             formdata.filter = {
                 func: $scope.backEnd
-            }
+            };
             NavigationService.getBackendEmployeeOnly(formdata, 1, function (data) {
                 console.log("Backend", data);
                 $scope.ownerData = data.data.results;
