@@ -1,5 +1,5 @@
-var templateservicemod = angular.module('templateservicemod', []);
-templateservicemod.service('TemplateService', function ($filter) {
+var templateservicemod = angular.module('templateservicemod', ["navigationservice"]);
+templateservicemod.service('TemplateService', function (NavigationService, $filter) {
   this.title = "Home";
   this.meta = "Google";
   this.metadesc = "Home";
@@ -112,13 +112,10 @@ templateservicemod.service('TemplateService', function ($filter) {
       var assignmentFilter = _.filter(role.roles, {
         "subMenu": "Assignment"
       });
-      console.log(assignmentFilter);
       data.assignmentRole = _.groupBy(assignmentFilter, "subThirdMenu");
-      console.log(data.assignmentRole);
       _.each(data.assignmentRole, function (n, key) {
         data.assignmentRole[key] = n[0];
       });
-      console.log(data.assignmentRole);
     }
     NavigationService.getNavByRole(role);
     return data;
