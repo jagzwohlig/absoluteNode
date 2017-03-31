@@ -2273,7 +2273,7 @@ var model = {
     if (_.isEmpty(data.owner)) {
       owner = {
         'owner._id': {
-          $in: _.map(_.concat(user.children, user._id), function (n) {
+          $in: _.map(_.concat(user.children, user.employee._id), function (n) {
             return objectid(n);
           })
         },
@@ -2285,7 +2285,7 @@ var model = {
       });
       owner = {
         'owner._id': {
-          $in: _.map(_.intersection(_.concat(user.children, user._id), ownerArr), function (n) {
+          $in: _.map(_.intersection(_.concat(user.children, user.employee._id), ownerArr), function (n) {
             return objectid(n);
           })
         },
@@ -2718,7 +2718,7 @@ var model = {
     if (_.isEmpty(data.owner)) {
       owner = {
         'owner._id': {
-          $in: _.map(_.concat(user.children, user._id), function (n) {
+          $in: _.map(_.concat(user.children, user.employee._id), function (n) {
             return objectid(n);
           })
         },
@@ -2730,7 +2730,7 @@ var model = {
       });
       owner = {
         'owner._id': {
-          $in: _.map(_.intersection(_.concat(user.children, user._id), ownerArr), function (n) {
+          $in: _.map(_.intersection(_.concat(user.children, user.employee._id), ownerArr), function (n) {
             return objectid(n);
           })
         },
