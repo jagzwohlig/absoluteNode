@@ -39,24 +39,28 @@
                   <li role="menuitem"><a href="">New ILR</a></li>
                   <li role="menuitem"><a href="">New LOR</a></li>
                   <li role="menuitem"><a ng-click="allAssessment(true);">New Assessment</a></li>
-                  <li role="menuitem"><a href="">New FSR</a></li>
+                  <li role="menuitem"><a href="">New FSR</a></li>   
                   <li role="menuitem"><a ng-click="viewStaff();">New Invoice</a></li>-->
                 </ul>
                 </span>
-                            <button class="btn btn-orange btn-round" ng-click="newMessage();"><i class="ln-comments"></i> Send Message</button>
+                            <button class="btn btn-orange btn-round" ng-click="newMessage();"><i class="ln-comments"></i>Send Message</button>
                             <div class="padder"></div>
                             <!--<button class="btn btn-orange btn-round" ui-sref="editassignment({id:assignment._id})"><i class="ln-register"></i> Assignment</button>-->
                             <span uib-dropdown class="inline">
-                  <button class="btn btn-blue btn-round" id="upload-files" uib-dropdown-toggle><i class="ln-cloud-upload"></i> Assignment</button>
+                  <button class="btn btn-blue btn-round" id="upload-files" uib-dropdown-toggle>
+                      <!--<i class="ln-cloud-upload"></i> -->
+                      Assignment</button>
                   <ul class="dropdown-menu info-dropdown" uib-dropdown-menu role="menu" aria-labelledby="upload-files">
-                    <li role="menuitem" ng-if="assignment.timelineStatus!='BBND'"ng-click="forceClose();"><a href="">Force Close</a></li>
+                    <li role="menuitem" ui-sref="editassignment({id:assignment._id})">
+                        <!--<i class="ln-register"></i>--> <a href="">Edit</a></li>
+                    <li role="menuitem" ng-if="assignment.timelineStatus!='BBND'" ng-click="forceClose();"><a href="">Force Close</a></li>
                     <li role="menuitem" ng-if="assignment.timelineStatus=='BBND' || assignment.timelineStatus=='Dispatched' || assignment.timelineStatus=='Collected' " ng-click="reopen();"><a href="">Re-Open</a></li>
                     <li role="menuitem" ng-if="assignment.timelineStatus!='OnHold'" ng-click="onhold();"><a href="">OnHold</a></li>
                     <li role="menuitem" ng-if="assignment.timelineStatus=='OnHold'" ng-click="unhold();"><a href="">UnHold</a></li> 
                     <li role="menuitem"><a ng-click="transfer(assignment);"><i class="fa fa-share"></i> Transfer</a></li>                   
                   </ul>
                 </span>
-                <button class="btn btn-red btn-round" ng-click="newEmail();"><i class="ln-envelope"></i> Send Email</button>
+                            <button class="btn btn-red btn-round" ng-click="newEmail();"><i class="ln-envelope"></i> Send Email</button>
                         </div>
                         <div class="pull-right">
                             <div class="compny text-right">

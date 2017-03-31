@@ -315,8 +315,8 @@ var model = {
                                             var emailData = {};
                                             emailData.assignmentNo = assignmentData.name;
                                             emailData.ownerName = assignmentData.owner.name;
-                                            emailData.ownerEmail = assignmentData.owner.email;
-                                            emailData.ownerPhone = assignmentData.owner.mobile;
+                                            emailData.ownerEmail = assignmentData.owner.officeEmail;
+                                            emailData.ownerPhone = assignmentData.owner.officeMobile;
                                             emailData.siteCity = assignmentData.city.name;
                                             emailData.invoiceNumber = data.invoiceNumber;
                                             if (assignmentData.insured) {
@@ -344,10 +344,10 @@ var model = {
                                                     console.log("survey: ", values);
                                                     if (values.status == "Pending") {
                                                         console.log("In surveyor");
-                                                        console.log(" values.employee.mobile", values.employee.mobile);
-                                                        emailData.surveyorNumber = values.employee.mobile;
+                                                        console.log(" values.employee.mobile", values.employee.officeMobile);
+                                                        emailData.surveyorNumber = values.employee.officeMobile;
                                                         emailData.surveyorName = values.employee.name;
-                                                        emailData.surveyorEmail = values.employee.email;
+                                                        emailData.surveyorEmail = values.employee.officeEmail;
                                                         emailData.surveyDate = values.surveyDate;
                                                     }
                                                 });
@@ -368,7 +368,7 @@ var model = {
                                                         console.log("persons", personss);
                                                         emailData.cc.push({
                                                             name: personss.name,
-                                                            email: personss.email
+                                                            email: personss.officeEmail
                                                         })
                                                     });
                                                 });

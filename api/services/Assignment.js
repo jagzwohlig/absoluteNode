@@ -702,7 +702,7 @@ schema.plugin(deepPopulate, {
       select: 'name _id district'
     },
     'owner': {
-      select: 'name _id func houseColor photo email mobile officeEmail employee'
+      select: 'name _id func houseColor photo email mobile officeMobile  officeEmail employee'
     },
     'owner.func': {
       select: 'name'
@@ -792,7 +792,7 @@ schema.plugin(deepPopulate, {
       select: 'name _id'
     },
     'survey.employee': {
-      select: 'name _id email mobile officeEmail address city'
+      select: 'name _id email mobile officeMobile officeEmail address city'
     },
     'survey.employee.city': {
       select: 'name _id state'
@@ -869,7 +869,7 @@ var model = {
                       emailData.assignmentNo = assignmentData.name;
                       emailData.ownerName = assignmentData.owner.name;
                       emailData.ownerEmail = assignmentData.owner.officeEmail;
-                      emailData.ownerPhone = assignmentData.owner.mobile;
+                      emailData.ownerPhone = assignmentData.owner.officeMobile;
                       emailData.siteAddress = (assignmentData.address ? assignmentData.address : '');
                       if (assignmentData.city.name) {
                         emailData.siteCity = assignmentData.city.name;
@@ -908,8 +908,8 @@ var model = {
                           console.log("survey: ", values);
                           if (values.status == "Approval Pending") {
                             console.log("In surveyor");
-                            console.log(" values.employee.mobile", values.employee.mobile);
-                            emailData.surveyorNumber = values.employee.mobile;
+                            console.log(" values.employee.mobile", values.employee.officeMobile);
+                            emailData.surveyorNumber = values.employee.officeMobile;
                             emailData.surveyorName = values.employee.name;
                             emailData.surveyorEmail = values.employee.officeEmail;
                             emailData.surveyDate = (values.surveyDate ? moment(values.surveyDate).format("DD/MM/YYYY") : "");
@@ -1410,7 +1410,7 @@ var model = {
               emailData.assignmentNo = assignmentData.name;
               emailData.ownerName = assignmentData.owner.name;
               emailData.ownerEmail = assignmentData.owner.officeEmail;
-              emailData.ownerPhone = assignmentData.owner.mobile;
+              emailData.ownerPhone = assignmentData.owner.officeMobile;
               emailData.siteAddress = (assignmentData.address ? assignmentData.address : '');
               if (assignmentData.city.name) {
                 emailData.siteCity = assignmentData.city.name;
@@ -1454,7 +1454,7 @@ var model = {
                   if (values.status == "Pending") {
                     // console.log("In surveyor");
                     // console.log(" values.employee.mobile", values.employee.mobile);
-                    emailData.surveyorNumber = values.employee.mobile;
+                    emailData.surveyorNumber = values.employee.officeMobile;
                     emailData.surveyorName = values.employee.name;
                     emailData.surveyorEmail = values.employee.officeEmail;
                     emailData.surveyDate = (values.surveyDate ? moment(values.surveyDate).format("DD/MM/YYYY") : "");
@@ -1667,7 +1667,7 @@ var model = {
                   emailData.assignmentNo = assignmentData.name;
                   emailData.ownerName = assignmentData.owner.name;
                   emailData.ownerEmail = assignmentData.owner.officeEmail;
-                  emailData.ownerPhone = assignmentData.owner.mobile;
+                  emailData.ownerPhone = assignmentData.owner.officeMobile;
                   emailData.siteAddress = (assignmentData.address ? assignmentData.address : '');
                   if (assignmentData.city.name) {
                     emailData.siteCity = assignmentData.city.name;
@@ -1699,7 +1699,7 @@ var model = {
                       if (values.status == "Approval Pending") {
                         // console.log("In surveyor");
                         // console.log(" values.employee.mobile", values.employee.mobile);
-                        emailData.surveyorNumber = values.employee.mobile;
+                        emailData.surveyorNumber = values.employee.officeMobile;
                         emailData.surveyorName = values.employee.name;
                         emailData.surveyorEmail = values.employee.officeEmail;
                         emailData.surveyDate = (values.surveyDate ? moment(values.surveyDate).format("DD/MM/YYYY") : "");
@@ -3920,7 +3920,7 @@ var model = {
               emailData.assignmentNo = assignmentData.name;
               emailData.ownerName = assignmentData.owner.name;
               emailData.ownerEmail = assignmentData.owner.officeEmail;
-              emailData.ownerPhone = assignmentData.owner.mobile;
+              emailData.ownerPhone = assignmentData.owner.officeMobile;
               emailData.siteAddress = (assignmentData.address ? assignmentData.address : '');
               if (assignmentData.city.name) {
                 emailData.siteCity = assignmentData.city.name;
@@ -3960,7 +3960,7 @@ var model = {
                   if (values.status == "Pending") {
                     // console.log("In surveyor");
                     // console.log(" values.employee.mobile", values.employee.mobile);
-                    emailData.surveyorNumber = values.employee.mobile;
+                    emailData.surveyorNumber = values.employee.officeMobile;
                     emailData.surveyorName = values.employee.name;
                     emailData.surveyorEmail = values.employee.officeEmail;
                     emailData.surveyDate = (values.surveyDate ? moment(values.surveyDate).format("DD/MM/YYYY") : "");

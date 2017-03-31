@@ -322,7 +322,7 @@ schema.plugin(deepPopulate, {
             select: 'name _id'
         },
         'employee': {
-            select: 'name _id officeEmail email'
+            select: 'name _id officeEmail email officeMobile'
         }
     }
 });

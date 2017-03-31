@@ -12027,7 +12027,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                     emailData.assignmentNo = data.data.name;
                     emailData.ownerName = data.data.owner.name;
                     emailData.ownerEmail = data.data.owner.officeEmail;
-                    emailData.ownerPhone = data.data.owner.mobile;
+                    emailData.ownerPhone = data.data.owner.officeMobile;
                     emailData.siteCity = data.data.city.name;
                     emailData.insuredName = (data.data.insured.name ? data.data.insured.name : "");
                     emailData.claimNo = (data.data.insurerClaimId ? data.data.insurerClaimId : "");
