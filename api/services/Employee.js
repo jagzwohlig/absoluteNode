@@ -403,11 +403,11 @@ var model = {
                 n = undefined;
             }
         });
-        if (user) {
-            data.filter._id = {
-                $in: _.concat(user.children, user.employee._id)
-            };
-        }
+        // if (user) {
+        //     data.filter._id = {
+        //         $in: _.concat(user.children, user.employee._id)
+        //     };
+        // }
         var Search = Model.find(data.filter)
             .order(options)
             .deepPopulate("postedAt")
