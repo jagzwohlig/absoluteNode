@@ -988,7 +988,7 @@
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="data in formData.vehicleNumber track by $index">
-                                        <td>{{data.vehicleNumber}}</td>
+                                        <td class="vehicle">{{data.vehicleNumber}}</td>
                                         <td>
                                             <a class="btn btn-primary" ng-click="addModal( 'modal-assignment',$index,
                         'Vehicle',data, '',formData.vehicleNumber)">

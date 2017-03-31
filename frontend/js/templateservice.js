@@ -22,6 +22,10 @@ templateservicemod.service('TemplateService', function (NavigationService, $filt
     numeralDecimalScale: 0
   };
 
+  this.vehicle = {
+    uppercase: true
+  };
+
   this.init = function () {
     this.header = "frontend/views/header.html";
     this.menu = "frontend/views/menu.html";

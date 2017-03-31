@@ -1715,5 +1715,9 @@ img.uploadingImage {
     overflow-x: auto;
 }
 
+.vehicle {
+    text-transform: uppercase !important;
+}
+
 @import "fancybox-override";
 @import "other/mobile"
