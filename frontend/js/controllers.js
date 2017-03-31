@@ -536,7 +536,7 @@
             };
             $scope.changePages = function (page, filter) {
 
-                console.log("In Change Page", filter, "page", page);
+
                 var goTo = $scope.modelCamel + "-list";
                 if ($scope.search.keyword) {
                     goTo = $scope.modelCamel + "-list";
@@ -545,21 +545,6 @@
                 console.log("sorting", [$scope.filter.sortName, $scope.filter.sortNumber]);
                 $state.go(goTo, {
                     page: page,
-                    timelineStatus: filter.timelineStatus,
-                    ownerStatus: filter.ownerStatus,
-                    name: filter.name,
-                    owner: filter.owner,
-                    ownerId: ownerId,
-                    city: filter.city,
-                    insurer: filter.insurer,
-                    insurerd: filter.insurerd,
-                    from: filter.from,
-                    to: filter.to,
-                    branch: filter.branch,
-                    department: filter.department,
-                    sorting: [$scope.filter.sortName, $scope.filter.sortNumber]
-                }, {
-                    reload: true
                 });
             };
 
