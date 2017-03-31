@@ -3120,7 +3120,7 @@ var model = {
           } else {
             // console.log("Done", data1[37]);
             var excelData = [];
-            console.log("ABCD", data1[3].invoice[0]);
+            // console.log("ABCD", data1[3].invoice[0]);
             _.each(data1, function (n, key) {
               // console.log("Key",);
               var obj = {};

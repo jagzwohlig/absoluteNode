@@ -372,7 +372,8 @@ var model = {
             .keyword(options)
             .page(options, callback);
     },
-    getBackendEmployeeOnly: function (data, callback) {
+    getBackendEmployeeOnly: function (data, callback, user) {
+
         var Model = this;
         var Const = this(data);
         var maxRow = Config.maxRow;
@@ -402,6 +403,9 @@ var model = {
                 n = undefined;
             }
         });
+        if (user) {
+            data.filter.$in = _.concat(user.children, user.employee._id);
+        }
         var Search = Model.find(data.filter)
             .order(options)
             .deepPopulate("postedAt")
