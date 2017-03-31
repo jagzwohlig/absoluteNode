@@ -354,6 +354,9 @@ var controller = {
                 }
             });
         }
-    }
+    },
+    search: function (req, res) {
+        req.model.search(req.body, res.callback, req.user);
+    },
 };
 module.exports = _.assign(module.exports, controller);

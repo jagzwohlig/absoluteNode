@@ -608,7 +608,7 @@ var model = {
         })
     },
 
-    search: function (data, callback) {
+    search: function (data, callback, user) {
 
         var Model = this;
         var Const = this(data);
@@ -640,62 +640,72 @@ var model = {
                 n = undefined;
             }
         });
+        var aggArr = [{
+            $lookup: {
+                from: "offices",
+                localField: "postedAt",
+                foreignField: "_id",
+                as: "postedAt"
+            }
+        }, {
+            $unwind: "$postedAt"
+        }, {
+            $lookup: {
+                from: "grades",
+                localField: "grade",
+                foreignField: "_id",
+                as: "grade"
+            }
+        }, {
+            $unwind: "$grade"
+        }, {
+            $match: {
+                $or: [{
+                    "grade.name": {
+                        $regex: data.keyword,
+                        $options: 'i'
+                    }
+                }, {
+                    "postedAt.name": {
+                        $regex: data.keyword,
+                        $options: 'i'
+                    }
+                }, {
+                    "name": {
+                        $regex: data.keyword,
+                        $options: 'i'
+                    }
+                }, {
+                    "officeEmail": {
+                        $regex: data.keyword,
+                        $options: 'i'
+                    }
+                }, {
+                    "officeMobile": {
+                        $regex: data.keyword,
+                        $options: 'i'
+                    }
+                }]
+            }
+        }, {
+            $skip: parseInt(pagestartfrom)
+        }, {
+            $limit: maxRow
+        }];
+        // if (user) {
+        //     aggArr.unshift({
+        //         $match: {
+        //             $in: _.map(user.children,function(n) {
+        //                 return objectId(n);
+        //             })
+        //         }
+        //     });
+        // }
         if (data.keyword != "") {
             async.parallel([
                 //Start 
                 function (callback) {
-                    var Search = Employee.aggregate([{
-                        $lookup: {
-                            from: "offices",
-                            localField: "postedAt",
-                            foreignField: "_id",
-                            as: "postedAt"
-                        }
-                    }, {
-                        $unwind: "$postedAt"
-                    }, {
-                        $lookup: {
-                            from: "grades",
-                            localField: "grade",
-                            foreignField: "_id",
-                            as: "grade"
-                        }
-                    }, {
-                        $unwind: "$grade"
-                    }, {
-                        $match: {
-                            $or: [{
-                                "grade.name": {
-                                    $regex: data.keyword,
-                                    $options: 'i'
-                                }
-                            }, {
-                                "postedAt.name": {
-                                    $regex: data.keyword,
-                                    $options: 'i'
-                                }
-                            }, {
-                                "name": {
-                                    $regex: data.keyword,
-                                    $options: 'i'
-                                }
-                            }, {
-                                "officeEmail": {
-                                    $regex: data.keyword,
-                                    $options: 'i'
-                                }
-                            }, {
-                                "officeMobile": {
-                                    $regex: data.keyword,
-                                    $options: 'i'
-                                }
-                            }]
-                        }
-                    }, {
-                        $skip: parseInt(pagestartfrom)
-                    }, {
-                        $limit: maxRow
-                    }], function (err, data1) {
+                    var Search = Employee.aggregate(aggArr, function (err, data1) {
                         if (err) {
                             callback(err, null);
                         } else {
