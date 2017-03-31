@@ -47,8 +47,12 @@ module.exports.routes = {
         skipRegex: /api/i
     },
     "GET /api/download/:filename": {
-      controller: "WebController",
-      action: "download"
+        controller: "WebController",
+        action: "download"
+    },
+    "GET /api/downloadWithName/:filename": {
+        controller: "WebController",
+        action: "downloadWithName"
     }
 
     /***************************************************************************

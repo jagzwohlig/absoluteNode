@@ -730,6 +730,7 @@ var navigationservice = angular.module('navigationservice', [])
                 });
             },
             getAllAssignment: function (model, formData, i, callback) {
+                formData.accessToken = $.jStorage.get("accessToken");
                 $http.post(adminurl + model + '/getAll', formData).success(function (data) {
                     callback(data, i);
                 });

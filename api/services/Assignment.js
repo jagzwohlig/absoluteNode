@@ -2158,7 +2158,7 @@ var model = {
     });
   },
 
-  getAll: function (data, callback) {
+  getAll: function (data, callback, user) {
     var sort = sort = {
       $sort: {
         createdAt: -1
@@ -2269,17 +2269,21 @@ var model = {
       };
     }
 
-
+    var owner;
     if (_.isEmpty(data.owner)) {
-      var owner = {}
+      owner = {
+        'owner._id': {
+          $in: _.concat(user.children, user._id)
+        },
+      }
     } else {
       var ownerArr = [];
       _.each(data.owner, function (values) {
         ownerArr.push(objectid(values));
       });
-      var owner = {
+      owner = {
         'owner._id': {
-          $in: ownerArr
+          $in: _.concat(user.children, user._id, ownerArr)
         },
       };
     }
@@ -2599,7 +2603,7 @@ var model = {
     });
   },
 
-  generateAssignmentExcel: function (data, callback, res) {
+  generateAssignmentExcel: function (data, callback, res, user) {
     var sort = {};
     if (_.isEmpty(data.sorting[0])) {
       sort = {
@@ -2706,17 +2710,21 @@ var model = {
       };
     }
 
-
+    var owner;
     if (_.isEmpty(data.owner)) {
-      var owner = {}
+      owner = {
+        'owner._id': {
+          $in: _.compact(_.concat(user.children, user._id))
+        },
+      }
     } else {
       var ownerArr = [];
       _.each(data.owner, function (values) {
         ownerArr.push(objectid(values));
       });
-      var owner = {
+      owner = {
         'owner._id': {
-          $in: ownerArr
+          $in: _.compact(_.concat(user.children, user._id, ownerArr))
         },
       };
     }
@@ -3110,7 +3118,7 @@ var model = {
               var obj = {};
               obj.Sr_Number = key + 1;
               obj.branch = n.branch;
-              obj.MR_number = n.name;
+              obj["MR #"] = n.name;
               obj.insurerClaimId = n.insurerClaimId;
               obj.insuredClaimId = n.insuredClaimId;
               obj.brokerClaimId = n.brokerClaimId;
@@ -3127,19 +3135,19 @@ var model = {
                   console.log("hiiii", n.survey[n.survey.length - 1].status);
                   if (n.survey[n.survey.length - 1].status == "Completed") {
                     console.log("hiiii", n.survey[n.survey.length - 1].status, n.survey[n.survey.length - 1].surveyDate);
-                    obj.Survey_Date = moment(n.survey[n.survey.length - 1].surveyDate).format("DD-MM-YYYY");
+                    obj["Servey Date"] = moment(n.survey[n.survey.length - 1].surveyDate).format("DD-MM-YYYY");
                   }
                 }
               } else {
-                obj.Survey_Date = "NA"
+                obj["Servey Date"] = "NA"
               }
               if (n.invoice) {
                 if (n.invoice.length > 0) {
                   console.log("Invoice........", n.invoice[0]);
-                  obj.Reported_Date = moment(n.invoice[0]).format("DD-MM-YYYY");
+                  obj["Reported Date"] = moment(n.invoice[0]).format("DD-MM-YYYY");
                 }
               } else {
-                obj.Reported_Date = "NA"
+                obj["Reported Date"] = "NA"
               }
 
               obj.Status = n.timelineStatus

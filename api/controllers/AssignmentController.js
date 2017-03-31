@@ -303,13 +303,13 @@ var controller = {
             if (err || _.isEmpty(data)) {
                 res.badRequest();
             } else {
-                req.model.generateAssignmentExcel(data.json, res.callback, res);
+                req.model.generateAssignmentExcel(data.json, res.callback, res, req.user);
             }
         });
     },
     getAll: function (req, res) {
         if (req.body) {
-            req.model.getAll(req.body, res.callback);
+            req.model.getAll(req.body, res.callback, req.user);
         } else {
             res.json({
                 value: false,

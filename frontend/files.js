@@ -35,6 +35,7 @@ module.exports = [
   'bower_components/lodash/lodash.js',
   'bower_components/dragular/dist/dragular.js',
   "bower_components/cleave.js/dist/cleave-angular.js",
+  "bower_components/angular-elastic/elastic.js",
   "frontend/js/app.js",
   "frontend/js/controllers.js",
   "frontend/js/roles.js",

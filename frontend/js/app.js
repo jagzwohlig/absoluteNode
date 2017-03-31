@@ -2362,6 +2362,15 @@ firstapp.filter('downloadImage', function () {
         }
     };
 });
+firstapp.filter('downloadImageWithName', function () {
+    return function (input, name) {
+        if (input) {
+            return adminurl + "downloadWithName/" + input + "?name=" + name;
+        } else {
+            return "frontend/img/logo.png";
+        }
+    };
+});
 firstapp.filter('readUnread', function () {
     return function (input) {
         var check = false;

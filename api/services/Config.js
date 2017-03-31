@@ -418,6 +418,22 @@ var models = {
 
         //error handling, e.g. file does not exist
     },
+    downloadWithName: function (filename, name, res) {
+        res.set('Content-Disposition', "filename=" + name);
+        var readstream = gfs.createReadStream({
+            filename: filename
+        });
+        readstream.on('error', function (err) {
+            res.json({
+                value: false,
+                error: err
+            });
+        });
+        var onlyName = filename.split(".")[0];
+        var extension = filename.split(".").pop();
+        readstream.pipe(res);
+        //error handling, e.g. file does not exist
+    },
     generatePdf: function (page, obj, callback) {
         sails.hooks.views.render(page, obj, function (err, html) {
             if (err) {
