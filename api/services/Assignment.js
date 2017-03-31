@@ -2026,7 +2026,11 @@ var model = {
   },
 
   getAll: function (data, callback) {
-    var sort = {};
+    var sort = sort = {
+      $sort: {
+        createdAt: -1
+      }
+    };
     if (_.isEmpty(data.sorting[0])) {
       sort = {
         $sort: {

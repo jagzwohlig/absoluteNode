@@ -16,6 +16,11 @@ templateservicemod.service('TemplateService', function (NavigationService, $filt
     numeral: true,
     numeralThousandsGroupStyle: 'thousand'
   };
+  this.currencyNoDecimal = {
+    numeral: true,
+    numeralThousandsGroupStyle: 'thousand',
+    numeralDecimalScale: 0
+  };
 
   this.init = function () {
     this.header = "frontend/views/header.html";

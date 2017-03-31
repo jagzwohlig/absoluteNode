@@ -61,7 +61,7 @@
                                     </div>
                                     <!-- Currency -->
                                     <div class="col-item" ng-if="item.value=='Currency'">
-                                        <input type="number" placeholder="Enter {{item.name}}" class="form-control" ng-model="item.field">
+                                        <input type="text" cleave="template.currencyNoDecimal" placeholder="Enter {{item.name}}" class="form-control" ng-model="item.field">
                                     </div>
                                     <!-- SYSTEM FIELD -->
                                     <div class="col-item" ng-if="item.type=='System Fields'">
@@ -193,8 +193,8 @@
             <select class="form-control" ng-model="forms.officeEmail" required>
                     <option ng-value="{{employees.officeEmail}}" ng-repeat="employees in employee">{{employees.name}} &lt;{{employees.email}}&gt;</option>
              </select>
-             <!--{{forms.officeEmail}}-->
-             <!--{{forms.officeEmail}}
+            <!--{{forms.officeEmail}}-->
+            <!--{{forms.officeEmail}}
            
             <!--<select ng-model="selectedItem" name="state" ng-options="employees.officeEmail as employees.name for employees in employee">
                  <option value="">- Select To Employee -</option>

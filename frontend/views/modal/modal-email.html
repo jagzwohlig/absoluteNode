@@ -9,6 +9,7 @@
 <form name="modalForm" ng-submit="sendEmail(modalForm); $dismiss()" class="min-hit">
     <div class="modal-body">
         <div class="billing-sec no-float">
+            <pre>{{emailData|json}}</pre>
             <div class="row">
                 <div class="col-md-6 field">
                     <label>To <span>*</span> </label>
@@ -17,10 +18,10 @@
                         <ui-select-choices refresh="refreshEmployee($select.search)" refresh-delay="0" repeat="emailto in employee | filter:$select.search">
                             <small><img ng-src="{{emailto.photo | uploadpath:50:50}}" alt="{{emailto.name}}" width=50 height=50 class="dp" /></small>
                             {{emailto.name}} &lt; {{emailto.email }} &gt; </ui-select-choices>
-                    </ui-select>
+                        </ui-select>
                     <div class="error-msg" ng-show="modalForm.to.$invalid && modalForm.to.$touched">Please specify at least one recipient.</div>
                 </div>
-                <!--<div class="col-md-6 field">
+                <div class="col-md-6 field">
                     <label>Cc </label>
                     <ui-select name="cc" multiple tagging="tagHandler" tagging-label="(press enter to add new)" ng-model="emailData.cc">
                         <ui-select-match placeholder="" >{{$item.name}} &lt;{{$item.email}} &gt;</ui-select-match>
@@ -37,10 +38,10 @@
                              <small><img ng-src="{{emailto.photo | uploadpath:50:50}}" alt="{{emailto.name}}" width=50 height=50 class="dp" /></small>
                             {{emailto.name}} &lt; {{emailto.email }} &gt;</ui-select-choices>
                     </ui-select>
-                </div>-->
-                <div class="col-md-12 field">
+                </div>
+                <div class="col-md-12 field">   
                     <label>Subject <span>*</span></label>
-                    <input name="subject" type="text" placeholder="" ng-model="emailData.subject" required>
+                    <input name="subject" type="text" placeholder="" ng-model="emailData.subject" ng-disabled="emailData.subject" required>
                     <div class="error-msg" ng-show="modalForm.subject.$invalid && modalForm.subject.$touched">Please enter subject</div>
                 </div>
                 <div class="col-md-12 field">

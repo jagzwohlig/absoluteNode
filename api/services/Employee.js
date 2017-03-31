@@ -321,7 +321,7 @@ schema.plugin(deepPopulate, {
         'IIISLACertificate.department': {
             select: 'name _id'
         },
-        'employee':{
+        'employee': {
             select: 'name _id officeEmail email'
         }
     }
@@ -372,7 +372,7 @@ var model = {
             .keyword(options)
             .page(options, callback);
     },
-        getBackendEmployeeOnly: function (data, callback) {
+    getBackendEmployeeOnly: function (data, callback) {
         var Model = this;
         var Const = this(data);
         var maxRow = Config.maxRow;
@@ -582,13 +582,13 @@ var model = {
     },
 
     getEmployeeByOfficeEmail: function (data, callback) {
-        console.log("officeEmail",officeEmail);
+        console.log("officeEmail", officeEmail);
         Employee.findOne({
             email: data.email
         }, {
             name: 1,
             officeEmail: 1,
-            email:1
+            email: 1
         }).exec(function (err, employee) {
             if (err) {
                 callback(err, null);
@@ -838,6 +838,61 @@ var model = {
 
     },
 
+    getEmployeeNameEmail: function (data, callback) {
+
+        var Model = this;
+        var Const = this(data);
+        var maxRow = Config.maxRow;
+        var pagestartfrom = (data.page - 1) * maxRow;
+        var page = 1;
+        // var name1=subString()
+        if (data.page) {
+            page = data.page;
+        }
+        var field = data.field;
+        var options = {
+            field: data.field,
+            filters: {
+                keyword: {
+                    fields: ['name'],
+                    term: data.keyword
+                }
+            },
+
+            sort: {
+                asc: "name",
+            },
+            start: (page - 1) * maxRow,
+            count: maxRow
+        };
+
+        var Search = Model.find(data.filter)
+            .order(options)
+            .deepPopulate("postedAt grade")
+            .keyword(options)
+            .page(options, function (err, userData) {
+                console.log("getemp",userData);
+                if (err) {
+                    callback(err, null);
+                } else {
+                    if (_.isEmpty(userData)) {
+                        callback([], null);
+                    } else {
+                        var newData = [];
+                        _.each(userData.results, function (values) {
+                            newData.push({
+                                name: values.name,
+                                email: values.officeEmail
+                            });
+                        });
+                        callback(null, newData);
+                    }
+
+                }
+            });
+
+    },
+
 
     getDashboardCounts: function (data, callback) {
         var Search = Assignment.aggregate([{
@@ -928,9 +983,9 @@ var model = {
             if (err) {
                 callback(err, allEmployee);
             } else {
-                console.log("data2",data2);
+                console.log("data2", data2);
                 // if (data2.employee) {
-                if(data2!=null) {
+                if (data2 != null) {
                     allEmployee.push(data2.employee);
                     Model.getParentEmployee({
                         _id: data2.employee
@@ -969,20 +1024,19 @@ var model = {
                         if (err) {
                             callback(err, null);
                         } else {
-                            if(_.isEmpty(userData)){
+                            if (_.isEmpty(userData)) {
                                 callback([], null);
-                            }
-                            else {
+                            } else {
                                 var newData = [];
-                                _.each(userData,function(values){
+                                _.each(userData, function (values) {
                                     newData.push({
-                                        name:values.name,
-                                        email:values.officeEmail
+                                        name: values.name,
+                                        email: values.officeEmail
                                     });
                                 });
-                                 callback(null, newData);
+                                callback(null, newData);
                             }
-                           
+
                         }
                     });
                 }

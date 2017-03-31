@@ -549,6 +549,12 @@ var navigationservice = angular.module('navigationservice', [])
                     callback(data, i);
                 });
             },
+            getEmployeeNameEmail: function (formData, i, callback) {
+                console.log("formData : ", formData);
+                $http.post(adminurl + 'Employee/getEmployeeNameEmail', formData).success(function (data) {
+                    callback(data, i);
+                });
+            },
             getBackendEmployee: function (formData, i, callback) {
                 console.log("FormData in search", formData);
                 // $http.post(adminurl + 'Employee/getBackendEmployee', formData).success(function (data) {
