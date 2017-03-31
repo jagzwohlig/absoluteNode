@@ -418,6 +418,48 @@ var models = {
 
         //error handling, e.g. file does not exist
     },
+    downloadWithName: function (filename, name, res) {
+        res.set('Content-Disposition', "filename=" + name);
+        var readstream = gfs.createReadStream({
+            filename: filename
+        });
+        readstream.on('error', function (err) {
+            res.json({
+                value: false,
+                error: err
+            });
+        });
+
+        function writer2(filename, gridFSFilename, metaValue) {
+            var writestream2 = gfs.createWriteStream({
+                filename: gridFSFilename,
+                metadata: metaValue
+            });
+            writestream2.on('finish', function () {
+                fs.unlink(filename);
+            });
+            fs.createReadStream(filename).pipe(res);
+            fs.createReadStream(filename).pipe(writestream2);
+        }
+
+        function read2(filename2) {
+            var readstream2 = gfs.createReadStream({
+                filename: filename2
+            });
+            readstream2.on('error', function (err) {
+                res.json({
+                    value: false,
+                    error: err
+                });
+            });
+            readstream2.pipe(res);
+        }
+        var onlyName = filename.split(".")[0];
+        var extension = filename.split(".").pop();
+        readstream.pipe(res);
+
+        //error handling, e.g. file does not exist
+    },
     generatePdf: function (page, obj, callback) {
         sails.hooks.views.render(page, obj, function (err, html) {
             if (err) {
