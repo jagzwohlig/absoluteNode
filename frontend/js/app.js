@@ -2365,7 +2365,7 @@ firstapp.filter('downloadImage', function () {
 firstapp.filter('downloadImageWithName', function () {
     return function (input, name) {
         if (input) {
-            return adminurl + "web/downloadWithName/" + input + "?name=" + name;
+            return adminurl + "downloadWithName/" + input + "?name=" + name;
         } else {
             return "frontend/img/logo.png";
         }
