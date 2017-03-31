@@ -2174,22 +2174,26 @@ var model = {
     if (_.isEmpty(data.owner)) {
       owner = {
         'owner._id': {
-          $in: _.concat(user.children, user._id)
+          $in: _.map(_.concat(user.children, user._id), function (n) {
+            return objectid(n);
+          })
         },
-      }
+      };
     } else {
       var ownerArr = [];
       _.each(data.owner, function (values) {
-        ownerArr.push(objectid(values));
+        ownerArr.push(values);
       });
       owner = {
         'owner._id': {
-          $in: _.concat(user.children, user._id, ownerArr)
+          $in: _.map(_.intersection(_.concat(user.children, user._id), ownerArr), function (n) {
+            return objectid(n);
+          })
         },
       };
     }
     if (_.isEmpty(data.city)) {
-      var city = {}
+      var city = {};
     } else {
       var cityArr = [];
       _.each(data.city, function (values) {
