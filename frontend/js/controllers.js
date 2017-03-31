@@ -409,9 +409,6 @@
             $scope.filter.sortName = "";
             $scope.filter.sortNumber = 1;
 
-            $scope.$watch('filter', function (newFilter, oldFilter) {
-                $.jStorage.set("AssignmentFilter", newFilter);
-            });
 
 
             $scope.showAssignment = function (keywordChange, sorting) {
@@ -505,6 +502,8 @@
                         fromDate: $scope.filter.fromDate,
                         toDate: $scope.filter.toDate
                     };
+
+
                     NavigationService.getAllAssignment($scope.ModelApi, $scope.filter2, ++i, function (data, ini) {
                         if (ini == i) {
                             $scope.modelList = data.data.results;
@@ -520,6 +519,8 @@
                     $scope.filter.city = cities;
                     $scope.filter.branch = branches;
                     $scope.filter.department = departments;
+
+                    $.jStorage.set("AssignmentFilter", $scope.filter);
                 });
             };
             $scope.forceClose = function (data) {
@@ -619,7 +620,7 @@
                     templateUrl: '/frontend/views/modal/assignment-filter.html',
                     size: 'lg'
                 });
-            }
+            };
             // $scope.assignmentFilter = function () {
             //     var modalInstance = $uibModal.open({
             //         scope: $scope,
@@ -735,6 +736,7 @@
             if ($.jStorage.get("AssignmentFilter")) {
                 $scope.filter = $.jStorage.get("AssignmentFilter");
             }
+
         })
 
 
