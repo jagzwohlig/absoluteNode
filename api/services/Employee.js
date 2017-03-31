@@ -404,7 +404,9 @@ var model = {
             }
         });
         if (user) {
-            data.filter.$in = _.concat(user.children, user.employee._id);
+            data.filter._id = {
+                $in: _.concat(user.children, user.employee._id)
+            };
         }
         var Search = Model.find(data.filter)
             .order(options)
