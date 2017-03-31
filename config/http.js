@@ -55,6 +55,9 @@ module.exports.http = {
          ****************************************************************************/
 
         myRequestLogger: function (req, res, next) {
+            console.log("Get", req.query);
+            console.log("Body", req.body);
+            console.log("Path", req.path);
             req.models = req.path.split("/");
 
             req.model = mongoose.models[_.upperFirst(req.models[2])];

@@ -68,7 +68,7 @@ angular.module('rolesController', ['templateservicemod', 'navigationservice', 'a
             o.modifyRequest.isExist = modifyRequestBool;
             o.approve.isExist = approveBool;
             o.reject.isExist = rejectBool;
-            o.viewAll.isExist = viewAllBool;
+            o.viewAll.isExist = false;
             $scope.formData.roles.push(o);
         }
         addRoles("Email", "Inbox", "", "email,email-inbox", true, false, false, false, false, false, false, false, true);
@@ -80,7 +80,7 @@ angular.module('rolesController', ['templateservicemod', 'navigationservice', 'a
         addRoles("Location", "Country", "", "location,country-list", true, true, true, true, false, false, false, false, true);
         addRoles("Location", "Zone", "", "location,zone-list", true, true, true, true, false, false, false, false, true);
         addRoles("Location", "State", "", "location,state-list", true, true, true, true, false, false, false, false, true);
-        addRoles("Location", "District","", "location,district-list",  true, true, true, true, false, false, false, false, true);
+        addRoles("Location", "District", "", "location,district-list", true, true, true, true, false, false, false, false, true);
         addRoles("Location", "City", "", "location,city-list", true, true, true, true, false, false, false, false, true);
         addRoles("Products", "Industry", "", "product,industry-list", true, true, true, true, true, true, true, true, true);
         addRoles("Products", "Category", "", "product,category-list", true, true, true, true, true, true, true, true, true);
@@ -104,31 +104,45 @@ angular.module('rolesController', ['templateservicemod', 'navigationservice', 'a
         addRoles("Insurance", "NOL", "", "insurance,natureLoss-list", true, true, true, true, true, true, true, true, true);
         addRoles("Insurance", "Salvage", "", "insurance,salvage-list", true, true, true, true, true, true, true, true, true);
         addRoles("Insurance", "Nature Of Survey Code", "", "insurance,surveyCode-list", true, true, true, true, false, false, false, false, true);
-        addRoles("Assignments", "Type Of Claims", "", "assignment,claims-list,", true, true, true, true, false, false, false, false, true);
-        addRoles("Assignments", "Assignment", "New", "assignment,assignment-list", true, true, true, true, false, false, false, false, true);
-        addRoles("Assignments", "Assignment", "Edit", "assignment,assignment-list", true, true, false, false, false, false, false, false, true);
-        addRoles("Assignments", "Assignment", "List", "assignment,assignment-list", true, false, false, false, false, false, false, false, true);
-        addRoles("Assignments", "Assignment", "Document Upload", "assignment,assignment-list", true, true, true, true, false, false, false, false, true);
-        addRoles("Assignments", "Assignment", "Document Download", "assignment,assignment-list", true, false, true, true, false, false, false, false, true);
-        addRoles("Assignments", "Assignment", "Photographs", "assignment,assignment-list", true, true, true, true, false, false, false, false, true);
-        addRoles("Assignments", "Assignment", "Transfer", "assignment,assignment-list", true, true, false, false, false, false, false, false, true);
-        addRoles("Assignments", "Assignment", "Force close request", "assignment,assignment-list", true, true, false, false, false, false, false, false, true);
-        addRoles("Assignments", "Assignment", "Force close approval", "assignment,assignment-list", true, true, false, false, false, false, false, false, true);
-        addRoles("Assignments", "Assignment", "Reopen Request", "assignment,assignment-list", true, true, false, false, false, false, false, false, true);
-        addRoles("Assignments", "Assignment", "Reopen Approval", "assignment,assignment-list", true, true, false, false, false, false, false, false, true);
-        addRoles("Assignments", "ILA", "New", "assignment", true, true, false, false, false, false, false, false, true);
-        addRoles("Assignments", "ILA", "Send for Authorize", "assignment", true, true, false, false, false, false, false, false, true);
-        addRoles("Assignments", "ILA", "Authorize", "assignment", true, true, false, false, false, false, false, false, true);
-        addRoles("Assignments", "ILA", "Revise", "assignment", true, true, false, false, false, false, false, false, true);
-        addRoles("Assignments", "ILA", "Release", "assignment", true, true, false, false, false, false, false, false, true);
-        addRoles("Assignments", "ILA", "Released", "assignment", true, false, false, false, false, false, false, false, true);
-        addRoles("Assignments", "LOR", "New", "assignment", true, true, false, false, false, false, false, false, true);
-        addRoles("Assignments", "LOR", "Send for authorize", "assignment", true, true, false, false, false, false, false, false, true);
-        addRoles("Assignments", "LOR", "Authorize", "assignment", true, true, false, false, false, false, false, false, true);
-        addRoles("Assignments", "LOR", "Revise", "assignment", true, true, false, false, false, false, false, false, true);
-        addRoles("Assignments", "LOR", "Release", "assignment", true, true, false, false, false, false, false, false, true);
-        addRoles("Assignments", "LOR", "Regenerate", "assignment", true, true, false, false, false, false, false, false, true);
-        addRoles("Assignments", "LOR", "Status", "assignment", true, true, false, false, false, false, false, false, true);
+        addRoles("Assignments", "Type Of Claims", "", "assignment,claims-list,", true, false, false, false, false, false, false, false, true);
+
+
+
+
+
+        addRoles("Assignments", "Assignment", "List", "assignment,assignment-list", true, false, false, false, false, false, false, false, false);
+        addRoles("Assignments", "Assignment", "New", "assignment,assignment-list", true, false, false, false, false, false, false, false, false);
+        addRoles("Assignments", "Assignment", "Edit", "assignment,assignment-list", true, false, false, false, false, false, false, false, true);
+        addRoles("Assignments", "Assignment", "Document Upload", "assignment,assignment-list", true, false, false, false, false, false, false, false, false);
+        addRoles("Assignments", "Assignment", "Document Download", "assignment,assignment-list", true, false, false, false, false, false, false, false, false);
+        addRoles("Assignments", "Assignment", "Document Delete", "assignment,assignment-list", true, false, false, false, false, false, false, false, false);
+        addRoles("Assignments", "Assignment", "Photographs Upload", "assignment,assignment-list", true, false, false, false, false, false, false, false, false);
+        addRoles("Assignments", "Assignment", "Photographs", "assignment,assignment-list", true, false, false, false, false, false, false, false, false);
+        addRoles("Assignments", "Assignment", "Photographs Delete", "assignment,assignment-list", true, false, false, false, false, false, false, false, false);
+        addRoles("Assignments", "Assignment", "Transfer", "assignment,assignment-list", true, false, false, false, false, false, false, false, false);
+        addRoles("Assignments", "Assignment", "Force Close Request", "assignment,assignment-list", true, false, false, false, false, false, false, false, false);
+        addRoles("Assignments", "Assignment", "Force Close Approval", "assignment,assignment-list", true, false, false, false, false, false, false, false, false);
+        addRoles("Assignments", "Assignment", "Reopen Request", "assignment,assignment-list", true, false, false, false, false, false, false, false, false);
+        addRoles("Assignments", "Assignment", "Reopen Approval", "assignment,assignment-list", true, false, false, false, false, false, false, false, false);
+        addRoles("Assignments", "Assignment", "On Hold Request", "assignment,assignment-list", true, false, false, false, false, false, false, false, false);
+        addRoles("Assignments", "Assignment", "On Hold Approval", "assignment,assignment-list", true, false, false, false, false, false, false, false, false);
+
+        addRoles("Assignments", "ILA", "New", "assignment", true, false, false, false, false, false, false, false, true);
+        addRoles("Assignments", "ILA", "Send for Authorize", "assignment", true, false, false, false, false, false, false, false, true);
+        addRoles("Assignments", "ILA", "Release", "assignment", true, false, false, false, false, false, false, false, true);
+
+        addRoles("Assignments", "LOR", "New", "assignment", true, false, false, false, false, false, false, false, true);
+        addRoles("Assignments", "LOR", "Send for authorize", "assignment", true, false, false, false, false, false, false, false, true);
+        addRoles("Assignments", "LOR", "Release", "assignment", true, false, false, false, false, false, false, false, true);
+
+
+
+
+
+
+
+        // addRoles("Assignments", "LOR", "Status", "assignment", true, false, false, false, false, false, false, false, true);
+
         addRoles("Templates", "LOR Category", "", "template,lorCategory-list", true, true, true, true, false, false, false, false, true);
         addRoles("Templates", "LOR Master", "", "template,lorMaster-list", true, true, true, true, false, false, false, false, true);
         addRoles("Templates", "LOR", "", "template,templateLor-list", true, true, true, true, false, false, false, false, true);
@@ -141,11 +155,11 @@ angular.module('rolesController', ['templateservicemod', 'navigationservice', 'a
         addRoles("Knowledge Base", "Knowledge Base list", "Access", "knowledgebase,knowledgebase-list", true, true, true, false, false, false, false, false, true);
         addRoles("Knowledge Base", "Knowledge Base list", "Request", "", true, true, true, false, false, false, false, false, true);
         addRoles("Knowledge Base", "Knowledge Base list", "Approval", "", true, true, true, false, false, false, false, false, true);
-        addRoles("Approval", "LOR", "", "approval,lorApproval-list", true, true, true, true, false, false, false, false, true);
-        addRoles("Approval", "ILA", "", "approval,ilaApproval-list", true, true, true, true, false, false, false, false, true);
-        addRoles("Approval", "Invoice", "", "approval,invoiceApproval-list", true, true, true, true, false, false, false, false, true);
-        addRoles("Approval", "SBC", "", "approval,sbcApproval-list", true, true, true, false, false, false, false, false, true);
-        addRoles("Approval", "Assignment", "", "approval,assignmentApproval-list", true, true, true, false, false, false, false, false, true);
+        addRoles("Approval", "LOR", "", "approval,lorApproval-list", true, false, false, false, false, false, false, false, true);
+        addRoles("Approval", "ILA", "", "approval,ilaApproval-list", true, false, false, false, false, false, false, false, true);
+        addRoles("Approval", "Invoice", "", "approval,invoiceApproval-list", true, false, false, false, false, false, false, false, false);
+        addRoles("Approval", "SBC", "", "approval,sbcApproval-list", true, false, false, false, false, false, false, false, false);
+        addRoles("Approval", "Assignment", "", "approval,assignmentApproval-list", true, false, false, false, false, false, false, false, false);
         addRoles("Invoice", "Invoice", "", "invoice,invoice-list", true, true, false, false, false, false, false, false, true);
         addRoles("Logistic", "Logistic", "", "logistic,logistic-list", true, true, false, false, false, false, false, false, true);
         addRoles("Invoice", "Invoice", "Send for Authorize", "", true, true, false, false, false, false, false, false, true);
