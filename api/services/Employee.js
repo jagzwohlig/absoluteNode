@@ -588,7 +588,7 @@ var model = {
     },
 
     getEmployeeByOfficeEmail: function (data, callback) {
-        console.log("officeEmail", officeEmail);
+        // console.log("officeEmail", officeEmail);
         Employee.findOne({
             email: data.email
         }, {
@@ -887,7 +887,7 @@ var model = {
             .deepPopulate("postedAt grade")
             .keyword(options)
             .page(options, function (err, userData) {
-                console.log("getemp", userData);
+                // console.log("getemp", userData);
                 if (err) {
                     callback(err, null);
                 } else {
