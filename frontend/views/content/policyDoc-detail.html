@@ -69,7 +69,7 @@
                                 <td>{{data.name}}</td>
                                 <td>{{data.policyNo}}</td>
                                 <td>
-                                    <a class="btn btn-primary" download="{{data.documentImage}}" ng-href="{{data.documentImage|downloadImage}}">
+                                    <a class="btn btn-primary" download="{{data.documentImage}}" ng-href="{{data.documentImage|downloadImageWithName:data.name}}">
                                             <i class="fa fa-download"></i>
                                         </a>
                                     <a class="btn btn-primary" ng-click="openEditOfficer($index)">

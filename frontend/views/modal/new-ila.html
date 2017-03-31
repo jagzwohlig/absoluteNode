@@ -30,7 +30,7 @@
         <td>{{ilas.approvalStatus}}</td>
         <td>
           <button class="btn btn-clear" ng-if="ilas.file!=undefined">
-            <a class="btn btn-primary temp-btnbg" ng-href="{{ilas.file|downloadImageWithName:assignment.name}}">
+            <a class="btn btn-primary temp-btnbg" download="{{ilas.file}}" ng-href="{{ilas.file|downloadImageWithName:assignment.name}}">
                                             <i class="ln-download"></i>
           </a>
           </button>

@@ -208,7 +208,7 @@
                                                                 <div class="col-xs-6 col-md-3">
                                                                     <div class="filebx">
                                                                         <div class="dl-bx">
-                                                                            <a download="{{chat.attachment}}" href="{{chat.attachment|downloadImage}}"><i class="ln-download"></i></a>
+                                                                            <a download="{{chat.attachment}}" href="{{chat.attachment|downloadImageWithName:assignment.name}}"><i class="ln-download"></i></a>
                                                                         </div>
                                                                         <i class="ln-document"></i>
                                                                         <p>{{chat.time|date:"ddMMMyyyy, EEEE, hh:mm"}}</p>

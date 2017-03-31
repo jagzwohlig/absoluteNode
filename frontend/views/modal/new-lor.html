@@ -34,7 +34,7 @@
         <td>{{lor.approvalStatus}}</td>
         <td>
           <button class="btn btn-clear" ng-if="lor.file!=undefined">
-            <a class="btn btn-primary temp-btnbg" download="{{lor.file}}" ng-href="{{lor.file|downloadImage}}">
+            <a class="btn btn-primary temp-btnbg" download="{{lor.file}}" ng-href="{{lor.file|downloadImageWithName:' '+assignment.name+' '+lor.lorCount}}">
                                             <i class="ln-download"></i>
           </a>
           </button>

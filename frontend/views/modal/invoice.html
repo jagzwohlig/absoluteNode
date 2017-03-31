@@ -28,7 +28,7 @@
                 <td>{{Invoice.approvalStatus}}</td>
                 <td>
                     <button class="btn btn-clear" ng-if="Invoice.file!==''">
-                        <a class="btn btn-primary temp-btnbg" download="{{Invoice.file}}" ng-href="{{Invoice.file|downloadImage}}">
+      <a class="btn btn-primary temp-btnbg" download="{{Invoice.file}}" ng-href="{{Invoice.file|downloadImageWithName:Invoice.invoiceNumber}}">
                             <i class="ln-download"></i>
                         </a>
                     </button>
