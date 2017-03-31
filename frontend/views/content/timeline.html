@@ -57,7 +57,9 @@
                     <li role="menuitem" ng-if="assignment.timelineStatus=='BBND' || assignment.timelineStatus=='Dispatched' || assignment.timelineStatus=='Collected' " ng-click="reopen();"><a href="">Re-Open</a></li>
                     <li role="menuitem" ng-if="assignment.timelineStatus!='OnHold'" ng-click="onhold();"><a href="">OnHold</a></li>
                     <li role="menuitem" ng-if="assignment.timelineStatus=='OnHold'" ng-click="unhold();"><a href="">UnHold</a></li> 
-                    <li role="menuitem"><a ng-click="transfer(assignment);"><i class="fa fa-share"></i> Transfer</a></li>                   
+                    <li role="menuitem"><a ng-click="transfer(assignment);">
+                        <!--<i class="fa fa-share"></i> -->
+                        Transfer</a></li>                   
                   </ul>
                 </span>
                             <button class="btn btn-red btn-round" ng-click="newEmail();"><i class="ln-envelope"></i> Send Email</button>
