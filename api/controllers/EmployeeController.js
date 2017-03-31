@@ -27,7 +27,7 @@ var controller = {
                 return undefined;
             }
         }
-        
+
         async.eachSeries(excelDataToExport, function (n, callback) {
                 n = _.map(n, function (m, key) {
                     var b = _.trim(m);
@@ -168,9 +168,9 @@ var controller = {
             })
         }
     },
-      getBackendEmployeeOnly: function (req, res) {
+    getBackendEmployeeOnly: function (req, res) {
         if (req.body) {
-            Employee.getBackendEmployeeOnly(req.body, res.callback);
+            Employee.getBackendEmployeeOnly(req.body, res.callback, req.user);
         } else {
             res.json({
                 value: false,
@@ -325,8 +325,8 @@ var controller = {
         }
     },
 
-    getEmployeeNameEmail: function(req,res){
-         if (req.body) {
+    getEmployeeNameEmail: function (req, res) {
+        if (req.body) {
             Employee.getEmployeeNameEmail(req.body, res.callback);
         } else {
             res.json({
@@ -354,6 +354,9 @@ var controller = {
                 }
             });
         }
-    }
+    },
+    search: function (req, res) {
+        req.model.search(req.body, res.callback, req.user);
+    },
 };
 module.exports = _.assign(module.exports, controller);

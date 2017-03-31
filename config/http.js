@@ -68,48 +68,61 @@ module.exports.http = {
                             value: false
                         });
                     } else if (data) {
-                        async.parallel({
-                            parents: function (callback) {
-                                Employee.getParentEmployee(data, function (err, data2) {
-                                    if (err) {
-                                        callback({
-                                            error: err,
-                                            value: false
-                                        });
-                                    } else {
-                                        console.log("Parents");
-                                        console.log(data2);
-                                        data.parents = data2;
-                                        callback();
-                                    }
-                                });
+                        async.series({
+                                employee: function (callback) {
+                                    Employee.findOne({
+                                        officeEmail: data.email
+                                    }).lean().exec(function (err, data2) {
+                                        if (err) {
+                                            callback({
+                                                error: err,
+                                                value: false
+                                            });
+                                        } else {
+                                            data.employee = data2;
+                                            callback();
+                                        }
+                                    });
+                                },
+
+                                parents: function (callback) {
+                                    Employee.getParentEmployee(data.employee, function (err, data2) {
+                                        if (err) {
+                                            callback({
+                                                error: err,
+                                                value: false
+                                            });
+                                        } else {
+                                            data.parents = data2;
+                                            callback();
+                                        }
+                                    });
+                                },
+                                children: function (callback) {
+                                    Employee.getChildEmployee(data.employee, function (err, data2) {
+                                        if (err) {
+                                            callback({
+                                                error: err,
+                                                value: false
+                                            });
+                                        } else {
+                                            data.children = data2;
+                                            callback();
+                                        }
+                                    });
+                                }
                             },
-                            children: function (callback) {
-                                Employee.getChildEmployee(data, function (err, data2) {
-                                    if (err) {
-                                        callback({
-                                            error: err,
-                                            value: false
-                                        });
-                                    } else {
-                                        console.log("Childrens");
-                                        console.log(data2);
-                                        data.children = data2;
-                                        callback();
-                                    }
-                                });
-                            }
-                        }, function (err) {
-                            if (err) {
-                                res.json({
-                                    error: err,
-                                    value: false
-                                });
-                            } else {
-                                req.user = data;
-                                next();
-                            }
-                        });
+                            function (err) {
+                                if (err) {
+                                    res.json({
+                                        error: err,
+                                        value: false
+                                    });
+                                } else {
+                                    req.user = data;
+                                    next();
+                                }
+                            });
 
 
                     } else {
@@ -127,8 +140,63 @@ module.exports.http = {
                             value: false
                         });
                     } else if (data) {
-                        req.user = data;
-                        next();
+                        async.series({
+                                employee: function (callback) {
+                                    Employee.findOne({
+                                        officeEmail: data.email
+                                    }).lean().exec(function (err, data2) {
+                                        if (err) {
+                                            callback({
+                                                error: err,
+                                                value: false
+                                            });
+                                        } else {
+                                            data.employee = data2;
+                                            callback();
+                                        }
+                                    });
+                                },
+
+                                parents: function (callback) {
+                                    Employee.getParentEmployee(data.employee, function (err, data2) {
+                                        if (err) {
+                                            callback({
+                                                error: err,
+                                                value: false
+                                            });
+                                        } else {
+                                            data.parents = data2;
+                                            callback();
+                                        }
+                                    });
+                                },
+                                children: function (callback) {
+                                    Employee.getChildEmployee(data.employee, function (err, data2) {
+                                        if (err) {
+                                            callback({
+                                                error: err,
+                                                value: false
+                                            });
+                                        } else {
+                                            data.children = data2;
+                                            callback();
+                                        }
+                                    });
+                                }
+                            },
+                            function (err) {
+                                if (err) {
+                                    res.json({
+                                        error: err,
+                                        value: false
+                                    });
+                                } else {
+                                    req.user = data;
+                                    next();
+                                }
+                            });
+
+
                     } else {
                         res.json({
                             error: "Invalid AccessToken",

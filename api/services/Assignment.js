@@ -1538,9 +1538,9 @@ var model = {
       } else {
         $scope.data = data2;
         var filter = {
-            _id: data2.assignment.policyDoc
-          }
-          // For policyNumber
+          _id: data2.assignment.policyDoc
+        }
+        // For policyNumber
         PolicyDoc.getPolicyDoc({
           filter
         }, function (err, data4) {
@@ -2273,22 +2273,26 @@ var model = {
     if (_.isEmpty(data.owner)) {
       owner = {
         'owner._id': {
-          $in: _.concat(user.children, user._id)
+          $in: _.map(_.concat(user.children, user.employee._id), function (n) {
+            return objectid(n);
+          })
         },
-      }
+      };
     } else {
       var ownerArr = [];
       _.each(data.owner, function (values) {
-        ownerArr.push(objectid(values));
+        ownerArr.push(values);
       });
       owner = {
         'owner._id': {
-          $in: _.concat(user.children, user._id, ownerArr)
+          $in: _.map(_.intersection(_.concat(user.children, user.employee._id), ownerArr), function (n) {
+            return objectid(n);
+          })
         },
       };
     }
     if (_.isEmpty(data.city)) {
-      var city = {}
+      var city = {};
     } else {
       var cityArr = [];
       _.each(data.city, function (values) {
@@ -2714,17 +2718,21 @@ var model = {
     if (_.isEmpty(data.owner)) {
       owner = {
         'owner._id': {
-          $in: _.compact(_.concat(user.children, user._id))
+          $in: _.map(_.concat(user.children, user.employee._id), function (n) {
+            return objectid(n);
+          })
         },
-      }
+      };
     } else {
       var ownerArr = [];
       _.each(data.owner, function (values) {
-        ownerArr.push(objectid(values));
+        ownerArr.push(values);
       });
       owner = {
         'owner._id': {
-          $in: _.compact(_.concat(user.children, user._id, ownerArr))
+          $in: _.map(_.intersection(_.concat(user.children, user.employee._id), ownerArr), function (n) {
+            return objectid(n);
+          })
         },
       };
     }
@@ -3112,7 +3120,7 @@ var model = {
           } else {
             // console.log("Done", data1[37]);
             var excelData = [];
-            console.log("ABCD", data1[3].invoice[0]);
+            // console.log("ABCD", data1[3].invoice[0]);
             _.each(data1, function (n, key) {
               // console.log("Key",);
               var obj = {};
@@ -3151,7 +3159,7 @@ var model = {
               }
 
               obj.Status = n.timelineStatus
-                // obj.nature=n.natureOfLoss[0];
+              // obj.nature=n.natureOfLoss[0];
               excelData.push(obj);
             });
             Config.generateExcel("Assignment", excelData, res);

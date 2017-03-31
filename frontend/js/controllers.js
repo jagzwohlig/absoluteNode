@@ -315,7 +315,8 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             NavigationService.saveJsonStore($scope.filter2, function (data) {
                 console.log(data);
 
-                window.open(adminurl + 'Assignment/generateExcel?id=' + data, '_blank');
+                window.open(adminurl + 'Assignment/generateExcel?id=' + data + "&accessToken=" +
+                    $.jStorage.get("accessToken"), '_blank');
             });
         };
         $scope.generateSalesRegisterExcel = function () {
@@ -737,7 +738,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             }
             formdata.filter = {
                 func: $scope.backEnd
-            }
+            };
             NavigationService.getBackendEmployeeOnly(formdata, 1, function (data) {
                 console.log("Backend", data);
                 $scope.ownerData = data.data.results;
@@ -11361,7 +11362,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
     })
 
-.controller('TimelineCtrl', function ($scope, $window, TemplateService, NavigationService, AssignmentTemplate, $timeout, $uibModal, $stateParams, toastr, $filter, $state) {
+    .controller('TimelineCtrl', function ($scope, $window, TemplateService, NavigationService, AssignmentTemplate, $timeout, $uibModal, $stateParams, toastr, $filter, $state) {
     $scope.template = TemplateService.changecontent("timeline");
     $scope.menutitle = NavigationService.makeactive("Timeline");
     TemplateService.title = $scope.menutitle;
@@ -13006,1007 +13007,1007 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     // };
 })
 
-.controller('EmailInboxCtrl', function ($scope, $window, $uibModal, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, base64) {
-    //Used to name the .html file
-    $scope.template = TemplateService.changecontent("email-inbox");
-    $scope.menutitle = NavigationService.makeactive("Email Inbox");
-    TemplateService.title = $scope.menutitle;
-    $scope.navigation = NavigationService.getnav();
+    .controller('EmailInboxCtrl', function ($scope, $window, $uibModal, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, base64) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("email-inbox");
+        $scope.menutitle = NavigationService.makeactive("Email Inbox");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
 
-    $scope.header = {
-        "name": "Email Inbox"
-    };
-    $scope.msg = "Loading...";
-    $scope.msgSend = "";
-    $scope.allSelect = false;
-    $scope.mails = [];
-    $scope.emailForm = {};
-    $scope.labelIds = "INBOX";
-    $scope.tabMenue = [{
-        title: "Inbox",
-        label: "INBOX",
-        class: "active"
-    }, {
-        title: "Draft",
-        label: "DRAFT",
-        class: ""
-    }, {
-        title: "Important",
-        label: "IMPORTANT",
-        class: ""
-    }, {
-        title: "Sent",
-        label: "SENT",
-        class: ""
-    }, {
-        title: "Trash",
-        label: "TRASH",
-        class: ""
-    }];
-    $scope.scrollDisable = false;
-    // GMAIL CALL
-    $scope.tabSelected = function (label, tab) {
-        _.each($scope.tabMenue, function (n) {
-            n.class = "";
-        });
-        tab.class = "active";
-        $scope.msg = "Loading...";
-        $scope.emailForm.search = "";
-        $scope.mails = [];
-        $scope.labelIds = label;
-        $scope.reloadGmail();
-    };
-    $scope.reloadGmail = function (nextPageToken) {
-        NavigationService.gmailCall({
-            url: "messages",
-            method: "GET",
-            nextPageToken: nextPageToken,
-            search: $scope.emailForm.search,
-            labelIds: $scope.labelIds
-        }, function (data) {
-            console.log(data);
-            if (data.data.resultSizeEstimate === 0) {
-                $scope.msg = "You don't have any e-mails.";
-            } else {
-                $scope.msg = "";
-            }
-            if (!nextPageToken) {
-                $scope.mails = data.data.messages;
-            } else {
-                _.each(data.data.messages, function (n) {
-                    $scope.mails.push(n);
-                });
-            }
-            $scope.nextPage = data.data.nextPageToken;
-
-        });
-    };
-    $scope.reloadGmail();
-    $scope.showSingle = function (data) {
-        console.log("Email Data Before Passing", data);
-        $.jStorage.set("oneEmail", data);
-        $state.go("email-single", {
-            // id: data.threadId
-            id: data.id
-        });
-    };
-
-    function getHeight() {
-        $scope.emailheight = $window.innerHeight - 130;
-    }
-    getHeight();
-
-    angular.element($window).bind('resize', function () {
-        getHeight();
-        $scope.$apply();
-    });
-
-    $scope.tinymceModel = 'Initial content';
-    $scope.tinymceOptions = {
-        plugins: 'link image code',
-        toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
-    };
-
-    $scope.emailToDelete = [];
-    $scope.selectAll = function (check) {
-        console.log(check);
-        if (check) {
-            _.each($scope.mails, function (n) {
-                n.checked = true;
-                $scope.emailToDelete.push(n.threadId);
-            });
-        } else {
-            $scope.emailToDelete = [];
-            _.each($scope.mails, function (n) {
-                n.checked = false;
-
-            });
-        }
-    };
-    $scope.addEmailToDelete = function (data) {
-        var a = _.findIndex($scope.emailToDelete, function (o) {
-            return o == data.id;
-        });
-        console.log(a);
-        if (a == -1) {
-            $scope.emailToDelete.push(data.id);
-        } else {
-            // var ind =
-            $scope.emailToDelete.splice(a, 1);
-        }
-
-        console.log($scope.emailToDelete);
-    };
-
-    $scope.email = {
-        message: ""
-    };
-    $scope.emailtos = [{
-        name: 'Jagruti',
-        email: 'jagruti@wohlig.com'
-    }, {
-        name: 'Tushar',
-        email: 'tushar@wohlig.com'
-    }, {
-        name: 'Chintan',
-        email: 'chintan@wohlig.com'
-    }, {
-        name: 'Harsh',
-        email: 'harsh@wohlig.com'
-    }, {
-        name: 'Raj',
-        email: 'raj@wohlig.com'
-    }];
-    var modalInstance = function () {};
-    $scope.newEmail = function () {
-        $scope.msgSend = "";
-        modalInstance = $uibModal.open({
-            scope: $scope,
-            templateUrl: '/frontend/views/modal/modal-email.html',
-            size: 'lg'
-        });
-    };
-    $scope.sendEmail = function (modalForm) {
-
-        $scope.msgSend = "Sending..";
-        $scope.newTo = angular.copy($scope.email);
-        $scope.newTo.to = [];
-        _.each($scope.email.to, function (n) {
-            $scope.newTo.to.push(n.email);
-        });
-        $scope.newTo.cc = [];
-        _.each($scope.email.cc, function (n) {
-            $scope.newTo.cc.push(n.email);
-        });
-        $scope.newTo.bcc = [];
-        _.each($scope.email.bcc, function (n) {
-            $scope.newTo.bcc.push(n.email);
-        });
-        $scope.newTo.to = $scope.newTo.to.join();
-        $scope.newTo.cc = $scope.newTo.cc.join();
-        $scope.newTo.bcc = $scope.newTo.bcc.join();
-        console.log($scope.newTo);
-        NavigationService.sendEmail($scope.newTo, function (data) {
-            console.log(data);
-            if (data.value) {
-                toastr.success("Your message has been send.", "Send email.");
-                $timeout(function () {
-                    modalInstance.close();
-                }, 1000);
-            } else {
-                // $scope.msgSend = "Error in sending email";
-                toastr.success("Error in sending email.", "Send email.");
-            }
-        });
-    };
-    $scope.files = [{
-        type: "JIR",
-        count: 2,
-        files: [{
-            name: "doc1.docx",
-            selection: true
-        }, {
-            name: "doc2.docx",
-            selection: true
-        }]
-    }, {
-        type: "ILA",
-        count: 0,
-        files: []
-    }, {
-        type: "ILR",
-        count: 0,
-        files: []
-    }, {
-        type: "LOR",
-        count: 0,
-        files: []
-    }, {
-        type: "Assesments",
-        count: 0,
-        files: []
-    }, {
-        type: "FSR",
-        count: 0,
-        files: []
-    }, {
-        type: "Invoice",
-        count: 0,
-        files: []
-    }, {
-        type: "Documents",
-        count: 0,
-        files: []
-    }, {
-        type: "Images",
-        count: 0,
-        files: []
-    }, {
-        type: "Total Attachments",
-        count: 2,
-        files: [{
-            name: "doc1.docx",
-            selection: true
-        }, {
-            name: "doc2.docx",
-            selection: true
-        }]
-    }];
-})
-
-.controller('EmailInboxCtrl', function ($scope, $window, $uibModal, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, base64) {
-    //Used to name the .html file
-    $scope.template = TemplateService.changecontent("email-inbox");
-    $scope.menutitle = NavigationService.makeactive("Email Inbox");
-    TemplateService.title = $scope.menutitle;
-    $scope.navigation = NavigationService.getnav();
-
-    $scope.header = {
-        "name": "Email Inbox"
-    };
-    $scope.msg = "Loading...";
-    $scope.msgSend = "";
-    $scope.allSelect = false;
-    $scope.mails = [];
-    $scope.emailForm = {};
-    $scope.labelIds = "INBOX";
-    $scope.tabMenue = [{
-        title: "Inbox",
-        label: "INBOX",
-        class: "active"
-    }, {
-        title: "Draft",
-        label: "DRAFT",
-        class: ""
-    }, {
-        title: "Important",
-        label: "IMPORTANT",
-        class: ""
-    }, {
-        title: "Sent",
-        label: "SENT",
-        class: ""
-    }, {
-        title: "Trash",
-        label: "TRASH",
-        class: ""
-    }];
-    $scope.scrollDisable = false;
-    // GMAIL CALL
-    $scope.tabSelected = function (label, tab) {
-        _.each($scope.tabMenue, function (n) {
-            n.class = "";
-        });
-        tab.class = "active";
-        $scope.msg = "Loading...";
-        $scope.emailForm.search = "";
-        $scope.mails = [];
-        $scope.labelIds = label;
-        $scope.reloadGmail();
-    };
-    $scope.reloadGmail = function (nextPageToken) {
-        NavigationService.gmailCall({
-            url: "messages",
-            method: "GET",
-            nextPageToken: nextPageToken,
-            search: $scope.emailForm.search,
-            labelIds: $scope.labelIds
-        }, function (data) {
-            console.log(data);
-            if (data.data.resultSizeEstimate === 0) {
-                $scope.msg = "You don't have any e-mails.";
-            } else {
-                $scope.msg = "";
-            }
-            if (!nextPageToken) {
-                $scope.mails = data.data.messages;
-            } else {
-                _.each(data.data.messages, function (n) {
-                    $scope.mails.push(n);
-                });
-            }
-            $scope.nextPage = data.data.nextPageToken;
-
-        });
-    };
-    $scope.reloadGmail();
-    $scope.showSingle = function (data) {
-        console.log("Email Data Before Passing", data);
-        $.jStorage.set("oneEmail", data);
-        $state.go("email-single", {
-            // id: data.threadId
-            id: data.id
-        });
-    };
-
-    function getHeight() {
-        $scope.emailheight = $window.innerHeight - 130;
-    }
-    getHeight();
-
-    angular.element($window).bind('resize', function () {
-        getHeight();
-        $scope.$apply();
-    });
-
-    $scope.tinymceModel = 'Initial content';
-    $scope.tinymceOptions = {
-        plugins: 'link image code',
-        toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
-    };
-
-    $scope.emailToDelete = [];
-    $scope.selectAll = function (check) {
-        console.log(check);
-        if (check) {
-            _.each($scope.mails, function (n) {
-                n.checked = true;
-                $scope.emailToDelete.push(n.threadId);
-            });
-        } else {
-            $scope.emailToDelete = [];
-            _.each($scope.mails, function (n) {
-                n.checked = false;
-
-            });
-        }
-    };
-    $scope.addEmailToDelete = function (data) {
-        var a = _.findIndex($scope.emailToDelete, function (o) {
-            return o == data.id;
-        });
-        console.log(a);
-        if (a == -1) {
-            $scope.emailToDelete.push(data.id);
-        } else {
-            // var ind =
-            $scope.emailToDelete.splice(a, 1);
-        }
-
-        console.log($scope.emailToDelete);
-    };
-
-    $scope.email = {
-        message: ""
-    };
-    $scope.emailtos = [{
-        name: 'Jagruti',
-        email: 'jagruti@wohlig.com'
-    }, {
-        name: 'Tushar',
-        email: 'tushar@wohlig.com'
-    }, {
-        name: 'Chintan',
-        email: 'chintan@wohlig.com'
-    }, {
-        name: 'Harsh',
-        email: 'harsh@wohlig.com'
-    }, {
-        name: 'Raj',
-        email: 'raj@wohlig.com'
-    }];
-    var modalInstance = function () {};
-    $scope.newEmail = function () {
-        $scope.msgSend = "";
-        modalInstance = $uibModal.open({
-            scope: $scope,
-            templateUrl: '/frontend/views/modal/modal-email.html',
-            size: 'lg'
-        });
-    };
-    $scope.sendEmail = function (modalForm) {
-
-        $scope.msgSend = "Sending..";
-        $scope.newTo = angular.copy($scope.email);
-        $scope.newTo.to = [];
-        _.each($scope.email.to, function (n) {
-            $scope.newTo.to.push(n.email);
-        });
-        $scope.newTo.cc = [];
-        _.each($scope.email.cc, function (n) {
-            $scope.newTo.cc.push(n.email);
-        });
-        $scope.newTo.bcc = [];
-        _.each($scope.email.bcc, function (n) {
-            $scope.newTo.bcc.push(n.email);
-        });
-        $scope.newTo.to = $scope.newTo.to.join();
-        $scope.newTo.cc = $scope.newTo.cc.join();
-        $scope.newTo.bcc = $scope.newTo.bcc.join();
-        console.log($scope.newTo);
-        NavigationService.sendEmail($scope.newTo, function (data) {
-            console.log(data);
-            if (data.value) {
-                toastr.success("Your message has been send.", "Send email.");
-                $timeout(function () {
-                    modalInstance.close();
-                }, 1000);
-            } else {
-                // $scope.msgSend = "Error in sending email";
-                toastr.success("Error in sending email.", "Send email.");
-            }
-        });
-    };
-    $scope.files = [{
-        type: "JIR",
-        count: 2,
-        files: [{
-            name: "doc1.docx",
-            selection: true
-        }, {
-            name: "doc2.docx",
-            selection: true
-        }]
-    }, {
-        type: "ILA",
-        count: 0,
-        files: []
-    }, {
-        type: "ILR",
-        count: 0,
-        files: []
-    }, {
-        type: "LOR",
-        count: 0,
-        files: []
-    }, {
-        type: "Assesments",
-        count: 0,
-        files: []
-    }, {
-        type: "FSR",
-        count: 0,
-        files: []
-    }, {
-        type: "Invoice",
-        count: 0,
-        files: []
-    }, {
-        type: "Documents",
-        count: 0,
-        files: []
-    }, {
-        type: "Images",
-        count: 0,
-        files: []
-    }, {
-        type: "Total Attachments",
-        count: 2,
-        files: [{
-            name: "doc1.docx",
-            selection: true
-        }, {
-            name: "doc2.docx",
-            selection: true
-        }]
-    }];
-
-
-})
-
-.controller('EmailSingleCtrl', function ($scope, $window, $filter, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
-    //Used to name the .html file
-    $scope.template = TemplateService.changecontent("email-single");
-    $scope.menutitle = NavigationService.makeactive("Single Mail");
-    TemplateService.title = $scope.menutitle;
-    $scope.navigation = NavigationService.getnav();
-
-    $scope.header = {
-        "name": "Single Mail"
-    };
-    console.log();
-    $scope.pdf = {};
-
-    $scope.createAssignment = function () {
-        NavigationService.pdfGenerate({
-            "messageId": $stateParams.id
-        }, function (data) {
-
-            $scope.pdf = data.data;
-
-            $state.go("createassignmentemail", {
-                'emailId': $scope.email.id,
-                'model': "assignment",
-                'pdf': $scope.pdf.name
-            });
-
-        });
-    };
-
-    NavigationService.detailEmail({
-        "messageId": $stateParams.id
-    }, function (data) {
-        $scope.email = data.data;
-        console.log("Email ............", $scope.email, data);
-        var a = $filter("base64url")(data.data.raw);
-
-        $scope.email.attachment = [];
-        switch ($scope.email.payload.mimeType) {
-            case "multipart/related":
-                {
-                    _.each($scope.email.payload.parts, function (data) {
-                        console.log("in parts");
-                        console.log(data);
-                        if (data.mimeType == "multipart/alternative") {
-                            _.each(data.parts, function (data2) {
-                                if (data2.mimeType == "text/html") {
-                                    console.log("In related");
-                                    $scope.email.body = data2.body.data;
-                                }
-                            });
-
-                        }
-                        if (data.filename !== "") {
-                            console.log("in attach");
-                            $scope.email.attachment.push(data);
-                            console.log($scope.email.attachment);
-                        }
-                    });
-                    console.log("scope email", $scope.email);
-                }
-                break;
-            case "multipart/mixed":
-                {
-                    _.each($scope.email.payload.parts, function (data) {
-                        console.log("in parts");
-                        console.log(data);
-                        if (data.mimeType == "multipart/alternative") {
-                            _.each(data.parts, function (data2) {
-                                if (data2.mimeType == "text/html") {
-                                    console.log("In Mixed");
-                                    $scope.email.body = data2.body.data;
-                                }
-                            });
-
-                        }
-                        if (data.mimeType == "application/zip") {
-                            console.log("In Zip outer If");
-                            _.each(data.parts, function (data2) {
-                                console.log("In Zip _.each");
-                                if (data2.mimeType == "multipart/alternative") {
-                                    console.log("In Zip");
-                                    $scope.email.body = data2.body.data;
-                                }
-                            });
-
-                        }
-                        if (data.filename !== "") {
-                            console.log("in attach");
-                            $scope.email.attachment.push(data);
-                            console.log($scope.email.attachment);
-                        }
-                    });
-                    console.log("scope email", $scope.email);
-                }
-                break;
-
-            case "multipart/alternative":
-                {
-                    _.each($scope.email.payload.parts, function (data) {
-
-                        if (data.mimeType == "text/html") {
-                            console.log("In Alternative");
-                            $scope.email.body = data.body.data;
-                        }
-
-                    });
-                    console.log("scope email", $scope.email);
-                }
-                break;
-            case "text/html":
-                {
-                    console.log("In text/html");
-                    $scope.email.body = $scope.email.payload.body.data;
-                    console.log("scope email", $scope.email);
-                }
-                break;
-        }
-        $.jStorage.set("assignmentEmail", $scope.email);
-
-    });
-
-    $scope.accessToken = $.jStorage.get("accessToken");
-    $scope.openAttachment = function (f) {
-        var a = {
-            "attachmentId": f.body.attachmentId,
-            "fileName": f.filename,
-            "messageId": $stateParams.id
+        $scope.header = {
+            "name": "Email Inbox"
         };
-        var win = window.open(adminurl + "user/getAttachment?accessToken=" + $scope.accessToken + "&fileName=" + f.filename + "&attachmentId=" + f.body.attachmentId + "&messageId=" + $stateParams.id, '_blank');
-        // NavigationService.getAttachment(a, function (data) {
-        //     console.log(data);
-        // });
-    };
+        $scope.msg = "Loading...";
+        $scope.msgSend = "";
+        $scope.allSelect = false;
+        $scope.mails = [];
+        $scope.emailForm = {};
+        $scope.labelIds = "INBOX";
+        $scope.tabMenue = [{
+            title: "Inbox",
+            label: "INBOX",
+            class: "active"
+        }, {
+            title: "Draft",
+            label: "DRAFT",
+            class: ""
+        }, {
+            title: "Important",
+            label: "IMPORTANT",
+            class: ""
+        }, {
+            title: "Sent",
+            label: "SENT",
+            class: ""
+        }, {
+            title: "Trash",
+            label: "TRASH",
+            class: ""
+        }];
+        $scope.scrollDisable = false;
+        // GMAIL CALL
+        $scope.tabSelected = function (label, tab) {
+            _.each($scope.tabMenue, function (n) {
+                n.class = "";
+            });
+            tab.class = "active";
+            $scope.msg = "Loading...";
+            $scope.emailForm.search = "";
+            $scope.mails = [];
+            $scope.labelIds = label;
+            $scope.reloadGmail();
+        };
+        $scope.reloadGmail = function (nextPageToken) {
+            NavigationService.gmailCall({
+                url: "messages",
+                method: "GET",
+                nextPageToken: nextPageToken,
+                search: $scope.emailForm.search,
+                labelIds: $scope.labelIds
+            }, function (data) {
+                console.log(data);
+                if (data.data.resultSizeEstimate === 0) {
+                    $scope.msg = "You don't have any e-mails.";
+                } else {
+                    $scope.msg = "";
+                }
+                if (!nextPageToken) {
+                    $scope.mails = data.data.messages;
+                } else {
+                    _.each(data.data.messages, function (n) {
+                        $scope.mails.push(n);
+                    });
+                }
+                $scope.nextPage = data.data.nextPageToken;
 
+            });
+        };
+        $scope.reloadGmail();
+        $scope.showSingle = function (data) {
+            console.log("Email Data Before Passing", data);
+            $.jStorage.set("oneEmail", data);
+            $state.go("email-single", {
+                // id: data.threadId
+                id: data.id
+            });
+        };
 
-    $scope.emailSnippet = '<div dir="ltr">Dear Chintan,<div><br></div><div>Seen the links. What next?</div></div><div data-smartmail="gmail_signature"><div><br></div><div>Warm Regards,</div><div><br></div><div><b>Arun Arora</b></div><div><font color="#666666">M: +91 81080 99789</font></div><div>______________________________<wbr>____________________</div><div><br></div><div><b><font color="#000099">Absolute Insurance Surveyors &amp; Loss Assessors Pvt Ltd</font></b></div><div><font color="#666666">501/502, Ideal Trade Centre, Sector 11,&nbsp;CBD Belapur, Navi Mumbai 400 614</font></div><div><font color="#666666">T: +91 22 2756 2983 | F: +91 22 2756 2984</font></div></div>';
-
-})
-
-
-// .controller('ApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64) {
-//     //Used to name the .html file
-//     $scope.template = TemplateService.changecontent("approvals");
-//     $scope.menutitle = NavigationService.makeactive("Approvals");
-//     TemplateService.title = $scope.menutitle;
-//     $scope.navigation = NavigationService.getnav();
-//     $scope.someDate = moment().subtract(24, "hours").toDate();
-//     $scope.getDelayClass = function (val) {
-//         var retClass = "";
-//         var hours = moment().diff(moment(val), "hours");
-//         if (hours >= 0 && hours <= 6) {
-//             retClass = "delay-6";
-//         } else if (hours >= 7 && hours <= 24) {
-//             retClass = "delay-24";
-//         } else if (hours >= 25 && hours <= 48) {
-//             retClass = "delay-48";
-//         } else if (hours >= 49) {
-//             retClass = "delay-72";
-//         }
-//         console.log(retClass);
-//         return retClass;
-
-//     };
-
-// })
-
-.controller('IlaApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64, $stateParams, $state, toastr) {
-    //Used to name the .html file
-    $scope.template = TemplateService.changecontent("ila-approval");
-    $scope.menutitle = NavigationService.makeactive("Approvals");
-    TemplateService.title = $scope.menutitle;
-    $scope.navigation = NavigationService.getnav();
-    $scope.currentPage = $stateParams.page;
-    var i = 0;
-    NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
-        $scope.employee = data.data._id;
-        console.log("In $scope.ownersId", $scope.employee);
-    });
-    $scope.list = [{
-        name: 'ILA',
-        value: 'ILA'
-    }, {
-        name: 'LOR',
-        value: 'LOR'
-    }]
-    $scope.getAll = function (data) {
-        console.log(data);
-        $scope.approvalType = data.value;
-        $scope.showAll();
-    }
-    $scope.search = {
-        keyword: ""
-    };
-    if ($stateParams.keyword) {
-        $scope.search.keyword = $stateParams.keyword;
-    }
-    $scope.approvalType = "ILA";
-    $scope.showAll = function (keywordChange) {
-        $scope.totalItems = undefined;
-        if (keywordChange) {
-            $scope.currentPage = 1;
+        function getHeight() {
+            $scope.emailheight = $window.innerHeight - 130;
         }
-        NavigationService.getApprovalList({
-            page: $scope.currentPage,
-            type: "templateIla"
-        }, ++i, function (data, ini) {
-            if (ini == i) {
-                $scope.ilaList = data.data.results;
-                $scope.totalItems = data.data.total;
-                $scope.maxRow = data.data.options.count;
+        getHeight();
+
+        angular.element($window).bind('resize', function () {
+            getHeight();
+            $scope.$apply();
+        });
+
+        $scope.tinymceModel = 'Initial content';
+        $scope.tinymceOptions = {
+            plugins: 'link image code',
+            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
+        };
+
+        $scope.emailToDelete = [];
+        $scope.selectAll = function (check) {
+            console.log(check);
+            if (check) {
+                _.each($scope.mails, function (n) {
+                    n.checked = true;
+                    $scope.emailToDelete.push(n.threadId);
+                });
+            } else {
+                $scope.emailToDelete = [];
+                _.each($scope.mails, function (n) {
+                    n.checked = false;
+
+                });
             }
-            console.log("$scope.ilaList", $scope.ilaList);
-        });
-    };
-    $scope.cancel = function () {
-        $window.history.back();
-    };
-    $scope.changePage = function (page) {
-        console.log("Page", page);
-        var goTo = "ilaApproval-list";
-        if ($scope.search.keyword) {
-            goTo = "ilaApproval-list";
-        }
-        $state.go(goTo, {
-            page: page,
-            keyword: $scope.search.keyword
-        });
-    };
-    $scope.showAll();
-    // $scope.someDate = moment().subtract(24, "hours").toDate();
-    $scope.getDelayClass = function (val) {
-        var retClass = "";
-        var hours = moment().diff(moment(val), "hours");
-        // var hours = moment().diff(moment(val).add(5, "hours").add(30, "minutes"), "hours");
-        if (hours >= 0 && hours <= 6) {
-            retClass = "delay-6";
-        } else if (hours >= 7 && hours <= 24) {
-            retClass = "delay-24";
-        } else if (hours >= 25 && hours <= 48) {
-            retClass = "delay-48";
-        } else if (hours >= 49) {
-            retClass = "delay-72";
-        }
-        console.log(retClass);
-        return retClass;
+        };
+        $scope.addEmailToDelete = function (data) {
+            var a = _.findIndex($scope.emailToDelete, function (o) {
+                return o == data.id;
+            });
+            console.log(a);
+            if (a == -1) {
+                $scope.emailToDelete.push(data.id);
+            } else {
+                // var ind =
+                $scope.emailToDelete.splice(a, 1);
+            }
 
-    };
+            console.log($scope.emailToDelete);
+        };
 
-    $scope.viewTemplates = function (temp, getApi, data) {
-        $scope.allTemplate = temp;
-        $scope.api = getApi;
-        console.log("$scope.api", $scope.api);
-        console.log("In Else");
-        $state.go("template-view", {
-            "assignmentTemplate": data._id,
-            "type": getApi,
-            "approval": true
+        $scope.email = {
+            message: ""
+        };
+        $scope.emailtos = [{
+            name: 'Jagruti',
+            email: 'jagruti@wohlig.com'
+        }, {
+            name: 'Tushar',
+            email: 'tushar@wohlig.com'
+        }, {
+            name: 'Chintan',
+            email: 'chintan@wohlig.com'
+        }, {
+            name: 'Harsh',
+            email: 'harsh@wohlig.com'
+        }, {
+            name: 'Raj',
+            email: 'raj@wohlig.com'
+        }];
+        var modalInstance = function () {};
+        $scope.newEmail = function () {
+            $scope.msgSend = "";
+            modalInstance = $uibModal.open({
+                scope: $scope,
+                templateUrl: '/frontend/views/modal/modal-email.html',
+                size: 'lg'
+            });
+        };
+        $scope.sendEmail = function (modalForm) {
+
+            $scope.msgSend = "Sending..";
+            $scope.newTo = angular.copy($scope.email);
+            $scope.newTo.to = [];
+            _.each($scope.email.to, function (n) {
+                $scope.newTo.to.push(n.email);
+            });
+            $scope.newTo.cc = [];
+            _.each($scope.email.cc, function (n) {
+                $scope.newTo.cc.push(n.email);
+            });
+            $scope.newTo.bcc = [];
+            _.each($scope.email.bcc, function (n) {
+                $scope.newTo.bcc.push(n.email);
+            });
+            $scope.newTo.to = $scope.newTo.to.join();
+            $scope.newTo.cc = $scope.newTo.cc.join();
+            $scope.newTo.bcc = $scope.newTo.bcc.join();
+            console.log($scope.newTo);
+            NavigationService.sendEmail($scope.newTo, function (data) {
+                console.log(data);
+                if (data.value) {
+                    toastr.success("Your message has been send.", "Send email.");
+                    $timeout(function () {
+                        modalInstance.close();
+                    }, 1000);
+                } else {
+                    // $scope.msgSend = "Error in sending email";
+                    toastr.success("Error in sending email.", "Send email.");
+                }
+            });
+        };
+        $scope.files = [{
+            type: "JIR",
+            count: 2,
+            files: [{
+                name: "doc1.docx",
+                selection: true
+            }, {
+                name: "doc2.docx",
+                selection: true
+            }]
+        }, {
+            type: "ILA",
+            count: 0,
+            files: []
+        }, {
+            type: "ILR",
+            count: 0,
+            files: []
+        }, {
+            type: "LOR",
+            count: 0,
+            files: []
+        }, {
+            type: "Assesments",
+            count: 0,
+            files: []
+        }, {
+            type: "FSR",
+            count: 0,
+            files: []
+        }, {
+            type: "Invoice",
+            count: 0,
+            files: []
+        }, {
+            type: "Documents",
+            count: 0,
+            files: []
+        }, {
+            type: "Images",
+            count: 0,
+            files: []
+        }, {
+            type: "Total Attachments",
+            count: 2,
+            files: [{
+                name: "doc1.docx",
+                selection: true
+            }, {
+                name: "doc2.docx",
+                selection: true
+            }]
+        }];
+    })
+
+    .controller('EmailInboxCtrl', function ($scope, $window, $uibModal, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, base64) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("email-inbox");
+        $scope.menutitle = NavigationService.makeactive("Email Inbox");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+
+        $scope.header = {
+            "name": "Email Inbox"
+        };
+        $scope.msg = "Loading...";
+        $scope.msgSend = "";
+        $scope.allSelect = false;
+        $scope.mails = [];
+        $scope.emailForm = {};
+        $scope.labelIds = "INBOX";
+        $scope.tabMenue = [{
+            title: "Inbox",
+            label: "INBOX",
+            class: "active"
+        }, {
+            title: "Draft",
+            label: "DRAFT",
+            class: ""
+        }, {
+            title: "Important",
+            label: "IMPORTANT",
+            class: ""
+        }, {
+            title: "Sent",
+            label: "SENT",
+            class: ""
+        }, {
+            title: "Trash",
+            label: "TRASH",
+            class: ""
+        }];
+        $scope.scrollDisable = false;
+        // GMAIL CALL
+        $scope.tabSelected = function (label, tab) {
+            _.each($scope.tabMenue, function (n) {
+                n.class = "";
+            });
+            tab.class = "active";
+            $scope.msg = "Loading...";
+            $scope.emailForm.search = "";
+            $scope.mails = [];
+            $scope.labelIds = label;
+            $scope.reloadGmail();
+        };
+        $scope.reloadGmail = function (nextPageToken) {
+            NavigationService.gmailCall({
+                url: "messages",
+                method: "GET",
+                nextPageToken: nextPageToken,
+                search: $scope.emailForm.search,
+                labelIds: $scope.labelIds
+            }, function (data) {
+                console.log(data);
+                if (data.data.resultSizeEstimate === 0) {
+                    $scope.msg = "You don't have any e-mails.";
+                } else {
+                    $scope.msg = "";
+                }
+                if (!nextPageToken) {
+                    $scope.mails = data.data.messages;
+                } else {
+                    _.each(data.data.messages, function (n) {
+                        $scope.mails.push(n);
+                    });
+                }
+                $scope.nextPage = data.data.nextPageToken;
+
+            });
+        };
+        $scope.reloadGmail();
+        $scope.showSingle = function (data) {
+            console.log("Email Data Before Passing", data);
+            $.jStorage.set("oneEmail", data);
+            $state.go("email-single", {
+                // id: data.threadId
+                id: data.id
+            });
+        };
+
+        function getHeight() {
+            $scope.emailheight = $window.innerHeight - 130;
+        }
+        getHeight();
+
+        angular.element($window).bind('resize', function () {
+            getHeight();
+            $scope.$apply();
         });
-    };
-    $scope.saveOnTimeline = function () {
-        NavigationService.saveChat($scope.timeline, function (data) {
-            console.log("FFFFF", data);
+
+        $scope.tinymceModel = 'Initial content';
+        $scope.tinymceOptions = {
+            plugins: 'link image code',
+            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
+        };
+
+        $scope.emailToDelete = [];
+        $scope.selectAll = function (check) {
+            console.log(check);
+            if (check) {
+                _.each($scope.mails, function (n) {
+                    n.checked = true;
+                    $scope.emailToDelete.push(n.threadId);
+                });
+            } else {
+                $scope.emailToDelete = [];
+                _.each($scope.mails, function (n) {
+                    n.checked = false;
+
+                });
+            }
+        };
+        $scope.addEmailToDelete = function (data) {
+            var a = _.findIndex($scope.emailToDelete, function (o) {
+                return o == data.id;
+            });
+            console.log(a);
+            if (a == -1) {
+                $scope.emailToDelete.push(data.id);
+            } else {
+                // var ind =
+                $scope.emailToDelete.splice(a, 1);
+            }
+
+            console.log($scope.emailToDelete);
+        };
+
+        $scope.email = {
+            message: ""
+        };
+        $scope.emailtos = [{
+            name: 'Jagruti',
+            email: 'jagruti@wohlig.com'
+        }, {
+            name: 'Tushar',
+            email: 'tushar@wohlig.com'
+        }, {
+            name: 'Chintan',
+            email: 'chintan@wohlig.com'
+        }, {
+            name: 'Harsh',
+            email: 'harsh@wohlig.com'
+        }, {
+            name: 'Raj',
+            email: 'raj@wohlig.com'
+        }];
+        var modalInstance = function () {};
+        $scope.newEmail = function () {
+            $scope.msgSend = "";
+            modalInstance = $uibModal.open({
+                scope: $scope,
+                templateUrl: '/frontend/views/modal/modal-email.html',
+                size: 'lg'
+            });
+        };
+        $scope.sendEmail = function (modalForm) {
+
+            $scope.msgSend = "Sending..";
+            $scope.newTo = angular.copy($scope.email);
+            $scope.newTo.to = [];
+            _.each($scope.email.to, function (n) {
+                $scope.newTo.to.push(n.email);
+            });
+            $scope.newTo.cc = [];
+            _.each($scope.email.cc, function (n) {
+                $scope.newTo.cc.push(n.email);
+            });
+            $scope.newTo.bcc = [];
+            _.each($scope.email.bcc, function (n) {
+                $scope.newTo.bcc.push(n.email);
+            });
+            $scope.newTo.to = $scope.newTo.to.join();
+            $scope.newTo.cc = $scope.newTo.cc.join();
+            $scope.newTo.bcc = $scope.newTo.bcc.join();
+            console.log($scope.newTo);
+            NavigationService.sendEmail($scope.newTo, function (data) {
+                console.log(data);
+                if (data.value) {
+                    toastr.success("Your message has been send.", "Send email.");
+                    $timeout(function () {
+                        modalInstance.close();
+                    }, 1000);
+                } else {
+                    // $scope.msgSend = "Error in sending email";
+                    toastr.success("Error in sending email.", "Send email.");
+                }
+            });
+        };
+        $scope.files = [{
+            type: "JIR",
+            count: 2,
+            files: [{
+                name: "doc1.docx",
+                selection: true
+            }, {
+                name: "doc2.docx",
+                selection: true
+            }]
+        }, {
+            type: "ILA",
+            count: 0,
+            files: []
+        }, {
+            type: "ILR",
+            count: 0,
+            files: []
+        }, {
+            type: "LOR",
+            count: 0,
+            files: []
+        }, {
+            type: "Assesments",
+            count: 0,
+            files: []
+        }, {
+            type: "FSR",
+            count: 0,
+            files: []
+        }, {
+            type: "Invoice",
+            count: 0,
+            files: []
+        }, {
+            type: "Documents",
+            count: 0,
+            files: []
+        }, {
+            type: "Images",
+            count: 0,
+            files: []
+        }, {
+            type: "Total Attachments",
+            count: 2,
+            files: [{
+                name: "doc1.docx",
+                selection: true
+            }, {
+                name: "doc2.docx",
+                selection: true
+            }]
+        }];
+
+
+    })
+
+    .controller('EmailSingleCtrl', function ($scope, $window, $filter, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("email-single");
+        $scope.menutitle = NavigationService.makeactive("Single Mail");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+
+        $scope.header = {
+            "name": "Single Mail"
+        };
+        console.log();
+        $scope.pdf = {};
+
+        $scope.createAssignment = function () {
+            NavigationService.pdfGenerate({
+                "messageId": $stateParams.id
+            }, function (data) {
+
+                $scope.pdf = data.data;
+
+                $state.go("createassignmentemail", {
+                    'emailId': $scope.email.id,
+                    'model': "assignment",
+                    'pdf': $scope.pdf.name
+                });
+
+            });
+        };
+
+        NavigationService.detailEmail({
+            "messageId": $stateParams.id
+        }, function (data) {
+            $scope.email = data.data;
+            console.log("Email ............", $scope.email, data);
+            var a = $filter("base64url")(data.data.raw);
+
+            $scope.email.attachment = [];
+            switch ($scope.email.payload.mimeType) {
+                case "multipart/related":
+                    {
+                        _.each($scope.email.payload.parts, function (data) {
+                            console.log("in parts");
+                            console.log(data);
+                            if (data.mimeType == "multipart/alternative") {
+                                _.each(data.parts, function (data2) {
+                                    if (data2.mimeType == "text/html") {
+                                        console.log("In related");
+                                        $scope.email.body = data2.body.data;
+                                    }
+                                });
+
+                            }
+                            if (data.filename !== "") {
+                                console.log("in attach");
+                                $scope.email.attachment.push(data);
+                                console.log($scope.email.attachment);
+                            }
+                        });
+                        console.log("scope email", $scope.email);
+                    }
+                    break;
+                case "multipart/mixed":
+                    {
+                        _.each($scope.email.payload.parts, function (data) {
+                            console.log("in parts");
+                            console.log(data);
+                            if (data.mimeType == "multipart/alternative") {
+                                _.each(data.parts, function (data2) {
+                                    if (data2.mimeType == "text/html") {
+                                        console.log("In Mixed");
+                                        $scope.email.body = data2.body.data;
+                                    }
+                                });
+
+                            }
+                            if (data.mimeType == "application/zip") {
+                                console.log("In Zip outer If");
+                                _.each(data.parts, function (data2) {
+                                    console.log("In Zip _.each");
+                                    if (data2.mimeType == "multipart/alternative") {
+                                        console.log("In Zip");
+                                        $scope.email.body = data2.body.data;
+                                    }
+                                });
+
+                            }
+                            if (data.filename !== "") {
+                                console.log("in attach");
+                                $scope.email.attachment.push(data);
+                                console.log($scope.email.attachment);
+                            }
+                        });
+                        console.log("scope email", $scope.email);
+                    }
+                    break;
+
+                case "multipart/alternative":
+                    {
+                        _.each($scope.email.payload.parts, function (data) {
+
+                            if (data.mimeType == "text/html") {
+                                console.log("In Alternative");
+                                $scope.email.body = data.body.data;
+                            }
+
+                        });
+                        console.log("scope email", $scope.email);
+                    }
+                    break;
+                case "text/html":
+                    {
+                        console.log("In text/html");
+                        $scope.email.body = $scope.email.payload.body.data;
+                        console.log("scope email", $scope.email);
+                    }
+                    break;
+            }
+            $.jStorage.set("assignmentEmail", $scope.email);
+
         });
-    }
-    $scope.saveAssignment = function (obj) {
-        console.log("Approval", obj);
-        NavigationService.saveAssignmentTemplate(obj, function (data) {
+
+        $scope.accessToken = $.jStorage.get("accessToken");
+        $scope.openAttachment = function (f) {
+            var a = {
+                "attachmentId": f.body.attachmentId,
+                "fileName": f.filename,
+                "messageId": $stateParams.id
+            };
+            var win = window.open(adminurl + "user/getAttachment?accessToken=" + $scope.accessToken + "&fileName=" + f.filename + "&attachmentId=" + f.body.attachmentId + "&messageId=" + $stateParams.id, '_blank');
+            // NavigationService.getAttachment(a, function (data) {
+            //     console.log(data);
+            // });
+        };
+
+
+        $scope.emailSnippet = '<div dir="ltr">Dear Chintan,<div><br></div><div>Seen the links. What next?</div></div><div data-smartmail="gmail_signature"><div><br></div><div>Warm Regards,</div><div><br></div><div><b>Arun Arora</b></div><div><font color="#666666">M: +91 81080 99789</font></div><div>______________________________<wbr>____________________</div><div><br></div><div><b><font color="#000099">Absolute Insurance Surveyors &amp; Loss Assessors Pvt Ltd</font></b></div><div><font color="#666666">501/502, Ideal Trade Centre, Sector 11,&nbsp;CBD Belapur, Navi Mumbai 400 614</font></div><div><font color="#666666">T: +91 22 2756 2983 | F: +91 22 2756 2984</font></div></div>';
+
+    })
+
+
+    // .controller('ApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64) {
+    //     //Used to name the .html file
+    //     $scope.template = TemplateService.changecontent("approvals");
+    //     $scope.menutitle = NavigationService.makeactive("Approvals");
+    //     TemplateService.title = $scope.menutitle;
+    //     $scope.navigation = NavigationService.getnav();
+    //     $scope.someDate = moment().subtract(24, "hours").toDate();
+    //     $scope.getDelayClass = function (val) {
+    //         var retClass = "";
+    //         var hours = moment().diff(moment(val), "hours");
+    //         if (hours >= 0 && hours <= 6) {
+    //             retClass = "delay-6";
+    //         } else if (hours >= 7 && hours <= 24) {
+    //             retClass = "delay-24";
+    //         } else if (hours >= 25 && hours <= 48) {
+    //             retClass = "delay-48";
+    //         } else if (hours >= 49) {
+    //             retClass = "delay-72";
+    //         }
+    //         console.log(retClass);
+    //         return retClass;
+
+    //     };
+
+    // })
+
+    .controller('IlaApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64, $stateParams, $state, toastr) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("ila-approval");
+        $scope.menutitle = NavigationService.makeactive("Approvals");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.currentPage = $stateParams.page;
+        var i = 0;
+        NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
+            $scope.employee = data.data._id;
+            console.log("In $scope.ownersId", $scope.employee);
+        });
+        $scope.list = [{
+            name: 'ILA',
+            value: 'ILA'
+        }, {
+            name: 'LOR',
+            value: 'LOR'
+        }]
+        $scope.getAll = function (data) {
+            console.log(data);
+            $scope.approvalType = data.value;
             $scope.showAll();
-        });
-    }
-    $scope.acceptIla = function (assignment) {
-        $scope.assignment = assignment;
-        NavigationService.getOneModel("Timeline", $scope.assignment.timeline[0], function (data) {
-            $scope.timeline = data.data;
-            console.log("$scope.assignment.templateIla.templateName", $scope.assignment.templateIla.templateName);
-            var a = {};
-            a.title = "ILA " + $scope.assignment.templateIla.templateName + " Approved ";
-            a.type = "Normal",
-                a.employee = $scope.employee,
-                $scope.timeline.chat.push(a);
-            $scope.saveOnTimeline();
-            var obj = {
-                assignId: $scope.assignment._id,
-                _id: $scope.assignment.templateIla._id,
-                approvalStatus: "Approved",
-                type: "templateIla"
+        }
+        $scope.search = {
+            keyword: ""
+        };
+        if ($stateParams.keyword) {
+            $scope.search.keyword = $stateParams.keyword;
+        }
+        $scope.approvalType = "ILA";
+        $scope.showAll = function (keywordChange) {
+            $scope.totalItems = undefined;
+            if (keywordChange) {
+                $scope.currentPage = 1;
             }
-            $scope.saveAssignment(obj);
-            toastr.success("Approved ILA for " + $scope.assignment.name);
-        });
-    };
-
-    $scope.reviseIla = function (assignment) {
-        $scope.assignment = assignment;
-        NavigationService.getOneModel("Timeline", $scope.assignment.timeline[0], function (data) {
-            $scope.timeline = data.data;
-            console.log("$scope.assignment.templateIla.templateName", $scope.assignment.templateIla.templateName);
-            var a = {};
-            a.title = "ILA " + $scope.assignment.templateIla.templateName + " Revised ";
-            a.type = "Normal",
-                a.employee = $scope.employee,
-                $scope.timeline.chat.push(a);
-            $scope.saveOnTimeline();
-            var obj = {
-                assignId: $scope.assignment._id,
-                _id: $scope.assignment.templateIla._id,
-                approvalStatus: "Revised",
+            NavigationService.getApprovalList({
+                page: $scope.currentPage,
                 type: "templateIla"
+            }, ++i, function (data, ini) {
+                if (ini == i) {
+                    $scope.ilaList = data.data.results;
+                    $scope.totalItems = data.data.total;
+                    $scope.maxRow = data.data.options.count;
+                }
+                console.log("$scope.ilaList", $scope.ilaList);
+            });
+        };
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+        $scope.changePage = function (page) {
+            console.log("Page", page);
+            var goTo = "ilaApproval-list";
+            if ($scope.search.keyword) {
+                goTo = "ilaApproval-list";
             }
-            $scope.saveAssignment(obj);
-            toastr.success("Revised ILA for " + $scope.assignment.name);
-        });
-    }
-
-})
-
-.controller('LorApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64, $stateParams, $state, toastr) {
-    //Used to name the .html file
-    $scope.template = TemplateService.changecontent("lor-approval");
-    $scope.menutitle = NavigationService.makeactive("Approvals");
-    TemplateService.title = $scope.menutitle;
-    $scope.navigation = NavigationService.getnav();
-    $scope.currentPage = $stateParams.page;
-    var i = 0;
-    NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
-        $scope.employee = data.data._id;
-        console.log("In $scope.ownersId", $scope.employee);
-    });
-    $scope.getAll = function (data) {
-        console.log(data);
-        $scope.approvalType = data.value;
+            $state.go(goTo, {
+                page: page,
+                keyword: $scope.search.keyword
+            });
+        };
         $scope.showAll();
-    }
-    $scope.search = {
-        keyword: ""
-    };
-    if ($stateParams.keyword) {
-        $scope.search.keyword = $stateParams.keyword;
-    }
-    $scope.approvalType = "LOR";
-    $scope.showAll = function (keywordChange) {
-        $scope.totalItems = undefined;
-        if (keywordChange) {
-            $scope.currentPage = 1;
-        }
-        NavigationService.getApprovalList({
-            page: $scope.currentPage,
-            type: "templateLor"
-        }, ++i, function (data, ini) {
-            if (ini == i) {
-                $scope.lorList = data.data.results;
-                $scope.totalItems = data.data.total;
-                $scope.maxRow = data.data.options.count;
+        // $scope.someDate = moment().subtract(24, "hours").toDate();
+        $scope.getDelayClass = function (val) {
+            var retClass = "";
+            var hours = moment().diff(moment(val), "hours");
+            // var hours = moment().diff(moment(val).add(5, "hours").add(30, "minutes"), "hours");
+            if (hours >= 0 && hours <= 6) {
+                retClass = "delay-6";
+            } else if (hours >= 7 && hours <= 24) {
+                retClass = "delay-24";
+            } else if (hours >= 25 && hours <= 48) {
+                retClass = "delay-48";
+            } else if (hours >= 49) {
+                retClass = "delay-72";
             }
-            console.log("$scope.lorList", $scope.lorList);
-        });
-    };
-    $scope.cancel = function () {
-        $window.history.back();
-    };
-    $scope.changePage = function (page) {
-        console.log("Page", page);
-        var goTo = "lorApproval-list";
-        if ($scope.search.keyword) {
-            goTo = "lorApproval-list";
-        }
-        $state.go(goTo, {
-            page: page,
-            keyword: $scope.search.keyword
-        });
-    };
-    $scope.showAll();
-    // $scope.someDate = moment().subtract(24, "hours").toDate();
-    $scope.getDelayClass = function (val) {
-        var retClass = "";
-        var hours = moment().diff(moment(val), "hours");
-        if (hours >= 0 && hours <= 6) {
-            retClass = "delay-6";
-        } else if (hours >= 7 && hours <= 24) {
-            retClass = "delay-24";
-        } else if (hours >= 25 && hours <= 48) {
-            retClass = "delay-48";
-        } else if (hours >= 49) {
-            retClass = "delay-72";
-        }
-        console.log(retClass);
-        return retClass;
+            console.log(retClass);
+            return retClass;
 
-    };
+        };
 
-    $scope.viewTemplates = function (temp, getApi, data) {
-        $scope.allTemplate = temp;
-        $scope.api = getApi;
-        $state.go("template-view", {
-            "assignmentTemplate": data._id,
-            "type": getApi,
-            "approval": true
+        $scope.viewTemplates = function (temp, getApi, data) {
+            $scope.allTemplate = temp;
+            $scope.api = getApi;
+            console.log("$scope.api", $scope.api);
+            console.log("In Else");
+            $state.go("template-view", {
+                "assignmentTemplate": data._id,
+                "type": getApi,
+                "approval": true
+            });
+        };
+        $scope.saveOnTimeline = function () {
+            NavigationService.saveChat($scope.timeline, function (data) {
+                console.log("FFFFF", data);
+            });
+        }
+        $scope.saveAssignment = function (obj) {
+            console.log("Approval", obj);
+            NavigationService.saveAssignmentTemplate(obj, function (data) {
+                $scope.showAll();
+            });
+        }
+        $scope.acceptIla = function (assignment) {
+            $scope.assignment = assignment;
+            NavigationService.getOneModel("Timeline", $scope.assignment.timeline[0], function (data) {
+                $scope.timeline = data.data;
+                console.log("$scope.assignment.templateIla.templateName", $scope.assignment.templateIla.templateName);
+                var a = {};
+                a.title = "ILA " + $scope.assignment.templateIla.templateName + " Approved ";
+                a.type = "Normal",
+                    a.employee = $scope.employee,
+                    $scope.timeline.chat.push(a);
+                $scope.saveOnTimeline();
+                var obj = {
+                    assignId: $scope.assignment._id,
+                    _id: $scope.assignment.templateIla._id,
+                    approvalStatus: "Approved",
+                    type: "templateIla"
+                }
+                $scope.saveAssignment(obj);
+                toastr.success("Approved ILA for " + $scope.assignment.name);
+            });
+        };
+
+        $scope.reviseIla = function (assignment) {
+            $scope.assignment = assignment;
+            NavigationService.getOneModel("Timeline", $scope.assignment.timeline[0], function (data) {
+                $scope.timeline = data.data;
+                console.log("$scope.assignment.templateIla.templateName", $scope.assignment.templateIla.templateName);
+                var a = {};
+                a.title = "ILA " + $scope.assignment.templateIla.templateName + " Revised ";
+                a.type = "Normal",
+                    a.employee = $scope.employee,
+                    $scope.timeline.chat.push(a);
+                $scope.saveOnTimeline();
+                var obj = {
+                    assignId: $scope.assignment._id,
+                    _id: $scope.assignment.templateIla._id,
+                    approvalStatus: "Revised",
+                    type: "templateIla"
+                }
+                $scope.saveAssignment(obj);
+                toastr.success("Revised ILA for " + $scope.assignment.name);
+            });
+        }
+
+    })
+
+    .controller('LorApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64, $stateParams, $state, toastr) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("lor-approval");
+        $scope.menutitle = NavigationService.makeactive("Approvals");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.currentPage = $stateParams.page;
+        var i = 0;
+        NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
+            $scope.employee = data.data._id;
+            console.log("In $scope.ownersId", $scope.employee);
         });
-    };
-    $scope.saveOnTimeline = function () {
-        NavigationService.saveChat($scope.timeline, function (data) {
-            console.log("FFFFF", data);
-        });
-    }
-    $scope.saveAssignment = function (obj) {
-        console.log("Approval", obj);
-        NavigationService.saveAssignmentTemplate(obj, function (data) {
+        $scope.getAll = function (data) {
+            console.log(data);
+            $scope.approvalType = data.value;
             $scope.showAll();
-        });
-    }
-    $scope.acceptLor = function (assignment) {
-        $scope.assignment = assignment;
-        NavigationService.getOneModel("Timeline", $scope.assignment.timeline[0], function (data) {
-            $scope.timeline = data.data;
-            console.log("$scope.assignment.templateLor.templateName", $scope.assignment.templateLor.templateName);
-            var a = {};
-            a.title = "LOR " + $scope.assignment.templateLor.templateName + " Approved ";
-            a.type = "Normal",
-                a.employee = $scope.employee,
-                $scope.timeline.chat.push(a);
-            $scope.saveOnTimeline();
-            var obj = {
-                assignId: $scope.assignment._id,
-                _id: $scope.assignment.templateLor._id,
-                approvalStatus: "Approved",
-                type: "templateLor"
-            }
-            $scope.saveAssignment(obj);
-            toastr.success("Approved LOR for " + $scope.assignment.name);
-        });
-    };
-
-    $scope.reviseLor = function (assignment) {
-        $scope.assignment = assignment;
-        NavigationService.getOneModel("Timeline", $scope.assignment.timeline[0], function (data) {
-            $scope.timeline = data.data;
-            console.log("$scope.assignment.templateLor.templateName", $scope.assignment.templateLor.templateName);
-            var a = {};
-            a.title = "LOR " + $scope.assignment.templateLor.templateName + " Revised ";
-            a.type = "Normal",
-                a.employee = $scope.employee,
-                $scope.timeline.chat.push(a);
-            $scope.saveOnTimeline();
-            var obj = {
-                assignId: $scope.assignment._id,
-                _id: $scope.assignment.templateLor._id,
-                approvalStatus: "Revised",
-                type: "templateLor"
-            }
-            $scope.saveAssignment(obj);
-            toastr.success("Revised LOR for " + $scope.assignment.name);
-        });
-    }
-
-})
-
-.controller('InvoiceApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64, $stateParams, $state, toastr) {
-    //Used to name the .html file
-    $scope.template = TemplateService.changecontent("invoice-approval");
-    $scope.menutitle = NavigationService.makeactive("Approvals");
-    TemplateService.title = $scope.menutitle;
-    $scope.navigation = NavigationService.getnav();
-    $scope.currentPage = $stateParams.page;
-    var i = 0;
-    NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
-        $scope.employee = data.data._id;
-        console.log("In $scope.ownersId", $scope.employee);
-    });
-    $scope.getAll = function (data) {
-        console.log(data);
-        $scope.approvalType = data.value;
-        $scope.showAll();
-    }
-    $scope.search = {
-        keyword: ""
-    };
-    if ($stateParams.keyword) {
-        $scope.search.keyword = $stateParams.keyword;
-    }
-    $scope.approvalType = "invoice";
-    $scope.showAll = function (keywordChange) {
-        $scope.totalItems = undefined;
-        if (keywordChange) {
-            $scope.currentPage = 1;
         }
-        NavigationService.searchModel("Invoice", {
-            page: $scope.currentPage,
-            keyword: $scope.search.keyword,
-            filter: {
-                approvalStatus: "Pending"
+        $scope.search = {
+            keyword: ""
+        };
+        if ($stateParams.keyword) {
+            $scope.search.keyword = $stateParams.keyword;
+        }
+        $scope.approvalType = "LOR";
+        $scope.showAll = function (keywordChange) {
+            $scope.totalItems = undefined;
+            if (keywordChange) {
+                $scope.currentPage = 1;
             }
-        }, ++i, function (data, ini) {
-            if (ini == i) {
-                $scope.invoiceList = data.data.results;
-                $scope.totalItems = data.data.total;
-                $scope.maxRow = data.data.options.count;
-                console.log("modelList", $scope.invoiceList);
+            NavigationService.getApprovalList({
+                page: $scope.currentPage,
+                type: "templateLor"
+            }, ++i, function (data, ini) {
+                if (ini == i) {
+                    $scope.lorList = data.data.results;
+                    $scope.totalItems = data.data.total;
+                    $scope.maxRow = data.data.options.count;
+                }
+                console.log("$scope.lorList", $scope.lorList);
+            });
+        };
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+        $scope.changePage = function (page) {
+            console.log("Page", page);
+            var goTo = "lorApproval-list";
+            if ($scope.search.keyword) {
+                goTo = "lorApproval-list";
             }
-        });
-    };
+            $state.go(goTo, {
+                page: page,
+                keyword: $scope.search.keyword
+            });
+        };
+        $scope.showAll();
+        // $scope.someDate = moment().subtract(24, "hours").toDate();
+        $scope.getDelayClass = function (val) {
+            var retClass = "";
+            var hours = moment().diff(moment(val), "hours");
+            if (hours >= 0 && hours <= 6) {
+                retClass = "delay-6";
+            } else if (hours >= 7 && hours <= 24) {
+                retClass = "delay-24";
+            } else if (hours >= 25 && hours <= 48) {
+                retClass = "delay-48";
+            } else if (hours >= 49) {
+                retClass = "delay-72";
+            }
+            console.log(retClass);
+            return retClass;
 
-    // 
-    $scope.viewInvoice = function (invoice, assignment) {
+        };
+
+        $scope.viewTemplates = function (temp, getApi, data) {
+            $scope.allTemplate = temp;
+            $scope.api = getApi;
+            $state.go("template-view", {
+                "assignmentTemplate": data._id,
+                "type": getApi,
+                "approval": true
+            });
+        };
+        $scope.saveOnTimeline = function () {
+            NavigationService.saveChat($scope.timeline, function (data) {
+                console.log("FFFFF", data);
+            });
+        }
+        $scope.saveAssignment = function (obj) {
+            console.log("Approval", obj);
+            NavigationService.saveAssignmentTemplate(obj, function (data) {
+                $scope.showAll();
+            });
+        }
+        $scope.acceptLor = function (assignment) {
+            $scope.assignment = assignment;
+            NavigationService.getOneModel("Timeline", $scope.assignment.timeline[0], function (data) {
+                $scope.timeline = data.data;
+                console.log("$scope.assignment.templateLor.templateName", $scope.assignment.templateLor.templateName);
+                var a = {};
+                a.title = "LOR " + $scope.assignment.templateLor.templateName + " Approved ";
+                a.type = "Normal",
+                    a.employee = $scope.employee,
+                    $scope.timeline.chat.push(a);
+                $scope.saveOnTimeline();
+                var obj = {
+                    assignId: $scope.assignment._id,
+                    _id: $scope.assignment.templateLor._id,
+                    approvalStatus: "Approved",
+                    type: "templateLor"
+                }
+                $scope.saveAssignment(obj);
+                toastr.success("Approved LOR for " + $scope.assignment.name);
+            });
+        };
+
+        $scope.reviseLor = function (assignment) {
+            $scope.assignment = assignment;
+            NavigationService.getOneModel("Timeline", $scope.assignment.timeline[0], function (data) {
+                $scope.timeline = data.data;
+                console.log("$scope.assignment.templateLor.templateName", $scope.assignment.templateLor.templateName);
+                var a = {};
+                a.title = "LOR " + $scope.assignment.templateLor.templateName + " Revised ";
+                a.type = "Normal",
+                    a.employee = $scope.employee,
+                    $scope.timeline.chat.push(a);
+                $scope.saveOnTimeline();
+                var obj = {
+                    assignId: $scope.assignment._id,
+                    _id: $scope.assignment.templateLor._id,
+                    approvalStatus: "Revised",
+                    type: "templateLor"
+                }
+                $scope.saveAssignment(obj);
+                toastr.success("Revised LOR for " + $scope.assignment.name);
+            });
+        }
+
+    })
+
+    .controller('InvoiceApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64, $stateParams, $state, toastr) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("invoice-approval");
+        $scope.menutitle = NavigationService.makeactive("Approvals");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
+        $scope.currentPage = $stateParams.page;
+        var i = 0;
+        NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
+            $scope.employee = data.data._id;
+            console.log("In $scope.ownersId", $scope.employee);
+        });
+        $scope.getAll = function (data) {
+            console.log(data);
+            $scope.approvalType = data.value;
+            $scope.showAll();
+        }
+        $scope.search = {
+            keyword: ""
+        };
+        if ($stateParams.keyword) {
+            $scope.search.keyword = $stateParams.keyword;
+        }
+        $scope.approvalType = "invoice";
+        $scope.showAll = function (keywordChange) {
+            $scope.totalItems = undefined;
+            if (keywordChange) {
+                $scope.currentPage = 1;
+            }
+            NavigationService.searchModel("Invoice", {
+                page: $scope.currentPage,
+                keyword: $scope.search.keyword,
+                filter: {
+                    approvalStatus: "Pending"
+                }
+            }, ++i, function (data, ini) {
+                if (ini == i) {
+                    $scope.invoiceList = data.data.results;
+                    $scope.totalItems = data.data.total;
+                    $scope.maxRow = data.data.options.count;
+                    console.log("modelList", $scope.invoiceList);
+                }
+            });
+        };
+
+        // 
+        $scope.viewInvoice = function (invoice, assignment) {
             $state.go("editInvoice", {
                 "invoiceId": invoice,
                 "assignmentId": assignment._id,
@@ -14014,105 +14015,105 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         }
         // 
-    $scope.cancel = function () {
-        $window.history.back();
-    };
-    $scope.changePage = function (page) {
-        console.log("Page", page);
-        var goTo = "lorApproval-list";
-        if ($scope.search.keyword) {
-            goTo = "lorApproval-list";
-        }
-        $state.go(goTo, {
-            page: page,
-            keyword: $scope.search.keyword
-        });
-    };
-    $scope.showAll();
-    // $scope.someDate = moment().subtract(24, "hours").toDate();
-    $scope.getDelayClass = function (val) {
-        var retClass = "";
-        var hours = moment().diff(moment(val), "hours");
-        if (hours >= 0 && hours <= 6) {
-            retClass = "delay-6";
-        } else if (hours >= 7 && hours <= 24) {
-            retClass = "delay-24";
-        } else if (hours >= 25 && hours <= 48) {
-            retClass = "delay-48";
-        } else if (hours >= 49) {
-            retClass = "delay-72";
-        }
-        console.log(retClass);
-        return retClass;
+        $scope.cancel = function () {
+            $window.history.back();
+        };
+        $scope.changePage = function (page) {
+            console.log("Page", page);
+            var goTo = "lorApproval-list";
+            if ($scope.search.keyword) {
+                goTo = "lorApproval-list";
+            }
+            $state.go(goTo, {
+                page: page,
+                keyword: $scope.search.keyword
+            });
+        };
+        $scope.showAll();
+        // $scope.someDate = moment().subtract(24, "hours").toDate();
+        $scope.getDelayClass = function (val) {
+            var retClass = "";
+            var hours = moment().diff(moment(val), "hours");
+            if (hours >= 0 && hours <= 6) {
+                retClass = "delay-6";
+            } else if (hours >= 7 && hours <= 24) {
+                retClass = "delay-24";
+            } else if (hours >= 25 && hours <= 48) {
+                retClass = "delay-48";
+            } else if (hours >= 49) {
+                retClass = "delay-72";
+            }
+            console.log(retClass);
+            return retClass;
 
-    };
+        };
 
-    $scope.viewTemplates = function (temp, getApi, data) {
-        $scope.allTemplate = temp;
-        $scope.api = getApi;
-        console.log("$scope.api", $scope.api);
-        console.log("In Else");
-        $state.go("template-view", {
-            "assignmentTemplate": data._id,
-            "type": getApi,
-            "approval": true
-        });
-    };
-    $scope.saveOnTimeline = function () {
-        NavigationService.saveChat($scope.timeline, function (data) {
-            console.log("FFFFF", data);
-        });
-    }
-    $scope.acceptInvoice = function (data, assignment) {
-        $scope.invoice = data
-        $scope.assignment = assignment;
-        NavigationService.getOneModel("Timeline", $scope.assignment.timeline[0], function (data) {
-            $scope.timeline = data.data;
-            var a = {};
-            a.title = "Invoice " + $scope.invoice.invoiceNumber + " Approved ";
-            a.event = "Invoice Release",
-                a.viewEmailStatus = "true",
+        $scope.viewTemplates = function (temp, getApi, data) {
+            $scope.allTemplate = temp;
+            $scope.api = getApi;
+            console.log("$scope.api", $scope.api);
+            console.log("In Else");
+            $state.go("template-view", {
+                "assignmentTemplate": data._id,
+                "type": getApi,
+                "approval": true
+            });
+        };
+        $scope.saveOnTimeline = function () {
+            NavigationService.saveChat($scope.timeline, function (data) {
+                console.log("FFFFF", data);
+            });
+        }
+        $scope.acceptInvoice = function (data, assignment) {
+            $scope.invoice = data
+            $scope.assignment = assignment;
+            NavigationService.getOneModel("Timeline", $scope.assignment.timeline[0], function (data) {
+                $scope.timeline = data.data;
+                var a = {};
+                a.title = "Invoice " + $scope.invoice.invoiceNumber + " Approved ";
+                a.event = "Invoice Release",
+                    a.viewEmailStatus = "true",
+                    a.invoiceNumber = $scope.invoice.invoiceNumber;
+                a.type = "Normal",
+                    a.employee = $scope.employee,
+                    $scope.timeline.chat.push(a);
+                $scope.saveOnTimeline();
+                $scope.invoice.approvalStatus = "Approved";
+                NavigationService.modelSave("Invoice", $scope.invoice, function (data) {
+                    if (data.value == true) {
+                        console.log("sdfghjk");
+                        toastr.success("Approved Invoice for " + $scope.assignment.name);
+                        $scope.showAll();
+                    }
+                });
+            });
+        };
+
+        $scope.reviseInvoice = function (data, assignment) {
+            $scope.invoice = data
+            $scope.assignment = assignment;
+            NavigationService.getOneModel("Timeline", $scope.assignment.timeline[0], function (data) {
+                $scope.timeline = data.data;
+                var a = {};
+                a.title = "Invoice " + $scope.invoice.invoiceNumber + " Revised ";
                 a.invoiceNumber = $scope.invoice.invoiceNumber;
-            a.type = "Normal",
-                a.employee = $scope.employee,
-                $scope.timeline.chat.push(a);
-            $scope.saveOnTimeline();
-            $scope.invoice.approvalStatus = "Approved";
-            NavigationService.modelSave("Invoice", $scope.invoice, function (data) {
-                if (data.value == true) {
-                    console.log("sdfghjk");
-                    toastr.success("Approved Invoice for " + $scope.assignment.name);
-                    $scope.showAll();
-                }
+                a.type = "Normal",
+                    a.employee = $scope.employee,
+                    $scope.timeline.chat.push(a);
+                $scope.saveOnTimeline();
+                $scope.invoice.approvalStatus = "Approved";
+                NavigationService.modelSave("Invoice", $scope.invoice, function (data) {
+                    if (data.value == true) {
+                        toastr.success("Revised Invoice for " + $scope.assignment.name);
+                        $scope.showAll();
+                    }
+                });
             });
-        });
-    };
+        }
 
-    $scope.reviseInvoice = function (data, assignment) {
-        $scope.invoice = data
-        $scope.assignment = assignment;
-        NavigationService.getOneModel("Timeline", $scope.assignment.timeline[0], function (data) {
-            $scope.timeline = data.data;
-            var a = {};
-            a.title = "Invoice " + $scope.invoice.invoiceNumber + " Revised ";
-            a.invoiceNumber = $scope.invoice.invoiceNumber;
-            a.type = "Normal",
-                a.employee = $scope.employee,
-                $scope.timeline.chat.push(a);
-            $scope.saveOnTimeline();
-            $scope.invoice.approvalStatus = "Approved";
-            NavigationService.modelSave("Invoice", $scope.invoice, function (data) {
-                if (data.value == true) {
-                    toastr.success("Revised Invoice for " + $scope.assignment.name);
-                    $scope.showAll();
-                }
-            });
-        });
-    }
+    })
 
-})
-
-.controller('SbcApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64, $stateParams, $state, toastr, $uibModal) {
+    .controller('SbcApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64, $stateParams, $state, toastr, $uibModal) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("sbc-approval");
         $scope.menutitle = NavigationService.makeactive("Approvals");
@@ -14431,7 +14432,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     })
 
-.controller('ReOpenApprovalApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64, $stateParams, $state, toastr, $uibModal) {
+    .controller('ReOpenApprovalApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64, $stateParams, $state, toastr, $uibModal) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("reopen-approval");
         $scope.menutitle = NavigationService.makeactive("Approvals");
@@ -14577,25 +14578,25 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     })
 
-.controller('AccordionLORCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
-    //Used to name the .html file
-    $scope.template = TemplateService.changecontent("accordion-lor");
-    $scope.menutitle = NavigationService.makeactive("LOR");
-    TemplateService.title = $scope.menutitle;
-    $scope.navigation = NavigationService.getnav();
+    .controller('AccordionLORCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+        //Used to name the .html file
+        $scope.template = TemplateService.changecontent("accordion-lor");
+        $scope.menutitle = NavigationService.makeactive("LOR");
+        TemplateService.title = $scope.menutitle;
+        $scope.navigation = NavigationService.getnav();
 
-    $scope.lorData = [{
-        name: "option 1",
-        values: ["check 1", "check 2", "check 3", "check 4", ],
-    }, {
-        name: "option 1",
-        values: ["check 1", "check 2", "check 3", "check 4", ],
-    }, {
-        name: "option 1",
-        values: ["check 1", "check 2", "check 3", "check 4", ],
-    }, {
-        name: "option 1",
-        values: ["check 1", "check 2", "check 3", "check 4", ],
-    }, ]
+        $scope.lorData = [{
+            name: "option 1",
+            values: ["check 1", "check 2", "check 3", "check 4", ],
+        }, {
+            name: "option 1",
+            values: ["check 1", "check 2", "check 3", "check 4", ],
+        }, {
+            name: "option 1",
+            values: ["check 1", "check 2", "check 3", "check 4", ],
+        }, {
+            name: "option 1",
+            values: ["check 1", "check 2", "check 3", "check 4", ],
+        }, ]
 
-});
+    });
