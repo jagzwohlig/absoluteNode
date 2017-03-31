@@ -68,8 +68,46 @@ module.exports.http = {
                             value: false
                         });
                     } else if (data) {
-                        req.user = data;
-                        next();
+                        async.parallel({
+                            parents: function (callback) {
+                                Employee.getParentEmployee(data, function (err, data2) {
+                                    if (err) {
+                                        callback({
+                                            error: err,
+                                            value: false
+                                        });
+                                    } else {
+                                        data.parents = data2;
+                                        callback();
+                                    }
+                                });
+                            },
+                            children: function (callback) {
+                                Employee.getChildEmployee(data, function (err, data2) {
+                                    if (err) {
+                                        callback({
+                                            error: err,
+                                            value: false
+                                        });
+                                    } else {
+                                        data.children = data2;
+                                        callback();
+                                    }
+                                });
+                            }
+                        }, function (err) {
+                            if (err) {
+                                res.json({
+                                    error: err,
+                                    value: false
+                                });
+                            } else {
+                                req.user = data;
+                                next();
+                            }
+                        });
+
+
                     } else {
                         res.json({
                             error: "Invalid AccessToken",

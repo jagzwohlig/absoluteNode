@@ -871,7 +871,7 @@ var model = {
             .deepPopulate("postedAt grade")
             .keyword(options)
             .page(options, function (err, userData) {
-                console.log("getemp",userData);
+                console.log("getemp", userData);
                 if (err) {
                     callback(err, null);
                 } else {
@@ -964,10 +964,10 @@ var model = {
                             }
                         });
                     }, function (err, data) {
-                        callback(err, allEmployee);
+                        callback(err, _.compact(allEmployee));
                     });
                 } else {
-                    callback(err, allEmployee);
+                    callback(err, _.compact(allEmployee));
                 }
 
             }
@@ -995,10 +995,10 @@ var model = {
                         } else {
                             allEmployee = _.concat(allEmployee, data3);
                         }
-                        callback(null, allEmployee);
+                        callback(null, _.compact(allEmployee));
                     });
                 } else {
-                    callback(null, allEmployee);
+                    callback(null, _.compact(allEmployee));
                 }
             }
         });

@@ -2059,7 +2059,7 @@ var model = {
     });
   },
 
-  getAll: function (data, callback) {
+  getAll: function (data, callback, user) {
     var sort = sort = {
       $sort: {
         createdAt: -1
@@ -2170,17 +2170,21 @@ var model = {
       };
     }
 
-
+    var owner;
     if (_.isEmpty(data.owner)) {
-      var owner = {}
+      owner = {
+        'owner._id': {
+          $in: _.concat(user.getParentEmployee, user._id)
+        },
+      }
     } else {
       var ownerArr = [];
       _.each(data.owner, function (values) {
         ownerArr.push(objectid(values));
       });
-      var owner = {
+      owner = {
         'owner._id': {
-          $in: ownerArr
+          $in: _.concat(user.getParentEmployee, user._id, ownerArr)
         },
       };
     }
@@ -2500,7 +2504,7 @@ var model = {
     });
   },
 
-  generateAssignmentExcel: function (data, callback, res) {
+  generateAssignmentExcel: function (data, callback, res, user) {
     var sort = {};
     if (_.isEmpty(data.sorting[0])) {
       sort = {
@@ -2607,17 +2611,21 @@ var model = {
       };
     }
 
-
+    var owner;
     if (_.isEmpty(data.owner)) {
-      var owner = {}
+      owner = {
+        'owner._id': {
+          $in: _.compact(_.concat(user.getParentEmployee, user._id))
+        },
+      }
     } else {
       var ownerArr = [];
       _.each(data.owner, function (values) {
         ownerArr.push(objectid(values));
       });
-      var owner = {
+      owner = {
         'owner._id': {
-          $in: ownerArr
+          $in: _.compact(_.concat(user.getParentEmployee, user._id, ownerArr))
         },
       };
     }
