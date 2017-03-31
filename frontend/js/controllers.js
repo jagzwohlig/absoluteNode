@@ -10867,7 +10867,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         $scope.getParentEmployee();
         console.log("message employee", $scope.message.employee)
     });
-    
+
     $scope.getParentEmployee = function () {
         // console.log("Approval", obj);
         // NavigationService.getEmployeeData("582bfc534954ce2de1bfd180", function (data) {
@@ -11471,27 +11471,19 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
     $scope.refreshEmployee = function (select) {
         console.log("$select", select);
 
-        // console.log("refreshEmp",$select);
         var i = 1;
         var formdata = {};
         formdata.keyword = select;
         // formdata.filter = {
         //     "_id": causeloss
         // };
-        NavigationService.employeeSearch(formdata, i, function (data) {
+        NavigationService.getEmployeeNameEmail(formdata, i, function (data) {
             console.log("1data", data);
             if (data.value === true) {
-                $scope.employee = data.data.results;
-                // $scocpe.employee = [];
-                // _.each(employees,function(values){
-                //     $scocpe.employee.push({
-                //         name:values.name,
-                //         email:values.officeEmail
-                //     });
-                // }); 
+                $scope.employee = data.data;
                 console.log("$scope.employee", $scope.employee);
             } else {
-                // $scope.employee = [];
+                $scope.employee = [];
             }
         });
     }

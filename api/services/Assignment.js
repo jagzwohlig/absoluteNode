@@ -937,16 +937,50 @@ var model = {
                         });
                       }
 
+
                       if (data.users) {
                         emailData.assignmentAuthorizer = data.users.name;
                       }
                       console.log('mailData', mailData);
 
                       //Find Acknowledgment Email data
-                      if (data.assignmentapprovalStatus == "ForceClosed") {
-
+                      if (data.assignmentapprovalStatus == "Pending ForceClosed") {
+                        var mailData = [];
+                        mailData[0] = "Assignment Force Close Request";
+                        mailData[1] = emailData;
+                        mailData[2] = data.accessToken;
+                        mailData[3] = data.users.email;
+                        Assignment.getMailAndSendMail(mailData, function (err, newData) {
+                          if (err) {
+                            callback(null, err);
+                          } else {
+                            if (_.isEmpty(newData)) {
+                              callback("There was an error while sending mail", null);
+                            } else {
+                              callback(null, newData);
+                            }
+                          }
+                        });
+                      } else if (data.assignmentapprovalStatus == "ForceClosed") {
                         var mailData = [];
                         mailData[0] = "Assignment Force Close Aprproved";
+                        mailData[1] = emailData;
+                        mailData[2] = data.accessToken;
+                        mailData[3] = data.users.email;
+                        Assignment.getMailAndSendMail(mailData, function (err, newData) {
+                          if (err) {
+                            callback(null, err);
+                          } else {
+                            if (_.isEmpty(newData)) {
+                              callback("There was an error while sending mail", null);
+                            } else {
+                              callback(null, newData);
+                            }
+                          }
+                        });
+                      } else if (data.assignmentapprovalStatus == "Pending ReOpened") {
+                        var mailData = [];
+                        mailData[0] = "Assignment Reopen Request";
                         mailData[1] = emailData;
                         mailData[2] = data.accessToken;
                         mailData[3] = data.users.email;
