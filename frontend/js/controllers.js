@@ -11361,27 +11361,27 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         };
     })
 
-    .controller('TimelineCtrl', function ($scope, $window, TemplateService, NavigationService, AssignmentTemplate, $timeout, $uibModal, $stateParams, toastr, $filter, $state) {
-        $scope.template = TemplateService.changecontent("timeline");
-        $scope.menutitle = NavigationService.makeactive("Timeline");
-        TemplateService.title = $scope.menutitle;
-        $scope.navigation = NavigationService.getnav();
-        $scope.emailData = {};
-        $scope.email = {
-            message: ""
-        };
-        $scope.surveyDate;
-        $scope.getAllSurveyors = [];
-        $scope.finalSurveyors = [];
-        $scope.assignment = {};
-        $scope.emailtos = [];
-        $scope.tinymceModel = 'Initial content';
-        $scope.tinymceOptions = {
-            resize: true,
-            plugins: 'link image code print textcolor',
-            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
-        };
-        $scope.tagHandler = function (tag) {
+.controller('TimelineCtrl', function ($scope, $window, TemplateService, NavigationService, AssignmentTemplate, $timeout, $uibModal, $stateParams, toastr, $filter, $state) {
+    $scope.template = TemplateService.changecontent("timeline");
+    $scope.menutitle = NavigationService.makeactive("Timeline");
+    TemplateService.title = $scope.menutitle;
+    $scope.navigation = NavigationService.getnav();
+    $scope.emailData = {};
+    $scope.email = {
+        message: ""
+    };
+    $scope.surveyDate;
+    $scope.getAllSurveyors = [];
+    $scope.finalSurveyors = [];
+    $scope.assignment = {};
+    $scope.emailtos = [];
+    $scope.tinymceModel = 'Initial content';
+    $scope.tinymceOptions = {
+        resize: true,
+        plugins: 'link image code print textcolor',
+        toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
+    };
+    $scope.tagHandler = function (tag) {
             return {
                 name: "",
                 email: tag
@@ -11407,2606 +11407,2606 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
         //     email: 'raj@wohlig.com'
         // }];
 
-        $scope.forceClose = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/forceclose-comment.html',
-                size: 'md'
-            });
-        }
-        $scope.reopen = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/reopen-comment.html',
-                size: 'md'
-            });
-        }
-        $scope.onhold = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/onhold-comment.html',
-                size: 'md'
-            });
-        }
+    $scope.forceClose = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/forceclose-comment.html',
+            size: 'md'
+        });
+    }
+    $scope.reopen = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/reopen-comment.html',
+            size: 'md'
+        });
+    }
+    $scope.onhold = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/onhold-comment.html',
+            size: 'md'
+        });
+    }
 
-        $scope.unhold = function () {
-            $scope.assignment.timelineStatus = $scope.assignment.prevtimelineStatus;
-            var newChat = {};
-            newChat.employee = $scope.message.employee._id;
-            newChat.title = "Assignment " + $scope.assignment.name + " UnHold";
-            newChat.type = "Normal";
-            NavigationService.modelSave('assignment', $scope.assignment, function (data) {
-                if (data.value === true) {
-                    $scope.sendMessage2(newChat);
-                    toastr.success($scope.assignment.name + " Updated", "Assignment " + $scope.assignment.name);
-                } else {
-                    toastr.error("Error in updating " + $scope.assignment.name + ".", "Assignment " + $scope.assignment.name);
-                }
-            });
-        }
-
-        // $scope.refreshResults = function ($select) {
-        //     var search = $select.search,
-        //         list = angular.copy($select.items),
-        //         FLAG = -1;
-        //     //remove last user input
-        //     list = list.filter(function (item) {
-        //         return item.id !== FLAG;
-        //     });
-
-        //     if (!search) {
-        //         //use the predefined list
-        //         $select.items = list;
-        //     } else {
-        //         //manually add user input and set selection
-        //         var userInputItem = {
-        //             id: FLAG,
-        //             description: search
-        //         };
-        //         $select.items = [userInputItem].concat(list);
-        //         $select.selected = userInputItem;
-        //     }
-        // }
-
-        $scope.refreshEmployee = function (select) {
-            console.log("$select", select);
-
-            var i = 1;
-            var formdata = {};
-            formdata.keyword = select;
-            // formdata.filter = {
-            //     "_id": causeloss
-            // };
-            NavigationService.getEmployeeNameEmail(formdata, i, function (data) {
-                console.log("1data", data);
-                if (data.value === true) {
-                    $scope.employee = data.data;
-                    console.log("$scope.employee", $scope.employee);
-                } else {
-                    $scope.employee = [];
-                }
-            });
-        }
-
-        $scope.submitForceClose = function (data) {
-            $scope.assignment.forceClosedComment = data.comment;
-            $scope.assignment.forceClosedReqTime = Date.now();
-            $scope.assignment.assignmentapprovalStatus = "Pending ForceClosed";
-            console.log($scope.assignment.forceCloseComment);
-            var newChat = {};
-            newChat.employee = $scope.message.employee._id;
-            newChat.title = "Assignment " + $scope.assignment.name + " Sent for ForceClose";
-            newChat.message = data.comment;
-            newChat.type = "Normal";
-            NavigationService.modelSave('assignment', $scope.assignment, function (data) {
-                if (data.value === true) {
-                    $scope.sendMessage2(newChat);
-                    toastr.success($scope.assignment.name + " Updated", "Assignment " + $scope.assignment.name);
-                } else {
-                    toastr.error("Error in updating " + $scope.assignment.name + ".", "Assignment " + $scope.assignment.name);
-                }
-            });
-        }
-        $scope.submitReopen = function (data) {
-            $scope.assignment.forceClosedComment = data.comment;
-            $scope.assignment.reopenReqTime = Date.now();
-            $scope.assignment.assignmentapprovalStatus = "Pending ReOpened";
-            var newChat = {};
-            newChat.employee = $scope.message.employee._id;
-            newChat.title = "Assignment " + $scope.assignment.name + " Sent for ReOpen";
-            newChat.message = data.comment;
-            newChat.type = "Normal";
-            NavigationService.modelSave('assignment', $scope.assignment, function (data) {
-                if (data.value === true) {
-                    $scope.sendMessage2(newChat);
-                    toastr.success($scope.assignment.name + " Updated", "Assignment " + $scope.assignment.name);
-                } else {
-                    toastr.error("Error in updating " + $scope.assignment.name + ".", "Assignment " + $scope.assignment.name);
-                }
-            });
-        }
-        $scope.submitOnhold = function (data) {
-            $scope.assignment.forceClosedComment = data.comment;
-            $scope.assignment.onholdReqTime = Date.now();
-            $scope.assignment.assignmentapprovalStatus = "Pending OnHold";
-            var newChat = {};
-            newChat.employee = $scope.message.employee._id;
-            newChat.title = "Assignment " + $scope.assignment.name + " Sent for OnHold";
-            newChat.message = data.comment;
-            newChat.type = "Normal";
-            NavigationService.modelSave('assignment', $scope.assignment, function (data) {
-                if (data.value === true) {
-                    $scope.sendMessage2(newChat);
-                    toastr.success($scope.assignment.name + " Updated", "Assignment " + $scope.assignment.name);
-                } else {
-                    toastr.error("Error in updating " + $scope.assignment.name + ".", "Assignment " + $scope.assignment.name);
-                }
-            });
-        }
-        $scope.sendMessage2 = function (type) {
-            $scope.timeline.chat.push(type);
-            NavigationService.saveChat($scope.timeline, function (data) {
-                console.log("FFFFF", data);
-                $scope.getTimeline();
-            });
-        };
-
-        $scope.emailersData = function (type, emailData, index) {
-            console.log("email Data", emailData);
-            $scope.emailData = {};
-            // emailData.to =  _.uniq(emailData.to);
-            var i = 0;
-            var toData = [];
-            _.map(emailData.to, function (values) {
-                values.email.toString();
-                values.name.toString();
-            });
-            emailData.to = _.uniqBy(emailData.to, "email");
-            console.log("values array ", emailData.to);
-            emailData.assignmentName = (emailData.assignmentName ? emailData.assignmentName : "NA");
-            emailData.assignmentNo = (emailData.assignmentNo ? emailData.assignmentNo : "NA");
-            emailData.ownerName = (emailData.ownerName ? emailData.ownerName : "NA");
-            emailData.ownerEmail = (emailData.ownerEmail ? emailData.ownerEmail : "NA");
-            emailData.ownerPhone = (emailData.ownerPhone ? emailData.ownerPhone : "NA");
-            emailData.siteCity = (emailData.siteCity ? emailData.siteCity : "NA");
-            emailData.to = (emailData.to ? emailData.to : []);
-            emailData.cc = (emailData.cc ? emailData.cc : []);
-            emailData.bcc = (emailData.bcc ? emailData.bcc : []);
-            emailData.surveyorNumber = (emailData.surveyorNumber ? emailData.surveyorNumber : "NA");
-            emailData.surveyorName = (emailData.surveyorName ? emailData.surveyorName : "");
-            emailData.surveyorEmail = (emailData.surveyorEmail ? emailData.surveyorEmail : "");
-            emailData.insuredName = (emailData.insuredName ? emailData.insuredName : "NA");
-            emailData.ilaAuthDate = (emailData.ilaAuthDate ? emailData.ilaAuthDate : "NA");
-            emailData.claimNo = (emailData.claimNo ? emailData.claimNo : "NA");
-            emailData.productName = (emailData.productName ? emailData.productName : "NA");
-            emailData.policyDoc = (emailData.policyDoc ? emailData.policyDoc : "NA");
-            emailData.bankDetails = (emailData.bankDetails ? emailData.bankDetails : "NA");
-            emailData.threadId = (emailData.threadId ? emailData.threadId : "");
-            emailData.originalSubject = (emailData.originalSubject ? emailData.originalSubject : "NA");
-            emailData.originalFrom = (emailData.originalFrom ? emailData.originalFrom : "NA");
-            emailData.originalBody = (emailData.originalBody ? emailData.originalBody : "");
-            emailData.toEmail = (emailData.toEmail ? emailData.toEmail : "");
-
-            switch (type) {
-                case "Acknowledgment Email":
-                    {
-                        var emails = {
-                            name: 'Acknowledgment Email',
-                            from: emailData.ownerEmail,
-                            to: emailData.toEmail,
-                            cc: emailData.cc,
-                            bcc: emailData.bcc,
-                            subject: emailData.originalSubject + ". Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
-                            message: "<html><body><p style='font-size: 16px;'>Dear Sir/Madam,</p><p style='font-size: 16px;'>Thank you for retaining us to inspect & assess the subject loss. This is to confirm that " + emailData.surveyorName + " shall be attending this claim. He can be reached on " + emailData.surveyorNumber + ". Our reference number for this claim would be " + emailData.assignmentNo + "</p> <p style='font-size: 16px;'>Should you ever need any support / information / update, please feel at ease to get in touch with me.</p><br>" + "<p style='font-size: 16px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html><br>" + emailData.originalMessage,
-                            mailType: "updateThreadId"
-                        }
-                        $scope.emailData = emails;
-                    }
-                    break;
-                case "Deputation mail":
-                    {
-                        var to = [];
-                        to.push({
-                            name: emailData.surveyorName,
-                            email: emailData.surveyorEmail
-                        });
-                        var emails = {
-                            name: 'Deputation mail',
-                            from: emailData.ownerEmail,
-                            to: to,
-                            cc: emailData.cc,
-                            bcc: emailData.bcc,
-                            subject: emailData.originalSubject + ". Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
-                            message: "<html><body><p style='font-size: 16px;'>Dear " + emailData.surveyorName + ",</p><p style='font-size: 16px;'>Please refer to our telecom, in respect of the subject claim. You are requested to kindly attend the loss inline with the discussions held and specific requirements of the claim. Our reference number for this claim would be " + emailData.assignmentNo + "</p> <p style='font-size: 16px;'>In order to assist you, we are attaching relevant format of JIR. Please ensure to capture every detail there in & get the same duly signed by the concerned person. In an unlikely event wherein there is a difference of opinion between yourself & the concerned person, both the opinions may be recorded. We would appreciate a brief call from the site while you are attending the loss as this helps us update the insurer's of the developments. Should you ever need any support / information / update please feel at ease to get in touch with me. I will be more than willing to assist.</p><br>" + "<p style='font-size: 16px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html><br>" + emailData.originalMessage,
-                            // threadId: emailData.threadId
-                        }
-                        $scope.emailData = emails;
-                    }
-                    break;
-                case "On Survey Attended":
-                    {
-                        var emails = {
-                            name: 'On Survey Attended',
-                            from: emailData.ownerEmail,
-                            to: emailData.toEmail,
-                            cc: emailData.cc,
-                            bcc: emailData.bcc,
-                            subject: emailData.originalSubject + ". Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
-                            message: "<html><body><p style='font-size: 16px;'>We are pleased to inform you that the survey for the said claim has been attended on " + emailData.surveyDate + " No sooner we receive further details, we shall update you in this regard. Meanwhile, request you to kindly bear with us. Should you ever need any support / information / update please feel at ease to get in touch with me. I will be more than willing to assist.</p><br>" + "<p style='font-size: 16px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>",
-                            threadId: emailData.threadId
-                        }
-                        $scope.emailData = emails;
-                    }
-                    break;
-                    // case "ILA Authorization":
-                    //     {
-                    //         var emails = {
-                    //             name: 'ILA Authorization',
-                    //             from: emailData.ownerEmail,
-                    //             to: emailData.to,
-                    //             cc: emailData.cc,
-                    //             bcc: emailData.bcc,
-                    //             subject: "ILA Authorized of Assignment : " + emailData.assignmentNo,
-                    //             message: "<html><body><p style='font-size: 16px;'>Dear " + emailData.ownerName + "</p><p style='font-size: 16px;'>I have gone through the ILA prepared for " + emailData.insuredName + ", Assignment No. " + emailData.assignmentNo + " and have  authorized the same. It is OK to release</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + $.jStorage.get("profile").name + "</p></body></html>"
-                    //         }
-                    //         $scope.emailData = emails;
-                    //     }
-                    //     break;
-
-                    // case "ILA Back to Regenerate":
-                    //     {
-                    //         var emails = {
-                    //             name: 'ILA Back to Regenerate',
-                    //             from: emailData.ownerEmail,
-                    //             to: emailData.to,
-                    //             cc: emailData.cc,
-                    //             bcc: emailData.bcc,
-                    //             subject: "ILA Sent back for regeneration of Assignment : " + emailData.assignmentNo,
-                    //             message: "<html><body><p style='font-size: 16px;'>Dear " + emailData.ownerName + "</p><p style='font-size: 16px;'>This is to inform you that ILA No. " + emailData.assignmentNo + " has NOT been authorized on " + emailData.ilaAuthDate + ". Please regenrate as per the comments.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" +$.jStorage.get("profile").name + "</p></body></html>"
-                    //         }
-                    //         $scope.emailData = emails;
-                    //     }
-                    //     break;
-
-                case "ILA Release":
-                    {
-                        var emails = {
-                            name: 'ILA Release',
-                            from: emailData.ownerEmail,
-                            to: emailData.toEmail,
-                            cc: emailData.cc,
-                            bcc: emailData.bcc,
-                            subject: emailData.originalSubject + ". Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
-                            message: "<html><body><p style='font-size: 16px;'>Dear Sir/Madam,</p><p style='font-size: 16px;'>We are pleased to release the ILA in respect of our Assignment No. " + emailData.assignmentNo + " and your claim " + emailData.claimNo + " and policy " + emailData.policyDoc + ".</p><p style='font-size: 16px;'>We hope that the same shall serve your purpose. Should you ever need any support / information / update please feel at ease to get in touch with me. I will be more than willing to assist.</p>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>",
-                            threadId: emailData.threadId
-
-                        }
-                        $scope.emailData = emails;
-                    }
-                    break;
-
-                case "ILA Send for Authorization":
-                    {
-                        var emails = {
-                            name: 'ILA Send for Authorization',
-                            from: emailData.ownerEmail,
-                            to: "",
-                            cc: emailData.cc,
-                            bcc: emailData.bcc,
-                            subject: "ILA Send for Authorization Mail of Assignment : " + emailData.assignmentNo,
-                            message: "<html><body><p style='font-size: 16px;'>Please go through the ILA for Assignment No. " + emailData.assignmentNo + " in respect of loss sustained by " + emailData.insuredName + " on account of damage to " + emailData.productName + " and authorize the same.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + $.jStorage.get("profile").name + "</p></body></html>"
-                        }
-                        $scope.emailData = emails;
-                    }
-                    break;
-
-                case "Invoice Authorization":
-                    {
-                        var emails = {
-                            name: 'Invoice Authorization',
-                            from: emailData.ownerEmail,
-                            to: emailData.to,
-                            cc: emailData.cc,
-                            bcc: emailData.bcc,
-                            subject: "Invoice Authorization : " + emailData.invoiceNumber,
-                            message: "<html><body><p style='font-size: 16px;'>I have gone through the Invoice prepared for " + emailData.insuredName + ", Invoice No. " + emailData.invoiceNumber + " and authorized the same. It is OK to release.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
-                        }
-                        $scope.emailData = emails;
-                    }
-                    break;
-
-                case "Invoice Back to Regenerate":
-                    {
-                        var emails = {
-                            name: 'Invoice Back to Regenerate',
-                            from: emailData.ownerEmail,
-                            to: emailData.to,
-                            cc: emailData.cc,
-                            bcc: emailData.bcc,
-                            subject: "Invoice Back to Regenerate : " + emailData.invoiceNumber,
-                            message: "<html><body><p style='font-size: 16px;'>I have gone through the Invoice prepared for " + emailData.insuredName + ", Invoice No. " + emailData.invoiceNumber + ". Kindly make the changes as advised to you & resend for authorization.</p><p style='font-size: 16px;'>Please let me know if assistance required.</p>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
-                        }
-                        $scope.emailData = emails;
-                    }
-                    break;
-
-                case "Invoice Cancel":
-                    {
-                        var emails = {
-                            name: 'Invoice Cancel',
-                            from: emailData.ownerEmail,
-                            to: emailData.to,
-                            cc: emailData.cc,
-                            bcc: emailData.bcc,
-                            subject: "Invoice Cancel : " + emailData.invoiceNumber,
-                            message: "<html><body><p style='font-size: 16px;'>This is to inform all that the Invoice " + emailData.invoiceNumber + " has been canceled.</p><p style='font-size: 16px;'>You may update your record accordingly.</p>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
-                        }
-                        $scope.emailData = emails;
-                    }
-                    break;
-
-                case "Invoice Release":
-                    {
-                        var emails = {
-                            name: 'Invoice Release',
-                            from: emailData.ownerEmail,
-                            to: emailData.toEmail,
-                            cc: emailData.cc,
-                            bcc: emailData.bcc,
-                            subject: emailData.originalSubject + ". Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
-                            message: "<html><body><p style='font-size: 16px;'>Dear Sir/Madam, We are pleased to attach our bill for professional services rendered for your kind perusal & payment. Our bank details are as follows: " + emailData.bankDetails + " You are requested to kindly release our payment & confirm in order to enable us to release the report.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>",
-                            threadId: emailData.threadId
-                        }
-                        $scope.emailData = emails;
-                    }
-                    break;
-
-                case "Invoice Revise":
-                    {
-                        var emails = {
-                            name: 'Invoice Revise',
-                            from: emailData.ownerEmail,
-                            to: emailData.to,
-                            cc: emailData.cc,
-                            bcc: emailData.bcc,
-                            subject: "Invoice Revise : " + emailData.invoiceNumber,
-                            message: "<html><body><p style='font-size: 16px;'>Invoice " + emailData.invoiceNumber + " has been revised, you are requested to kindly make a note of the same. Copy of the revised invoice is attached for perusal.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
-                        }
-                        $scope.emailData = emails;
-                    }
-                    break;
-
-                case "Invoice Send Authorization":
-                    {
-                        var emails = {
-                            name: 'Invoice Send Authorization',
-                            from: emailData.ownerEmail,
-                            to: emailData.to,
-                            cc: emailData.cc,
-                            bcc: emailData.bcc,
-                            subject: "Invoice Send Authorization : " + emailData.invoiceNumber,
-                            message: "<html><body><p style='font-size: 16px;'>Please go through the Invoice for Assignment No. " + emailData.assignmentNo + " in respect of loss sustained by " + emailData.insuredName + " on account of damage to " + emailData.productName + " and authorize the same</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
-                        }
-                        $scope.emailData = emails;
-                    }
-                    break;
-
-                    // case "LOR Authorization":
-                    //     {
-
-                    //         var to = [];
-                    //         to.push({
-                    //             name: $.jStorage.get("profile").name,
-                    //             email: $.jStorage.get("profile").email
-                    //         })
-                    //         var emails = {
-                    //             name: 'LOR Authorization',
-                    //             from: emailData.ownerEmail,
-                    //             to: to,
-                    //             cc: emailData.cc,
-                    //             bcc: emailData.bcc,
-                    //             subject: "LOR is Authorizaed For Assignment : " + emailData.assignmentNo,
-                    //             message: "<html><body><p style='font-size: 16px;'>I have gone through the LOR prepared for " + emailData.insuredName + ", Assignment " + emailData.assignmentNo + " and have authorized the same. It is OK to release.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + $.jStorage.get("profile").name + "</p></body></html>"
-                    //         }
-                    //         $scope.emailData = emails;
-                    //     }
-                    //     break;
-
-                    // case "LOR Back to Regenerate":
-                    //     {
-                    //         var emails = {
-                    //             name: 'LOR Back to Regenerate',
-                    //             from: emailData.ownerEmail,
-                    //             to: emailData.to,
-                    //             cc: emailData.cc,
-                    //             bcc: emailData.bcc,
-                    //             subject: "LOR Back to Regenerate For Assignment No :" + emailData.assignmentNo,
-                    //             message: "<html><body><p style='font-size: 16px;'>I have gone through the LOR prepared for " + emailData.insuredName + ", assignment " + emailData.assignmentNo + " Kindly make the changes as advised to you & resend for authorization. Please let me know if assistance required.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + $.jStorage.get("profile").name + "</p></body></html>"
-                    //         }
-                    //         $scope.emailData = emails;
-                    //     }
-                    //     break;
-
-                case "LOR Release":
-                    {
-
-                        var to = [];
-                        var emails = {
-                            name: 'LOR Release',
-                            from: emailData.ownerEmail,
-                            to: emailData.toEmail,
-                            cc: emailData.cc,
-                            bcc: emailData.bcc,
-                            subject: emailData.originalSubject + ". Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
-                            message: "<html><body><p style='font-size: 16px;'>We are pleased to release LOR in respect of our Assignment : " + emailData.assignmentNo + " and your claim " + emailData.claimNo + " and Policy " + emailData.policyDoc + "</p><br>" + "<p style='font-size: 16px;'><p style='font-size: 16px;'>We hope that the same shall serve your purpose.Should you ever need any support / information / update please feel at ease to get in touch with me. I will be more than willing to assist.</p><br> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>",
-                            threadId: emailData.threadId
-                        }
-                        $scope.emailData = emails;
-                    }
-                    break;
-
-                case "LOR Back to Regenerate":
-                    {
-                        var emails = {
-                            name: 'LOR Back to Regenerate',
-                            from: emailData.ownerEmail,
-                            to: emailData.to,
-                            cc: emailData.cc,
-                            bcc: emailData.bcc,
-                            subject: "LOR is Send For Authorization For Assignment : " + emailData.assignmentNo,
-                            message: "<html><body><p style='font-size: 16px;'>Requesting you to go through the LOR prepared for " + emailData.insuredName + ", Assignment " + emailData.assignmentNo + "and authorize the same.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "</p></body></html>"
-                        }
-                        $scope.emailData = emails;
-                    }
-                    break;
-
-                case "Assignment Force Close Request":
-                    {
-
-                        var to = [];
-                        var emails = {
-                            name: 'Assignment Force Close Request',
-                            from: emailData.ownerEmail,
-                            to: to,
-                            cc: emailData.cc,
-                            bcc: emailData.bcc,
-                            subject: "",
-                            message: "<html><body><p style='font-size: 16px;'>Dear #SupervisorsName#,Requesting you to please Force Close the Assignment.Reason mentioned below. #Reason#</p><br> Warm Regards, <br>" + $.jStorage.get("profile").name + "<br> " + $.jStorage.get("profile").mobile + "<br>" + $.jStorage.get("profile").officeEmail + "</p></body></html>"
-                        }
-                        $scope.emailData = emails;
-                    }
-                    break;
-
-                case "Assignment Reopen Request":
-                    {
-
-                        var to = [];
-                        var emails = {
-                            name: 'Assignment Reopen Request',
-                            from: emailData.ownerEmail,
-                            to: to,
-                            cc: emailData.cc,
-                            bcc: emailData.bcc,
-                            subject: "Request for Reopening of Assignment : " + emailData.assignmentNo,
-                            message: "<html><body><p style='font-size: 16px;'>Dear #SupervisorsName#,Requesting you to please Re-open the Assignment due to some reasons. #Reason#</p><br> Warm Regards, <br>" + $.jStorage.get("profile").name + "<br> " + $.jStorage.get("profile").mobile + "<br>" + $.jStorage.get("profile").officeEmail + "</p></body></html>"
-                        }
-                        $scope.emailData = emails;
-                    }
-                    break;
-
-                case "Assignment Transfer":
-                    {
-
-                        var to = [];
-                        var emails = {
-                            name: 'Assignment Reopen Request',
-                            from: emailData.ownerEmail,
-                            to: to,
-                            cc: emailData.cc,
-                            bcc: emailData.bcc,
-                            subject: "Transfer of Assignment : " + emailData.assignmentNo,
-                            message: "<html><body><p style='font-size: 16px;'>This is to inform you that the Assignment No. #AssignmentNo# being handled by #PreviousOwner# so far has been now transferred to #NewAssignmentOwner# for operational reasons</p><br> Warm Regards, <br>" + $.jStorage.get("profile").name + "<br> " + $.jStorage.get("profile").mobile + "<br>" + $.jStorage.get("profile").email + "</p></body></html>"
-                        }
-                        $scope.emailData = emails;
-                    }
-                    break;
-
-
-                default:
-                    {
-                        // $scope.formData.push($scope.newjson);
-                    }
-
+    $scope.unhold = function () {
+        $scope.assignment.timelineStatus = $scope.assignment.prevtimelineStatus;
+        var newChat = {};
+        newChat.employee = $scope.message.employee._id;
+        newChat.title = "Assignment " + $scope.assignment.name + " UnHold";
+        newChat.type = "Normal";
+        NavigationService.modelSave('assignment', $scope.assignment, function (data) {
+            if (data.value === true) {
+                $scope.sendMessage2(newChat);
+                toastr.success($scope.assignment.name + " Updated", "Assignment " + $scope.assignment.name);
+            } else {
+                toastr.error("Error in updating " + $scope.assignment.name + ".", "Assignment " + $scope.assignment.name);
             }
+        });
+    }
 
-        }
+    // $scope.refreshResults = function ($select) {
+    //     var search = $select.search,
+    //         list = angular.copy($select.items),
+    //         FLAG = -1;
+    //     //remove last user input
+    //     list = list.filter(function (item) {
+    //         return item.id !== FLAG;
+    //     });
 
+    //     if (!search) {
+    //         //use the predefined list
+    //         $select.items = list;
+    //     } else {
+    //         //manually add user input and set selection
+    //         var userInputItem = {
+    //             id: FLAG,
+    //             description: search
+    //         };
+    //         $select.items = [userInputItem].concat(list);
+    //         $select.selected = userInputItem;
+    //     }
+    // }
+
+    $scope.refreshEmployee = function (select) {
+        console.log("$select", select);
+
+        var i = 1;
+        var formdata = {};
+        formdata.keyword = select;
+        // formdata.filter = {
+        //     "_id": causeloss
+        // };
+        NavigationService.getEmployeeNameEmail(formdata, i, function (data) {
+            console.log("1data", data);
+            if (data.value === true) {
+                $scope.employee = data.data;
+                console.log("$scope.employee", $scope.employee);
+            } else {
+                $scope.employee = [];
+            }
+        });
+    }
+
+    $scope.submitForceClose = function (data) {
+        $scope.assignment.forceClosedComment = data.comment;
+        $scope.assignment.forceClosedReqTime = Date.now();
+        $scope.assignment.assignmentapprovalStatus = "Pending ForceClosed";
+        console.log($scope.assignment.forceCloseComment);
+        var newChat = {};
+        newChat.employee = $scope.message.employee._id;
+        newChat.title = "Assignment " + $scope.assignment.name + " Sent for ForceClose";
+        newChat.message = data.comment;
+        newChat.type = "Normal";
+        NavigationService.modelSave('assignment', $scope.assignment, function (data) {
+            if (data.value === true) {
+                $scope.sendMessage2(newChat);
+                toastr.success($scope.assignment.name + " Updated", "Assignment " + $scope.assignment.name);
+            } else {
+                toastr.error("Error in updating " + $scope.assignment.name + ".", "Assignment " + $scope.assignment.name);
+            }
+        });
+    }
+    $scope.submitReopen = function (data) {
+        $scope.assignment.reopenComment = data.comment;
+        $scope.assignment.reopenReqTime = Date.now();
+        $scope.assignment.assignmentapprovalStatus = "Pending ReOpened";
+        var newChat = {};
+        newChat.employee = $scope.message.employee._id;
+        newChat.title = "Assignment " + $scope.assignment.name + " Sent for ReOpen";
+        newChat.message = data.comment;
+        newChat.type = "Normal";
+        NavigationService.modelSave('assignment', $scope.assignment, function (data) {
+            if (data.value === true) {
+                $scope.sendMessage2(newChat);
+                toastr.success($scope.assignment.name + " Updated", "Assignment " + $scope.assignment.name);
+            } else {
+                toastr.error("Error in updating " + $scope.assignment.name + ".", "Assignment " + $scope.assignment.name);
+            }
+        });
+    }
+    $scope.submitOnhold = function (data) {
+        $scope.assignment.onholdComment = data.comment;
+        $scope.assignment.onholdReqTime = Date.now();
+        $scope.assignment.assignmentapprovalStatus = "Pending OnHold";
+        var newChat = {};
+        newChat.employee = $scope.message.employee._id;
+        newChat.title = "Assignment " + $scope.assignment.name + " Sent for OnHold";
+        newChat.message = data.comment;
+        newChat.type = "Normal";
+        NavigationService.modelSave('assignment', $scope.assignment, function (data) {
+            if (data.value === true) {
+                $scope.sendMessage2(newChat);
+                toastr.success($scope.assignment.name + " Updated", "Assignment " + $scope.assignment.name);
+            } else {
+                toastr.error("Error in updating " + $scope.assignment.name + ".", "Assignment " + $scope.assignment.name);
+            }
+        });
+    }
+    $scope.sendMessage2 = function (type) {
+        $scope.timeline.chat.push(type);
+        NavigationService.saveChat($scope.timeline, function (data) {
+            console.log("FFFFF", data);
+            $scope.getTimeline();
+        });
+    };
+
+    $scope.emailersData = function (type, emailData, index) {
+        console.log("email Data", emailData);
+        $scope.emailData = {};
+        // emailData.to =  _.uniq(emailData.to);
         var i = 0;
-        $scope.search = {
-            keyword: ""
-        };
-        $scope.event = "";
-        $scope.getMail = function (chat, mailType) {
+        var toData = [];
+        _.map(emailData.to, function (values) {
+            values.email.toString();
+            values.name.toString();
+        });
+        emailData.to = _.uniqBy(emailData.to, "email");
+        console.log("values array ", emailData.to);
+        emailData.assignmentName = (emailData.assignmentName ? emailData.assignmentName : "NA");
+        emailData.assignmentNo = (emailData.assignmentNo ? emailData.assignmentNo : "NA");
+        emailData.ownerName = (emailData.ownerName ? emailData.ownerName : "NA");
+        emailData.ownerEmail = (emailData.ownerEmail ? emailData.ownerEmail : "NA");
+        emailData.ownerPhone = (emailData.ownerPhone ? emailData.ownerPhone : "NA");
+        emailData.siteCity = (emailData.siteCity ? emailData.siteCity : "NA");
+        emailData.to = (emailData.to ? emailData.to : []);
+        emailData.cc = (emailData.cc ? emailData.cc : []);
+        emailData.bcc = (emailData.bcc ? emailData.bcc : []);
+        emailData.surveyorNumber = (emailData.surveyorNumber ? emailData.surveyorNumber : "NA");
+        emailData.surveyorName = (emailData.surveyorName ? emailData.surveyorName : "");
+        emailData.surveyorEmail = (emailData.surveyorEmail ? emailData.surveyorEmail : "");
+        emailData.insuredName = (emailData.insuredName ? emailData.insuredName : "NA");
+        emailData.ilaAuthDate = (emailData.ilaAuthDate ? emailData.ilaAuthDate : "NA");
+        emailData.claimNo = (emailData.claimNo ? emailData.claimNo : "NA");
+        emailData.productName = (emailData.productName ? emailData.productName : "NA");
+        emailData.policyDoc = (emailData.policyDoc ? emailData.policyDoc : "NA");
+        emailData.bankDetails = (emailData.bankDetails ? emailData.bankDetails : "NA");
+        emailData.threadId = (emailData.threadId ? emailData.threadId : "");
+        emailData.originalSubject = (emailData.originalSubject ? emailData.originalSubject : "NA");
+        emailData.originalFrom = (emailData.originalFrom ? emailData.originalFrom : "NA");
+        emailData.originalBody = (emailData.originalBody ? emailData.originalBody : "");
+        emailData.toEmail = (emailData.toEmail ? emailData.toEmail : "");
 
-            var type = chat.event;
+        switch (type) {
+            case "Acknowledgment Email":
+                {
+                    var emails = {
+                        name: 'Acknowledgment Email',
+                        from: emailData.ownerEmail,
+                        to: emailData.toEmail,
+                        cc: emailData.cc,
+                        bcc: emailData.bcc,
+                        subject: emailData.originalSubject + ". Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
+                        message: "<html><body><p style='font-size: 16px;'>Dear Sir/Madam,</p><p style='font-size: 16px;'>Thank you for retaining us to inspect & assess the subject loss. This is to confirm that " + emailData.surveyorName + " shall be attending this claim. He can be reached on " + emailData.surveyorNumber + ". Our reference number for this claim would be " + emailData.assignmentNo + "</p> <p style='font-size: 16px;'>Should you ever need any support / information / update, please feel at ease to get in touch with me.</p><br>" + "<p style='font-size: 16px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html><br>" + emailData.originalMessage,
+                        mailType: "updateThreadId"
+                    }
+                    $scope.emailData = emails;
+                }
+                break;
+            case "Deputation mail":
+                {
+                    var to = [];
+                    to.push({
+                        name: emailData.surveyorName,
+                        email: emailData.surveyorEmail
+                    });
+                    var emails = {
+                        name: 'Deputation mail',
+                        from: emailData.ownerEmail,
+                        to: to,
+                        cc: emailData.cc,
+                        bcc: emailData.bcc,
+                        subject: emailData.originalSubject + ". Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
+                        message: "<html><body><p style='font-size: 16px;'>Dear " + emailData.surveyorName + ",</p><p style='font-size: 16px;'>Please refer to our telecom, in respect of the subject claim. You are requested to kindly attend the loss inline with the discussions held and specific requirements of the claim. Our reference number for this claim would be " + emailData.assignmentNo + "</p> <p style='font-size: 16px;'>In order to assist you, we are attaching relevant format of JIR. Please ensure to capture every detail there in & get the same duly signed by the concerned person. In an unlikely event wherein there is a difference of opinion between yourself & the concerned person, both the opinions may be recorded. We would appreciate a brief call from the site while you are attending the loss as this helps us update the insurer's of the developments. Should you ever need any support / information / update please feel at ease to get in touch with me. I will be more than willing to assist.</p><br>" + "<p style='font-size: 16px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html><br>" + emailData.originalMessage,
+                        // threadId: emailData.threadId
+                    }
+                    $scope.emailData = emails;
+                }
+                break;
+            case "On Survey Attended":
+                {
+                    var emails = {
+                        name: 'On Survey Attended',
+                        from: emailData.ownerEmail,
+                        to: emailData.toEmail,
+                        cc: emailData.cc,
+                        bcc: emailData.bcc,
+                        subject: emailData.originalSubject + ". Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
+                        message: "<html><body><p style='font-size: 16px;'>We are pleased to inform you that the survey for the said claim has been attended on " + emailData.surveyDate + " No sooner we receive further details, we shall update you in this regard. Meanwhile, request you to kindly bear with us. Should you ever need any support / information / update please feel at ease to get in touch with me. I will be more than willing to assist.</p><br>" + "<p style='font-size: 16px;'>Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>",
+                        threadId: emailData.threadId
+                    }
+                    $scope.emailData = emails;
+                }
+                break;
+                // case "ILA Authorization":
+                //     {
+                //         var emails = {
+                //             name: 'ILA Authorization',
+                //             from: emailData.ownerEmail,
+                //             to: emailData.to,
+                //             cc: emailData.cc,
+                //             bcc: emailData.bcc,
+                //             subject: "ILA Authorized of Assignment : " + emailData.assignmentNo,
+                //             message: "<html><body><p style='font-size: 16px;'>Dear " + emailData.ownerName + "</p><p style='font-size: 16px;'>I have gone through the ILA prepared for " + emailData.insuredName + ", Assignment No. " + emailData.assignmentNo + " and have  authorized the same. It is OK to release</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + $.jStorage.get("profile").name + "</p></body></html>"
+                //         }
+                //         $scope.emailData = emails;
+                //     }
+                //     break;
 
-            if (mailType != undefined) {
-                type = mailType
-                $scope.event = mailType;
-                console.log("mailType", mailType);
-            }
-            $scope.chatId = chat._id;
-            console.log("$stateParams.id", $stateParams.id, "chat", chat, "chatID", $scope.chatId);
+                // case "ILA Back to Regenerate":
+                //     {
+                //         var emails = {
+                //             name: 'ILA Back to Regenerate',
+                //             from: emailData.ownerEmail,
+                //             to: emailData.to,
+                //             cc: emailData.cc,
+                //             bcc: emailData.bcc,
+                //             subject: "ILA Sent back for regeneration of Assignment : " + emailData.assignmentNo,
+                //             message: "<html><body><p style='font-size: 16px;'>Dear " + emailData.ownerName + "</p><p style='font-size: 16px;'>This is to inform you that ILA No. " + emailData.assignmentNo + " has NOT been authorized on " + emailData.ilaAuthDate + ". Please regenrate as per the comments.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" +$.jStorage.get("profile").name + "</p></body></html>"
+                //         }
+                //         $scope.emailData = emails;
+                //     }
+                //     break;
 
-            var emailData = {};
+            case "ILA Release":
+                {
+                    var emails = {
+                        name: 'ILA Release',
+                        from: emailData.ownerEmail,
+                        to: emailData.toEmail,
+                        cc: emailData.cc,
+                        bcc: emailData.bcc,
+                        subject: emailData.originalSubject + ". Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
+                        message: "<html><body><p style='font-size: 16px;'>Dear Sir/Madam,</p><p style='font-size: 16px;'>We are pleased to release the ILA in respect of our Assignment No. " + emailData.assignmentNo + " and your claim " + emailData.claimNo + " and policy " + emailData.policyDoc + ".</p><p style='font-size: 16px;'>We hope that the same shall serve your purpose. Should you ever need any support / information / update please feel at ease to get in touch with me. I will be more than willing to assist.</p>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>",
+                        threadId: emailData.threadId
 
-            NavigationService.getOneAssignment({
-                _id: $stateParams.id
-            }, ++i, function (data, ini) {
-                if (ini == i) {
+                    }
+                    $scope.emailData = emails;
+                }
+                break;
 
-                    console.log("bank comopany ", data.data.company.bank);
-                    var accountNumber = (data.data.company.bank.accountNumber ? data.data.company.bank.accountNumber : "");
-                    var neftCode = (data.data.company.bank.neftCode ? data.data.company.bank.neftCode : "");
-                    var branchName = (data.data.company.bank.branchName ? data.data.company.bank.branchName : "");
-                    emailData.bankDetails = "Account Number : " + accountNumber + ", " + "Neft Code : " + neftCode + ", " + "Branch Name : " + branchName;
-                    NavigationService.getOnePolicyDoc(data.data.policyDoc, function (data1) {
+            case "ILA Send for Authorization":
+                {
+                    var emails = {
+                        name: 'ILA Send for Authorization',
+                        from: emailData.ownerEmail,
+                        to: "",
+                        cc: emailData.cc,
+                        bcc: emailData.bcc,
+                        subject: "ILA Send for Authorization Mail of Assignment : " + emailData.assignmentNo,
+                        message: "<html><body><p style='font-size: 16px;'>Please go through the ILA for Assignment No. " + emailData.assignmentNo + " in respect of loss sustained by " + emailData.insuredName + " on account of damage to " + emailData.productName + " and authorize the same.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + $.jStorage.get("profile").name + "</p></body></html>"
+                    }
+                    $scope.emailData = emails;
+                }
+                break;
 
-                        function getFromHeader(input) {
-                            if (data.data.email) {
-                                if (data.data.email.payload) {
-                                    var obj = _.filter(data.data.email.payload.headers, function (n) {
-                                        return n.name == input;
-                                    });
-                                    if (obj.length == 0) {
-                                        return "NA";
-                                    } else {
-                                        return obj[0].value;
-                                    }
+            case "Invoice Authorization":
+                {
+                    var emails = {
+                        name: 'Invoice Authorization',
+                        from: emailData.ownerEmail,
+                        to: emailData.to,
+                        cc: emailData.cc,
+                        bcc: emailData.bcc,
+                        subject: "Invoice Authorization : " + emailData.invoiceNumber,
+                        message: "<html><body><p style='font-size: 16px;'>I have gone through the Invoice prepared for " + emailData.insuredName + ", Invoice No. " + emailData.invoiceNumber + " and authorized the same. It is OK to release.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+                    }
+                    $scope.emailData = emails;
+                }
+                break;
+
+            case "Invoice Back to Regenerate":
+                {
+                    var emails = {
+                        name: 'Invoice Back to Regenerate',
+                        from: emailData.ownerEmail,
+                        to: emailData.to,
+                        cc: emailData.cc,
+                        bcc: emailData.bcc,
+                        subject: "Invoice Back to Regenerate : " + emailData.invoiceNumber,
+                        message: "<html><body><p style='font-size: 16px;'>I have gone through the Invoice prepared for " + emailData.insuredName + ", Invoice No. " + emailData.invoiceNumber + ". Kindly make the changes as advised to you & resend for authorization.</p><p style='font-size: 16px;'>Please let me know if assistance required.</p>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+                    }
+                    $scope.emailData = emails;
+                }
+                break;
+
+            case "Invoice Cancel":
+                {
+                    var emails = {
+                        name: 'Invoice Cancel',
+                        from: emailData.ownerEmail,
+                        to: emailData.to,
+                        cc: emailData.cc,
+                        bcc: emailData.bcc,
+                        subject: "Invoice Cancel : " + emailData.invoiceNumber,
+                        message: "<html><body><p style='font-size: 16px;'>This is to inform all that the Invoice " + emailData.invoiceNumber + " has been canceled.</p><p style='font-size: 16px;'>You may update your record accordingly.</p>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+                    }
+                    $scope.emailData = emails;
+                }
+                break;
+
+            case "Invoice Release":
+                {
+                    var emails = {
+                        name: 'Invoice Release',
+                        from: emailData.ownerEmail,
+                        to: emailData.toEmail,
+                        cc: emailData.cc,
+                        bcc: emailData.bcc,
+                        subject: emailData.originalSubject + ". Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
+                        message: "<html><body><p style='font-size: 16px;'>Dear Sir/Madam, We are pleased to attach our bill for professional services rendered for your kind perusal & payment. Our bank details are as follows: " + emailData.bankDetails + " You are requested to kindly release our payment & confirm in order to enable us to release the report.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>",
+                        threadId: emailData.threadId
+                    }
+                    $scope.emailData = emails;
+                }
+                break;
+
+            case "Invoice Revise":
+                {
+                    var emails = {
+                        name: 'Invoice Revise',
+                        from: emailData.ownerEmail,
+                        to: emailData.to,
+                        cc: emailData.cc,
+                        bcc: emailData.bcc,
+                        subject: "Invoice Revise : " + emailData.invoiceNumber,
+                        message: "<html><body><p style='font-size: 16px;'>Invoice " + emailData.invoiceNumber + " has been revised, you are requested to kindly make a note of the same. Copy of the revised invoice is attached for perusal.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+                    }
+                    $scope.emailData = emails;
+                }
+                break;
+
+            case "Invoice Send Authorization":
+                {
+                    var emails = {
+                        name: 'Invoice Send Authorization',
+                        from: emailData.ownerEmail,
+                        to: emailData.to,
+                        cc: emailData.cc,
+                        bcc: emailData.bcc,
+                        subject: "Invoice Send Authorization : " + emailData.invoiceNumber,
+                        message: "<html><body><p style='font-size: 16px;'>Please go through the Invoice for Assignment No. " + emailData.assignmentNo + " in respect of loss sustained by " + emailData.insuredName + " on account of damage to " + emailData.productName + " and authorize the same</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+                    }
+                    $scope.emailData = emails;
+                }
+                break;
+
+                // case "LOR Authorization":
+                //     {
+
+                //         var to = [];
+                //         to.push({
+                //             name: $.jStorage.get("profile").name,
+                //             email: $.jStorage.get("profile").email
+                //         })
+                //         var emails = {
+                //             name: 'LOR Authorization',
+                //             from: emailData.ownerEmail,
+                //             to: to,
+                //             cc: emailData.cc,
+                //             bcc: emailData.bcc,
+                //             subject: "LOR is Authorizaed For Assignment : " + emailData.assignmentNo,
+                //             message: "<html><body><p style='font-size: 16px;'>I have gone through the LOR prepared for " + emailData.insuredName + ", Assignment " + emailData.assignmentNo + " and have authorized the same. It is OK to release.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + $.jStorage.get("profile").name + "</p></body></html>"
+                //         }
+                //         $scope.emailData = emails;
+                //     }
+                //     break;
+
+                // case "LOR Back to Regenerate":
+                //     {
+                //         var emails = {
+                //             name: 'LOR Back to Regenerate',
+                //             from: emailData.ownerEmail,
+                //             to: emailData.to,
+                //             cc: emailData.cc,
+                //             bcc: emailData.bcc,
+                //             subject: "LOR Back to Regenerate For Assignment No :" + emailData.assignmentNo,
+                //             message: "<html><body><p style='font-size: 16px;'>I have gone through the LOR prepared for " + emailData.insuredName + ", assignment " + emailData.assignmentNo + " Kindly make the changes as advised to you & resend for authorization. Please let me know if assistance required.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + $.jStorage.get("profile").name + "</p></body></html>"
+                //         }
+                //         $scope.emailData = emails;
+                //     }
+                //     break;
+
+            case "LOR Release":
+                {
+
+                    var to = [];
+                    var emails = {
+                        name: 'LOR Release',
+                        from: emailData.ownerEmail,
+                        to: emailData.toEmail,
+                        cc: emailData.cc,
+                        bcc: emailData.bcc,
+                        subject: emailData.originalSubject + ". Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
+                        message: "<html><body><p style='font-size: 16px;'>We are pleased to release LOR in respect of our Assignment : " + emailData.assignmentNo + " and your claim " + emailData.claimNo + " and Policy " + emailData.policyDoc + "</p><br>" + "<p style='font-size: 16px;'><p style='font-size: 16px;'>We hope that the same shall serve your purpose.Should you ever need any support / information / update please feel at ease to get in touch with me. I will be more than willing to assist.</p><br> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>",
+                        threadId: emailData.threadId
+                    }
+                    $scope.emailData = emails;
+                }
+                break;
+
+            case "LOR Back to Regenerate":
+                {
+                    var emails = {
+                        name: 'LOR Back to Regenerate',
+                        from: emailData.ownerEmail,
+                        to: emailData.to,
+                        cc: emailData.cc,
+                        bcc: emailData.bcc,
+                        subject: "LOR is Send For Authorization For Assignment : " + emailData.assignmentNo,
+                        message: "<html><body><p style='font-size: 16px;'>Requesting you to go through the LOR prepared for " + emailData.insuredName + ", Assignment " + emailData.assignmentNo + "and authorize the same.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "</p></body></html>"
+                    }
+                    $scope.emailData = emails;
+                }
+                break;
+
+            case "Assignment Force Close Request":
+                {
+
+                    var to = [];
+                    var emails = {
+                        name: 'Assignment Force Close Request',
+                        from: emailData.ownerEmail,
+                        to: to,
+                        cc: emailData.cc,
+                        bcc: emailData.bcc,
+                        subject: "",
+                        message: "<html><body><p style='font-size: 16px;'>Dear #SupervisorsName#,Requesting you to please Force Close the Assignment.Reason mentioned below. #Reason#</p><br> Warm Regards, <br>" + $.jStorage.get("profile").name + "<br> " + $.jStorage.get("profile").mobile + "<br>" + $.jStorage.get("profile").officeEmail + "</p></body></html>"
+                    }
+                    $scope.emailData = emails;
+                }
+                break;
+
+            case "Assignment Reopen Request":
+                {
+
+                    var to = [];
+                    var emails = {
+                        name: 'Assignment Reopen Request',
+                        from: emailData.ownerEmail,
+                        to: to,
+                        cc: emailData.cc,
+                        bcc: emailData.bcc,
+                        subject: "Request for Reopening of Assignment : " + emailData.assignmentNo,
+                        message: "<html><body><p style='font-size: 16px;'>Dear #SupervisorsName#,Requesting you to please Re-open the Assignment due to some reasons. #Reason#</p><br> Warm Regards, <br>" + $.jStorage.get("profile").name + "<br> " + $.jStorage.get("profile").mobile + "<br>" + $.jStorage.get("profile").officeEmail + "</p></body></html>"
+                    }
+                    $scope.emailData = emails;
+                }
+                break;
+
+            case "Assignment Transfer":
+                {
+
+                    var to = [];
+                    var emails = {
+                        name: 'Assignment Reopen Request',
+                        from: emailData.ownerEmail,
+                        to: to,
+                        cc: emailData.cc,
+                        bcc: emailData.bcc,
+                        subject: "Transfer of Assignment : " + emailData.assignmentNo,
+                        message: "<html><body><p style='font-size: 16px;'>This is to inform you that the Assignment No. #AssignmentNo# being handled by #PreviousOwner# so far has been now transferred to #NewAssignmentOwner# for operational reasons</p><br> Warm Regards, <br>" + $.jStorage.get("profile").name + "<br> " + $.jStorage.get("profile").mobile + "<br>" + $.jStorage.get("profile").email + "</p></body></html>"
+                    }
+                    $scope.emailData = emails;
+                }
+                break;
+
+
+            default:
+                {
+                    // $scope.formData.push($scope.newjson);
+                }
+
+        }
+
+    }
+
+    var i = 0;
+    $scope.search = {
+        keyword: ""
+    };
+    $scope.event = "";
+    $scope.getMail = function (chat, mailType) {
+
+        var type = chat.event;
+
+        if (mailType != undefined) {
+            type = mailType
+            $scope.event = mailType;
+            console.log("mailType", mailType);
+        }
+        $scope.chatId = chat._id;
+        console.log("$stateParams.id", $stateParams.id, "chat", chat, "chatID", $scope.chatId);
+
+        var emailData = {};
+
+        NavigationService.getOneAssignment({
+            _id: $stateParams.id
+        }, ++i, function (data, ini) {
+            if (ini == i) {
+
+                console.log("bank comopany ", data.data.company.bank);
+                var accountNumber = (data.data.company.bank.accountNumber ? data.data.company.bank.accountNumber : "");
+                var neftCode = (data.data.company.bank.neftCode ? data.data.company.bank.neftCode : "");
+                var branchName = (data.data.company.bank.branchName ? data.data.company.bank.branchName : "");
+                emailData.bankDetails = "Account Number : " + accountNumber + ", " + "Neft Code : " + neftCode + ", " + "Branch Name : " + branchName;
+                NavigationService.getOnePolicyDoc(data.data.policyDoc, function (data1) {
+
+                    function getFromHeader(input) {
+                        if (data.data.email) {
+                            if (data.data.email.payload) {
+                                var obj = _.filter(data.data.email.payload.headers, function (n) {
+                                    return n.name == input;
+                                });
+                                if (obj.length == 0) {
+                                    return "NA";
                                 } else {
-                                    return "";
+                                    return obj[0].value;
                                 }
                             } else {
                                 return "";
                             }
-
-
-                        }
-                        emailData.originalDate = getFromHeader("Date");
-                        emailData.originalDate = moment(emailData.originaldate).format('llll');
-                        emailData.originalSubject = getFromHeader("Subject");
-                        emailData.originalFrom = getFromHeader("From");
-                        emailData.originalTo = getFromHeader("To");
-                        emailData.originaCc = getFromHeader("Cc");
-                        emailData.originalDeliveredTo = getFromHeader("Delivered-To");
-                        //  emailData.original.body = base64url.decode(data.data.email.body);
-                        if (data.data.email) {
-                            if (data.data.email.body) {
-                                emailData.originalBody = $filter("base64url")(data.data.email.body);
-                            }
-                        }
-
-                        // console.log("Email attachment.................................", $scope.email.body);
-
-                        emailData.originalMessage =
-                            "<br>---------- Original message ----------<br>" +
-                            "From: " + emailData.originalFrom + "<br>" +
-                            "Date: " + emailData.originalDate + "<br>" +
-                            "Subject: " + emailData.originalSubject + "<br>" +
-                            "To: " + emailData.originalTo + "<br>" +
-                            "Cc: " + emailData.originaCc + "<br>" + emailData.originalBody;
-                        var Email = "";
-                        var toName = "";
-                        emailData.toEmail = [];
-                        if (!_.isEmpty(emailData.originalFrom)) {
-                            var temp = emailData.originalFrom.split("<");
-                            toName = temp[0];
-                            if (temp[1]) {
-                                var temp2 = temp[1].split(">");
-                                console.log("toNAME", temp[0], "toemail", temp[1], "temp", temp);
-                                Email = temp2[0];
-                            } else {
-                                Email = temp[0]
-                            }
-
-                            emailData.toEmail.push({
-                                name: toName,
-                                email: Email
-                            });
-                        }
-                        console.log("Data getpolicy", data1);
-                        if (data1.value == true) {
-                            if (data1.data.listOfDocuments) {
-                                emailData.policyDoc = data1.data.listOfDocuments[0].policyNo;
-                                console.log(" emailData.policyDoc", emailData.policyDoc);
-                            }
                         } else {
-                            emailData.policyDoc = "NA"
-                        }
-                        emailData.threadId = (data.data.threadId ? data.data.threadId : "");
-                        emailData.assignmentNo = data.data.name;
-                        emailData.ownerName = data.data.owner.name;
-                        emailData.ownerEmail = data.data.owner.officeEmail;
-                        emailData.ownerPhone = data.data.owner.mobile;
-                        emailData.siteCity = data.data.city.name;
-                        emailData.insuredName = (data.data.insured.name ? data.data.insured.name : "");
-                        emailData.claimNo = (data.data.insurerClaimId ? data.data.insurerClaimId : "");
-                        if (data.data.templateIla[0]) {
-                            emailData.ilaAuthDate = data.data.templateIla[0].authTimestamp;
-                        }
-
-                        if (data.data.products[0]) {
-                            emailData.productName = (data.data.products[0].product.name ? data.data.products[0].product.name : "");
-                        }
-
-                        emailData.surveyDate = (chat.surveyDate ? moment(chat.surveyDate).format("DD/MM/YYYY") : "");
-                        emailData.invoiceNumber = (chat.invoiceNumber ? chat.invoiceNumber : "");
-                        console.log("threadId : ", data.data.threadId);
-
-
-
-                        if (chat.surveyor != undefined) {
-                            _.each(data.data.survey, function (values) {
-                                var id1 = "";
-                                var id2 = "";
-                                id1 = values.employee._id.toString();
-                                id2 = chat.surveyor.toString();
-                                console.log("id1", id1, "id2", id2, "survey: ", values);
-                                if (id1 === id2) {
-                                    console.log("In surveyor");
-                                    emailData.surveyorNumber = values.employee.mobile;
-                                    emailData.surveyorName = values.employee.name;
-                                    emailData.surveyorEmail = values.employee.officeEmail;
-                                    emailData.surveyDate = values.surveyDate;
-                                }
-                            });
+                            return "";
                         }
 
 
-                        emailData.to = [];
-                        console.log("email office ", data.data.owner.officeEmail);
-                        emailData.to.push({
-                            name: data.data.owner.name,
-                            email: data.data.owner.officeEmail
+                    }
+                    emailData.originalDate = getFromHeader("Date");
+                    emailData.originalDate = moment(emailData.originaldate).format('llll');
+                    emailData.originalSubject = getFromHeader("Subject");
+                    emailData.originalFrom = getFromHeader("From");
+                    emailData.originalTo = getFromHeader("To");
+                    emailData.originaCc = getFromHeader("Cc");
+                    emailData.originalDeliveredTo = getFromHeader("Delivered-To");
+                    //  emailData.original.body = base64url.decode(data.data.email.body);
+                    if (data.data.email) {
+                        if (data.data.email.body) {
+                            emailData.originalBody = $filter("base64url")(data.data.email.body);
+                        }
+                    }
+
+                    // console.log("Email attachment.................................", $scope.email.body);
+
+                    emailData.originalMessage =
+                        "<br>---------- Original message ----------<br>" +
+                        "From: " + emailData.originalFrom + "<br>" +
+                        "Date: " + emailData.originalDate + "<br>" +
+                        "Subject: " + emailData.originalSubject + "<br>" +
+                        "To: " + emailData.originalTo + "<br>" +
+                        "Cc: " + emailData.originaCc + "<br>" + emailData.originalBody;
+                    var Email = "";
+                    var toName = "";
+                    emailData.toEmail = [];
+                    if (!_.isEmpty(emailData.originalFrom)) {
+                        var temp = emailData.originalFrom.split("<");
+                        toName = temp[0];
+                        if (temp[1]) {
+                            var temp2 = temp[1].split(">");
+                            console.log("toNAME", temp[0], "toemail", temp[1], "temp", temp);
+                            Email = temp2[0];
+                        } else {
+                            Email = temp[0]
+                        }
+
+                        emailData.toEmail.push({
+                            name: toName,
+                            email: Email
                         });
-
-                        emailData.cc = [];
-                        if (!_.isEmpty(data.data.shareWith)) {
-                            _.each(data.data.shareWith, function (values) {
-                                console.log("values", values);
-                                _.each(values.persons, function (personss) {
-                                    console.log("persons", personss);
-                                    emailData.cc.push({
-                                        name: personss.name,
-                                        email: personss.officeEmail
-                                    })
-                                });
-                            });
+                    }
+                    console.log("Data getpolicy", data1);
+                    if (data1.value == true) {
+                        if (data1.data.listOfDocuments) {
+                            emailData.policyDoc = data1.data.listOfDocuments[0].policyNo;
+                            console.log(" emailData.policyDoc", emailData.policyDoc);
                         }
-                        console.log("emailers cc", emailData.cc, "emailers to", emailData.to);
-                        $scope.emailersData(type, emailData);
-                        console.log("emailers", $scope.emailData);
-                        $scope.results = data;
-                        console.log("emailers to", emailData.to);
-                        $scope.emailersData(type, emailData);
-                        console.log("emailers", $scope.emailData);
-                        $scope.results = data;
-                        console.log("data.results", $scope.results);
-                        // setTimeout(function () {
-                        //     $scope.$apply(function () {
-                        var modalInstance = $uibModal.open({
-                            scope: $scope,
-                            templateUrl: '/frontend/views/modal/modal-email.html',
-                            size: 'lg'
-                        });
-                        //     })
-                        // }, 2000);
+                    } else {
+                        emailData.policyDoc = "NA"
+                    }
+                    emailData.threadId = (data.data.threadId ? data.data.threadId : "");
+                    emailData.assignmentNo = data.data.name;
+                    emailData.ownerName = data.data.owner.name;
+                    emailData.ownerEmail = data.data.owner.officeEmail;
+                    emailData.ownerPhone = data.data.owner.mobile;
+                    emailData.siteCity = data.data.city.name;
+                    emailData.insuredName = (data.data.insured.name ? data.data.insured.name : "");
+                    emailData.claimNo = (data.data.insurerClaimId ? data.data.insurerClaimId : "");
+                    if (data.data.templateIla[0]) {
+                        emailData.ilaAuthDate = data.data.templateIla[0].authTimestamp;
+                    }
 
+                    if (data.data.products[0]) {
+                        emailData.productName = (data.data.products[0].product.name ? data.data.products[0].product.name : "");
+                    }
+
+                    emailData.surveyDate = (chat.surveyDate ? moment(chat.surveyDate).format("DD/MM/YYYY") : "");
+                    emailData.invoiceNumber = (chat.invoiceNumber ? chat.invoiceNumber : "");
+                    console.log("threadId : ", data.data.threadId);
+
+
+
+                    if (chat.surveyor != undefined) {
+                        _.each(data.data.survey, function (values) {
+                            var id1 = "";
+                            var id2 = "";
+                            id1 = values.employee._id.toString();
+                            id2 = chat.surveyor.toString();
+                            console.log("id1", id1, "id2", id2, "survey: ", values);
+                            if (id1 === id2) {
+                                console.log("In surveyor");
+                                emailData.surveyorNumber = values.employee.mobile;
+                                emailData.surveyorName = values.employee.name;
+                                emailData.surveyorEmail = values.employee.officeEmail;
+                                emailData.surveyDate = values.surveyDate;
+                            }
+                        });
+                    }
+
+
+                    emailData.to = [];
+                    console.log("email office ", data.data.owner.officeEmail);
+                    emailData.to.push({
+                        name: data.data.owner.name,
+                        email: data.data.owner.officeEmail
                     });
 
+                    emailData.cc = [];
+                    if (!_.isEmpty(data.data.shareWith)) {
+                        _.each(data.data.shareWith, function (values) {
+                            console.log("values", values);
+                            _.each(values.persons, function (personss) {
+                                console.log("persons", personss);
+                                emailData.cc.push({
+                                    name: personss.name,
+                                    email: personss.officeEmail
+                                })
+                            });
+                        });
+                    }
+                    console.log("emailers cc", emailData.cc, "emailers to", emailData.to);
+                    $scope.emailersData(type, emailData);
+                    console.log("emailers", $scope.emailData);
+                    $scope.results = data;
+                    console.log("emailers to", emailData.to);
+                    $scope.emailersData(type, emailData);
+                    console.log("emailers", $scope.emailData);
+                    $scope.results = data;
+                    console.log("data.results", $scope.results);
+                    // setTimeout(function () {
+                    //     $scope.$apply(function () {
+                    var modalInstance = $uibModal.open({
+                        scope: $scope,
+                        templateUrl: '/frontend/views/modal/modal-email.html',
+                        size: 'lg'
+                    });
+                    //     })
+                    // }, 2000);
 
-
-                }
-            });
-        };
-
-        // $scope.getMail();
-
-
-        $scope.saveILA = function (assignment) {
-
-            if (!assignment.ilaStatus && assignment.lorStatus) {
-                assignment.timelineStatus = "LOR Pending";
-            } else if (!assignment.ilaStatus && !assignment.lorStatus) {
-                assignment.timelineStatus = "Dox Pending";
-            } else {
-                assignment.timelineStatus = "ILA Pending";
-            }
-            console.log("In ILA", assignment);
-            NavigationService.assignmentSave(assignment, function (data) {
-                $state.go('timeline', {
-                    id: $scope.assignment._id
                 });
-                console.log("Saved Assignment", data);
 
-            });
+
+
+            }
+        });
+    };
+
+    // $scope.getMail();
+
+
+    $scope.saveILA = function (assignment) {
+
+        if (!assignment.ilaStatus && assignment.lorStatus) {
+            assignment.timelineStatus = "LOR Pending";
+        } else if (!assignment.ilaStatus && !assignment.lorStatus) {
+            assignment.timelineStatus = "Dox Pending";
+        } else {
+            assignment.timelineStatus = "ILA Pending";
         }
-
-        // 1st
-        $scope.saveSurveyDate = function (date) {
-            var formdata = {};
-            $scope.surveyDate = date;
-            formdata.surveyDate = date;
-            formdata._id = $stateParams.id;
-            NavigationService.assignmentSave(formdata, function (data) {
-                console.log("Survey Date Saved", data);
-                $scope.getAssignmentData();
+        console.log("In ILA", assignment);
+        NavigationService.assignmentSave(assignment, function (data) {
+            $state.go('timeline', {
+                id: $scope.assignment._id
             });
-        };
+            console.log("Saved Assignment", data);
 
-        // 2nd
-        $scope.getAssignmentData = function () {
-            console.log("surveyDate", $scope.surveyDate);
-            NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
-                $scope.assignment = data.data;
-                console.log("$scope.assignment", $scope.assignment);
-                NavigationService.getNearestOffice(data.data, function (data) {
-                    $scope.getAllSurveyors = data.data;
-                    console.log("Success On GetNearest Survayer", $scope.getAllSurveyors, data);
-                    var arr = [];
-                    _.each(data.data, function (n) {
-                        var m = {};
-                        m.ForDate = moment(new Date(n.date)).add(5, "hours").add(30, "minutes").format("DD/MM/YYYY"),
-                            m.Email = n.officeEmail,
-                            m._id = n._id,
-                            arr.push(m);
-                    });
-                    console.log("array to pass", arr);
-                    //    Consider Api Reply
-                    // NavigationService.thirdPartyApi(arr, function (data) {
-                    //     console.log("Data OUTPUT", data);
-                    // });
-                    $scope.displayFinalSurveyor();
+        });
+    }
+
+    // 1st
+    $scope.saveSurveyDate = function (date) {
+        var formdata = {};
+        $scope.surveyDate = date;
+        formdata.surveyDate = date;
+        formdata._id = $stateParams.id;
+        NavigationService.assignmentSave(formdata, function (data) {
+            console.log("Survey Date Saved", data);
+            $scope.getAssignmentData();
+        });
+    };
+
+    // 2nd
+    $scope.getAssignmentData = function () {
+        console.log("surveyDate", $scope.surveyDate);
+        NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
+            $scope.assignment = data.data;
+            console.log("$scope.assignment", $scope.assignment);
+            NavigationService.getNearestOffice(data.data, function (data) {
+                $scope.getAllSurveyors = data.data;
+                console.log("Success On GetNearest Survayer", $scope.getAllSurveyors, data);
+                var arr = [];
+                _.each(data.data, function (n) {
+                    var m = {};
+                    m.ForDate = moment(new Date(n.date)).add(5, "hours").add(30, "minutes").format("DD/MM/YYYY"),
+                        m.Email = n.officeEmail,
+                        m._id = n._id,
+                        arr.push(m);
                 });
-
-            });
-        };
-
-        // 3rd
-        $scope.displayFinalSurveyor = function () {
-            console.log("surveyDate", $scope.surveyDate);
-            var arrayOfId = _.cloneDeep($scope.getAllSurveyors);
-            console.log("arrayOfId", arrayOfId);
-            var arrayId = [];
-            _.each(arrayOfId, function (n) {
-                delete n.date,
-                    delete n.officeEmail,
-                    arrayId.push(n._id);
-                NavigationService.getOneModel("Employee", n._id, function (data) {
-                    $scope.finalSurveyors.push(data.data)
-                    console.log("final Surveyors : ", $scope.finalSurveyors);
-                });
-            });
-        };
-        // Don't Delete
-        //  $scope.displayFinalSurveyor = function () {
-        //     console.log("surveyDate", $scope.surveyDate);
-        //     var arrayOfId = _.cloneDeep($scope.getAllSurveyors);
-        //     console.log("arrayOfId", arrayOfId);
-        //     var arrayId = [];
-        //     _.each(arrayOfId, function (n) {
-        //         delete n.date,
-        //             delete n.officeEmail,
-        //             arrayId.push(n._id);
-        //     });
-        //     console.log("arrayOfId", arrayId);
-        //     NavigationService.getNearerSurveyor2({
-        //         ids: arrayId
-        //     }, function (data) {
-        //         var final = data.data;
-        //         console.log("Final Data", data, final)
-        //         $scope.finalSurveyors = final;
-        //     });
-        // };
-
-        $scope.updateEmployeeAssignment = function (empId) {
-            var emp = {};
-            emp.assignment = {
-                assignment: $stateParams.id
-            };
-            emp._id = empId;
-            console.log("Employee", emp);
-            NavigationService.saveEmployeeAssignment(emp, function (data) {
-                console.log("Success On Save EmployeeAssignment", data);
-            });
-        };
-        $scope.updateAssignmentEmployee = function (empId) {
-            var assignment = {};
-            assignment._id = $stateParams.id,
-                assignment.survey = {
-                    employee: empId,
-                    status: "Approval Pending",
-                    surveyDate: $scope.surveyDate
-                }
-
-            console.log("Assignment Survey", assignment);
-            NavigationService.updateSurveyor(assignment, function (data) {
-                console.log("Success Assignment Survey", data);
+                console.log("array to pass", arr);
+                //    Consider Api Reply
+                // NavigationService.thirdPartyApi(arr, function (data) {
+                //     console.log("Data OUTPUT", data);
+                // });
+                $scope.displayFinalSurveyor();
             });
 
-        };
-        $scope.surveyorAssigned = false;
-        $scope.afterSurveyAssign = function (employee) {
-            $scope.message.employee = employee;
-            $scope.message.title = "Surveyor Pending For Approval";
-            $scope.message.event = "Acknowledgment Email";
-            $scope.surveyorAssigned = true;
-            $scope.modalInstance.close();
-            $timeout(function () {
-                $scope.sendMessage("Normal");
-                $state.reload();
-            }, 1000);
-        };
+        });
+    };
 
+    // 3rd
+    $scope.displayFinalSurveyor = function () {
+        console.log("surveyDate", $scope.surveyDate);
+        var arrayOfId = _.cloneDeep($scope.getAllSurveyors);
+        console.log("arrayOfId", arrayOfId);
+        var arrayId = [];
+        _.each(arrayOfId, function (n) {
+            delete n.date,
+                delete n.officeEmail,
+                arrayId.push(n._id);
+            NavigationService.getOneModel("Employee", n._id, function (data) {
+                $scope.finalSurveyors.push(data.data)
+                console.log("final Surveyors : ", $scope.finalSurveyors);
+            });
+        });
+    };
+    // Don't Delete
+    //  $scope.displayFinalSurveyor = function () {
+    //     console.log("surveyDate", $scope.surveyDate);
+    //     var arrayOfId = _.cloneDeep($scope.getAllSurveyors);
+    //     console.log("arrayOfId", arrayOfId);
+    //     var arrayId = [];
+    //     _.each(arrayOfId, function (n) {
+    //         delete n.date,
+    //             delete n.officeEmail,
+    //             arrayId.push(n._id);
+    //     });
+    //     console.log("arrayOfId", arrayId);
+    //     NavigationService.getNearerSurveyor2({
+    //         ids: arrayId
+    //     }, function (data) {
+    //         var final = data.data;
+    //         console.log("Final Data", data, final)
+    //         $scope.finalSurveyors = final;
+    //     });
+    // };
 
-        $scope.repeat = _.times(20, Number);
-        $scope.assignSurveyor = function () {
-            $scope.modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/modal-assign-surveyor.html',
-                size: 'lg'
-            });
+    $scope.updateEmployeeAssignment = function (empId) {
+        var emp = {};
+        emp.assignment = {
+            assignment: $stateParams.id
         };
-        $scope.markActivity = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/mark-activity.html',
-                size: 'lg'
-            });
-        };
-        $scope.newAssessment = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/new-assessment.html',
-                size: 'md'
-            });
-        };
-        $scope.viewStaff = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/staff-rating.html',
-                size: 'lg'
-            });
-        };
-        $scope.viewSurveyor = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/surveyor-rating.html',
-                size: 'lg'
-            });
-        };
-        $scope.viewClient = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/client-rating.html',
-                size: 'lg'
-            });
-        };
-        $scope.viewPhotos = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/new-photos.html',
-                size: 'md'
-            });
-        };
-        $scope.viewILA = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/new-ila.html',
-                size: 'lg'
-            });
-        };
-        $scope.viewFSR = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/new-fsr.html',
-                size: 'md'
-            });
-        };
-        $scope.viewFiles = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/other-file.html',
-                size: 'md'
-            });
-        };
-        $scope.viewImages = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/upload-image.html',
-                size: 'md'
-            });
-        };
-        $scope.viewDocs = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/upload-document.html',
-                size: 'md'
-            });
-        };
-        $scope.viewISR = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/new-isr.html',
-                size: 'md'
-            });
-        };
-        $scope.viewLOR = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/new-lor.html',
-                size: 'lg'
-            });
-        };
-
-        $scope.allAssessment = function (check) {
-            $scope.showCreate = check;
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/assessment.html',
-                size: 'md'
-            });
-        };
-
-        $scope.newEmail = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/modal-email.html',
-                size: 'lg'
-            });
-        };
-        $scope.newInvoice = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/invoice.html',
-                size: 'lg'
-            });
-        };
-
-        $scope.newMessage = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/modal-message.html',
-                size: 'lg'
-            });
-        };
-        $scope.transfer = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/transfer.html',
-                size: 'lg'
-            });
-        };
-        $scope.viewJIR = function () {
-            var modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/new-jir.html',
-                size: 'md'
-            });
-        };
-        var validSurveyor = false;
-        $scope.assignmentSurvey = function () {
-            // console.log("$scope.assignment.survey Data", $scope.assignment.survey);
-            _.each($scope.assignment.survey, function (n, key) {
-                console.log("$scope.assignment", $scope.assignment);
-                // if (n.status === "Pending" && (($scope.employee._id === $scope.assignment.owner._id))) {
-                if (n.status === "Pending" && ((n.employee._id === $scope.employee._id) || ($scope.employee._id === $scope.assignment.owner._id))) {
-                    console.log("IN If", n, validSurveyor);
-                    $scope.offlineSurvey.surveyId = n._id;
-                    validSurveyor = true;
-                }
-            });
-            if (validSurveyor) {
-                console.log("validSurveyor", validSurveyor);
-                var modalInstance = $uibModal.open({
-                    scope: $scope,
-                    templateUrl: '/frontend/views/modal/assignment-survey.html',
-                    size: 'lg'
-                });
-                validSurveyor = false;
-            } else {
-                console.log("validSurveyor", validSurveyor);
-
-                toastr.error("Invalid Surveyor");
+        emp._id = empId;
+        console.log("Employee", emp);
+        NavigationService.saveEmployeeAssignment(emp, function (data) {
+            console.log("Success On Save EmployeeAssignment", data);
+        });
+    };
+    $scope.updateAssignmentEmployee = function (empId) {
+        var assignment = {};
+        assignment._id = $stateParams.id,
+            assignment.survey = {
+                employee: empId,
+                status: "Approval Pending",
+                surveyDate: $scope.surveyDate
             }
-        };
-        $scope.assignmentSurveyForm = function () {
+
+        console.log("Assignment Survey", assignment);
+        NavigationService.updateSurveyor(assignment, function (data) {
+            console.log("Success Assignment Survey", data);
+        });
+
+    };
+    $scope.surveyorAssigned = false;
+    $scope.afterSurveyAssign = function (employee) {
+        $scope.message.employee = employee;
+        $scope.message.title = "Surveyor Pending For Approval";
+        $scope.message.event = "Acknowledgment Email";
+        $scope.surveyorAssigned = true;
+        $scope.modalInstance.close();
+        $timeout(function () {
+            $scope.sendMessage("Normal");
+            $state.reload();
+        }, 1000);
+    };
+
+
+    $scope.repeat = _.times(20, Number);
+    $scope.assignSurveyor = function () {
+        $scope.modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/modal-assign-surveyor.html',
+            size: 'lg'
+        });
+    };
+    $scope.markActivity = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/mark-activity.html',
+            size: 'lg'
+        });
+    };
+    $scope.newAssessment = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/new-assessment.html',
+            size: 'md'
+        });
+    };
+    $scope.viewStaff = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/staff-rating.html',
+            size: 'lg'
+        });
+    };
+    $scope.viewSurveyor = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/surveyor-rating.html',
+            size: 'lg'
+        });
+    };
+    $scope.viewClient = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/client-rating.html',
+            size: 'lg'
+        });
+    };
+    $scope.viewPhotos = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/new-photos.html',
+            size: 'md'
+        });
+    };
+    $scope.viewILA = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/new-ila.html',
+            size: 'lg'
+        });
+    };
+    $scope.viewFSR = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/new-fsr.html',
+            size: 'md'
+        });
+    };
+    $scope.viewFiles = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/other-file.html',
+            size: 'md'
+        });
+    };
+    $scope.viewImages = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/upload-image.html',
+            size: 'md'
+        });
+    };
+    $scope.viewDocs = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/upload-document.html',
+            size: 'md'
+        });
+    };
+    $scope.viewISR = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/new-isr.html',
+            size: 'md'
+        });
+    };
+    $scope.viewLOR = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/new-lor.html',
+            size: 'lg'
+        });
+    };
+
+    $scope.allAssessment = function (check) {
+        $scope.showCreate = check;
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/assessment.html',
+            size: 'md'
+        });
+    };
+
+    $scope.newEmail = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/modal-email.html',
+            size: 'lg'
+        });
+    };
+    $scope.newInvoice = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/invoice.html',
+            size: 'lg'
+        });
+    };
+
+    $scope.newMessage = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/modal-message.html',
+            size: 'lg'
+        });
+    };
+    $scope.transfer = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/transfer.html',
+            size: 'lg'
+        });
+    };
+    $scope.viewJIR = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/new-jir.html',
+            size: 'md'
+        });
+    };
+    var validSurveyor = false;
+    $scope.assignmentSurvey = function () {
+        // console.log("$scope.assignment.survey Data", $scope.assignment.survey);
+        _.each($scope.assignment.survey, function (n, key) {
+            console.log("$scope.assignment", $scope.assignment);
+            // if (n.status === "Pending" && (($scope.employee._id === $scope.assignment.owner._id))) {
+            if (n.status === "Pending" && ((n.employee._id === $scope.employee._id) || ($scope.employee._id === $scope.assignment.owner._id))) {
+                console.log("IN If", n, validSurveyor);
+                $scope.offlineSurvey.surveyId = n._id;
+                validSurveyor = true;
+            }
+        });
+        if (validSurveyor) {
+            console.log("validSurveyor", validSurveyor);
             var modalInstance = $uibModal.open({
                 scope: $scope,
-                templateUrl: '/frontend/views/modal/survey-form.html',
-                size: 'sm'
+                templateUrl: '/frontend/views/modal/assignment-survey.html',
+                size: 'lg'
             });
-        };
-        $scope.checker = 1;
+            validSurveyor = false;
+        } else {
+            console.log("validSurveyor", validSurveyor);
+
+            toastr.error("Invalid Surveyor");
+        }
+    };
+    $scope.assignmentSurveyForm = function () {
+        var modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/survey-form.html',
+            size: 'sm'
+        });
+    };
+    $scope.checker = 1;
+    $scope.offlineSurvey = {};
+    $scope.offlineSurvey.photos = [];
+    $scope.offlineSurvey.jir = [];
+    $scope.offlineSurvey.doc = [];
+
+    $scope.clearOfflineSurvey = function () {
         $scope.offlineSurvey = {};
         $scope.offlineSurvey.photos = [];
         $scope.offlineSurvey.jir = [];
         $scope.offlineSurvey.doc = [];
+    };
 
-        $scope.clearOfflineSurvey = function () {
-            $scope.offlineSurvey = {};
-            $scope.offlineSurvey.photos = [];
-            $scope.offlineSurvey.jir = [];
-            $scope.offlineSurvey.doc = [];
-        };
-
-        $scope.submitSurvey = function (data) {
-            console.log("Data Of Survey", data);
-            $scope.offlineSurvey.startTime = data.startTime;
-            $scope.offlineSurvey.endTime = data.endTime;
-            $scope.offlineSurvey.address = data.address;
-            $scope.offlineSurvey.surveyDate = data.surveyDate;
-            $scope.offlineSurvey.assignId = $stateParams.id;
-            $scope.offlineSurvey.empId = $scope.employee._id;
-            NavigationService.mobileSubmit($scope.offlineSurvey, function (data) {
-                console.log("Success Assignment Survey", data);
-            });
-            toastr.success($scope.assignment.name + "Survey Done");
-            $scope.offlineSurvey = {};
-            $scope.offlineSurvey.photos = [];
-            $scope.offlineSurvey.jir = [];
-            $scope.offlineSurvey.doc = [];
-        };
-        $scope.PhotoUploadCallback = function (data, length) {
-            console.log("Photo Data", data, length);
-            if ($scope.checker === length) {
-                var n = {};
-                n.file = data;
-                n.fileName = Date.now();
-                $scope.offlineSurvey.photos.push(n);
-                $scope.checker = 1;
-            } else {
-                var n = {};
-                n.file = data;
-                n.fileName = Date.now();
-                $scope.offlineSurvey.photos.push(n);
-                $scope.checker++;
-            }
-        };
-        $scope.JirUploadCallback = function (data, length) {
-            console.log("Jir Data", data, length);
-            if ($scope.checker === length) {
-                var n = {};
-                n.file = data;
-                n.fileName = Date.now();
-                $scope.offlineSurvey.jir.push(n);
-                $scope.checker = 1;
-            } else {
-                var n = {};
-                n.file = data;
-                n.fileName = Date.now();
-                $scope.offlineSurvey.jir.push(n);
-                $scope.checker++;
-            }
-        };
-        $scope.DocsUploadCallback = function (data, length) {
-            console.log("Docs Data", data, length);
-            if ($scope.checker === length) {
-                var n = {};
-                n.file = data;
-                n.fileName = Date.now();
-                $scope.offlineSurvey.doc.push(n);
-                $scope.checker = 1;
-            } else {
-                var n = {};
-                n.file = data;
-                n.fileName = Date.now();
-                $scope.offlineSurvey.doc.push(n);
-                $scope.checker++;
-            }
-        };
-        // $scope.viewJIR = function () {
-        //     var modalInstance = $uibModal.open({
-        //         scope: $scope,
-        //         templateUrl: '/frontend/views/modal/modal-files.html',
-        //         size: 'md'
-        //     });
-        // };
-
-
-        var modalInstance = function () {};
-        $scope.allTemplate = "";
-        $scope.saveAssignmentTemplate = function (name, temp) {
-            console.log("Raj", temp);
-            NavigationService.modelSave('assignment', temp, function (data) {
-                if (data.value === true) {
-                    // $scope.message.title = name + " Deleted.";
-                    $scope.sendMessage("Normal");
-                    toastr.success($scope.assignment.name + " Updated", "Assignment " + $scope.assignment.name);
-                } else {
-                    toastr.error("Error in updating " + $scope.assignment.name + ".", "Assignment " + $scope.assignment.name);
-                }
-            });
-        };
-        $scope.deleteTemplate = function (type, index, name) {
-            console.log("Raj2", $scope.assignment[type][index]),
-                $scope.message.title = name + " " + $scope.assignment[type][index].templateName + " Deleted"
-            $scope.assignment[type].splice(index, 1);
-            var newAssignment = {
-                "_id": $scope.assignment._id
-            };
-            newAssignment[type] = $scope.assignment[type];
-            $scope.saveAssignmentTemplate(type, newAssignment);
-        };
-        $scope.createTemplate = function (tmp) {
-            console.log("In createTemplate", tmp);
-            delete tmp._id;
-            if ($scope.api === "TemplateInvoice") {
-                var newObj = {};
-                $scope.assignment[_.camelCase($scope.api)].push(tmp);
-            } else {
-                tmp.approvalStatus = "Draft";
-                // approvalStatus
-                $scope.assignment[_.camelCase($scope.api)].push(tmp);
-            }
-
-            NavigationService.modelSave("Assignment", $scope.assignment, function (data) {
-                if (data.value) {
-                    toastr.success("Created " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
-                    $scope.assignmentRefresh();
-                } else {
-                    toastr.error("Error occured in Creating " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
-                }
-            });
-        }
-        $scope.transferAssignment = function (modelData) {
-            console.log("modelData , assignment", modelData, $scope.assignment);
-            $scope.assignment.owner = modelData.owner;
-            NavigationService.modelSave("Assignment", $scope.assignment, function (data) {
-                if (data.value === true) {
-                    NavigationService.getOneModel("Employee", modelData.owner, function (data) {
-                        var transferEmployee = data.data;
-                        $scope.message.title = "Transfered To " + transferEmployee.name;
-                        $scope.sendMessage("Normal")
-                    });
-                } else {
-                    toastr.error("Error occured in Transfering ");
-                }
-            });
-        };
-        $scope.viewTemplates = function (temp, getApi, data) {
-            $scope.allTemplate = temp;
-            $scope.api = getApi;
-            console.log("$scope.api", $scope.api);
-            if (data === "") {
-                console.log("In If");
-                NavigationService.searchModel(getApi, {
-                    page: "1",
-                    keyword: ""
-                }, "", function (data) {
-                    $scope.templateList = data.data.results;
-                });
-                var modalInstance = $uibModal.open({
-                    scope: $scope,
-                    templateUrl: '/frontend/views/modal/modal-template.html',
-                    size: 'md'
-                });
-            } else {
-                console.log("In Else");
-                $state.go("template-view", {
-                    "assignmentTemplate": data._id,
-                    "type": getApi
-                });
-            }
-        };
-        $scope.viewInvoice = function (assignment, invoice) {
-            if (invoice === '') {
-                $state.go("createInvoice", {
-                    "invoiceId": invoice._id,
-                    "assignmentId": assignment._id,
-                    "type": "InvoiceExpenditure"
-                });
-            } else {
-                $state.go("editInvoice", {
-                    "invoiceId": invoice._id,
-                    "assignmentId": assignment._id,
-                    "type": "InvoiceExpenditure"
-                });
-            }
-        };
-
-        $scope.templateAttachment = function (attachment) {
-            console.log(attachment);
-            $state.go("template-view", attachment[0].url);
-        };
-
-        $scope.files = [{
-            name: "JIR",
-            type: "templateJir",
-            count: 2,
-            files: []
-        }, {
-            name: "ILA",
-            type: "templateIla",
-            count: 0,
-            files: []
-        }, {
-            name: "ISR",
-            type: "templateIsr",
-            count: 0,
-            files: []
-        }, {
-            name: "LOR",
-            type: "templateLor",
-            count: 0,
-            files: []
-        }, {
-            name: "Assesments",
-            type: "assessment",
-            count: 0,
-            files: []
-        }, {
-            name: "FSR",
-            type: "",
-            count: 0,
-            files: []
-        }, {
-            name: "Invoice",
-            type: "",
-            count: 0,
-            files: []
-        }, {
-            name: "Documents",
-            type: "docs",
-            count: 0,
-            files: []
-        }, {
-            name: "Photos",
-            type: "photos",
-            count: 0,
-            files: []
-        }, {
-            name: "Total Attachments",
-            count: 2,
-            files: []
-        }];
-
-
-        //  INTEGRATION STARTS
-        $scope.assignment = {};
-        $scope.message = {};
-        $scope.message.employee = "";
-        $scope.timeline = {};
-        console.log(new Date());
-        $scope.message.title = "Sent a new message";
-        $scope.assessment = {};
-        $scope.doc = {};
-        $scope.photo = {};
-        $scope.showCreate = false;
-        $scope.showCreateTrue = function () {
-            $scope.showCreate = true;
-        }
-        NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
-            // NavigationService.getOneModel("User", $.jStorage.get("profile")._id, function (data) {
-            $scope.employee = data.data;
-            $scope.message.employee = data.data;
-            console.log("In Employee", $scope.employee, data);
-            $scope.assessment.employee = $scope.employee.employee;
-            $scope.photo.employee = $scope.employee.employee;
-            $scope.doc.employee = $scope.employee.employee;
+    $scope.submitSurvey = function (data) {
+        console.log("Data Of Survey", data);
+        $scope.offlineSurvey.startTime = data.startTime;
+        $scope.offlineSurvey.endTime = data.endTime;
+        $scope.offlineSurvey.address = data.address;
+        $scope.offlineSurvey.surveyDate = data.surveyDate;
+        $scope.offlineSurvey.assignId = $stateParams.id;
+        $scope.offlineSurvey.empId = $scope.employee._id;
+        NavigationService.mobileSubmit($scope.offlineSurvey, function (data) {
+            console.log("Success Assignment Survey", data);
         });
-        $scope.getTimeline = function () {
-            NavigationService.getOneModel("Timeline", $scope.timelineID, function (data) {
-                $scope.timeline = data.data;
-                console.log("ABCD", data.data, $scope.timelineID);
-            });
-        };
-        $scope.sendMessage = function (type) {
-            console.log("ABC", $scope.timeline);
-            $scope.message.type = type;
-            $scope.timeline.chat.push($scope.message);
-            NavigationService.saveChat($scope.timeline, function (data) {
-                console.log("FFFFF", data);
-                NavigationService.updateEmailStatus({
-                    timelineId: $scope.timeline._id,
-                    chatId: $scope.chatId,
-                    event: $scope.event
-                }, function (data) {
-                    console.log(data);
-                    if (data.value) {
-                        console.log("Mail Status Updated!!");
-                    } else {
-                        console.log("There was an error while updating email status !!");
-                    }
-                });
-                $scope.getTimeline();
-            });
-        };
-        $scope.sendMessageFromPhoto = function (type) {
-            $scope.timeline.chat.push(type);
-            NavigationService.saveChat($scope.timeline, function (data) {
-                console.log("FFFFF", data);
-                $scope.getTimeline();
-            });
-        };
-        $scope.assignmentRefresh = function () {
-            NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
-                $scope.assignment = data.data;
-                _.each($scope.assignment, function (n, assignmentKey) {
-                    // console.log("assignment for template");
-                    _.each($scope.files, function (m, filesKey) {
-                        if (assignmentKey === m.type) {
-                            m.files = n;
-                        }
-                    });
-                    console.log(assignmentKey);
-                });
-                if ($scope.assignment.natureOfLoss) {
-                    $scope.assignment.natureloss = "";
-                }
-                if (data.data.timeline && data.data.timeline[0]) {
-                    console.log("in if");
-                    $scope.timelineID = data.data.timeline[0];
-                    $scope.getTimeline();
-                } else {
-                    console.log("in else");
-                    NavigationService.createTimeline(data.data._id, function (data) {
-                        NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
-                            $scope.timelineID = data.data.timeline[0];
-                            $scope.getTimeline();
-                        });
-                    });
-                }
-            });
+        toastr.success($scope.assignment.name + "Survey Done");
+        $scope.offlineSurvey = {};
+        $scope.offlineSurvey.photos = [];
+        $scope.offlineSurvey.jir = [];
+        $scope.offlineSurvey.doc = [];
+    };
+    $scope.PhotoUploadCallback = function (data, length) {
+        console.log("Photo Data", data, length);
+        if ($scope.checker === length) {
+            var n = {};
+            n.file = data;
+            n.fileName = Date.now();
+            $scope.offlineSurvey.photos.push(n);
+            $scope.checker = 1;
+        } else {
+            var n = {};
+            n.file = data;
+            n.fileName = Date.now();
+            $scope.offlineSurvey.photos.push(n);
+            $scope.checker++;
         }
-        $scope.assignmentRefresh();
-
-        //  send email
-        $scope.sendEmail = function (modalForm) {
-
-            $scope.msgSend = "Sending..";
-            $scope.newTo = angular.copy($scope.emailData);
-            $scope.newTo.to = [];
-            _.each($scope.emailData.to, function (n) {
-                $scope.newTo.to.push(n.email);
-            });
-            $scope.newTo.cc = [];
-            _.each($scope.emailData.cc, function (n) {
-                $scope.newTo.cc.push(n.email);
-            });
-            $scope.newTo.bcc = [];
-            _.each($scope.emailData.bcc, function (n) {
-                $scope.newTo.bcc.push(n.email);
-            });
-            $scope.newTo.to = $scope.newTo.to.join();
-            $scope.newTo.cc = $scope.newTo.cc.join();
-            $scope.newTo.bcc = $scope.newTo.bcc.join();
-            $scope.newTo._id = $stateParams.id;
-            console.log("newTo : ", $scope.newTo);
-            NavigationService.sendEmail($scope.newTo, function (data) {
-                console.log(data);
-                if (data.value) {
-                    if (data.data.error) {
-                        toastr.error(data.data.error.code + " Code " + data.data.error.message, "Send email.");
-                    } else {
-
-                        $scope.message.email = $scope.newTo;
-                        $scope.message.email.response = data;
-                        $scope.sendMessage("Email");
-                        toastr.success("Your message has been send.", "Send email.");
-
-                        $timeout(function () {
-                            modalInstance.close();
-                        }, 1000);
-                    }
-
-                } else {
-                    // $scope.msgSend = "Error in sending email";
-                    toastr.error("Error in sending email.", "Send email.");
-                }
-            });
-        };
-
-        $scope.saveAssignment = function (otherInfo) {
-            if (otherInfo === "Assessment") {
-                $scope.assignment.timelineStatus = "Consent Pending";
-            } else if (otherInfo === "Docs") {
-                console.log("In Docs")
-                $scope.assignment.timelineStatus = "Assessment Pending";
-            } else if (otherInfo === "FSR") {
-                $scope.assignment.timelineStatus = "Dispatched";
-            }
-            NavigationService.assignmentSave($scope.assignment, function (data) {
-                if (data.value === true) {
-                    // $scope.message.title = otherInfo + " Uploaded.";
-                    // $scope.sendMessage("File");
-                    toastr.success($scope.assignment.name + " Updated", "Assignment " + $scope.assignment.name);
-                } else {
-                    toastr.error("Error in updating " + $scope.assignment.name + ".", "Assignment " + $scope.assignment.name);
-                }
-            });
-        };
-
-        $scope.onFileUploadCallback1 = function (data) {
-            if (data.file) {
-                if (!$scope.assignment.assessment) {
-                    $scope.assignment.assessment = [];
-                }
-                data.fileName = Date.now();
-                $scope.message.attachment = [];
-                var a = {
-                    type: "Assessment",
-                    url: data.file[0]
-                };
-                $scope.message.attachment.push(a);
-                $scope.assignment.assessment.push(data);
-                $scope.saveAssignment("Assessment");
-            }
-        };
-
-        // $scope.onFileUploadCallback = function (data) {
-        //     if (data.file) {
-        //         if (!$scope.assignment.fsrs) {
-        //             $scope.assignment.fsrs = [];
-        //         }
-        //         data.fileName = Date.now();
-        //         $scope.message.attachment = [];
-        //         var a = {
-        //             type: "FSR",
-        //             url: data.file[0]
-        //         };
-        //         $scope.message.attachment.push(a);
-        //         $scope.assignment.fsrs.push(data);
-        //         $scope.saveAssignment("FSR");
-        //     }
-        // };
-
-        var a = {};
-        var b = 0;
-        $scope.arr = [];
-
-        $scope.onFileUploadCallback = function (data, length) {
-            console.log("Photo Data", data, $scope.timeline, $scope.timelineID);
-            if ($scope.checker === length) {
-                $scope.arr.push(data);
-                $scope.checker = 1;
-                var array = _.cloneDeep($scope.arr);
-                var newArray = _.each($scope.arr, function (n) {
-                    a.employee = $scope.message.employee,
-                        a.file = n,
-                        a.fileName = Date.now();
-                    a.type = "File",
-                        a.title = "FSR Uploaded",
-                        a.attachment = n;
-                    $scope.assignment.fsrs.push(_.cloneDeep(a));
-                    $scope.sendMessageFromPhoto(_.cloneDeep(a));
-                    console.log("Array to be Passed", a);
-                });
-                $scope.arr = [];
-                $scope.saveAssignment("FSR");
-            } else {
-                $scope.arr.push(data);
-                $scope.checker++;
-            }
-        };
-
-        //         $scope.onInvoiceUploadCallback = function (data, length) {
-        //     console.log("Photo Data", data, $scope.timeline, $scope.timelineID);
-        //     if ($scope.checker === length) {
-        //         $scope.arr.push(data);
-        //         $scope.checker = 1;
-        //         var array = _.cloneDeep($scope.arr);
-        //         var newArray = _.each($scope.arr, function (n) {
-        //             a.employee = $scope.message.employee,
-        //                 a.file = n,
-        //                 a.fileName = Date.now();
-        //                 a.type = "File",
-        //                 a.title = "FSR Uploaded",
-        //                 a.attachment = n;
-        //             $scope.assignment.invoice.push(_.cloneDeep(a));
-        //             $scope.sendMessageFromPhoto(_.cloneDeep(a));
-        //             console.log("Array to be Passed", a);
-        //         });
-        //         $scope.arr = [];
-        //         $scope.saveAssignment("FSR");
-        //     } else {
-        //         $scope.arr.push(data);
-        //         $scope.checker++;
-        //     }
-        // };
-
-        $scope.onPhotoUploadCallback = function (data, length) {
-            console.log("Photo Data", data, $scope.timeline, $scope.timelineID);
-            if ($scope.checker === length) {
-                $scope.arr.push(data);
-                $scope.checker = 1;
-                var array = _.cloneDeep($scope.arr);
-                var newArray = _.each($scope.arr, function (n) {
-                    a.employee = $scope.message.employee,
-                        a.file = n,
-                        a.fileName = Date.now();
-                    a.type = "Normal",
-                        a.title = "Photo Uploaded",
-                        a.attachment = n;
-                    $scope.assignment.photos.push(_.cloneDeep(a));
-                    $scope.sendMessageFromPhoto(_.cloneDeep(a));
-                    console.log("Array to be Passed", a);
-                });
-                $scope.arr = [];
-                $scope.saveAssignment("Photo");
-            } else {
-                $scope.arr.push(data);
-                $scope.checker++;
-            }
-        };
-        $scope.onAssessmentUploadCallback = function (data, length) {
-            if ($scope.checker === length) {
-                $scope.arr.push(data);
-                $scope.checker = 1;
-                var array = _.cloneDeep($scope.arr);
-                var newArray = _.each($scope.arr, function (n) {
-                    a.employee = $scope.message.employee,
-                        a.file = n,
-                        a.fileName = Date.now();
-                    a.type = "File",
-                        a.title = "Assessment Uploaded",
-                        a.attachment = n;
-                    $scope.assignment.assessment.push(_.cloneDeep(a));
-                    $scope.sendMessageFromPhoto(_.cloneDeep(a));
-                });
-                $scope.arr = [];
-                $scope.saveAssignment("Assessment");
-                console.log("After Save", $scope.arr);
-
-            } else {
-                $scope.arr.push(data);
-                $scope.checker++;
-            }
-        };
-        $scope.onDocsUploadCallback = function (data, length) {
-            console.log("In Doc");
-            if ($scope.checker === length) {
-                $scope.arr.push(data);
-                $scope.checker = 1;
-                var array = _.cloneDeep($scope.arr);
-                var newArray = _.each($scope.arr, function (n) {
-                    a.employee = $scope.message.employee,
-                        a.file = n,
-                        a.fileName = Date.now();
-                    a.type = "File",
-                        a.title = "Document Uploaded",
-                        a.attachment = n;
-                    $scope.assignment.docs.push(_.cloneDeep(a));
-                    $scope.sendMessageFromPhoto(_.cloneDeep(a));
-                });
-                $scope.arr = [];
-                $scope.saveAssignment("Docs");
-                console.log("After Save", $scope.arr);
-
-            } else {
-                $scope.arr.push(data);
-                $scope.checker++;
-            }
-        };
-
-        // $scope.onDocsUploadCallback = function (data) {
-        //     if (data.file) {
-        //         if (!$scope.assignment.docs) {
-        //             $scope.assignment.docs = [];
-        //         }
-        //         data.fileName = Date.now();
-        //         $scope.message.attachment = [];
-        //         var a = {
-        //             type: "Docs",
-        //             url: data.file[0]
-        //         };
-        //         $scope.assignment.docs.push(data);
-        //         $scope.saveAssignment("Docs");
-        //     }
-        // };
-    })
-
-    .controller('EmailInboxCtrl', function ($scope, $window, $uibModal, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, base64) {
-        //Used to name the .html file
-        $scope.template = TemplateService.changecontent("email-inbox");
-        $scope.menutitle = NavigationService.makeactive("Email Inbox");
-        TemplateService.title = $scope.menutitle;
-        $scope.navigation = NavigationService.getnav();
-
-        $scope.header = {
-            "name": "Email Inbox"
-        };
-        $scope.msg = "Loading...";
-        $scope.msgSend = "";
-        $scope.allSelect = false;
-        $scope.mails = [];
-        $scope.emailForm = {};
-        $scope.labelIds = "INBOX";
-        $scope.tabMenue = [{
-            title: "Inbox",
-            label: "INBOX",
-            class: "active"
-        }, {
-            title: "Draft",
-            label: "DRAFT",
-            class: ""
-        }, {
-            title: "Important",
-            label: "IMPORTANT",
-            class: ""
-        }, {
-            title: "Sent",
-            label: "SENT",
-            class: ""
-        }, {
-            title: "Trash",
-            label: "TRASH",
-            class: ""
-        }];
-        $scope.scrollDisable = false;
-        // GMAIL CALL
-        $scope.tabSelected = function (label, tab) {
-            _.each($scope.tabMenue, function (n) {
-                n.class = "";
-            });
-            tab.class = "active";
-            $scope.msg = "Loading...";
-            $scope.emailForm.search = "";
-            $scope.mails = [];
-            $scope.labelIds = label;
-            $scope.reloadGmail();
-        };
-        $scope.reloadGmail = function (nextPageToken) {
-            NavigationService.gmailCall({
-                url: "messages",
-                method: "GET",
-                nextPageToken: nextPageToken,
-                search: $scope.emailForm.search,
-                labelIds: $scope.labelIds
-            }, function (data) {
-                console.log(data);
-                if (data.data.resultSizeEstimate === 0) {
-                    $scope.msg = "You don't have any e-mails.";
-                } else {
-                    $scope.msg = "";
-                }
-                if (!nextPageToken) {
-                    $scope.mails = data.data.messages;
-                } else {
-                    _.each(data.data.messages, function (n) {
-                        $scope.mails.push(n);
-                    });
-                }
-                $scope.nextPage = data.data.nextPageToken;
-
-            });
-        };
-        $scope.reloadGmail();
-        $scope.showSingle = function (data) {
-            console.log("Email Data Before Passing", data);
-            $.jStorage.set("oneEmail", data);
-            $state.go("email-single", {
-                // id: data.threadId
-                id: data.id
-            });
-        };
-
-        function getHeight() {
-            $scope.emailheight = $window.innerHeight - 130;
+    };
+    $scope.JirUploadCallback = function (data, length) {
+        console.log("Jir Data", data, length);
+        if ($scope.checker === length) {
+            var n = {};
+            n.file = data;
+            n.fileName = Date.now();
+            $scope.offlineSurvey.jir.push(n);
+            $scope.checker = 1;
+        } else {
+            var n = {};
+            n.file = data;
+            n.fileName = Date.now();
+            $scope.offlineSurvey.jir.push(n);
+            $scope.checker++;
         }
-        getHeight();
+    };
+    $scope.DocsUploadCallback = function (data, length) {
+        console.log("Docs Data", data, length);
+        if ($scope.checker === length) {
+            var n = {};
+            n.file = data;
+            n.fileName = Date.now();
+            $scope.offlineSurvey.doc.push(n);
+            $scope.checker = 1;
+        } else {
+            var n = {};
+            n.file = data;
+            n.fileName = Date.now();
+            $scope.offlineSurvey.doc.push(n);
+            $scope.checker++;
+        }
+    };
+    // $scope.viewJIR = function () {
+    //     var modalInstance = $uibModal.open({
+    //         scope: $scope,
+    //         templateUrl: '/frontend/views/modal/modal-files.html',
+    //         size: 'md'
+    //     });
+    // };
 
-        angular.element($window).bind('resize', function () {
-            getHeight();
-            $scope.$apply();
+
+    var modalInstance = function () {};
+    $scope.allTemplate = "";
+    $scope.saveAssignmentTemplate = function (name, temp) {
+        console.log("Raj", temp);
+        NavigationService.modelSave('assignment', temp, function (data) {
+            if (data.value === true) {
+                // $scope.message.title = name + " Deleted.";
+                $scope.sendMessage("Normal");
+                toastr.success($scope.assignment.name + " Updated", "Assignment " + $scope.assignment.name);
+            } else {
+                toastr.error("Error in updating " + $scope.assignment.name + ".", "Assignment " + $scope.assignment.name);
+            }
         });
-
-        $scope.tinymceModel = 'Initial content';
-        $scope.tinymceOptions = {
-            plugins: 'link image code',
-            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
+    };
+    $scope.deleteTemplate = function (type, index, name) {
+        console.log("Raj2", $scope.assignment[type][index]),
+            $scope.message.title = name + " " + $scope.assignment[type][index].templateName + " Deleted"
+        $scope.assignment[type].splice(index, 1);
+        var newAssignment = {
+            "_id": $scope.assignment._id
         };
+        newAssignment[type] = $scope.assignment[type];
+        $scope.saveAssignmentTemplate(type, newAssignment);
+    };
+    $scope.createTemplate = function (tmp) {
+        console.log("In createTemplate", tmp);
+        delete tmp._id;
+        if ($scope.api === "TemplateInvoice") {
+            var newObj = {};
+            $scope.assignment[_.camelCase($scope.api)].push(tmp);
+        } else {
+            tmp.approvalStatus = "Draft";
+            // approvalStatus
+            $scope.assignment[_.camelCase($scope.api)].push(tmp);
+        }
 
-        $scope.emailToDelete = [];
-        $scope.selectAll = function (check) {
-            console.log(check);
-            if (check) {
-                _.each($scope.mails, function (n) {
-                    n.checked = true;
-                    $scope.emailToDelete.push(n.threadId);
+        NavigationService.modelSave("Assignment", $scope.assignment, function (data) {
+            if (data.value) {
+                toastr.success("Created " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
+                $scope.assignmentRefresh();
+            } else {
+                toastr.error("Error occured in Creating " + $stateParams.type + " for " + $scope.assignment.name, $stateParams.type);
+            }
+        });
+    }
+    $scope.transferAssignment = function (modelData) {
+        console.log("modelData , assignment", modelData, $scope.assignment);
+        $scope.assignment.owner = modelData.owner;
+        NavigationService.modelSave("Assignment", $scope.assignment, function (data) {
+            if (data.value === true) {
+                NavigationService.getOneModel("Employee", modelData.owner, function (data) {
+                    var transferEmployee = data.data;
+                    $scope.message.title = "Transfered To " + transferEmployee.name;
+                    $scope.sendMessage("Normal")
                 });
             } else {
-                $scope.emailToDelete = [];
-                _.each($scope.mails, function (n) {
-                    n.checked = false;
-
-                });
+                toastr.error("Error occured in Transfering ");
             }
-        };
-        $scope.addEmailToDelete = function (data) {
-            var a = _.findIndex($scope.emailToDelete, function (o) {
-                return o == data.id;
+        });
+    };
+    $scope.viewTemplates = function (temp, getApi, data) {
+        $scope.allTemplate = temp;
+        $scope.api = getApi;
+        console.log("$scope.api", $scope.api);
+        if (data === "") {
+            console.log("In If");
+            NavigationService.searchModel(getApi, {
+                page: "1",
+                keyword: ""
+            }, "", function (data) {
+                $scope.templateList = data.data.results;
             });
-            console.log(a);
-            if (a == -1) {
-                $scope.emailToDelete.push(data.id);
-            } else {
-                // var ind =
-                $scope.emailToDelete.splice(a, 1);
-            }
-
-            console.log($scope.emailToDelete);
-        };
-
-        $scope.email = {
-            message: ""
-        };
-        $scope.emailtos = [{
-            name: 'Jagruti',
-            email: 'jagruti@wohlig.com'
-        }, {
-            name: 'Tushar',
-            email: 'tushar@wohlig.com'
-        }, {
-            name: 'Chintan',
-            email: 'chintan@wohlig.com'
-        }, {
-            name: 'Harsh',
-            email: 'harsh@wohlig.com'
-        }, {
-            name: 'Raj',
-            email: 'raj@wohlig.com'
-        }];
-        var modalInstance = function () {};
-        $scope.newEmail = function () {
-            $scope.msgSend = "";
-            modalInstance = $uibModal.open({
+            var modalInstance = $uibModal.open({
                 scope: $scope,
-                templateUrl: '/frontend/views/modal/modal-email.html',
-                size: 'lg'
+                templateUrl: '/frontend/views/modal/modal-template.html',
+                size: 'md'
             });
-        };
-        $scope.sendEmail = function (modalForm) {
-
-            $scope.msgSend = "Sending..";
-            $scope.newTo = angular.copy($scope.email);
-            $scope.newTo.to = [];
-            _.each($scope.email.to, function (n) {
-                $scope.newTo.to.push(n.email);
-            });
-            $scope.newTo.cc = [];
-            _.each($scope.email.cc, function (n) {
-                $scope.newTo.cc.push(n.email);
-            });
-            $scope.newTo.bcc = [];
-            _.each($scope.email.bcc, function (n) {
-                $scope.newTo.bcc.push(n.email);
-            });
-            $scope.newTo.to = $scope.newTo.to.join();
-            $scope.newTo.cc = $scope.newTo.cc.join();
-            $scope.newTo.bcc = $scope.newTo.bcc.join();
-            console.log($scope.newTo);
-            NavigationService.sendEmail($scope.newTo, function (data) {
-                console.log(data);
-                if (data.value) {
-                    toastr.success("Your message has been send.", "Send email.");
-                    $timeout(function () {
-                        modalInstance.close();
-                    }, 1000);
-                } else {
-                    // $scope.msgSend = "Error in sending email";
-                    toastr.success("Error in sending email.", "Send email.");
-                }
-            });
-        };
-        $scope.files = [{
-            type: "JIR",
-            count: 2,
-            files: [{
-                name: "doc1.docx",
-                selection: true
-            }, {
-                name: "doc2.docx",
-                selection: true
-            }]
-        }, {
-            type: "ILA",
-            count: 0,
-            files: []
-        }, {
-            type: "ILR",
-            count: 0,
-            files: []
-        }, {
-            type: "LOR",
-            count: 0,
-            files: []
-        }, {
-            type: "Assesments",
-            count: 0,
-            files: []
-        }, {
-            type: "FSR",
-            count: 0,
-            files: []
-        }, {
-            type: "Invoice",
-            count: 0,
-            files: []
-        }, {
-            type: "Documents",
-            count: 0,
-            files: []
-        }, {
-            type: "Images",
-            count: 0,
-            files: []
-        }, {
-            type: "Total Attachments",
-            count: 2,
-            files: [{
-                name: "doc1.docx",
-                selection: true
-            }, {
-                name: "doc2.docx",
-                selection: true
-            }]
-        }];
-    })
-
-    .controller('EmailInboxCtrl', function ($scope, $window, $uibModal, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, base64) {
-        //Used to name the .html file
-        $scope.template = TemplateService.changecontent("email-inbox");
-        $scope.menutitle = NavigationService.makeactive("Email Inbox");
-        TemplateService.title = $scope.menutitle;
-        $scope.navigation = NavigationService.getnav();
-
-        $scope.header = {
-            "name": "Email Inbox"
-        };
-        $scope.msg = "Loading...";
-        $scope.msgSend = "";
-        $scope.allSelect = false;
-        $scope.mails = [];
-        $scope.emailForm = {};
-        $scope.labelIds = "INBOX";
-        $scope.tabMenue = [{
-            title: "Inbox",
-            label: "INBOX",
-            class: "active"
-        }, {
-            title: "Draft",
-            label: "DRAFT",
-            class: ""
-        }, {
-            title: "Important",
-            label: "IMPORTANT",
-            class: ""
-        }, {
-            title: "Sent",
-            label: "SENT",
-            class: ""
-        }, {
-            title: "Trash",
-            label: "TRASH",
-            class: ""
-        }];
-        $scope.scrollDisable = false;
-        // GMAIL CALL
-        $scope.tabSelected = function (label, tab) {
-            _.each($scope.tabMenue, function (n) {
-                n.class = "";
-            });
-            tab.class = "active";
-            $scope.msg = "Loading...";
-            $scope.emailForm.search = "";
-            $scope.mails = [];
-            $scope.labelIds = label;
-            $scope.reloadGmail();
-        };
-        $scope.reloadGmail = function (nextPageToken) {
-            NavigationService.gmailCall({
-                url: "messages",
-                method: "GET",
-                nextPageToken: nextPageToken,
-                search: $scope.emailForm.search,
-                labelIds: $scope.labelIds
-            }, function (data) {
-                console.log(data);
-                if (data.data.resultSizeEstimate === 0) {
-                    $scope.msg = "You don't have any e-mails.";
-                } else {
-                    $scope.msg = "";
-                }
-                if (!nextPageToken) {
-                    $scope.mails = data.data.messages;
-                } else {
-                    _.each(data.data.messages, function (n) {
-                        $scope.mails.push(n);
-                    });
-                }
-                $scope.nextPage = data.data.nextPageToken;
-
-            });
-        };
-        $scope.reloadGmail();
-        $scope.showSingle = function (data) {
-            console.log("Email Data Before Passing", data);
-            $.jStorage.set("oneEmail", data);
-            $state.go("email-single", {
-                // id: data.threadId
-                id: data.id
-            });
-        };
-
-        function getHeight() {
-            $scope.emailheight = $window.innerHeight - 130;
-        }
-        getHeight();
-
-        angular.element($window).bind('resize', function () {
-            getHeight();
-            $scope.$apply();
-        });
-
-        $scope.tinymceModel = 'Initial content';
-        $scope.tinymceOptions = {
-            plugins: 'link image code',
-            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
-        };
-
-        $scope.emailToDelete = [];
-        $scope.selectAll = function (check) {
-            console.log(check);
-            if (check) {
-                _.each($scope.mails, function (n) {
-                    n.checked = true;
-                    $scope.emailToDelete.push(n.threadId);
-                });
-            } else {
-                $scope.emailToDelete = [];
-                _.each($scope.mails, function (n) {
-                    n.checked = false;
-
-                });
-            }
-        };
-        $scope.addEmailToDelete = function (data) {
-            var a = _.findIndex($scope.emailToDelete, function (o) {
-                return o == data.id;
-            });
-            console.log(a);
-            if (a == -1) {
-                $scope.emailToDelete.push(data.id);
-            } else {
-                // var ind =
-                $scope.emailToDelete.splice(a, 1);
-            }
-
-            console.log($scope.emailToDelete);
-        };
-
-        $scope.email = {
-            message: ""
-        };
-        $scope.emailtos = [{
-            name: 'Jagruti',
-            email: 'jagruti@wohlig.com'
-        }, {
-            name: 'Tushar',
-            email: 'tushar@wohlig.com'
-        }, {
-            name: 'Chintan',
-            email: 'chintan@wohlig.com'
-        }, {
-            name: 'Harsh',
-            email: 'harsh@wohlig.com'
-        }, {
-            name: 'Raj',
-            email: 'raj@wohlig.com'
-        }];
-        var modalInstance = function () {};
-        $scope.newEmail = function () {
-            $scope.msgSend = "";
-            modalInstance = $uibModal.open({
-                scope: $scope,
-                templateUrl: '/frontend/views/modal/modal-email.html',
-                size: 'lg'
-            });
-        };
-        $scope.sendEmail = function (modalForm) {
-
-            $scope.msgSend = "Sending..";
-            $scope.newTo = angular.copy($scope.email);
-            $scope.newTo.to = [];
-            _.each($scope.email.to, function (n) {
-                $scope.newTo.to.push(n.email);
-            });
-            $scope.newTo.cc = [];
-            _.each($scope.email.cc, function (n) {
-                $scope.newTo.cc.push(n.email);
-            });
-            $scope.newTo.bcc = [];
-            _.each($scope.email.bcc, function (n) {
-                $scope.newTo.bcc.push(n.email);
-            });
-            $scope.newTo.to = $scope.newTo.to.join();
-            $scope.newTo.cc = $scope.newTo.cc.join();
-            $scope.newTo.bcc = $scope.newTo.bcc.join();
-            console.log($scope.newTo);
-            NavigationService.sendEmail($scope.newTo, function (data) {
-                console.log(data);
-                if (data.value) {
-                    toastr.success("Your message has been send.", "Send email.");
-                    $timeout(function () {
-                        modalInstance.close();
-                    }, 1000);
-                } else {
-                    // $scope.msgSend = "Error in sending email";
-                    toastr.success("Error in sending email.", "Send email.");
-                }
-            });
-        };
-        $scope.files = [{
-            type: "JIR",
-            count: 2,
-            files: [{
-                name: "doc1.docx",
-                selection: true
-            }, {
-                name: "doc2.docx",
-                selection: true
-            }]
-        }, {
-            type: "ILA",
-            count: 0,
-            files: []
-        }, {
-            type: "ILR",
-            count: 0,
-            files: []
-        }, {
-            type: "LOR",
-            count: 0,
-            files: []
-        }, {
-            type: "Assesments",
-            count: 0,
-            files: []
-        }, {
-            type: "FSR",
-            count: 0,
-            files: []
-        }, {
-            type: "Invoice",
-            count: 0,
-            files: []
-        }, {
-            type: "Documents",
-            count: 0,
-            files: []
-        }, {
-            type: "Images",
-            count: 0,
-            files: []
-        }, {
-            type: "Total Attachments",
-            count: 2,
-            files: [{
-                name: "doc1.docx",
-                selection: true
-            }, {
-                name: "doc2.docx",
-                selection: true
-            }]
-        }];
-
-
-    })
-
-    .controller('EmailSingleCtrl', function ($scope, $window, $filter, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
-        //Used to name the .html file
-        $scope.template = TemplateService.changecontent("email-single");
-        $scope.menutitle = NavigationService.makeactive("Single Mail");
-        TemplateService.title = $scope.menutitle;
-        $scope.navigation = NavigationService.getnav();
-
-        $scope.header = {
-            "name": "Single Mail"
-        };
-        console.log();
-        $scope.pdf = {};
-
-        $scope.createAssignment = function () {
-            NavigationService.pdfGenerate({
-                "messageId": $stateParams.id
-            }, function (data) {
-
-                $scope.pdf = data.data;
-
-                $state.go("createassignmentemail", {
-                    'emailId': $scope.email.id,
-                    'model': "assignment",
-                    'pdf': $scope.pdf.name
-                });
-
-            });
-        };
-
-        NavigationService.detailEmail({
-            "messageId": $stateParams.id
-        }, function (data) {
-            $scope.email = data.data;
-            console.log("Email ............", $scope.email, data);
-            var a = $filter("base64url")(data.data.raw);
-
-            $scope.email.attachment = [];
-            switch ($scope.email.payload.mimeType) {
-                case "multipart/related":
-                    {
-                        _.each($scope.email.payload.parts, function (data) {
-                            console.log("in parts");
-                            console.log(data);
-                            if (data.mimeType == "multipart/alternative") {
-                                _.each(data.parts, function (data2) {
-                                    if (data2.mimeType == "text/html") {
-                                        console.log("In related");
-                                        $scope.email.body = data2.body.data;
-                                    }
-                                });
-
-                            }
-                            if (data.filename !== "") {
-                                console.log("in attach");
-                                $scope.email.attachment.push(data);
-                                console.log($scope.email.attachment);
-                            }
-                        });
-                        console.log("scope email", $scope.email);
-                    }
-                    break;
-                case "multipart/mixed":
-                    {
-                        _.each($scope.email.payload.parts, function (data) {
-                            console.log("in parts");
-                            console.log(data);
-                            if (data.mimeType == "multipart/alternative") {
-                                _.each(data.parts, function (data2) {
-                                    if (data2.mimeType == "text/html") {
-                                        console.log("In Mixed");
-                                        $scope.email.body = data2.body.data;
-                                    }
-                                });
-
-                            }
-                            if (data.mimeType == "application/zip") {
-                                console.log("In Zip outer If");
-                                _.each(data.parts, function (data2) {
-                                    console.log("In Zip _.each");
-                                    if (data2.mimeType == "multipart/alternative") {
-                                        console.log("In Zip");
-                                        $scope.email.body = data2.body.data;
-                                    }
-                                });
-
-                            }
-                            if (data.filename !== "") {
-                                console.log("in attach");
-                                $scope.email.attachment.push(data);
-                                console.log($scope.email.attachment);
-                            }
-                        });
-                        console.log("scope email", $scope.email);
-                    }
-                    break;
-
-                case "multipart/alternative":
-                    {
-                        _.each($scope.email.payload.parts, function (data) {
-
-                            if (data.mimeType == "text/html") {
-                                console.log("In Alternative");
-                                $scope.email.body = data.body.data;
-                            }
-
-                        });
-                        console.log("scope email", $scope.email);
-                    }
-                    break;
-                case "text/html":
-                    {
-                        console.log("In text/html");
-                        $scope.email.body = $scope.email.payload.body.data;
-                        console.log("scope email", $scope.email);
-                    }
-                    break;
-            }
-            $.jStorage.set("assignmentEmail", $scope.email);
-
-        });
-
-        $scope.accessToken = $.jStorage.get("accessToken");
-        $scope.openAttachment = function (f) {
-            var a = {
-                "attachmentId": f.body.attachmentId,
-                "fileName": f.filename,
-                "messageId": $stateParams.id
-            };
-            var win = window.open(adminurl + "user/getAttachment?accessToken=" + $scope.accessToken + "&fileName=" + f.filename + "&attachmentId=" + f.body.attachmentId + "&messageId=" + $stateParams.id, '_blank');
-            // NavigationService.getAttachment(a, function (data) {
-            //     console.log(data);
-            // });
-        };
-
-
-        $scope.emailSnippet = '<div dir="ltr">Dear Chintan,<div><br></div><div>Seen the links. What next?</div></div><div data-smartmail="gmail_signature"><div><br></div><div>Warm Regards,</div><div><br></div><div><b>Arun Arora</b></div><div><font color="#666666">M: +91 81080 99789</font></div><div>______________________________<wbr>____________________</div><div><br></div><div><b><font color="#000099">Absolute Insurance Surveyors &amp; Loss Assessors Pvt Ltd</font></b></div><div><font color="#666666">501/502, Ideal Trade Centre, Sector 11,&nbsp;CBD Belapur, Navi Mumbai 400 614</font></div><div><font color="#666666">T: +91 22 2756 2983 | F: +91 22 2756 2984</font></div></div>';
-
-    })
-
-
-    // .controller('ApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64) {
-    //     //Used to name the .html file
-    //     $scope.template = TemplateService.changecontent("approvals");
-    //     $scope.menutitle = NavigationService.makeactive("Approvals");
-    //     TemplateService.title = $scope.menutitle;
-    //     $scope.navigation = NavigationService.getnav();
-    //     $scope.someDate = moment().subtract(24, "hours").toDate();
-    //     $scope.getDelayClass = function (val) {
-    //         var retClass = "";
-    //         var hours = moment().diff(moment(val), "hours");
-    //         if (hours >= 0 && hours <= 6) {
-    //             retClass = "delay-6";
-    //         } else if (hours >= 7 && hours <= 24) {
-    //             retClass = "delay-24";
-    //         } else if (hours >= 25 && hours <= 48) {
-    //             retClass = "delay-48";
-    //         } else if (hours >= 49) {
-    //             retClass = "delay-72";
-    //         }
-    //         console.log(retClass);
-    //         return retClass;
-
-    //     };
-
-    // })
-
-    .controller('IlaApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64, $stateParams, $state, toastr) {
-        //Used to name the .html file
-        $scope.template = TemplateService.changecontent("ila-approval");
-        $scope.menutitle = NavigationService.makeactive("Approvals");
-        TemplateService.title = $scope.menutitle;
-        $scope.navigation = NavigationService.getnav();
-        $scope.currentPage = $stateParams.page;
-        var i = 0;
-        NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
-            $scope.employee = data.data._id;
-            console.log("In $scope.ownersId", $scope.employee);
-        });
-        $scope.list = [{
-            name: 'ILA',
-            value: 'ILA'
-        }, {
-            name: 'LOR',
-            value: 'LOR'
-        }]
-        $scope.getAll = function (data) {
-            console.log(data);
-            $scope.approvalType = data.value;
-            $scope.showAll();
-        }
-        $scope.search = {
-            keyword: ""
-        };
-        if ($stateParams.keyword) {
-            $scope.search.keyword = $stateParams.keyword;
-        }
-        $scope.approvalType = "ILA";
-        $scope.showAll = function (keywordChange) {
-            $scope.totalItems = undefined;
-            if (keywordChange) {
-                $scope.currentPage = 1;
-            }
-            NavigationService.getApprovalList({
-                page: $scope.currentPage,
-                type: "templateIla"
-            }, ++i, function (data, ini) {
-                if (ini == i) {
-                    $scope.ilaList = data.data.results;
-                    $scope.totalItems = data.data.total;
-                    $scope.maxRow = data.data.options.count;
-                }
-                console.log("$scope.ilaList", $scope.ilaList);
-            });
-        };
-        $scope.cancel = function () {
-            $window.history.back();
-        };
-        $scope.changePage = function (page) {
-            console.log("Page", page);
-            var goTo = "ilaApproval-list";
-            if ($scope.search.keyword) {
-                goTo = "ilaApproval-list";
-            }
-            $state.go(goTo, {
-                page: page,
-                keyword: $scope.search.keyword
-            });
-        };
-        $scope.showAll();
-        // $scope.someDate = moment().subtract(24, "hours").toDate();
-        $scope.getDelayClass = function (val) {
-            var retClass = "";
-            var hours = moment().diff(moment(val), "hours");
-            // var hours = moment().diff(moment(val).add(5, "hours").add(30, "minutes"), "hours");
-            if (hours >= 0 && hours <= 6) {
-                retClass = "delay-6";
-            } else if (hours >= 7 && hours <= 24) {
-                retClass = "delay-24";
-            } else if (hours >= 25 && hours <= 48) {
-                retClass = "delay-48";
-            } else if (hours >= 49) {
-                retClass = "delay-72";
-            }
-            console.log(retClass);
-            return retClass;
-
-        };
-
-        $scope.viewTemplates = function (temp, getApi, data) {
-            $scope.allTemplate = temp;
-            $scope.api = getApi;
-            console.log("$scope.api", $scope.api);
+        } else {
             console.log("In Else");
             $state.go("template-view", {
                 "assignmentTemplate": data._id,
-                "type": getApi,
-                "approval": true
-            });
-        };
-        $scope.saveOnTimeline = function () {
-            NavigationService.saveChat($scope.timeline, function (data) {
-                console.log("FFFFF", data);
+                "type": getApi
             });
         }
-        $scope.saveAssignment = function (obj) {
-            console.log("Approval", obj);
-            NavigationService.saveAssignmentTemplate(obj, function (data) {
-                $scope.showAll();
+    };
+    $scope.viewInvoice = function (assignment, invoice) {
+        if (invoice === '') {
+            $state.go("createInvoice", {
+                "invoiceId": invoice._id,
+                "assignmentId": assignment._id,
+                "type": "InvoiceExpenditure"
+            });
+        } else {
+            $state.go("editInvoice", {
+                "invoiceId": invoice._id,
+                "assignmentId": assignment._id,
+                "type": "InvoiceExpenditure"
             });
         }
-        $scope.acceptIla = function (assignment) {
-            $scope.assignment = assignment;
-            NavigationService.getOneModel("Timeline", $scope.assignment.timeline[0], function (data) {
-                $scope.timeline = data.data;
-                console.log("$scope.assignment.templateIla.templateName", $scope.assignment.templateIla.templateName);
-                var a = {};
-                a.title = "ILA " + $scope.assignment.templateIla.templateName + " Approved ";
-                a.type = "Normal",
-                    a.employee = $scope.employee,
-                    $scope.timeline.chat.push(a);
-                $scope.saveOnTimeline();
-                var obj = {
-                    assignId: $scope.assignment._id,
-                    _id: $scope.assignment.templateIla._id,
-                    approvalStatus: "Approved",
-                    type: "templateIla"
-                }
-                $scope.saveAssignment(obj);
-                toastr.success("Approved ILA for " + $scope.assignment.name);
-            });
-        };
+    };
 
-        $scope.reviseIla = function (assignment) {
-            $scope.assignment = assignment;
-            NavigationService.getOneModel("Timeline", $scope.assignment.timeline[0], function (data) {
-                $scope.timeline = data.data;
-                console.log("$scope.assignment.templateIla.templateName", $scope.assignment.templateIla.templateName);
-                var a = {};
-                a.title = "ILA " + $scope.assignment.templateIla.templateName + " Revised ";
-                a.type = "Normal",
-                    a.employee = $scope.employee,
-                    $scope.timeline.chat.push(a);
-                $scope.saveOnTimeline();
-                var obj = {
-                    assignId: $scope.assignment._id,
-                    _id: $scope.assignment.templateIla._id,
-                    approvalStatus: "Revised",
-                    type: "templateIla"
-                }
-                $scope.saveAssignment(obj);
-                toastr.success("Revised ILA for " + $scope.assignment.name);
-            });
-        }
+    $scope.templateAttachment = function (attachment) {
+        console.log(attachment);
+        $state.go("template-view", attachment[0].url);
+    };
 
-    })
+    $scope.files = [{
+        name: "JIR",
+        type: "templateJir",
+        count: 2,
+        files: []
+    }, {
+        name: "ILA",
+        type: "templateIla",
+        count: 0,
+        files: []
+    }, {
+        name: "ISR",
+        type: "templateIsr",
+        count: 0,
+        files: []
+    }, {
+        name: "LOR",
+        type: "templateLor",
+        count: 0,
+        files: []
+    }, {
+        name: "Assesments",
+        type: "assessment",
+        count: 0,
+        files: []
+    }, {
+        name: "FSR",
+        type: "",
+        count: 0,
+        files: []
+    }, {
+        name: "Invoice",
+        type: "",
+        count: 0,
+        files: []
+    }, {
+        name: "Documents",
+        type: "docs",
+        count: 0,
+        files: []
+    }, {
+        name: "Photos",
+        type: "photos",
+        count: 0,
+        files: []
+    }, {
+        name: "Total Attachments",
+        count: 2,
+        files: []
+    }];
 
-    .controller('LorApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64, $stateParams, $state, toastr) {
-        //Used to name the .html file
-        $scope.template = TemplateService.changecontent("lor-approval");
-        $scope.menutitle = NavigationService.makeactive("Approvals");
-        TemplateService.title = $scope.menutitle;
-        $scope.navigation = NavigationService.getnav();
-        $scope.currentPage = $stateParams.page;
-        var i = 0;
-        NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
-            $scope.employee = data.data._id;
-            console.log("In $scope.ownersId", $scope.employee);
+
+    //  INTEGRATION STARTS
+    $scope.assignment = {};
+    $scope.message = {};
+    $scope.message.employee = "";
+    $scope.timeline = {};
+    console.log(new Date());
+    $scope.message.title = "Sent a new message";
+    $scope.assessment = {};
+    $scope.doc = {};
+    $scope.photo = {};
+    $scope.showCreate = false;
+    $scope.showCreateTrue = function () {
+        $scope.showCreate = true;
+    }
+    NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
+        // NavigationService.getOneModel("User", $.jStorage.get("profile")._id, function (data) {
+        $scope.employee = data.data;
+        $scope.message.employee = data.data;
+        console.log("In Employee", $scope.employee, data);
+        $scope.assessment.employee = $scope.employee.employee;
+        $scope.photo.employee = $scope.employee.employee;
+        $scope.doc.employee = $scope.employee.employee;
+    });
+    $scope.getTimeline = function () {
+        NavigationService.getOneModel("Timeline", $scope.timelineID, function (data) {
+            $scope.timeline = data.data;
+            console.log("ABCD", data.data, $scope.timelineID);
         });
-        $scope.getAll = function (data) {
-            console.log(data);
-            $scope.approvalType = data.value;
-            $scope.showAll();
-        }
-        $scope.search = {
-            keyword: ""
-        };
-        if ($stateParams.keyword) {
-            $scope.search.keyword = $stateParams.keyword;
-        }
-        $scope.approvalType = "LOR";
-        $scope.showAll = function (keywordChange) {
-            $scope.totalItems = undefined;
-            if (keywordChange) {
-                $scope.currentPage = 1;
-            }
-            NavigationService.getApprovalList({
-                page: $scope.currentPage,
-                type: "templateLor"
-            }, ++i, function (data, ini) {
-                if (ini == i) {
-                    $scope.lorList = data.data.results;
-                    $scope.totalItems = data.data.total;
-                    $scope.maxRow = data.data.options.count;
+    };
+    $scope.sendMessage = function (type) {
+        console.log("ABC", $scope.timeline);
+        $scope.message.type = type;
+        $scope.timeline.chat.push($scope.message);
+        NavigationService.saveChat($scope.timeline, function (data) {
+            console.log("FFFFF", data);
+            NavigationService.updateEmailStatus({
+                timelineId: $scope.timeline._id,
+                chatId: $scope.chatId,
+                event: $scope.event
+            }, function (data) {
+                console.log(data);
+                if (data.value) {
+                    console.log("Mail Status Updated!!");
+                } else {
+                    console.log("There was an error while updating email status !!");
                 }
-                console.log("$scope.lorList", $scope.lorList);
             });
-        };
-        $scope.cancel = function () {
-            $window.history.back();
-        };
-        $scope.changePage = function (page) {
-            console.log("Page", page);
-            var goTo = "lorApproval-list";
-            if ($scope.search.keyword) {
-                goTo = "lorApproval-list";
+            $scope.getTimeline();
+        });
+    };
+    $scope.sendMessageFromPhoto = function (type) {
+        $scope.timeline.chat.push(type);
+        NavigationService.saveChat($scope.timeline, function (data) {
+            console.log("FFFFF", data);
+            $scope.getTimeline();
+        });
+    };
+    $scope.assignmentRefresh = function () {
+        NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
+            $scope.assignment = data.data;
+            _.each($scope.assignment, function (n, assignmentKey) {
+                // console.log("assignment for template");
+                _.each($scope.files, function (m, filesKey) {
+                    if (assignmentKey === m.type) {
+                        m.files = n;
+                    }
+                });
+                console.log(assignmentKey);
+            });
+            if ($scope.assignment.natureOfLoss) {
+                $scope.assignment.natureloss = "";
             }
-            $state.go(goTo, {
-                page: page,
-                keyword: $scope.search.keyword
+            if (data.data.timeline && data.data.timeline[0]) {
+                console.log("in if");
+                $scope.timelineID = data.data.timeline[0];
+                $scope.getTimeline();
+            } else {
+                console.log("in else");
+                NavigationService.createTimeline(data.data._id, function (data) {
+                    NavigationService.getOneModel("Assignment", $stateParams.id, function (data) {
+                        $scope.timelineID = data.data.timeline[0];
+                        $scope.getTimeline();
+                    });
+                });
+            }
+        });
+    }
+    $scope.assignmentRefresh();
+
+    //  send email
+    $scope.sendEmail = function (modalForm) {
+
+        $scope.msgSend = "Sending..";
+        $scope.newTo = angular.copy($scope.emailData);
+        $scope.newTo.to = [];
+        _.each($scope.emailData.to, function (n) {
+            $scope.newTo.to.push(n.email);
+        });
+        $scope.newTo.cc = [];
+        _.each($scope.emailData.cc, function (n) {
+            $scope.newTo.cc.push(n.email);
+        });
+        $scope.newTo.bcc = [];
+        _.each($scope.emailData.bcc, function (n) {
+            $scope.newTo.bcc.push(n.email);
+        });
+        $scope.newTo.to = $scope.newTo.to.join();
+        $scope.newTo.cc = $scope.newTo.cc.join();
+        $scope.newTo.bcc = $scope.newTo.bcc.join();
+        $scope.newTo._id = $stateParams.id;
+        console.log("newTo : ", $scope.newTo);
+        NavigationService.sendEmail($scope.newTo, function (data) {
+            console.log(data);
+            if (data.value) {
+                if (data.data.error) {
+                    toastr.error(data.data.error.code + " Code " + data.data.error.message, "Send email.");
+                } else {
+
+                    $scope.message.email = $scope.newTo;
+                    $scope.message.email.response = data;
+                    $scope.sendMessage("Email");
+                    toastr.success("Your message has been send.", "Send email.");
+
+                    $timeout(function () {
+                        modalInstance.close();
+                    }, 1000);
+                }
+
+            } else {
+                // $scope.msgSend = "Error in sending email";
+                toastr.error("Error in sending email.", "Send email.");
+            }
+        });
+    };
+
+    $scope.saveAssignment = function (otherInfo) {
+        if (otherInfo === "Assessment") {
+            $scope.assignment.timelineStatus = "Consent Pending";
+        } else if (otherInfo === "Docs") {
+            console.log("In Docs")
+            $scope.assignment.timelineStatus = "Assessment Pending";
+        } else if (otherInfo === "FSR") {
+            $scope.assignment.timelineStatus = "Dispatched";
+        }
+        NavigationService.assignmentSave($scope.assignment, function (data) {
+            if (data.value === true) {
+                // $scope.message.title = otherInfo + " Uploaded.";
+                // $scope.sendMessage("File");
+                toastr.success($scope.assignment.name + " Updated", "Assignment " + $scope.assignment.name);
+            } else {
+                toastr.error("Error in updating " + $scope.assignment.name + ".", "Assignment " + $scope.assignment.name);
+            }
+        });
+    };
+
+    $scope.onFileUploadCallback1 = function (data) {
+        if (data.file) {
+            if (!$scope.assignment.assessment) {
+                $scope.assignment.assessment = [];
+            }
+            data.fileName = Date.now();
+            $scope.message.attachment = [];
+            var a = {
+                type: "Assessment",
+                url: data.file[0]
+            };
+            $scope.message.attachment.push(a);
+            $scope.assignment.assessment.push(data);
+            $scope.saveAssignment("Assessment");
+        }
+    };
+
+    // $scope.onFileUploadCallback = function (data) {
+    //     if (data.file) {
+    //         if (!$scope.assignment.fsrs) {
+    //             $scope.assignment.fsrs = [];
+    //         }
+    //         data.fileName = Date.now();
+    //         $scope.message.attachment = [];
+    //         var a = {
+    //             type: "FSR",
+    //             url: data.file[0]
+    //         };
+    //         $scope.message.attachment.push(a);
+    //         $scope.assignment.fsrs.push(data);
+    //         $scope.saveAssignment("FSR");
+    //     }
+    // };
+
+    var a = {};
+    var b = 0;
+    $scope.arr = [];
+
+    $scope.onFileUploadCallback = function (data, length) {
+        console.log("Photo Data", data, $scope.timeline, $scope.timelineID);
+        if ($scope.checker === length) {
+            $scope.arr.push(data);
+            $scope.checker = 1;
+            var array = _.cloneDeep($scope.arr);
+            var newArray = _.each($scope.arr, function (n) {
+                a.employee = $scope.message.employee,
+                    a.file = n,
+                    a.fileName = Date.now();
+                a.type = "File",
+                    a.title = "FSR Uploaded",
+                    a.attachment = n;
+                $scope.assignment.fsrs.push(_.cloneDeep(a));
+                $scope.sendMessageFromPhoto(_.cloneDeep(a));
+                console.log("Array to be Passed", a);
             });
+            $scope.arr = [];
+            $scope.saveAssignment("FSR");
+        } else {
+            $scope.arr.push(data);
+            $scope.checker++;
+        }
+    };
+
+    //         $scope.onInvoiceUploadCallback = function (data, length) {
+    //     console.log("Photo Data", data, $scope.timeline, $scope.timelineID);
+    //     if ($scope.checker === length) {
+    //         $scope.arr.push(data);
+    //         $scope.checker = 1;
+    //         var array = _.cloneDeep($scope.arr);
+    //         var newArray = _.each($scope.arr, function (n) {
+    //             a.employee = $scope.message.employee,
+    //                 a.file = n,
+    //                 a.fileName = Date.now();
+    //                 a.type = "File",
+    //                 a.title = "FSR Uploaded",
+    //                 a.attachment = n;
+    //             $scope.assignment.invoice.push(_.cloneDeep(a));
+    //             $scope.sendMessageFromPhoto(_.cloneDeep(a));
+    //             console.log("Array to be Passed", a);
+    //         });
+    //         $scope.arr = [];
+    //         $scope.saveAssignment("FSR");
+    //     } else {
+    //         $scope.arr.push(data);
+    //         $scope.checker++;
+    //     }
+    // };
+
+    $scope.onPhotoUploadCallback = function (data, length) {
+        console.log("Photo Data", data, $scope.timeline, $scope.timelineID);
+        if ($scope.checker === length) {
+            $scope.arr.push(data);
+            $scope.checker = 1;
+            var array = _.cloneDeep($scope.arr);
+            var newArray = _.each($scope.arr, function (n) {
+                a.employee = $scope.message.employee,
+                    a.file = n,
+                    a.fileName = Date.now();
+                a.type = "Normal",
+                    a.title = "Photo Uploaded",
+                    a.attachment = n;
+                $scope.assignment.photos.push(_.cloneDeep(a));
+                $scope.sendMessageFromPhoto(_.cloneDeep(a));
+                console.log("Array to be Passed", a);
+            });
+            $scope.arr = [];
+            $scope.saveAssignment("Photo");
+        } else {
+            $scope.arr.push(data);
+            $scope.checker++;
+        }
+    };
+    $scope.onAssessmentUploadCallback = function (data, length) {
+        if ($scope.checker === length) {
+            $scope.arr.push(data);
+            $scope.checker = 1;
+            var array = _.cloneDeep($scope.arr);
+            var newArray = _.each($scope.arr, function (n) {
+                a.employee = $scope.message.employee,
+                    a.file = n,
+                    a.fileName = Date.now();
+                a.type = "File",
+                    a.title = "Assessment Uploaded",
+                    a.attachment = n;
+                $scope.assignment.assessment.push(_.cloneDeep(a));
+                $scope.sendMessageFromPhoto(_.cloneDeep(a));
+            });
+            $scope.arr = [];
+            $scope.saveAssignment("Assessment");
+            console.log("After Save", $scope.arr);
+
+        } else {
+            $scope.arr.push(data);
+            $scope.checker++;
+        }
+    };
+    $scope.onDocsUploadCallback = function (data, length) {
+        console.log("In Doc");
+        if ($scope.checker === length) {
+            $scope.arr.push(data);
+            $scope.checker = 1;
+            var array = _.cloneDeep($scope.arr);
+            var newArray = _.each($scope.arr, function (n) {
+                a.employee = $scope.message.employee,
+                    a.file = n,
+                    a.fileName = Date.now();
+                a.type = "File",
+                    a.title = "Document Uploaded",
+                    a.attachment = n;
+                $scope.assignment.docs.push(_.cloneDeep(a));
+                $scope.sendMessageFromPhoto(_.cloneDeep(a));
+            });
+            $scope.arr = [];
+            $scope.saveAssignment("Docs");
+            console.log("After Save", $scope.arr);
+
+        } else {
+            $scope.arr.push(data);
+            $scope.checker++;
+        }
+    };
+
+    // $scope.onDocsUploadCallback = function (data) {
+    //     if (data.file) {
+    //         if (!$scope.assignment.docs) {
+    //             $scope.assignment.docs = [];
+    //         }
+    //         data.fileName = Date.now();
+    //         $scope.message.attachment = [];
+    //         var a = {
+    //             type: "Docs",
+    //             url: data.file[0]
+    //         };
+    //         $scope.assignment.docs.push(data);
+    //         $scope.saveAssignment("Docs");
+    //     }
+    // };
+})
+
+.controller('EmailInboxCtrl', function ($scope, $window, $uibModal, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, base64) {
+    //Used to name the .html file
+    $scope.template = TemplateService.changecontent("email-inbox");
+    $scope.menutitle = NavigationService.makeactive("Email Inbox");
+    TemplateService.title = $scope.menutitle;
+    $scope.navigation = NavigationService.getnav();
+
+    $scope.header = {
+        "name": "Email Inbox"
+    };
+    $scope.msg = "Loading...";
+    $scope.msgSend = "";
+    $scope.allSelect = false;
+    $scope.mails = [];
+    $scope.emailForm = {};
+    $scope.labelIds = "INBOX";
+    $scope.tabMenue = [{
+        title: "Inbox",
+        label: "INBOX",
+        class: "active"
+    }, {
+        title: "Draft",
+        label: "DRAFT",
+        class: ""
+    }, {
+        title: "Important",
+        label: "IMPORTANT",
+        class: ""
+    }, {
+        title: "Sent",
+        label: "SENT",
+        class: ""
+    }, {
+        title: "Trash",
+        label: "TRASH",
+        class: ""
+    }];
+    $scope.scrollDisable = false;
+    // GMAIL CALL
+    $scope.tabSelected = function (label, tab) {
+        _.each($scope.tabMenue, function (n) {
+            n.class = "";
+        });
+        tab.class = "active";
+        $scope.msg = "Loading...";
+        $scope.emailForm.search = "";
+        $scope.mails = [];
+        $scope.labelIds = label;
+        $scope.reloadGmail();
+    };
+    $scope.reloadGmail = function (nextPageToken) {
+        NavigationService.gmailCall({
+            url: "messages",
+            method: "GET",
+            nextPageToken: nextPageToken,
+            search: $scope.emailForm.search,
+            labelIds: $scope.labelIds
+        }, function (data) {
+            console.log(data);
+            if (data.data.resultSizeEstimate === 0) {
+                $scope.msg = "You don't have any e-mails.";
+            } else {
+                $scope.msg = "";
+            }
+            if (!nextPageToken) {
+                $scope.mails = data.data.messages;
+            } else {
+                _.each(data.data.messages, function (n) {
+                    $scope.mails.push(n);
+                });
+            }
+            $scope.nextPage = data.data.nextPageToken;
+
+        });
+    };
+    $scope.reloadGmail();
+    $scope.showSingle = function (data) {
+        console.log("Email Data Before Passing", data);
+        $.jStorage.set("oneEmail", data);
+        $state.go("email-single", {
+            // id: data.threadId
+            id: data.id
+        });
+    };
+
+    function getHeight() {
+        $scope.emailheight = $window.innerHeight - 130;
+    }
+    getHeight();
+
+    angular.element($window).bind('resize', function () {
+        getHeight();
+        $scope.$apply();
+    });
+
+    $scope.tinymceModel = 'Initial content';
+    $scope.tinymceOptions = {
+        plugins: 'link image code',
+        toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
+    };
+
+    $scope.emailToDelete = [];
+    $scope.selectAll = function (check) {
+        console.log(check);
+        if (check) {
+            _.each($scope.mails, function (n) {
+                n.checked = true;
+                $scope.emailToDelete.push(n.threadId);
+            });
+        } else {
+            $scope.emailToDelete = [];
+            _.each($scope.mails, function (n) {
+                n.checked = false;
+
+            });
+        }
+    };
+    $scope.addEmailToDelete = function (data) {
+        var a = _.findIndex($scope.emailToDelete, function (o) {
+            return o == data.id;
+        });
+        console.log(a);
+        if (a == -1) {
+            $scope.emailToDelete.push(data.id);
+        } else {
+            // var ind =
+            $scope.emailToDelete.splice(a, 1);
+        }
+
+        console.log($scope.emailToDelete);
+    };
+
+    $scope.email = {
+        message: ""
+    };
+    $scope.emailtos = [{
+        name: 'Jagruti',
+        email: 'jagruti@wohlig.com'
+    }, {
+        name: 'Tushar',
+        email: 'tushar@wohlig.com'
+    }, {
+        name: 'Chintan',
+        email: 'chintan@wohlig.com'
+    }, {
+        name: 'Harsh',
+        email: 'harsh@wohlig.com'
+    }, {
+        name: 'Raj',
+        email: 'raj@wohlig.com'
+    }];
+    var modalInstance = function () {};
+    $scope.newEmail = function () {
+        $scope.msgSend = "";
+        modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/modal-email.html',
+            size: 'lg'
+        });
+    };
+    $scope.sendEmail = function (modalForm) {
+
+        $scope.msgSend = "Sending..";
+        $scope.newTo = angular.copy($scope.email);
+        $scope.newTo.to = [];
+        _.each($scope.email.to, function (n) {
+            $scope.newTo.to.push(n.email);
+        });
+        $scope.newTo.cc = [];
+        _.each($scope.email.cc, function (n) {
+            $scope.newTo.cc.push(n.email);
+        });
+        $scope.newTo.bcc = [];
+        _.each($scope.email.bcc, function (n) {
+            $scope.newTo.bcc.push(n.email);
+        });
+        $scope.newTo.to = $scope.newTo.to.join();
+        $scope.newTo.cc = $scope.newTo.cc.join();
+        $scope.newTo.bcc = $scope.newTo.bcc.join();
+        console.log($scope.newTo);
+        NavigationService.sendEmail($scope.newTo, function (data) {
+            console.log(data);
+            if (data.value) {
+                toastr.success("Your message has been send.", "Send email.");
+                $timeout(function () {
+                    modalInstance.close();
+                }, 1000);
+            } else {
+                // $scope.msgSend = "Error in sending email";
+                toastr.success("Error in sending email.", "Send email.");
+            }
+        });
+    };
+    $scope.files = [{
+        type: "JIR",
+        count: 2,
+        files: [{
+            name: "doc1.docx",
+            selection: true
+        }, {
+            name: "doc2.docx",
+            selection: true
+        }]
+    }, {
+        type: "ILA",
+        count: 0,
+        files: []
+    }, {
+        type: "ILR",
+        count: 0,
+        files: []
+    }, {
+        type: "LOR",
+        count: 0,
+        files: []
+    }, {
+        type: "Assesments",
+        count: 0,
+        files: []
+    }, {
+        type: "FSR",
+        count: 0,
+        files: []
+    }, {
+        type: "Invoice",
+        count: 0,
+        files: []
+    }, {
+        type: "Documents",
+        count: 0,
+        files: []
+    }, {
+        type: "Images",
+        count: 0,
+        files: []
+    }, {
+        type: "Total Attachments",
+        count: 2,
+        files: [{
+            name: "doc1.docx",
+            selection: true
+        }, {
+            name: "doc2.docx",
+            selection: true
+        }]
+    }];
+})
+
+.controller('EmailInboxCtrl', function ($scope, $window, $uibModal, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr, base64) {
+    //Used to name the .html file
+    $scope.template = TemplateService.changecontent("email-inbox");
+    $scope.menutitle = NavigationService.makeactive("Email Inbox");
+    TemplateService.title = $scope.menutitle;
+    $scope.navigation = NavigationService.getnav();
+
+    $scope.header = {
+        "name": "Email Inbox"
+    };
+    $scope.msg = "Loading...";
+    $scope.msgSend = "";
+    $scope.allSelect = false;
+    $scope.mails = [];
+    $scope.emailForm = {};
+    $scope.labelIds = "INBOX";
+    $scope.tabMenue = [{
+        title: "Inbox",
+        label: "INBOX",
+        class: "active"
+    }, {
+        title: "Draft",
+        label: "DRAFT",
+        class: ""
+    }, {
+        title: "Important",
+        label: "IMPORTANT",
+        class: ""
+    }, {
+        title: "Sent",
+        label: "SENT",
+        class: ""
+    }, {
+        title: "Trash",
+        label: "TRASH",
+        class: ""
+    }];
+    $scope.scrollDisable = false;
+    // GMAIL CALL
+    $scope.tabSelected = function (label, tab) {
+        _.each($scope.tabMenue, function (n) {
+            n.class = "";
+        });
+        tab.class = "active";
+        $scope.msg = "Loading...";
+        $scope.emailForm.search = "";
+        $scope.mails = [];
+        $scope.labelIds = label;
+        $scope.reloadGmail();
+    };
+    $scope.reloadGmail = function (nextPageToken) {
+        NavigationService.gmailCall({
+            url: "messages",
+            method: "GET",
+            nextPageToken: nextPageToken,
+            search: $scope.emailForm.search,
+            labelIds: $scope.labelIds
+        }, function (data) {
+            console.log(data);
+            if (data.data.resultSizeEstimate === 0) {
+                $scope.msg = "You don't have any e-mails.";
+            } else {
+                $scope.msg = "";
+            }
+            if (!nextPageToken) {
+                $scope.mails = data.data.messages;
+            } else {
+                _.each(data.data.messages, function (n) {
+                    $scope.mails.push(n);
+                });
+            }
+            $scope.nextPage = data.data.nextPageToken;
+
+        });
+    };
+    $scope.reloadGmail();
+    $scope.showSingle = function (data) {
+        console.log("Email Data Before Passing", data);
+        $.jStorage.set("oneEmail", data);
+        $state.go("email-single", {
+            // id: data.threadId
+            id: data.id
+        });
+    };
+
+    function getHeight() {
+        $scope.emailheight = $window.innerHeight - 130;
+    }
+    getHeight();
+
+    angular.element($window).bind('resize', function () {
+        getHeight();
+        $scope.$apply();
+    });
+
+    $scope.tinymceModel = 'Initial content';
+    $scope.tinymceOptions = {
+        plugins: 'link image code',
+        toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
+    };
+
+    $scope.emailToDelete = [];
+    $scope.selectAll = function (check) {
+        console.log(check);
+        if (check) {
+            _.each($scope.mails, function (n) {
+                n.checked = true;
+                $scope.emailToDelete.push(n.threadId);
+            });
+        } else {
+            $scope.emailToDelete = [];
+            _.each($scope.mails, function (n) {
+                n.checked = false;
+
+            });
+        }
+    };
+    $scope.addEmailToDelete = function (data) {
+        var a = _.findIndex($scope.emailToDelete, function (o) {
+            return o == data.id;
+        });
+        console.log(a);
+        if (a == -1) {
+            $scope.emailToDelete.push(data.id);
+        } else {
+            // var ind =
+            $scope.emailToDelete.splice(a, 1);
+        }
+
+        console.log($scope.emailToDelete);
+    };
+
+    $scope.email = {
+        message: ""
+    };
+    $scope.emailtos = [{
+        name: 'Jagruti',
+        email: 'jagruti@wohlig.com'
+    }, {
+        name: 'Tushar',
+        email: 'tushar@wohlig.com'
+    }, {
+        name: 'Chintan',
+        email: 'chintan@wohlig.com'
+    }, {
+        name: 'Harsh',
+        email: 'harsh@wohlig.com'
+    }, {
+        name: 'Raj',
+        email: 'raj@wohlig.com'
+    }];
+    var modalInstance = function () {};
+    $scope.newEmail = function () {
+        $scope.msgSend = "";
+        modalInstance = $uibModal.open({
+            scope: $scope,
+            templateUrl: '/frontend/views/modal/modal-email.html',
+            size: 'lg'
+        });
+    };
+    $scope.sendEmail = function (modalForm) {
+
+        $scope.msgSend = "Sending..";
+        $scope.newTo = angular.copy($scope.email);
+        $scope.newTo.to = [];
+        _.each($scope.email.to, function (n) {
+            $scope.newTo.to.push(n.email);
+        });
+        $scope.newTo.cc = [];
+        _.each($scope.email.cc, function (n) {
+            $scope.newTo.cc.push(n.email);
+        });
+        $scope.newTo.bcc = [];
+        _.each($scope.email.bcc, function (n) {
+            $scope.newTo.bcc.push(n.email);
+        });
+        $scope.newTo.to = $scope.newTo.to.join();
+        $scope.newTo.cc = $scope.newTo.cc.join();
+        $scope.newTo.bcc = $scope.newTo.bcc.join();
+        console.log($scope.newTo);
+        NavigationService.sendEmail($scope.newTo, function (data) {
+            console.log(data);
+            if (data.value) {
+                toastr.success("Your message has been send.", "Send email.");
+                $timeout(function () {
+                    modalInstance.close();
+                }, 1000);
+            } else {
+                // $scope.msgSend = "Error in sending email";
+                toastr.success("Error in sending email.", "Send email.");
+            }
+        });
+    };
+    $scope.files = [{
+        type: "JIR",
+        count: 2,
+        files: [{
+            name: "doc1.docx",
+            selection: true
+        }, {
+            name: "doc2.docx",
+            selection: true
+        }]
+    }, {
+        type: "ILA",
+        count: 0,
+        files: []
+    }, {
+        type: "ILR",
+        count: 0,
+        files: []
+    }, {
+        type: "LOR",
+        count: 0,
+        files: []
+    }, {
+        type: "Assesments",
+        count: 0,
+        files: []
+    }, {
+        type: "FSR",
+        count: 0,
+        files: []
+    }, {
+        type: "Invoice",
+        count: 0,
+        files: []
+    }, {
+        type: "Documents",
+        count: 0,
+        files: []
+    }, {
+        type: "Images",
+        count: 0,
+        files: []
+    }, {
+        type: "Total Attachments",
+        count: 2,
+        files: [{
+            name: "doc1.docx",
+            selection: true
+        }, {
+            name: "doc2.docx",
+            selection: true
+        }]
+    }];
+
+
+})
+
+.controller('EmailSingleCtrl', function ($scope, $window, $filter, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+    //Used to name the .html file
+    $scope.template = TemplateService.changecontent("email-single");
+    $scope.menutitle = NavigationService.makeactive("Single Mail");
+    TemplateService.title = $scope.menutitle;
+    $scope.navigation = NavigationService.getnav();
+
+    $scope.header = {
+        "name": "Single Mail"
+    };
+    console.log();
+    $scope.pdf = {};
+
+    $scope.createAssignment = function () {
+        NavigationService.pdfGenerate({
+            "messageId": $stateParams.id
+        }, function (data) {
+
+            $scope.pdf = data.data;
+
+            $state.go("createassignmentemail", {
+                'emailId': $scope.email.id,
+                'model': "assignment",
+                'pdf': $scope.pdf.name
+            });
+
+        });
+    };
+
+    NavigationService.detailEmail({
+        "messageId": $stateParams.id
+    }, function (data) {
+        $scope.email = data.data;
+        console.log("Email ............", $scope.email, data);
+        var a = $filter("base64url")(data.data.raw);
+
+        $scope.email.attachment = [];
+        switch ($scope.email.payload.mimeType) {
+            case "multipart/related":
+                {
+                    _.each($scope.email.payload.parts, function (data) {
+                        console.log("in parts");
+                        console.log(data);
+                        if (data.mimeType == "multipart/alternative") {
+                            _.each(data.parts, function (data2) {
+                                if (data2.mimeType == "text/html") {
+                                    console.log("In related");
+                                    $scope.email.body = data2.body.data;
+                                }
+                            });
+
+                        }
+                        if (data.filename !== "") {
+                            console.log("in attach");
+                            $scope.email.attachment.push(data);
+                            console.log($scope.email.attachment);
+                        }
+                    });
+                    console.log("scope email", $scope.email);
+                }
+                break;
+            case "multipart/mixed":
+                {
+                    _.each($scope.email.payload.parts, function (data) {
+                        console.log("in parts");
+                        console.log(data);
+                        if (data.mimeType == "multipart/alternative") {
+                            _.each(data.parts, function (data2) {
+                                if (data2.mimeType == "text/html") {
+                                    console.log("In Mixed");
+                                    $scope.email.body = data2.body.data;
+                                }
+                            });
+
+                        }
+                        if (data.mimeType == "application/zip") {
+                            console.log("In Zip outer If");
+                            _.each(data.parts, function (data2) {
+                                console.log("In Zip _.each");
+                                if (data2.mimeType == "multipart/alternative") {
+                                    console.log("In Zip");
+                                    $scope.email.body = data2.body.data;
+                                }
+                            });
+
+                        }
+                        if (data.filename !== "") {
+                            console.log("in attach");
+                            $scope.email.attachment.push(data);
+                            console.log($scope.email.attachment);
+                        }
+                    });
+                    console.log("scope email", $scope.email);
+                }
+                break;
+
+            case "multipart/alternative":
+                {
+                    _.each($scope.email.payload.parts, function (data) {
+
+                        if (data.mimeType == "text/html") {
+                            console.log("In Alternative");
+                            $scope.email.body = data.body.data;
+                        }
+
+                    });
+                    console.log("scope email", $scope.email);
+                }
+                break;
+            case "text/html":
+                {
+                    console.log("In text/html");
+                    $scope.email.body = $scope.email.payload.body.data;
+                    console.log("scope email", $scope.email);
+                }
+                break;
+        }
+        $.jStorage.set("assignmentEmail", $scope.email);
+
+    });
+
+    $scope.accessToken = $.jStorage.get("accessToken");
+    $scope.openAttachment = function (f) {
+        var a = {
+            "attachmentId": f.body.attachmentId,
+            "fileName": f.filename,
+            "messageId": $stateParams.id
         };
+        var win = window.open(adminurl + "user/getAttachment?accessToken=" + $scope.accessToken + "&fileName=" + f.filename + "&attachmentId=" + f.body.attachmentId + "&messageId=" + $stateParams.id, '_blank');
+        // NavigationService.getAttachment(a, function (data) {
+        //     console.log(data);
+        // });
+    };
+
+
+    $scope.emailSnippet = '<div dir="ltr">Dear Chintan,<div><br></div><div>Seen the links. What next?</div></div><div data-smartmail="gmail_signature"><div><br></div><div>Warm Regards,</div><div><br></div><div><b>Arun Arora</b></div><div><font color="#666666">M: +91 81080 99789</font></div><div>______________________________<wbr>____________________</div><div><br></div><div><b><font color="#000099">Absolute Insurance Surveyors &amp; Loss Assessors Pvt Ltd</font></b></div><div><font color="#666666">501/502, Ideal Trade Centre, Sector 11,&nbsp;CBD Belapur, Navi Mumbai 400 614</font></div><div><font color="#666666">T: +91 22 2756 2983 | F: +91 22 2756 2984</font></div></div>';
+
+})
+
+
+// .controller('ApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64) {
+//     //Used to name the .html file
+//     $scope.template = TemplateService.changecontent("approvals");
+//     $scope.menutitle = NavigationService.makeactive("Approvals");
+//     TemplateService.title = $scope.menutitle;
+//     $scope.navigation = NavigationService.getnav();
+//     $scope.someDate = moment().subtract(24, "hours").toDate();
+//     $scope.getDelayClass = function (val) {
+//         var retClass = "";
+//         var hours = moment().diff(moment(val), "hours");
+//         if (hours >= 0 && hours <= 6) {
+//             retClass = "delay-6";
+//         } else if (hours >= 7 && hours <= 24) {
+//             retClass = "delay-24";
+//         } else if (hours >= 25 && hours <= 48) {
+//             retClass = "delay-48";
+//         } else if (hours >= 49) {
+//             retClass = "delay-72";
+//         }
+//         console.log(retClass);
+//         return retClass;
+
+//     };
+
+// })
+
+.controller('IlaApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64, $stateParams, $state, toastr) {
+    //Used to name the .html file
+    $scope.template = TemplateService.changecontent("ila-approval");
+    $scope.menutitle = NavigationService.makeactive("Approvals");
+    TemplateService.title = $scope.menutitle;
+    $scope.navigation = NavigationService.getnav();
+    $scope.currentPage = $stateParams.page;
+    var i = 0;
+    NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
+        $scope.employee = data.data._id;
+        console.log("In $scope.ownersId", $scope.employee);
+    });
+    $scope.list = [{
+        name: 'ILA',
+        value: 'ILA'
+    }, {
+        name: 'LOR',
+        value: 'LOR'
+    }]
+    $scope.getAll = function (data) {
+        console.log(data);
+        $scope.approvalType = data.value;
         $scope.showAll();
-        // $scope.someDate = moment().subtract(24, "hours").toDate();
-        $scope.getDelayClass = function (val) {
-            var retClass = "";
-            var hours = moment().diff(moment(val), "hours");
-            if (hours >= 0 && hours <= 6) {
-                retClass = "delay-6";
-            } else if (hours >= 7 && hours <= 24) {
-                retClass = "delay-24";
-            } else if (hours >= 25 && hours <= 48) {
-                retClass = "delay-48";
-            } else if (hours >= 49) {
-                retClass = "delay-72";
+    }
+    $scope.search = {
+        keyword: ""
+    };
+    if ($stateParams.keyword) {
+        $scope.search.keyword = $stateParams.keyword;
+    }
+    $scope.approvalType = "ILA";
+    $scope.showAll = function (keywordChange) {
+        $scope.totalItems = undefined;
+        if (keywordChange) {
+            $scope.currentPage = 1;
+        }
+        NavigationService.getApprovalList({
+            page: $scope.currentPage,
+            type: "templateIla"
+        }, ++i, function (data, ini) {
+            if (ini == i) {
+                $scope.ilaList = data.data.results;
+                $scope.totalItems = data.data.total;
+                $scope.maxRow = data.data.options.count;
             }
-            console.log(retClass);
-            return retClass;
-
-        };
-
-        $scope.viewTemplates = function (temp, getApi, data) {
-            $scope.allTemplate = temp;
-            $scope.api = getApi;
-            $state.go("template-view", {
-                "assignmentTemplate": data._id,
-                "type": getApi,
-                "approval": true
-            });
-        };
-        $scope.saveOnTimeline = function () {
-            NavigationService.saveChat($scope.timeline, function (data) {
-                console.log("FFFFF", data);
-            });
-        }
-        $scope.saveAssignment = function (obj) {
-            console.log("Approval", obj);
-            NavigationService.saveAssignmentTemplate(obj, function (data) {
-                $scope.showAll();
-            });
-        }
-        $scope.acceptLor = function (assignment) {
-            $scope.assignment = assignment;
-            NavigationService.getOneModel("Timeline", $scope.assignment.timeline[0], function (data) {
-                $scope.timeline = data.data;
-                console.log("$scope.assignment.templateLor.templateName", $scope.assignment.templateLor.templateName);
-                var a = {};
-                a.title = "LOR " + $scope.assignment.templateLor.templateName + " Approved ";
-                a.type = "Normal",
-                    a.employee = $scope.employee,
-                    $scope.timeline.chat.push(a);
-                $scope.saveOnTimeline();
-                var obj = {
-                    assignId: $scope.assignment._id,
-                    _id: $scope.assignment.templateLor._id,
-                    approvalStatus: "Approved",
-                    type: "templateLor"
-                }
-                $scope.saveAssignment(obj);
-                toastr.success("Approved LOR for " + $scope.assignment.name);
-            });
-        };
-
-        $scope.reviseLor = function (assignment) {
-            $scope.assignment = assignment;
-            NavigationService.getOneModel("Timeline", $scope.assignment.timeline[0], function (data) {
-                $scope.timeline = data.data;
-                console.log("$scope.assignment.templateLor.templateName", $scope.assignment.templateLor.templateName);
-                var a = {};
-                a.title = "LOR " + $scope.assignment.templateLor.templateName + " Revised ";
-                a.type = "Normal",
-                    a.employee = $scope.employee,
-                    $scope.timeline.chat.push(a);
-                $scope.saveOnTimeline();
-                var obj = {
-                    assignId: $scope.assignment._id,
-                    _id: $scope.assignment.templateLor._id,
-                    approvalStatus: "Revised",
-                    type: "templateLor"
-                }
-                $scope.saveAssignment(obj);
-                toastr.success("Revised LOR for " + $scope.assignment.name);
-            });
-        }
-
-    })
-
-    .controller('InvoiceApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64, $stateParams, $state, toastr) {
-        //Used to name the .html file
-        $scope.template = TemplateService.changecontent("invoice-approval");
-        $scope.menutitle = NavigationService.makeactive("Approvals");
-        TemplateService.title = $scope.menutitle;
-        $scope.navigation = NavigationService.getnav();
-        $scope.currentPage = $stateParams.page;
-        var i = 0;
-        NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
-            $scope.employee = data.data._id;
-            console.log("In $scope.ownersId", $scope.employee);
+            console.log("$scope.ilaList", $scope.ilaList);
         });
-        $scope.getAll = function (data) {
-            console.log(data);
-            $scope.approvalType = data.value;
-            $scope.showAll();
+    };
+    $scope.cancel = function () {
+        $window.history.back();
+    };
+    $scope.changePage = function (page) {
+        console.log("Page", page);
+        var goTo = "ilaApproval-list";
+        if ($scope.search.keyword) {
+            goTo = "ilaApproval-list";
         }
-        $scope.search = {
-            keyword: ""
-        };
-        if ($stateParams.keyword) {
-            $scope.search.keyword = $stateParams.keyword;
+        $state.go(goTo, {
+            page: page,
+            keyword: $scope.search.keyword
+        });
+    };
+    $scope.showAll();
+    // $scope.someDate = moment().subtract(24, "hours").toDate();
+    $scope.getDelayClass = function (val) {
+        var retClass = "";
+        var hours = moment().diff(moment(val), "hours");
+        // var hours = moment().diff(moment(val).add(5, "hours").add(30, "minutes"), "hours");
+        if (hours >= 0 && hours <= 6) {
+            retClass = "delay-6";
+        } else if (hours >= 7 && hours <= 24) {
+            retClass = "delay-24";
+        } else if (hours >= 25 && hours <= 48) {
+            retClass = "delay-48";
+        } else if (hours >= 49) {
+            retClass = "delay-72";
         }
-        $scope.approvalType = "invoice";
-        $scope.showAll = function (keywordChange) {
-            $scope.totalItems = undefined;
-            if (keywordChange) {
-                $scope.currentPage = 1;
-            }
-            NavigationService.searchModel("Invoice", {
-                page: $scope.currentPage,
-                keyword: $scope.search.keyword,
-                filter: {
-                    approvalStatus: "Pending"
-                }
-            }, ++i, function (data, ini) {
-                if (ini == i) {
-                    $scope.invoiceList = data.data.results;
-                    $scope.totalItems = data.data.total;
-                    $scope.maxRow = data.data.options.count;
-                    console.log("modelList", $scope.invoiceList);
-                }
-            });
-        };
+        console.log(retClass);
+        return retClass;
 
-        // 
-        $scope.viewInvoice = function (invoice, assignment) {
+    };
+
+    $scope.viewTemplates = function (temp, getApi, data) {
+        $scope.allTemplate = temp;
+        $scope.api = getApi;
+        console.log("$scope.api", $scope.api);
+        console.log("In Else");
+        $state.go("template-view", {
+            "assignmentTemplate": data._id,
+            "type": getApi,
+            "approval": true
+        });
+    };
+    $scope.saveOnTimeline = function () {
+        NavigationService.saveChat($scope.timeline, function (data) {
+            console.log("FFFFF", data);
+        });
+    }
+    $scope.saveAssignment = function (obj) {
+        console.log("Approval", obj);
+        NavigationService.saveAssignmentTemplate(obj, function (data) {
+            $scope.showAll();
+        });
+    }
+    $scope.acceptIla = function (assignment) {
+        $scope.assignment = assignment;
+        NavigationService.getOneModel("Timeline", $scope.assignment.timeline[0], function (data) {
+            $scope.timeline = data.data;
+            console.log("$scope.assignment.templateIla.templateName", $scope.assignment.templateIla.templateName);
+            var a = {};
+            a.title = "ILA " + $scope.assignment.templateIla.templateName + " Approved ";
+            a.type = "Normal",
+                a.employee = $scope.employee,
+                $scope.timeline.chat.push(a);
+            $scope.saveOnTimeline();
+            var obj = {
+                assignId: $scope.assignment._id,
+                _id: $scope.assignment.templateIla._id,
+                approvalStatus: "Approved",
+                type: "templateIla"
+            }
+            $scope.saveAssignment(obj);
+            toastr.success("Approved ILA for " + $scope.assignment.name);
+        });
+    };
+
+    $scope.reviseIla = function (assignment) {
+        $scope.assignment = assignment;
+        NavigationService.getOneModel("Timeline", $scope.assignment.timeline[0], function (data) {
+            $scope.timeline = data.data;
+            console.log("$scope.assignment.templateIla.templateName", $scope.assignment.templateIla.templateName);
+            var a = {};
+            a.title = "ILA " + $scope.assignment.templateIla.templateName + " Revised ";
+            a.type = "Normal",
+                a.employee = $scope.employee,
+                $scope.timeline.chat.push(a);
+            $scope.saveOnTimeline();
+            var obj = {
+                assignId: $scope.assignment._id,
+                _id: $scope.assignment.templateIla._id,
+                approvalStatus: "Revised",
+                type: "templateIla"
+            }
+            $scope.saveAssignment(obj);
+            toastr.success("Revised ILA for " + $scope.assignment.name);
+        });
+    }
+
+})
+
+.controller('LorApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64, $stateParams, $state, toastr) {
+    //Used to name the .html file
+    $scope.template = TemplateService.changecontent("lor-approval");
+    $scope.menutitle = NavigationService.makeactive("Approvals");
+    TemplateService.title = $scope.menutitle;
+    $scope.navigation = NavigationService.getnav();
+    $scope.currentPage = $stateParams.page;
+    var i = 0;
+    NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
+        $scope.employee = data.data._id;
+        console.log("In $scope.ownersId", $scope.employee);
+    });
+    $scope.getAll = function (data) {
+        console.log(data);
+        $scope.approvalType = data.value;
+        $scope.showAll();
+    }
+    $scope.search = {
+        keyword: ""
+    };
+    if ($stateParams.keyword) {
+        $scope.search.keyword = $stateParams.keyword;
+    }
+    $scope.approvalType = "LOR";
+    $scope.showAll = function (keywordChange) {
+        $scope.totalItems = undefined;
+        if (keywordChange) {
+            $scope.currentPage = 1;
+        }
+        NavigationService.getApprovalList({
+            page: $scope.currentPage,
+            type: "templateLor"
+        }, ++i, function (data, ini) {
+            if (ini == i) {
+                $scope.lorList = data.data.results;
+                $scope.totalItems = data.data.total;
+                $scope.maxRow = data.data.options.count;
+            }
+            console.log("$scope.lorList", $scope.lorList);
+        });
+    };
+    $scope.cancel = function () {
+        $window.history.back();
+    };
+    $scope.changePage = function (page) {
+        console.log("Page", page);
+        var goTo = "lorApproval-list";
+        if ($scope.search.keyword) {
+            goTo = "lorApproval-list";
+        }
+        $state.go(goTo, {
+            page: page,
+            keyword: $scope.search.keyword
+        });
+    };
+    $scope.showAll();
+    // $scope.someDate = moment().subtract(24, "hours").toDate();
+    $scope.getDelayClass = function (val) {
+        var retClass = "";
+        var hours = moment().diff(moment(val), "hours");
+        if (hours >= 0 && hours <= 6) {
+            retClass = "delay-6";
+        } else if (hours >= 7 && hours <= 24) {
+            retClass = "delay-24";
+        } else if (hours >= 25 && hours <= 48) {
+            retClass = "delay-48";
+        } else if (hours >= 49) {
+            retClass = "delay-72";
+        }
+        console.log(retClass);
+        return retClass;
+
+    };
+
+    $scope.viewTemplates = function (temp, getApi, data) {
+        $scope.allTemplate = temp;
+        $scope.api = getApi;
+        $state.go("template-view", {
+            "assignmentTemplate": data._id,
+            "type": getApi,
+            "approval": true
+        });
+    };
+    $scope.saveOnTimeline = function () {
+        NavigationService.saveChat($scope.timeline, function (data) {
+            console.log("FFFFF", data);
+        });
+    }
+    $scope.saveAssignment = function (obj) {
+        console.log("Approval", obj);
+        NavigationService.saveAssignmentTemplate(obj, function (data) {
+            $scope.showAll();
+        });
+    }
+    $scope.acceptLor = function (assignment) {
+        $scope.assignment = assignment;
+        NavigationService.getOneModel("Timeline", $scope.assignment.timeline[0], function (data) {
+            $scope.timeline = data.data;
+            console.log("$scope.assignment.templateLor.templateName", $scope.assignment.templateLor.templateName);
+            var a = {};
+            a.title = "LOR " + $scope.assignment.templateLor.templateName + " Approved ";
+            a.type = "Normal",
+                a.employee = $scope.employee,
+                $scope.timeline.chat.push(a);
+            $scope.saveOnTimeline();
+            var obj = {
+                assignId: $scope.assignment._id,
+                _id: $scope.assignment.templateLor._id,
+                approvalStatus: "Approved",
+                type: "templateLor"
+            }
+            $scope.saveAssignment(obj);
+            toastr.success("Approved LOR for " + $scope.assignment.name);
+        });
+    };
+
+    $scope.reviseLor = function (assignment) {
+        $scope.assignment = assignment;
+        NavigationService.getOneModel("Timeline", $scope.assignment.timeline[0], function (data) {
+            $scope.timeline = data.data;
+            console.log("$scope.assignment.templateLor.templateName", $scope.assignment.templateLor.templateName);
+            var a = {};
+            a.title = "LOR " + $scope.assignment.templateLor.templateName + " Revised ";
+            a.type = "Normal",
+                a.employee = $scope.employee,
+                $scope.timeline.chat.push(a);
+            $scope.saveOnTimeline();
+            var obj = {
+                assignId: $scope.assignment._id,
+                _id: $scope.assignment.templateLor._id,
+                approvalStatus: "Revised",
+                type: "templateLor"
+            }
+            $scope.saveAssignment(obj);
+            toastr.success("Revised LOR for " + $scope.assignment.name);
+        });
+    }
+
+})
+
+.controller('InvoiceApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64, $stateParams, $state, toastr) {
+    //Used to name the .html file
+    $scope.template = TemplateService.changecontent("invoice-approval");
+    $scope.menutitle = NavigationService.makeactive("Approvals");
+    TemplateService.title = $scope.menutitle;
+    $scope.navigation = NavigationService.getnav();
+    $scope.currentPage = $stateParams.page;
+    var i = 0;
+    NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
+        $scope.employee = data.data._id;
+        console.log("In $scope.ownersId", $scope.employee);
+    });
+    $scope.getAll = function (data) {
+        console.log(data);
+        $scope.approvalType = data.value;
+        $scope.showAll();
+    }
+    $scope.search = {
+        keyword: ""
+    };
+    if ($stateParams.keyword) {
+        $scope.search.keyword = $stateParams.keyword;
+    }
+    $scope.approvalType = "invoice";
+    $scope.showAll = function (keywordChange) {
+        $scope.totalItems = undefined;
+        if (keywordChange) {
+            $scope.currentPage = 1;
+        }
+        NavigationService.searchModel("Invoice", {
+            page: $scope.currentPage,
+            keyword: $scope.search.keyword,
+            filter: {
+                approvalStatus: "Pending"
+            }
+        }, ++i, function (data, ini) {
+            if (ini == i) {
+                $scope.invoiceList = data.data.results;
+                $scope.totalItems = data.data.total;
+                $scope.maxRow = data.data.options.count;
+                console.log("modelList", $scope.invoiceList);
+            }
+        });
+    };
+
+    // 
+    $scope.viewInvoice = function (invoice, assignment) {
             $state.go("editInvoice", {
                 "invoiceId": invoice,
                 "assignmentId": assignment._id,
@@ -14014,105 +14014,105 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
             });
         }
         // 
-        $scope.cancel = function () {
-            $window.history.back();
-        };
-        $scope.changePage = function (page) {
-            console.log("Page", page);
-            var goTo = "lorApproval-list";
-            if ($scope.search.keyword) {
-                goTo = "lorApproval-list";
-            }
-            $state.go(goTo, {
-                page: page,
-                keyword: $scope.search.keyword
-            });
-        };
-        $scope.showAll();
-        // $scope.someDate = moment().subtract(24, "hours").toDate();
-        $scope.getDelayClass = function (val) {
-            var retClass = "";
-            var hours = moment().diff(moment(val), "hours");
-            if (hours >= 0 && hours <= 6) {
-                retClass = "delay-6";
-            } else if (hours >= 7 && hours <= 24) {
-                retClass = "delay-24";
-            } else if (hours >= 25 && hours <= 48) {
-                retClass = "delay-48";
-            } else if (hours >= 49) {
-                retClass = "delay-72";
-            }
-            console.log(retClass);
-            return retClass;
-
-        };
-
-        $scope.viewTemplates = function (temp, getApi, data) {
-            $scope.allTemplate = temp;
-            $scope.api = getApi;
-            console.log("$scope.api", $scope.api);
-            console.log("In Else");
-            $state.go("template-view", {
-                "assignmentTemplate": data._id,
-                "type": getApi,
-                "approval": true
-            });
-        };
-        $scope.saveOnTimeline = function () {
-            NavigationService.saveChat($scope.timeline, function (data) {
-                console.log("FFFFF", data);
-            });
+    $scope.cancel = function () {
+        $window.history.back();
+    };
+    $scope.changePage = function (page) {
+        console.log("Page", page);
+        var goTo = "lorApproval-list";
+        if ($scope.search.keyword) {
+            goTo = "lorApproval-list";
         }
-        $scope.acceptInvoice = function (data, assignment) {
-            $scope.invoice = data
-            $scope.assignment = assignment;
-            NavigationService.getOneModel("Timeline", $scope.assignment.timeline[0], function (data) {
-                $scope.timeline = data.data;
-                var a = {};
-                a.title = "Invoice " + $scope.invoice.invoiceNumber + " Approved ";
-                a.event = "Invoice Release",
-                    a.viewEmailStatus = "true",
-                    a.invoiceNumber = $scope.invoice.invoiceNumber;
-                a.type = "Normal",
-                    a.employee = $scope.employee,
-                    $scope.timeline.chat.push(a);
-                $scope.saveOnTimeline();
-                $scope.invoice.approvalStatus = "Approved";
-                NavigationService.modelSave("Invoice", $scope.invoice, function (data) {
-                    if (data.value == true) {
-                        console.log("sdfghjk");
-                        toastr.success("Approved Invoice for " + $scope.assignment.name);
-                        $scope.showAll();
-                    }
-                });
-            });
-        };
+        $state.go(goTo, {
+            page: page,
+            keyword: $scope.search.keyword
+        });
+    };
+    $scope.showAll();
+    // $scope.someDate = moment().subtract(24, "hours").toDate();
+    $scope.getDelayClass = function (val) {
+        var retClass = "";
+        var hours = moment().diff(moment(val), "hours");
+        if (hours >= 0 && hours <= 6) {
+            retClass = "delay-6";
+        } else if (hours >= 7 && hours <= 24) {
+            retClass = "delay-24";
+        } else if (hours >= 25 && hours <= 48) {
+            retClass = "delay-48";
+        } else if (hours >= 49) {
+            retClass = "delay-72";
+        }
+        console.log(retClass);
+        return retClass;
 
-        $scope.reviseInvoice = function (data, assignment) {
-            $scope.invoice = data
-            $scope.assignment = assignment;
-            NavigationService.getOneModel("Timeline", $scope.assignment.timeline[0], function (data) {
-                $scope.timeline = data.data;
-                var a = {};
-                a.title = "Invoice " + $scope.invoice.invoiceNumber + " Revised ";
+    };
+
+    $scope.viewTemplates = function (temp, getApi, data) {
+        $scope.allTemplate = temp;
+        $scope.api = getApi;
+        console.log("$scope.api", $scope.api);
+        console.log("In Else");
+        $state.go("template-view", {
+            "assignmentTemplate": data._id,
+            "type": getApi,
+            "approval": true
+        });
+    };
+    $scope.saveOnTimeline = function () {
+        NavigationService.saveChat($scope.timeline, function (data) {
+            console.log("FFFFF", data);
+        });
+    }
+    $scope.acceptInvoice = function (data, assignment) {
+        $scope.invoice = data
+        $scope.assignment = assignment;
+        NavigationService.getOneModel("Timeline", $scope.assignment.timeline[0], function (data) {
+            $scope.timeline = data.data;
+            var a = {};
+            a.title = "Invoice " + $scope.invoice.invoiceNumber + " Approved ";
+            a.event = "Invoice Release",
+                a.viewEmailStatus = "true",
                 a.invoiceNumber = $scope.invoice.invoiceNumber;
-                a.type = "Normal",
-                    a.employee = $scope.employee,
-                    $scope.timeline.chat.push(a);
-                $scope.saveOnTimeline();
-                $scope.invoice.approvalStatus = "Approved";
-                NavigationService.modelSave("Invoice", $scope.invoice, function (data) {
-                    if (data.value == true) {
-                        toastr.success("Revised Invoice for " + $scope.assignment.name);
-                        $scope.showAll();
-                    }
-                });
+            a.type = "Normal",
+                a.employee = $scope.employee,
+                $scope.timeline.chat.push(a);
+            $scope.saveOnTimeline();
+            $scope.invoice.approvalStatus = "Approved";
+            NavigationService.modelSave("Invoice", $scope.invoice, function (data) {
+                if (data.value == true) {
+                    console.log("sdfghjk");
+                    toastr.success("Approved Invoice for " + $scope.assignment.name);
+                    $scope.showAll();
+                }
             });
-        }
+        });
+    };
 
-    })
+    $scope.reviseInvoice = function (data, assignment) {
+        $scope.invoice = data
+        $scope.assignment = assignment;
+        NavigationService.getOneModel("Timeline", $scope.assignment.timeline[0], function (data) {
+            $scope.timeline = data.data;
+            var a = {};
+            a.title = "Invoice " + $scope.invoice.invoiceNumber + " Revised ";
+            a.invoiceNumber = $scope.invoice.invoiceNumber;
+            a.type = "Normal",
+                a.employee = $scope.employee,
+                $scope.timeline.chat.push(a);
+            $scope.saveOnTimeline();
+            $scope.invoice.approvalStatus = "Approved";
+            NavigationService.modelSave("Invoice", $scope.invoice, function (data) {
+                if (data.value == true) {
+                    toastr.success("Revised Invoice for " + $scope.assignment.name);
+                    $scope.showAll();
+                }
+            });
+        });
+    }
 
-    .controller('SbcApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64, $stateParams, $state, toastr, $uibModal) {
+})
+
+.controller('SbcApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64, $stateParams, $state, toastr, $uibModal) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("sbc-approval");
         $scope.menutitle = NavigationService.makeactive("Approvals");
@@ -14406,18 +14406,18 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
                 formData = {};
                 if ($scope.assignment.assignmentapprovalStatus == "Pending ForceClosed") {
                     formData._id = assignment._id;
-                    formData.timelineStatus = "Force Closed";
+                    // formData.timelineStatus = "Force Closed";
                     formData.forceClosedRespTime = Date.now();
                     formData.assignmentapprovalStatus = "ForceClosed";
                 } else if ($scope.assignment.assignmentapprovalStatus == "Pending ReOpened") {
                     formData._id = assignment._id;
-                    formData.timelineStatus = "ReOpened";
+                    // formData.timelineStatus = "ReOpened";
                     formData.reopenRespTime = Date.now();
                     formData.assignmentapprovalStatus = "ReOpened";
                 } else if ($scope.assignment.assignmentapprovalStatus == "Pending OnHold") {
                     formData.prevtimelineStatus = $scope.assignment.timelineStatus;
                     formData._id = assignment._id;
-                    formData.timelineStatus = "OnHold";
+                    // formData.timelineStatus = "OnHold";
                     formData.reopenRespTime = Date.now();
                     formData.assignmentapprovalStatus = "OnHold";
                 }
@@ -14431,7 +14431,7 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     })
 
-    .controller('ReOpenApprovalApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64, $stateParams, $state, toastr, $uibModal) {
+.controller('ReOpenApprovalApprovalsCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, base64, $stateParams, $state, toastr, $uibModal) {
         //Used to name the .html file
         $scope.template = TemplateService.changecontent("reopen-approval");
         $scope.menutitle = NavigationService.makeactive("Approvals");
@@ -14577,25 +14577,25 @@ angular.module('phonecatControllers', ['templateservicemod', 'navigationservice'
 
     })
 
-    .controller('AccordionLORCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
-        //Used to name the .html file
-        $scope.template = TemplateService.changecontent("accordion-lor");
-        $scope.menutitle = NavigationService.makeactive("LOR");
-        TemplateService.title = $scope.menutitle;
-        $scope.navigation = NavigationService.getnav();
+.controller('AccordionLORCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+    //Used to name the .html file
+    $scope.template = TemplateService.changecontent("accordion-lor");
+    $scope.menutitle = NavigationService.makeactive("LOR");
+    TemplateService.title = $scope.menutitle;
+    $scope.navigation = NavigationService.getnav();
 
-        $scope.lorData = [{
-            name: "option 1",
-            values: ["check 1", "check 2", "check 3", "check 4", ],
-        }, {
-            name: "option 1",
-            values: ["check 1", "check 2", "check 3", "check 4", ],
-        }, {
-            name: "option 1",
-            values: ["check 1", "check 2", "check 3", "check 4", ],
-        }, {
-            name: "option 1",
-            values: ["check 1", "check 2", "check 3", "check 4", ],
-        }, ]
+    $scope.lorData = [{
+        name: "option 1",
+        values: ["check 1", "check 2", "check 3", "check 4", ],
+    }, {
+        name: "option 1",
+        values: ["check 1", "check 2", "check 3", "check 4", ],
+    }, {
+        name: "option 1",
+        values: ["check 1", "check 2", "check 3", "check 4", ],
+    }, {
+        name: "option 1",
+        values: ["check 1", "check 2", "check 3", "check 4", ],
+    }, ]
 
-    });
+});

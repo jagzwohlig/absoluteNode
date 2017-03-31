@@ -72,6 +72,7 @@ var schema = new Schema({
   forceClosedRespTime: {
     type: Date
   },
+  reopenComment: String,
   reopenReqTime: {
     type: Date
   },
@@ -941,10 +942,21 @@ var model = {
                       if (data.users) {
                         emailData.assignmentAuthorizer = data.users.name;
                       }
-                      console.log('mailData', mailData);
+                      if (data.forceClosedComment) {
+                        emailData.forceClosedComment = (data.forceClosedComment ? data.forceClosedComment : "");
+                      }
+                      if (data.reopenComment) {
+                        emailData.reopenComment = (data.reopenComment ? data.reopenComment : "");
+                      }
+                      if (data.onholdComment) {
+                        emailData.onholdComment = (data.onholdComment ? data.onholdComment : "");
+                      }
+
+                      console.log('mailData', emailData);
 
                       //Find Acknowledgment Email data
                       if (data.assignmentapprovalStatus == "Pending ForceClosed") {
+
                         var mailData = [];
                         mailData[0] = "Assignment Force Close Request";
                         mailData[1] = emailData;
@@ -978,7 +990,25 @@ var model = {
                             }
                           }
                         });
+                      } else if (data.assignmentapprovalStatus == "Rejected ForceClosed") {
+                        var mailData = [];
+                        mailData[0] = "Assignment Force Close Rejected";
+                        mailData[1] = emailData;
+                        mailData[2] = data.accessToken;
+                        mailData[3] = data.users.email;
+                        Assignment.getMailAndSendMail(mailData, function (err, newData) {
+                          if (err) {
+                            callback(null, err);
+                          } else {
+                            if (_.isEmpty(newData)) {
+                              callback("There was an error while sending mail", null);
+                            } else {
+                              callback(null, newData);
+                            }
+                          }
+                        });
                       } else if (data.assignmentapprovalStatus == "Pending ReOpened") {
+
                         var mailData = [];
                         mailData[0] = "Assignment Reopen Request";
                         mailData[1] = emailData;
@@ -998,6 +1028,75 @@ var model = {
                       } else if (data.assignmentapprovalStatus == "ReOpened") {
                         var mailData = [];
                         mailData[0] = "Assignment Reopen Approved";
+                        mailData[1] = emailData;
+                        mailData[2] = data.accessToken;
+                        mailData[3] = data.users.email;
+                        Assignment.getMailAndSendMail(mailData, function (err, newData) {
+                          if (err) {
+                            callback(null, err);
+                          } else {
+                            if (_.isEmpty(newData)) {
+                              callback("There was an error while sending mail", null);
+                            } else {
+                              callback(null, newData);
+                            }
+                          }
+                        });
+                      } else if (data.assignmentapprovalStatus == "Rejected ReOpened") {
+                        var mailData = [];
+                        mailData[0] = "Assignment Reopen Rejected";
+                        mailData[1] = emailData;
+                        mailData[2] = data.accessToken;
+                        mailData[3] = data.users.email;
+                        Assignment.getMailAndSendMail(mailData, function (err, newData) {
+                          if (err) {
+                            callback(null, err);
+                          } else {
+                            if (_.isEmpty(newData)) {
+                              callback("There was an error while sending mail", null);
+                            } else {
+                              callback(null, newData);
+                            }
+                          }
+                        });
+                      } else if (data.assignmentapprovalStatus == "Pending OnHold") {
+
+                        var mailData = [];
+                        mailData[0] = "Assignment On Hold Request";
+                        mailData[1] = emailData;
+                        mailData[2] = data.accessToken;
+                        mailData[3] = data.users.email;
+                        Assignment.getMailAndSendMail(mailData, function (err, newData) {
+                          if (err) {
+                            callback(null, err);
+                          } else {
+                            if (_.isEmpty(newData)) {
+                              callback("There was an error while sending mail", null);
+                            } else {
+                              callback(null, newData);
+                            }
+                          }
+                        });
+                      } else if (data.assignmentapprovalStatus == "OnHold") {
+                        var mailData = [];
+                        mailData[0] = "Assignment On Hold Aprproved";
+                        mailData[1] = emailData;
+                        mailData[2] = data.accessToken;
+                        mailData[3] = data.users.email;
+                        Assignment.getMailAndSendMail(mailData, function (err, newData) {
+                          if (err) {
+                            callback(null, err);
+                          } else {
+                            if (_.isEmpty(newData)) {
+                              callback("There was an error while sending mail", null);
+                            } else {
+                              callback(null, newData);
+                            }
+                          }
+                        });
+                      } else if (data.assignmentapprovalStatus == "Rejected OnHold") {
+                        var mailData = [];
+                        mailData[0] = "Assignment On Hold Rejected";
                         mailData[1] = emailData;
                         mailData[2] = data.accessToken;
                         mailData[3] = data.users.email;
@@ -1439,9 +1538,9 @@ var model = {
       } else {
         $scope.data = data2;
         var filter = {
-          _id: data2.assignment.policyDoc
-        }
-        // For policyNumber
+            _id: data2.assignment.policyDoc
+          }
+          // For policyNumber
         PolicyDoc.getPolicyDoc({
           filter
         }, function (err, data4) {
@@ -2824,14 +2923,12 @@ var model = {
           path: "$invoice",
           preserveNullAndEmptyArrays: true
         }
-      },
-      {
+      }, {
         $match: {
           $and: [ownerStatus]
         }
       },
-      sort,
-      {
+      sort, {
         $group: {
           _id: "$_id",
           natureOfLoss: {
@@ -2884,8 +2981,7 @@ var model = {
             $first: "$brokerClaimId",
           }
         }
-      },
-      {
+      }, {
         $project: {
           _id: 1,
           name: 1,
@@ -3059,7 +3155,7 @@ var model = {
               }
 
               obj.Status = n.timelineStatus
-              // obj.nature=n.natureOfLoss[0];
+                // obj.nature=n.natureOfLoss[0];
               excelData.push(obj);
             });
             Config.generateExcel("Assignment", excelData, res);
@@ -4316,6 +4412,11 @@ var model = {
     emailData.fullAddress = (mailData.fullAddress ? mailData.fullAddress : "NA");
     emailData.surveyorCity = (mailData.surveyorCity ? mailData.surveyorCity : "NA");
     emailData.productName = (mailData.productName ? mailData.productName : "NA");
+    emailData.forceClosedComment = (mailData.forceClosedComment ? mailData.forceClosedComment : "NA");
+    emailData.reopenComment = (mailData.reopenComment ? mailData.reopenComment : "NA");
+    emailData.onholdComment = (mailData.onholdComment ? mailData.onholdComment : "NA");
+
+    console.log("emailData : ", emailData);
 
     switch (data[0]) {
       case "Acknowledgment Email":
@@ -4561,6 +4662,21 @@ var model = {
         }
         break;
 
+      case "Assignment Force Close Request":
+        {
+          var emails = {
+            name: 'Assignment Force Close Request',
+            from: emailData.ownerEmail,
+            to: emailData.to,
+            cc: emailData.cc,
+            bcc: emailData.bcc,
+            subject: "Assignment Force Close Request for Assignment : " + emailData.assignmentNo,
+            message: "<html><body><p style='font-size: 16px;'>Dear " + emailData.ownerName + " ,<br> Requesting you to please Force Close the Assignment. Reason mentioned below. Reason : " + emailData.forceClosedComment + " </p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+          }
+          callback(null, emails);
+        }
+        break;
+
       case "Assignment Force Close Aprproved":
         {
           var emails = {
@@ -4586,6 +4702,21 @@ var model = {
             bcc: emailData.bcc,
             subject: "Assignment Force Close Rejected for Assignment : " + emailData.assignmentNo,
             message: "<html><body><p style='font-size: 16px;'>Dear " + emailData.ownerName + " ,<br> Your Request for Force Closing the Assignment is Rejected. #Reason#</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+          }
+          callback(null, emails);
+        }
+        break;
+
+      case "Assignment Reopen Request":
+        {
+          var emails = {
+            name: 'Assignment Reopen Request',
+            from: emailData.ownerEmail,
+            to: emailData.to,
+            cc: emailData.cc,
+            bcc: emailData.bcc,
+            subject: "Request for Reopening of Assignment : " + emailData.assignmentNo,
+            message: "<html><body><p style='font-size: 16px;'>Dear " + emailData.ownerName + ",<br> Requesting you to please Re-open the Assignment due to some reasons. Reason : " + emailData.reopenComment + " </p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
           }
           callback(null, emails);
         }
@@ -4621,16 +4752,46 @@ var model = {
         }
         break;
 
-      case "Assignment Reopen Request":
+      case "Assignment On Hold Request":
         {
           var emails = {
-            name: 'Assignment Reopen Request',
+            name: 'Assignment On Hold Request',
             from: emailData.ownerEmail,
             to: emailData.to,
             cc: emailData.cc,
             bcc: emailData.bcc,
-            subject: "Request for Reopening of Assignment : " + emailData.assignmentNo,
-            message: "<html><body><p style='font-size: 16px;'>Dear #SupervisorsName#, Requesting you to please Re-open the Assignment due to some reasons. #Reason#</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+            subject: "Assignment On Hold Request for Assignment : " + emailData.assignmentNo,
+            message: "<html><body><p style='font-size: 16px;'>Dear " + emailData.ownerName + " ,<br>Requesting you to please put the Assignment On Hold. Reason : " + emailData.onholdComment + " </p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+          }
+          callback(null, emails);
+        }
+        break;
+
+      case "Assignment On Hold Aprproved":
+        {
+          var emails = {
+            name: 'Assignment On Hold Aprproved',
+            from: emailData.ownerEmail,
+            to: emailData.to,
+            cc: emailData.cc,
+            bcc: emailData.bcc,
+            subject: "Assignment On Hold Approved for Assignment : " + emailData.assignmentNo,
+            message: "<html><body><p style='font-size: 16px;'>Dear " + emailData.ownerName + " ,<br>As per your request, i have put the assignment On Hold.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
+          }
+          callback(null, emails);
+        }
+        break;
+
+      case "Assignment On Hold Rejected":
+        {
+          var emails = {
+            name: 'Assignment On Hold Rejected',
+            from: emailData.ownerEmail,
+            to: emailData.to,
+            cc: emailData.cc,
+            bcc: emailData.bcc,
+            subject: "Assignment On Hold Rejected for Assignment :  " + emailData.assignmentNo,
+            message: "<html><body><p style='font-size: 16px;'>Dear " + emailData.ownerName + ",<br> Your Request for putting the Assignment On Hold is Rejected. #Reason# </p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>"
           }
           callback(null, emails);
         }
