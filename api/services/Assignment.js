@@ -869,7 +869,7 @@ var model = {
                       emailData.ownerName = assignmentData.owner.name;
                       emailData.ownerEmail = assignmentData.owner.officeEmail;
                       emailData.ownerPhone = assignmentData.owner.mobile;
-                      emailData.siteAddress = (assignmentData.address ? assignmentData.address : '' );
+                      emailData.siteAddress = (assignmentData.address ? assignmentData.address : '');
                       if (assignmentData.city.name) {
                         emailData.siteCity = assignmentData.city.name;
                         if (assignmentData.city.district) {
@@ -1278,7 +1278,7 @@ var model = {
               emailData.ownerName = assignmentData.owner.name;
               emailData.ownerEmail = assignmentData.owner.officeEmail;
               emailData.ownerPhone = assignmentData.owner.mobile;
-              emailData.siteAddress = (assignmentData.address ? assignmentData.address : '' );
+              emailData.siteAddress = (assignmentData.address ? assignmentData.address : '');
               if (assignmentData.city.name) {
                 emailData.siteCity = assignmentData.city.name;
                 if (assignmentData.city.district) {
@@ -1535,7 +1535,7 @@ var model = {
                   emailData.ownerName = assignmentData.owner.name;
                   emailData.ownerEmail = assignmentData.owner.officeEmail;
                   emailData.ownerPhone = assignmentData.owner.mobile;
-                  emailData.siteAddress = (assignmentData.address ? assignmentData.address : '' );
+                  emailData.siteAddress = (assignmentData.address ? assignmentData.address : '');
                   if (assignmentData.city.name) {
                     emailData.siteCity = assignmentData.city.name;
                     if (assignmentData.city.district) {
@@ -2665,99 +2665,201 @@ var model = {
     console.log("ownerStatus", ownerStatus);
     var pageStartFrom = (data.pagenumber - 1) * data.pagelimit;
     var allTable = [{
-      $lookup: {
-        from: "cities",
-        localField: "city",
-        foreignField: "_id",
-        as: "city"
+        $lookup: {
+          from: "cities",
+          localField: "city",
+          foreignField: "_id",
+          as: "city"
+        }
+      }, {
+        $unwind: {
+          path: "$city",
+          preserveNullAndEmptyArrays: true
+        }
+      }, {
+        $lookup: {
+          from: "branches",
+          localField: "branch",
+          foreignField: "_id",
+          as: "branch"
+        }
+      }, {
+        $unwind: {
+          path: "$branch",
+          preserveNullAndEmptyArrays: true
+        }
+      }, {
+        $lookup: {
+          from: "customers",
+          localField: "insurerOffice",
+          foreignField: "_id",
+          as: "insurer"
+        }
+      }, {
+        $unwind: {
+          path: "$insurer",
+          preserveNullAndEmptyArrays: true
+        }
+      }, {
+        $lookup: {
+          from: "employees",
+          localField: "owner",
+          foreignField: "_id",
+          as: "owner"
+        }
+      }, {
+        $unwind: {
+          path: "$owner",
+          preserveNullAndEmptyArrays: true
+        }
+      }, {
+        $lookup: {
+          from: "customers",
+          localField: "insuredOffice",
+          foreignField: "_id",
+          as: "insurerd"
+        }
+      }, {
+        $unwind: {
+          path: "$insurerd",
+          preserveNullAndEmptyArrays: true
+        }
+      }, {
+        $lookup: {
+          from: "departments",
+          localField: "department",
+          foreignField: "_id",
+          as: "department"
+        }
+      }, {
+        $unwind: {
+          path: "$department",
+          preserveNullAndEmptyArrays: true
+        }
+      },
+      // Extra
+      {
+        $lookup: {
+          from: "customers",
+          localField: "brokerOffice",
+          foreignField: "_id",
+          as: "broker"
+        }
+      }, {
+        $unwind: {
+          path: "$broker",
+          preserveNullAndEmptyArrays: true
+        }
+      }, {
+        $lookup: {
+          from: "naturelosses",
+          localField: "natureOfLoss",
+          foreignField: "_id",
+          as: "natureOfLoss"
+        }
+      }, {
+        $unwind: {
+          path: "$natureOfLoss",
+          preserveNullAndEmptyArrays: true
+        }
+      }, {
+        $lookup: {
+          from: "invoices",
+          localField: "invoice",
+          foreignField: "_id",
+          as: "invoice"
+        }
+      }, {
+        $unwind: {
+          path: "$invoice",
+          preserveNullAndEmptyArrays: true
+        }
+      },
+      {
+        $match: {
+          $and: [ownerStatus]
+        }
+      },
+      sort,
+      {
+        $group: {
+          _id: "$_id",
+          natureOfLoss: {
+            $push: "$natureOfLoss"
+          },
+          name: {
+            $first: "$name"
+          },
+          owner: {
+            $first: "$owner",
+          },
+          insurerd: {
+            $first: "$insurerd",
+          },
+          branch: {
+            $first: "$branch",
+          },
+          insurer: {
+            $first: "$insurer",
+          },
+          broker: {
+            $first: "$broker",
+          },
+          department: {
+            $first: "$department",
+          },
+          intimatedLoss: {
+            $first: "$intimatedLoss",
+          },
+          timelineStatus: {
+            $first: "$timelineStatus",
+          },
+          status: {
+            $first: "$status",
+          },
+          survey: {
+            $first: "$survey",
+          },
+          invoice: {
+            // $first: "$invoice",
+            $push: "$invoice"
+          },
+          insuredClaimId: {
+            $first: "$insuredClaimId",
+          },
+          insurerClaimId: {
+            $first: "$insurerClaimId",
+          },
+          brokerClaimId: {
+            $first: "$brokerClaimId",
+          }
+        }
+      },
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          createdAt: 1,
+          insuredClaimId: 1,
+          insurerClaimId: 1,
+          brokerClaimId: 1,
+          owner: "$owner.name",
+          insurerName: "$insurer.name",
+          brokerName: "$broker.name",
+          insuredName: "$insurerd.name",
+          department: "$department.name",
+          city: "$city.name",
+          intimatedLoss: 1,
+          timelineStatus: 1,
+          status: 1,
+          natureOfLoss: "$natureOfLoss.name",
+          branch: "$branch.name",
+          survey: 1,
+          invoice: "$invoice.approvalTime"
+        }
       }
-    }, {
-      $unwind: {
-        path: "$city",
-        preserveNullAndEmptyArrays: true
-      }
-    }, {
-      $lookup: {
-        from: "branches",
-        localField: "branch",
-        foreignField: "_id",
-        as: "branch"
-      }
-    }, {
-      $unwind: {
-        path: "$branch",
-        preserveNullAndEmptyArrays: true
-      }
-    }, {
-      $lookup: {
-        from: "customers",
-        localField: "insurerOffice",
-        foreignField: "_id",
-        as: "insurer"
-      }
-    }, {
-      $unwind: {
-        path: "$insurer",
-        preserveNullAndEmptyArrays: true
-      }
-    }, {
-      $lookup: {
-        from: "employees",
-        localField: "owner",
-        foreignField: "_id",
-        as: "owner"
-      }
-    }, {
-      $unwind: {
-        path: "$owner",
-        preserveNullAndEmptyArrays: true
-      }
-    }, {
-      $lookup: {
-        from: "customers",
-        localField: "insuredOffice",
-        foreignField: "_id",
-        as: "insurerd"
-      }
-    }, {
-      $unwind: {
-        path: "$insurerd",
-        preserveNullAndEmptyArrays: true
-      }
-    }, {
-      $lookup: {
-        from: "departments",
-        localField: "department",
-        foreignField: "_id",
-        as: "department"
-      }
-    }, {
-      $unwind: {
-        path: "$department",
-        preserveNullAndEmptyArrays: true
-      }
-    }, {
-      $match: {
-        $and: [ownerStatus]
-      }
-    }, sort, {
-      $skip: parseInt(pageStartFrom)
-    }, {
-      $limit: data.pagelimit
-    }, {
-      $project: {
-        _id: 1,
-        name: 1,
-        owner: "$owner.name",
-        insurerName: "$insurer.name",
-        insurerdName: "$insurerd.name",
-        department: "$department.name",
-        city: "$city.name",
-        intimatedLoss: 1,
-        timelineStatus: 1,
-        status: 1
-      }
-    }];
+    ];
+
 
     var countAllData = [{
       $lookup: {
@@ -2868,17 +2970,46 @@ var model = {
           } else {
             // console.log("Done", data1[37]);
             var excelData = [];
-            console.log(data1[0]);
+            console.log("ABCD", data1[3].invoice[0]);
             _.each(data1, function (n, key) {
               // console.log("Key",);
               var obj = {};
-              obj.name = n.name;
-              obj.intimatedLoss = n.intimatedLoss;
-              obj.timelineStatus = n.timelineStatus,
-                obj.owner = n.owner;
-              obj.insurerName = n.insurerName;
+              obj.Sr_Number = key + 1;
+              obj.branch = n.branch;
+              obj.MR_number = n.name;
+              obj.insurerClaimId = n.insurerClaimId;
+              obj.insuredClaimId = n.insuredClaimId;
+              obj.brokerClaimId = n.brokerClaimId;
+              obj.Assignment_Date = moment(n.createdAt).format("DD-MM-YYYY");
+              obj.insured = n.insuredName;
+              obj.insurer = n.insurerName;
+              obj.broker = n.brokerName;
               obj.department = n.department;
-              obj.city = n.city;
+              obj.natureOfLoss = n.natureOfLoss;
+              obj.intimatedLoss = n.intimatedLoss;
+              obj.owner = n.owner;
+              if (n.survey) {
+                if (n.survey.length > 0 && n.survey != undefined) {
+                  console.log("hiiii", n.survey[n.survey.length - 1].status);
+                  if (n.survey[n.survey.length - 1].status == "Completed") {
+                    console.log("hiiii", n.survey[n.survey.length - 1].status, n.survey[n.survey.length - 1].surveyDate);
+                    obj.Survey_Date = moment(n.survey[n.survey.length - 1].surveyDate).format("DD-MM-YYYY");
+                  }
+                }
+              } else {
+                obj.Survey_Date = "NA"
+              }
+              if (n.invoice) {
+                if (n.invoice.length > 0) {
+                  console.log("Invoice........", n.invoice[0]);
+                  obj.Reported_Date = moment(n.invoice[0]).format("DD-MM-YYYY");
+                }
+              } else {
+                obj.Reported_Date = "NA"
+              }
+
+              obj.Status = n.timelineStatus
+              // obj.nature=n.natureOfLoss[0];
               excelData.push(obj);
             });
             Config.generateExcel("Assignment", excelData, res);
@@ -3648,7 +3779,7 @@ var model = {
               emailData.ownerName = assignmentData.owner.name;
               emailData.ownerEmail = assignmentData.owner.officeEmail;
               emailData.ownerPhone = assignmentData.owner.mobile;
-              emailData.siteAddress = (assignmentData.address ? assignmentData.address : '' );
+              emailData.siteAddress = (assignmentData.address ? assignmentData.address : '');
               if (assignmentData.city.name) {
                 emailData.siteCity = assignmentData.city.name;
                 if (assignmentData.city.district) {
