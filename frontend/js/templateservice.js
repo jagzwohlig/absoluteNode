@@ -54,36 +54,36 @@ templateservicemod.service('TemplateService', function (NavigationService, $filt
   //     this.removeLoaderNum = num;
   // };
 
-  this.mrnumber = function (data, callback) {
-    var MRNumber = "";
-    var objectData = data;
-    console.log(objectData);
-    NavigationService.getOneCity(objectData.city, function (data) {
+  // this.mrnumber = function (data, callback) {
+  //   var MRNumber = "";
+  //   var objectData = data;
+  //   console.log(objectData);
+  //   NavigationService.getOneCity(objectData.city, function (data) {
 
-      MRNumber += data.data.district.state.zone.country.countryCode;
-      NavigationService.getOneCompany(objectData.company, function (company) {
-        MRNumber += company.data.companyCode;
-        NavigationService.getOneClaim(objectData.typeOfClaim, function (claim) {
-          MRNumber += claim.data.claimNumber;
-          NavigationService.getOneNatureOfServey(objectData.natureOfSurvey, function (serveycode) {
-            MRNumber += "-" + serveycode.data.code;
-            NavigationService.getOneBranch(objectData.branch, function (branch) {
-              MRNumber += branch.data.code;
-              console.log(objectData.dateOfAppointment);
-              MRNumber += "-" + $filter("date")(objectData.dateOfAppointment, "yy");
-              MRNumber += $filter("date")(objectData.dateOfAppointment, "MM");
-              MRNumber += "-" + $filter("numberFixedLen")(objectData.serialNumber, 4);
-              callback(MRNumber);
-            });
+  //     MRNumber += data.data.district.state.zone.country.countryCode;
+  //     NavigationService.getOneCompany(objectData.company, function (company) {
+  //       MRNumber += company.data.companyCode;
+  //       NavigationService.getOneClaim(objectData.typeOfClaim, function (claim) {
+  //         MRNumber += claim.data.claimNumber;
+  //         NavigationService.getOneNatureOfServey(objectData.natureOfSurvey, function (serveycode) {
+  //           MRNumber += "-" + serveycode.data.code;
+  //           NavigationService.getOneBranch(objectData.branch, function (branch) {
+  //             MRNumber += branch.data.code;
+  //             console.log(objectData.dateOfAppointment);
+  //             MRNumber += "-" + $filter("date")(objectData.dateOfAppointment, "yy");
+  //             MRNumber += $filter("date")(objectData.dateOfAppointment, "MM");
+  //             MRNumber += "-" + $filter("numberFixedLen")(objectData.serialNumber, 4);
+  //             callback(MRNumber);
+  //           });
 
-          });
-        });
+  //         });
+  //       });
 
-      });
+  //     });
 
-    });
+  //   });
 
-  };
+  // };
 
   this.changecontent = function (page, state) {
     this.init();
@@ -124,4 +124,20 @@ templateservicemod.service('TemplateService', function (NavigationService, $filt
   this.getRole = function (data) {
     console.log("Role", role);
   };
+
+  this.getAssignmentRole = function (subMenu, thirdMenu) {
+    var assignRole = _.filter(role.roles, function (n) {
+      var level1Test = (n.mainMenu == "Assignments");
+      var level2Test = (n.subMenu == subMenu);
+      var level3Test = (n.subThirdMenu == thirdMenu);
+      return level1Test && level2Test && level3Test;
+    });
+    if (assignRole.length > 0) {
+      return assignRole[0].view.val;
+    } else {
+      return false;
+    }
+  };
+  template = this;
 });
+var template = {};

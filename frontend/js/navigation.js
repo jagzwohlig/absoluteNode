@@ -433,17 +433,16 @@ var navigationservice = angular.module('navigationservice', [])
         }
 
         function getRoleSingle(roles) {
+            var retRole;
             if (roles.length > 0) {
                 roles = _.sortBy(roles, function (role) {
                     return role.roles.length * -1;
                 });
-                var retRole = _.cloneDeep(roles[0]);
+                retRole = _.cloneDeep(roles[0]);
                 _.each(roles, function (role, key) { // this is the whole role function 
                     _.each(role.roles, function (singleRole, singleRoleKey) { // this is single role
                         _.each(singleRole, function (singleObj, objKey) { // this  is for single Object
                             if (_.isPlainObject(singleObj)) {
-                                console.log(objKey, singleRoleKey, key);
-                                console.log(retRole.roles[singleRoleKey][objKey].isExist);
                                 retRole.roles[singleRoleKey][objKey].isExist = singleObj.isExist || retRole.roles[singleRoleKey][objKey].isExist;
                                 retRole.roles[singleRoleKey][objKey].val = singleObj.val || retRole.roles[singleRoleKey][objKey].val;
                             }
