@@ -119,12 +119,13 @@ var controller = {
         //     "Bcc: " + req.body.bcc + "\r\n" +
         //     "Subject: " + req.body.subject + "\r\n" +
         //     "Content-Type: message/rfc822; charset=UTF-8\r\n" +
+        //     "Content-Length: 100bit\r\n" +
         //     "Content-Transfer-Encoding: QUOTED-PRINTABLE\r\n" +
         //     "Content-Disposition: inline\r\n\r\n" +
         //     "" + req.body.message + "";
         // } 
         // else {
-            var rawData =
+        var rawData =
             "From: " + req.user.officeEmail + "\r\n" +
             "To: " + req.body.to + "\r\n" +
             "Cc: " + req.body.cc + "\r\n" +
@@ -135,7 +136,7 @@ var controller = {
             "Content-Disposition: inline\r\n\r\n" +
             "" + req.body.message + "";
         // }
-        
+
         var rawDataProcessed = btoa(rawData).replace(/\+/g, '-').replace(/\//g, '_');
         obj.form = {
             raw: rawDataProcessed,
@@ -151,7 +152,7 @@ var controller = {
                         var formData = {};
                         formData._id = req.body._id;
                         formData.threadId = threadData.threadId;
-                        console.log("threadData",formData);
+                        console.log("threadData", formData);
                         Assignment.updateThreadId(formData, res.callback);
                     } else {
                         res.callback(null, threadData);
@@ -162,6 +163,106 @@ var controller = {
 
             }
         });
+    },
+
+    sendEmailWithAttachment: function (req, res) {
+        
+        getAttachments_();
+        // Insert file attachments from Google Drive
+        function getAttachmentData(imageData) {
+            var callAPI = {
+                url: 'http://wohlig.io/api/upload/readFile?file=' + '58df550390366f15f5c74274.jpg',
+                method: "POST"
+            };
+
+            console.log("callAPI : ", callAPI);
+            request(callAPI, function (err, httpResponse, body) {
+                if (err) {
+                   return err;
+                } else if (body) {
+                    // body = JSON.parse(body);
+                    console.log("body ====: ", body);
+                    return body;
+                    
+                } else {
+                    return "No Data found";
+                }
+            });
+        }
+
+        var files = req.files;
+
+        function getAttachments_(files) {
+            var files = ["58df550390366f15f5c74274.jpg"];
+            var att = [];
+            
+            for (var i in files) {
+                var file = getAttachmentData(files[i]);
+                console.log(" file ",file);
+                att.push({
+                    mimeType: file.getMimeType(),
+                    fileName: file.getName(),
+                    bytes: base64url.encode(file.getBlob().getBytes())
+                });
+            }
+            return att;
+        }
+
+
+
+        // console.log("mail", req.body);
+        // console.log("req.user", req.user);
+        // if (_.isEmpty(req.body.threadId)) {
+        //     req.body.threadId = ""
+        // }
+
+        // var obj = {
+        //     body: {
+        //         url: "messages/send",
+        //         method: "POST"
+        //     },
+        //     user: req.user
+        // };
+
+        // if (req.attachment) {
+        //     var rawData =
+        //         "From: " + req.user.officeEmail + "\r\n" +
+        //         "To: " + req.body.to + "\r\n" +
+        //         "Cc: " + req.body.cc + "\r\n" +
+        //         "Bcc: " + req.body.bcc + "\r\n" +
+        //         "Subject: " + req.body.subject + "\r\n" +
+        //         "Content-Type: message/rfc822; charset=UTF-8\r\n" +
+        //         "Content-Length: 100bit\r\n" +
+        //         "Content-Transfer-Encoding: QUOTED-PRINTABLE\r\n" +
+        //         "Content-Disposition: inline\r\n\r\n" +
+        //         "" + req.body.message + "";
+        // }
+        // var rawDataProcessed = btoa(rawData).replace(/\+/g, '-').replace(/\//g, '_');
+        // obj.form = {
+        //     raw: rawDataProcessed,
+        //     threadId: req.body.threadId
+        // };
+        // console.log("obj  = ", obj);
+        // User.gmailCall(obj, function (err, threadData) {
+        //     if (err) {
+        //         res.callback(err, null);
+        //     } else {
+        //         if (req.body.mailType == "updateThreadId") {
+        //             if (threadData.threadId) {
+        //                 var formData = {};
+        //                 formData._id = req.body._id;
+        //                 formData.threadId = threadData.threadId;
+        //                 console.log("threadData", formData);
+        //                 Assignment.updateThreadId(formData, res.callback);
+        //             } else {
+        //                 res.callback(null, threadData);
+        //             }
+        //         } else {
+        //             res.callback(null, threadData);
+        //         }
+
+        //     }
+        // });
     },
 
     getAttachment: function (req, res) {
