@@ -1496,7 +1496,7 @@ var model = {
                       callback("There was an error while sending mail", null);
                     } else {
                       console.log("LOR DATA.................................................", $scope.data);
-                      Config.generatePdf("pdf/lor", $scope, callback);
+                      Config.generatePdf("pdf/new-lor", $scope, callback);
                       // callback(null, newData);
                     }
                   }
@@ -1516,7 +1516,7 @@ var model = {
                       callback("There was an error while sending mail", null);
                     } else {
                       console.log("LOR DATA.................................................", $scope.data);
-                      Config.generatePdf("pdf/ila", $scope, callback);
+                      Config.generatePdf("new-ila", $scope, callback);
                     }
                   }
                 });
@@ -2733,7 +2733,7 @@ var model = {
           $regex: data.city,
           $options: 'i'
         }
-      }
+      };
       arr.push(city);
     }
     if (data.insurer !== "") {
@@ -2742,7 +2742,7 @@ var model = {
           $regex: data.insurer,
           $options: 'i'
         }
-      }
+      };
       arr.push(insurer);
     }
     if (data.insured !== "") {
@@ -2751,7 +2751,7 @@ var model = {
           $regex: data.insured,
           $options: 'i'
         }
-      }
+      };
       arr.push(insured);
     }
     if (data.owner !== "") {
@@ -2760,7 +2760,7 @@ var model = {
           $regex: data.owner,
           $options: 'i'
         }
-      }
+      };
       arr.push(owner);
     }
     if (data.department !== "") {
@@ -2769,7 +2769,7 @@ var model = {
           $regex: data.department,
           $options: 'i'
         }
-      }
+      };
       arr.push(department);
     }
     if (data.timelineStatus !== "") {
@@ -2778,7 +2778,7 @@ var model = {
           $regex: data.timelineStatus,
           $options: 'i'
         }
-      }
+      };
       arr.push(timelineStatus);
     }
 
@@ -2846,7 +2846,7 @@ var model = {
       $skip: parseInt(pagestartfrom)
     }, {
       $limit: maxRow
-    }]
+    }];
     Assignment.aggregate(aggText).exec(function (err, found) {
 
       if (err) {
