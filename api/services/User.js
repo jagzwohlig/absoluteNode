@@ -164,6 +164,17 @@ var model = {
       }
     });
 
+    // if(req.attachment){
+    // var reqUrl = {
+    //   url: 'https://www.googleapis.com/gmail/v1/users/' + req.user.email + "/" + req.body.url + "/uploadType=multipart",
+    //   form: {
+    //     refresh_token: req.user.googleRefreshToken,
+    //     client_id: GoogleclientId,
+    //     raw: req.body.raw
+    //   }
+    // }  
+    // }
+
     request.post({
       url: 'https://www.googleapis.com/gmail/v1/users/' + req.user.email + "/" + req.body.url,
       form: {
