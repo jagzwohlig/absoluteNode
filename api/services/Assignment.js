@@ -2369,14 +2369,14 @@ var model = {
         };
       }
     }
-    
+
     var shareWith = {};
-    if(data.ownerStatus == "Shared with me"){
-        shareWith ={
-          'shareWith.persons':objectid(data.ownerId)
+    if (data.ownerStatus == "Shared with me") {
+      shareWith = {
+        'shareWith.persons': objectid(data.ownerId)
       }
     }
-    var ownerStatus = Object.assign(timelineStatus, name, owner, insurer, insurerd, department, ownerId, intimatedLoss, city, branch, createdAt,shareWith);
+    var ownerStatus = Object.assign(timelineStatus, name, owner, insurer, insurerd, department, ownerId, intimatedLoss, city, branch, createdAt, shareWith);
     console.log("ownerStatus", ownerStatus);
     var pageStartFrom = (data.pagenumber - 1) * data.pagelimit;
     var allTable = [{
