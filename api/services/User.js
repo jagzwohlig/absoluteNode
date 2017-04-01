@@ -150,8 +150,12 @@ var model = {
     User.findOne({
       "_id": id
     }).exec(function (err, data) {
-      data.googleAccessToken = accessToken;
-      data.save(function () {});
+      if (err || _.isEmpty(data)) {
+        return;
+      } else {
+        data.googleAccessToken = accessToken;
+        data.save(function () {});
+      }
     });
   },
   sendEmail: function (req, callback) {
@@ -186,7 +190,7 @@ var model = {
       if (err) {
         callback(err);
       } else if (body) {
-        console.log("body",body);
+        console.log("body", body);
         body = JSON.parse(body);
         if (noTry === 0 && body.error) {
           refreshToken();
@@ -207,7 +211,7 @@ var model = {
       if (!req.body.other) {
         req.body.other = "";
       }
-      
+
       if (!req.body.labelIds) {
         req.body.labelIds = "";
       }
@@ -219,21 +223,21 @@ var model = {
           "Authorization": "Bearer " + req.user.googleAccessToken
         }
       };
-      
+
       if (req.form) {
         callAPI.multipart = [{
           "content-type": "application/json",
           body: JSON.stringify(req.form)
         }];
       }
-      
-      console.log("callAPI : ",callAPI);
+
+      console.log("callAPI : ", callAPI);
       request(callAPI, function (err, httpResponse, body) {
         if (err) {
           callback(err);
         } else if (body) {
           body = JSON.parse(body);
-          console.log("body ====: ",body);
+          console.log("body ====: ", body);
           if (noTry === 0 && body.error) {
             refreshToken();
           } else {
@@ -255,34 +259,34 @@ var model = {
           grant_type: 'refresh_token',
         }
       });
-      
-      request.post({
-        url: 'https://www.googleapis.com/oauth2/v4/token',
-        form: {
-          refresh_token: req.user.googleRefreshToken,
-          client_id: GoogleclientId,
-          client_secret: GoogleclientSecret,
-          grant_type: 'refresh_token',
-        }
-      }, 
-      
-      function (err, httpResponse, body) {
-        console.log(err);
-        console.log(body);
-        if (err) {
-          callback(err);
-        } else if (body) {
 
-          body = JSON.parse(body);
-          console.log("body in refreshb token ====: ",body);
-          req.user.googleAccessToken = body.access_token;
-          User.updateAccessToken(req.user.id, body.access_token);
-          noTry = 1;
-          makeGmailCall();
-        } else {
-          callback(err);
-        }
-      });
+      request.post({
+          url: 'https://www.googleapis.com/oauth2/v4/token',
+          form: {
+            refresh_token: req.user.googleRefreshToken,
+            client_id: GoogleclientId,
+            client_secret: GoogleclientSecret,
+            grant_type: 'refresh_token',
+          }
+        },
+
+        function (err, httpResponse, body) {
+          console.log(err);
+          console.log(body);
+          if (err) {
+            callback(err);
+          } else if (body) {
+
+            body = JSON.parse(body);
+            console.log("body in refreshb token ====: ", body);
+            req.user.googleAccessToken = body.access_token;
+            User.updateAccessToken(req.user.id, body.access_token);
+            noTry = 1;
+            makeGmailCall();
+          } else {
+            callback(err);
+          }
+        });
     }
     makeGmailCall();
   }
