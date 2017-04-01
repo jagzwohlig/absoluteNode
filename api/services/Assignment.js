@@ -2490,7 +2490,7 @@ var model = {
 
     async.parallel({
       results: function (callback) {
-        Assignment.aggregate(_.concat(coreArr, paginationArr, sortArr)).exec(callback);
+        Assignment.aggregate(_.concat(coreArr, sortArr, paginationArr)).exec(callback);
       },
       total: function (callback) {
         Assignment.aggregate(_.concat(coreArr, countArr)).exec(callback);
