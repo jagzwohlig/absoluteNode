@@ -24,6 +24,11 @@ var schema = new Schema({
     ref: "Employee",
     index: true
   },
+  createBy: {
+    type: Schema.Types.ObjectId,
+    ref: "Employee",
+    index: true
+  },
   survey: [{
     employee: {
       type: Schema.Types.ObjectId,
