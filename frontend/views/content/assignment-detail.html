@@ -811,37 +811,42 @@
                         <toggle-switch ng-model="formData.showAddressForDesktop" on-label="Yes" off-label="No" class="switch-small switch-success"></toggle-switch>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6 temp-siteform" ng-if="formData.showAddressForDesktop || formData.typeOfClaim">
-                        <div class="widget">
-                            <div class="form-elements-sec temp-elements-sec">
-                                <div class="widget-title">
-                                </div>
-                                <div>
-                                    <address-form ng-valid="companyForm" ng-model="formData"></address-form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 temp-siteform2" ng-if="formData.showAddressForDesktop || formData.typeOfClaim">
-                        <div class="widget">
-                            <div class="form-elements-sec temp-elements-sec2">
-                                <div class="widget-title">
-                                    <h3>Site Person Details</h3>
-                                </div>
-                                <div class="form-group">
-                                    <label>Site Person</label>
-                                    <input type="text" class="form-control" ng-model="formData.siteNumber">
-                                </div>
-                                <div class="form-group">
-                                    <label>Site Phone</label>
-                                    <input type="text" class="form-control" ng-model="formData.siteMobile">
-                                </div>
-                                <div class="form-group">
-                                    <label>Site Email</label>
-                                    <input type="email" class="form-control" ng-model="formData.siteEmail">
+                <div class="form-elements-sec">
+                    <div class="sec">
+                        <div class="row">
+                            <div class="col-md-6 temp-siteform" ng-if="formData.showAddressForDesktop || formData.typeOfClaim">
+                                <div class="widget">
+                                    <div class="form-elements-sec temp-elements-sec">
+                                        <div class="widget-title">
+                                        </div>
+                                        <div>
+                                            <address-form ng-valid="companyForm" ng-model="formData"></address-form>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="col-md-6 temp-siteform2" ng-if="formData.showAddressForDesktop || formData.typeOfClaim">
+                                <div class="widget">
+                                    <div class="form-elements-sec temp-elements-sec2">
+                                        <div class="widget-title">
+                                            <h3>Site Person Details</h3>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Site Person</label>
+                                            <input type="text" class="form-control" ng-model="formData.siteNumber">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Site Phone</label>
+                                            <input type="text" class="form-control" ng-model="formData.siteMobile">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Site Email</label>
+                                            <input type="email" class="form-control" ng-model="formData.siteEmail">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
