@@ -999,9 +999,8 @@ var model = {
             if (err) {
                 callback(err, allEmployee);
             } else {
-                console.log("data2", data2);
                 // if (data2.employee) {
-                if (data2 != null) {
+                if (data2 !== null) {
                     allEmployee.push(data2.employee);
                     Model.getParentEmployee({
                         _id: data2.employee

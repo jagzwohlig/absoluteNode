@@ -1132,7 +1132,6 @@ var model = {
       });
     } else {
       Const.save(function (err, data2) {
-        console.log("data2", data2);
         if (err) {
           callback(err, data2);
         } else {
@@ -2239,7 +2238,7 @@ var model = {
     if (data.ownerStatus == "My files") {
       retObj = {
         $match: {
-          'owner._id': objectid(data.ownerId),
+          'owner': objectid(data.ownerId),
         }
       };
     } else if (data.ownerStatus == "Shared with me") {
@@ -2254,10 +2253,15 @@ var model = {
       });
       retObj = {
         $match: {
-          $or: {
-            'shared.persons': allUsersUnder,
-            'owner._id': allUsersUnder,
-          }
+          $or: [{
+            'shared.persons': {
+              $in: allUsersUnder
+            }
+          }, {
+            'owner': {
+              $in: allUsersUnder
+            }
+          }]
         },
       };
     }
@@ -2265,10 +2269,7 @@ var model = {
     return [retObj];
   },
   filterOfGetAssignmentAggregate: function (data) {
-
-    //Filter Data
     var filterObject = {};
-
     //Timeline status filter
     if (!_.isEmpty(data.timelineStatus)) {
       var timelineStatus = {
@@ -2276,7 +2277,7 @@ var model = {
           $in: data.timelineStatus
         }
       };
-      _.assign(filterObject, timelineStatus);
+      filterObject = _.assign(filterObject, timelineStatus);
     }
 
     //Intimated Loss from range to to range
@@ -2287,7 +2288,7 @@ var model = {
           "$lte": data.to
         }
       };
-      _.assign(filterObject, intimatedLoss);
+      filterObject = _.assign(filterObject, intimatedLoss);
     }
 
     //Assignment from date to to date
@@ -2298,7 +2299,7 @@ var model = {
           "$lte": new Date(data.toDate)
         }
       };
-      _.assign(filterObject, createdAt);
+      filterObject = _.assign(filterObject, createdAt);
     }
 
     //Mr number filter
@@ -2309,97 +2310,101 @@ var model = {
           $options: 'i'
         }
       };
-      _.assign(filterObject, name);
+      filterObject = _.assign(filterObject, name);
     }
 
     //Owner of assignment filter
-    if (_.isEmpty(data.owner)) {
+    if (!_.isEmpty(data.owner)) {
       var owner = {
-        'owner._id': {
+        'owner': {
           $in: _.map(data.owner, function (n) {
             return objectid(n);
           })
         },
       };
-      _.assign(filterObject, owner);
+      console.log(owner);
+      filterObject = _.assign(filterObject, owner);
     }
 
     //City filter
     if (!_.isEmpty(data.city)) {
       var city = {
-        'city._id': {
+        'city': {
           $in: _.map(data.city, function (n) {
             return objectid(n);
           })
         },
       };
-      _.assign(filterObject, city);
+      filterObject = _.assign(filterObject, city);
     }
 
     ///Branch filter 
     if (!_.isEmpty(data.branch)) {
       var branch = {
-        'branch._id': {
+        'branch': {
           $in: _.map(data.branch, function (n) {
             return objectid(n);
           })
         },
       };
-      _.assign(filterObject, branch);
+      filterObject = _.assign(filterObject, branch);
     }
 
     //Insurer filter
     if (!_.isEmpty(data.insurer)) {
       var insurer = {
-        'insurer._id': {
+        'insurer': {
           $in: _.map(data.insurer, function (n) {
             return objectid(n);
           })
         }
       };
-      _.assign(filterObject, insurer);
+      filterObject = _.assign(filterObject, insurer);
     }
 
     //Insured filter
     if (!_.isEmpty(data.insured)) {
       var insured = {
-        'insured._id': {
+        'insured': {
           $in: _.map(data.insured, function (n) {
             return objectid(n);
           })
         },
       };
-      _.assign(filterObject, insured);
+      filterObject = _.assign(filterObject, insured);
     }
 
     //Department filter
     if (!_.isEmpty(data.department)) {
       var department = {
-        'department._id': {
+        'department': {
           $in: _.map(data.department, function (n) {
             return objectid(n);
           })
         },
       };
-      _.assign(filterObject, department);
+      filterObject = _.assign(filterObject, department);
     }
 
     //Broker Office filter
     if (!_.isEmpty(data.brokerOffice)) {
       var brokerOffice = {
-        'customer._id': {
+        'customer': {
           $in: _.map(data.brokerOffice, function (n) {
             return objectid(n);
           })
         },
       };
-      _.assign(filterObject, brokerOffice);
+      filterObject = _.assign(filterObject, brokerOffice);
+    }
+    if (_.isEmpty(filterObject)) {
+      return null;
+    } else {
+      return [{
+        $match: filterObject
+      }];
     }
 
-
-    console.log("filterObject : ", filterObject);
-
-    return [filterObject];
   },
   sortOfGetAssignmentAggregate: function (data) {
     //Sorting
@@ -2449,11 +2454,11 @@ var model = {
     return [sort];
   },
   completeGetAssignmentAggregate: function (data, user) {
-    var aggregateArr = _.concat(filterOfGetAssignmentAggregate(data), typeOfGetAssignmentAggregate(data, user), projectionOfGetAssignmentAggregate());
-    return aggregateArr;
+    var aggregateArr = _.concat(this.filterOfGetAssignmentAggregate(data), this.typeOfGetAssignmentAggregate(data, user), this.projectionOfGetAssignmentAggregate());
+    return _.compact(aggregateArr);
   },
   getAll: function (data, callback, user) {
-    var coreArr = completeGetAssignmentAggregate(data, user);
+    var coreArr = this.completeGetAssignmentAggregate(data, user);
     var paginationArr = [{
       $skip: parseInt((data.pagenumber - 1) * data.pagelimit)
     }, {
@@ -2481,7 +2486,7 @@ var model = {
         }
       }
     }];
-    var sortArr = sortOfGetAssignmentAggregate(data);
+    var sortArr = this.sortOfGetAssignmentAggregate(data);
 
     async.parallel({
       results: function (callback) {

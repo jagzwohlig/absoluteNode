@@ -46,7 +46,7 @@
                                     <th>MR Number <span ng-click="showAssignment(true,['name',filter.sortNumber]);" class="fa fa-sort"></span></th>
                                     <th>Owner <span ng-click="showAssignment(true,['owner',filter.sortNumber]);" class="fa fa-sort"></span></th>
                                     <th>Insurer <span ng-click="showAssignment(true,['insurer',filter.sortNumber]);" class="fa fa-sort"></span></th>
-                                    <th>Insured <span ng-click="showAssignment(true,['insurerd',filter.sortNumber]);" class="fa fa-sort"></span></th>
+                                    <th>Insured <span ng-click="showAssignment(true,['insured',filter.sortNumber]);" class="fa fa-sort"></span></th>
                                     <th>Site City <span ng-click="showAssignment(true,['city',filter.sortNumber]);" class="fa fa-sort"></span></th>
                                     <th>Nature Of Survey <span ng-click="showAssignment(true,['department',filter.sortNumber]);"
                                             class="fa fa-sort"></span></th>
@@ -64,7 +64,7 @@
                                     <td>{{data.name}}</td>
                                     <td>{{data.owner}}</td>
                                     <td>{{data.insurerName}}</td>
-                                    <td>{{data.insurerdName}}</td>
+                                    <td>{{data.insuredName}}</td>
                                     <td>{{data.city}}</td>
                                     <td>{{data.department}}</td>
                                     <td style="text-align:right;">
@@ -76,8 +76,8 @@
                                         <!--<toggle-switch ng-model="data.status" class="switch-mini switch-success" ng-change="changeStatus(data)"></toggle-switch>-->
                                     </td>
                                     <td>
-                                        
-                                        <a class="btn btn-primary"  ui-sref="editassignment({id:data._id})" title="Edit">
+
+                                        <a class="btn btn-primary" ui-sref="editassignment({id:data._id})" title="Edit">
                                             <i class="fa fa-pencil"></i>
                                         </a>
                                         <!--<a class="btn btn-danger" ng-click="deleteModel(data._id)" ng-if="template.currentRole.delete.val">
