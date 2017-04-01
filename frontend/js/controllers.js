@@ -1819,7 +1819,7 @@
                     console.log(data);
                     if (data.value === true) {
                         // $state.go('assignment-list');
-                        $window.history.back();
+                        // $window.history.back();
                         toastr.success("Assignment " + data.data.name + " created successfully.", "Assignment Created");
                         $state.go("timeline", {
                             id: data.data._id,
@@ -11574,7 +11574,7 @@
                             $scope.emailData = emails;
                         }
                         break;
-                        
+
                     case "Deputation mail":
                         {
                             var to = [];
@@ -11653,7 +11653,7 @@
                                 threadId: emailData.threadId
 
                             }
-                           
+
                             $scope.emailData = emails;
                         }
                         break;
