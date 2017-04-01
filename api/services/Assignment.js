@@ -3141,16 +3141,22 @@ var model = {
               if (n.survey) {
                 if (n.survey.length > 0 && n.survey != undefined) {
                   if (n.survey[n.survey.length - 1].status == "Completed") {
-                    obj["Servey Date"] = moment(n.survey[n.survey.length - 1].surveyDate).format("DD-MM-YYYY");
+                    console.log("In Survey", n.survey[n.survey.length - 1].surveyDate)
+                    obj["Survey Date"] = moment(n.survey[n.survey.length - 1].surveyDate).format("DD-MM-YYYY");
                   }
+                } else {
+                  obj["Survey Date"] = "NA"
                 }
               } else {
-                obj["Servey Date"] = "NA"
+                obj["Survey Date"] = "NA"
               }
               if (n.invoice) {
-                if (n.invoice.length > 0) {
+                console.log("Invoice........", n.invoice);
+                if (n.invoice.length > 0 && n.invoice != undefined) {
                   console.log("Invoice........", n.invoice[0]);
                   obj["Reported Date"] = moment(n.invoice[0]).format("DD-MM-YYYY");
+                } else {
+                  obj["Reported Date"] = "NA"
                 }
               } else {
                 obj["Reported Date"] = "NA"
