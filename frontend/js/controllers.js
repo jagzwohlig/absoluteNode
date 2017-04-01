@@ -12078,15 +12078,12 @@
                         console.log("emailers", $scope.emailData);
                         $scope.results = data;
                         console.log("data.results", $scope.results);
-                        // setTimeout(function () {
-                        //     $scope.$apply(function () {
+                       
                         var modalInstance = $uibModal.open({
                             scope: $scope,
                             templateUrl: '/frontend/views/modal/modal-email.html',
                             size: 'lg'
                         });
-                        //     })
-                        // }, 2000);
 
                     });
 
