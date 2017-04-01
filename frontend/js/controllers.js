@@ -11574,6 +11574,7 @@
                             $scope.emailData = emails;
                         }
                         break;
+                        
                     case "Deputation mail":
                         {
                             var to = [];
@@ -11652,6 +11653,7 @@
                                 threadId: emailData.threadId
 
                             }
+                           
                             $scope.emailData = emails;
                         }
                         break;
