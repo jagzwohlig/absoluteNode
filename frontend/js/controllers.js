@@ -277,10 +277,10 @@
             } else {
                 $scope.filter.insurer = [];
             }
-            if ($stateParams.insurerd) {
-                $scope.filter.insurerd = $stateParams.insurerd;
+            if ($stateParams.insured) {
+                $scope.filter.insured = $stateParams.insured;
             } else {
-                $scope.filter.insurerd = [];
+                $scope.filter.insured = [];
             }
             if ($stateParams.from) {
                 $scope.filter.from = $stateParams.from;
@@ -410,8 +410,13 @@
             $scope.filter.sortNumber = 1;
 
 
-
+            if ($.jStorage.get("AssignmentFilter")) {
+                $scope.filter = $.jStorage.get("AssignmentFilter");
+            }
             $scope.showAssignment = function (keywordChange, sorting) {
+
+
+
                 if (_.isEmpty(sorting)) {
                     sorting = [];
                 }
@@ -466,12 +471,12 @@
                 });
                 console.log("filter insurer", $scope.filter.insurer);
 
-                var insurerds = [];
-                insurerds = $scope.filter.insurerd;
-                $scope.filter.insurerd = _.map(insurerds, function (values) {
+                var insureds = [];
+                insureds = $scope.filter.insured;
+                $scope.filter.insured = _.map(insureds, function (values) {
                     return values._id;
                 });
-                console.log("filter insurerd", $scope.filter.insurerd);
+                console.log("filter insured", $scope.filter.insured);
 
                 console.log("keywordChange", keywordChange);
                 $scope.totalItems = undefined;
@@ -494,7 +499,7 @@
                         ownerId: ownerId,
                         city: $scope.filter.city,
                         insurer: $scope.filter.insurer,
-                        insurerd: $scope.filter.insurerd,
+                        insured: $scope.filter.insured,
                         from: $scope.filter.from,
                         to: $scope.filter.to,
                         branch: $scope.filter.branch,
@@ -514,7 +519,7 @@
                         TemplateService.removeLoader();
                     });
                     $scope.filter.insurer = insurers;
-                    $scope.filter.insurerd = insurerds;
+                    $scope.filter.insured = insureds;
                     $scope.filter.owner = owners;
                     $scope.filter.city = cities;
                     $scope.filter.branch = branches;
@@ -606,23 +611,9 @@
                     size: 'lg'
                 });
             };
-            // $scope.assignmentFilter = function () {
-            //     var modalInstance = $uibModal.open({
-            //         scope: $scope,
-            //         templateUrl: '/frontend/views/modal/assignment-filter.html',
-            //         size: 'lg'
-            //     });
-            // }
 
             $scope.doFilter = function (data) {
                 console.log("Form Data To Filter", data);
-                // NavigationService.filterAssignment(data,function(data){
-                //     if(data.value === true){
-
-                //     }else{
-
-                //     }
-                // })
             };
             $scope.timelineStatus = ["Unassigned", "Survey Pending", "ILA Pending", "LOR Pending", "Dox Pending", "Part Dox Pending", "Assessment Pending", "Consent Pending", "FSR Pending", "BBND", "Dispatched", "Collected"];
             var formData2 = {};
@@ -651,7 +642,7 @@
             NavigationService.searchModel("CustomerSegment", formData3, 1, function (data) {
                 $scope.customerSegmentInsurerdId = data.data.results[0]._id;
             });
-            $scope.refreshInsurerd = function (data, insurerd) {
+            $scope.refreshInsurerd = function (data, insured) {
                 var formdata = {};
                 formdata.keyword = data;
                 formdata.filter = {
@@ -659,11 +650,11 @@
                 };
                 NavigationService.searchCustomer(formdata, 1, function (data) {
                     console.log("searchCustomer", data.data.results);
-                    $scope.insurerdData = data.data.results;
+                    $scope.insuredData = data.data.results;
                 });
             };
 
-            $scope.refreshCity = function (data, insurerd) {
+            $scope.refreshCity = function (data) {
                 var formdata = {};
                 formdata.keyword = data;
                 // formdata.filter = {
@@ -675,7 +666,7 @@
                 });
             };
 
-            $scope.refreshBranch = function (data, insurerd) {
+            $scope.refreshBranch = function (data) {
                 var formdata = {};
                 formdata.keyword = data;
                 NavigationService.searchBranch(formdata, 1, function (data) {
@@ -684,7 +675,7 @@
                 });
             };
 
-            $scope.refreshDepartment = function (data, insurerd) {
+            $scope.refreshDepartment = function (data) {
                 var formdata = {};
                 formdata.keyword = data;
                 // formdata.filter = {
@@ -695,10 +686,10 @@
                     $scope.departmentData = data.data.results;
                 });
             };
-            var formData2 = {}
+            var formData2 = {};
             formData2.filter = {
                 "name": "Back Office"
-            }
+            };
             NavigationService.searchModel("Func", formData2, 1, function (data) {
                 $scope.backEnd = data.data.results[0]._id;
                 $scope.getBackendEmployeeOnly();
@@ -1210,7 +1201,7 @@
             NavigationService.getOneModel("LorMaster", $stateParams.id, function (data) {
                 $scope.formData = data.data;
             });
-            $scope.refreshLorCategory = function (data, insurerd) {
+            $scope.refreshLorCategory = function (data) {
                 var formdata = {};
                 formdata.keyword = data;
                 NavigationService.searchLorCategory(formdata, 1, function (data) {
@@ -1819,7 +1810,7 @@
                     console.log(data);
                     if (data.value === true) {
                         // $state.go('assignment-list');
-                        $window.history.back();
+                        // $window.history.back();
                         toastr.success("Assignment " + data.data.name + " created successfully.", "Assignment Created");
                         $state.go("timeline", {
                             id: data.data._id,
@@ -11416,47 +11407,60 @@
                 });
             }
 
-            // $scope.refreshResults = function ($select) {
-            //     var search = $select.search,
-            //         list = angular.copy($select.items),
-            //         FLAG = -1;
-            //     //remove last user input
-            //     list = list.filter(function (item) {
-            //         return item.id !== FLAG;
-            //     });
-
-            //     if (!search) {
-            //         //use the predefined list
-            //         $select.items = list;
-            //     } else {
-            //         //manually add user input and set selection
-            //         var userInputItem = {
-            //             id: FLAG,
-            //             description: search
-            //         };
-            //         $select.items = [userInputItem].concat(list);
-            //         $select.selected = userInputItem;
-            //     }
-            // }
-
-            $scope.refreshEmployee = function (select) {
-                console.log("$select", select);
-
-                var i = 1;
-                var formdata = {};
-                formdata.keyword = select;
-                // formdata.filter = {
-                //     "_id": causeloss
-                // };
-                NavigationService.getEmployeeNameEmail(formdata, i, function (data) {
-                    console.log("1data", data);
+            $scope.getEmployeeEmailsTo = function (select) {
+                NavigationService.getEmployeeNameEmail({
+                    keyword: select
+                }, i, function (data) {
+                    // console.log("1data", data);
                     if (data.value === true) {
-                        $scope.employee = data.data;
-                        console.log("$scope.employee", $scope.employee);
+                        $scope.employeeTo = data.data;
+                        console.log("$scope.employeeTo", $scope.employeeTo);
                     } else {
-                        $scope.employee = [];
+                        $scope.employeeTo = [];
                     }
                 });
+            }
+            $scope.getEmployeeEmailsCc = function (select) {
+                NavigationService.getEmployeeNameEmail({
+                    keyword: select
+                }, i, function (data) {
+                    // console.log("1data", data);
+                    if (data.value === true) {
+                        $scope.employeeCc = data.data;
+                        console.log("$scope.employeeCc", $scope.employeeCc);
+                    } else {
+                        $scope.employeeCc = [];
+                    }
+                });
+            }
+            $scope.getEmployeeEmailsBcc = function (select) {
+                NavigationService.getEmployeeNameEmail({
+                    keyword: select
+                }, i, function (data) {
+                    // console.log("1data", data);
+                    if (data.value === true) {
+                        $scope.employeeBcc = data.data;
+                        console.log("$scope.employeeBcc", $scope.employeeBcc);
+                    } else {
+                        $scope.employeeBcc = [];
+                    }
+                });
+            }
+            $scope.getEmployeeEmailsTo("");
+            $scope.getEmployeeEmailsCc("");
+            $scope.getEmployeeEmailsBcc("");
+
+            $scope.refreshEmployeeTo = function (select) {
+                console.log("$select", select);
+                $scope.getEmployeeEmailsTo(select);
+            }
+            $scope.refreshEmployeeCc = function (select) {
+                console.log("$select", select);
+                $scope.getEmployeeEmailsCc(select);
+            }
+            $scope.refreshEmployeeBcc = function (select) {
+                console.log("$select", select);
+                $scope.getEmployeeEmailsBcc(select);
             }
 
             $scope.submitForceClose = function (data) {
@@ -11574,7 +11578,7 @@
                             $scope.emailData = emails;
                         }
                         break;
-                        
+
                     case "Deputation mail":
                         {
                             var to = [];
@@ -11653,7 +11657,7 @@
                                 threadId: emailData.threadId
 
                             }
-                           
+
                             $scope.emailData = emails;
                         }
                         break;
@@ -12065,15 +12069,12 @@
                             console.log("emailers", $scope.emailData);
                             $scope.results = data;
                             console.log("data.results", $scope.results);
-                            // setTimeout(function () {
-                            //     $scope.$apply(function () {
+
                             var modalInstance = $uibModal.open({
                                 scope: $scope,
                                 templateUrl: '/frontend/views/modal/modal-email.html',
                                 size: 'lg'
                             });
-                            //     })
-                            // }, 2000);
 
                         });
 

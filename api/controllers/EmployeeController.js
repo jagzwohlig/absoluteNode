@@ -356,6 +356,9 @@ var controller = {
         }
     },
     search: function (req, res) {
+        if (!req.body.keyword) {
+            req.body.keyword = "";
+        }
         req.model.search(req.body, res.callback, req.user);
     },
 };
