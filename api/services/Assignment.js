@@ -3134,15 +3134,13 @@ var model = {
               obj["Insured"] = n.insuredName;
               obj["Insurer"] = n.insurerName;
               obj["Broker"] = n.brokerName;
-              obj.department = n.department;
-              obj.natureOfLoss = n.natureOfLoss;
-              obj.intimatedLoss = n.intimatedLoss;
-              obj.owner = n.owner;
+              obj["Department"] = n.department;
+              obj["Nature of Loss"] = n.natureOfLoss;
+              obj["Estimated Loss"] = n.intimatedLoss;
+              obj["Owner"] = n.owner;
               if (n.survey) {
                 if (n.survey.length > 0 && n.survey != undefined) {
-                  console.log("hiiii", n.survey[n.survey.length - 1].status);
                   if (n.survey[n.survey.length - 1].status == "Completed") {
-                    console.log("hiiii", n.survey[n.survey.length - 1].status, n.survey[n.survey.length - 1].surveyDate);
                     obj["Servey Date"] = moment(n.survey[n.survey.length - 1].surveyDate).format("DD-MM-YYYY");
                   }
                 }
@@ -3158,7 +3156,7 @@ var model = {
                 obj["Reported Date"] = "NA"
               }
 
-              obj.Status = n.timelineStatus
+              obj["Status"] = n.timelineStatus
               // obj.nature=n.natureOfLoss[0];
               excelData.push(obj);
             });
