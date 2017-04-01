@@ -1603,26 +1603,6 @@ var model = {
       .page(options, callback);
 
   },
-  // Priyank
-  // updateSurveyor: function (data, callback) {
-  //   data.survey.timestamp=Date.now();
-  //   Assignment.update({
-  //     _id: data._id
-  //   }, {
-  //     timelineStatus: "Survey Pending",
-  //     $push: {
-  //       survey: data.survey
-  //     }
-  //   }).exec(function (err, found) {
-  //     if (err) {
-  //       callback(err, null);
-  //     } else if (found) {
-  //       callback(null, found);
-  //     } else {
-  //       callback(null, found);
-  //     }
-  //   });
-  // },
 
   updateSurveyor: function (data, callback) {
     data.survey.timestamp = Date.now();
@@ -2053,6 +2033,7 @@ var model = {
       }
     });
   },
+
   getFourthDigit: function (data) {
     var fourthDigit = "";
     switch (data.typeOfClaim + "-" + data.isInsured) {
@@ -2079,6 +2060,7 @@ var model = {
     }
     return fourthDigit;
   },
+
   getDate: function (data) {
     if (data.dateMOY == "yearly") {
       var newDate = "";
@@ -3189,31 +3171,6 @@ var model = {
 
   },
 
-  // updateAllIntimatedLoss: function (data, callback) {
-  //   Assignment.find().lean().exec(function (err, found) {
-  //     _.each(found, function (n) {
-  //       var a = _.split(n.intimatedLoss, ",");
-  //       n.intimatedLoss = "";
-  //       _.each(a, function (m) {
-  //         n.intimatedLoss = n.intimatedLoss + m;
-  //       });
-  //       n.intimatedLoss = parseInt(n.intimatedLoss);
-  //       if (_.isInteger(n.intimatedLoss)) {
-  //         Assignment.update({
-  //           _id: n._id
-  //         }, {
-  //           intimatedLoss: n.intimatedLoss
-  //         }).lean().exec(
-  //           function (err, data5) {
-  //             console.log("Done");
-  //           }
-  //         )
-  //       }
-
-  //     })
-  //   })
-  // },
-
   assignmentFilter: function (data, callback) {
     var Model = this;
     var Const = this(data);
@@ -3378,7 +3335,6 @@ var model = {
       }
     });
   },
-
 
   getExpenditure: function (data, callback) {
     Assignment.aggregate([{
@@ -3761,70 +3717,6 @@ var model = {
         }
       });
   },
-  // Priyank
-  // saveTemplate: function (data, callback) {
-  //   console.log("file", data.file);
-  //   var matchObj = {};
-  //   var matchObj2 = {};
-  //   if (data.type == "templateIla") {
-  //     matchObj = {
-  //       _id: data.assignId,
-  //       templateIla: {
-  //         $elemMatch: {
-  //           _id: data._id
-  //         }
-  //       }
-  //     };
-  //     matchObj2 = {
-  //       $set: {
-  //         "templateIla.$.approvalStatus": data.approvalStatus,
-  //         "templateIla.$.authTimestamp": data.authTimestamp,
-  //         "templateIla.$.file": data.file,
-  //         "templateIla.$.reqtimestamp": data.reqtimestamp
-  //       }
-  //     };
-  //   } else if (data.type == "templateLor") {
-  //     console.log("In templateLor", data);
-  //     matchObj = {
-  //       _id: data.assignId,
-  //       templateLor: {
-  //         $elemMatch: {
-  //           _id: data._id
-  //         }
-  //       }
-  //     };
-  //     matchObj2 = {
-  //       $set: {
-  //         "templateLor.$.approvalStatus": data.approvalStatus,
-  //         "templateLor.$.authTimestamp": data.authTimestamp,
-  //         "templateLor.$.reqtimestamp": data.reqtimestamp,
-  //         "templateLor.$.file": data.file
-  //       }
-  //     };
-  //   } else if (data.type == "survey") {
-  //     matchObj = {
-  //       _id: data.assignId,
-  //       survey: {
-  //         $elemMatch: {
-  //           _id: data._id
-  //         }
-  //       }
-  //     };
-  //     matchObj2 = {
-  //       $set: {
-  //         "survey.$.status": "Pending"
-  //       }
-  //     };
-  //   }
-  //   Assignment.update(matchObj, matchObj2).exec(function (err, data) {
-  //     if (err) {
-  //       callback(err, null);
-  //     } else {
-  //       callback(null, data);
-  //     }
-  //   });
-  // },
-
 
   saveTemplate: function (data, callback) {
     var matchObj = {};
@@ -4888,7 +4780,7 @@ var model = {
   },
 
 
-  getDataFromHeader(data, name, callback) {
+  getDataFromHeader: function (data, name, callback) {
     _.each(data, function (values) {
       // console.log("values =  ", values);
       if (values.name === name) {
