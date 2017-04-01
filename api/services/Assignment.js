@@ -2683,7 +2683,7 @@ var model = {
       };
     }
     if (data.from === "" && data.to === "") {
-      var intimatedLoss = {}
+      var intimatedLoss = {};
     } else {
       var intimatedLoss = {
         intimatedLoss: {
@@ -2693,7 +2693,7 @@ var model = {
       };
     }
     if (data.fromDate === "" && data.toDate === "") {
-      var createdAt = {}
+      var createdAt = {};
     } else {
       var createdAt = {
         createdAt: {
@@ -3124,16 +3124,16 @@ var model = {
             _.each(data1, function (n, key) {
               // console.log("Key",);
               var obj = {};
-              obj.Sr_Number = key + 1;
-              obj.branch = n.branch;
+              obj["SR #"] = key + 1;
+              obj["Branch"] = n.branch;
               obj["MR #"] = n.name;
-              obj.insurerClaimId = n.insurerClaimId;
-              obj.insuredClaimId = n.insuredClaimId;
-              obj.brokerClaimId = n.brokerClaimId;
-              obj.Assignment_Date = moment(n.createdAt).format("DD-MM-YYYY");
-              obj.insured = n.insuredName;
-              obj.insurer = n.insurerName;
-              obj.broker = n.brokerName;
+              obj["Insurer Claim #"] = n.insurerClaimId;
+              obj["Insured Claim #"] = n.insuredClaimId;
+              obj["Broker Claim #"] = n.brokerClaimId;
+              obj["Date of Assignment"] = moment(n.createdAt).format("DD-MM-YYYY");
+              obj["Insured"] = n.insuredName;
+              obj["Insurer"] = n.insurerName;
+              obj["Broker"] = n.brokerName;
               obj.department = n.department;
               obj.natureOfLoss = n.natureOfLoss;
               obj.intimatedLoss = n.intimatedLoss;
@@ -5126,48 +5126,6 @@ var model = {
                 }
 
 
-                // if (n.branch == null) {} else {
-                //   obj.Branch = n.branch.name;
-                // }
-                // obj.Insurer_Claim_Id = n.insurerClaimId;
-                // obj.Insured_Claim_Id = n.insuredClaimId;
-                // obj.Broker_Claim_Id = n.brokerClaimId;
-                // obj.Date_Of_Assignment = moment(n.createdAt).format("DD-MM-YYYY");
-                // if (n.insuredOffice == null) {} else {
-                //   obj.Insured = n.insuredOffice.name;
-                // }
-                // if (n.insurerOffice == null) {} else {
-                //   obj.Insurer = n.insurerOffice.name;
-                // }
-                // if (n.brokerOffice == null) {} else {
-                //   obj.Broker = n.brokerOffice.name;
-                // }
-                // if (n.department == null) {} else {
-                //   obj.Department = n.department.name;
-                // }
-                // if (n.natureOfLoss) {
-                //   if (n.natureOfLoss.length > 0) {
-                //     obj.Nature_Of_Loss = n.natureOfLoss[0].name;
-                //   }
-                // }
-
-
-                // obj.Estimated_Loss = n.intimatedLoss;
-                // if (n.owner == null) {} else {
-                //   obj.Owner = n.owner.name;
-                // }
-                // if (n.survey) {
-                //   if (n.survey.length > 0) {
-                //     obj.Survey_Date = n.survey[0].surveyDate;
-                //   }
-                // }
-                // if (n.invoice) {
-                //   if (n.invoice.length > 0) {
-                //     // n.invoice.length
-                //     obj.Date_Of_Intimation = moment(n.invoice[n.invoice.length - 1].approvalTime).format("DD-MM-YYYY");
-                //   }
-                // }
-                // obj.Status = n.timelineStatus
                 excelData.push(obj);
               });
               Config.generateExcel("Assignment", excelData, res);
