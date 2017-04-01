@@ -15,7 +15,7 @@
                     <label>To <span>*</span> </label>
                     <ui-select name="to" ng-disabled="disabled" ng-required="true" multiple  tagging="tagHandler" tagging-label="(press enter to add new)" ng-model="emailData.to">
                         <ui-select-match placeholder="">{{$item.name}} &lt;{{$item.email}}&gt;</ui-select-match>
-                        <ui-select-choices refresh="refreshEmployee($select.search)" refresh-delay="0" repeat="emailto in employee | filter:$select.search">
+                        <ui-select-choices refresh="refreshEmployeeTo($select.search)" refresh-delay="0" repeat="emailto in employeeTo | filter:$select.search">
                             <small><img ng-src="{{emailto.photo | uploadpath:50:50}}" alt="{{emailto.name}}" width=50 height=50 class="dp" /></small>
                             {{emailto.name}} &lt; {{emailto.email }} &gt; </ui-select-choices>
                         </ui-select>
@@ -25,7 +25,7 @@
                     <label>Cc </label>
                     <ui-select name="cc" multiple tagging="tagHandler" tagging-label="(press enter to add new)" ng-model="emailData.cc">
                         <ui-select-match placeholder="" >{{$item.name}} &lt;{{$item.email}} &gt;</ui-select-match>
-                        <ui-select-choices refresh="refreshEmployee($select.search)" refresh-delay="0" repeat="emailto in employee | filter:$select.search">
+                        <ui-select-choices refresh="refreshEmployeeCc($select.search)" refresh-delay="0" repeat="emailto in employeeCc | filter:$select.search">
                              <small><img ng-src="{{emailto.photo | uploadpath:50:50}}" alt="{{emailto.name}}" width=50 height=50 class="dp" /></small>
                             {{emailto.name}} &lt; {{emailto.email }} &gt; </ui-select-choices>
                     </ui-select>
@@ -34,7 +34,7 @@
                     <label>Bcc</label>
                     <ui-select name="bcc" multiple tagging="tagHandler" tagging-label="(press enter to add new)" ng-model="emailData.bcc">
                         <ui-select-match placeholder="">{{$item.name}} &lt;{{$item.email}} &gt;</ui-select-match>
-                        <ui-select-choices refresh="refreshEmployee($select.search)" refresh-delay="0" repeat="emailto in employee | filter:$select.search">
+                        <ui-select-choices refresh="refreshEmployeeBcc($select.search)" refresh-delay="0" repeat="emailto in employeeBcc | filter:$select.search">
                              <small><img ng-src="{{emailto.photo | uploadpath:50:50}}" alt="{{emailto.name}}" width=50 height=50 class="dp" /></small>
                             {{emailto.name}} &lt; {{emailto.email }} &gt;</ui-select-choices>
                     </ui-select>

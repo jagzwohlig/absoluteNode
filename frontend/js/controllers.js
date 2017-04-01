@@ -1819,7 +1819,7 @@
                     console.log(data);
                     if (data.value === true) {
                         // $state.go('assignment-list');
-                        $window.history.back();
+                        // $window.history.back();
                         toastr.success("Assignment " + data.data.name + " created successfully.", "Assignment Created");
                         $state.go("timeline", {
                             id: data.data._id,
@@ -11416,45 +11416,60 @@
             });
         }
 
-        // $scope.refreshResults = function ($select) {
-        //     var search = $select.search,
-        //         list = angular.copy($select.items),
-        //         FLAG = -1;
-        //     //remove last user input
-        //     list = list.filter(function (item) {
-        //         return item.id !== FLAG;
-        //     });
-
-        //     if (!search) {
-        //         //use the predefined list
-        //         $select.items = list;
-        //     } else {
-        //         //manually add user input and set selection
-        //         var userInputItem = {
-        //             id: FLAG,
-        //             description: search
-        //         };
-        //         $select.items = [userInputItem].concat(list);
-        //         $select.selected = userInputItem;
-        //     }
-        // }
-        $scope.getEmployeeData = function (data) {
+        $scope.getEmployeeEmailsTo = function (select) {
             NavigationService.getEmployeeNameEmail({
-                keyword: data
+                keyword: select
             }, i, function (data) {
-                console.log("1data", data);
+                // console.log("1data", data);
                 if (data.value === true) {
-                    $scope.employee = data.data;
-                    console.log("$scope.employee", $scope.employee);
+                    $scope.employeeTo = data.data;
+                    console.log("$scope.employeeTo", $scope.employeeTo);
                 } else {
-                    $scope.employee = [];
+                    $scope.employeeTo = [];
                 }
             });
-        };
-        $scope.getEmployeeData("");
-        $scope.refreshEmployee = function (select) {
+        }
+        $scope.getEmployeeEmailsCc = function (select) {
+            NavigationService.getEmployeeNameEmail({
+                keyword: select
+            }, i, function (data) {
+                // console.log("1data", data);
+                if (data.value === true) {
+                    $scope.employeeCc = data.data;
+                    console.log("$scope.employeeCc", $scope.employeeCc);
+                } else {
+                    $scope.employeeCc = [];
+                }
+            });
+        }
+        $scope.getEmployeeEmailsBcc = function (select) {
+            NavigationService.getEmployeeNameEmail({
+                keyword: select
+            }, i, function (data) {
+                // console.log("1data", data);
+                if (data.value === true) {
+                    $scope.employeeBcc = data.data;
+                    console.log("$scope.employeeBcc", $scope.employeeBcc);
+                } else {
+                    $scope.employeeBcc = [];
+                }
+            });
+        }
+        $scope.getEmployeeEmailsTo("");
+        $scope.getEmployeeEmailsCc("");
+        $scope.getEmployeeEmailsBcc("");
+
+        $scope.refreshEmployeeTo = function (select) {
             console.log("$select", select);
-             $scope.getEmployeeData(select);     
+            $scope.getEmployeeEmailsTo(select);
+        }
+        $scope.refreshEmployeeCc = function (select) {
+            console.log("$select", select);
+            $scope.getEmployeeEmailsCc(select);
+        }
+        $scope.refreshEmployeeBcc = function (select) {
+            console.log("$select", select);
+            $scope.getEmployeeEmailsBcc(select);
         }
 
         $scope.submitForceClose = function (data) {
@@ -11572,6 +11587,7 @@
                         $scope.emailData = emails;
                     }
                     break;
+
                 case "Deputation mail":
                     {
                         var to = [];
@@ -11718,16 +11734,15 @@
                 case "Invoice Release":
                     {
                         var emails = {
-                                name: 'Invoice Release',
-                                from: emailData.ownerEmail,
-                                to: emailData.toEmail,
-                                cc: emailData.cc,
-                                bcc: emailData.bcc,
-                                subject: emailData.originalSubject + ". Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
-                                message: "<html><body><p style='font-size: 16px;'>Dear Sir/Madam, We are pleased to attach our bill for professional services rendered for your kind perusal & payment. Our bank details are as follows: " + emailData.bankDetails + " You are requested to kindly release our payment & confirm in order to enable us to release the report.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>",
-                                threadId: emailData.threadId
-                            }
-                            //  $scope.emailData.to = [];
+                            name: 'Invoice Release',
+                            from: emailData.ownerEmail,
+                            to: emailData.toEmail,
+                            cc: emailData.cc,
+                            bcc: emailData.bcc,
+                            subject: emailData.originalSubject + ". Assignment : " + emailData.assignmentNo + " | Site City : " + emailData.siteCity,
+                            message: "<html><body><p style='font-size: 16px;'>Dear Sir/Madam, We are pleased to attach our bill for professional services rendered for your kind perusal & payment. Our bank details are as follows: " + emailData.bankDetails + " You are requested to kindly release our payment & confirm in order to enable us to release the report.</p><br>" + "<p style='font-size: 16px;'> Warm Regards, <br>" + emailData.ownerName + "<br> " + emailData.ownerPhone + "<br>" + emailData.ownerEmail + "</p></body></html>",
+                            threadId: emailData.threadId
+                        }
                         $scope.emailData = emails;
                     }
                     break;
