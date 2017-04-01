@@ -1132,7 +1132,6 @@ var model = {
       });
     } else {
       Const.save(function (err, data2) {
-        console.log("data2", data2);
         if (err) {
           callback(err, data2);
         } else {
@@ -1543,9 +1542,9 @@ var model = {
       } else {
         $scope.data = data2;
         var filter = {
-            _id: data2.assignment.policyDoc
-          }
-          // For policyNumber
+          _id: data2.assignment.policyDoc
+        }
+        // For policyNumber
         PolicyDoc.getPolicyDoc({
           filter
         }, function (err, data4) {
@@ -2145,412 +2144,8 @@ var model = {
       }
     });
   },
-
-  generateAssignmentExcel: function (data, callback, res, user) {
-    var sort = {};
-    if (_.isEmpty(data.sorting[0])) {
-      sort = {
-        $sort: {
-          createdAt: -1
-        }
-      };
-    }
-    if (data.sorting[0] == "name") {
-      sort = {
-        $sort: {
-          name: data.sorting[1]
-        }
-      };
-    }
-    if (data.sorting[0] == "intimatedLoss") {
-      sort = {
-        $sort: {
-          intimatedLoss: data.sorting[1]
-        }
-      };
-    }
-    if (data.sorting[0] == "owner") {
-      sort = {
-        $sort: {
-          "owner.name": data.sorting[1]
-        }
-      };
-    }
-    if (data.sorting[0] == "insurer") {
-      sort = {
-        $sort: {
-          "insurer.name": data.sorting[1]
-        }
-      };
-    }
-    if (data.sorting[0] == "insurerd") {
-      sort = {
-        $sort: {
-          "insurerd.name": data.sorting[1]
-        }
-      };
-    }
-    if (data.sorting[0] == "department") {
-      sort = {
-        $sort: {
-          "department.name": data.sorting[1]
-        }
-      };
-    }
-    if (data.sorting[0] == "city") {
-      sort = {
-        $sort: {
-          "city.name": data.sorting[1]
-        }
-      };
-    }
-    if (data.sorting[0] == "timelineStatus") {
-      sort = {
-        $sort: {
-          timelineStatus: data.sorting[1]
-        }
-      };
-    }
-    var timelineStatus = {};
-    if (_.isEmpty(data.timelineStatus)) {
-
-    } else {
-      timelineStatus = {
-        timelineStatus: {
-          $in: data.timelineStatus
-        }
-      };
-    }
-    if (data.from === "" && data.to === "") {
-      var intimatedLoss = {};
-    } else {
-      var intimatedLoss = {
-        intimatedLoss: {
-          "$gte": data.from,
-          "$lte": data.to
-        }
-      };
-    }
-    if (data.fromDate === "" && data.toDate === "") {
-      var createdAt = {};
-    } else {
-      var createdAt = {
-        createdAt: {
-          "$gte": new Date(data.fromDate),
-          "$lte": new Date(data.toDate)
-        }
-      };
-    }
-
-    if (_.isEmpty(data.name)) {
-      var name = {}
-    } else {
-      var name = {
-        name: {
-          $regex: data.name,
-          $options: 'i'
-        }
-      };
-    }
-
-    var owner;
-    if (_.isEmpty(data.owner)) {
-      owner = {
-        'owner._id': {
-          $in: _.map(_.concat(user.children, user.employee._id), function (n) {
-            return objectid(n);
-          })
-        },
-      };
-    } else {
-      var ownerArr = [];
-      _.each(data.owner, function (values) {
-        ownerArr.push(values);
-      });
-      owner = {
-        'owner._id': {
-          $in: _.map(_.intersection(_.concat(user.children, user.employee._id), ownerArr), function (n) {
-            return objectid(n);
-          })
-        },
-      };
-    }
-    if (_.isEmpty(data.city)) {
-      var city = {}
-    } else {
-      var cityArr = [];
-      _.each(data.city, function (values) {
-        cityArr.push(objectid(values));
-      });
-      var city = {
-        'city._id': {
-          $in: cityArr
-        },
-      };
-    }
-    var branch = {};
-    if (_.isEmpty(data.branch)) {
-
-    } else {
-      var branchArr = [];
-      _.each(data.branch, function (values) {
-        branchArr.push(objectid(values));
-      });
-      branch = {
-        'branch._id': {
-          $in: branchArr
-        },
-      };
-    }
-    var insurer = {}
-    if (_.isEmpty(data.insurer)) {
-
-    } else {
-      var insurerArr = [];
-      _.each(data.insurer, function (values) {
-        insurerArr.push(objectid(values));
-      });
-      insurer = {
-        'insurer._id': {
-          $in: insurerArr
-        },
-      };
-    }
-    var insurerd = {};
-    if (_.isEmpty(data.insurerd)) {
-
-    } else {
-      var insurerdArr = [];
-      _.each(data.insurerd, function (values) {
-        insurerdArr.push(objectid(values));
-      });
-      insurerd = {
-        'insurerd._id': {
-          $in: insurerdArr
-        },
-      };
-    }
-    if (_.isEmpty(data.department)) {
-      var department = {}
-    } else {
-      var departmentArr = [];
-      _.each(data.department, function (values) {
-        departmentArr.push(objectid(values));
-      });
-      var department = {
-        'department._id': {
-          $in: departmentArr
-        },
-      };
-    }
-    // var ownerId = {};
-    if (data.ownerStatus == "My files") {
-      if (data.ownerId === "") {
-        var ownerId = {};
-      } else {
-        ownerId = {
-          'owner._id': objectid(data.ownerId),
-        };
-      }
-    }
-    var ownerStatus = Object.assign(timelineStatus, name, owner, insurer, insurerd, department, ownerId, intimatedLoss, city, branch, createdAt);
-    console.log("ownerStatus", ownerStatus);
-    var pageStartFrom = (data.pagenumber - 1) * data.pagelimit;
+  projectionOfGetAssignmentAggregate: function () {
     var allTable = [{
-        $lookup: {
-          from: "cities",
-          localField: "city",
-          foreignField: "_id",
-          as: "city"
-        }
-      }, {
-        $unwind: {
-          path: "$city",
-          preserveNullAndEmptyArrays: true
-        }
-      }, {
-        $lookup: {
-          from: "branches",
-          localField: "branch",
-          foreignField: "_id",
-          as: "branch"
-        }
-      }, {
-        $unwind: {
-          path: "$branch",
-          preserveNullAndEmptyArrays: true
-        }
-      }, {
-        $lookup: {
-          from: "customers",
-          localField: "insurerOffice",
-          foreignField: "_id",
-          as: "insurer"
-        }
-      }, {
-        $unwind: {
-          path: "$insurer",
-          preserveNullAndEmptyArrays: true
-        }
-      }, {
-        $lookup: {
-          from: "employees",
-          localField: "owner",
-          foreignField: "_id",
-          as: "owner"
-        }
-      }, {
-        $unwind: {
-          path: "$owner",
-          preserveNullAndEmptyArrays: true
-        }
-      }, {
-        $lookup: {
-          from: "customers",
-          localField: "insuredOffice",
-          foreignField: "_id",
-          as: "insurerd"
-        }
-      }, {
-        $unwind: {
-          path: "$insurerd",
-          preserveNullAndEmptyArrays: true
-        }
-      }, {
-        $lookup: {
-          from: "departments",
-          localField: "department",
-          foreignField: "_id",
-          as: "department"
-        }
-      }, {
-        $unwind: {
-          path: "$department",
-          preserveNullAndEmptyArrays: true
-        }
-      },
-      // Extra
-      {
-        $lookup: {
-          from: "customers",
-          localField: "brokerOffice",
-          foreignField: "_id",
-          as: "broker"
-        }
-      }, {
-        $unwind: {
-          path: "$broker",
-          preserveNullAndEmptyArrays: true
-        }
-      }, {
-        $lookup: {
-          from: "naturelosses",
-          localField: "natureOfLoss",
-          foreignField: "_id",
-          as: "natureOfLoss"
-        }
-      }, {
-        $unwind: {
-          path: "$natureOfLoss",
-          preserveNullAndEmptyArrays: true
-        }
-      }, {
-        $lookup: {
-          from: "invoices",
-          localField: "invoice",
-          foreignField: "_id",
-          as: "invoice"
-        }
-      }, {
-        $unwind: {
-          path: "$invoice",
-          preserveNullAndEmptyArrays: true
-        }
-      }, {
-        $match: {
-          $and: [ownerStatus]
-        }
-      },
-      sort, {
-        $group: {
-          _id: "$_id",
-          natureOfLoss: {
-            $push: "$natureOfLoss"
-          },
-          name: {
-            $first: "$name"
-          },
-          owner: {
-            $first: "$owner",
-          },
-          insurerd: {
-            $first: "$insurerd",
-          },
-          branch: {
-            $first: "$branch",
-          },
-          insurer: {
-            $first: "$insurer",
-          },
-          broker: {
-            $first: "$broker",
-          },
-          department: {
-            $first: "$department",
-          },
-          intimatedLoss: {
-            $first: "$intimatedLoss",
-          },
-          timelineStatus: {
-            $first: "$timelineStatus",
-          },
-          status: {
-            $first: "$status",
-          },
-          survey: {
-            $first: "$survey",
-          },
-          invoice: {
-            // $first: "$invoice",
-            $push: "$invoice"
-          },
-          insuredClaimId: {
-            $first: "$insuredClaimId",
-          },
-          insurerClaimId: {
-            $first: "$insurerClaimId",
-          },
-          brokerClaimId: {
-            $first: "$brokerClaimId",
-          }
-        }
-      }, {
-        $project: {
-          _id: 1,
-          name: 1,
-          createdAt: 1,
-          insuredClaimId: 1,
-          insurerClaimId: 1,
-          brokerClaimId: 1,
-          owner: "$owner.name",
-          insurerName: "$insurer.name",
-          brokerName: "$broker.name",
-          insuredName: "$insurerd.name",
-          department: "$department.name",
-          city: "$city.name",
-          intimatedLoss: 1,
-          timelineStatus: 1,
-          status: 1,
-          natureOfLoss: "$natureOfLoss.name",
-          branch: "$branch.name",
-          survey: 1,
-          invoice: "$invoice.approvalTime"
-        }
-      }
-    ];
-
-
-    var countAllData = [{
       $lookup: {
         from: "cities",
         localField: "city",
@@ -2588,6 +2183,18 @@ var model = {
       }
     }, {
       $lookup: {
+        from: "customers",
+        localField: "brokerOffice",
+        foreignField: "_id",
+        as: "broker"
+      }
+    }, {
+      $unwind: {
+        path: "$broker",
+        preserveNullAndEmptyArrays: true
+      }
+    }, {
+      $lookup: {
         from: "employees",
         localField: "owner",
         foreignField: "_id",
@@ -2603,11 +2210,11 @@ var model = {
         from: "customers",
         localField: "insuredOffice",
         foreignField: "_id",
-        as: "insurerd"
+        as: "insured"
       }
     }, {
       $unwind: {
-        path: "$insurerd",
+        path: "$insured",
         preserveNullAndEmptyArrays: true
       }
     }, {
@@ -2622,11 +2229,345 @@ var model = {
         path: "$department",
         preserveNullAndEmptyArrays: true
       }
-    }, {
-      $match: {
-        $and: [ownerStatus]
+    }];
+
+    return allTable;
+  },
+  projectionOfGetAssignmentExcelAggregate: function () {
+    var allTable = [{
+      $lookup: {
+        from: "cities",
+        localField: "city",
+        foreignField: "_id",
+        as: "city"
       }
     }, {
+      $unwind: {
+        path: "$city",
+        preserveNullAndEmptyArrays: true
+      }
+    }, {
+      $lookup: {
+        from: "branches",
+        localField: "branch",
+        foreignField: "_id",
+        as: "branch"
+      }
+    }, {
+      $unwind: {
+        path: "$branch",
+        preserveNullAndEmptyArrays: true
+      }
+    }, {
+      $lookup: {
+        from: "customers",
+        localField: "insurerOffice",
+        foreignField: "_id",
+        as: "insurer"
+      }
+    }, {
+      $unwind: {
+        path: "$insurer",
+        preserveNullAndEmptyArrays: true
+      }
+    }, {
+      $lookup: {
+        from: "customers",
+        localField: "brokerOffice",
+        foreignField: "_id",
+        as: "broker"
+      }
+    }, {
+      $unwind: {
+        path: "$broker",
+        preserveNullAndEmptyArrays: true
+      }
+    }, {
+      $lookup: {
+        from: "employees",
+        localField: "owner",
+        foreignField: "_id",
+        as: "owner"
+      }
+    }, {
+      $unwind: {
+        path: "$owner",
+        preserveNullAndEmptyArrays: true
+      }
+    }, {
+      $lookup: {
+        from: "customers",
+        localField: "insuredOffice",
+        foreignField: "_id",
+        as: "insured"
+      }
+    }, {
+      $unwind: {
+        path: "$insured",
+        preserveNullAndEmptyArrays: true
+      }
+    }, {
+      $lookup: {
+        from: "departments",
+        localField: "department",
+        foreignField: "_id",
+        as: "department"
+      }
+    }, {
+      $unwind: {
+        path: "$department",
+        preserveNullAndEmptyArrays: true
+      }
+    }];
+
+    return allTable;
+  },
+  typeOfGetAssignmentAggregate: function (data, user) {
+    var retObj = {};
+    if (data.ownerStatus == "My files") {
+      retObj = {
+        $match: {
+          'owner': objectid(data.ownerId),
+        }
+      };
+    } else if (data.ownerStatus == "Shared with me") {
+      retObj = {
+        $match: {
+          'shareWith.persons': objectid(data.ownerId),
+        }
+      };
+    } else if (data.ownerStatus == "All files") {
+      var allUsersUnder = _.map(_.concat(user.children, data.ownerId), function (n) {
+        return objectid(n);
+      });
+      retObj = {
+        $match: {
+          $or: [{
+            'shareWith.persons': {
+              $in: allUsersUnder
+            }
+          }, {
+            'owner': {
+              $in: allUsersUnder
+            }
+          }]
+        },
+      };
+    }
+
+    return [retObj];
+  },
+  filterOfGetAssignmentAggregate: function (data) {
+    var filterObject = {};
+    //Timeline status filter
+    if (!_.isEmpty(data.timelineStatus)) {
+      var timelineStatus = {
+        timelineStatus: {
+          $in: data.timelineStatus
+        }
+      };
+      filterObject = _.assign(filterObject, timelineStatus);
+    }
+
+    //Intimated Loss from range to to range
+    if (!_.isEmpty(data.from) && !_.isEmpty(data.to)) {
+      var intimatedLoss = {
+        intimatedLoss: {
+          "$gte": data.from,
+          "$lte": data.to
+        }
+      };
+      filterObject = _.assign(filterObject, intimatedLoss);
+    }
+
+    //Assignment from date to to date
+    if (!_.isEmpty(data.fromDate) && !_.isEmpty(data.toDate)) {
+      var createdAt = {
+        createdAt: {
+          "$gte": new Date(data.fromDate),
+          "$lte": new Date(data.toDate)
+        }
+      };
+      filterObject = _.assign(filterObject, createdAt);
+    }
+
+    //Mr number filter
+    if (!_.isEmpty(data.name)) {
+      var name = {
+        name: {
+          $regex: data.name,
+          $options: 'i'
+        }
+      };
+      filterObject = _.assign(filterObject, name);
+    }
+
+    //Owner of assignment filter
+    if (!_.isEmpty(data.owner)) {
+      var owner = {
+        'owner': {
+          $in: _.map(data.owner, function (n) {
+            return objectid(n);
+          })
+        },
+      };
+      console.log(owner);
+      filterObject = _.assign(filterObject, owner);
+    }
+
+    //City filter
+    if (!_.isEmpty(data.city)) {
+      var city = {
+        'city': {
+          $in: _.map(data.city, function (n) {
+            return objectid(n);
+          })
+        },
+      };
+      filterObject = _.assign(filterObject, city);
+    }
+
+    ///Branch filter 
+    if (!_.isEmpty(data.branch)) {
+      var branch = {
+        'branch': {
+          $in: _.map(data.branch, function (n) {
+            return objectid(n);
+          })
+        },
+      };
+      filterObject = _.assign(filterObject, branch);
+    }
+
+    //Insurer filter
+    if (!_.isEmpty(data.insurer)) {
+      var insurer = {
+        'insurer': {
+          $in: _.map(data.insurer, function (n) {
+            return objectid(n);
+          })
+        }
+      };
+      filterObject = _.assign(filterObject, insurer);
+    }
+
+    //Insured filter
+    if (!_.isEmpty(data.insured)) {
+      var insured = {
+        'insured': {
+          $in: _.map(data.insured, function (n) {
+            return objectid(n);
+          })
+        },
+      };
+      filterObject = _.assign(filterObject, insured);
+    }
+
+    //Department filter
+    if (!_.isEmpty(data.department)) {
+      var department = {
+        'department': {
+          $in: _.map(data.department, function (n) {
+            return objectid(n);
+          })
+        },
+      };
+      filterObject = _.assign(filterObject, department);
+    }
+
+    //Broker Office filter
+    if (!_.isEmpty(data.brokerOffice)) {
+      var brokerOffice = {
+        'customer': {
+          $in: _.map(data.brokerOffice, function (n) {
+            return objectid(n);
+          })
+        },
+      };
+      filterObject = _.assign(filterObject, brokerOffice);
+    }
+    if (_.isEmpty(filterObject)) {
+      return null;
+    } else {
+      return [{
+        $match: filterObject
+      }];
+    }
+
+  },
+  sortOfGetAssignmentAggregate: function (data) {
+    //Sorting
+    var sort = {
+      $sort: {
+        createdAt: -1
+      }
+    };
+
+    function makeSort(name, value) {
+      sort.$sort[name] = value;
+    }
+    if (_.isEmpty(data.sorting[0])) {
+      sort = {
+        $sort: {
+          createdAt: -1
+        }
+      };
+    } else {
+      switch (data.sorting[0]) {
+        case "name":
+          makeSort(data.sorting[0], data.sorting[1]);
+          break;
+        case "intimatedLoss":
+          makeSort(data.sorting[0], data.sorting[1]);
+          break;
+        case "owner":
+          makeSort(data.sorting[0] + ".name", data.sorting[1]);
+          break;
+        case "insurer":
+          makeSort(data.sorting[0] + ".name", data.sorting[1]);
+          break;
+        case "insured":
+          makeSort(data.sorting[0] + ".name", data.sorting[1]);
+          break;
+        case "department":
+          makeSort(data.sorting[0] + ".name", data.sorting[1]);
+          break;
+        case "city":
+          makeSort(data.sorting[0] + ".name", data.sorting[1]);
+          break;
+        case "timelineStatus":
+          makeSort(data.sorting[0], data.sorting[1]);
+          break;
+      }
+    }
+    return [sort];
+  },
+  completeGetAssignmentAggregate: function (data, user) {
+    var aggregateArr = _.concat(this.filterOfGetAssignmentAggregate(data), this.typeOfGetAssignmentAggregate(data, user), this.projectionOfGetAssignmentAggregate());
+    return _.compact(aggregateArr);
+  },
+  getAll: function (data, callback, user) {
+    var coreArr = this.completeGetAssignmentAggregate(data, user);
+    var paginationArr = [{
+      $skip: parseInt((data.pagenumber - 1) * data.pagelimit)
+    }, {
+      $limit: data.pagelimit
+    }, {
+      $project: {
+        _id: 1,
+        name: 1,
+        owner: "$owner.name",
+        insurerName: "$insurer.name",
+        insuredName: "$insured.name",
+        brokerName: "$broker.name",
+        department: "$department.name",
+        city: "$city.name",
+        intimatedLoss: 1,
+        timelineStatus: 1,
+        status: 1
+      }
+    }];
+    var countArr = [{
       $group: {
         _id: null,
         count: {
@@ -2634,21 +2575,56 @@ var model = {
         }
       }
     }];
+    var sortArr = this.sortOfGetAssignmentAggregate(data);
 
-    if (data.ownerStatus == "Shared with me") {
-      var unwindEmp = {
-        $unwind: "$shareWith.persons"
-      };
-      allTable.unshift(unwindEmp);
-      countAllData.unshift(unwindEmp);
-      var unwindSharewith = {
-        $unwind: "$shareWith"
-      };
-      allTable.unshift(unwindSharewith);
-      countAllData.unshift(unwindSharewith);
-    }
+    async.parallel({
+      results: function (callback) {
+        Assignment.aggregate(_.concat(coreArr, sortArr, paginationArr)).exec(callback);
+      },
+      total: function (callback) {
+        Assignment.aggregate(_.concat(coreArr, countArr)).exec(callback);
+      }
+    }, function (err, data2) {
+      if (err || _.isEmpty(data2.results)) {
+        callback(err, data2);
+      } else {
+        data2.total = data2.total[0].count;
+        callback(err, data2);
+      }
+    });
+  },
+  generateAssignmentExcel: function (data, callback, res, user) {
+    var coreArr = this.completeGetAssignmentAggregate(data, user);
+    var paginationArr = [{
+      $skip: parseInt((data.pagenumber - 1) * data.pagelimit)
+    }, {
+      $limit: data.pagelimit
+    }, {
+      $project: {
+        _id: 1,
+        name: 1,
+        owner: "$owner.name",
+        insurerName: "$insurer.name",
+        insuredName: "$insured.name",
+        brokerName: "$broker.name",
+        department: "$department.name",
+        city: "$city.name",
+        intimatedLoss: 1,
+        timelineStatus: 1,
+        status: 1
+      }
+    }];
+    var countArr = [{
+      $group: {
+        _id: null,
+        count: {
+          $sum: 1
+        }
+      }
+    }];
+    var sortArr = this.sortOfGetAssignmentAggregate(data);
 
-    Assignment.aggregate(allTable).allowDiskUse(true).exec(function (err, data1) {
+    Assignment.aggregate(_.concat(coreArr, sortArr)).allowDiskUse(true).exec(function (err, data1) {
       if (err) {
         console.log("In IF");
         callback(null, data1);
@@ -2702,7 +2678,7 @@ var model = {
               }
 
               obj["Status"] = n.timelineStatus
-                // obj.nature=n.natureOfLoss[0];
+              // obj.nature=n.natureOfLoss[0];
               excelData.push(obj);
             });
             Config.generateExcel("Assignment", excelData, res);
