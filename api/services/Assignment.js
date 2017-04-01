@@ -2244,7 +2244,7 @@ var model = {
     } else if (data.ownerStatus == "Shared with me") {
       retObj = {
         $match: {
-          'shared.persons': objectid(data.ownerId),
+          'shareWith.persons': objectid(data.ownerId),
         }
       };
     } else if (data.ownerStatus == "All files") {
@@ -2254,7 +2254,7 @@ var model = {
       retObj = {
         $match: {
           $or: [{
-            'shared.persons': {
+            'shareWith.persons': {
               $in: allUsersUnder
             }
           }, {
