@@ -136,7 +136,7 @@ var model = {
     }
     User.findOne({
       accessToken: data.accessToken
-    }, str).exec(function (err, data) {
+    }, str).lean().exec(function (err, data) {
       if (err) {
         callback(err);
       } else if (data) {
