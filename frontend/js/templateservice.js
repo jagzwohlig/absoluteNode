@@ -1,5 +1,6 @@
-var templateservicemod = angular.module('templateservicemod', ["navigationservice"]);
-templateservicemod.service('TemplateService', function (NavigationService, $filter) {
+var templateservicemod = angular.module('templateservicemod', ['navigationservice']);
+templateservicemod.service('TemplateService', function ($filter,NavigationService) {
+
   this.title = "Home";
   this.meta = "Google";
   this.metadesc = "Home";
