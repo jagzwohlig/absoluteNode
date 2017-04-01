@@ -356,7 +356,7 @@ var controller = {
         }
     },
     search: function (req, res) {
-        if (!body.keyword) {
+        if (!req.body.keyword) {
             data.keyword = "";
         }
         req.model.search(req.body, res.callback, req.user);
