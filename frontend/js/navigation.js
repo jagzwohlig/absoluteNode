@@ -938,12 +938,14 @@ var navigationservice = angular.module('navigationservice', [])
                 });
             },
             getDashboardCount: function (callback) {
+                formData = {};
                 formData.accessToken = $.jStorage.get("accessToken");
                 $http.post(adminurl + 'Employee/getDashboardCount', formData).success(function (data) {
                     callback(data);
                 });
             },
             getDashboardCounts: function (callback) {
+                formData = {};
                 formData.accessToken = $.jStorage.get("accessToken");
                 $http.post(adminurl + 'Employee/getDashboardCounts', formData).success(function (data) {
                     callback(data);
@@ -1297,6 +1299,7 @@ var navigationservice = angular.module('navigationservice', [])
                 });
             },
             getTax: function (callback) {
+                formData = {};
                 formData.accessToken = $.jStorage.get("accessToken");
                 $http.post(adminurl + 'tax/search', formData).success(function (data) {
                     callback(data);
@@ -1372,11 +1375,13 @@ var navigationservice = angular.module('navigationservice', [])
                 }).success(callback);
             },
             getAllDistricts: function (callback) {
+                data = {};
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'district/getAll',
                     method: 'POST',
                     withCredentials: true,
-                    accessToken: $.jStorage.get("accessToken")
+                    data: data
                 }).success(callback);
             },
             districtSave: function (formData, callback) {
@@ -1386,7 +1391,7 @@ var navigationservice = angular.module('navigationservice', [])
             getOneDistrict: function (id, callback) {
                 $http.post(adminurl + 'district/getOne', {
                     "_id": id,
-                    accessToken = $.jStorage.get("accessToken")
+                    "accessToken": $.jStorage.get("accessToken")
                 }).success(callback);
             },
             districtEditSave: function (id, callback) {
@@ -1402,11 +1407,12 @@ var navigationservice = angular.module('navigationservice', [])
             deleteDistrict: function (id, callback) {
                 $http.post(adminurl + 'district/delete', {
                     "_id": id,
-                    accessToken: $.jStorage.get("accessToken")
+                    "accessToken": $.jStorage.get("accessToken")
                 }).success(callback);
             },
             getAllCurrencies: function (callback) {
                 // console.log('form data: ', formData);
+                data = {};
                 data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'currencies/getAll',
@@ -1421,6 +1427,7 @@ var navigationservice = angular.module('navigationservice', [])
             },
             getOneCurrency: function (id, callback) {
                 // console.log('form data: ', formData);
+                data = {};
                 data._id = id;
                 data.accessToken = $.jStorage.get("accessToken");
                 $http({
@@ -1441,6 +1448,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }).success(callback);
             },
             deleteCurrency: function (id, callback) {
+                data = {};
                 data._id = id;
                 data.accessToken = $.jStorage.get("accessToken");
                 $http.post(adminurl + 'currencies/delete', data).success(callback);
@@ -1448,6 +1456,7 @@ var navigationservice = angular.module('navigationservice', [])
 
             getAllCities: function (callback) {
                 // console.log('form data: ', formData);
+                data = {};
                 data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'city/getAll',
@@ -1461,6 +1470,7 @@ var navigationservice = angular.module('navigationservice', [])
                 $http.post(adminurl + 'city/save', formData).success(callback);
             },
             getOneCity: function (id, callback) {
+                data = {};
                 // console.log('form data: ', formData);\
                 data = {
                     "_id": id
@@ -1484,6 +1494,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }).success(callback);
             },
             deleteCity: function (id, callback) {
+                data = {};
                 data = {
                     _id: id
                 };
@@ -1492,6 +1503,7 @@ var navigationservice = angular.module('navigationservice', [])
             },
 
             getAllOffices: function (callback) {
+                data = {};
                 data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'office/getAll',
@@ -1506,6 +1518,7 @@ var navigationservice = angular.module('navigationservice', [])
             },
             getOneOffice: function (id, callback) {
                 // console.log('form data: ', formData);
+                data = {};
                 data = {
                     _id: id
                 };
@@ -1534,6 +1547,7 @@ var navigationservice = angular.module('navigationservice', [])
             },
             getAllTypeOfOffices: function (callback) {
                 // console.log('form data: ', formData);
+                data = {};
                 data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'TypeOfOffice/getAll',
@@ -1558,11 +1572,14 @@ var navigationservice = angular.module('navigationservice', [])
                 }).success(callback);
             },
             getAllDepartments: function (callback) {
+                formData = {};
+                formData.accessToken = $.jStorage.get("accessToken");
                 // console.log('form data: ', formData);
                 $http({
                     url: adminurl + 'department/getAll',
                     method: 'POST',
-                    withCredentials: true
+                    withCredentials: true,
+                    data: formData
                 }).success(callback);
             },
             departmentSave: function (formData, callback) {
@@ -1576,6 +1593,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }).success(callback);
             },
             getOneDepartment: function (id, callback) {
+                data = {};
                 // console.log('form data: ', formData);
                 data = {
                     _id: id
@@ -1599,6 +1617,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }).success(callback);
             },
             deleteDepartment: function (id, callback) {
+                data = {};
                 // console.log('form data: ', formData);
                 data = {
                     "_id": id.id
@@ -1614,6 +1633,7 @@ var navigationservice = angular.module('navigationservice', [])
 
             getAllUniqueTypes: function (callback) {
                 // console.log('form data: ', formData);
+                data = {};
                 data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'UniqueTypes/getAll',
@@ -1633,6 +1653,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }).success(callback);
             },
             getOneUniqueType: function (id, callback) {
+                data = {};
                 // console.log('form data: ', formData);
                 data = {
                     "_id": id
@@ -1656,6 +1677,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }).success(callback);
             },
             deleteUniqueType: function (id, callback) {
+                data = {};
                 // console.log('form data: ', formData);
                 data = {
                     "_id": id.id
@@ -1670,6 +1692,7 @@ var navigationservice = angular.module('navigationservice', [])
             },
             getAllCustomerSegments: function (callback) {
                 // console.log('form data: ', formData);
+                data = {};
                 data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'CustomerSegment/getAll',
@@ -1689,6 +1712,7 @@ var navigationservice = angular.module('navigationservice', [])
             },
             getOneCustomerSegment: function (id, callback) {
                 // console.log('form data: ', formData);
+                data = {};
                 data = {
                     "_id": id
                 };
@@ -1715,7 +1739,7 @@ var navigationservice = angular.module('navigationservice', [])
                 data = {
                     "_id": id.id,
                 };
-               data.accessToken =   $.jStorage.get("accessToken");
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'CustomerSegment/delete',
                     method: 'POST',
@@ -1726,7 +1750,8 @@ var navigationservice = angular.module('navigationservice', [])
 
             getAllPolicyTypes: function (callback) {
                 // console.log('form data: ', formData);
-                 data.accessToken = $.jStorage.get("accessToken");
+                data = {};
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'policyname/getAll',
                     method: 'POST',
@@ -1736,7 +1761,7 @@ var navigationservice = angular.module('navigationservice', [])
             },
             policynameSave: function (formData, callback) {
                 // console.log('form data: ', formData);
-                 formData.accessToken = $.jStorage.get("accessToken");
+                formData.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'policyname/saveData',
                     method: 'POST',
@@ -1746,8 +1771,9 @@ var navigationservice = angular.module('navigationservice', [])
             },
             getOnePolicyType: function (id, callback) {
                 // console.log('form data: ', formData);
-                data =  {
-                    _id:id
+                data = {};
+                data = {
+                    _id: id
                 };
                 data.accessToken = $.jStorage.get("accessToken");
                 $http({
@@ -1760,7 +1786,7 @@ var navigationservice = angular.module('navigationservice', [])
 
             PolicyTypeEditSave: function (id, callback) {
                 // console.log('form data: ', formData);
-                id.accessToken =  $.jStorage.get("accessToken");
+                id.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'policyname/saveData',
                     method: 'POST',
@@ -1769,9 +1795,10 @@ var navigationservice = angular.module('navigationservice', [])
                 }).success(callback);
             },
             deletePolicyType: function (id, callback) {
+                data = {};
                 // console.log('form data: ', formData);
                 data._id = id.id;
-                data.accessToken =  $.jStorage.get("accessToken");
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'policyname/delete',
                     method: 'POST',
@@ -1782,17 +1809,18 @@ var navigationservice = angular.module('navigationservice', [])
 
             getAllPolicies: function (callback) {
                 // console.log('form data: ', formData);
-                data.accessToken =  $.jStorage.get("accessToken");
+                data = {};
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'policy/getAll',
                     method: 'POST',
                     withCredentials: true,
-                    data:data
+                    data: data
                 }).success(callback);
             },
             policySave: function (formData, callback) {
                 // console.log('form data: ', formData);
-                formData.accessToken =  $.jStorage.get("accessToken");
+                formData.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'policy/saveData',
                     method: 'POST',
@@ -1801,9 +1829,10 @@ var navigationservice = angular.module('navigationservice', [])
                 }).success(callback);
             },
             getOnePolicy: function (id, callback) {
+                data = {};
                 // console.log('form data: ', formData);
-                data._id=  id;
-                data.accessToken =  $.jStorage.get("accessToken");
+                data._id = id;
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'policy/getOne',
                     method: 'POST',
@@ -1813,7 +1842,7 @@ var navigationservice = angular.module('navigationservice', [])
             },
             PolicyEditSave: function (id, callback) {
                 // console.log('form data: ', formData);\
-                id.accessToken =  $.jStorage.get("accessToken");
+                id.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'policy/saveData',
                     method: 'POST',
@@ -1822,9 +1851,10 @@ var navigationservice = angular.module('navigationservice', [])
                 }).success(callback);
             },
             deletePolicy: function (id, callback) {
+                data = {};
                 // console.log('form data: ', formData);
                 data._id = id.id;
-                data.accessToken =  $.jStorage.get("accessToken");
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'policy/delete',
                     method: 'POST',
@@ -1834,7 +1864,8 @@ var navigationservice = angular.module('navigationservice', [])
             },
             getAllPolicyDocs: function (callback) {
                 // console.log('form data: ', formData);
-                data.accessToken =  $.jStorage.get("accessToken");
+                data = {};
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'policydoc/getAll',
                     method: 'POST',
@@ -1844,7 +1875,7 @@ var navigationservice = angular.module('navigationservice', [])
             },
             policydocSave: function (formData, callback) {
                 // console.log('form data: ', formData);
-                formData.accessToken =  $.jStorage.get("accessToken");
+                formData.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'policydoc/saveData',
                     method: 'POST',
@@ -1854,14 +1885,15 @@ var navigationservice = angular.module('navigationservice', [])
             },
             getOnePolicyDoc: function (id, callback) {
                 console.log('policy form data: ', id);
+                formData = {};
                 var formData = {};
                 formData._id = id;
-                formData.accessToken =  $.jStorage.get("accessToken");
+                formData.accessToken = $.jStorage.get("accessToken");
                 $http.post(adminurl + 'policyDoc/getOne', formData).success(callback);
             },
             PolicyDocEditSave: function (id, callback) {
                 // console.log('form data: ', formData);
-                id.accessToken =  $.jStorage.get("accessToken");
+                id.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'policydoc/saveData',
                     method: 'POST',
@@ -1872,7 +1904,7 @@ var navigationservice = angular.module('navigationservice', [])
             deletePolicyDoc: function (id, callback) {
                 // console.log('form data: ', formData);
                 id._id = id.id;
-                id.accessToken =  $.jStorage.get("accessToken");
+                id.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'policydoc/delete',
                     method: 'POST',
@@ -1882,7 +1914,8 @@ var navigationservice = angular.module('navigationservice', [])
             },
             getAllIndustries: function (callback) {
                 // console.log('form data: ', formData);
-                data.accessToken =  $.jStorage.get("accessToken");
+                data = {};
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'industry/getAll',
                     method: 'POST',
@@ -1891,13 +1924,14 @@ var navigationservice = angular.module('navigationservice', [])
                 }).success(callback);
             },
             industrySave: function (formData, callback) {
-                formData.accessToken =  $.jStorage.get("accessToken");
+                formData.accessToken = $.jStorage.get("accessToken");
                 $http.post(adminurl + 'industry/save', formData).success(callback);
             },
             getOneIndustry: function (id, callback) {
                 // console.log('form data: ', formData);
-                data._id= id;
-                data.accessToken =  $.jStorage.get("accessToken");
+                data = {};
+                data._id = id;
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'industry/getOne',
                     method: 'POST',
@@ -1907,7 +1941,7 @@ var navigationservice = angular.module('navigationservice', [])
             },
             IndustryEditSave: function (id, callback) {
                 // console.log('form data: ', formData);
-                id.accessToken =  $.jStorage.get("accessToken");
+                id.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'industry/save',
                     method: 'POST',
@@ -1916,28 +1950,31 @@ var navigationservice = angular.module('navigationservice', [])
                 }).success(callback);
             },
             deleteIndustry: function (id, callback) {
-                $http.post(adminurl + 'industry/delete', {
-                    _id: id
-                }).success(callback);
+                data = {};
+                data._id = id;
+                data.accessToken = $.jStorage.get("accessToken");
+                $http.post(adminurl + 'industry/delete', data).success(callback);
             },
             getAllCategories: function (callback) {
                 // console.log('form data: ', formData);
-                data.accessToken =  $.jStorage.get("accessToken");
+                data = {};
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'category/getAll',
                     method: 'POST',
                     withCredentials: true,
-                    data:data
+                    data: data
                 }).success(callback);
             },
             categorySave: function (formData, callback) {
-                formData.accessToken =  $.jStorage.get("accessToken");
+                formData.accessToken = $.jStorage.get("accessToken");
                 $http.post(adminurl + 'category/save', formData).success(callback);
             },
             getOneCategory: function (id, callback) {
+                data = {};
                 // console.log('form data: ', formData);
                 data._id = id;
-                data.accessToken =  $.jStorage.get("accessToken");
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'category/getOne',
                     method: 'POST',
@@ -1947,7 +1984,7 @@ var navigationservice = angular.module('navigationservice', [])
             },
             CategoryEditSave: function (id, callback) {
                 // console.log('form data: ', formData);
-                id.accessToken =  $.jStorage.get("accessToken");
+                id.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'category/saveData',
                     method: 'POST',
@@ -1956,32 +1993,35 @@ var navigationservice = angular.module('navigationservice', [])
                 }).success(callback);
             },
             deleteCategory: function (id, callback) {
+                data = {};
                 data._id = id;
-                data.accessToken =  $.jStorage.get("accessToken");
+                data.accessToken = $.jStorage.get("accessToken");
                 $http.post(adminurl + 'category/delete', data).success(callback);
             },
             getAllFunc: function (callback) {
                 // console.log('form data: ', formData);
-                data.accessToken =  $.jStorage.get("accessToken");
+                data = {};
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'func/getAll',
                     method: 'POST',
                     withCredentials: true,
-                    data:data
+                    data: data
                 }).success(callback);
             },
             funcSave: function (formData, callback) {
-                formData.accessToken =  $.jStorage.get("accessToken");
+                formData.accessToken = $.jStorage.get("accessToken");
                 $http.post(adminurl + 'func/save', formData).success(callback);
             },
             gradeSave: function (formData, callback) {
-                formData.accessToken =  $.jStorage.get("accessToken");
+                formData.accessToken = $.jStorage.get("accessToken");
                 $http.post(adminurl + 'grade/save', formData).success(callback);
             },
             getOneFunc: function (id, callback) {
                 // console.log('form data: ', formData);
+                data = {};
                 data._id = id;
-                data.accessToken =  $.jStorage.get("accessToken");
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'func/getOne',
                     method: 'POST',
@@ -1991,7 +2031,7 @@ var navigationservice = angular.module('navigationservice', [])
             },
             FuncEditSave: function (id, callback) {
                 // console.log('form data: ', formData);
-                id.accessToken =  $.jStorage.get("accessToken");
+                id.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'func/saveData',
                     method: 'POST',
@@ -2001,8 +2041,9 @@ var navigationservice = angular.module('navigationservice', [])
             },
             deleteFunc: function (id, callback) {
                 // console.log('form data: ', formData);
+                data = {};
                 data._id = id.id;
-                data.accessToken =  $.jStorage.get("accessToken");
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'func/delete',
                     method: 'POST',
@@ -2012,17 +2053,18 @@ var navigationservice = angular.module('navigationservice', [])
             },
             getAllCauseLoss: function (callback) {
                 // console.log('form data: ', formData);
-                data.accessToken =  $.jStorage.get("accessToken");
+                data = {};
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'causeloss/getAll',
                     method: 'POST',
                     withCredentials: true,
-                    data:data
+                    data: data
                 }).success(callback);
             },
             causelossSave: function (formData, callback) {
                 // console.log('form data: ', formData);
-                formData.accessToken =  $.jStorage.get("accessToken");
+                formData.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'causeloss/saveData',
                     method: 'POST',
@@ -2032,8 +2074,9 @@ var navigationservice = angular.module('navigationservice', [])
             },
             getOneCauseLoss: function (id, callback) {
                 // console.log('form data: ', formData);
+                data = {};
                 data._id = id;
-                data.accessToken =  $.jStorage.get("accessToken");
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'causeloss/getOne',
                     method: 'POST',
@@ -2043,7 +2086,7 @@ var navigationservice = angular.module('navigationservice', [])
             },
             CauseLossEditSave: function (id, callback) {
                 // console.log('form data: ', formData);
-                id.accessToken =  $.jStorage.get("accessToken");
+                id.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'causeloss/saveData',
                     method: 'POST',
@@ -2053,8 +2096,9 @@ var navigationservice = angular.module('navigationservice', [])
             },
             deleteCauseLoss: function (id, callback) {
                 // console.log('form data: ', formData);
-                data._id =  id.id;
-                data.accessToken =  $.jStorage.get("accessToken");
+                data = {};
+                data._id = id.id;
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'causeloss/delete',
                     method: 'POST',
@@ -2064,17 +2108,18 @@ var navigationservice = angular.module('navigationservice', [])
             },
             getAllNatureLoss: function (callback) {
                 // console.log('form data: ', formData);
-                data.accessToken =  $.jStorage.get("accessToken");
+                data = {};
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'natureloss/getAll',
                     method: 'POST',
                     withCredentials: true,
-                    data:data
+                    data: data
                 }).success(callback);
             },
             naturelossSave: function (formData, callback) {
                 // console.log('form data: ', formData);
-                formData.accessToken =  $.jStorage.get("accessToken");
+                formData.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'natureloss/saveData',
                     method: 'POST',
@@ -2084,8 +2129,9 @@ var navigationservice = angular.module('navigationservice', [])
             },
             getOneNatureLoss: function (id, callback) {
                 // console.log('form data: ', formData);
+                formData = {};
                 formData._id = id;
-                formData.accessToken =  $.jStorage.get("accessToken");
+                formData.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'natureloss/getOne',
                     method: 'POST',
@@ -2095,7 +2141,7 @@ var navigationservice = angular.module('navigationservice', [])
             },
             NatureLossEditSave: function (id, callback) {
                 // console.log('form data: ', formData);
-                id.accessToken =  $.jStorage.get("accessToken");
+                id.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'natureloss/saveData',
                     method: 'POST',
@@ -2105,8 +2151,9 @@ var navigationservice = angular.module('navigationservice', [])
             },
             deleteNatureLoss: function (id, callback) {
                 // console.log('form data: ', formData);
-                formData._id = id.id;  
-                formData.accessToken =  $.jStorage.get("accessToken");
+                formData = {};
+                formData._id = id.id;
+                formData.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'natureloss/delete',
                     method: 'POST',
@@ -2117,17 +2164,18 @@ var navigationservice = angular.module('navigationservice', [])
 
             getAllBusinessBranch: function (callback) {
                 // console.log('form data: ', formData);
-                formData.accessToken =  $.jStorage.get("accessToken");
+                formData = {};
+                formData.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'businessbranch/getAll',
                     method: 'POST',
                     withCredentials: true,
-                    data:formData
+                    data: formData
                 }).success(callback);
             },
             businessbranchSave: function (formData, callback) {
                 // console.log('form data: ', formData);
-                formData.accessToken =  $.jStorage.get("accessToken");
+                formData.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'businessbranch/saveData',
                     method: 'POST',
@@ -2137,8 +2185,9 @@ var navigationservice = angular.module('navigationservice', [])
             },
             getOneBusinessBranch: function (id, callback) {
                 // console.log('form data: ', formData);
+                formData = {};
                 formData._id = id;
-                formData.accessToken =  $.jStorage.get("accessToken");
+                formData.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'businessbranch/getOne',
                     method: 'POST',
@@ -2148,7 +2197,7 @@ var navigationservice = angular.module('navigationservice', [])
             },
             BusinessBranchEditSave: function (id, callback) {
                 // console.log('form data: ', formData);
-                formData.accessToken =  $.jStorage.get("accessToken");
+                formData.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'businessbranch/saveData',
                     method: 'POST',
@@ -2158,8 +2207,9 @@ var navigationservice = angular.module('navigationservice', [])
             },
             deleteBusinessBranch: function (id, callback) {
                 // console.log('form data: ', formData);
-                data._id =id.id;
-                data.accessToken =  $.jStorage.get("accessToken");
+                data = {};
+                data._id = id.id;
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'businessbranch/delete',
                     method: 'POST',
@@ -2169,17 +2219,18 @@ var navigationservice = angular.module('navigationservice', [])
             },
             getAllMenus: function (callback) {
                 // console.log('form data: ', formData);
-                data.accessToken =  $.jStorage.get("accessToken");
+                data = {};
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'menu/getAll',
                     method: 'POST',
                     withCredentials: true,
-                    data:data
+                    data: data
                 }).success(callback);
             },
             menuSave: function (formData, callback) {
                 // console.log('form data: ', formData);
-                formData.accessToken =  $.jStorage.get("accessToken");
+                formData.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'menu/saveData',
                     method: 'POST',
@@ -2189,8 +2240,9 @@ var navigationservice = angular.module('navigationservice', [])
             },
             getOneMenu: function (id, callback) {
                 // console.log('form data: ', formData);
-                data._id= id;
-                data.accessToken =  $.jStorage.get("accessToken");
+                data = {};
+                data._id = id;
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'menu/getOne',
                     method: 'POST',
@@ -2200,7 +2252,7 @@ var navigationservice = angular.module('navigationservice', [])
             },
             menuEditSave: function (id, callback) {
                 // console.log('form data: ', formData);
-                id.accessToken =  $.jStorage.get("accessToken");
+                id.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'menu/saveData',
                     method: 'POST',
@@ -2209,9 +2261,10 @@ var navigationservice = angular.module('navigationservice', [])
                 }).success(callback);
             },
             deleteMenu: function (id, callback) {
+                data = {};
                 // console.log('form data: ', formData);
                 data._id = id.id;
-                data.accessToken =  $.jStorage.get("accessToken");
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'menu/delete',
                     method: 'POST',
@@ -2221,17 +2274,18 @@ var navigationservice = angular.module('navigationservice', [])
             },
             getAllRoles: function (callback) {
                 // console.log('form data: ', formData);
-                data.accessToken =  $.jStorage.get("accessToken");
+                data = {};
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'role/getAll',
                     method: 'POST',
                     withCredentials: true,
-                    data:data
+                    data: data
                 }).success(callback);
             },
             roleSave: function (formData, callback) {
                 // console.log('form data: ', formData);
-                formData.accessToken =  $.jStorage.get("accessToken");
+                formData.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'role/saveData',
                     method: 'POST',
@@ -2241,8 +2295,9 @@ var navigationservice = angular.module('navigationservice', [])
             },
             getOneRole: function (id, callback) {
                 // console.log('form data: ', formData);
+                data = {};
                 data._id = id;
-                data.accessToken =  $.jStorage.get("accessToken");
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'role/getOne',
                     method: 'POST',
@@ -2252,7 +2307,7 @@ var navigationservice = angular.module('navigationservice', [])
             },
             roleEditSave: function (id, callback) {
                 // console.log('form data: ', formData);
-                id.accessToken =  $.jStorage.get("accessToken");
+                id.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'role/saveData',
                     method: 'POST',
@@ -2262,8 +2317,9 @@ var navigationservice = angular.module('navigationservice', [])
             },
             deleteRole: function (id, callback) {
                 // console.log('form data: ', formData);
+                data = {};
                 data._id = id.id;
-                data.accessToken =  $.jStorage.get("accessToken");
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'role/delete',
                     method: 'POST',
@@ -2273,22 +2329,23 @@ var navigationservice = angular.module('navigationservice', [])
             },
             deleteModel: function (model, id, callback) {
                 data._id = id;
-                data.accessToken =  $.jStorage.get("accessToken");
-                $http.post(adminurl + model + '/delete',data).success(callback);
+                data.accessToken = $.jStorage.get("accessToken");
+                $http.post(adminurl + model + '/delete', data).success(callback);
             },
             getAllUsers: function (callback) {
                 // console.log('form data: ', formData);
-                data.accessToken =  $.jStorage.get("accessToken");
+                data = {};
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'user/getAll',
                     method: 'POST',
                     withCredentials: true,
-                    data:data
+                    data: data
                 }).success(callback);
             },
             userSave: function (formData, callback) {
                 // console.log('form data: ', formData);
-                data.accessToken =  $.jStorage.get("accessToken");
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'user/saveData',
                     method: 'POST',
@@ -2298,8 +2355,9 @@ var navigationservice = angular.module('navigationservice', [])
             },
             getOneUser: function (id, callback) {
                 // console.log('form data: ', formData);
+                data = {};
                 data._id = id;
-                data.accessToken =  $.jStorage.get("accessToken");
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'user/getOne',
                     method: 'POST',
@@ -2309,7 +2367,7 @@ var navigationservice = angular.module('navigationservice', [])
             },
             userEditSave: function (id, callback) {
                 // console.log('form data: ', formData);
-                id.accessToken =  $.jStorage.get("accessToken");
+                id.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'user/saveData',
                     method: 'POST',
@@ -2319,28 +2377,30 @@ var navigationservice = angular.module('navigationservice', [])
             },
             deleteUser: function (id, callback) {
                 // console.log('form data: ', formData);
-                data._id= id.id;
-                data.accessToken =  $.jStorage.get("accessToken");
+                data = {};
+                data._id = id.id;
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'user/delete',
                     method: 'POST',
                     withCredentials: true,
-                    data:data
+                    data: data
                 }).success(callback);
             },
             getAllCustomerCompanies: function (callback) {
                 // console.log('form data: ', formData);
-                data.accessToken =  $.jStorage.get("accessToken");
+                data = {};
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'customerCompany/getAll',
                     method: 'POST',
                     withCredentials: true,
-                    data:data
+                    data: data
                 }).success(callback);
             },
             customerCompanySave: function (formData, callback) {
                 // console.log('form data: ', formData);
-                formData.accessToken =  $.jStorage.get("accessToken");
+                formData.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'customerCompany/saveData',
                     method: 'POST',
@@ -2349,13 +2409,14 @@ var navigationservice = angular.module('navigationservice', [])
                 }).success(callback);
             },
             companySave: function (formData, callback) {
-                formData.accessToken =  $.jStorage.get("accessToken");
+                formData.accessToken = $.jStorage.get("accessToken");
                 $http.post(adminurl + 'company/save', formData).success(callback);
             },
             getOneCustomerCompany: function (id, callback) {
                 // console.log('form data: ', formData);
-                data._id =  id;
-                data.accessToken =  $.jStorage.get("accessToken");
+                data = {};
+                data._id = id;
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'customerCompany/getOne',
                     method: 'POST',
@@ -2364,7 +2425,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }).success(callback);
             },
             customerCompanyEditSave: function (id, callback) {
-                id.accessToken =  $.jStorage.get("accessToken");
+                id.accessToken = $.jStorage.get("accessToken");
                 // console.log('form data: ', formData);
                 $http({
                     url: adminurl + 'customerCompany/saveData',
@@ -2375,8 +2436,9 @@ var navigationservice = angular.module('navigationservice', [])
             },
             deleteCustomerCompany: function (id, callback) {
                 // console.log('form data: ', formData);
-                data._id =id.id;
-                data.accessToken =  $.jStorage.get("accessToken");
+                data = {};
+                data._id = id.id;
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'customerCompany/delete',
                     method: 'POST',
@@ -2388,17 +2450,18 @@ var navigationservice = angular.module('navigationservice', [])
 
             getAllCompanies: function (callback) {
                 // console.log('form data: ', formData);
-                data.accessToken =  $.jStorage.get("accessToken");
+                data = {};
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'company/getAll',
                     method: 'POST',
                     withCredentials: true,
-                    data:data
+                    data: data
                 }).success(callback);
             },
             customerSave: function (formData, callback) {
                 // console.log('form data: ', formData);
-                formData.accessToken =  $.jStorage.get("accessToken");
+                formData.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'company/saveData',
                     method: 'POST',
@@ -2407,13 +2470,14 @@ var navigationservice = angular.module('navigationservice', [])
                 }).success(callback);
             },
             getOneCompany: function (id, callback) {
+                data = {};
                 data._id = id;
-                data.accessToken =  $.jStorage.get("accessToken");
-                $http.post(adminurl + 'company/getOne',data).success(callback);
+                data.accessToken = $.jStorage.get("accessToken");
+                $http.post(adminurl + 'company/getOne', data).success(callback);
             },
             companyEditSave: function (id, callback) {
                 // console.log('form data: ', formData);
-                id.accessToken =  $.jStorage.get("accessToken");
+                id.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'company/saveData',
                     method: 'POST',
@@ -2422,26 +2486,29 @@ var navigationservice = angular.module('navigationservice', [])
                 }).success(callback);
             },
             deleteCompany: function (id, callback) {
+                data = {};
                 data._id = id;
-                data.accessToken =  $.jStorage.get("accessToken");
-                $http.post(adminurl + 'company/delete',data).success(callback);
+                data.accessToken = $.jStorage.get("accessToken");
+                $http.post(adminurl + 'company/delete', data).success(callback);
             },
 
             getAllCustomers: function (callback) {
                 // console.log('form data: ', formData);
-                data.accessToken =  $.jStorage.get("accessToken");
+                data = {};
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'customer/getAll',
                     method: 'POST',
                     withCredentials: true,
-                    data:data
+                    data: data
                 }).success(callback);
             },
 
             getOneCustomer: function (id, callback) {
                 // console.log('form data: ', formData);
+                data = {};
                 data._id = id;
-                data.accessToken =  $.jStorage.get("accessToken");
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'customer/getOne',
                     method: 'POST',
@@ -2451,7 +2518,7 @@ var navigationservice = angular.module('navigationservice', [])
             },
             customerEditSave: function (id, callback) {
                 // console.log('form data: ', formData);
-                id.accessToken =  $.jStorage.get("accessToken");
+                id.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'customer/saveData',
                     method: 'POST',
@@ -2461,8 +2528,9 @@ var navigationservice = angular.module('navigationservice', [])
             },
             deleteCustomer: function (id, callback) {
                 // console.log('form data: ', formData);
-                data._id= id.id;
-                data.accessToken =  $.jStorage.get("accessToken");
+                data = {};
+                data._id = id.id;
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'customer/delete',
                     method: 'POST',
@@ -2472,17 +2540,18 @@ var navigationservice = angular.module('navigationservice', [])
             },
             getAllEmployees: function (callback) {
                 // console.log('form data: ', formData);
-                data.accessToken =  $.jStorage.get("accessToken");
+                data = {};
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'employee/getAll',
                     method: 'POST',
                     withCredentials: true,
-                    data:data
+                    data: data
                 }).success(callback);
             },
             employeeSave: function (formData, callback) {
                 // console.log('form data: ', formData);
-                formData.accessToken =  $.jStorage.get("accessToken");
+                formData.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'employee/saveData',
                     method: 'POST',
@@ -2492,7 +2561,8 @@ var navigationservice = angular.module('navigationservice', [])
             },
             getOneEmployee: function (id, callback) {
                 // console.log('form data: ', formData);
-                data.accessToken =  $.jStorage.get("accessToken");
+                data = {};
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'employee/getOne',
                     method: 'POST',
@@ -2502,7 +2572,7 @@ var navigationservice = angular.module('navigationservice', [])
             },
             getOneEmployeeById: function (id, callback) {
                 // console.log('form data: ', formData);
-                id.accessToken =  $.jStorage.get("accessToken");
+                id.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'employee/getOne',
                     method: 'POST',
@@ -2512,13 +2582,14 @@ var navigationservice = angular.module('navigationservice', [])
             },
             getEmployeeData: function (id, callback) {
                 console.log('get parent data: ', id);
+                data = {};
                 data._id = id;
-                data.accessToken =  $.jStorage.get("accessToken");
+                data.accessToken = $.jStorage.get("accessToken");
                 $http.post(adminurl + 'Employee/getEmployeeData', data).success(callback);
             },
             employeeEditSave: function (id, callback) {
                 // console.log('form data: ', formData);
-                id.accessToken =  $.jStorage.get("accessToken");
+                id.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'employee/saveData',
                     method: 'POST',
@@ -2528,8 +2599,9 @@ var navigationservice = angular.module('navigationservice', [])
             },
             deleteEmployee: function (id, callback) {
                 // console.log('form data: ', formData);
-                data._id=  id.id;
-                data.accessToken =  $.jStorage.get("accessToken");
+                data = {};
+                data._id = id.id;
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'employee/delete',
                     method: 'POST',
@@ -2539,17 +2611,18 @@ var navigationservice = angular.module('navigationservice', [])
             },
             getAllSalvage: function (callback) {
                 // console.log('form data: ', formData);
-                data.accessToken =  $.jStorage.get("accessToken");
+                data = {};
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'salvage/getAll',
                     method: 'POST',
                     withCredentials: true,
-                    data:data
+                    data: data
                 }).success(callback);
             },
             salvageSave: function (formData, callback) {
                 // console.log('form data: ', formData);
-                formData.accessToken =  $.jStorage.get("accessToken");
+                formData.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'salvage/saveData',
                     method: 'POST',
@@ -2559,8 +2632,9 @@ var navigationservice = angular.module('navigationservice', [])
             },
             getOneSalvage: function (id, callback) {
                 // console.log('form data: ', formData);
-                data._id= id;
-                data.accessToken =  $.jStorage.get("accessToken");
+                data = {};
+                data._id = id;
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'salvage/getOne',
                     method: 'POST',
@@ -2570,7 +2644,7 @@ var navigationservice = angular.module('navigationservice', [])
             },
             salvageEditSave: function (id, callback) {
                 // console.log('form data: ', formData);
-                id.accessToken =  $.jStorage.get("accessToken");
+                id.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'salvage/saveData',
                     method: 'POST',
@@ -2580,8 +2654,9 @@ var navigationservice = angular.module('navigationservice', [])
             },
             deleteSalvage: function (id, callback) {
                 // console.log('form data: ', formData);
-                 data._id= id.id;
-                data.accessToken =  $.jStorage.get("accessToken");
+                data = {};
+                data._id = id.id;
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'salvage/delete',
                     method: 'POST',
@@ -2591,22 +2666,24 @@ var navigationservice = angular.module('navigationservice', [])
             },
             getAllProduct: function (callback) {
                 // console.log('form data: ', formData);
-                data.accessToken =  $.jStorage.get("accessToken");
+                data = {};
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'product/getAll',
                     method: 'POST',
                     withCredentials: true,
-                    data:data
+                    data: data
                 }).success(callback);
             },
             productSave: function (formData, callback) {
-                formData.accessToken =  $.jStorage.get("accessToken");
+                formData.accessToken = $.jStorage.get("accessToken");
                 $http.post(adminurl + 'product/save', formData).success(callback);
             },
             getOneProduct: function (id, callback) {
                 // console.log('form data: ', formData);
+                data = {};
                 data._id = id
-                data.accessToken =  $.jStorage.get("accessToken");
+                data.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'product/getOne',
                     method: 'POST',
@@ -2616,7 +2693,7 @@ var navigationservice = angular.module('navigationservice', [])
             },
             productEditSave: function (id, callback) {
                 // console.log('form data: ', formData);
-                id.accessToken =  $.jStorage.get("accessToken");
+                id.accessToken = $.jStorage.get("accessToken");
                 $http({
                     url: adminurl + 'product/saveData',
                     method: 'POST',
@@ -2625,27 +2702,30 @@ var navigationservice = angular.module('navigationservice', [])
                 }).success(callback);
             },
             deleteProduct: function (id, callback) {
-                data._id= id;
-                data.accessToken =  $.jStorage.get("accessToken");
+                data = {};
+                data._id = id;
+                data.accessToken = $.jStorage.get("accessToken");
                 $http.post(adminurl + 'product/delete', data).success(callback);
             },
             getOneBank: function (id, callback) {
-                data._id= id;
-                data.accessToken =  $.jStorage.get("accessToken");
+                data = {};
+                data._id = id;
+                data.accessToken = $.jStorage.get("accessToken");
                 $http.post(adminurl + 'bank/getOne', data).success(callback);
             },
             bankSave: function (formData, callback) {
-                data.accessToken =  $.jStorage.get("accessToken");
+                data.accessToken = $.jStorage.get("accessToken");
                 $http.post(adminurl + 'bank/save', formData).success(callback);
             },
             deleteBank: function (id, callback) {
-                data._id= id;
-                data.accessToken =  $.jStorage.get("accessToken");
+                data = {};
+                data._id = id;
+                data.accessToken = $.jStorage.get("accessToken");
                 $http.post(adminurl + 'bank/delete', data).success(callback);
             },
             getEmployeeOfficeEmail: function (formData, i, callback) {
                 console.log("email", formData);
-            formData.accessToken =  $.jStorage.get("accessToken");
+                formData.accessToken = $.jStorage.get("accessToken");
                 $http.post(adminurl + 'employee/getEmployeeByOfficeEmail', formData).success(function (emailData) {
                     console.log("emailData", emailData);
                     var data1 = {
@@ -2669,11 +2749,11 @@ var navigationservice = angular.module('navigationservice', [])
                     callback(data, i);
                 });
             },
-            
+
             saveJsonStore: function (data, callback) {
                 formData.json = data;
-                formData.accessToken = $.jStorage.get("accessToken");          
-                $http.post(adminurl + 'jsonStore/save',formData).success(function (response) {
+                formData.accessToken = $.jStorage.get("accessToken");
+                $http.post(adminurl + 'jsonStore/save', formData).success(function (response) {
                     if (response && response.data && response.data._id) {
                         callback(response.data._id);
                     }
