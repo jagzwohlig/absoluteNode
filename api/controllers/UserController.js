@@ -110,7 +110,21 @@ var controller = {
             },
             user: req.user
         };
-        var rawData =
+
+        // if(req.attachment){
+        //     var rawData =
+        //     "From: " + req.user.officeEmail + "\r\n" +
+        //     "To: " + req.body.to + "\r\n" +
+        //     "Cc: " + req.body.cc + "\r\n" +
+        //     "Bcc: " + req.body.bcc + "\r\n" +
+        //     "Subject: " + req.body.subject + "\r\n" +
+        //     "Content-Type: message/rfc822; charset=UTF-8\r\n" +
+        //     "Content-Transfer-Encoding: QUOTED-PRINTABLE\r\n" +
+        //     "Content-Disposition: inline\r\n\r\n" +
+        //     "" + req.body.message + "";
+        // } 
+        // else {
+            var rawData =
             "From: " + req.user.officeEmail + "\r\n" +
             "To: " + req.body.to + "\r\n" +
             "Cc: " + req.body.cc + "\r\n" +
@@ -120,6 +134,8 @@ var controller = {
             "Content-Transfer-Encoding: QUOTED-PRINTABLE\r\n" +
             "Content-Disposition: inline\r\n\r\n" +
             "" + req.body.message + "";
+        // }
+        
         var rawDataProcessed = btoa(rawData).replace(/\+/g, '-').replace(/\//g, '_');
         obj.form = {
             raw: rawDataProcessed,
