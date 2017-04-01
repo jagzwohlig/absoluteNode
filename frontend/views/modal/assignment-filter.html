@@ -35,12 +35,24 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">Insured</label>
             <div class="col-sm-10">
-                <ui-select multiple tagging="tagTransform" tagging-label="(press enter to add new)" name="insurerd" ng-model="filter.insurerd"
+                <ui-select multiple tagging="tagTransform" tagging-label="(press enter to add new)" name="insured" ng-model="filter.insured"
                     theme="bootstrap" required>
                     <ui-select-match>{{$item.name}}</ui-select-match>
-                    <ui-select-choices repeat="insurerd in insurerdData | filter:$select.search" refresh-delay="0" refresh="refreshInsurerd($select.search)">{{insurerd.name}}</ui-select-choices>
+                    <ui-select-choices repeat="insured in insuredData | filter:$select.search" refresh-delay="0" refresh="refreshInsurerd($select.search)">{{insured.name}}</ui-select-choices>
                 </ui-select>
-                <div class="error-msg" ng-show="filterForm.insurerd.$invalid && filterForm.insurerd.$touched">Please Select Insurerd Office</div>
+                <div class="error-msg" ng-show="filterForm.insured.$invalid && filterForm.insured.$touched">Please Select Insurerd Office</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Broker</label>
+            <div class="col-sm-10">
+                <!-- <input type="text" class="form-control" ng-model="filter.broker"> -->
+                <ui-select multiple tagging="tagTransform" tagging-label="(press enter to add new)" name="broker" ng-model="filter.broker"
+                    theme="bootstrap" required>
+                    <ui-select-match>{{$item.name}}</ui-select-match>
+                    <ui-select-choices repeat="broker in brokerData | filter:$select.search" refresh-delay="0" refresh="refreshBroker($select.search)">{{broker.name}}</ui-select-choices>
+                </ui-select>
+                <div class="error-msg" ng-show="filterForm.broker.$invalid && filterForm.broker.$touched">Please Select broker Office</div>
             </div>
         </div>
         <div class="form-group">
@@ -55,13 +67,6 @@
                 <div class="error-msg" ng-show="filterForm.city.$invalid && filterForm.city.$touched">Please Select City Name</div>
             </div>
         </div>
-        <!--<div class="col-md-12">
-            <div class="form-group">
-                <label>Branch Office*</label>
-                <multiple-select my-enter my-enter name="branchOffice" required ng-model="filter.branch"
-                    ng-name="name.branch" api="searchBranch"></multiple-select>
-            </div>
-        </div>-->
         <div class="form-group">
             <label class="col-sm-2 control-label">Branch</label>
             <div class="col-sm-10">
@@ -118,8 +123,6 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">Timeline Status</label>
             <div class="col-sm-4">
-                <!--<ui-select multiple tagging="tagTransform" tagging-label="(press enter to add new)"
-                    name="timelineStatus" ng-model="filter.timelineStatus" theme="bootstrap" required>-->
                 <ui-select multiple tagging="tagTransform" name="timelineStatus" ng-model="filter.timelineStatus" theme="bootstrap" required>
                     <ui-select-match>{{$item}}</ui-select-match>
                     <ui-select-choices repeat="timeline in timelineStatus | filter:$select.search" refresh-delay="0">{{timeline}}</ui-select-choices>

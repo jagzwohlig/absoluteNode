@@ -277,10 +277,10 @@
             } else {
                 $scope.filter.insurer = [];
             }
-            if ($stateParams.insurerd) {
-                $scope.filter.insurerd = $stateParams.insurerd;
+            if ($stateParams.insured) {
+                $scope.filter.insured = $stateParams.insured;
             } else {
-                $scope.filter.insurerd = [];
+                $scope.filter.insured = [];
             }
             if ($stateParams.from) {
                 $scope.filter.from = $stateParams.from;
@@ -471,12 +471,12 @@
                 });
                 console.log("filter insurer", $scope.filter.insurer);
 
-                var insurerds = [];
-                insurerds = $scope.filter.insurerd;
-                $scope.filter.insurerd = _.map(insurerds, function (values) {
+                var insureds = [];
+                insureds = $scope.filter.insured;
+                $scope.filter.insured = _.map(insureds, function (values) {
                     return values._id;
                 });
-                console.log("filter insurerd", $scope.filter.insurerd);
+                console.log("filter insured", $scope.filter.insured);
 
                 console.log("keywordChange", keywordChange);
                 $scope.totalItems = undefined;
@@ -499,7 +499,7 @@
                         ownerId: ownerId,
                         city: $scope.filter.city,
                         insurer: $scope.filter.insurer,
-                        insurerd: $scope.filter.insurerd,
+                        insured: $scope.filter.insured,
                         from: $scope.filter.from,
                         to: $scope.filter.to,
                         branch: $scope.filter.branch,
@@ -519,7 +519,7 @@
                         TemplateService.removeLoader();
                     });
                     $scope.filter.insurer = insurers;
-                    $scope.filter.insurerd = insurerds;
+                    $scope.filter.insured = insureds;
                     $scope.filter.owner = owners;
                     $scope.filter.city = cities;
                     $scope.filter.branch = branches;
@@ -642,7 +642,7 @@
             NavigationService.searchModel("CustomerSegment", formData3, 1, function (data) {
                 $scope.customerSegmentInsurerdId = data.data.results[0]._id;
             });
-            $scope.refreshInsurerd = function (data, insurerd) {
+            $scope.refreshInsurerd = function (data, insured) {
                 var formdata = {};
                 formdata.keyword = data;
                 formdata.filter = {
@@ -650,11 +650,11 @@
                 };
                 NavigationService.searchCustomer(formdata, 1, function (data) {
                     console.log("searchCustomer", data.data.results);
-                    $scope.insurerdData = data.data.results;
+                    $scope.insuredData = data.data.results;
                 });
             };
 
-            $scope.refreshCity = function (data, insurerd) {
+            $scope.refreshCity = function (data) {
                 var formdata = {};
                 formdata.keyword = data;
                 // formdata.filter = {
@@ -666,7 +666,7 @@
                 });
             };
 
-            $scope.refreshBranch = function (data, insurerd) {
+            $scope.refreshBranch = function (data) {
                 var formdata = {};
                 formdata.keyword = data;
                 NavigationService.searchBranch(formdata, 1, function (data) {
@@ -675,7 +675,7 @@
                 });
             };
 
-            $scope.refreshDepartment = function (data, insurerd) {
+            $scope.refreshDepartment = function (data) {
                 var formdata = {};
                 formdata.keyword = data;
                 // formdata.filter = {
@@ -686,7 +686,7 @@
                     $scope.departmentData = data.data.results;
                 });
             };
-            var formData2 = {}
+            var formData2 = {};
             formData2.filter = {
                 "name": "Back Office"
             };
@@ -1201,7 +1201,7 @@
             NavigationService.getOneModel("LorMaster", $stateParams.id, function (data) {
                 $scope.formData = data.data;
             });
-            $scope.refreshLorCategory = function (data, insurerd) {
+            $scope.refreshLorCategory = function (data) {
                 var formdata = {};
                 formdata.keyword = data;
                 NavigationService.searchLorCategory(formdata, 1, function (data) {
