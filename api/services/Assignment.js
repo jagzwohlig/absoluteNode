@@ -2498,7 +2498,6 @@ var model = {
         callback(err, data2);
       }
     });
-
   },
   generateAssignmentExcel: function (data, callback, res, user) {
     var sort = {};
