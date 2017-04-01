@@ -1,3 +1,8 @@
+var Grid = require('gridfs-stream');
+var fs = require("fs");
+var gfs = Grid(mongoose.connections[0].db, mongoose);
+gfs.mongo = mongoose.mongo;
+
 module.exports = _.cloneDeep(require("sails-wohlig-controller"));
 var controller = {
     loginFacebook: function (req, res) {
@@ -166,28 +171,11 @@ var controller = {
     },
 
     sendEmailWithAttachment: function (req, res) {
-        
+        // "_id": "58df59a5f2b59a066843d296"58df674fbbb3414a9c00090b
         getAttachments_();
         // Insert file attachments from Google Drive
         function getAttachmentData(imageData) {
-            var callAPI = {
-                url: 'http://wohlig.io/api/upload/readFile?file=' + '58df550390366f15f5c74274.jpg',
-                method: "POST"
-            };
 
-            console.log("callAPI : ", callAPI);
-            request(callAPI, function (err, httpResponse, body) {
-                if (err) {
-                   return err;
-                } else if (body) {
-                    // body = JSON.parse(body);
-                    console.log("body ====: ", body);
-                    return body;
-                    
-                } else {
-                    return "No Data found";
-                }
-            });
         }
 
         var files = req.files;
@@ -195,17 +183,43 @@ var controller = {
         function getAttachments_(files) {
             var files = ["58df550390366f15f5c74274.jpg"];
             var att = [];
-            
+
             for (var i in files) {
                 var file = getAttachmentData(files[i]);
-                console.log(" file ",file);
-                att.push({
-                    mimeType: file.getMimeType(),
-                    fileName: file.getName(),
-                    bytes: base64url.encode(file.getBlob().getBytes())
+                console.log(" file ", file);
+                var callAPI = {
+                    url: 'http://wohlig.io/api/upload/readFile?file=' + '58df550390366f15f5c74274.jpg',
+                    method: "POST"
+                };
+
+                console.log("callAPI : ", callAPI);
+                request(callAPI, function (err, httpResponse, body) {
+                    if (err) {
+                        return err;
+                    } else if (body) {
+                        // body = JSON.parse(body);
+                        // var imageData =  fs.writeFile('58df550390366f15f5c74274.jpg',body);
+                        // var fs = require('fs');
+                        // var readstream = gfs.createReadStream({
+                        //     filename: imageData
+                        // });
+                        // readstream.pipe(body);
+                        // console.log("imageData ====: ", imageData);
+                //          att.push({
+                //     mimeType: file.getMimeType(),
+                //     fileName: file.getName(),
+                //     bytes: base64url.encode(file.getBlob().getBytes())
+                // });
+                        return body;
+
+                    } else {
+                        return "No Data found";
+                    }
                 });
+
+               
             }
-            return att;
+            res.callback(null,body);
         }
 
 
