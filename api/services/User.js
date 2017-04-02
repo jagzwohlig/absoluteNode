@@ -170,7 +170,7 @@ var model = {
 
     // if (req.attachment) {
     var reqUrl = {
-        url: 'https://www.googleapis.com/upload/gmail/v1/users/' + req.user.email + "/" + req.body.url + "/uploadType=media",
+        url: 'https://www.googleapis.com/gmail/v1/users/' + req.user.email + "/" + req.body.url,
         form: {
           refresh_token: req.user.googleRefreshToken,
           client_id: GoogleclientId,
