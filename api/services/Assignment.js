@@ -2442,7 +2442,7 @@ var model = {
     //Insurer filter
     if (!_.isEmpty(data.insurer)) {
       var insurer = {
-        'insurer': {
+        'insurerOffice': {
           $in: _.map(data.insurer, function (n) {
             return objectid(n);
           })
@@ -2454,7 +2454,7 @@ var model = {
     //Insured filter
     if (!_.isEmpty(data.insured)) {
       var insured = {
-        'insured': {
+        'insuredOffice': {
           $in: _.map(data.insured, function (n) {
             return objectid(n);
           })
