@@ -2,5 +2,5 @@ apps:
   - script: "app.js"
     name: "Absolute ABM 3"
     watch: false
-    args: "--prod testing='true'"
+    args: "--prod -testing=true"
     exec_mode: "cluster"
