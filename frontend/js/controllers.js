@@ -277,6 +277,11 @@
             } else {
                 $scope.filter.insurer = [];
             }
+            if ($stateParams.broker) {
+                $scope.filter.broker = $stateParams.broker;
+            } else {
+                $scope.filter.broker = [];
+            }
             if ($stateParams.insured) {
                 $scope.filter.insured = $stateParams.insured;
             } else {
@@ -500,6 +505,7 @@
                         city: $scope.filter.city,
                         insurer: $scope.filter.insurer,
                         insured: $scope.filter.insured,
+                        broker: $scope.filter.broker,
                         from: $scope.filter.from,
                         to: $scope.filter.to,
                         branch: $scope.filter.branch,
@@ -651,6 +657,24 @@
                 NavigationService.searchCustomer(formdata, 1, function (data) {
                     console.log("searchCustomer", data.data.results);
                     $scope.insuredData = data.data.results;
+                });
+            };
+            var formData4 = {};
+            formData4.filter = {
+                "name": "Broker"
+            };
+            NavigationService.searchModel("CustomerSegment", formData4, 1, function (data) {
+                $scope.brokerSegmentId = data.data.results[0]._id;
+            });
+            $scope.refreshBroker = function (data, insurer) {
+                var formdata = {};
+                formdata.keyword = data;
+                formdata.filter = {
+                    "customerSegment": $scope.brokerSegmentId
+                };
+                NavigationService.searchCustomer(formdata, 1, function (data) {
+                    console.log("searchCustomer", data.data.results);
+                    $scope.brokerData = data.data.results;
                 });
             };
 
