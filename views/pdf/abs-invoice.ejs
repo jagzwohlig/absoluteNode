@@ -13,7 +13,12 @@ function toWords (num) {
     str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'thousand ' : '';
     str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'hundred ' : '';
     str += (n[5] != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) + 'only ' : '';
+    str = str;
+    
     return str;
+} 
+function makeItCurrency (num) {
+    return _.round(num,2);
 }
 
 %>
@@ -21,25 +26,25 @@ function toWords (num) {
     <head>
         <style>
             body {
-                font-family: Arial, Helvetica, sans-serif;
-                font-size: 8px;
+                font-family: sans-serif;
+                font-size: 9px;
+                margin: 0px;
             }
             
-            .tdata,
-            th,
-            td {
-                border: 1px solid black;
-                border-collapse: collapse;
+            .subject {
+                font-weight: bold;
+            }
+            
+            .claim-table {
                 width: 100%;
-                padding: 2px 3px;
             }
             
-            h2 {
-                text-align: center;
+            .noborder {
+                border: none;
             }
             
-            table {
-                table-layout: fixed;
+            .noborder td {
+                padding: 3px 0px;
             }
             
             .table-data {
@@ -48,21 +53,46 @@ function toWords (num) {
                 text-align: right;
                 font-weight: bold;
             }
-            
-            .text-center {
-                text-align: center;
-            }
-            
             .text-right {
                 text-align: right;
             }
             
-            .noborder {
-                border: none;
+            .claim-detail>tr>td:first-child(1) {
+                width: 80%;
             }
             
-            .noborder td {
-                padding: 3px 0;
+            table,
+            th,
+            td {
+                border: 1px solid black;
+                border-collapse: collapse;
+                font-size: 9px;
+                padding: 8px 4px 2px;
+            }
+            
+            .date>p {
+                margin: 2px 0;
+            }
+            
+            .justify {
+                text-align: justify;
+            }
+            
+            p {
+                font-size: 9px;
+                line-height: 1.5;
+            }
+            
+            .content-head {
+                margin: 30px 0;
+            }
+            
+            .content-lineheight {
+                line-height: 1.5;
+            }
+            
+            #pageFooter {
+                font-size: 6px;
             }
         </style>
     </head>
@@ -71,9 +101,9 @@ function toWords (num) {
     padding: 0;
     margin: 0;
 ">
-        <div style="width: 555px; margin: 0 auto;">
+        <div>
             <div style="float: right;">
-                <img src="http://absolute.wohlig.co.in/api/upload/readFile?file=589c558c1d8a3a0fc6eb4c6e.png" style="width: 150px;">
+                <img src="<%= realHost %>/img/logo.png" style="width:150px">
             </div>
             <div>
                 <div style="width: 190px;">
@@ -105,27 +135,27 @@ function toWords (num) {
                 <tbody>
                     <tr>
                         <td class="noborder">
-  <p class="size" style="margin: 5px 0;padding-right: 40px;">
-                        <%=data.billedTo.customerCompany.name%>,<br>
-                            <%=data.billedTo.address%><br>
-                                <%=data.billedTo.city.name%>,
-                                    <%=data.billedTo.city.district.name%>,
-                                        <%=data.billedTo.pincode%>,
-                                            <%=data.billedTo.city.district.state.name%>,<br>
-                                                <%=data.billedTo.city.district.state.zone.country.name%>
-                    </p>
-                        </td>
-                        <td  class="noborder">
+                            <p class="size" style="margin: 5px 0;padding-right: 40px;">
+                                <%=data.billedTo.customerCompany.name%>,<br>
+                                    <%=data.billedTo.address%><br>
+                                        <%=data.billedTo.city.name%>,
+                                            <%=data.billedTo.city.district.name%>,
+                                                <%=data.billedTo.pincode%>,
+                                                    <%=data.billedTo.city.district.state.name%>,<br>
+                                                        <%=data.billedTo.city.district.state.zone.country.name%>
+                            </p>
                         </td>
                         <td class="noborder">
-                    <div class="size"><i style="padding:0 5px;">Invoice No</i><span style="padding:0 12px;"><%= data.invoiceNumber%></span></div>
-                    <div class="size"> <i style="padding:0 5px;">Invoice Date</i><span style="padding:0 3px;"><%= moment(new Date(data.approvalTime)).format("L")%></span></div>
+                        </td>
+                        <td class="noborder">
+                            <div class="size"><i>Invoice No</i><span style="padding:0 12px;"><%= data.invoiceNumber%></span></div>
+                            <div class="size"> <i>Invoice Date</i><span style="padding:0 3px;"><%= moment(new Date(data.approvalTime)).format("L")%></span></div>
                         </td>
                         <td class="noborder">
 
                         </td>
                     </tr>
-                  <tr>
+                    <tr>
                         <td style="width: 100px;" class="noborder">Appointed By</td>
                         <td style="width: 250px;" class="noborder">
                             <%=data.assignment.customer.name%>
@@ -172,9 +202,9 @@ function toWords (num) {
                     <tr>
                         <td class="noborder">Policy Type</td>
                         <td class="noborder">
-                         <%if(data.assignment.policyType){%>
-                            <%=data.assignment.policyType.name%>
-                         <%  } %>
+                            <%if(data.assignment.policyType){%>
+                                <%=data.assignment.policyType.name%>
+                                    <%  } %>
                         </td>
                         <td class="noborder">Product</td>
                         <td class="noborder">
@@ -302,8 +332,8 @@ function toWords (num) {
                                     <%}%>
                         </tr>
                         <%}%>
-                        <td class="noborder"></td>
-                        <td class="noborder"></td>
+                            <td class="noborder"></td>
+                            <td class="noborder"></td>
                 </tbody>
             </table>
             <div style="padding-top: 15px;">
@@ -375,22 +405,28 @@ function toWords (num) {
             <div style="padding-top: 15px;">
                 <b class="size" style="float:right;">For, Absolute Insurance Surveyors &amp; Loss Assessors Pvt Ltd</b>
                 <div style="width:44%;text-align:left;display:inline-block;vertical-align:middle;">
-                    <b class="size">INR <%=toWords(data.grandTotal)%> </b>
+                    <b class="size">INR <span style="text-transform:capitalize;"><%=toWords(data.grandTotal)%></span> </b>
                     <p class="size" style="margin: 5px 0 0;padding-right: 55px;">E. and O.E.<br> Subjected to Ahmedabad Jurisdiction <br>Service Tax No:
                         <%=data.assignment.company.serviceTax%> <br>(Insurance Auxiliary Services)<br> PAN No:
                             <%=data.assignment.company.pan%>.<br>CIN:
                                 <%=data.assignment.company.cin%>
-                                 Bank Name:
-                                <%=data.assignment.company.bank.name%><br>
-                                 Current A/C:
-                                <%=data.assignment.company.bank.accountNumber%><br>
-                                 IFSC Code:
-                                <%=data.assignment.company.bank.neftCode%><br>
+                                    Bank Name:
+                                    <%=data.assignment.company.bank.name%><br> Current A/C:
+                                        <%=data.assignment.company.bank.accountNumber%><br> IFSC Code:
+                                            <%=data.assignment.company.bank.neftCode%><br>
                     </p>
                 </div>
                 <p class="size" style="margin-top: 10px;margin-bottom: 0;text-align: right;"> Authorized Signatory</p>
             </div>
         </div>
+
+
+        <div id='pageFooter' style='border-top: 1px solid;padding-top: 5px;'>
+            <div class='bt-foot'>
+                <div style=float:left; '>Absolute Insurance Surveyors &amp; Loss Assessors Pvt Ltd</div>
+<div style='float:right; '>Page {{page}} of {{pages}}</div>
+<div style='text-align:center;text-align: center;position: absolute;margin: 0 auto;width: 100%; '>Assignment # <%= data.assignment.name %></div></div>
+
     </body>
 
 </html>
