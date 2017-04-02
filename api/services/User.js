@@ -170,11 +170,20 @@ var model = {
 
     // if (req.attachment) {
     var reqUrl = {
+<<<<<<< HEAD
       url: 'https://www.googleapis.com/upload/gmail/v1/users/' + req.user.email + "/" + req.body.url + "/uploadType=media",
       form: {
         refresh_token: req.user.googleRefreshToken,
         client_id: GoogleclientId,
         raw: req.body.raw
+=======
+        url: 'https://www.googleapis.com/gmail/v1/users/' + req.user.email + "/" + req.body.url,
+        form: {
+          refresh_token: req.user.googleRefreshToken,
+          client_id: GoogleclientId,
+          raw: req.body.raw
+        }
+>>>>>>> 8fb2647e7c628b7ccaa29d5c8e3da3385c803a20
       }
     }
     // } else {
