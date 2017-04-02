@@ -101,7 +101,7 @@ var controller = {
     },
 
 
-    sendEmail: function (req, res) {
+    sendEmails: function (req, res) {
         console.log("mail", req.body);
         console.log("req.user", req.user);
         if (_.isEmpty(req.body.threadId)) {
@@ -155,7 +155,7 @@ var controller = {
         });
     },
 
-    sendEmails: function (req, res) {
+    sendEmail: function (req, res) {
 
         //Attachment files
         var files = req.files;
@@ -180,12 +180,12 @@ var controller = {
                     if (err) {
                         res.callback(err);
                     } else if (body) {
-                        var attachment = 
+                        var attachment =    
                             "\r\n" + 
                             "Content-Type: " + mime.lookup(values) + '; name="' + values + '"' +
                             'Content-Disposition: attachment; filename="' + values + '"' +
-                            "Content-Transfer-Encoding: base64" + "\r\n" +  
-                            base64url.encode(filesData) + "";
+                            "Content-Transfer-Encodsing: base64" + "\r\n" +  
+                            base64url.encode((new Buffer(body).toString()) ) + "";
                             console.log("attachment : ", attachment);
                     } else {
                         res.callback("No Data found");
