@@ -4,4 +4,4 @@ apps:
     watch: false
     args: "--prod"
     exec_mode: "cluster"
-    node_args: "chintan=shah"
+    env: "testing=true"
