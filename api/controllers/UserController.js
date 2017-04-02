@@ -171,16 +171,16 @@ var controller = {
     },
 
     sendEmailWithAttachment: function (req, res) {
-    
+
         //Attachment files
         var files = req.files;
-        getAttachments_();
+        var att = [];
+
         function getAttachments_(files) {
             var files = ["58df550390366f15f5c74274.jpg"];
-            var att = [];
 
-            _.each(files,function(values) {
-                console.log("files : ",values);
+            _.each(files, function (values) {
+                console.log("files : ", values);
                 var callAPI = {
                     url: 'http://wohlig.io/api/upload/readFile?file=' + values,
                     method: "POST"
@@ -191,51 +191,59 @@ var controller = {
                     if (err) {
                         res.callback(err);
                     } else if (body) {
-                        att.push({
-                            mimeType: mime.lookup(values),
-                            fileName: values,
-                            bytes: base64url.encode(values)
-                        });
-                        console.log("att : ",att);
-
+                        // att.push({
+                        //     mimeType: mime.lookup(values),
+                        //     fileName: values,
+                        //     bytes: base64url.encode(values)
+                        // });
+                        var nl = "\r\n";
+                        var attachment = 
+                            nl + 
+                            "Content-Type: " + mime.lookup(values) + '; name="' + values + '"' +
+                            'Content-Disposition: attachment; filename="' + values + '"' +
+                            "Content-Transfer-Encoding: base64" + nl +
+                            base64url.encode(values);
+                        
+                        console.log("attachment : ", attachment);
                     } else {
-                        res.callback("No Data found"); 
+                        res.callback("No Data found");
                     }
                 });
             });
-            
-            res.callback(null, att);
+
+            setTimeout(function () {
+                return attachment;
+            }, 2000);
         }
 
 
 
-        // console.log("mail", req.body);
-        // console.log("req.user", req.user);
-        // if (_.isEmpty(req.body.threadId)) {
-        //     req.body.threadId = ""
-        // }
+        console.log("mail", req.body);
+        console.log("req.user", req.user);
+        if (_.isEmpty(req.body.threadId)) {
+            req.body.threadId = ""
+        }
 
-        // var obj = {
-        //     body: {
-        //         url: "messages/send",
-        //         method: "POST"
-        //     },
-        //     user: req.user
-        // };
+        var obj = {
+            body: {
+                url: "messages/send",
+                method: "POST"
+            },
+            user: req.user
+        };
 
-        // if (req.attachment) {
-        //     var rawData =
-        //         "From: " + req.user.officeEmail + "\r\n" +
-        //         "To: " + req.body.to + "\r\n" +
-        //         "Cc: " + req.body.cc + "\r\n" +
-        //         "Bcc: " + req.body.bcc + "\r\n" +
-        //         "Subject: " + req.body.subject + "\r\n" +
-        //         "Content-Type: message/rfc822; charset=UTF-8\r\n" +
-        //         "Content-Length: 100bit\r\n" +
-        //         "Content-Transfer-Encoding: QUOTED-PRINTABLE\r\n" +
-        //         "Content-Disposition: inline\r\n\r\n" +
-        //         "" + req.body.message + "";
-        // }
+            var rawData = 
+                // "From: " + req.user.officeEmail + "\r\n" +
+                // "To: " + req.body.to + "\r\n" +
+                // "Cc: " + req.body.cc + "\r\n" +
+                // "Bcc: " + req.body.bcc + "\r\n" +
+                // "Subject: " + req.body.subject + "\r\n" +
+                "Content-Type: text/html; charset=UTF-8\r\n" +
+                "Content-Transfer-Encoding: QUOTED-PRINTABLE\r\n" +
+                "Content-Disposition: inline\r\n\r\n" +
+                "" + req.body.message + "" + getAttachments_(files);
+
+                console.log("rawData : ",rawData);
         // var rawDataProcessed = btoa(rawData).replace(/\+/g, '-').replace(/\//g, '_');
         // obj.form = {
         //     raw: rawDataProcessed,
