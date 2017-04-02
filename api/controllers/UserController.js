@@ -101,7 +101,7 @@ var controller = {
     },
 
 
-    sendEmail: function (req, res) {
+    sendEmailWithAttachment: function (req, res) {
         console.log("mail", req.body);
         console.log("req.user", req.user);
         if (_.isEmpty(req.body.threadId)) {
@@ -116,20 +116,6 @@ var controller = {
             user: req.user
         };
 
-        // if(req.attachment){
-        //     var rawData =
-        //     "From: " + req.user.officeEmail + "\r\n" +
-        //     "To: " + req.body.to + "\r\n" +
-        //     "Cc: " + req.body.cc + "\r\n" +
-        //     "Bcc: " + req.body.bcc + "\r\n" +
-        //     "Subject: " + req.body.subject + "\r\n" +
-        //     "Content-Type: message/rfc822; charset=UTF-8\r\n" +
-        //     "Content-Length: 100bit\r\n" +
-        //     "Content-Transfer-Encoding: QUOTED-PRINTABLE\r\n" +
-        //     "Content-Disposition: inline\r\n\r\n" +
-        //     "" + req.body.message + "";
-        // } 
-        // else {
         var rawData =
             "From: " + req.user.officeEmail + "\r\n" +
             "To: " + req.body.to + "\r\n" +
@@ -140,7 +126,6 @@ var controller = {
             "Content-Transfer-Encoding: QUOTED-PRINTABLE\r\n" +
             "Content-Disposition: inline\r\n\r\n" +
             "" + req.body.message + "";
-        // }
 
         var rawDataProcessed = btoa(rawData).replace(/\+/g, '-').replace(/\//g, '_');
         obj.form = {
@@ -170,12 +155,13 @@ var controller = {
         });
     },
 
-    sendEmailWithAttachment: function (req, res) {
+    sendEmail: function (req, res) {
 
         //Attachment files
         var files = req.files;
         var att = [];
-
+        var attachment= "";
+        getAttachments_(files);
         function getAttachments_(files) {
             var files = ["58df550390366f15f5c74274.jpg"];
 
@@ -191,20 +177,13 @@ var controller = {
                     if (err) {
                         res.callback(err);
                     } else if (body) {
-                        // att.push({
-                        //     mimeType: mime.lookup(values),
-                        //     fileName: values,
-                        //     bytes: base64url.encode(values)
-                        // });
-                        var nl = "\r\n";
                         var attachment = 
-                            nl + 
+                            "\r\n" + 
                             "Content-Type: " + mime.lookup(values) + '; name="' + values + '"' +
                             'Content-Disposition: attachment; filename="' + values + '"' +
-                            "Content-Transfer-Encoding: base64" + nl +
-                            base64url.encode(values);
-                        
-                        console.log("attachment : ", attachment);
+                            "Content-Transfer-Encoding: base64" + "\r\n" +  
+                            base64url.encode(new Buffer(body)) + "";
+                            console.log("attachment : ", attachment);
                     } else {
                         res.callback("No Data found");
                     }
@@ -233,43 +212,44 @@ var controller = {
         };
 
             var rawData = 
-                // "From: " + req.user.officeEmail + "\r\n" +
-                // "To: " + req.body.to + "\r\n" +
-                // "Cc: " + req.body.cc + "\r\n" +
-                // "Bcc: " + req.body.bcc + "\r\n" +
-                // "Subject: " + req.body.subject + "\r\n" +
+                "From: " + req.user.officeEmail + "\r\n" +
+                "To: " + req.body.to + "\r\n" +
+                "Cc: " + req.body.cc + "\r\n" +
+                "Bcc: " + req.body.bcc + "\r\n" +
+                "Subject: " + req.body.subject + "\r\n" +
                 "Content-Type: text/html; charset=UTF-8\r\n" +
                 "Content-Transfer-Encoding: QUOTED-PRINTABLE\r\n" +
                 "Content-Disposition: inline\r\n\r\n" +
-                "" + req.body.message + "" + getAttachments_(files);
+                "" + req.body.message + "" + attachment;
 
                 console.log("rawData : ",rawData);
-        // var rawDataProcessed = btoa(rawData).replace(/\+/g, '-').replace(/\//g, '_');
-        // obj.form = {
-        //     raw: rawDataProcessed,
-        //     threadId: req.body.threadId
-        // };
-        // console.log("obj  = ", obj);
-        // User.gmailCall(obj, function (err, threadData) {
-        //     if (err) {
-        //         res.callback(err, null);
-        //     } else {
-        //         if (req.body.mailType == "updateThreadId") {
-        //             if (threadData.threadId) {
-        //                 var formData = {};
-        //                 formData._id = req.body._id;
-        //                 formData.threadId = threadData.threadId;
-        //                 console.log("threadData", formData);
-        //                 Assignment.updateThreadId(formData, res.callback);
-        //             } else {
-        //                 res.callback(null, threadData);
-        //             }
-        //         } else {
-        //             res.callback(null, threadData);
-        //         }
+        var rawDataProcessed = btoa(rawData).replace(/\+/g, '-').replace(/\//g, '_');
+        obj.form = {
+            raw: rawDataProcessed,
+            threadId: req.body.threadId
+        };
+        obj.attachment = true;
+        console.log("obj  = ", obj);
+        User.gmailCall(obj, function (err, threadData) {
+            if (err) {
+                res.callback(err, null);
+            } else {
+                if (req.body.mailType == "updateThreadId") {
+                    if (threadData.threadId) {
+                        var formData = {};
+                        formData._id = req.body._id;
+                        formData.threadId = threadData.threadId;
+                        console.log("threadData", formData);
+                        Assignment.updateThreadId(formData, res.callback);
+                    } else {
+                        res.callback(null, threadData);
+                    }
+                } else {
+                    res.callback(null, threadData);
+                }
 
-        //     }
-        // });
+            }
+        });
     },
 
     getAttachment: function (req, res) {
@@ -290,6 +270,8 @@ var controller = {
             }
         });
     },
+
+
     import: function (req, res) {
         var xlsx = require('node-xlsx').default;
         var jsonExcel = xlsx.parse("./demo.xlsx");
