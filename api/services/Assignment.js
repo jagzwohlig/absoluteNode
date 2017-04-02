@@ -2476,15 +2476,15 @@ var model = {
     }
 
     //Broker Office filter
-    if (!_.isEmpty(data.brokerOffice)) {
-      var brokerOffice = {
+    if (!_.isEmpty(data.broker)) {
+      var broker = {
         'customer': {
-          $in: _.map(data.brokerOffice, function (n) {
+          $in: _.map(data.broker, function (n) {
             return objectid(n);
           })
         },
       };
-      filterObject = _.assign(filterObject, brokerOffice);
+      filterObject = _.assign(filterObject, broker);
     }
     if (_.isEmpty(filterObject)) {
       return null;

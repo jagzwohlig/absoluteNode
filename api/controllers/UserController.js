@@ -171,24 +171,18 @@ var controller = {
     },
 
     sendEmailWithAttachment: function (req, res) {
-        // "_id": "58df59a5f2b59a066843d296"58df674fbbb3414a9c00090b
-        getAttachments_();
-        // Insert file attachments from Google Drive
-        function getAttachmentData(imageData) {
-
-        }
-
+    
+        //Attachment files
         var files = req.files;
-
+        getAttachments_();
         function getAttachments_(files) {
             var files = ["58df550390366f15f5c74274.jpg"];
             var att = [];
 
-            for (var i in files) {
-                var file = getAttachmentData(files[i]);
-                console.log(" file ", file);
+            _.each(files,function(values) {
+                console.log("files : ",values);
                 var callAPI = {
-                    url: 'http://wohlig.io/api/upload/readFile?file=' + '58df550390366f15f5c74274.jpg',
+                    url: 'http://wohlig.io/api/upload/readFile?file=' + values,
                     method: "POST"
                 };
 
@@ -197,29 +191,20 @@ var controller = {
                     if (err) {
                         return err;
                     } else if (body) {
-                        // body = JSON.parse(body);
-                        // var imageData =  fs.writeFile('58df550390366f15f5c74274.jpg',body);
-                        // var fs = require('fs');
-                        // var readstream = gfs.createReadStream({
-                        //     filename: imageData
-                        // });
-                        // readstream.pipe(body);
-                        // console.log("imageData ====: ", imageData);
-                //          att.push({
-                //     mimeType: file.getMimeType(),
-                //     fileName: file.getName(),
-                //     bytes: base64url.encode(file.getBlob().getBytes())
-                // });
-                        return body;
+                        att.push({
+                            mimeType: mime.lookup(values),
+                            fileName: values,
+                            bytes: base64url.encode(values)
+                        });
+                        console.log("att : ",att);
 
                     } else {
                         return "No Data found";
                     }
                 });
-
-               
-            }
-            res.callback(null,body);
+            });
+            
+            res.callback(null, att);
         }
 
 
