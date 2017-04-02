@@ -344,6 +344,7 @@ var model = {
         }
       }
 
+      console.log("callAPI : ", callAPI);
 
       if (req.form) {
         callAPI.multipart = [{
@@ -352,7 +353,6 @@ var model = {
         }];
       }
 
-      // console.log("callAPI : ", callAPI);
       request(callAPI, function (err, httpResponse, body) {
         if (err) {
           callback(err);

@@ -101,7 +101,7 @@ var controller = {
     },
 
 
-    sendEmails: function (req, res) {
+    sendEmail: function (req, res) {
         console.log("mail", req.body);
         console.log("req.user", req.user);
         if (_.isEmpty(req.body.threadId)) {
@@ -155,7 +155,7 @@ var controller = {
         });
     },
 
-    sendEmail: function (req, res) {
+    sendEmails: function (req, res) {
 
         //Attachment files
         var files = req.files;
@@ -176,7 +176,7 @@ var controller = {
                 // console.log("callAPI : ", callAPI);
                 request(callAPI, function (err, httpResponse, body) {
                     // var filesData = fs.createWriteStream(body);
-                    console.log("files stream , ",filesData);
+                    // console.log("files stream , ",filesData);
                     if (err) {
                         res.callback(err);
                     } else if (body) {
@@ -233,7 +233,7 @@ var controller = {
         };
 
         obj.attachment = true;
-        console.log("obj  = ", obj);
+        // console.log("obj  = ", obj);
         User.gmailCallWithAttachment(obj, function (err, threadData) {
             if (err) {
                 res.callback(err, null);
