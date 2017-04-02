@@ -827,6 +827,9 @@ var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district
 var model = {
   saveData: function (data, callback) {
     var Model = this;
+    if(_.isEmpty(data.insured)){
+      delete data.insured;
+    }
     var Const = this(data);
     var foreignKeys = Config.getForeignKeys(schema);
     if (data._id) {
@@ -2443,7 +2446,7 @@ var model = {
     //Insurer filter
     if (!_.isEmpty(data.insurer)) {
       var insurer = {
-        'insurer': {
+        'insurerOffice': {
           $in: _.map(data.insurer, function (n) {
             return objectid(n);
           })
@@ -2455,7 +2458,7 @@ var model = {
     //Insured filter
     if (!_.isEmpty(data.insured)) {
       var insured = {
-        'insured': {
+        'insuredOffice': {
           $in: _.map(data.insured, function (n) {
             return objectid(n);
           })
@@ -2477,15 +2480,15 @@ var model = {
     }
 
     //Broker Office filter
-    if (!_.isEmpty(data.brokerOffice)) {
-      var brokerOffice = {
+    if (!_.isEmpty(data.broker)) {
+      var broker = {
         'customer': {
-          $in: _.map(data.brokerOffice, function (n) {
+          $in: _.map(data.broker, function (n) {
             return objectid(n);
           })
         },
       };
-      filterObject = _.assign(filterObject, brokerOffice);
+      filterObject = _.assign(filterObject, broker);
     }
     if (_.isEmpty(filterObject)) {
       return null;
@@ -2499,9 +2502,7 @@ var model = {
   sortOfGetAssignmentAggregate: function (data) {
     //Sorting
     var sort = {
-      $sort: {
-        createdAt: -1
-      }
+      $sort: {}
     };
 
     function makeSort(name, value) {
@@ -2538,6 +2539,9 @@ var model = {
           break;
         case "timelineStatus":
           makeSort(data.sorting[0], data.sorting[1]);
+          break;
+        default:
+          makeSort("createdAt", -1);
           break;
       }
     }
@@ -2577,7 +2581,7 @@ var model = {
       }
     }];
     var sortArr = this.sortOfGetAssignmentAggregate(data);
-
+    console.log(sortArr);
     async.parallel({
       results: function (callback) {
         Assignment.aggregate(_.concat(coreArr, sortArr, paginationArr)).exec(callback);

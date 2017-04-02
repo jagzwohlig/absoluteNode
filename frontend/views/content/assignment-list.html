@@ -99,9 +99,6 @@
                     <div class="tableData" ng-show="totalItems == 0 || totalItems == undefined ">
                         <h5>No data found</h5>
                     </div>
-                    <!--<div class="tableData" ng-show="totalItems == undefined">
-                        <h5>Loading Data</h5>
-                    </div>-->
                     <ul ng-if="totalItems" ng-change="changePages(currentPage,filter);" uib-pagination total-items="totalItems" items-per-page="maxRow"
                         ng-model="currentPage" max-size="template.pageMax" class="pagination-sm" boundary-links="true" force-ellipses="true"></ul>
                 </div>

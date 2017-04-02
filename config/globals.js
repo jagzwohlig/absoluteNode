@@ -118,6 +118,9 @@ global["log"] = function (data) {
     console.log(data);
 };
 
+//Mime types
+global["mime"]= require('mime-types')
+
 if (process.env.NODE_ENV && process.env.NODE_ENV === "production") {
     global["env"] = require("./env/production.js");
 } else {

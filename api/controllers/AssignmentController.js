@@ -337,17 +337,6 @@ var controller = {
             });
         }
     },
-    // Priyank
-    // updateOfficeId: function (req, res) {
-    //     if (req.body) {
-    //         req.model.updateOfficeId(req.body, res.callback);
-    //     } else {
-    //         res.json({
-    //             value: false,
-    //             data: "Invalid Request"
-    //         });
-    //     }
-    // }
     updateOfficeId: function (req, res) {
         if (req.body) {
             req.model.updateOfficeId(req.body, res.callback);

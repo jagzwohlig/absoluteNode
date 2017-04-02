@@ -168,25 +168,27 @@ var model = {
       }
     });
 
-    // if(req.attachment){
-    // var reqUrl = {
-    //   url: 'https://www.googleapis.com/upload/gmail/v1/users/' + req.user.email + "/" + req.body.url + "/uploadType=media",
-    //   form: {
-    //     refresh_token: req.user.googleRefreshToken,
-    //     client_id: GoogleclientId,
-    //     raw: req.body.raw  
-    //   }
-    // }  
-    // }
-
-    request.post({
-      url: 'https://www.googleapis.com/gmail/v1/users/' + req.user.email + "/" + req.body.url,
+    // if (req.attachment) {
+    var reqUrl = {
+      url: 'https://www.googleapis.com/upload/gmail/v1/users/' + req.user.email + "/" + req.body.url + "/uploadType=media",
       form: {
         refresh_token: req.user.googleRefreshToken,
         client_id: GoogleclientId,
         raw: req.body.raw
       }
-    }, function (err, httpResponse, body) {
+    };
+    // } else {
+    //   var reqUrl = {
+    //     url: 'https://www.googleapis.com/gmail/v1/users/' + req.user.email + "/" + req.body.url,
+    //     form: {
+    //       refresh_token: req.user.googleRefreshToken,
+    //       client_id: GoogleclientId,
+    //       raw: req.body.raw
+    //     }
+    //   };
+    // }
+    console.log("reqUrl , ", reqUrl);
+    request.post(reqUrl, function (err, httpResponse, body) {
       if (err) {
         callback(err);
       } else if (body) {
@@ -224,19 +226,30 @@ var model = {
         }
       };
 
-      if (req.form) {
-        callAPI.multipart = [{
-          "content-type": "application/json",
-          body: JSON.stringify(req.form)
-        }];
-      }
+      // // if (req.attachment) {
+      // var reqUrl = {
+      //   url: 'https://www.googleapis.com/upload/gmail/v1/users/' + req.user.email + "/" + req.body.url + "?key=" + GoogleKey + req.body.other + req.body.labelIds + "/uploadType=media",
+      //   method: req.body.method,
+      //   headers: {
+      //     "Authorization": "Bearer " + req.user.googleAccessToken
+      //   }
+      // }
 
-      console.log("callAPI : ", callAPI);
+
+      // if (req.form) {
+      //   reqUrl.multipart = [{
+      //     "content-type": "application/json",
+      //     body: JSON.stringify(req.form)
+      //   }];
+      // }
+
+      // console.log("reqUrl : ", reqUrl); 
+      // console.log("callAPI : ", callAPI);
       request(callAPI, function (err, httpResponse, body) {
         if (err) {
           callback(err);
         } else if (body) {
-          body = JSON.parse(body);
+          // body = JSON.parse(body);
           console.log("body ====: ", body);
           if (noTry === 0 && body.error) {
             refreshToken();
