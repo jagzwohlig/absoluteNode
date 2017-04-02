@@ -226,26 +226,26 @@ var model = {
         }
       };
 
-      // if (req.attachment) {
-      var reqUrl = {
-        url: 'https://www.googleapis.com/upload/gmail/v1/users/' + req.user.email + "/" + req.body.url + "?key=" + GoogleKey + req.body.other + req.body.labelIds + "/uploadType=media",
-        method: req.body.method,
-        headers: {
-          "Authorization": "Bearer " + req.user.googleAccessToken
-        }
-      }
+      // // if (req.attachment) {
+      // var reqUrl = {
+      //   url: 'https://www.googleapis.com/upload/gmail/v1/users/' + req.user.email + "/" + req.body.url + "?key=" + GoogleKey + req.body.other + req.body.labelIds + "/uploadType=media",
+      //   method: req.body.method,
+      //   headers: {
+      //     "Authorization": "Bearer " + req.user.googleAccessToken
+      //   }
+      // }
 
 
-      if (req.form) {
-        reqUrl.multipart = [{
-          "content-type": "application/json",
-          body: JSON.stringify(req.form)
-        }];
-      }
+      // if (req.form) {
+      //   reqUrl.multipart = [{
+      //     "content-type": "application/json",
+      //     body: JSON.stringify(req.form)
+      //   }];
+      // }
 
-      console.log("reqUrl : ", reqUrl); 
+      // console.log("reqUrl : ", reqUrl); 
       // console.log("callAPI : ", callAPI);
-      request(reqUrl, function (err, httpResponse, body) {
+      request(callAPI, function (err, httpResponse, body) {
         if (err) {
           callback(err);
         } else if (body) {
