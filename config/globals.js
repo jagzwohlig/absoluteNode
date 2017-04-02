@@ -120,10 +120,9 @@ global["log"] = function (data) {
 
 //Mime types
 global["mime"] = require('mime-types');
-console.log("ENV");
-console.log(process.env);
+
 if (process.env.NODE_ENV && process.env.NODE_ENV === "production") {
-    if (process.env.testing) {
+    if (process.env.name == "AbsoluteTesting") {
         global["env"] = require("./env/testing.js");
     } else {
         global["env"] = require("./env/production.js");
