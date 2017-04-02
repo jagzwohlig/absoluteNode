@@ -4,4 +4,4 @@ apps:
     watch: false
     args: "--prod"
     exec_mode: "cluster"
-    env: "testing=true"
+    env: "{testing:true}"
