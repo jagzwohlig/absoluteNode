@@ -827,6 +827,9 @@ var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district
 var model = {
   saveData: function (data, callback) {
     var Model = this;
+    if(_.isEmpty(insured)){
+      delete data.insured;
+    }
     var Const = this(data);
     var foreignKeys = Config.getForeignKeys(schema);
     if (data._id) {
