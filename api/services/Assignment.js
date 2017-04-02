@@ -1554,13 +1554,14 @@ var model = {
           if (err) {
             green($scope.data);
             console.log("Name Of Bank.........................................", $scope.data.assignment.company.bank.name, $scope.data.assignment.company.bank.accountNumber);
-            Config.generatePdf("pdf/abs-invoice", $scope, callback);
+            Config.generatePdf("invoice", $scope, callback);
+            // Config.generatePdf("pdf/abs-invoice", $scope, callback);
           } else {
             if (data4.results[0]) {
               $scope.data.assignment.policyNumber = (data4.results[0].policyNo ? data4.results[0].policyNo : "");
             }
             console.log("Name Of Bank...........................................", $scope.data.assignment.company.bank.name, $scope.data.assignment.company.bank.accountNumber);
-            Config.generatePdf("pdf/abs-invoice", $scope, callback);
+            Config.generatePdf("invoice", $scope, callback);
           }
         });
       }

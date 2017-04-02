@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<%
+var a = ['','one ','two ','three ','four ', 'five ','six ','seven ','eight ','nine ','ten ','eleven ','twelve ','thirteen ','fourteen ','fifteen ','sixteen ','seventeen ','eighteen ','nineteen '];
+var b = ['', '', 'twenty','thirty','forty','fifty', 'sixty','seventy','eighty','ninety'];
+
+function toWords (num) {
+    if ((num = num.toString()).length > 9) return 'overflow';
+    n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+    if (!n) return; var str = '';
+    str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'crore ' : '';
+    str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'lakh ' : '';
+    str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'thousand ' : '';
+    str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'hundred ' : '';
+    str += (n[5] != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) + 'only ' : '';
+    str = str;
+    
+    return str;
+} 
+function makeItCurrency (num) {
+    return _.round(num,2);
+}
+
+%>
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+            crossorigin="anonymous">
+        <style>
+            body {
+                line-height: 1.5;
+                font-size: 0.6em;
+            }
+            
+            img.logo {
+                width: 150px;
+                float: right;
+            }
+            
+            .title-text {
+                font-weight: bold;
+            }
+            
+            table.table.table-bordered td p {
+                margin: 0px;
+            }
+            
+            table.table.table-bordered td,
+            table.table.table-bordered th {
+                padding: 5px;
+                margin: 0px;
+            }
+            
+            table.table2 {
+                margin-top: -21px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container-fluid">
+            <!--Header with logo-->
+            <div class="row">
+                <div class="col-xs-6">
+                    <p>
+                        <%=data.assignment.company.address%>,<br/>
+                            <%=data.assignment.company.city.name%>,
+                                <%=data.assignment.company.city.district.state.name%>,<br> Phone #:
+                                    <%=data.assignment.company.phone%>,<br/>FAX #:
+                                        <%=data.assignment.company.fax%>.<br/>
+                                            <%=data.assignment.company.email%><br/>
+                                                <%=data.assignment.company.website%>
+                    </p>
+
+                </div>
+
+                <div class="col-xs-6">
+                    <img src="http://absolutesurveyors.com/frontend/img/logo.png" class="logo">
+                </div>
+            </div>
+            <div>
+                <h6 class="text-center">INVOICE</h6>
+            </div>
+            <!--Client Details-->
+            <div class="row">
+                <div class="col-xs-6">
+                    <p>
+                        <b><%=data.billedTo.name%></b> <br/>
+                        <%=data.billedTo.customerCompany.name%>,<br>
+                            <%if(data.billedTo.address!=undefined){%>
+                                <%=data.billedTo.address%><br>
+                                    <%}%>
+                                        <%=data.billedTo.city.name%>,
+                                            <%=data.billedTo.city.district.name%>,<br>
+                                                <%=data.billedTo.pincode%>,<br>
+                                                    <%=data.billedTo.city.district.state.name%>,<br>
+                                                        <%=data.billedTo.city.district.state.zone.country.name%>
+                    </p>
+                </div>
+                <div class="col-xs-6">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <p><i>Invoice No.</i></p>
+                            <p><i>Invoice Date</i></p>
+
+                        </div>
+                        <div class="col-xs-6">
+                            <p>
+                                <%= data.invoiceNumber%>
+                            </p>
+                            <p>
+                                <%= moment(new Date(data.approvalTime)).format("L")%>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="row">
+                        <div class="col-xs-6">Appointed By</div>
+                        <div class="col-xs-6">
+                            <%=data.assignment.customer.name%>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="row">
+                        <div class="col-xs-6">COL</div>
+                        <div class="col-xs-6">
+                            <%=data.assignment.causeOfLoss.name%>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="row">
+                        <div class="col-xs-6">Insurer</div>
+                        <div class="col-xs-6">
+                            <%=data.assignment.insurerOffice.name%>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="row">
+                        <div class="col-xs-6">NOL</div>
+                        <div class="col-xs-6">
+                            <% for(var i=0; i<data.assignment.natureOfLoss.length; i++) {%>
+                                <%=data.assignment.natureOfLoss[i].name%>
+                                    <%if(i<data.assignment.natureOfLoss.length-1){%>,
+                                        <%}%>
+                                            <%}%>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="row">
+                        <div class="col-xs-6">Insured</div>
+                        <div class="col-xs-6">
+                            <%if(data.assignment.insuredOffice===undefined){%>
+                                -
+                                <%}else{%>
+                                    <%=data.assignment.insuredOffice.name%>
+                                        <%}%>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="row">
+                        <div class="col-xs-6">Classification</div>
+                        <div class="col-xs-6">
+                            <% for(var i=0; i<data.assignment.products.length; i++) {%>
+                                <%=data.assignment.products[i].product.category.name%>
+                                    <%if(i<data.assignment.products.length-1){%>,
+                                        <%}%>
+                                            <%}%>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="row">
+                        <div class="col-xs-6">Policy Type</div>
+                        <div class="col-xs-6">
+                            <%if(data.assignment.policyType){%>
+                                <%=data.assignment.policyType.name%>
+                                    <%  } %>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="row">
+                        <div class="col-xs-6">Product</div>
+                        <div class="col-xs-6">
+                            <% for(var i=0; i<data.assignment.products.length; i++) {%>
+                                <%=data.assignment.products[i].product.name%>
+                                    <%if(i<data.assignment.products.length-1){%>,
+                                        <%}%>
+                                            <%}%>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="row">
+                        <div class="col-xs-6">Policy Number</div>
+                        <div class="col-xs-6">
+                            <%if(data.assignment.policyNumber===undefined){%>
+                                -
+                                <%}else{%>
+                                    <%=data.assignment.policyNumber%>
+
+                                        <%}%>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="row">
+                        <div class="col-xs-6">Item</div>
+                        <div class="col-xs-6">
+                            <% for(var i=0; i<data.assignment.products.length; i++) {%>
+                                <%=data.assignment.products[i].item%>
+                                    <%if(i<data.assignment.products.length-1){%>,
+                                        <%}%>
+                                            <%}%>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="row">
+                        <div class="col-xs-6">Insurer Claim No</div>
+                        <div class="col-xs-6">
+                            <%if(data.assignment.insurerClaimId===undefined){%>
+                                -
+                                <%}else{%>
+                                    <%=data.assignment.insurerClaimId%>
+                                        <%}%>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <%if(data.assignment.department.name==="Marine Cargo"){%>
+                                Invoice # &amp; Date
+                                <%}else{%>
+                                    Product ID
+                                    <%}%>
+                        </div>
+                        <div class="col-xs-6">
+                            <%if(data.assignment.department.name==="Marine Cargo"){%>
+                                <%if(data.assignment.invoices[0]===undefined){%>
+                                    -
+                                    <%}else{%>
+                                        <%=data.assignment.invoices[0].invoiceNumber%> &
+                                            <%= moment(new Date(data.assignment.invoices[0].invoiceNumberDate)).format("L")%>
+                                                <%}%>
+                                                    <%}else{%>
+                                                        <% for(var i=0; i<data.assignment.product.length; i++) {%>
+                                                            <%=data.assignment.product[i].product%>
+                                                                <%if(i<data.assignment.product.length-1){%>,
+                                                                    <%}%>
+                                                                        <%}%>
+                                                                            <%}%>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="row">
+                        <div class="col-xs-6">Insured Claim No</div>
+                        <div class="col-xs-6">
+                            <%if(data.assignment.insuredClaimId===undefined){%>
+                                -
+                                <%}else{%>
+                                    <%=data.assignment.insuredClaimId%>
+                                        <%}%>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <%if(data.assignment.department.name==="Marine Cargo"){%>
+                                LR # &amp; Date
+                                <%}else{%>
+                                    Location ID
+                                    <%}%>
+                        </div>
+                        <div class="col-xs-6">
+                            <%if(data.assignment.department.name==="Marine Cargo"){%>
+                                <%if(data.assignment.LRs[0]===undefined){%>
+                                    -
+                                    <%}else{%>
+                                        <%=data.assignment.LRs[0].lrNumber%> &
+                                            <%= moment(new Date(data.assignment.LRs[0].lrNumberDate)).format("L")%>
+                                                <%}%>
+                                                    <%}else{%>
+                                                        <% for(var i=0; i<data.assignment.locationArr.length; i++) {%>
+                                                            <%=data.assignment.locationArr[i].locationString%>
+                                                                <%if(i<data.assignment.locationArr.length-1){%>,
+                                                                    <%}%>
+                                                                        <%}%>
+                                                                            <%}%>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <%if(data.assignment.department.name==="Marine Cargo"){%>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="row">
+                            <div class="col-xs-6"></div>
+                            <div class="col-xs-6"></div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="row">
+                            <div class="col-xs-6">Vehicle</div>
+                            <div class="col-xs-6">
+                                <%if(data.assignment.vehicleNumber[0]===undefined){%>
+                                    -
+                                    <%}else{%>
+                                        <%=data.assignment.vehicleNumber[0].vehicleNumber%>
+                                            <%}%>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <%}%>
+                    <%if(data.assignment.department.name==="Marine Cargo"){%>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="row">
+                                    <div class="col-xs-6">Fee Narration</div>
+                                    <div class="col-xs-6">
+                                        <%if(data.narrationFee===undefined){%>
+                                            -
+                                            <%}else{%>
+                                                <%=data.narrationFee%>
+                                                    <%}%>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="row">
+                                    <div class="col-xs-6"></div>
+                                    <div class="col-xs-6"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <%}%>
+                            <br/>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <th style="width:30px" class="text-center">Sr #</th>
+                                                <th style="width: 305px;">Description</th>
+                                                <th>Quality</th>
+                                                <th>Unit</th>
+                                                <th>Rate</th>
+                                                <th style="width:50px;">Amount</th>
+                                            </tr>
+
+                                            <tr>
+                                                          <% for(var i=0; i<data.invoiceList.length; i++) {%>
+                                <tr>
+                                    <td class="text-center">
+                                        <%=i+1%>
+                                    </td>
+                                    <td>
+                                        <%=data.invoiceList[i].description%>
+                                    </td>
+                                    <td class="text-right">
+                                        <%=data.invoiceList[i].quantity%>
+                                    </td>
+                                    <td class="text-center">
+                                        <%=data.invoiceList[i].unit%>
+                                    </td>
+                                    <td class="text-right">
+                                        <%=data.invoiceList[i].rate%>
+                                    </td>
+                                    <td class="text-right">
+                                        <%=data.invoiceList[i].amount%>
+                                    </td>
+                                </tr>
+                                <%}%>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+                            <!--Sub Table Invoice-->
+                            <div class="row">
+                                <div class="col-xs-6"></div>
+                                <div class="col-xs-6">
+                                    <table class="table table-bordered table2">
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="5" class="table-data">
+                                                    <p class="title-text pull-right">Sub Total</p>
+                                                </td>
+                                                <td class="text-right" style="width:50px;">
+                                                    1476
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="5" class="table-data">
+                                                    <p class="title-text pull-right">Service Tax @ 14%</p>
+                                                </td>
+                                                <td class="text-right">
+                                                    206.64
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="5" class="table-data">
+                                                    <p class="title-text pull-right">Swachh Bharat Cess @ 0.5%</p>
+                                                </td>
+                                                <td class="text-right">
+                                                    7.38
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="5" class="table-data">
+                                                    <p class="title-text pull-right">Krishi Kalyan Cess @ 0.5%</p>
+                                                </td>
+                                                <td class="text-right">
+                                                    7.38
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="5" class="table-data">
+                                                    <p class="title-text pull-right">Rounding Off</p>
+                                                </td>
+                                                <td class="text-right">- 0.4
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="5" class="table-data">
+                                                    <p class="title-text pull-right">Grand Total</p>
+                                                </td>
+                                                <td class="text-right">
+                                                    1697
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+                            <!--Amount and Company Invoice-->
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <p><b>INR <span class="text-capitalize">one thousand six hundred and ninety seven only</span></b></p>
+                                </div>
+                                <div class="col-xs-6">
+                                    <p class="pull-right"><b>For, Absolute Insurance Surveyors & Loss Assessors Pvt Ltd</b></p>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <p>E. and O.E.<br> Subjected to Ahmedabad Jurisdiction <br>Service Tax No: AAGCA3986LST001
+                                        <br>(Insurance Auxiliary Services)
+                                        <br> PAN No: AAGCA3986L.
+                                        <br>CIN: U93000GJ2007PTC051168169 Bank Name: HDFC Bank Ltd<br> Current A/C: 124
+                                        <br> IFSC Code: 12345
+                                        <br>
+                                    </p>
+                                </div>
+                                <div class="col-xs-6">
+                                    <p class="pull-right"><br> <br> <br> <br> <br> <br> <br> Authorized Signatory</p>
+
+                                </div>
+                            </div>
+
+
+
+
+        </div>
+
+    </body>
+
+</html>
