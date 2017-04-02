@@ -170,23 +170,23 @@ var model = {
 
     // if (req.attachment) {
     var reqUrl = {
-        url: 'https://www.googleapis.com/gmail/v1/users/' + req.user.email + "/" + req.body.url,
-        form: {
-          refresh_token: req.user.googleRefreshToken,
-          client_id: GoogleclientId,
-          raw: req.body.raw
-        }
+      url: 'https://www.googleapis.com/upload/gmail/v1/users/' + req.user.email + "/" + req.body.url + "/uploadType=media",
+      form: {
+        refresh_token: req.user.googleRefreshToken,
+        client_id: GoogleclientId,
+        raw: req.body.raw
       }
-      // } else {
-      //   var reqUrl = {
-      //     url: 'https://www.googleapis.com/gmail/v1/users/' + req.user.email + "/" + req.body.url,
-      //     form: {
-      //       refresh_token: req.user.googleRefreshToken,
-      //       client_id: GoogleclientId,
-      //       raw: req.body.raw
-      //     }
-      //   };
-      // }
+    };
+    // } else {
+    //   var reqUrl = {
+    //     url: 'https://www.googleapis.com/gmail/v1/users/' + req.user.email + "/" + req.body.url,
+    //     form: {
+    //       refresh_token: req.user.googleRefreshToken,
+    //       client_id: GoogleclientId,
+    //       raw: req.body.raw
+    //     }
+    //   };
+    // }
     console.log("reqUrl , ", reqUrl);
     request.post(reqUrl, function (err, httpResponse, body) {
       if (err) {
@@ -249,7 +249,7 @@ var model = {
         if (err) {
           callback(err);
         } else if (body) {
-          body = JSON.parse(body);
+          // body = JSON.parse(body);
           console.log("body ====: ", body);
           if (noTry === 0 && body.error) {
             refreshToken();
