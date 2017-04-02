@@ -101,7 +101,7 @@ var controller = {
     },
 
 
-    sendEmailWithAttachment: function (req, res) {
+    sendEmail: function (req, res) {
         console.log("mail", req.body);
         console.log("req.user", req.user);
         if (_.isEmpty(req.body.threadId)) {
@@ -155,7 +155,7 @@ var controller = {
         });
     },
 
-    sendEmail: function (req, res) {
+    sendEmailWithAttachment: function (req, res) {
 
         //Attachment files
         var files = req.files;
