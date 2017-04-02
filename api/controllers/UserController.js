@@ -186,10 +186,10 @@ var controller = {
                     method: "POST"
                 };
 
-                console.log("callAPI : ", callAPI);
+                // console.log("callAPI : ", callAPI);
                 request(callAPI, function (err, httpResponse, body) {
                     if (err) {
-                        return err;
+                        res.callback(err);
                     } else if (body) {
                         att.push({
                             mimeType: mime.lookup(values),
@@ -199,7 +199,7 @@ var controller = {
                         console.log("att : ",att);
 
                     } else {
-                        return "No Data found";
+                        res.callback("No Data found"); 
                     }
                 });
             });
