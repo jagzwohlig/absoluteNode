@@ -366,13 +366,13 @@ var controller = {
         console.log(jsonExcel);
         async.eachLimit(jsonExcel, 20, function (n, callback) {
             Assignment.findOne({
-                name: n[2]
+                name: _.trim(n[2])
             }).exec(function (err, data) {
                 if (err || _.isEmpty(data)) {
                     resValue.push(err);
                     callback();
                 } else {
-                    data.name = n[1];
+                    data.name = _.trim(n[1]);
                     data.save(function (err, data2) {
                         callback();
                         if (err) {
