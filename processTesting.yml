@@ -2,6 +2,6 @@ apps:
   - script: "app.js"
     name: "Absolute ABM 3"
     watch: false
-    args: "--prod -testing=true"
+    args: "--prod"
     exec_mode: "cluster"
-    interpreter_args: "testing=true"
+    node_args: "chintan=shah"
