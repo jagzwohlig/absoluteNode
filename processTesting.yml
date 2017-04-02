@@ -4,3 +4,4 @@ apps:
     watch: false
     args: "--prod -testing=true"
     exec_mode: "cluster"
+    interpreter_args: "testing=true"
