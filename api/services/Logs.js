@@ -1,8 +1,38 @@
 var schema = new Schema({
     name: {
+        type: String
+    },
+    employee: {
+        type: Schema.Types.ObjectId,
+        ref: "Employee",
+        index: true
+    },
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        index: true
+    },
+    request: {
+        body: {
+
+        },
+        query: {
+
+        },
+        params: {
+
+        }
+    },
+    url: {
         type: String,
-        required: true,
-        unique: true
+        required: true
+    },
+    model: {
+        type: String,
+        required: true
+    },
+    controller: {
+        type: String
     }
 });
 
