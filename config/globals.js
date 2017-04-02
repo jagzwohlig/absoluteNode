@@ -125,8 +125,10 @@ console.log(process.env);
 if (process.env.NODE_ENV && process.env.NODE_ENV === "production") {
     if (process.env.testing) {
         global["env"] = require("./env/testing.js");
+    } else {
+        global["env"] = require("./env/production.js");
     }
-    global["env"] = require("./env/production.js");
+
 } else {
     global["env"] = require("./env/development.js");
 }
