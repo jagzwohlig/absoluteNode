@@ -2498,9 +2498,7 @@ var model = {
   sortOfGetAssignmentAggregate: function (data) {
     //Sorting
     var sort = {
-      $sort: {
-        createdAt: -1
-      }
+      $sort: {}
     };
 
     function makeSort(name, value) {
@@ -2537,6 +2535,9 @@ var model = {
           break;
         case "timelineStatus":
           makeSort(data.sorting[0], data.sorting[1]);
+          break;
+        default:
+          makeSort("createdAt", -1);
           break;
       }
     }
@@ -2576,7 +2577,7 @@ var model = {
       }
     }];
     var sortArr = this.sortOfGetAssignmentAggregate(data);
-
+    console.log(sortArr);
     async.parallel({
       results: function (callback) {
         Assignment.aggregate(_.concat(coreArr, sortArr, paginationArr)).exec(callback);
