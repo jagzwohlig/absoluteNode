@@ -317,7 +317,9 @@ var model = {
                                             emailData.ownerName = assignmentData.owner.name;
                                             emailData.ownerEmail = assignmentData.owner.officeEmail;
                                             emailData.ownerPhone = assignmentData.owner.officeMobile;
+                                            if(assignmentData.city!==undefined){
                                             emailData.siteCity = assignmentData.city.name;
+                                            }
                                             emailData.invoiceNumber = data.invoiceNumber;
                                             if (assignmentData.insured) {
                                                 if (assignmentData.insured.name) {

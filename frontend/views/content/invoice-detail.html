@@ -223,7 +223,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-item" style="flex:1; padding-left:25%; width:75%" ng-if="showForm && approval">
+        <div class="col-item" style="flex:1; padding-left:25%; width:75%" ng-if="showForm && !approval">
             <select class="form-control" ng-model="formData.officeEmail" required>
                     <option ng-value="{{employees.officeEmail}}" ng-repeat="employees in employee">{{employees.name}} &lt;{{employees.email}}&gt;</option>
              </select>        
