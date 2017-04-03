@@ -2646,8 +2646,8 @@ var model = {
         owner: {
           $first: "$owner",
         },
-        insurerd: {
-          $first: "$insurerd",
+        insured: {
+          $first: "$insured",
         },
         branch: {
           $first: "$branch",
