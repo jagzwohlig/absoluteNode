@@ -107,7 +107,7 @@ function makeItCurrency (num) {
                 </div>
                 <div class="col-xs-6">
                     <div class="row">
-                        <div class="col-xs-6">
+                        <div class="col-xs-6 text-right">
                             <p><i>Invoice No.</i></p>
                             <p><i>Invoice Date</i></p>
 
@@ -126,15 +126,15 @@ function makeItCurrency (num) {
             <div class="row">
                 <div class="col-xs-6">
                     <div class="row">
-                        <div class="col-xs-6">Appointed By</div>
-                        <div class="col-xs-6">
+                        <div class="col-xs-5"><em>Appointed By</em></div>
+                        <div class="col-xs-7">
                             <%=data.assignment.customer.name%>
                         </div>
                     </div>
                 </div>
                 <div class="col-xs-6">
                     <div class="row">
-                        <div class="col-xs-6">COL</div>
+                        <div class="col-xs-6 text-right"><em>COL</em></div>
                         <div class="col-xs-6">
                             <%=data.assignment.causeOfLoss.name%>
                         </div>
@@ -144,15 +144,15 @@ function makeItCurrency (num) {
             <div class="row">
                 <div class="col-xs-6">
                     <div class="row">
-                        <div class="col-xs-6">Insurer</div>
-                        <div class="col-xs-6">
+                        <div class="col-xs-5"><em>Insurer</em></div>
+                        <div class="col-xs-7">
                             <%=data.assignment.insurerOffice.name%>
                         </div>
                     </div>
                 </div>
                 <div class="col-xs-6">
                     <div class="row">
-                        <div class="col-xs-6">NOL</div>
+                        <div class="col-xs-6 text-right"><em>NOL</em></div>
                         <div class="col-xs-6">
                             <% for(var i=0; i<data.assignment.natureOfLoss.length; i++) {%>
                                 <%=data.assignment.natureOfLoss[i].name%>
@@ -166,8 +166,8 @@ function makeItCurrency (num) {
             <div class="row">
                 <div class="col-xs-6">
                     <div class="row">
-                        <div class="col-xs-6">Insured</div>
-                        <div class="col-xs-6">
+                        <div class="col-xs-5"><em>Insured</em></div>
+                        <div class="col-xs-7">
                             <%if(data.assignment.insuredOffice===undefined){%>
                                 -
                                 <%}else{%>
@@ -178,7 +178,7 @@ function makeItCurrency (num) {
                 </div>
                 <div class="col-xs-6">
                     <div class="row">
-                        <div class="col-xs-6">Classification</div>
+                        <div class="col-xs-6 text-right"><em>Classification</em></div>
                         <div class="col-xs-6">
                             <% for(var i=0; i<data.assignment.products.length; i++) {%>
                                 <%=data.assignment.products[i].product.category.name%>
@@ -192,8 +192,8 @@ function makeItCurrency (num) {
             <div class="row">
                 <div class="col-xs-6">
                     <div class="row">
-                        <div class="col-xs-6">Policy Type</div>
-                        <div class="col-xs-6">
+                        <div class="col-xs-5"><em>Policy Type</em></div>
+                        <div class="col-xs-7">
                             <%if(data.assignment.policyType){%>
                                 <%=data.assignment.policyType.name%>
                                     <%  } %>
@@ -202,7 +202,7 @@ function makeItCurrency (num) {
                 </div>
                 <div class="col-xs-6">
                     <div class="row">
-                        <div class="col-xs-6">Product</div>
+                        <div class="col-xs-6 text-right"><em>Product</em></div>
                         <div class="col-xs-6">
                             <% for(var i=0; i<data.assignment.products.length; i++) {%>
                                 <%=data.assignment.products[i].product.name%>
@@ -216,8 +216,8 @@ function makeItCurrency (num) {
             <div class="row">
                 <div class="col-xs-6">
                     <div class="row">
-                        <div class="col-xs-6">Policy Number</div>
-                        <div class="col-xs-6">
+                        <div class="col-xs-5"><em>Policy Number</em></div>
+                        <div class="col-xs-7">
                             <%if(data.assignment.policyNumber===undefined){%>
                                 -
                                 <%}else{%>
@@ -229,7 +229,7 @@ function makeItCurrency (num) {
                 </div>
                 <div class="col-xs-6">
                     <div class="row">
-                        <div class="col-xs-6">Item</div>
+                        <div class="col-xs-6 text-right"><em>Item</em></div>
                         <div class="col-xs-6">
                             <% for(var i=0; i<data.assignment.products.length; i++) {%>
                                 <%=data.assignment.products[i].item%>
@@ -243,8 +243,8 @@ function makeItCurrency (num) {
             <div class="row">
                 <div class="col-xs-6">
                     <div class="row">
-                        <div class="col-xs-6">Insurer Claim No</div>
-                        <div class="col-xs-6">
+                        <div class="col-xs-5"><em>Insurer Claim No</em></div>
+                        <div class="col-xs-7">
                             <%if(data.assignment.insurerClaimId===undefined){%>
                                 -
                                 <%}else{%>
@@ -255,12 +255,14 @@ function makeItCurrency (num) {
                 </div>
                 <div class="col-xs-6">
                     <div class="row">
-                        <div class="col-xs-6">
+                        <div class="col-xs-6 text-right">
+                            <em>
                             <%if(data.assignment.department.name==="Marine Cargo"){%>
                                 Invoice # &amp; Date
                                 <%}else{%>
                                     Product ID
                                     <%}%>
+                                    </em>
                         </div>
                         <div class="col-xs-6">
                             <%if(data.assignment.department.name==="Marine Cargo"){%>
@@ -284,8 +286,8 @@ function makeItCurrency (num) {
             <div class="row">
                 <div class="col-xs-6">
                     <div class="row">
-                        <div class="col-xs-6">Insured Claim No</div>
-                        <div class="col-xs-6">
+                        <div class="col-xs-5"><em>Insured Claim No</em></div>
+                        <div class="col-xs-7">
                             <%if(data.assignment.insuredClaimId===undefined){%>
                                 -
                                 <%}else{%>
@@ -296,12 +298,14 @@ function makeItCurrency (num) {
                 </div>
                 <div class="col-xs-6">
                     <div class="row">
-                        <div class="col-xs-6">
+                        <div class="col-xs-6 text-right">
+                            <em>
                             <%if(data.assignment.department.name==="Marine Cargo"){%>
                                 LR # &amp; Date
                                 <%}else{%>
                                     Location ID
                                     <%}%>
+                                    </em>
                         </div>
                         <div class="col-xs-6">
                             <%if(data.assignment.department.name==="Marine Cargo"){%>
@@ -335,7 +339,7 @@ function makeItCurrency (num) {
                     </div>
                     <div class="col-xs-6">
                         <div class="row">
-                            <div class="col-xs-6">Vehicle</div>
+                            <div class="col-xs-6 text-right"><em>Vehicle</em></div>
                             <div class="col-xs-6">
                                 <%if(data.assignment.vehicleNumber[0]===undefined){%>
                                     -
@@ -349,8 +353,8 @@ function makeItCurrency (num) {
                 <div class="row">
                     <div class="col-xs-6">
                         <div class="row">
-                            <div class="col-xs-6">Fee Narration</div>
-                            <div class="col-xs-6">
+                            <div class="col-xs-5"><em>Fee Narration</em></div>
+                            <div class="col-xs-7">
                                 <%if(data.narrationFee===undefined){%>
                                     <td class="noborder">
                                         -
