@@ -724,7 +724,7 @@ var navigationservice = angular.module('navigationservice', [])
                 $http.post(adminurl + 'Assignment/saveTemplate', data).success(callback);
             },
             assignmentSave: function (data, callback) {
-                if (data.policyDoc == "") {
+                if (data.policyDoc === "") {
                     delete data.policyDoc;
                 }
                 data.accessToken = $.jStorage.get("accessToken");

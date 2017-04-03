@@ -138,14 +138,16 @@ var model = {
                         }]
                     }, {
                         officeEmail: 1,
-                        date: 1
+                        date: 1,
+                        photo:1,
+                        name:1
                     }).exec(function (err, data3) {
                         if (err) {
                             callback1(err, null);
                         } else {
                             // console.log("Array Of Employee", data3);
                             _.each(data3, function (n) {
-                                n.date = data.surveyDate
+                                n.date = data.surveyDate;
                             finalArr.push(n);
                         });
                         callback1(null,"Done");

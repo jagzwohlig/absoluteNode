@@ -12156,7 +12156,7 @@
                     $scope.assignment = data.data;
                     console.log("$scope.assignment", $scope.assignment);
                     NavigationService.getNearestOffice(data.data, function (data) {
-                        $scope.getAllSurveyors = data.data;
+                        $scope.finalSurveyors = data.data;
                         console.log("Success On GetNearest Survayer", $scope.getAllSurveyors, data);
                         var arr = [];
                         _.each(data.data, function (n) {
@@ -12167,32 +12167,31 @@
                                 arr.push(m);
                         });
                         console.log("array to pass", arr);
-                        //    Consider Api Reply
-                        // NavigationService.thirdPartyApi(arr, function (data) {
-                        //     console.log("Data OUTPUT", data);
-                        // });
-                        $scope.displayFinalSurveyor();
+                        
+                        // Commented
+                        // $scope.displayFinalSurveyor();
                     });
 
                 });
             };
 
             // 3rd
-            $scope.displayFinalSurveyor = function () {
-                console.log("surveyDate", $scope.surveyDate);
-                var arrayOfId = _.cloneDeep($scope.getAllSurveyors);
-                console.log("arrayOfId", arrayOfId);
-                var arrayId = [];
-                _.each(arrayOfId, function (n) {
-                    delete n.date,
-                        delete n.officeEmail,
-                        arrayId.push(n._id);
-                    NavigationService.getOneModel("Employee", n._id, function (data) {
-                        $scope.finalSurveyors.push(data.data)
-                        console.log("final Surveyors : ", $scope.finalSurveyors);
-                    });
-                });
-            };
+            // $scope.displayFinalSurveyor = function () {
+            //     console.log("surveyDate", $scope.surveyDate);
+            //     var arrayOfId = _.cloneDeep($scope.getAllSurveyors);
+            //     console.log("arrayOfId", arrayOfId);
+            //     var arrayId = [];
+            //     _.each(arrayOfId, function (n) {
+            //         delete n.date,
+            //             delete n.officeEmail,
+            //             arrayId.push(n._id);
+            //         NavigationService.getOneModel("Employee", n._id, function (data) {
+            //             $scope.finalSurveyors.push(data.data)
+            //             console.log("final Surveyors : ", $scope.finalSurveyors);
+            //         });
+            //     });
+            // };
+
             // Don't Delete
             //  $scope.displayFinalSurveyor = function () {
             //     console.log("surveyDate", $scope.surveyDate);
