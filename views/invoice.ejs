@@ -18,7 +18,8 @@ function toWords (num) {
     return str;
 } 
 function makeItCurrency (num) {
-    return _.round(num,2);
+    var n = _.round(num,2);
+    return n.toLocaleString('en-US', {minimumFractionDigits: 2});
 }
 
 %>
@@ -381,7 +382,7 @@ function makeItCurrency (num) {
                         <tr>
                             <th style="width:30px" class="text-center">Sr #</th>
                             <th style="width: 305px;">Description</th>
-                            <th>Quality</th>
+                            <th>Quantity</th>
                             <th>Unit</th>
                             <th>Rate</th>
                             <th style="width:50px;">Amount</th>
@@ -397,16 +398,16 @@ function makeItCurrency (num) {
                                         <%=data.invoiceList[i].description%>
                                     </td>
                                     <td class="text-right">
-                                        <%=data.invoiceList[i].quantity%>
+                                        <%=makeItCurrency(data.invoiceList[i].quantity)%>
                                     </td>
                                     <td class="text-center">
                                         <%=data.invoiceList[i].unit%>
                                     </td>
                                     <td class="text-right">
-                                        <%=data.invoiceList[i].rate%>
+                                        <%=makeItCurrency(data.invoiceList[i].rate)%>
                                     </td>
                                     <td class="text-right">
-                                        <%=data.invoiceList[i].amount%>
+                                        <%=makeItCurrency(data.invoiceList[i].amount)%>
                                     </td>
                                 </tr>
                                 <%}%>
@@ -425,7 +426,7 @@ function makeItCurrency (num) {
                                 <p class="title-text pull-right">Sub Total</p>
                             </td>
                             <td class="text-right" style="width:50px;">
-                                <%=data.subTotal%>
+                                <%=makeItCurrency(data.subTotal)%>
                             </td>
                         </tr>
                         <% for(var i=0; i<data.tax.length; i++) {%>
@@ -433,11 +434,11 @@ function makeItCurrency (num) {
                                 <td colspan="5" class="table-data">
                                     <p class="title-text pull-right">
                                         <%=data.tax[i].name%> @
-                                            <%=data.tax[i].percent%>%</td>
+                                            <%=makeItCurrency(data.tax[i].percent)%>%</td>
                                 </p>
                                 </td>
                                 <td class="text-right">
-                                    <%=data.tax[i].amount%>
+                                    <%=makeItCurrency(data.tax[i].amount)%>
                                 </td>
                             </tr>
                             <%}%>
@@ -449,7 +450,7 @@ function makeItCurrency (num) {
                                     </td>
                                     <td class="text-right">
                                         -
-                                        <%=data.roundOff%>
+                                        <%=makeItCurrency(data.roundOff)%>
                                     </td>
                                 </tr>
 
@@ -458,7 +459,7 @@ function makeItCurrency (num) {
                                         <p class="title-text pull-right">Grand Total</p>
                                     </td>
                                     <td class="text-right">
-                                        <%=data.grandTotal%>
+                                        <%=makeItCurrency(data.grandTotal)%>
                                     </td>
                                 </tr>
                     </tbody>
@@ -467,7 +468,7 @@ function makeItCurrency (num) {
         </div>
         <div class="row">
             <div class="col-xs-6">
-                <p><b>INR <span class="text-capitalize"><%=toWords(data.grandTotal)%></span></b></p>
+                <p><b>INR <span class="text-capitalize"><%=toWords(data.grandTotal)%> Only</span></b></p>
             </div>
             <div class="col-xs-6">
                 <p class="pull-right"><b>For, Absolute Insurance Surveyors & Loss Assessors Pvt Ltd</b></p>
