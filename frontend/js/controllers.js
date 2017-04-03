@@ -12157,17 +12157,17 @@
                     console.log("$scope.assignment", $scope.assignment);
                     NavigationService.getNearestOffice(data.data, function (data) {
                         $scope.finalSurveyors = data.data;
-                        console.log("Success On GetNearest Survayer", $scope.getAllSurveyors, data);
-                        var arr = [];
-                        _.each(data.data, function (n) {
-                            var m = {};
-                            m.ForDate = moment(new Date(n.date)).add(5, "hours").add(30, "minutes").format("DD/MM/YYYY"),
-                                m.Email = n.officeEmail,
-                                m._id = n._id,
-                                arr.push(m);
-                        });
-                        console.log("array to pass", arr);
-                        
+                        // console.log("Success On GetNearest Survayer", $scope.getAllSurveyors, data);
+                        // var arr = [];
+                        // _.each(data.data, function (n) {
+                        //     var m = {};
+                        //     m.ForDate = moment(new Date(n.date)).add(5, "hours").add(30, "minutes").format("DD/MM/YYYY"),
+                        //         m.Email = n.officeEmail,
+                        //         m._id = n._id,
+                        //         arr.push(m);
+                        // });
+                        // console.log("array to pass", arr);
+
                         // Commented
                         // $scope.displayFinalSurveyor();
                     });
@@ -12428,7 +12428,7 @@
                 var modalInstance = $uibModal.open({
                     scope: $scope,
                     templateUrl: '/frontend/views/modal/survey-form.html',
-                    size: 'sm'
+                    size: 'md'
                 });
             };
             $scope.checker = 1;
@@ -12460,6 +12460,9 @@
                 $scope.offlineSurvey.photos = [];
                 $scope.offlineSurvey.jir = [];
                 $scope.offlineSurvey.doc = [];
+                $state.go("timeline", {
+                    id: $scope.assignment._id,
+                });
             };
             $scope.PhotoUploadCallback = function (data, length) {
                 console.log("Photo Data", data, length);
