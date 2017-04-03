@@ -827,7 +827,7 @@ var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "city.district
 var model = {
   saveData: function (data, callback) {
     var Model = this;
-    if(_.isEmpty(data.insured)){
+    if (_.isEmpty(data.insured)) {
       delete data.insured;
     }
     var Const = this(data);
@@ -879,16 +879,18 @@ var model = {
                       emailData.ownerEmail = assignmentData.owner.officeEmail;
                       emailData.ownerPhone = assignmentData.owner.officeMobile;
                       emailData.siteAddress = (assignmentData.address ? assignmentData.address : '');
-                      if (assignmentData.city.name) {
-                        emailData.siteCity = assignmentData.city.name;
-                        if (assignmentData.city.district) {
-                          emailData.siteDistrict = assignmentData.city.district.name;
-                          if (assignmentData.city.district.state) {
-                            emailData.siteState = assignmentData.city.district.state.name;
-                            if (assignmentData.city.district.state.zone) {
-                              emailData.siteZone = assignmentData.city.district.state.zone.name;
-                              if (assignmentData.city.district.state.zone.country) {
-                                emailData.siteCountry = assignmentData.city.district.state.zone.country.name;
+                      if (assignmentData.city !== undefined) {
+                        if (assignmentData.city.name) {
+                          emailData.siteCity = assignmentData.city.name;
+                          if (assignmentData.city.district) {
+                            emailData.siteDistrict = assignmentData.city.district.name;
+                            if (assignmentData.city.district.state) {
+                              emailData.siteState = assignmentData.city.district.state.name;
+                              if (assignmentData.city.district.state.zone) {
+                                emailData.siteZone = assignmentData.city.district.state.zone.name;
+                                if (assignmentData.city.district.state.zone.country) {
+                                  emailData.siteCountry = assignmentData.city.district.state.zone.country.name;
+                                }
                               }
                             }
                           }
@@ -1419,16 +1421,18 @@ var model = {
               emailData.ownerEmail = assignmentData.owner.officeEmail;
               emailData.ownerPhone = assignmentData.owner.officeMobile;
               emailData.siteAddress = (assignmentData.address ? assignmentData.address : '');
-              if (assignmentData.city.name) {
-                emailData.siteCity = assignmentData.city.name;
-                if (assignmentData.city.district) {
-                  emailData.siteDistrict = assignmentData.city.district.name;
-                  if (assignmentData.city.district.state) {
-                    emailData.siteState = assignmentData.city.district.state.name;
-                    if (assignmentData.city.district.state.zone) {
-                      emailData.siteZone = assignmentData.city.district.state.zone.name;
-                      if (assignmentData.city.district.state.zone.country) {
-                        emailData.siteCountry = assignmentData.city.district.state.zone.country.name;
+              if (assignmentData.city !== undefined) {
+                if (assignmentData.city.name) {
+                  emailData.siteCity = assignmentData.city.name;
+                  if (assignmentData.city.district) {
+                    emailData.siteDistrict = assignmentData.city.district.name;
+                    if (assignmentData.city.district.state) {
+                      emailData.siteState = assignmentData.city.district.state.name;
+                      if (assignmentData.city.district.state.zone) {
+                        emailData.siteZone = assignmentData.city.district.state.zone.name;
+                        if (assignmentData.city.district.state.zone.country) {
+                          emailData.siteCountry = assignmentData.city.district.state.zone.country.name;
+                        }
                       }
                     }
                   }
@@ -1658,16 +1662,18 @@ var model = {
                   emailData.ownerEmail = assignmentData.owner.officeEmail;
                   emailData.ownerPhone = assignmentData.owner.officeMobile;
                   emailData.siteAddress = (assignmentData.address ? assignmentData.address : '');
-                  if (assignmentData.city.name) {
-                    emailData.siteCity = assignmentData.city.name;
-                    if (assignmentData.city.district) {
-                      emailData.siteDistrict = assignmentData.city.district.name;
-                      if (assignmentData.city.district.state) {
-                        emailData.siteState = assignmentData.city.district.state.name;
-                        if (assignmentData.city.district.state.zone) {
-                          emailData.siteZone = assignmentData.city.district.state.zone.name;
-                          if (assignmentData.city.district.state.zone.country) {
-                            emailData.siteCountry = assignmentData.city.district.state.zone.country.name;
+                  if (assignmentData.city !== undefined) {
+                    if (assignmentData.city.name) {
+                      emailData.siteCity = assignmentData.city.name;
+                      if (assignmentData.city.district) {
+                        emailData.siteDistrict = assignmentData.city.district.name;
+                        if (assignmentData.city.district.state) {
+                          emailData.siteState = assignmentData.city.district.state.name;
+                          if (assignmentData.city.district.state.zone) {
+                            emailData.siteZone = assignmentData.city.district.state.zone.name;
+                            if (assignmentData.city.district.state.zone.country) {
+                              emailData.siteCountry = assignmentData.city.district.state.zone.country.name;
+                            }
                           }
                         }
                       }
@@ -2322,6 +2328,30 @@ var model = {
         path: "$department",
         preserveNullAndEmptyArrays: true
       }
+    }, {
+      $lookup: {
+        from: "invoices",
+        localField: "invoice",
+        foreignField: "_id",
+        as: "invoice"
+      }
+    }, {
+      $unwind: {
+        path: "$invoice",
+        preserveNullAndEmptyArrays: true
+      }
+    }, {
+      $lookup: {
+        from: "naturelosses",
+        localField: "natureOfLoss",
+        foreignField: "_id",
+        as: "natureOfLoss"
+      }
+    }, {
+      $unwind: {
+        path: "$natureOfLoss",
+        preserveNullAndEmptyArrays: true
+      }
     }];
 
     return allTable;
@@ -2551,6 +2581,10 @@ var model = {
     var aggregateArr = _.concat(this.filterOfGetAssignmentAggregate(data), this.typeOfGetAssignmentAggregate(data, user), this.projectionOfGetAssignmentAggregate());
     return _.compact(aggregateArr);
   },
+  completeGetAssignmentExcelAggregate: function (data, user) {
+    var aggregateArr = _.concat(this.filterOfGetAssignmentAggregate(data), this.typeOfGetAssignmentAggregate(data, user), this.projectionOfGetAssignmentExcelAggregate());
+    return _.compact(aggregateArr);
+  },
   getAll: function (data, callback, user) {
     var coreArr = this.completeGetAssignmentAggregate(data, user);
     var paginationArr = [{
@@ -2599,21 +2633,76 @@ var model = {
     });
   },
   generateAssignmentExcel: function (data, callback, res, user) {
-    var coreArr = this.completeGetAssignmentAggregate(data, user);
+    var coreArr = this.completeGetAssignmentExcelAggregate(data, user);
     var paginationArr = [{
       $skip: parseInt((data.pagenumber - 1) * data.pagelimit)
     }, {
       $limit: data.pagelimit
     }, {
+      $group: {
+        _id: "$_id",
+        natureOfLoss: {
+          $push: "$natureOfLoss"
+        },
+        name: {
+          $first: "$name"
+        },
+        owner: {
+          $first: "$owner",
+        },
+        insurerd: {
+          $first: "$insurerd",
+        },
+        branch: {
+          $first: "$branch",
+        },
+        insurer: {
+          $first: "$insurer",
+        },
+        broker: {
+          $first: "$broker",
+        },
+        department: {
+          $first: "$department",
+        },
+        intimatedLoss: {
+          $first: "$intimatedLoss",
+        },
+        timelineStatus: {
+          $first: "$timelineStatus",
+        },
+        status: {
+          $first: "$status",
+        },
+        survey: {
+          $first: "$survey",
+        },
+        invoice: {
+          $push: "$invoice"
+        },
+        insuredClaimId: {
+          $first: "$insuredClaimId",
+        },
+        insurerClaimId: {
+          $first: "$insurerClaimId",
+        },
+        brokerClaimId: {
+          $first: "$brokerClaimId",
+        }
+      }
+    }, {
       $project: {
         _id: 1,
         name: 1,
+        invoice: "$invoice",
+        branch: "$branch.name",
         owner: "$owner.name",
         insurerName: "$insurer.name",
         insuredName: "$insured.name",
         brokerName: "$broker.name",
         department: "$department.name",
         city: "$city.name",
+        natureOfLoss: "$natureOfLoss.name",
         intimatedLoss: 1,
         timelineStatus: 1,
         status: 1
@@ -2628,69 +2717,91 @@ var model = {
       }
     }];
     var sortArr = this.sortOfGetAssignmentAggregate(data);
-
-    Assignment.aggregate(_.concat(coreArr, sortArr)).allowDiskUse(true).exec(function (err, data1) {
+    Assignment.aggregate(_.concat(coreArr, sortArr, paginationArr)).allowDiskUse(true).exec(function (err, data1) {
       if (err) {
         console.log("In IF");
         callback(null, data1);
       } else {
-        console.log("In Else", data1); {
-          if (_.isEmpty(data1)) {
-            callback("No Payment found.", null);
-          } else {
-            // console.log("Done", data1[37]);
-            var excelData = [];
-            // console.log("ABCD", data1[3].invoice[0]);
-            _.each(data1, function (n, key) {
-              // console.log("Key",);
-              var obj = {};
-              obj["SR #"] = key + 1;
-              obj["Branch"] = n.branch;
-              obj["MR #"] = n.name;
-              obj["Insurer Claim #"] = n.insurerClaimId;
-              obj["Insured Claim #"] = n.insuredClaimId;
-              obj["Broker Claim #"] = n.brokerClaimId;
-              obj["Date of Assignment"] = moment(n.createdAt).format("DD-MM-YYYY");
-              obj["Insured"] = n.insuredName;
-              obj["Insurer"] = n.insurerName;
-              obj["Broker"] = n.brokerName;
-              obj["Department"] = n.department;
-              obj["Nature of Loss"] = n.natureOfLoss;
-              obj["Estimated Loss"] = n.intimatedLoss;
-              obj["Owner"] = n.owner;
-              if (n.survey) {
-                if (n.survey.length > 0 && n.survey != undefined) {
-                  if (n.survey[n.survey.length - 1].status == "Completed") {
-                    console.log("In Survey", n.survey[n.survey.length - 1].surveyDate)
-                    obj["Survey Date"] = moment(n.survey[n.survey.length - 1].surveyDate).format("DD-MM-YYYY");
-                  }
-                } else {
-                  obj["Survey Date"] = "NA"
-                }
-              } else {
-                obj["Survey Date"] = "NA"
-              }
-              if (n.invoice) {
-                console.log("Invoice........", n.invoice);
-                if (n.invoice.length > 0 && n.invoice != undefined) {
-                  console.log("Invoice........", n.invoice[0]);
-                  obj["Reported Date"] = moment(n.invoice[0]).format("DD-MM-YYYY");
-                } else {
-                  obj["Reported Date"] = "NA"
-                }
-              } else {
-                obj["Reported Date"] = "NA"
-              }
+        console.log("In Else", data1);
+        if (_.isEmpty(data1)) {
+          callback("No Payment found.", null);
+        } else {
+          // console.log("Done", data1[37]);
+          var excelData = [];
+          // console.log("ABCD", data1[0].invoice[0]);
+          _.each(data1, function (n, key) {
+            // console.log("Key",n.invoice);
+            var obj = {};
+            obj["SR #"] = key + 1;
+            obj["Branch"] = n.branch;
+            obj["MR #"] = n.name;
+            obj["Insurer Claim #"] = n.insurerClaimId;
+            obj["Insured Claim #"] = n.insuredClaimId;
+            obj["Broker Claim #"] = n.brokerClaimId;
+            obj["Date of Assignment"] = moment(n.createdAt).format("DD-MM-YYYY");
+            obj["Insured"] = n.insuredName;
+            obj["Insurer"] = n.insurerName;
+            obj["Broker"] = n.brokerName;
+            obj["Department"] = n.department;
+            var natureOfLossObj = "";
 
-              obj["Status"] = n.timelineStatus
-              // obj.nature=n.natureOfLoss[0];
-              excelData.push(obj);
-            });
-            Config.generateExcel("Assignment", excelData, res);
-          }
+            if (n.natureOfLoss) {
+              if (n.natureOfLoss.length > 0 && n.natureOfLoss !== undefined) {
+                var lossArr = _.uniq(n.natureOfLoss);
+                _.each(lossArr, function (singleNatureOfLoss, key1) {
+                  console.log("In For .....");
+                  if (key1 === 0) {
+                    natureOfLossObj = singleNatureOfLoss;
+                  } else {
+                    natureOfLossObj = natureOfLossObj + ", " + singleNatureOfLoss;
+                  }
+                });
+                obj["Nature of Loss"] = natureOfLossObj;
+              } else {
+                obj["Nature of Loss"] = "";
+              }
+            } else {
+              obj["Nature of Loss"] = "";
+            }
+            obj["Estimated Loss"] = n.intimatedLoss;
+            obj["Owner"] = n.owner;
+            if (n.survey) {
+              if (n.survey.length > 0 && n.survey !== undefined) {
+                if (n.survey[n.survey.length - 1].status == "Completed") {
+                  // console.log("In Survey", n.survey[n.survey.length - 1].surveyDate);
+                  obj["Survey Date"] = moment(n.survey[n.survey.length - 1].surveyDate).format("DD-MM-YYYY");
+                }
+              } else {
+                obj["Survey Date"] = "";
+              }
+            } else {
+              obj["Survey Date"] = "";
+            }
+            var newInvoiceList = [];
+            if (n.invoice) {
+              // console.log("Invoice........", n.invoice);
+              if (n.invoice.length > 0 && n.invoice !== undefined) {
+                _.each(n.invoice, function (singleInvoice, pointer) {
+                  if (singleInvoice.approvalStatus === "Approved") {
+                    newInvoiceList.push(singleInvoice);
+                  }
+                });
+                // console.log("newInvoiceList........", newInvoiceList);
+                obj["Reported Date"] = moment(newInvoiceList[newInvoiceList.length - 1].approvalTime).format("DD-MM-YYYY");
+              } else {
+                obj["Reported Date"] = "";
+              }
+            } else {
+              obj["Reported Date"] = "";
+            }
+            obj["Status"] = n.timelineStatus;
+            excelData.push(obj);
+          });
+          Config.generateExcel("Assignment", excelData, res);
         }
-        // callback(null, data1);
       }
+      // callback(null, data1);
+
     });
 
 
@@ -2940,7 +3051,7 @@ var model = {
               office: n.branch.office
             }, function (err, data3) {
               if (err) {
-                callback1(err, null)
+                callback1(err, null);
               } else {
                 callback1(null, data3);
               }
@@ -3364,16 +3475,18 @@ var model = {
               emailData.ownerEmail = assignmentData.owner.officeEmail;
               emailData.ownerPhone = assignmentData.owner.officeMobile;
               emailData.siteAddress = (assignmentData.address ? assignmentData.address : '');
-              if (assignmentData.city.name) {
-                emailData.siteCity = assignmentData.city.name;
-                if (assignmentData.city.district) {
-                  emailData.siteDistrict = assignmentData.city.district.name;
-                  if (assignmentData.city.district.state) {
-                    emailData.siteState = assignmentData.city.district.state.name;
-                    if (assignmentData.city.district.state.zone) {
-                      emailData.siteZone = assignmentData.city.district.state.zone.name;
-                      if (assignmentData.city.district.state.zone.country) {
-                        emailData.siteCountry = assignmentData.city.district.state.zone.country.name;
+              if (assignmentData.city !== undefined) {
+                if (assignmentData.city.name) {
+                  emailData.siteCity = assignmentData.city.name;
+                  if (assignmentData.city.district) {
+                    emailData.siteDistrict = assignmentData.city.district.name;
+                    if (assignmentData.city.district.state) {
+                      emailData.siteState = assignmentData.city.district.state.name;
+                      if (assignmentData.city.district.state.zone) {
+                        emailData.siteZone = assignmentData.city.district.state.zone.name;
+                        if (assignmentData.city.district.state.zone.country) {
+                          emailData.siteCountry = assignmentData.city.district.state.zone.country.name;
+                        }
                       }
                     }
                   }

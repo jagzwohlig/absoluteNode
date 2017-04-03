@@ -158,9 +158,10 @@ var model = {
       }
     });
   },
-  sendEmail: function (req, callback) {
+
+  sendEmailWithAttachment: function (req, callback) {
     console.log({
-      url: 'https://www.googleapis.com/gmail/v1/users/' + req.user.email + "/" + req.body.url,
+      url: 'https://www.googleapis.com/upload/gmail/v1/users/' + req.user.email + "/" + req.body.url + "/uploadType=media",
       form: {
         refresh_token: req.user.googleRefreshToken,
         client_id: GoogleclientId,
@@ -187,7 +188,7 @@ var model = {
     //     }
     //   };
     // }
-    console.log("reqUrl , ", reqUrl);
+    // console.log("reqUrl , ", reqUrl);
     request.post(reqUrl, function (err, httpResponse, body) {
       if (err) {
         callback(err);
@@ -205,7 +206,205 @@ var model = {
     });
   },
 
+  sendEmail: function (req, callback) {
+    console.log({
+      url: 'https://www.googleapis.com/gmail/v1/users/' + req.user.email + "/" + req.body.url,
+      form: {
+        refresh_token: req.user.googleRefreshToken,
+        client_id: GoogleclientId,
+        raw: req.body.raw
+      }
+    });
+
+      var reqUrl = {
+        url: 'https://www.googleapis.com/gmail/v1/users/' + req.user.email + "/" + req.body.url,
+        form: {
+          refresh_token: req.user.googleRefreshToken,
+          client_id: GoogleclientId,
+          raw: req.body.raw
+        }
+      };
+    // console.log("reqUrl , ", reqUrl);
+    request.post(reqUrl, function (err, httpResponse, body) {
+      if (err) {
+        callback(err);
+      } else if (body) {
+        console.log("body", body);
+        body = JSON.parse(body);
+        if (noTry === 0 && body.error) {
+          refreshToken();
+        } else {
+          callback(err, body);
+        }
+      } else {
+        callback(err, body);
+      }
+    });
+  },
+
+  // gmailCall: function (req, callback) {
+  //   var noTry = 0;
+  //   var labelIds = "";
+
+  //   function makeGmailCall() {
+  //     if (!req.body.other) {
+  //       req.body.other = "";
+  //     }
+  //     if (!req.body.labelIds) {
+  //       req.body.labelIds = "";
+  //     }
+
+  //     var callAPI = {
+  //       url: 'https://www.googleapis.com/gmail/v1/users/' + req.user.email + "/" + req.body.url + "?key=" + GoogleKey + req.body.other + req.body.labelIds,
+  //       method: req.body.method,
+  //       headers: {
+  //         "Authorization": "Bearer " + req.user.googleAccessToken
+  //       }
+  //     };
+  //     if (req.form) {
+  //       callAPI.multipart = [{
+  //         "content-type": "application/json",
+  //         body: JSON.stringify(req.form)
+  //       }];
+  //     }
+
+  //     console.log(callAPI);
+  //     request(callAPI, function (err, httpResponse, body) {
+  //       if (err) {
+  //         callback(err);
+  //       } else if (body) {
+  //         body = JSON.parse(body);
+  //         if (noTry === 0 && body.error) {
+  //           refreshToken();
+  //         } else {
+  //           callback(err, body);
+  //         }
+  //       } else {
+  //         callback(err, body);
+  //       }
+  //     });
+  //   }
+
+  //   function refreshToken() {
+  //     console.log({
+  //       url: 'https://www.googleapis.com/oauth2/v4/token',
+  //       form: {
+  //         refresh_token: req.user.googleRefreshToken,
+  //         client_id: GoogleclientId,
+  //         client_secret: GoogleclientSecret,
+  //         grant_type: 'refresh_token',
+  //       }
+  //     });
+  //     request.post({
+  //       url: 'https://www.googleapis.com/oauth2/v4/token',
+  //       form: {
+  //         refresh_token: req.user.googleRefreshToken,
+  //         client_id: GoogleclientId,
+  //         client_secret: GoogleclientSecret,
+  //         grant_type: 'refresh_token',
+  //       }
+  //     }, function (err, httpResponse, body) {
+  //       console.log(err);
+  //       console.log(body);
+  //       if (err) {
+  //         callback(err);
+  //       } else if (body) {
+
+  //         body = JSON.parse(body);
+  //         req.user.googleAccessToken = body.access_token;
+  //         User.updateAccessToken(req.user.id, body.access_token);
+  //         noTry = 1;
+  //         makeGmailCall();
+  //       } else {
+  //         callback(err);
+  //       }
+  //     });
+  //   }
+  //   makeGmailCall();
+  // },
   gmailCall: function (req, callback) {
+    var noTry = 0;
+    var labelIds = "";
+
+    function makeGmailCall() {
+      if (!req.body.other) {
+        req.body.other = "";
+      }
+      if (!req.body.labelIds) {
+        req.body.labelIds = "";
+      }
+
+      var callAPI = {
+        url: 'https://www.googleapis.com/gmail/v1/users/' + req.user.email + "/" + req.body.url + "?key=" + GoogleKey + req.body.other + req.body.labelIds,
+        method: req.body.method,
+        headers: {
+          "Authorization": "Bearer " + req.user.googleAccessToken
+        }
+      };
+      if (req.form) {
+        callAPI.multipart = [{
+          "content-type": "application/json",
+          body: JSON.stringify(req.form)
+        }];
+      }
+
+      console.log(callAPI);
+      request(callAPI, function (err, httpResponse, body) {
+        if (err) {
+          callback(err);
+        } else if (body) {
+          body = JSON.parse(body);
+          if (noTry === 0 && body.error) {
+            refreshToken();
+          } else {
+            callback(err, body);
+          }
+        } else {
+          callback(err, body);
+        }
+      });
+    }
+
+    function refreshToken() {
+      console.log({
+        url: 'https://www.googleapis.com/oauth2/v4/token',
+        form: {
+          refresh_token: req.user.googleRefreshToken,
+          client_id: GoogleclientId,
+          client_secret: GoogleclientSecret,
+          grant_type: 'refresh_token',
+        }
+      });
+      
+      request.post({
+        url: 'https://www.googleapis.com/oauth2/v4/token',
+        form: {
+          refresh_token: req.user.googleRefreshToken,
+          client_id: GoogleclientId,
+          client_secret: GoogleclientSecret,
+          grant_type: 'refresh_token',
+        }
+      }, function (err, httpResponse, body) {
+        console.log(err);
+        console.log(body);
+        if (err) {
+          callback(err);
+        } else if (body) {
+
+          body = JSON.parse(body);
+          req.user.googleAccessToken = body.access_token;
+          User.updateAccessToken(req.user.id, body.access_token);
+          noTry = 1;
+          makeGmailCall();
+        } else {
+          callback(err);
+        }
+      });
+    }
+    makeGmailCall();
+  },
+
+   gmailCallWithAttachment: function (req, callback) {
     var noTry = 0;
     var labelIds = "";
 
@@ -219,32 +418,22 @@ var model = {
       }
 
       var callAPI = {
-        url: 'https://www.googleapis.com/gmail/v1/users/' + req.user.email + "/" + req.body.url + "?key=" + GoogleKey + req.body.other + req.body.labelIds,
+        url: 'https://www.googleapis.com/upload/gmail/v1/users/' + req.user.email + "/" + req.body.url + "?key=" + GoogleKey + req.body.other + req.body.labelIds + "/uploadType=media",
         method: req.body.method,
         headers: {
           "Authorization": "Bearer " + req.user.googleAccessToken
         }
-      };
+      }
 
-      // // if (req.attachment) {
-      // var reqUrl = {
-      //   url: 'https://www.googleapis.com/upload/gmail/v1/users/' + req.user.email + "/" + req.body.url + "?key=" + GoogleKey + req.body.other + req.body.labelIds + "/uploadType=media",
-      //   method: req.body.method,
-      //   headers: {
-      //     "Authorization": "Bearer " + req.user.googleAccessToken
-      //   }
-      // }
+      console.log("callAPI : ", callAPI);
 
+      if (req.form) {
+        callAPI.multipart = [{
+          "content-type": "application/json",
+          body: JSON.stringify(req.form)
+        }];
+      }
 
-      // if (req.form) {
-      //   reqUrl.multipart = [{
-      //     "content-type": "application/json",
-      //     body: JSON.stringify(req.form)
-      //   }];
-      // }
-
-      // console.log("reqUrl : ", reqUrl); 
-      // console.log("callAPI : ", callAPI);
       request(callAPI, function (err, httpResponse, body) {
         if (err) {
           callback(err);
@@ -291,7 +480,7 @@ var model = {
           } else if (body) {
 
             body = JSON.parse(body);
-            console.log("body in refreshb token ====: ", body);
+            console.log("body in refresh token ====: ", body);
             req.user.googleAccessToken = body.access_token;
             User.updateAccessToken(req.user.id, body.access_token);
             noTry = 1;

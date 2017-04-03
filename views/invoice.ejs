@@ -34,28 +34,33 @@ function makeItCurrency (num) {
                 line-height: 1.5;
                 font-size: 0.6em;
             }
-            
+
             img.logo {
                 width: 150px;
                 float: right;
             }
-            
+
             .title-text {
                 font-weight: bold;
             }
-            
+
             table.table.table-bordered td p {
                 margin: 0px;
             }
-            
+
             table.table.table-bordered td,
             table.table.table-bordered th {
                 padding: 5px;
                 margin: 0px;
             }
-            
+
             table.table2 {
-                margin-top: -21px;
+                margin-top: -11px;
+            }
+
+            table.table3 {
+                margin: 0px;
+                padding: 0px;
             }
         </style>
     </head>
@@ -316,8 +321,10 @@ function makeItCurrency (num) {
                         </div>
                     </div>
                 </div>
-            </div>
+                <br/>
 
+
+            </div>
             <%if(data.assignment.department.name==="Marine Cargo"){%>
                 <div class="row">
                     <div class="col-xs-6">
@@ -339,45 +346,45 @@ function makeItCurrency (num) {
                         </div>
                     </div>
                 </div>
-                <%}%>
-                    <%if(data.assignment.department.name==="Marine Cargo"){%>
+                <div class="row">
+                    <div class="col-xs-6">
                         <div class="row">
+                            <div class="col-xs-6">Fee Narration</div>
                             <div class="col-xs-6">
-                                <div class="row">
-                                    <div class="col-xs-6">Fee Narration</div>
-                                    <div class="col-xs-6">
-                                        <%if(data.narrationFee===undefined){%>
-                                            -
-                                            <%}else{%>
-                                                <%=data.narrationFee%>
-                                                    <%}%>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-6">
-                                <div class="row">
-                                    <div class="col-xs-6"></div>
-                                    <div class="col-xs-6"></div>
-                                </div>
+                                <%if(data.narrationFee===undefined){%>
+                                    <td class="noborder">
+                                        -
+                                    </td>
+                                    <%}else{%>
+                                        <td class="noborder">
+                                            <%=data.narrationFee%>
+                                        </td>
+                                        <%}%>
                             </div>
                         </div>
-                        <%}%>
-                            <br/>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <table class="table table-bordered">
-                                        <tbody>
-                                            <tr>
-                                                <th style="width:30px" class="text-center">Sr #</th>
-                                                <th style="width: 305px;">Description</th>
-                                                <th>Quality</th>
-                                                <th>Unit</th>
-                                                <th>Rate</th>
-                                                <th style="width:50px;">Amount</th>
-                                            </tr>
+                    </div>
 
-                                            <tr>
-                                                          <% for(var i=0; i<data.invoiceList.length; i++) {%>
+                </div>
+                <%}%>
+        </div>
+
+
+        <br/>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-bordered table3">
+                    <tbody>
+                        <tr>
+                            <th style="width:30px" class="text-center">Sr #</th>
+                            <th style="width: 305px;">Description</th>
+                            <th>Quality</th>
+                            <th>Unit</th>
+                            <th>Rate</th>
+                            <th style="width:50px;">Amount</th>
+                        </tr>
+
+                        <tr>
+                            <% for(var i=0; i<data.invoiceList.length; i++) {%>
                                 <tr>
                                     <td class="text-center">
                                         <%=i+1%>
@@ -399,106 +406,96 @@ function makeItCurrency (num) {
                                     </td>
                                 </tr>
                                 <%}%>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-
-
-                            <!--Sub Table Invoice-->
-                            <div class="row">
-                                <div class="col-xs-6"></div>
-                                <div class="col-xs-6">
-                                    <table class="table table-bordered table2">
-                                        <tbody>
-                                            <tr>
-                                                <td colspan="5" class="table-data">
-                                                    <p class="title-text pull-right">Sub Total</p>
-                                                </td>
-                                                <td class="text-right" style="width:50px;">
-                                                    1476
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td colspan="5" class="table-data">
-                                                    <p class="title-text pull-right">Service Tax @ 14%</p>
-                                                </td>
-                                                <td class="text-right">
-                                                    206.64
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td colspan="5" class="table-data">
-                                                    <p class="title-text pull-right">Swachh Bharat Cess @ 0.5%</p>
-                                                </td>
-                                                <td class="text-right">
-                                                    7.38
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td colspan="5" class="table-data">
-                                                    <p class="title-text pull-right">Krishi Kalyan Cess @ 0.5%</p>
-                                                </td>
-                                                <td class="text-right">
-                                                    7.38
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td colspan="5" class="table-data">
-                                                    <p class="title-text pull-right">Rounding Off</p>
-                                                </td>
-                                                <td class="text-right">- 0.4
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="5" class="table-data">
-                                                    <p class="title-text pull-right">Grand Total</p>
-                                                </td>
-                                                <td class="text-right">
-                                                    1697
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-
-
-                            <!--Amount and Company Invoice-->
-                            <div class="row">
-                                <div class="col-xs-6">
-                                    <p><b>INR <span class="text-capitalize">one thousand six hundred and ninety seven only</span></b></p>
-                                </div>
-                                <div class="col-xs-6">
-                                    <p class="pull-right"><b>For, Absolute Insurance Surveyors & Loss Assessors Pvt Ltd</b></p>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-xs-6">
-                                    <p>E. and O.E.<br> Subjected to Ahmedabad Jurisdiction <br>Service Tax No: AAGCA3986LST001
-                                        <br>(Insurance Auxiliary Services)
-                                        <br> PAN No: AAGCA3986L.
-                                        <br>CIN: U93000GJ2007PTC051168169 Bank Name: HDFC Bank Ltd<br> Current A/C: 124
-                                        <br> IFSC Code: 12345
-                                        <br>
-                                    </p>
-                                </div>
-                                <div class="col-xs-6">
-                                    <p class="pull-right"><br> <br> <br> <br> <br> <br> <br> Authorized Signatory</p>
-
-                                </div>
-                            </div>
-
-
-
-
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
+        <div class="row">
+            <div class="col-xs-6"></div>
+            <div class="col-xs-6">
+                <table class="table table-bordered table2">
+                    <tbody>
+                        <tr>
+                            <td colspan="5" class="table-data">
+                                <p class="title-text pull-right">Sub Total</p>
+                            </td>
+                            <td class="text-right" style="width:50px;">
+                                <%=data.subTotal%>
+                            </td>
+                        </tr>
+                        <% for(var i=0; i<data.tax.length; i++) {%>
+                            <tr>
+                                <td colspan="5" class="table-data">
+                                    <p class="title-text pull-right">
+                                        <%=data.tax[i].name%> @
+                                            <%=data.tax[i].percent%>%</td>
+                                </p>
+                                </td>
+                                <td class="text-right">
+                                    <%=data.tax[i].amount%>
+                                </td>
+                            </tr>
+                            <%}%>
+
+
+                                <tr>
+                                    <td colspan="5" class="table-data">
+                                        <p class="title-text pull-right">Rounding Off </p>
+                                    </td>
+                                    <td class="text-right">
+                                        -
+                                        <%=data.roundOff%>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="5" class="table-data">
+                                        <p class="title-text pull-right">Grand Total</p>
+                                    </td>
+                                    <td class="text-right">
+                                        <%=data.grandTotal%>
+                                    </td>
+                                </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6">
+                <p><b>INR <span class="text-capitalize"><%=toWords(data.grandTotal)%></span></b></p>
+            </div>
+            <div class="col-xs-6">
+                <p class="pull-right"><b>For, Absolute Insurance Surveyors & Loss Assessors Pvt Ltd</b></p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-6">
+                <p>E. and O.E.<br> Subjected to Ahmedabad Jurisdiction <br>Service Tax No:
+                    <%=data.assignment.company.serviceTax%>
+                        <br>(Insurance Auxiliary Services)
+                        <br> PAN No:
+                        <%=data.assignment.company.pan%>.
+                            <br>CIN:
+                            <%=data.assignment.company.cin%> <br> Bank Name:
+                                <%=data.assignment.company.bank.name%><br> Current A/C:
+                                    <%=data.assignment.company.bank.accountNumber%>
+                                        <br> IFSC Code:
+                                        <%=data.assignment.company.bank.neftCode%>
+                                            <br>
+                </p>
+            </div>
+            <div class="col-xs-6">
+                <p class="pull-right"><br> <br> <br> <br> <br> <br> <br> Authorized Signatory</p>
+            </div>
+        </div>
+        </div>
+        <div id='pageFooter' style='border-top: 1px solid;padding-top: 5px;'>
+            <div class='bt-foot'>
+                <div style=float:left; '>Absolute Insurance Surveyors &amp; Loss Assessors Pvt Ltd</div>
+<div style='float:right; '>Page {{page}} of {{pages}}</div>
+<div style='text-align:center;text-align: center;position: absolute;margin: 0 auto;width: 100%; '>Assignment # <%= data.assignment.name %></div></div>
 
     </body>
 

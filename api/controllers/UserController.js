@@ -105,7 +105,7 @@ var controller = {
         console.log("mail", req.body);
         console.log("req.user", req.user);
         if (_.isEmpty(req.body.threadId)) {
-            req.body.threadId = ""
+            req.body.threadId = "";
         }
 
         var obj = {
@@ -155,7 +155,7 @@ var controller = {
         });
     },
 
-    sendEmailWithAttachment: function (req, res) {
+    sendEmails: function (req, res) {
 
         //Attachment files
         var files = req.files;
@@ -172,17 +172,20 @@ var controller = {
                     method: "POST"
                 };
 
+                
                 // console.log("callAPI : ", callAPI);
                 request(callAPI, function (err, httpResponse, body) {
+                    // var filesData = fs.createWriteStream(body);
+                    // console.log("files stream , ",filesData);
                     if (err) {
                         res.callback(err);
                     } else if (body) {
-                        var attachment = 
+                        var attachment =    
                             "\r\n" + 
                             "Content-Type: " + mime.lookup(values) + '; name="' + values + '"' +
                             'Content-Disposition: attachment; filename="' + values + '"' +
-                            "Content-Transfer-Encoding: base64" + "\r\n" +  
-                            base64url.encode(new Buffer(body)) + "";
+                            "Content-Transfer-Encodsing: base64" + "\r\n" +  
+                            base64url.encode((new Buffer(body).toString()) ) + "";
                             console.log("attachment : ", attachment);
                     } else {
                         res.callback("No Data found");
@@ -221,16 +224,17 @@ var controller = {
                 "Content-Transfer-Encoding: QUOTED-PRINTABLE\r\n" +
                 "Content-Disposition: inline\r\n\r\n" +
                 "" + req.body.message + "" + attachment;
-
                 console.log("rawData : ",rawData);
+
         var rawDataProcessed = btoa(rawData).replace(/\+/g, '-').replace(/\//g, '_');
         obj.form = {
             raw: rawDataProcessed,
             threadId: req.body.threadId
         };
+
         obj.attachment = true;
-        console.log("obj  = ", obj);
-        User.gmailCall(obj, function (err, threadData) {
+        // console.log("obj  = ", obj);
+        User.gmailCallWithAttachment(obj, function (err, threadData) {
             if (err) {
                 res.callback(err, null);
             } else {

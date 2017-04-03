@@ -1914,13 +1914,14 @@
                 if (data.data.insuredOfficer !== undefined) {
                     $scope.formData.insuredOfficer = data.data.insuredOfficer._id;
                 }
-
-                $scope.MRnumber = data.data.city.district.state.zone.country.countryCode;
-                $scope.formData.country = data.data.city.district.state.zone.country._id;
-                $scope.formData.zone = data.data.city.district.state.zone._id;
-                $scope.formData.state = data.data.city.district.state._id;
-                $scope.formData.district = data.data.city.district._id;
-                $scope.formData.city = data.data.city._id;
+                if (data.data.city) {
+                    $scope.MRnumber = data.data.city.district.state.zone.country.countryCode;
+                    $scope.formData.country = data.data.city.district.state.zone.country._id;
+                    $scope.formData.zone = data.data.city.district.state.zone._id;
+                    $scope.formData.state = data.data.city.district.state._id;
+                    $scope.formData.district = data.data.city.district._id;
+                    $scope.formData.city = data.data.city._id;
+                }
             });
 
             // cancel
@@ -2258,11 +2259,13 @@
             };
             NavigationService.getOneOffice($stateParams.id, function (data) {
                 $scope.formData = data.data;
-                $scope.formData.country = data.data.city.district.state.zone.country._id;
-                $scope.formData.zone = data.data.city.district.state.zone._id;
-                $scope.formData.state = data.data.city.district.state._id;
-                $scope.formData.district = data.data.city.district._id;
-                $scope.formData.city = data.data.city._id;
+                if (data.data.city) {
+                    $scope.formData.country = data.data.city.district.state.zone.country._id;
+                    $scope.formData.zone = data.data.city.district.state.zone._id;
+                    $scope.formData.state = data.data.city.district.state._id;
+                    $scope.formData.district = data.data.city.district._id;
+                    $scope.formData.city = data.data.city._id;
+                }
             });
 
             hotkeys.bindTo($scope).add({
@@ -5825,11 +5828,13 @@
                 $scope.formData = data.data;
                 // $scope.formData.country = data.data.
                 console.log($scope.formData);
-                $scope.formData.country = data.data.city.district.state.zone.country._id;
-                $scope.formData.zone = data.data.city.district.state.zone._id;
-                $scope.formData.state = data.data.city.district.state._id;
-                $scope.formData.district = data.data.city.district._id;
-                $scope.formData.city = data.data.city._id;
+                if (data.data.city) {
+                    $scope.formData.country = data.data.city.district.state.zone.country._id;
+                    $scope.formData.zone = data.data.city.district.state.zone._id;
+                    $scope.formData.state = data.data.city.district.state._id;
+                    $scope.formData.district = data.data.city.district._id;
+                    $scope.formData.city = data.data.city._id;
+                }
             });
 
 
@@ -12029,7 +12034,9 @@
                             emailData.ownerName = data.data.owner.name;
                             emailData.ownerEmail = data.data.owner.officeEmail;
                             emailData.ownerPhone = data.data.owner.officeMobile;
-                            emailData.siteCity = data.data.city.name;
+                            if (data.data.city) {
+                                emailData.siteCity = data.data.city.name;
+                            }
                             emailData.insuredName = (data.data.insured.name ? data.data.insured.name : "");
                             emailData.claimNo = (data.data.insurerClaimId ? data.data.insurerClaimId : "");
                             if (data.data.templateIla[0]) {
