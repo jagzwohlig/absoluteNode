@@ -229,7 +229,7 @@
              </select>        
         </div>
         <div class="clearfix"></div>
-        <div class="text-center mt20 odd-even-button">
+        <div class="text-center mt20 odd-even-button" ng-if="!disableSave">
             <button class="btn btn-primary" ng-click="saveModel(formData)" ng-if="showForm && !approval" ng-disabled="formName.$invalid">Save</button>
             <button class="btn btn-primary" ng-click="saveModel(formData)" ng-if="showForm && approval" ng-disabled="formName.$invalid">Accept</button>
             <button class="btn btn-warning" ng-click="comment()" ng-if="showForm && approval" ng-disabled="formName.$invalid">Revise</button>

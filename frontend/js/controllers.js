@@ -10568,6 +10568,7 @@
                 _.each($scope.formData.invoiceList)
             });
             $scope.approval = false;
+            $scope.disableSave = false;
             if ($stateParams.approval) {
                 $scope.approval = true;
             }
@@ -10698,6 +10699,7 @@
                 $scope.formData.roundOff = round.toFixed(2);
             }
             $scope.saveModel = function (data) {
+                $scope.disableSave = true;
                 if ($scope.approval) {
                     $scope.assignment.timelineStatus = "BBND";
                     $scope.formData.approvalStatus = "Approved";
@@ -10720,10 +10722,12 @@
                                 $window.history.back();
                                 toastr.success("Invoice Template " + formData.name + " created successfully.", "Invoice Template Created");
                             } else {
+                                $scope.disableSave = false;
                                 toastr.error("Invoice Template creation failed.", "Invoice Template creation error");
                             }
                         });
                     } else {
+                        $scope.disableSave = false;
                         toastr.error("Invoice Template creation failed.", "Invoice Template creation error");
                     }
                 });
