@@ -362,7 +362,7 @@ var model = {
                                                 name: assignmentData.owner.name,
                                                 email: assignmentData.owner.email
                                             });
-
+                                            emailData.cc=[];
                                             if (assignmentData.shareWith) {
                                                 _.each(assignmentData.shareWith, function (values) {
                                                     console.log("values", values);
@@ -371,7 +371,7 @@ var model = {
                                                         emailData.cc.push({
                                                             name: personss.name,
                                                             email: personss.officeEmail
-                                                        })
+                                                        });
                                                     });
                                                 });
                                             }
