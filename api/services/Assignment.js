@@ -2635,10 +2635,6 @@ var model = {
   generateAssignmentExcel: function (data, callback, res, user) {
     var coreArr = this.completeGetAssignmentExcelAggregate(data, user);
     var paginationArr = [{
-      $skip: parseInt((data.pagenumber - 1) * data.pagelimit)
-    }, {
-      $limit: data.pagelimit
-    }, {
       $group: {
         _id: "$_id",
         natureOfLoss: {
