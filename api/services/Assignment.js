@@ -918,11 +918,13 @@ var model = {
                           console.log("survey: ", values);
                           if (values.status == "Approval Pending") {
                             console.log("In surveyor");
-                            console.log(" values.employee.mobile", values.employee.officeMobile);
-                            emailData.surveyorNumber = values.employee.officeMobile;
-                            emailData.surveyorName = values.employee.name;
-                            emailData.surveyorEmail = values.employee.officeEmail;
-                            emailData.surveyDate = (values.surveyDate ? moment(values.surveyDate).format("DD/MM/YYYY") : "");
+                            if (values.employee) {
+                              emailData.surveyorNumber = values.employee.officeMobile;
+                              emailData.surveyorName = values.employee.name;
+                              emailData.surveyorEmail = values.employee.officeEmail;
+                              emailData.surveyDate = (values.surveyDate ? moment(values.surveyDate).format("DD/MM/YYYY") : "");
+                            }
+
                           }
                         });
                       }
@@ -935,12 +937,13 @@ var model = {
                         email: assignmentData.owner.officeEmail
                       });
 
+                      emailData.cc = [];
                       if (assignmentData.shareWith) {
                         _.each(assignmentData.shareWith, function (values) {
                           console.log("values", values);
                           _.each(values.persons, function (personss) {
                             console.log("persons", personss);
-                            emailData.to.push({
+                            emailData.cc.push({
                               name: personss.name,
                               email: personss.officeEmail
                             })
@@ -1465,10 +1468,12 @@ var model = {
                   if (values.status == "Pending") {
                     // console.log("In surveyor");
                     // console.log(" values.employee.mobile", values.employee.mobile);
-                    emailData.surveyorNumber = values.employee.officeMobile;
-                    emailData.surveyorName = values.employee.name;
-                    emailData.surveyorEmail = values.employee.officeEmail;
-                    emailData.surveyDate = (values.surveyDate ? moment(values.surveyDate).format("DD/MM/YYYY") : "");
+                    if (values.employee) {
+                      emailData.surveyorNumber = values.employee.officeMobile;
+                      emailData.surveyorName = values.employee.name;
+                      emailData.surveyorEmail = values.employee.officeEmail;
+                      emailData.surveyDate = (values.surveyDate ? moment(values.surveyDate).format("DD/MM/YYYY") : "");
+                    }
                   }
                 });
               }
@@ -1483,6 +1488,18 @@ var model = {
               console.log("emaildata.to ", emailData.to);
 
               emailData.cc = [];
+              if (assignmentData.shareWith) {
+                _.each(assignmentData.shareWith, function (values) {
+                  console.log("values", values);
+                  _.each(values.persons, function (personss) {
+                    console.log("persons", personss);
+                    emailData.cc.push({
+                      name: personss.name,
+                      email: personss.officeEmail
+                    })
+                  });
+                });
+              }
 
               if (body.users) {
                 emailData.assignmentAuthorizer = body.users.name;
@@ -1549,9 +1566,9 @@ var model = {
       } else {
         $scope.data = data2;
         var filter = {
-          _id: data2.assignment.policyDoc
-        }
-        // For policyNumber
+            _id: data2.assignment.policyDoc
+          }
+          // For policyNumber
         PolicyDoc.getPolicyDoc({
           filter
         }, function (err, data4) {
@@ -1693,11 +1710,12 @@ var model = {
                       // console.log("survey: ", values);
                       if (values.status == "Approval Pending") {
                         // console.log("In surveyor");
-                        // console.log(" values.employee.mobile", values.employee.mobile);
-                        emailData.surveyorNumber = values.employee.officeMobile;
-                        emailData.surveyorName = values.employee.name;
-                        emailData.surveyorEmail = values.employee.officeEmail;
-                        emailData.surveyDate = (values.surveyDate ? moment(values.surveyDate).format("DD/MM/YYYY") : "");
+                        if (values.employee) {
+                          emailData.surveyorNumber = values.employee.officeMobile;
+                          emailData.surveyorName = values.employee.name;
+                          emailData.surveyorEmail = values.employee.officeEmail;
+                          emailData.surveyDate = (values.surveyDate ? moment(values.surveyDate).format("DD/MM/YYYY") : "");
+                        }
                       }
                     });
                   }
@@ -1747,56 +1765,16 @@ var model = {
   },
 
   getEmailsData: function (data, callback) {
-    // console.log("getEmailsData ==== ", data);
     Assignment.getMailData(data, function (err, emailData) {
-      // console.log("emailData ==== ", emailData);
       if (err) {
-        // console.log("err", err);
+        console.log("err", err);
+        callback(null, err);
       } else {
         if (_.isEmpty(emailData)) {
           callback("No mail data found", null);
         } else {
-          //Find create assignment mail
-          // Assignment.getAssignmentCreateMail({
-          //   _id: data[2]
-          // }, function (err, firstMailData) {
-          //   // console.log("firstMailData", firstMailData);
-          //   if (err) {
-          //     callback(err, null);
-          //     // console.log("err", err);
-          //   } else {
-          //     if (_.isEmpty(firstMailData)) {
-          //       // console.log("No first create assignment mail data found", null);
-          //       callback("No first create assignment mail data found", null);
-          //     } else {
-          //       emailData.message = emailData.message + firstMailData;
-          // console.log("emailData.message", emailDasta.message);
           emailData.accessToken = data[3];
           callback(null, emailData);
-
-          //Update thread id
-          // Assignment.updateThreadId({
-          //   _id: data[2]._id,
-          //   threadId: mailData.threadId
-          // }, function (err, threadData) {
-          //   console.log("threadData", threadData);
-          //   if (err) {
-          //     callback(err, null);
-          //     console.log("err", err);
-          //   } else {
-          //     if (_.isEmpty(threadData)) {
-          //       console.log("There was an updating data in survey thread", null);
-          //       callback(err, null);
-          //     } else {
-          //       callback(null, threadData);
-          //     }
-          //   }
-          // });
-
-          //     }
-          //   }
-          // });
-
         }
       }
     });
@@ -3510,11 +3488,13 @@ var model = {
                   // console.log("survey: ", values);
                   if (values.status == "Pending") {
                     // console.log("In surveyor");
-                    // console.log(" values.employee.mobile", values.employee.mobile);
-                    emailData.surveyorNumber = values.employee.officeMobile;
-                    emailData.surveyorName = values.employee.name;
-                    emailData.surveyorEmail = values.employee.officeEmail;
-                    emailData.surveyDate = (values.surveyDate ? moment(values.surveyDate).format("DD/MM/YYYY") : "");
+                    if (values.employee) {
+                      emailData.surveyorNumber = values.employee.officeMobile;
+                      emailData.surveyorName = values.employee.name;
+                      emailData.surveyorEmail = values.employee.officeEmail;
+                      emailData.surveyDate = (values.surveyDate ? moment(values.surveyDate).format("DD/MM/YYYY") : "");
+                    }
+
                   }
                 });
               }
@@ -3529,9 +3509,7 @@ var model = {
               emailData.cc = [];
               if (assignmentData.shareWith) {
                 _.each(assignmentData.shareWith, function (values) {
-                  // console.log("values", values);
                   _.each(values.persons, function (personss) {
-                    // console.log("persons", personss);
                     emailData.cc.push({
                       name: personss.name,
                       email: personss.officeEmail
@@ -3679,13 +3657,11 @@ var model = {
                 callback(err, null);
               } else {
                 emailData.user = userdata;
-                // callback(null, emailData);
+                
                 //Send email
-
                 if (data[4]) {
                   emailData.threadId = data[4];
                 }
-
                 Assignment.sendEmails(emailData, function (err, mailData) {
                   console.log("mailData", mailData);
                   if (err) {

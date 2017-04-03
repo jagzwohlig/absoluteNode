@@ -317,8 +317,8 @@ var model = {
                                             emailData.ownerName = assignmentData.owner.name;
                                             emailData.ownerEmail = assignmentData.owner.officeEmail;
                                             emailData.ownerPhone = assignmentData.owner.officeMobile;
-                                            if(assignmentData.city!==undefined){
-                                            emailData.siteCity = assignmentData.city.name;
+                                            if (assignmentData.city !== undefined) {
+                                                emailData.siteCity = assignmentData.city.name;
                                             }
                                             emailData.invoiceNumber = data.invoiceNumber;
                                             if (assignmentData.insured) {
@@ -346,11 +346,12 @@ var model = {
                                                     console.log("survey: ", values);
                                                     if (values.status == "Pending") {
                                                         console.log("In surveyor");
-                                                        console.log(" values.employee.mobile", values.employee.officeMobile);
-                                                        emailData.surveyorNumber = values.employee.officeMobile;
-                                                        emailData.surveyorName = values.employee.name;
-                                                        emailData.surveyorEmail = values.employee.officeEmail;
-                                                        emailData.surveyDate = values.surveyDate;
+                                                        if (values.employee) {
+                                                            emailData.surveyorNumber = values.employee.officeMobile;
+                                                            emailData.surveyorName = values.employee.name;
+                                                            emailData.surveyorEmail = values.employee.officeEmail;
+                                                            emailData.surveyDate = values.surveyDate;
+                                                        }
                                                     }
                                                 });
                                             }
@@ -362,7 +363,7 @@ var model = {
                                                 name: assignmentData.owner.name,
                                                 email: assignmentData.owner.email
                                             });
-                                            emailData.cc=[];
+                                            emailData.cc = [];
                                             if (assignmentData.shareWith) {
                                                 _.each(assignmentData.shareWith, function (values) {
                                                     console.log("values", values);
