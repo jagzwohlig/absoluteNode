@@ -105,7 +105,7 @@ var controller = {
         console.log("mail", req.body);
         console.log("req.user", req.user);
         if (_.isEmpty(req.body.threadId)) {
-            req.body.threadId = ""
+            req.body.threadId = "";
         }
 
         var obj = {

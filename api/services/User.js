@@ -242,6 +242,86 @@ var model = {
     });
   },
 
+  // gmailCall: function (req, callback) {
+  //   var noTry = 0;
+  //   var labelIds = "";
+
+  //   function makeGmailCall() {
+  //     if (!req.body.other) {
+  //       req.body.other = "";
+  //     }
+  //     if (!req.body.labelIds) {
+  //       req.body.labelIds = "";
+  //     }
+
+  //     var callAPI = {
+  //       url: 'https://www.googleapis.com/gmail/v1/users/' + req.user.email + "/" + req.body.url + "?key=" + GoogleKey + req.body.other + req.body.labelIds,
+  //       method: req.body.method,
+  //       headers: {
+  //         "Authorization": "Bearer " + req.user.googleAccessToken
+  //       }
+  //     };
+  //     if (req.form) {
+  //       callAPI.multipart = [{
+  //         "content-type": "application/json",
+  //         body: JSON.stringify(req.form)
+  //       }];
+  //     }
+
+  //     console.log(callAPI);
+  //     request(callAPI, function (err, httpResponse, body) {
+  //       if (err) {
+  //         callback(err);
+  //       } else if (body) {
+  //         body = JSON.parse(body);
+  //         if (noTry === 0 && body.error) {
+  //           refreshToken();
+  //         } else {
+  //           callback(err, body);
+  //         }
+  //       } else {
+  //         callback(err, body);
+  //       }
+  //     });
+  //   }
+
+  //   function refreshToken() {
+  //     console.log({
+  //       url: 'https://www.googleapis.com/oauth2/v4/token',
+  //       form: {
+  //         refresh_token: req.user.googleRefreshToken,
+  //         client_id: GoogleclientId,
+  //         client_secret: GoogleclientSecret,
+  //         grant_type: 'refresh_token',
+  //       }
+  //     });
+  //     request.post({
+  //       url: 'https://www.googleapis.com/oauth2/v4/token',
+  //       form: {
+  //         refresh_token: req.user.googleRefreshToken,
+  //         client_id: GoogleclientId,
+  //         client_secret: GoogleclientSecret,
+  //         grant_type: 'refresh_token',
+  //       }
+  //     }, function (err, httpResponse, body) {
+  //       console.log(err);
+  //       console.log(body);
+  //       if (err) {
+  //         callback(err);
+  //       } else if (body) {
+
+  //         body = JSON.parse(body);
+  //         req.user.googleAccessToken = body.access_token;
+  //         User.updateAccessToken(req.user.id, body.access_token);
+  //         noTry = 1;
+  //         makeGmailCall();
+  //       } else {
+  //         callback(err);
+  //       }
+  //     });
+  //   }
+  //   makeGmailCall();
+  // },
   gmailCall: function (req, callback) {
     var noTry = 0;
     var labelIds = "";
@@ -295,6 +375,7 @@ var model = {
           grant_type: 'refresh_token',
         }
       });
+      
       request.post({
         url: 'https://www.googleapis.com/oauth2/v4/token',
         form: {

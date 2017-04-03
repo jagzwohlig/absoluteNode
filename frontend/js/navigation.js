@@ -2751,10 +2751,12 @@ var navigationservice = angular.module('navigationservice', [])
             },
 
             saveJsonStore: function (data, callback) {
+                formData={};
                 formData.json = data;
                 formData.accessToken = $.jStorage.get("accessToken");
                 $http.post(adminurl + 'jsonStore/save', formData).success(function (response) {
                     if (response && response.data && response.data._id) {
+                        console.log("response",response.data._id);
                         callback(response.data._id);
                     }
                 });
