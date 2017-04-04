@@ -390,6 +390,40 @@ var controller = {
                 res.callback(null, resValue);
             }
         });
+    },
+
+    sendEmailTo: function (req, res) {
+
+        
+        var mailData = {};
+        mailData.email=[];
+        mailData.from={};
+        mailData.cc=[];
+        mailData.email = [{
+            email: "priyank.parmar@wohlig.com",
+            name: "Priyank Parmar"
+        }]
+        // mailData.cc = [{
+        //    email: "priyank.parmar@wohlig.com",
+        //     name: "Priyank Parmar"
+        // }]
+        mailData.from = {
+            name: "Priyank Parmar",
+            email: "priyank.parmar@wohlig.com"
+        };
+        //   mailData.filename = "sellerinspectionassign.ejs";
+        mailData.subject = "Absolute surveyors";
+
+        //Email to 
+        Config.emailTo(mailData, function (err, emailRespo) {
+            if (err) {
+                console.log(err);
+                res.callback(null, err);
+            } else {
+                res.callback(null, emailRespo);
+                //  callback(null, doc);
+            }
+        });
     }
 };
 module.exports = _.assign(module.exports, controller);

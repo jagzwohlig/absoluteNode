@@ -495,7 +495,49 @@ var models = {
             }
 
         });
-    }
+    },
+
+    emailTo: function (data, callback) {
+        var sg = require('sendgrid')("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");
+
+        if (_.isEmpty(data.cc)) {
+            var personalizations = [{
+                to: data.email,
+                subject: data.subject
+            }]
+        } else {
+            var personalizations = [{
+                to: data.email,
+                cc: data.cc,
+                subject: data.subject
+            }]
+        }
+        var request = sg.emptyRequest({
+            method: 'POST',
+            path: '/v3/mail/send',
+            body: {
+                personalizations: personalizations,
+                from: data.from,
+                content: [{
+                    type: 'text/html',
+                    value: "<h1>Absolute Surveyors</h1>",
+                }]
+                // attachments: attachments
+            },
+        });
+
+        sg.API(request, function (error, response) {
+            if (error) {
+                callback(null, error);
+                console.log('Error response received');
+            } else {
+                // console.log(response.statusCode)
+                // console.log(response.body)
+                // console.log(response.headers)
+                callback(null, response);
+            }
+        });
+    },
 
 };
 module.exports = _.assign(module.exports, models);
