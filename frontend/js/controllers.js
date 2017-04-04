@@ -325,7 +325,7 @@
                 });
             };
             $scope.generateSalesRegisterExcel = function () {
-                window.open('http://wohlig.io/api/Invoice/generateSalesRegisterExcel', '_blank');
+                window.open(adminurl + 'Invoice/generateSalesRegisterExcel', '_blank');
                 window.close();
             };
 

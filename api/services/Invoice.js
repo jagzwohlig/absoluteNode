@@ -515,5 +515,83 @@ var model = {
             }
         });
     },
+    generateSalesRegisterExcel: function (data, res) {
+        Invoice.find({
+                approvalStatus: "Approved"
+            })
+            .sort({
+                createdAt: -1
+            })
+            .deepPopulate("assignment assignment.branch billedTo assignment.insured")
+            .exec(
+                function (err, data1) {
+                    if (err) {
+                        console.log(err);
+                        res(err, null);
+                    } else if (data1) {
+                        if (_.isEmpty(data1)) {
+                            res("No Payment found.", null);
+                        } else {
+                            var fee = 0;
+                            var expense = 0;
+                            // console.log("Done", data1[37]);
+                            var excelData = [];
+                            // console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA.", data1[0].assignment);
+                            _.each(data1, function (n, key) {
+                                var fee = 0;
+                                var expense = 0;
+                                var obj = {};
+                                obj["SR #"] = key + 1;
+                                if (n.assignment !== null) {
+                                    if (n.assignment.branch === null) {} else {
+                                        obj["Branch"] = n.assignment.branch.name;
+                                    }
+                                }
+                                obj["Invoice Number"] = n.invoiceNumber;
+                                obj["Invoice Date"] = moment(n.approvalTime).format("DD-MM-YYYY");
+                                if (n.billedTo === null) {} else {
+                                    obj["Billed To"] = n.billedTo.name;
+                                }
+                                if (n.assignment !== null) {
+                                    obj["Insurer Claim No"] = n.assignment.insurerClaimId;
+                                }
+                                if (n.assignment !== null) {
+                                    if (n.assignment.insured === null) {} else {
+                                        obj["Insurer Claim #"] = n.assignment.insured.name;
+                                    }
+                                }
+                                _.each(n.invoiceList, function (m) {
+                                    if (m.type) {
+                                        fee = fee + m.amount;
+                                    } else {
+                                        expense = expense + m.amount;
+                                    }
+                                });
+                                obj["Fee"] = fee;
+                                obj["expense"] = expense;
+                                obj["Total"] = fee + expense;
+                                _.each(n.tax, function (m) {
+                                    if (m.name == "Service Tax") {
+                                        obj["Service Tax"] = m.amount;
+                                    }
+                                    if (m.name == "Swachh Bharat Cess" || m.name == "SBC") {
+                                        obj["SBC"] = m.amount;
+                                    }
+                                    if (m.name == "Krishi Kalyan Cess") {
+                                        obj["KKC"] = m.amount;
+                                    }
+                                });
+                                obj["RoundOff"] = n.roundOff;
+                                obj["SubTotal"] = n.subTotal;
+                                obj["GrandTotal"] = n.grandTotal;
+                                excelData.push(obj);
+                            });
+                            Config.generateExcel("Assignment", excelData, res);
+                        }
+                    } else {
+                        res("Invalid data", null);
+                    }
+                });
+    }
 };
 module.exports = _.assign(module.exports, exports, model);
