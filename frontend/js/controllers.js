@@ -710,11 +710,11 @@
                     $scope.departmentData = data.data.results;
                 });
             };
-            var formData2 = {};
-            formData2.filter = {
+            var formData5 = {};
+            formData5.filter = {
                 "name": "Back Office"
             };
-            NavigationService.searchModel("Func", formData2, 1, function (data) {
+            NavigationService.searchModel("Func", formData5, 1, function (data) {
                 $scope.backEnd = data.data.results[0]._id;
                 $scope.getBackendEmployeeOnly();
             });
@@ -3085,9 +3085,9 @@
             // 
 
             $scope.viewJIR = function (data) {
-                $scope.name = data
+                $scope.name = data;
                 NavigationService.searchAllDocument(data, function (data) {
-                    $scope.modelList = data.data
+                    $scope.modelList = data.data;
                     console.log("DATA IN ALL", $scope.modelList);
                 });
             }
