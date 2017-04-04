@@ -33,7 +33,7 @@ function makeItCurrency (num) {
         <style>
             body {
                 line-height: 1.5;
-                font-size: 0.6em;
+                font-size: 0.7em;
             }
 
             img.logo {
@@ -43,6 +43,10 @@ function makeItCurrency (num) {
 
             .title-text {
                 font-weight: bold;
+            }
+
+            .move {
+                margin-left: -15px;
             }
 
             table.table.table-bordered td p {
@@ -70,7 +74,7 @@ function makeItCurrency (num) {
         <div class="container-fluid">
             <!--Header with logo-->
             <div class="row">
-                <div class="col-xs-6">
+                <div class="col-xs-6 move">
                     <p>
                         <%=data.assignment.company.address%>,<br/>
                             <%=data.assignment.company.city.name%>,
@@ -92,18 +96,26 @@ function makeItCurrency (num) {
             </div>
             <!--Client Details-->
             <div class="row">
-                <div class="col-xs-6">
+                <div class="col-xs-6 move">
                     <p>
-                        <b><%=data.billedTo.name%></b> <br/>
-                        <%=data.billedTo.customerCompany.name%>,<br>
-                            <%if(data.billedTo.address!=undefined){%>
-                                <%=data.billedTo.address%><br>
+                        <%if(data.billedTo.name!==undefined){%>
+                            <b><%=data.billedTo.name%></b> <br/>
+                            <%if(data.billedTo.customerCompany.name!==undefined){%>
+                                <%=data.billedTo.customerCompany.name%>,<br>
                                     <%}%>
-                                        <%=data.billedTo.city.name%>,
-                                            <%=data.billedTo.city.district.name%>,<br>
-                                                <%=data.billedTo.pincode%>,<br>
-                                                    <%=data.billedTo.city.district.state.name%>,<br>
-                                                        <%=data.billedTo.city.district.state.zone.country.name%>
+                                        <%if(data.billedTo.city.name!=undefined){%>
+                                            <%=data.billedTo.city.name%><br>
+                                                <%}%>
+                                                    <%if(data.billedTo.pincode!=undefined){%>
+                                                        <%=data.billedTo.pincode%>
+                                                            <%if(data.billedTo.city.district.state.name!=undefined){%>
+                                                                <%=data.billedTo.city.district.state.name%>
+                                                                    <%}%>
+                                                                        <%}%>
+                                                                            <%if(data.billedTo.city.district.state.zone.country.name!=undefined){%>
+                                                                                <%=data.billedTo.city.district.state.zone.country.name%><br>
+                                                                                    <%}%>
+                                                                                        <%}%>
                     </p>
                 </div>
                 <div class="col-xs-6">
@@ -125,7 +137,7 @@ function makeItCurrency (num) {
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-6">
+                <div class="col-xs-6 move">
                     <div class="row">
                         <div class="col-xs-4"><em>Appointed By</em></div>
                         <div class="col-xs-8">
@@ -143,7 +155,7 @@ function makeItCurrency (num) {
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-6">
+                <div class="col-xs-6 move">
                     <div class="row">
                         <div class="col-xs-4"><em>Insurer</em></div>
                         <div class="col-xs-8">
@@ -165,7 +177,7 @@ function makeItCurrency (num) {
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-6">
+                <div class="col-xs-6 move">
                     <div class="row">
                         <div class="col-xs-4"><em>Insured</em></div>
                         <div class="col-xs-8">
@@ -191,7 +203,7 @@ function makeItCurrency (num) {
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-6">
+                <div class="col-xs-6 move">
                     <div class="row">
                         <div class="col-xs-4"><em>Policy Type</em></div>
                         <div class="col-xs-8">
@@ -215,7 +227,7 @@ function makeItCurrency (num) {
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-6">
+                <div class="col-xs-6 move">
                     <div class="row">
                         <div class="col-xs-4"><em>Policy Number</em></div>
                         <div class="col-xs-8">
@@ -242,7 +254,7 @@ function makeItCurrency (num) {
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-6">
+                <div class="col-xs-6 move">
                     <div class="row">
                         <div class="col-xs-4"><em>Insurer Claim No</em></div>
                         <div class="col-xs-8">
@@ -285,7 +297,7 @@ function makeItCurrency (num) {
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-6">
+                <div class="col-xs-6 move">
                     <div class="row">
                         <div class="col-xs-4"><em>Insured Claim No</em></div>
                         <div class="col-xs-8">
@@ -332,7 +344,7 @@ function makeItCurrency (num) {
             </div>
             <%if(data.assignment.department.name==="Marine Cargo"){%>
                 <div class="row">
-                    <div class="col-xs-6">
+                    <div class="col-xs-6 move">
                         <div class="row">
                             <div class="col-xs-4"></div>
                             <div class="col-xs-8"></div>
@@ -352,7 +364,7 @@ function makeItCurrency (num) {
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-6">
+                    <div class="col-xs-6 move">
                         <div class="row">
                             <div class="col-xs-4"><em>Fee Narration</em></div>
                             <div class="col-xs-8">

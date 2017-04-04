@@ -726,7 +726,7 @@
                 }
                 formdata.filter = {
                     func: $scope.backEnd,
-                    isSurveyor:true
+                    isSurveyor: true
                 };
                 NavigationService.getBackendEmployeeOnly(formdata, 1, function (data) {
                     console.log("Backend", data);
@@ -1553,7 +1553,7 @@
                     delete $scope.formData.dateOfLoss;
                     delete $scope.formData.timelineStatus;
                     delete $scope.formData.prevtimelineStatus;
-                    delete $scope.formData.salvage;                    
+                    delete $scope.formData.salvage;
                     $scope.formData.products = [];
                     $scope.formData.invoices = [];
                     $scope.formData.LRs = [];
@@ -10448,11 +10448,62 @@
                 });
             };
 
+            // NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
+            //     $scope.message.employee = data.data._id;
+            //     console.log("In Employee", $scope.message.employee);
+            // });
             NavigationService.getLoginEmployee($.jStorage.get("profile").email, function (data) {
                 $scope.message.employee = data.data._id;
-                console.log("In Employee", $scope.message.employee);
+                $scope.message.employeeData = data.data;
+                $scope.employee = [];
+                $scope.employee.push({
+                    name: $scope.message.employeeData.employee.name,
+                    email: $scope.message.employeeData.employee.officeEmail
+                });
+                $scope.getParentEmployee();
+                console.log("In Message Employee", $scope.message.employee);
             });
 
+            $scope.getParentEmployee = function () {
+                // console.log("Approval", obj);
+                // NavigationService.getEmployeeData("582bfc534954ce2de1bfd180", function (data) {
+                NavigationService.getEmployeeData($scope.message.employee, function (data) {
+                    console.log("getparent data", data);
+                    // $scope.employee = [];
+                    if (data.value) {
+                        $scope.employee = data.data;
+                        if ($scope.message.employeeData.employee) {
+                            $scope.employee.unshift({
+                                name: $scope.message.employeeData.employee.name,
+                                email: $scope.message.employeeData.employee.officeEmail
+                            });
+                            _.map($scope.employee, function (values) {
+                                values.email.toString();
+                                values.name.toString();
+                            });
+                            $scope.employee.push({
+                                name: $scope.message.employeeData.name,
+                                email: $scope.message.employeeData.officeEmail
+                            });
+                            $scope.employee = _.uniqBy($scope.employee, "email");
+                        }
+                    } else {
+                        $scope.employee = [];
+                        if ($scope.message.employeeData.employee) {
+                            $scope.employee.push({
+                                name: $scope.message.employeeData.employee.name,
+                                email: $scope.message.employeeData.employee.officeEmail
+                            });
+                            $scope.employee.push({
+                                name: $scope.message.employeeData.name,
+                                email: $scope.message.employeeData.officeEmail
+                            });
+                        }
+
+                    }
+                    console.log("$scope.forms.employee", $scope.employee);
+                });
+            };
             NavigationService.getTimeline($stateParams.assignmentId, function (data) {
                 $scope.timeline = data.data;
                 console.log("In Employee", $scope.timeline);
@@ -10883,6 +10934,10 @@
                                 values.email.toString();
                                 values.name.toString();
                             });
+                            $scope.employee.push({
+                                name: $scope.message.employeeData.name,
+                                email: $scope.message.employeeData.officeEmail
+                            });
                             $scope.employee = _.uniqBy($scope.employee, "email");
                         }
                     } else {
@@ -10891,6 +10946,10 @@
                             $scope.employee.push({
                                 name: $scope.message.employee.employee.name,
                                 email: $scope.message.employee.employee.officeEmail
+                            });
+                            $scope.employee.push({
+                                name: $scope.message.employeeData.name,
+                                email: $scope.message.employeeData.officeEmail
                             });
                         }
 

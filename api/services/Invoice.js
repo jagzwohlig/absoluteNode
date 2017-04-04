@@ -361,7 +361,7 @@ var model = {
                                             emailData.to = [];
                                             emailData.to.push({
                                                 name: assignmentData.owner.name,
-                                                email: assignmentData.owner.email
+                                                email: assignmentData.owner.officeEmail
                                             });
                                             emailData.cc = [];
                                             if (assignmentData.shareWith) {

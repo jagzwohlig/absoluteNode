@@ -20,9 +20,9 @@
                         <!--<button class="btn btn-primary" ng-click="assignmentSurvey()">Offline Survey</button>-->
                         <!--</div>-->
                         <div class="compny">
-                            <h6><span class="dif">{{assignment.city.name}}, {{assignment.city.district.state.name}} - {{assignment.pincode}}</span></h6>
-                            <h3><strong>{{assignment.name}}</strong></h3>
-                            <h6 ng-if="assignment.causeOfLoss">{{assignment.causeOfLoss.name}} - <span ng-repeat="nl in assignment.natureOfLoss">{{nl.name}}<span ng-if="$index < assignment.natureOfLoss.length - 1">, </span></span>
+                            <h6><span class="dif" style="color:black !important;">{{assignment.city.name}}, {{assignment.city.district.state.name}} - {{assignment.pincode}}</span></h6>
+                            <h3><strong style="color:black !important;">{{assignment.name}}</strong></h3>
+                            <h6 ng-if="assignment.causeOfLoss" style="color:black !important;">{{assignment.causeOfLoss.name}} - <span ng-repeat="nl in assignment.natureOfLoss" style="color:black !important;">{{nl.name}}<span ng-if="$index < assignment.natureOfLoss.length - 1">, </span></span>
                             </h6>
                         </div>
                     </div>
@@ -62,8 +62,8 @@
                         </div>
                         <div class="pull-right">
                             <div class="compny text-right">
-                                <h3>{{assignment.owner.name}}</h3>
-                                <p>{{assignment.owner.func.name}}</p>
+                                <h3 style="color:black !important;">{{assignment.owner.name}}</h3>
+                                <p style="color:black !important;">{{assignment.owner.func.name}}</p>
                                 <!--<div class="pointer" uib-dropdown>
                                     <span class="greenbg" uib-dropdown-toggle>Invoicing</span>
                                     <ul class="dropdown-menu info-dropdown" uib-dropdown-menu role="menu">
@@ -71,7 +71,7 @@
                                         <li role="menuitem"><a href="">Invoicing</a></li>
                                     </ul>
                                 </div>-->
-                                <span>{{assignment.timelineStatus}}</span>
+                                <span style="color:black !important;">{{assignment.timelineStatus}}</span>
                             </div>
                         </div>
                     </div>
