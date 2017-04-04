@@ -574,7 +574,7 @@ var model = {
                                     if (m.name == "Service Tax") {
                                         obj["Service Tax"] = m.amount;
                                     }
-                                    if (m.name == "Swachh Bharat Cess") {
+                                    if (m.name == "Swachh Bharat Cess" || m.name=="SBC") {
                                         obj["SBC"] = m.amount;
                                     }
                                     if (m.name == "Krishi Kalyan Cess") {
