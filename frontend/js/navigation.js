@@ -727,6 +727,11 @@ var navigationservice = angular.module('navigationservice', [])
                 if (data.policyDoc === "") {
                     delete data.policyDoc;
                 }
+                 var email = {
+                    email: $.jStorage.get("profile").email,
+                    name: $.jStorage.get("profile").name
+                };
+                data.users = email;
                 data.accessToken = $.jStorage.get("accessToken");
                 $http.post(adminurl + 'Assignment/save', data).success(callback);
             },

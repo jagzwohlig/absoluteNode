@@ -4489,6 +4489,14 @@ var model = {
       return n.email;
     }), ",");
 
+    req.cc = _.join(_.map(req.to, function (n) {
+      return n.email;
+    }), ",");
+
+    req.bcc = _.join(_.map(req.to, function (n) {
+      return n.email;
+    }), ",");
+
     // console.log('req.to ',req.to.toString);
     // req.to = _.cloneDeep(req.to);
     console.log('req.to ', req.to);
