@@ -2723,7 +2723,7 @@ var model = {
               if (n.natureOfLoss.length > 0 && n.natureOfLoss !== undefined) {
                 var lossArr = _.uniq(n.natureOfLoss);
                 _.each(lossArr, function (singleNatureOfLoss, key1) {
-                  console.log("In For .....");
+                  // console.log("In For .....");
                   if (key1 === 0) {
                     natureOfLossObj = singleNatureOfLoss;
                   } else {
@@ -2760,7 +2760,7 @@ var model = {
                     newInvoiceList.push(singleInvoice);
                   }
                 });
-                console.log("newInvoiceList........", newInvoiceList);
+                // console.log("newInvoiceList........", newInvoiceList);
                 if (newInvoiceList.length > 0 && newInvoiceList !== undefined) {
                   if (newInvoiceList[newInvoiceList.length - 1].approvalTime !== undefined) {
                   obj["Reported Date"] = moment(newInvoiceList[newInvoiceList.length - 1].approvalTime).format("DD-MM-YYYY");
