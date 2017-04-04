@@ -2696,7 +2696,7 @@ var model = {
         console.log("In IF");
         callback(null, data1);
       } else {
-        console.log("In Else", data1);
+        // console.log("In Else", data1);
         if (_.isEmpty(data1)) {
           callback("No Payment found.", null);
         } else {
@@ -2760,12 +2760,15 @@ var model = {
                     newInvoiceList.push(singleInvoice);
                   }
                 });
-                // console.log("newInvoiceList........", newInvoiceList);
-                if (newInvoiceList[newInvoiceList.length - 1].approvalTime !== undefined) {
+                console.log("newInvoiceList........", newInvoiceList);
+                if (newInvoiceList.length > 0 && newInvoiceList !== undefined) {
+                  if (newInvoiceList[newInvoiceList.length - 1].approvalTime !== undefined) {
                   obj["Reported Date"] = moment(newInvoiceList[newInvoiceList.length - 1].approvalTime).format("DD-MM-YYYY");
-                } {
+                } else{
                   obj["Reported Date"] = "";
                 }
+                }
+                
               } else {
                 obj["Reported Date"] = "";
               }
