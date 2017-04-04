@@ -366,7 +366,13 @@ var model = {
                 n = undefined;
             }
         });
-        var Search = Model.find(data.filter)
+        var Search = Model.find({
+            $or:[{
+                func:data.func
+            },{
+                isSurveyor:true
+            }]
+        })
             .order(options)
             .deepPopulate("postedAt")
             .keyword(options)

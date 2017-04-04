@@ -720,14 +720,17 @@
             });
             $scope.getBackendEmployeeOnly = function (data) {
                 console.log("Data Of OWner", data);
-                var formdata = {};
+                var formdata = {
+                    func:$scope.backEnd
+                };
                 if (data !== undefined) {
                     formdata.keyword = data;
                 }
-                formdata.filter = {
-                    func: $scope.backEnd,
-                    isSurveyor: true
-                };
+                
+                // formdata.filter = {
+                //     func: $scope.backEnd,
+                //     isSurveyor: true
+                // };
                 NavigationService.getBackendEmployeeOnly(formdata, 1, function (data) {
                     console.log("Backend", data);
                     $scope.ownerData = data.data.results;
