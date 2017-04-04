@@ -468,7 +468,7 @@ var models = {
                     "orientation": "portrait", // portrait or landscape 
                     // Page options 
                     "border": {
-                        "top": "1cm", // default is 0, units: mm, cm, in, px 
+                        "top": "2cm", // default is 0, units: mm, cm, in, px 
                         "right": "1cm",
                         "bottom": "1cm",
                         "left": "2.5cm"
