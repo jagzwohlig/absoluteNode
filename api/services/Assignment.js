@@ -3657,7 +3657,7 @@ var model = {
                 callback(err, null);
               } else {
                 emailData.user = userdata;
-                
+
                 //Send email
                 if (data[4]) {
                   emailData.threadId = data[4];
@@ -4482,6 +4482,14 @@ var model = {
     //   email: "priyank.parmar@wohlig.com"
     // }];
     req.to = _.join(_.map(req.to, function (n) {
+      return n.email;
+    }), ",");
+
+    req.cc = _.join(_.map(req.to, function (n) {
+      return n.email;
+    }), ",");
+
+    req.bcc = _.join(_.map(req.to, function (n) {
       return n.email;
     }), ",");
 
