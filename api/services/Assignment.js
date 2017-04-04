@@ -1566,9 +1566,9 @@ var model = {
       } else {
         $scope.data = data2;
         var filter = {
-            _id: data2.assignment.policyDoc
-          }
-          // For policyNumber
+          _id: data2.assignment.policyDoc
+        }
+        // For policyNumber
         PolicyDoc.getPolicyDoc({
           filter
         }, function (err, data4) {
@@ -2761,7 +2761,11 @@ var model = {
                   }
                 });
                 // console.log("newInvoiceList........", newInvoiceList);
-                obj["Reported Date"] = moment(newInvoiceList[newInvoiceList.length - 1].approvalTime).format("DD-MM-YYYY");
+                if (newInvoiceList[newInvoiceList.length - 1].approvalTime !== undefined) {
+                  obj["Reported Date"] = moment(newInvoiceList[newInvoiceList.length - 1].approvalTime).format("DD-MM-YYYY");
+                } {
+                  obj["Reported Date"] = "";
+                }
               } else {
                 obj["Reported Date"] = "";
               }
@@ -3657,7 +3661,7 @@ var model = {
                 callback(err, null);
               } else {
                 emailData.user = userdata;
-                
+
                 //Send email
                 if (data[4]) {
                   emailData.threadId = data[4];
