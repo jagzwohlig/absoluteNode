@@ -1552,6 +1552,7 @@
                     delete $scope.formData.dateOfLoss;
                     delete $scope.formData.timelineStatus;
                     delete $scope.formData.prevtimelineStatus;
+                    delete $scope.formData.salvage;                    
                     $scope.formData.products = [];
                     $scope.formData.invoices = [];
                     $scope.formData.LRs = [];

@@ -2650,7 +2650,7 @@ firstapp.directive('alphaNumericVehical', function () {
         require: 'ngModel',
         link: function (scope, element, attr, ngModelCtrl) {
             function fromUser(text) {
-                var transformedInput = text.replace(/[^0-9A-Z,]/g, '');
+                var transformedInput = text.replace(/[^0-9A-Za-z,]/g, '');
                 if (transformedInput !== text) {
                     ngModelCtrl.$setViewValue(transformedInput);
                     ngModelCtrl.$render();
