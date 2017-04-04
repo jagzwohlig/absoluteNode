@@ -725,7 +725,8 @@
                     formdata.keyword = data;
                 }
                 formdata.filter = {
-                    func: $scope.backEnd
+                    func: $scope.backEnd,
+                    isSurveyor:true
                 };
                 NavigationService.getBackendEmployeeOnly(formdata, 1, function (data) {
                     console.log("Backend", data);

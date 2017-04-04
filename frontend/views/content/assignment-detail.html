@@ -84,7 +84,7 @@
                                 <div class="col-md-6" ng-if="!formData._id">
                                     <div class="form-group">
                                         <label>Owner*</label>
-                                        <multiple-select my-enter name="owner" required ng-model="formData.owner" ng-name="name.owner" api="searchEmployee" filter='{"func":"{{backEnd}}"}'></multiple-select>
+                                        <multiple-select my-enter name="owner" required ng-model="formData.owner" ng-name="name.owner" api="getBackendEmployeeOnly" filter='{"func":"{{backEnd}}","isSurveyor":true}'></multiple-select>
                                         <div class="error-msg" ng-show="formName.owner.$invalid">Please Select owner</div>
                                     </div>
                                 </div>
