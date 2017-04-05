@@ -378,6 +378,45 @@ var model = {
             .keyword(options)
             .page(options, callback);
     },
+    getShareWith1: function (data, callback) {
+        var Model = this;
+        var Const = this(data);
+        var maxRow = Config.maxRow;
+        var page = 1;
+        // var name1=subString()
+        if (data.page) {
+            page = data.page;
+        }
+        var field = data.field;
+        var options = {
+            field: data.field,
+            filters: {
+                keyword: {
+                    fields: ['name'],
+                    term: data.keyword
+                },
+                isSBC: false,
+                isField: false,
+                isSurveyor: false
+            },
+
+            sort: {
+                asc: "name",
+            },
+            start: (page - 1) * maxRow,
+            count: maxRow
+        };
+        _.each(data.filter, function (n, key) {
+            if (_.isEmpty(n)) {
+                n = undefined;
+            }
+        });
+        var Search = Model.find(data.filter)
+            .order(options)
+            .deepPopulate("postedAt")
+            .keyword(options)
+            .page(options, callback);
+    },
     getBackendEmployeeOnly: function (data, callback, user) {
 
         var Model = this;

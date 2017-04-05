@@ -168,6 +168,18 @@ var controller = {
             })
         }
     },
+       getShareWith1: function (req, res) {
+        if (req.body) {
+            Employee.getShareWith1(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: {
+                    message: "Invalid Request"
+                }
+            })
+        }
+    },
     getBackendEmployeeOnly: function (req, res) {
         if (req.body) {
             Employee.getBackendEmployeeOnly(req.body, res.callback, req.user);

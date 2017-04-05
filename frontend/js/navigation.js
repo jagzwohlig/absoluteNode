@@ -567,6 +567,15 @@ var navigationservice = angular.module('navigationservice', [])
                     callback(data, i);
                 });
             },
+             getShareWith1: function (formData, i, callback) {
+                console.log("FormData in search", formData);
+                formData.accessToken = $.jStorage.get("accessToken");
+                // $http.post(adminurl + 'Employee/getBackendEmployee', formData).success(function (data) {
+                $http.post(adminurl + 'Employee/getShareWith1', formData).success(function (data) {
+                    console.log("FormData in search", data);
+                    callback(data, i);
+                });
+            },
             getBackendEmployeeOnly: function (formData, i, callback) {
                 console.log("FormData in search", formData);
                 formData.accessToken = $.jStorage.get("accessToken");
