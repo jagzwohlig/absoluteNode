@@ -1938,9 +1938,12 @@
             $scope.refreshShareWith = function (data, office) {
                 var formdata = {};
                 formdata.keyword = data;
-                NavigationService.getBackendEmployee(formdata, 1, function (data) {
+                 NavigationService.getShareWith1(formdata, 1, function (data) {
                     $scope.shareWith = data.data.results;
                 });
+                // NavigationService.getBackendEmployee(formdata, 1, function (data) {
+                //     $scope.shareWith = data.data.results;
+                // });
             };
 
             $scope.refreshNature = function (data, causeloss) {
