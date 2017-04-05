@@ -721,12 +721,12 @@
             $scope.getBackendEmployeeOnly = function (data) {
                 console.log("Data Of OWner", data);
                 var formdata = {
-                    func:$scope.backEnd
+                    func: $scope.backEnd
                 };
                 if (data !== undefined) {
                     formdata.keyword = data;
                 }
-                
+
                 // formdata.filter = {
                 //     func: $scope.backEnd,
                 //     isSurveyor: true
@@ -1706,7 +1706,7 @@
                 // NavigationService.getBackendEmployee(formdata, 1, function (data) {
                 //     $scope.shareWith = data.data.results;
                 // });
-                 NavigationService.getShareWith1(formdata, 1, function (data) {
+                NavigationService.getShareWith1(formdata, 1, function (data) {
                     $scope.shareWith = data.data.results;
                 });
             };
@@ -1938,7 +1938,7 @@
             $scope.refreshShareWith = function (data, office) {
                 var formdata = {};
                 formdata.keyword = data;
-                 NavigationService.getShareWith1(formdata, 1, function (data) {
+                NavigationService.getShareWith1(formdata, 1, function (data) {
                     $scope.shareWith = data.data.results;
                 });
                 // NavigationService.getBackendEmployee(formdata, 1, function (data) {
@@ -14738,18 +14738,149 @@
             TemplateService.title = $scope.menutitle;
             $scope.navigation = NavigationService.getnav();
 
-            $scope.lorData = [{
-                name: "option 1",
-                values: ["check 1", "check 2", "check 3", "check 4", ],
+            $scope.isDateNeeded = false;
+            $scope.isTypeNeeded = false;
+
+            $scope.lorCategory = [{
+                name: "Category 1",
+                subCategory: [{
+                    isCheck: true,
+                    name: "Sub Category1",
+                    date: "",
+                    type: ""
+                }, {
+                    isCheck: true,
+                    name: "Sub Category2",
+                    date: "",
+                    type: ""
+                }, {
+                    isCheck: true,
+                    name: "Sub Category3",
+                    date: "",
+                    type: ""
+                }, {
+                    isCheck: true,
+                    name: "Sub Category4",
+                    date: "",
+                    type: ""
+                }, {
+                    isCheck: true,
+                    name: "Sub Category5",
+                    date: "",
+                    type: ""
+                }],
             }, {
-                name: "option 1",
-                values: ["check 1", "check 2", "check 3", "check 4", ],
+                name: "Category 2",
+                subCategory: [{
+                    isCheck: true,
+                    name: "Sub Category1",
+                    date: "",
+                    type: ""
+                }, {
+                    isCheck: true,
+                    name: "Sub Category2",
+                    date: "",
+                    type: ""
+                }, {
+                    isCheck: true,
+                    name: "Sub Category3",
+                    date: "",
+                    type: ""
+                }, {
+                    isCheck: true,
+                    name: "Sub Category4",
+                    date: "",
+                    type: ""
+                }, {
+                    isCheck: true,
+                    name: "Sub Category5",
+                    date: "",
+                    type: ""
+                }],
             }, {
-                name: "option 1",
-                values: ["check 1", "check 2", "check 3", "check 4", ],
+                name: "Category 3",
+                subCategory: [{
+                    isCheck: true,
+                    name: "Sub Category1",
+                    date: "",
+                    type: ""
+                }, {
+                    isCheck: true,
+                    name: "Sub Category2",
+                    date: "",
+                    type: ""
+                }, {
+                    isCheck: true,
+                    name: "Sub Category3",
+                    date: "",
+                    type: ""
+                }, {
+                    isCheck: true,
+                    name: "Sub Category4",
+                    date: "",
+                    type: ""
+                }, {
+                    isCheck: true,
+                    name: "Sub Category5",
+                    date: "",
+                    type: ""
+                }],
             }, {
-                name: "option 1",
-                values: ["check 1", "check 2", "check 3", "check 4", ],
-            }, ]
+                name: "Category 4",
+                subCategory: [{
+                    isCheck: true,
+                    name: "Sub Category1",
+                    date: "",
+                    type: ""
+                }, {
+                    isCheck: true,
+                    name: "Sub Category2",
+                    date: "",
+                    type: ""
+                }, {
+                    isCheck: true,
+                    name: "Sub Category3",
+                    date: "",
+                    type: ""
+                }, {
+                    isCheck: true,
+                    name: "Sub Category4",
+                    date: "",
+                    type: ""
+                }, {
+                    isCheck: true,
+                    name: "Sub Category5",
+                    date: "",
+                    type: ""
+                }],
+            }, {
+                name: "Category 5",
+                subCategory: [{
+                    isCheck: true,
+                    name: "Sub Category1",
+                    date: "",
+                    type: ""
+                }, {
+                    isCheck: true,
+                    name: "Sub Category2",
+                    date: "",
+                    type: ""
+                }, {
+                    isCheck: true,
+                    name: "Sub Category3",
+                    date: "",
+                    type: ""
+                }, {
+                    isCheck: true,
+                    name: "Sub Category4",
+                    date: "",
+                    type: ""
+                }, {
+                    isCheck: true,
+                    name: "Sub Category5",
+                    date: "",
+                    type: ""
+                }],
+            }]
 
         });
