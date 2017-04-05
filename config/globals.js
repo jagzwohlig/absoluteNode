@@ -118,6 +118,11 @@ global["log"] = function (data) {
     console.log(data);
 };
 
+//Image Library
+global["stream"] = require('stream');
+global["Jimp"] = require("jimp");
+
+
 //Mime types
 global["mime"] = require('mime-types');
 
