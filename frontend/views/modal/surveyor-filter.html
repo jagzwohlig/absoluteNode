@@ -10,7 +10,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
-                <label>New Surveyor*{{formData.employee}}</label>
+                <label>New Surveyor*</label>
                 <multiple-select my-enter name="employee" required ng-model="formData.employee" ng-name="name.employee" api="getSurveyor"></multiple-select>
                 <div class="error-msg" ng-show="formName.employee.$invalid">Please Select employee</div>
             </div>  

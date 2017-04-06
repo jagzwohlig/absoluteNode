@@ -32,7 +32,7 @@
                             <i class="ln-download"></i>
                         </a>
                     </button>
-                    <button class="btn btn-clear" ng-click="viewInvoice(assignment,Invoice)"><i class="ln-pencil"></i></button>
+                    <button class="btn btn-clear" ng-if =="Invoice.approvalStatus=='Pending' || Invoice.approvalStatus=='Approved'" ng-click="viewInvoice(assignment,Invoice)"><i class="ln-pencil"></i></button>
                     <!--<button class="btn btn-clear" ng-click="deleteTemplate('invoice',$index,'INVOICE')"><i class="ln-trash2"></i></button>-->
                 </td>
             </tr>
