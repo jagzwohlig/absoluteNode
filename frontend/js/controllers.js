@@ -10022,137 +10022,6 @@
                 "name": "Template List"
             };
         })
-
-        .controller('EditTemplateLORCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
-            //Used to name the .html file
-            $scope.template = TemplateService.changecontent("templateLor-detail");
-            $scope.menutitle = NavigationService.makeactive("Edit LOR Template");
-            TemplateService.title = $scope.menutitle;
-            $scope.navigation = NavigationService.getnav();
-            $scope.flag = true;
-            $scope.header = {
-                "name": "Edit LOR Template"
-            };
-
-            $scope.formData = {};
-            NavigationService.getOneModel("TemplateLor", $stateParams.id, function (data) {
-                console.log("GetOne ", data.data);
-                $scope.formData = data.data;
-            });
-            $scope.itemTypes = [{
-                value: '',
-                name: 'Select Status'
-            }, {
-                value: 'Copy',
-                name: 'Copy'
-            }, {
-                value: 'Original',
-                name: 'Original'
-            }];
-
-            $scope.formData.forms = [{
-                head: '',
-                items: [{
-                    submit: "Pending"
-                }, {
-                    submit: "Pending"
-                }]
-            }];
-
-            $scope.required = true;
-
-            $scope.addHead = function () {
-                $scope.formData.forms.push({
-                    head: $scope.formData.forms.length + 1,
-                    items: [{
-                        submit: "Pending"
-                    }]
-                });
-            };
-            $scope.removeHead = function (index) {
-                if ($scope.formData.forms.length > 1) {
-                    $scope.formData.forms.splice(index, 1);
-                } else {
-                    $scope.formData.forms = [{
-                        head: '',
-                        items: [{}, {}]
-                    }];
-                }
-            };
-            $scope.getdescriptions = function (data) {
-                console.log("IN getdescriptions");
-                var formData = {};
-                formData.keyword = data;
-                formData.filter = {
-                    "lorCategory": $scope.lorCategory
-                };
-                NavigationService.searchLorMaster(formData, 1, function (data) {
-                    $scope.descriptions = data.data.results;
-                    console.log("Tax", $scope.descriptions);
-                });
-            }
-            $scope.getCategories = function (data) {
-                var formData = {};
-                formData.keyword = data;
-                NavigationService.searchLorCategory(formData, 1, function (data) {
-                    $scope.categories = data.data.results;
-                    console.log("Categories", $scope.categories);
-                });
-            }
-            $scope.getOneDescription = function (invoice, $index, outerIndex) {
-                $scope.flag = false;
-                console.log("Invoice", invoice, $index, outerIndex);
-                $scope.lorCategory = invoice._id;
-                $scope.formData.forms[outerIndex].items[$index].category = invoice.name;
-                $scope.getdescriptions();
-
-            };
-            $scope.getAll = function (invoice, $index, outerIndex) {
-                console.log("Invoice", invoice, $index, outerIndex);
-                $scope.formData.forms[outerIndex].items[$index].name = invoice.name;
-                $scope.formData.forms[outerIndex].items[$index].type = invoice.status;
-            };
-            $scope.addItem = function (obj) {
-                var index = $scope.formData.forms.indexOf(obj);
-                $scope.formData.forms[index].items.push({
-                    submit: "Pending"
-                });
-            };
-
-            $scope.removeItem = function (obj, indexItem) {
-                var indexHead = $scope.formData.forms.indexOf(obj);
-                if ($scope.formData.forms[indexHead].items.length > 1) {
-                    $scope.formData.forms[indexHead].items.splice(indexItem, 1);
-                } else {
-                    $scope.formData.forms[indexHead].items = [{}];
-                }
-            };
-
-            $scope.sortableOptions = {
-                handle: ' .handleBar',
-                axis: 'y',
-                'ui-floating': true,
-                start: function (e, ui) {
-                    $('#sortable-ul-selector-id').sortable("refreshPositions");
-                    $('#sortable-ul-selector-id').sortable("refresh");
-                }
-            };
-            $scope.cancel = function () {
-                $window.history.back();
-            }
-            $scope.saveModel = function (formData) {
-                NavigationService.modelSave("TemplateLor", $scope.formData, function (data) {
-                    if (data.value === true) {
-                        // $state.go('templateLor-list');
-                        $window.history.back();
-                        toastr.success("LOR Template " + formData.name + " edited successfully.", "LOR Template Edited");
-                    } else {
-                        toastr.error("LOR Template edition failed.", "LOr Template edition error");
-                    }
-                });
-            };
-        })
-
         .controller('CreateTemplateLORCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
             //Used to name the .html file
             $scope.template = TemplateService.changecontent("templateLor-detail");
@@ -10163,98 +10032,115 @@
             $scope.header = {
                 "name": "Create LOR Template"
             };
-
-            $scope.itemTypes = [{
-                value: '',
-                name: 'Select Status'
-            }, {
-                value: 'Copy',
-                name: 'Copy'
-            }, {
-                value: 'Original',
-                name: 'Original'
-            }];
-            $scope.formData = {};
-            $scope.formData.status = true;
-            $scope.formData.forms = [{
-                head: '',
-                items: [{
-                    submit: "Pending"
-                }, {
-                    submit: "Pending"
-                }]
-            }];
-
-            $scope.required = true;
-
-            $scope.addHead = function () {
-                $scope.formData.forms.push({
-                    head: $scope.formData.forms.length + 1,
-                    items: [{
-                        submit: "Pending"
-                    }]
-                });
-            };
-            $scope.removeHead = function (index) {
-                if ($scope.formData.forms.length > 1) {
-                    $scope.formData.forms.splice(index, 1);
-                } else {
-                    $scope.formData.forms = [{
-                        head: '',
-                        items: [{}, {}]
-                    }];
-                }
-            };
-
-            $scope.addItem = function (obj) {
-                var index = $scope.formData.forms.indexOf(obj);
-                $scope.formData.forms[index].items.push({
-                    submit: "Pending"
-                });
-            };
-
-            $scope.removeItem = function (obj, indexItem) {
-                var indexHead = $scope.formData.forms.indexOf(obj);
-                if ($scope.formData.forms[indexHead].items.length > 1) {
-                    $scope.formData.forms[indexHead].items.splice(indexItem, 1);
-                } else {
-                    $scope.formData.forms[indexHead].items = [{}];
-                }
-            };
-            // 
-            $scope.getdescriptions = function (data) {
-                console.log("IN getdescriptions");
-                var formData = {};
-                formData.keyword = data;
-                formData.filter = {
-                    "lorCategory": $scope.lorCategory
-                };
-                NavigationService.searchLorMaster(formData, 1, function (data) {
-                    $scope.descriptions = data.data.results;
-                    console.log("Tax", $scope.descriptions);
-                });
+            $scope.formData={};
+            // $scope.formData.forms=[];            
+            NavigationService.getAccordianData(function (data) {
+                $scope.formData.forms = data.data;
+            });
+            $scope.addToForm=function(data){
+                console.log(data);
             }
-            $scope.getCategories = function (data) {
-                var formData = {};
-                formData.keyword = data;
-                NavigationService.searchLorCategory(formData, 1, function (data) {
-                    $scope.categories = data.data.results;
-                    console.log("Categories", $scope.categories);
-                });
-            }
-            $scope.getOneDescription = function (invoice, $index, outerIndex) {
-                $scope.flag = false;
-                console.log("Invoice", invoice, $index, outerIndex);
-                $scope.lorCategory = invoice._id;
-                $scope.formData.forms[outerIndex].items[$index].category = invoice.name;
-                $scope.getdescriptions();
+                console.log("10043.................");
+            
+            var obj={};
 
-            };
-            $scope.getAll = function (invoice, $index, outerIndex) {
-                console.log("Invoice", invoice, $index, outerIndex);
-                $scope.formData.forms[outerIndex].items[$index].name = invoice.name;
-                $scope.formData.forms[outerIndex].items[$index].type = invoice.status;
-            };
+
+            $scope.isDateNeeded = false;
+            $scope.isTypeNeeded = false;
+
+
+
+            // $scope.itemTypes = [{
+            //     value: '',
+            //     name: 'Select Status'
+            // }, {
+            //     value: 'Copy',
+            //     name: 'Copy'
+            // }, {
+            //     value: 'Original',
+            //     name: 'Original'
+            // }];
+            // $scope.formData = {};
+            // $scope.formData.status = true;
+            // $scope.formData.forms = [{
+            //     head: '',
+            //     items: [{
+            //         submit: "Pending"
+            //     }, {
+            //         submit: "Pending"
+            //     }]
+            // }];
+
+            // $scope.required = true;
+
+            // $scope.addHead = function () {
+            //     $scope.formData.forms.push({
+            //         head: $scope.formData.forms.length + 1,
+            //         items: [{
+            //             submit: "Pending"
+            //         }]
+            //     });
+            // };
+            // $scope.removeHead = function (index) {
+            //     if ($scope.formData.forms.length > 1) {
+            //         $scope.formData.forms.splice(index, 1);
+            //     } else {
+            //         $scope.formData.forms = [{
+            //             head: '',
+            //             items: [{}, {}]
+            //         }];
+            //     }
+            // };
+
+            // $scope.addItem = function (obj) {
+            //     var index = $scope.formData.forms.indexOf(obj);
+            //     $scope.formData.forms[index].items.push({
+            //         submit: "Pending"
+            //     });
+            // };
+
+            // $scope.removeItem = function (obj, indexItem) {
+            //     var indexHead = $scope.formData.forms.indexOf(obj);
+            //     if ($scope.formData.forms[indexHead].items.length > 1) {
+            //         $scope.formData.forms[indexHead].items.splice(indexItem, 1);
+            //     } else {
+            //         $scope.formData.forms[indexHead].items = [{}];
+            //     }
+            // };
+            // // 
+            // $scope.getdescriptions = function (data) {
+            //     console.log("IN getdescriptions");
+            //     var formData = {};
+            //     formData.keyword = data;
+            //     formData.filter = {
+            //         "lorCategory": $scope.lorCategory
+            //     };
+            //     NavigationService.searchLorMaster(formData, 1, function (data) {
+            //         $scope.descriptions = data.data.results;
+            //         console.log("Tax", $scope.descriptions);
+            //     });
+            // }
+            // $scope.getCategories = function (data) {
+            //     var formData = {};
+            //     formData.keyword = data;
+            //     NavigationService.searchLorCategory(formData, 1, function (data) {
+            //         $scope.categories = data.data.results;
+            //         console.log("Categories", $scope.categories);
+            //     });
+            // }
+            // $scope.getOneDescription = function (invoice, $index, outerIndex) {
+            //     $scope.flag = false;
+            //     console.log("Invoice", invoice, $index, outerIndex);
+            //     $scope.lorCategory = invoice._id;
+            //     $scope.formData.forms[outerIndex].items[$index].category = invoice.name;
+            //     $scope.getdescriptions();
+
+            // };
+            // $scope.getAll = function (invoice, $index, outerIndex) {
+            //     console.log("Invoice", invoice, $index, outerIndex);
+            //     $scope.formData.forms[outerIndex].items[$index].name = invoice.name;
+            //     $scope.formData.forms[outerIndex].items[$index].type = invoice.status;
+            // };
             // 
             // $scope.getdescriptions = function (data) {
             //     var formData = {};
@@ -10269,15 +10155,15 @@
             //     $scope.formData.forms[outerIndex].items[$index].name = invoice.name;
             //     $scope.formData.forms[outerIndex].items[$index].type = invoice.status;
             // }
-            $scope.sortableOptions = {
-                handle: ' .handleBar',
-                axis: 'y',
-                'ui-floating': true,
-                start: function (e, ui) {
-                    $('#sortable-ul-selector-id').sortable("refreshPositions");
-                    $('#sortable-ul-selector-id').sortable("refresh");
-                }
-            };
+            // $scope.sortableOptions = {
+            //     handle: ' .handleBar',
+            //     axis: 'y',
+            //     'ui-floating': true,
+            //     start: function (e, ui) {
+            //         $('#sortable-ul-selector-id').sortable("refreshPositions");
+            //         $('#sortable-ul-selector-id').sortable("refresh");
+            //     }
+            // };
             $scope.cancel = function () {
                 $window.history.back();
             }
@@ -10294,6 +10180,150 @@
             };
 
         })
+        .controller('EditTemplateLORCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
+            //Used to name the .html file
+            $scope.template = TemplateService.changecontent("templateLor-detail");
+            $scope.menutitle = NavigationService.makeactive("Edit LOR Template");
+            TemplateService.title = $scope.menutitle;
+            $scope.navigation = NavigationService.getnav();
+            $scope.flag = true;
+            $scope.header = {
+                "name": "Edit LOR Template"
+            };
+            // $scope.formData.forms=[]; 
+            NavigationService.getOneModel("TemplateLor", $stateParams.id, function (data) {
+                console.log("GetOne ", data.data);
+                $scope.formData = data.data;
+                console.log("ABC",$scope.formData.forms);
+            });
+            NavigationService.getAccordianData(function (data) {
+                $scope.lorCategory = data.data;
+            });
+
+            $scope.isDateNeeded = false;
+            $scope.isTypeNeeded = false;
+
+
+            // $scope.formData = {};
+            // NavigationService.getOneModel("TemplateLor", $stateParams.id, function (data) {
+            //     console.log("GetOne ", data.data);
+            //     $scope.formData = data.data;
+            // });
+            // $scope.itemTypes = [{
+            //     value: '',
+            //     name: 'Select Status'
+            // }, {
+            //     value: 'Copy',
+            //     name: 'Copy'
+            // }, {
+            //     value: 'Original',
+            //     name: 'Original'
+            // }];
+
+            // $scope.formData.forms = [{
+            //     head: '',
+            //     items: [{
+            //         submit: "Pending"
+            //     }, {
+            //         submit: "Pending"
+            //     }]
+            // }];
+
+            // $scope.required = true;
+
+            // $scope.addHead = function () {
+            //     $scope.formData.forms.push({
+            //         head: $scope.formData.forms.length + 1,
+            //         items: [{
+            //             submit: "Pending"
+            //         }]
+            //     });
+            // };
+            // $scope.removeHead = function (index) {
+            //     if ($scope.formData.forms.length > 1) {
+            //         $scope.formData.forms.splice(index, 1);
+            //     } else {
+            //         $scope.formData.forms = [{
+            //             head: '',
+            //             items: [{}, {}]
+            //         }];
+            //     }
+            // };
+            // $scope.getdescriptions = function (data) {
+            //     console.log("IN getdescriptions");
+            //     var formData = {};
+            //     formData.keyword = data;
+            //     formData.filter = {
+            //         "lorCategory": $scope.lorCategory
+            //     };
+            //     NavigationService.searchLorMaster(formData, 1, function (data) {
+            //         $scope.descriptions = data.data.results;
+            //         console.log("Tax", $scope.descriptions);
+            //     });
+            // }
+            // $scope.getCategories = function (data) {
+            //     var formData = {};
+            //     formData.keyword = data;
+            //     NavigationService.searchLorCategory(formData, 1, function (data) {
+            //         $scope.categories = data.data.results;
+            //         console.log("Categories", $scope.categories);
+            //     });
+            // }
+            // $scope.getOneDescription = function (invoice, $index, outerIndex) {
+            //     $scope.flag = false;
+            //     console.log("Invoice", invoice, $index, outerIndex);
+            //     $scope.lorCategory = invoice._id;
+            //     $scope.formData.forms[outerIndex].items[$index].category = invoice.name;
+            //     $scope.getdescriptions();
+
+            // };
+            // $scope.getAll = function (invoice, $index, outerIndex) {
+            //     console.log("Invoice", invoice, $index, outerIndex);
+            //     $scope.formData.forms[outerIndex].items[$index].name = invoice.name;
+            //     $scope.formData.forms[outerIndex].items[$index].type = invoice.status;
+            // };
+            // $scope.addItem = function (obj) {
+            //     var index = $scope.formData.forms.indexOf(obj);
+            //     $scope.formData.forms[index].items.push({
+            //         submit: "Pending"
+            //     });
+            // };
+
+            // $scope.removeItem = function (obj, indexItem) {
+            //     var indexHead = $scope.formData.forms.indexOf(obj);
+            //     if ($scope.formData.forms[indexHead].items.length > 1) {
+            //         $scope.formData.forms[indexHead].items.splice(indexItem, 1);
+            //     } else {
+            //         $scope.formData.forms[indexHead].items = [{}];
+            //     }
+            // };
+
+            // $scope.sortableOptions = {
+            //     handle: ' .handleBar',
+            //     axis: 'y',
+            //     'ui-floating': true,
+            //     start: function (e, ui) {
+            //         $('#sortable-ul-selector-id').sortable("refreshPositions");
+            //         $('#sortable-ul-selector-id').sortable("refresh");
+            //     }
+            // };
+            // $scope.cancel = function () {
+            //     $window.history.back();
+            // }
+            $scope.saveModel = function (formData) {
+                NavigationService.modelSave("TemplateLor", $scope.formData, function (data) {
+                    if (data.value === true) {
+                        // $state.go('templateLor-list');
+                        $window.history.back();
+                        toastr.success("LOR Template " + formData.name + " edited successfully.", "LOR Template Edited");
+                    } else {
+                        toastr.error("LOR Template edition failed.", "LOr Template edition error");
+                    }
+                });
+            };
+        })
+
+
 
         .controller('EditTemplateInvoiceCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $stateParams, $state, toastr) {
             //Used to name the .html file
@@ -10973,8 +11003,8 @@
                     dropdownValues: ['Mumbai', 'Bihar', 'Orissa']
                 }]
             }];
-
-
+            $scope.isDateNeeded=true;
+            $scope.isTypeNeeded=true;
 
             $scope.assignment = {};
             $scope.assignment.templateIla = [];
@@ -11006,6 +11036,8 @@
                     console.log("getparent data = ", data);
                     // $scope.employee = [];
                     if (data.value) {
+console.log("2");
+                        
                         $scope.employee = data.data;
                         if ($scope.message.employee.employee) {
                             $scope.employee.unshift({
@@ -11016,13 +11048,15 @@
                                 values.email.toString();
                                 values.name.toString();
                             });
-                            $scope.employee.push({
-                                name: $scope.message.employeeData.name,
-                                email: $scope.message.employeeData.officeEmail
-                            });
+                            // $scope.employee.push({
+                            //     name: $scope.message.employeeData.name,
+                            //     email: $scope.message.employeeData.officeEmail
+                            // });
                             $scope.employee = _.uniqBy($scope.employee, "email");
                         }
                     } else {
+console.log("3");
+                        
                         $scope.employee = [];
                         if ($scope.message.employee.employee) {
                             $scope.employee.push({
@@ -11044,12 +11078,13 @@
                     $scope.forms = data.data;
                 });
             } else {
+console.log("5");
                 var a = {
                     _id: $stateParams.assignmentTemplate,
                     type: _.camelCase($stateParams.type)
                 };
                 NavigationService.getAssignmentTemplate(a, function (data) {
-
+console.log("6",data.data);
                     _.each(data.data.forms, function (n) {
                         _.each(n.items, function (m) {
                             if (m.value == "Date") {
@@ -11110,6 +11145,7 @@
                 }
             };
             $scope.getdescriptions = function (data) {
+console.log("7");
                 console.log("IN getdescriptions");
                 var formData = {};
                 formData.keyword = data;

@@ -26,7 +26,7 @@ var model = {
                         if (err) {
                             callback(err,data2);
                         }else{
-                            category.subCategory = data2;
+                            category.items = data2;
                             console.log("Data 2 ",data2);
                             callback(null,data2);
                         }
