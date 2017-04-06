@@ -2394,14 +2394,13 @@ var model = {
 
     //Assignment from date to to date
     if (!_.isEmpty(data.fromDate) && !_.isEmpty(data.toDate)) {
-      var createdAt = {
-        createdAt: {
+      var dateOfAppointment = {
+        dateOfAppointment: {
           "$gte": new Date(moment(data.fromDate)),
           "$lte": new Date(moment(data.toDate).add(1, "d"))
         }
       };
-      filterObject = _.assign(filterObject, createdAt);
-      console.log('createdAt',createdAt.createdAt);
+      filterObject = _.assign(filterObject, dateOfAppointment);
     }
 
     //Mr number filter
