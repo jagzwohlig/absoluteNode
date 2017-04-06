@@ -367,12 +367,12 @@ var model = {
             }
         });
         var Search = Model.find({
-            $or:[{
-                func:data.func
-            },{
-                isSurveyor:true
-            }]
-        })
+                $or: [{
+                    func: data.func
+                }, {
+                    isSurveyor: true
+                }]
+            })
             .order(options)
             .deepPopulate("postedAt")
             .keyword(options)
@@ -505,26 +505,76 @@ var model = {
         })
     },
     getSurveyor: function (data, callback) {
-        Employee.find({
-            $or: [{
-                isSurveyor: true
-            }, {
-                isField: true
-            }]
-        }, {
-            _id: 1,
-            name: 1
-        }).exec(function (err, found) {
-            if (err) {
-                callback(err, null);
-            } else {
-                var data = {};
-                data.results = found;
-                console.log(found);
-                callback(null, data);
+        var Model = this;
+        var Const = this(data);
+        var maxRow = Config.maxRow;
+        var page = 1;
+        // var name1=subString()
+        if (data.page) {
+            page = data.page;
+        }
+        var field = data.field;
+        var options = {
+            field: data.field,
+            // filters: {
+            //     keyword: {
+            //         fields: ['name'],
+            //         term: data.keyword
+            //     }
+            // },
+
+            sort: {
+                asc: "name",
+            },
+            start: (page - 1) * maxRow,
+            count: maxRow
+        };
+        _.each(data.filter, function (n, key) {
+            if (_.isEmpty(n)) {
+                n = undefined;
             }
-        })
+        });
+        // data.filter={
+
+        // }
+        var Search = Model.find({
+                name: {
+                    $regex: data.keyword,
+                    $options: 'i'
+                },
+                $or: [{
+                    isSurveyor: true
+                }, {
+                    isField: true
+                }]
+
+            })
+            .order(options)
+            .deepPopulate()
+            .keyword(options)
+            .page(options, callback);
     },
+    // getSurveyor: function (data, callback) {
+    //     Employee.find({
+    //         $or: [{
+    //             isSurveyor: true
+    //         }, {
+    //             isField: true
+    //         }]
+    //     }, {
+    //         _id: 1,
+    //         name: 1
+    //     }).exec(function (err, found) {
+    //         if (err) {
+    //             callback(err, null);
+    //         } else {
+    //             var data = {};
+    //             data.results = found;
+    //             console.log(found);
+    //             callback(null, data);
+    //         }
+    //     })
+    // },
     getTask: function (data, callback) {
         var deepSearch = "assignment.assignment assignment.assignment.city assignment.assignment.city.district assignment.assignment.city.district.state assignment.assignment.city.district.state.zone assignment.assignment.city.district.state.zone.country";
         Employee.findOne({
