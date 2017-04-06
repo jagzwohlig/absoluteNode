@@ -127,6 +127,7 @@ var model = {
             if (err) {
                 callback(err, null);
             } else {
+                console.log("Data of Office",data2);
                 async.eachSeries(data2, function (n,callback1) {
                     // console.log("N",n._id);
                     Employee.find({

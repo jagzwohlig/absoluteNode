@@ -384,7 +384,7 @@ var model = {
 
                                             //Find Acknowledgment Email data
                                             if (data.approvalStatus == "Pending") {
-
+                                                console.log(" Approval status : Pending ->");
                                                 var mailData = [];
                                                 mailData[0] = "Invoice Send Authorization";
                                                 mailData[1] = emailData;
@@ -402,6 +402,8 @@ var model = {
                                                     }
                                                 });
                                             } else if (data.approvalStatus == "Approved") {
+                                                
+                                                console.log(" Approval status : Approved ->");
                                                 emailData.to = [];
                                                 emailData.to.push({
                                                     name: toName,
@@ -424,6 +426,7 @@ var model = {
                                                     }
                                                 });
                                             } else if (data.approvalStatus == "Revised") {
+                                                console.log(" Approval status : Revised ->");
                                                 var mailData = [];
                                                 mailData[0] = "Invoice Back to Regenerate";
                                                 mailData[1] = emailData;

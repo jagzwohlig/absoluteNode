@@ -126,6 +126,9 @@ global["Jimp"] = require("jimp");
 //Mime types
 global["mime"] = require('mime-types');
 
+//NodeMailer
+global["nodemailer"] = require('nodemailer');
+
 if (process.env.NODE_ENV && process.env.NODE_ENV === "production") {
     if (process.env.name == "AbsoluteTesting") {
         global["env"] = require("./env/testing.js");

@@ -364,8 +364,8 @@ var models = {
             imageStream.pipe(writestream);
         }
 
-
     },
+
     readUploaded: function (filename, width, height, style, res) {
         res.set({
             'Cache-Control': 'public, max-age=31557600',
@@ -441,6 +441,7 @@ var models = {
             });
             readstream2.pipe(res);
         }
+        
         var onlyName = filename.split(".")[0];
         var extension = filename.split(".").pop();
         if ((extension == "jpg" || extension == "png" || extension == "gif") && ((width && width > 0) || (height && height > 0))) {

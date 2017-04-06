@@ -59,6 +59,7 @@
     "mongoose-validators": "^0.1.0",
     "monguurl": "^0.1.0",
     "node-xlsx": "^0.7.4",
+    "nodemailer": "^3.1.8",
     "npm": "^3.10.10",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
@@ -72,7 +73,8 @@
     "sails": "^0.12.8",
     "sails-disk": "~0.10.9",
     "sails-wohlig-controller": "latest",
-    "sails-wohlig-service": "latest"
+    "sails-wohlig-service": "latest",
+    "xoauth2": "^1.2.0"
   },
   "scripts": {
     "debug": "node debug app.js",

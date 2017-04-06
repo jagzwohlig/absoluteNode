@@ -284,7 +284,7 @@ var controller = {
     updateAssignment: function (req, res) {
         if (req.body) {
             req.model.updateAssignment(req.body, res.callback);
-        } else {
+        } else {    
             res.json({
                 value: false,
                 data: "Invalid Request"
@@ -394,19 +394,18 @@ var controller = {
 
     sendEmailTo: function (req, res) {
 
-        
         var mailData = {};
-        mailData.email=[];
-        mailData.from={};
-        mailData.cc=[];
+        mailData.email = [];
+        mailData.from = {};
+        mailData.cc = [];
         mailData.email = [{
-            email: "priyank.parmar@wohlig.com",
-            name: "Priyank Parmar"
-        }]
-        // mailData.cc = [{
-        //    email: "priyank.parmar@wohlig.com",
-        //     name: "Priyank Parmar"
-        // }]
+                email: "priyank.parmar@wohlig.com",
+                name: "Priyank Parmar"
+            }]
+            // mailData.cc = [{
+            //    email: "priyank.parmar@wohlig.com",
+            //     name: "Priyank Parmar"
+            // }]
         mailData.from = {
             name: "Priyank Parmar",
             email: "priyank.parmar@wohlig.com"
@@ -424,6 +423,117 @@ var controller = {
                 //  callback(null, doc);
             }
         });
+    },
+
+    sendEmailAttachment: function (req, res) {
+
+        // var xoauth2 = require('xoauth2');
+        //Attachment files
+        var files = [];
+        var imageData = {};
+        var image = getAttachments_(files);
+        console.log("Image : ", image);
+
+
+        function getAttachments_(files) {
+            var files = ["58df550390366f15f5c74274.jpg"];
+
+            _.each(files, function (values) {
+                // console.log("files : ", values,"realHost = ",realHost);
+                var callAPI = {
+                    url: global["env"].realHost + '/api/upload/readFile?file=' + values,
+                    method: "POST"
+                };
+
+                console.log("callAPI : ", callAPI);
+                request(callAPI, function (err, httpResponse, body) {
+                    // var filesData = fs.createWriteStream(body);
+                    // console.log("files stream , ",filesData);
+                    if (err) {
+                        res.callback(err);
+                    } else if (body) {
+                        imageData.fileName = values;
+                        imageData.contents = body;
+                    } else {
+                        res.callback("No Data found");
+                    }
+                });
+            });
+
+            // setTimeout(function () {
+            //     return imageData;
+            // }, 2000);
+            
+        }
+
+          var attachments = [{
+                    filename: imageData.fileName,
+                    path: global["env"].realHost + '/api/upload/readFile?file=58df550390366f15f5c74274.jpg'
+                }];
+                
+            // create reusable transporter object using the default SMTP transport
+            // var transporter = nodemailer.createTransport({
+            //     service: 'gmail',
+            //     auth: {
+            //         user: 'priyank.parmar@wohlig.com',
+            //         pass: 'Prriyyannk394'
+            //     }
+            // });
+
+            // setup email data with unicode symbols
+            // console.log("imageData : ", image);
+            // var mailOptions = {
+            //     from: '"'+ req.user.name +'" <' + req.user.email +'>', // sender address
+            //     to: 'priyank.parmar@wohlig.com', // list of receivers
+            //     subject: 'Hello ✔', // Subject line
+            //     // text: 'Jai ho', // plain text body
+            //     html: '<b>Gmail mail</b>', // html body
+            //     attachments: attachments
+            // };
+
+            // send mail with defined transport object
+            // transporter.sendMail(mailOptions, function (error, emailData) {
+            //     if (error) {
+            //         res.callback(error, null);
+            //     } else {
+            //         res.callback(null, emailData);
+            //     }
+            //     console.log("mail Data", emailData);
+            // });
+
+
+              // create reusable transporter object using the default SMTP transport
+            var transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: 'priyank.parmar@wohlig.com',
+                    pass: 'Prriyyannk394'
+                }
+            });
+
+            // setup email data with unicode symbols
+            console.log("imageData : ", image);
+            var mailOptions = {
+                from: '"'+ req.user.name +'" <' + req.user.email +'>', // sender address
+                to: 'priyank.parmar@wohlig.com', // list of receivers
+                subject: 'Hello ✔', // Subject line
+                // text: 'Jai ho', // plain text body
+                html: '<b>Gmail mail</b>', // html body
+                attachments: attachments
+            };
+
+            // send mail with defined transport object
+            transporter.sendMail(mailOptions, function (error, emailData) {
+                if (error) {
+                    res.callback(error, null);
+                } else {
+                    res.callback(null, emailData);
+                }
+                console.log("mail Data", emailData);
+            });
+
+
+
     }
 };
 module.exports = _.assign(module.exports, controller);
