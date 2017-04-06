@@ -2396,11 +2396,12 @@ var model = {
     if (!_.isEmpty(data.fromDate) && !_.isEmpty(data.toDate)) {
       var createdAt = {
         createdAt: {
-          "$gte": new Date(data.fromDate),
-          "$lte": new Date(data.toDate)
+          "$gte": new Date(moment(data.fromDate)),
+          "$lte": new Date(moment(data.toDate).add(1, "d"))
         }
       };
       filterObject = _.assign(filterObject, createdAt);
+      console.log('createdAt',createdAt.createdAt);
     }
 
     //Mr number filter
