@@ -23,80 +23,48 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="widget">
-            <div class="form-elements-sec">
-                <div class="sec">
-                    <div class="clearfix"></div>
-                    <div class="form-builder">
-                        <div class="form-repeater" ng-init="outerIndex=$index" ng-repeat="form in formData.forms track by $index">
-                            <div class="form-builder-head">
-                                <div class="mark-float">
-                                    <i class="fa fa-plus-circle success" ng-click="addHead();"></i>
-                                    <i class="fa fa-minus-circle danger" ng-click="removeHead($index);"></i>
-                                </div>
-                                <input type="text" ng-model="form.name" placeholder="Enter Heading" class="form-control">
-                            </div>
-                            <div class="form-builder-hr" id="sortable-ul-selector-id" ui-sortable="sortableOptions" ng-model="form.items">
-                                <div class="form-builder-item row-item" ng-repeat="item in form.items">
-                                    <div class="right-float mark-float">
-                                        <i class="fa fa-bars handleBar"></i>
-                                    </div>
-                                    <div class="col-item">
-                                        <ui-select placeholder="Select" ng-model="item"ng-change="getOneDescription(item,$index,outerIndex)" theme="bootstrap" sortable="true">
-                                            <ui-select-match placeholder="Select">
-                                                <span class="detail-title" ng-if="!flag" title="{{$select.selected.name}}">{{$select.selected.name}}</span>
-                                                <span class="detail-title" ng-if="flag" title="{{$select.selected.name}}">{{$select.selected.category}}</span>
-                                            </ui-select-match>
-                                            <ui-select-choices repeat="d in categories | filter: $select.search" refresh="getCategories($select.search)" refresh-delay="0">
-                                                <span>{{d.name}}</span>
-                                            </ui-select-choices>
-                                        </ui-select>
-                                        <!--<input type="text" ng-model="item.name" placeholder="Enter item name" class="form-control">-->
-                                    </div>
-                                    <div class="col-item">
-                                        <ui-select ng-model="item" ng-change="getAll(item,$index,outerIndex)" theme="bootstrap" sortable="true">
-                                            <ui-select-match placeholder="Select">
-                                                <span class="detail-title" title="{{$select.selected.name}}">{{$select.selected.name}}</span>
-                                            </ui-select-match>
-                                            <ui-select-choices repeat="d in descriptions | filter: $select.search" refresh="getdescriptions($select.search)" refresh-delay="0">
-                                                <span>{{d.name}}</span>
-                                            </ui-select-choices>
-                                        </ui-select>
-                                        <!--<input type="text" ng-model="item.name" placeholder="Enter item name" class="form-control">-->
-                                    </div>
-                                    <div class="col-item col-item-25">
-                                        <select class="form-control" ng-model="item.type">
-                                            <option value="{{item.value}}" ng-repeat="item in itemTypes">{{item.name}}</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-item col-item-25">
-                                        <input type="date" ng-model="item.value" class="form-control lorDate">
-                                    </div>
-                                    <!--<div class="col-item col-item-25" ng-if="item.type != 'Submitted'">
-                                        <p>Required
-                                            <toggle-switch on-label="Yes" off-label="No" ng-model="item.value" class="switch-mini switch-success ml-25"></toggle-switch>
-                                        </p>
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': item.submit=='Pending'}" ng-click="item.submit='Pending'">Pending</button>                                            
-                                            <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': item.submit=='Partially Recieved'}" ng-click="item.submit='Partially Recieved'">Partial</button>
-                                            <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': item.submit=='Recieved'}" ng-click="item.submit='Recieved'">Recieved</button>
-                                            <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': item.submit=='Waived'}" ng-click="item.submit='Waived'">Waived</button>
+
+                    <div class="row">
+                        <!--<pre>{{formData.forms|json}}</pre>-->
+                        <div class="col-md-12">
+                            <uib-accordion>
+                                <div uib-accordion-group class="panel-default custom-panel" ng-repeat="category in formData.forms">
+                                    <uib-accordion-heading>
+                                        {{category.name}}
+                                    </uib-accordion-heading>
+                                    <div class="line-holder" ng-repeat="sub in category.items">
+                                        <div class="form-builder">
+                                            <div class="form-repeater">
+                                                <div>
+                                                    <div class="form-builder-item no-pad row-item">
+
+                                                        <div class="col-item">
+                                                            <p> <span class="pull-left"><toggle-switch ng-model="sub.isCheck" ng-change="addToForm(sub)" class="switch-small switch-success m5"></toggle-switch></span>                                                                {{sub.name}}</p>
+                                                        </div>
+                                                        <div class="col-item" style="flex:0.5;" ng-if="isDateNeeded">
+                                                            <input type="date" date-model placeholder="Enter submitted date" class="form-control" ng-model="sub.date">
+                                                        </div>
+                                                        <div class="col-item" style="flex:2;" ng-if="isTypeNeeded">
+                                                            <div class="btn-group">
+                                                                <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': sub.submit=='Pending'}" ng-click="sub.submit='Pending'">Pending</button>
+                                                                <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': sub.submit=='Partially Recieved'}" ng-click="sub.submit='Partially Recieved'">Partial</button>
+                                                                <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': sub.submit=='Recieved'}" ng-click="sub.submit='Received'">Recieved</button>
+                                                                <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': sub.submit=='Waived'}" ng-click="sub.submit='Waived'">Waived</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>-->
-                                    <div class="mark-float">
-                                        <i class="fa fa-plus-circle success" ng-click="addItem(form);"></i>
-                                        <i class="fa fa-minus-circle danger" ng-click="removeItem(form, $index);"></i>
                                     </div>
                                 </div>
-                            </div>
+                            </uib-accordion>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
         <div class="clearfix"></div>
         <div class="text-center mt20 odd-even-button">
             <button class="btn btn-default" type="submit" ng-disabled="formName.$invalid">Save</button>

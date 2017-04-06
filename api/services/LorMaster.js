@@ -13,6 +13,14 @@ var schema = new Schema({
         type: String,
         enum:["Original","Copy"],
         default: "Original"
+    },
+    typeOfDoc:{
+        type:Boolean,
+        default:true        //true = Original
+    },
+    submit:{
+        type:String,
+        default:"Pending"
     }
 });
 

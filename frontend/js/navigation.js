@@ -558,6 +558,13 @@ var navigationservice = angular.module('navigationservice', [])
                     callback(data, i);
                 });
             },
+
+            getAccordianData: function (callback) {
+                $http.post(adminurl + 'LorCategory/getAccordianData').success(function (data) {
+                    callback(data);
+                });
+            },
+
             getBackendEmployee: function (formData, i, callback) {
                 console.log("FormData in search", formData);
                 formData.accessToken = $.jStorage.get("accessToken");
@@ -567,7 +574,7 @@ var navigationservice = angular.module('navigationservice', [])
                     callback(data, i);
                 });
             },
-             getShareWith1: function (formData, i, callback) {
+            getShareWith1: function (formData, i, callback) {
                 console.log("FormData in search", formData);
                 formData.accessToken = $.jStorage.get("accessToken");
                 // $http.post(adminurl + 'Employee/getBackendEmployee', formData).success(function (data) {
@@ -736,7 +743,7 @@ var navigationservice = angular.module('navigationservice', [])
                 if (data.policyDoc === "") {
                     delete data.policyDoc;
                 }
-                 var email = {
+                var email = {
                     email: $.jStorage.get("profile").email,
                     name: $.jStorage.get("profile").name
                 };
@@ -2342,6 +2349,7 @@ var navigationservice = angular.module('navigationservice', [])
                 }).success(callback);
             },
             deleteModel: function (model, id, callback) {
+                var data = {};
                 data._id = id;
                 data.accessToken = $.jStorage.get("accessToken");
                 $http.post(adminurl + model + '/delete', data).success(callback);
@@ -2765,12 +2773,12 @@ var navigationservice = angular.module('navigationservice', [])
             },
 
             saveJsonStore: function (data, callback) {
-                formData={};
+                formData = {};
                 formData.json = data;
                 formData.accessToken = $.jStorage.get("accessToken");
                 $http.post(adminurl + 'jsonStore/save', formData).success(function (response) {
                     if (response && response.data && response.data._id) {
-                        console.log("response",response.data._id);
+                        console.log("response", response.data._id);
                         callback(response.data._id);
                     }
                 });
