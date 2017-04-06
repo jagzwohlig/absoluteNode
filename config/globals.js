@@ -91,7 +91,7 @@ global["request"] = require('request');
 global["btoa"] = require('btoa');
 global["base64url"] = require('base64url');
 global["json2xls"] = require('json2xls');
-global["lwip"] = require('lwip');
+
 global["pdf"] = require('html-pdf');
 
 // passport Globals
@@ -117,6 +117,11 @@ global["green"] = function (data) {
 global["log"] = function (data) {
     console.log(data);
 };
+
+//Image Library
+global["stream"] = require('stream');
+global["Jimp"] = require("jimp");
+
 
 //Mime types
 global["mime"] = require('mime-types');
