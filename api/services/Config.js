@@ -434,6 +434,7 @@ var models = {
                 filename: filename2
             });
             readstream2.on('error', function (err) {
+                return;
                 res.json({
                     value: false,
                     error: err
