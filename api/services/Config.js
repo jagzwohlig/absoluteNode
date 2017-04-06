@@ -433,12 +433,12 @@ var models = {
             var readstream2 = gfs.createReadStream({
                 filename: filename2
             });
-            readstream2.on('error', function (err) {
-                res.json({
-                    value: false,
-                    error: err
-                });
-            });
+            // readstream2.on('error', function (err) {
+            //     res.json({
+            //         value: false,
+            //         error: err
+            //     });
+            // });
             readstream2.pipe(res);
         }
         

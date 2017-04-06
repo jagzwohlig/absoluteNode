@@ -88,104 +88,70 @@
             </div>
         </div>
         <div class="widget" ng-if="forms.type=='templateLor'">
-            <div class="form-elements-sec">sss
-                <div class="sec">
-                    <div class="clearfix"></div>
-                    <div class="form-builder">
-                        <div class="form-repeater" ng-init="outerIndex=$index" ng-repeat="form in forms.forms">
-                            <div class="form-builder-head">
-                                <div class="mark-float">
-                                    <i class="fa fa-plus-circle success" ng-click="addHead();"></i>
-                                    <i class="fa fa-minus-circle danger" ng-click="removeHead($index);"></i>
-                                </div>
-                                <input type="text" ng-model="form.name" placeholder="Enter Heading" class="form-control">
-                            </div>
-                            <div class="form-builder-hr" id="sortable-ul-selector-id" ng-model="form.items">
-                                <div class="form-builder-item no-pad row-item" ng-repeat="item in form.items">
-                                    <!--<div class="col-item col-item-35 ">
-                                        <p>
-                                            <ui-select ng-model="item" class="ui-select-custom" ng-change="getAll(item,$index,outerIndex)" theme="bootstrap" sortable="true">
-                                                <ui-select-match placeholder="Select">
-                                                    <span class="detail-title" title="{{$select.selected.name}}">{{$select.selected.name}}</span>
-                                                </ui-select-match>
-                                                <ui-select-choices repeat="d in descriptions | filter: $select.search" refresh="getdescriptions($select.search)" refresh-delay="0">
-                                                    <span>{{d.name}}</span>
-                                                </ui-select-choices>
-                                            </ui-select>
-                                            <span ng-if="item.value == true"></span>
-                                        </p>
-                                    </div>-->
-                                    <div class="col-item">
-                                        <ui-select placeholder="Select" ng-model="item" ng-change="getOneDescription(item,$index,outerIndex)" theme="bootstrap" sortable="true">
-                                            <ui-select-match placeholder="Select">
-                                                <span class="detail-title" ng-if="!flag" title="{{$select.selected.name}}">{{$select.selected.name}}</span>
-                                                <span class="detail-title" ng-if="flag" title="{{$select.selected.name}}">{{$select.selected.category}}</span>
-                                            </ui-select-match>
-                                            <ui-select-choices repeat="d in categories | filter: $select.search" refresh="getCategories($select.search)" refresh-delay="0">
-                                                <span>{{d.name}}</span>
-                                            </ui-select-choices>
-                                        </ui-select>
-                                        <!--<input type="text" ng-model="item.name" placeholder="Enter item name" class="form-control">-->
-                                    </div>
-                                    <div class="col-item">
-                                        <ui-select ng-model="item" ng-change="getAll(item,$index,outerIndex)" theme="bootstrap" sortable="true">
-                                            <ui-select-match placeholder="Select">
-                                                <span class="detail-title" title="{{$select.selected.name}}">{{$select.selected.name}}</span>
-                                            </ui-select-match>
-                                            <ui-select-choices repeat="d in descriptions | filter: $select.search" refresh="getdescriptions($select.search)" refresh-delay="0">
-                                                <span>{{d.name}}</span>
-                                            </ui-select-choices>
-                                        </ui-select>
-                                        <!--<input type="text" ng-model="item.name" placeholder="Enter item name" class="form-control">-->
-                                    </div>
-                                    <!-- TEXT -->
-                                    <div class="col-item" ng-if="item.value=='Text'">
-                                        <input type="text" ng-model="item.field" placeholder="Enter {{item.name}}" class="form-control">
-                                    </div>
-                                    <!-- DATE -->
-                                    <div class="col-item" ng-if="item.value=='Date'">
-                                        <input type="date" date-model placeholder="Enter {{item.name}}" class="form-control" ng-model="item.field">
-                                    </div>
-                                    <!-- TEXT AREA -->
-                                    <div class="col-item" ng-if="item.value=='Textarea'">
-                                        <textarea class="form-control" ng-model="item.field" placeholder="Enter {{item.name}}"></textarea>
-                                    </div>
-                                    <!-- SYSTEM FIELD -->
-                                    <div class="col-item" ng-if="item.type=='System Fields'">
-                                        <p>{{item.value|toobject:assignment}}</p>
-                                    </div>
-                                    <!-- LOR -->
-                                    <div class="col-item" ng-if="item.type=='Copy'||item.type=='Original'" style="flex:0.5;">
-                                        <select class="form-control" ng-model="item.type">
-                                            <option value="{{item.value}}" ng-repeat="item in itemTypes">{{item.name}}</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-item" ng-if="item.type=='Copy' || item.type=='Original' && item.submit" style="flex:0.5;">
-                                        <input type="date" date-model placeholder="Enter submitted date" class="form-control" ng-model="item.date">
-                                    </div>
-                                    <div class="col-item" ng-if="item.type=='Copy'||item.type=='Original'" style="flex:2;">
-                                        <!--<toggle-switch on-label="Submitted" off-label="Not Submitted" ng-model="item.submit" class="switch-small switch-success m5 mt5"></toggle-switch>-->
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': item.submit=='Pending'}" ng-click="item.submit='Pending'">Pending</button>
-                                            <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': item.submit=='Partially Recieved'}" ng-click="item.submit='Partially Recieved'">Partial</button>
-                                            <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': item.submit=='Recieved'}" ng-click="item.submit='Recieved'">Recieved</button>
-                                            <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': item.submit=='Waived'}" ng-click="item.submit='Waived'">Waived</button>
+            <div class="row">
+                <!--<pre>{{forms.forms|json}}</pre>-->
+                <div class="col-md-12" ng-if="((forms.lorCount=='NA' && forms.approvalStatus=='Draft')||(forms.lorCount=='LOR' && forms.approvalStatus=='Pending'))">
+                    <uib-accordion>
+                        <div uib-accordion-group class="panel-default custom-panel" ng-init="outerIndex=$index" ng-repeat="category in forms.forms track by $index">
+                            <uib-accordion-heading>
+                                {{category.name}}
+                            </uib-accordion-heading>
+                            <div class="line-holder" ng-init="innerIndex=$index" ng-repeat="sub in category.items track by $index">
+                                <div class="form-builder">
+                                    <div class="form-repeater">
+                                        <div>
+                                            <div class="form-builder-item no-pad row-item">
+
+                                                <div class="col-item">
+                                                    <p> <span class="pull-left"><toggle-switch ng-model="sub.isCheck" ng-change="addToForm(sub)" class="switch-small switch-success m5"></toggle-switch></span>                                                        {{sub.name}}</p>
+                                                </div>
+                                                <div class="col-item" ng-if="sub.isCheck">
+                                                    <toggle-switch ng-model="sub.typeOfDoc" on-label="Original" off-label="Copy" class="switch-small switch-success"></toggle-switch>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <!-- DROPDOWN -->
-                                    <div class="col-item" ng-if="item.type=='Dropdown'">
-                                        <select class="form-control" ng-model="item.field">
-                                            <option value="{{item}}" ng-repeat="item in item.dropdownValues">{{item}}</option>
-                                        </select>
-                                    </div>
-                                    <div class="mark-float">
-                                        <i class="fa fa-plus-circle success" ng-click="addItem(form);"></i>
-                                        <i class="fa fa-minus-circle danger" ng-click="removeItem(form, $index);"></i>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </uib-accordion>
+                </div>
+                <div class="col-md-12" ng-if="!((forms.lorCount=='NA' && forms.approvalStatus=='Draft')||(forms.lorCount=='LOR' && forms.approvalStatus=='Pending'))">
+                    <uib-accordion>
+                        <div uib-accordion-group class="panel-default custom-panel" ng-init="outerIndex=$index" ng-repeat="category in forms.forms track by $index">
+                            <uib-accordion-heading>
+                                {{category.name}}
+                            </uib-accordion-heading>
+                            <div class="line-holder" ng-init="innerIndex=$index" ng-repeat="sub in category.items track by $index">
+                                <div class="form-builder">
+                                    <div class="form-repeater">
+                                        <div>
+                                            <div class="form-builder-item no-pad row-item">
+
+                                                <div class="col-item">
+                                                    <p> <span class="pull-left"><toggle-switch ng-model="sub.isCheck" ng-change="addToForm(sub)" class="switch-small switch-success m5"></toggle-switch></span>                                                        {{sub.name}}</p>
+                                                </div>
+                                                <div class="col-item" style="flex:0.5;" ng-if="sub.isCheck && isDateNeeded">
+                                                    <input type="date" date-model placeholder="Enter submitted date" class="form-control" ng-model="sub.date">
+                                                </div>
+                                                <div class="col-item">
+                                                    <toggle-switch ng-model="sub.typeOfDoc" on-label="Original" off-label="Copy" class="switch-small switch-success"></toggle-switch>
+                                                </div>
+                                                <div class="col-item" style="flex:2;" ng-if="sub.isCheck && isTypeNeeded">
+                                                    <div class="btn-group">
+                                                        <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': sub.submit=='Pending'}" ng-click="sub.submit='Pending'">Pending</button>
+                                                        <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': sub.submit=='Partially Recieved'}" ng-click="sub.submit='Partially Recieved'">Partial</button>
+                                                        <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': sub.submit=='Recieved'}" ng-click="sub.submit='Received'">Recieved</button>
+                                                        <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': sub.submit=='Waived'}" ng-click="sub.submit='Waived'">Waived</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </uib-accordion>
                 </div>
             </div>
         </div>
