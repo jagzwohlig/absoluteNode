@@ -483,14 +483,14 @@ var navigationservice = angular.module('navigationservice', [])
                 data.accessToken = $.jStorage.get("accessToken");
                 $http.post(adminurl + 'user/detailEmail', data).success(callback);
             },
-            // sendEmail: function (data, callback) {
-            //     data.accessToken = $.jStorage.get("accessToken");
-            //     $http.post(adminurl + 'user/sendEmail', data).success(callback);
-            // },
             sendEmail: function (data, callback) {
                 data.accessToken = $.jStorage.get("accessToken");
-                $http.post(adminurl + 'assignment/sendEmailAttachment', data).success(callback);
+                $http.post(adminurl + 'user/sendEmail', data).success(callback);
             },
+            // sendEmail: function (data, callback) {
+            //     data.accessToken = $.jStorage.get("accessToken");
+            //     $http.post(adminurl + 'assignment/sendEmailAttachment', data).success(callback);
+            // },
             updateEmailStatus: function (data, callback) {
                 console.log("data email", data);
                 $http.post(adminurl + 'timeline/updateEmailStatus', data).success(callback);
