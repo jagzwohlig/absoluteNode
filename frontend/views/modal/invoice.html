@@ -1,6 +1,6 @@
 <div class="modal-header green-bg">
     <div class="pull-right">
-        <button class="btn btn-darker btn-round btn-nopad" ng-if="assignment.dateOfLoss" ng-click="viewInvoice(assignment,'')">Create new</button>
+        <button class="btn btn-darker btn-round btn-nopad" ng-if="assignment.dateOfLoss && assignment.invoice.length<1" ng-click="viewInvoice(assignment,'')">Create new</button>
         <button class="btn btn-clear" ng-click="$dismiss()">
             <i class="ln-cross"></i>
         </button>
@@ -27,7 +27,7 @@
                 <td align="right">{{Invoice.grandTotal | number}}</td>
                 <td>{{Invoice.approvalStatus}}</td>
                 <td>
-                    <button class="btn btn-clear" ng-if="Invoice.file!==''">
+                    <button class="btn btn-clear" ng-if="Invoice.file!=='' && Invoice.approvalStatus=='Approved'">
       <a class="btn btn-primary temp-btnbg" download="{{Invoice.file}}" ng-href="{{Invoice.file|downloadImageWithName:Invoice.invoiceNumber}}">
                             <i class="ln-download"></i>
                         </a>

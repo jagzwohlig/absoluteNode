@@ -10032,17 +10032,17 @@
             $scope.header = {
                 "name": "Create LOR Template"
             };
-            $scope.formData={};
+            $scope.formData = {};
             // $scope.formData.forms=[];            
             NavigationService.getAccordianData(function (data) {
                 $scope.formData.forms = data.data;
             });
-            $scope.addToForm=function(data){
+            $scope.addToForm = function (data) {
                 console.log(data);
             }
-                console.log("10043.................");
-            
-            var obj={};
+            console.log("10043.................");
+
+            var obj = {};
 
 
             $scope.isDateNeeded = false;
@@ -10194,7 +10194,7 @@
             NavigationService.getOneModel("TemplateLor", $stateParams.id, function (data) {
                 console.log("GetOne ", data.data);
                 $scope.formData = data.data;
-                console.log("ABC",$scope.formData.forms);
+                console.log("ABC", $scope.formData.forms);
             });
             NavigationService.getAccordianData(function (data) {
                 $scope.lorCategory = data.data;
@@ -10450,7 +10450,7 @@
             NavigationService.getOneModel("Assignment", $stateParams.assignmentId, function (data) {
                 $scope.assignment = data.data;
             });
-
+            $scope.disableSave = false;
             $scope.formData = {};
             $scope.formData.invoiceList = [];
             $scope.addHead = function () {
@@ -10615,7 +10615,15 @@
                 $scope.formData.roundOff = round.toFixed(2);
             }
             $scope.saveModel = function (data) {
-                console.log("Data of Pdf");
+                $scope.disableSave = true;
+                // $timeout(function () {
+                toastr.error("Please Wait", {
+                    timeOut: 10000
+                });
+                // }, 10000);
+
+
+                // console.log("Data of Pdf");
                 $scope.formData.createdBy = $scope.message.employee;
                 $scope.formData.assignment = $stateParams.assignmentId;
                 $scope.formData.approvalStatus = "Pending";
@@ -10638,9 +10646,9 @@
                                         console.log("Data of Pdf", data.data.name);
                                         $scope.sendMessage(data.data.name);
                                         $window.history.back();
-                                        toastr.success("Invoice Template " + formData.name + " created successfully.", "Invoice Template Created");
+                                        toastr.success("Invoice  created successfully.");
                                     } else {
-                                        toastr.error("Invoice Template creation failed.", "Invoice Template creation error");
+                                        toastr.error("Invoice creation failed.", "Invoice Template creation error");
                                     }
                                 });
                             } else {
@@ -10864,6 +10872,9 @@
                 $scope.formData.roundOff = round.toFixed(2);
             }
             $scope.saveModel = function (data) {
+                 toastr.error("Please Wait", {
+                    timeOut: 15000
+                });
                 $scope.disableSave = true;
                 if ($scope.approval) {
                     $scope.assignment.timelineStatus = "BBND";
@@ -11003,8 +11014,8 @@
                     dropdownValues: ['Mumbai', 'Bihar', 'Orissa']
                 }]
             }];
-            $scope.isDateNeeded=true;
-            $scope.isTypeNeeded=true;
+            $scope.isDateNeeded = true;
+            $scope.isTypeNeeded = true;
 
             $scope.assignment = {};
             $scope.assignment.templateIla = [];
@@ -11036,8 +11047,8 @@
                     console.log("getparent data = ", data);
                     // $scope.employee = [];
                     if (data.value) {
-console.log("2");
-                        
+                        console.log("2");
+
                         $scope.employee = data.data;
                         if ($scope.message.employee.employee) {
                             $scope.employee.unshift({
@@ -11055,8 +11066,8 @@ console.log("2");
                             $scope.employee = _.uniqBy($scope.employee, "email");
                         }
                     } else {
-console.log("3");
-                        
+                        console.log("3");
+
                         $scope.employee = [];
                         if ($scope.message.employee.employee) {
                             $scope.employee.push({
@@ -11078,13 +11089,13 @@ console.log("3");
                     $scope.forms = data.data;
                 });
             } else {
-console.log("5");
+                console.log("5");
                 var a = {
                     _id: $stateParams.assignmentTemplate,
                     type: _.camelCase($stateParams.type)
                 };
                 NavigationService.getAssignmentTemplate(a, function (data) {
-console.log("6",data.data);
+                    console.log("6", data.data);
                     _.each(data.data.forms, function (n) {
                         _.each(n.items, function (m) {
                             if (m.value == "Date") {
@@ -11145,7 +11156,7 @@ console.log("6",data.data);
                 }
             };
             $scope.getdescriptions = function (data) {
-console.log("7");
+                console.log("7");
                 console.log("IN getdescriptions");
                 var formData = {};
                 formData.keyword = data;
@@ -14209,9 +14220,9 @@ console.log("7");
             };
             $scope.changePage = function (page) {
                 console.log("Page", page);
-                var goTo = "lorApproval-list";
+                var goTo = "invoiceApproval-list";
                 if ($scope.search.keyword) {
-                    goTo = "lorApproval-list";
+                    goTo = "invoiceApproval-list";
                 }
                 $state.go(goTo, {
                     page: page,
