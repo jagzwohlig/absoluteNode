@@ -3,8 +3,8 @@
         <div class="row">
             <div class="col-md-12 column">
                 <div class="heading-profile">
-                    <h2>{{forms.name}}</h2>
-                    <toggle-switch ng-model="formData.status" on-label="Show All" off-label="Selected" class="switch-small switch-success pull-right"></toggle-switch>
+                    <h2>{{forms.name}}{{formData.status}}</h2>
+                    <toggle-switch ng-model="formData.status" ng-change="lorShowCategory(formData.status)" on-label="Show All" off-label="Selected" class="switch-small switch-success pull-right"></toggle-switch>
                 </div>
             </div>
         </div>
@@ -89,24 +89,25 @@
         </div>
         <div class="widget" ng-if="forms.type=='templateLor'">
             <div class="row">
-                <!--<pre>{{forms.forms|json}}</pre>-->
+                <pre>{{forms.forms|json}}</pre>
                 <div class="col-md-12" ng-if="((forms.lorCount=='NA' && forms.approvalStatus=='Draft')||(forms.lorCount=='LOR' && forms.approvalStatus=='Pending'))">
                     <uib-accordion>
                         <div uib-accordion-group class="panel-default custom-panel" ng-init="outerIndex=$index" ng-repeat="category in forms.forms track by $index">
-                            <uib-accordion-heading>
-                                {{category.name}}
-                            </uib-accordion-heading>
-                            <div class="line-holder" ng-init="innerIndex=$index" ng-repeat="sub in category.items track by $index">
-                                <div class="form-builder">
-                                    <div class="form-repeater">
-                                        <div>
-                                            <div class="form-builder-item no-pad row-item">
-
-                                                <div class="col-item">
-                                                    <p> <span class="pull-left"><toggle-switch ng-model="sub.isCheck" ng-change="addToForm(sub)" class="switch-small switch-success m5"></toggle-switch></span>                                                        {{sub.name}}</p>
-                                                </div>
-                                                <div class="col-item" ng-if="sub.isCheck">
-                                                    <toggle-switch ng-model="sub.typeOfDoc" on-label="Original" off-label="Copy" class="switch-small switch-success"></toggle-switch>
+                            <div ng-if="category.viewallCat==true">
+                                <uib-accordion-heading>
+                                   {{category.name}}
+                                </uib-accordion-heading>
+                                <div class="line-holder" ng-init="innerIndex=$index" ng-repeat="sub in category.items track by $index">
+                                    <div class="form-builder">
+                                        <div class="form-repeater">
+                                            <div>
+                                                <div class="form-builder-item no-pad row-item">
+                                                    <div class="col-item">
+                                                        <p> <span class="pull-left"><toggle-switch ng-model="sub.isCheck" ng-change="addToForm(sub)" class="switch-small switch-success m5"></toggle-switch></span>                                                            {{sub.name}}</p>
+                                                    </div>
+                                                    <div class="col-item" ng-if="sub.isCheck">
+                                                        <toggle-switch ng-model="sub.typeOfDoc" on-label="Original" off-label="Copy" class="switch-small switch-success"></toggle-switch>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -127,7 +128,6 @@
                                     <div class="form-repeater">
                                         <div>
                                             <div class="form-builder-item no-pad row-item">
-
                                                 <div class="col-item">
                                                     <p> <span class="pull-left"><toggle-switch ng-model="sub.isCheck" ng-change="addToForm(sub)" class="switch-small switch-success m5"></toggle-switch></span>                                                        {{sub.name}}</p>
                                                 </div>
