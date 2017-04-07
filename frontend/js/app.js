@@ -1810,6 +1810,30 @@ firstapp.filter('uploadpath', function () {
     };
 });
 
+firstapp.filter('uploadpathPdf', function () {
+    return function (input, width, height, style) {
+        var other = "";
+        if (width && width !== "") {
+            other += "&width=" + width;
+        }
+        if (height && height !== "") {
+            other += "&height=" + height;
+        }
+        if (style && style !== "") {
+            other += "&style=" + style;
+        }
+        if (input) {
+            // if (input.indexOf('https://') == -1) {
+                return adminurl + "downloadWithName/" + input + other;
+            // } else {
+            //     return input;
+            // }
+        } else {
+            return 'frontend/img/placeholder.png';
+        }
+    };
+});
+
 firstapp.filter("mrnumber", function (NavigationService, $timeout) {
 
     return function (input) {
@@ -2003,6 +2027,7 @@ firstapp.directive('uploadImage', function ($http, $filter, $timeout) {
                 }
 
             }
+
             if (attrs.inobj || attrs.inobj === "") {
                 $scope.inObject = true;
             }
