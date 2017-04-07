@@ -3,8 +3,12 @@
         <div class="row">
             <div class="col-md-12 column">
                 <div class="heading-profile">
-                    <h2>{{forms.name}}{{formData.status}}</h2>
-                    <toggle-switch ng-model="formData.status" ng-change="lorShowCategory(formData.status)" on-label="Show All" off-label="Selected" class="switch-small switch-success pull-right"></toggle-switch>
+                    <h2>{{forms.name}}</h2>
+                    <div ng-if="forms.type=='templateLor'">
+                        {{formData.status}}
+                        <!--{{formData.status}} -->
+                        <toggle-switch ng-model="formData.status" on-label="Show All" off-label="Selected"  ng-change="lorShowCategory(formData.status)" class="switch-small switch-success pull-right"></toggle-switch>
+                    </div>
                 </div>
             </div>
         </div>
@@ -89,61 +93,28 @@
         </div>
         <div class="widget" ng-if="forms.type=='templateLor'">
             <div class="row">
-                <pre>{{forms.forms|json}}</pre>
+                <!--<pre>{{forms.forms|json}}</pre>-->
                 <div class="col-md-12" ng-if="((forms.lorCount=='NA' && forms.approvalStatus=='Draft')||(forms.lorCount=='LOR' && forms.approvalStatus=='Pending'))">
-                    <uib-accordion>
-                        <div uib-accordion-group class="panel-default custom-panel" ng-init="outerIndex=$index" ng-repeat="category in forms.forms track by $index">
-                            <div ng-if="category.viewallCat==true">
-                                <uib-accordion-heading>
-                                   {{category.name}}
-                                </uib-accordion-heading>
-                                <div class="line-holder" ng-init="innerIndex=$index" ng-repeat="sub in category.items track by $index">
-                                    <div class="form-builder">
-                                        <div class="form-repeater">
-                                            <div>
-                                                <div class="form-builder-item no-pad row-item">
-                                                    <div class="col-item">
-                                                        <p> <span class="pull-left"><toggle-switch ng-model="sub.isCheck" ng-change="addToForm(sub)" class="switch-small switch-success m5"></toggle-switch></span>                                                            {{sub.name}}</p>
-                                                    </div>
-                                                    <div class="col-item" ng-if="sub.isCheck">
-                                                        <toggle-switch ng-model="sub.typeOfDoc" on-label="Original" off-label="Copy" class="switch-small switch-success"></toggle-switch>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </uib-accordion>
-                </div>
-                <div class="col-md-12" ng-if="!((forms.lorCount=='NA' && forms.approvalStatus=='Draft')||(forms.lorCount=='LOR' && forms.approvalStatus=='Pending'))">
-                    <uib-accordion>
-                        <div uib-accordion-group class="panel-default custom-panel" ng-init="outerIndex=$index" ng-repeat="category in forms.forms track by $index">
+
+                    <uib-accordion  ng-repeat="category in forms.forms">
+                        <div ng-init="checkCategory(category)"></div>
+                        <!--{{checkCategory(category)}}-->{{checkLor}}
+                        <div uib-accordion-group class="panel-default custom-panel" ng-if="checkLor==true || showAll">
+                            <!--<div ng-init="setCategory()"></div>-->
                             <uib-accordion-heading>
                                 {{category.name}}
                             </uib-accordion-heading>
-                            <div class="line-holder" ng-init="innerIndex=$index" ng-repeat="sub in category.items track by $index">
-                                <div class="form-builder">
+                            <div class="line-holder" ng-repeat="sub in category.items">
+                                
+                                <div class="form-builder" ng-if="sub.isCheck==true || showAll">
                                     <div class="form-repeater">
                                         <div>
                                             <div class="form-builder-item no-pad row-item">
                                                 <div class="col-item">
                                                     <p> <span class="pull-left"><toggle-switch ng-model="sub.isCheck" ng-change="addToForm(sub)" class="switch-small switch-success m5"></toggle-switch></span>                                                        {{sub.name}}</p>
                                                 </div>
-                                                <div class="col-item" style="flex:0.5;" ng-if="sub.isCheck && isDateNeeded">
-                                                    <input type="date" date-model placeholder="Enter submitted date" class="form-control" ng-model="sub.date">
-                                                </div>
-                                                <div class="col-item">
+                                                <div class="col-item" ng-if="sub.isCheck">
                                                     <toggle-switch ng-model="sub.typeOfDoc" on-label="Original" off-label="Copy" class="switch-small switch-success"></toggle-switch>
-                                                </div>
-                                                <div class="col-item" style="flex:2;" ng-if="sub.isCheck && isTypeNeeded">
-                                                    <div class="btn-group">
-                                                        <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': sub.submit=='Pending'}" ng-click="sub.submit='Pending'">Pending</button>
-                                                        <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': sub.submit=='Partially Recieved'}" ng-click="sub.submit='Partially Recieved'">Partial</button>
-                                                        <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': sub.submit=='Recieved'}" ng-click="sub.submit='Received'">Recieved</button>
-                                                        <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': sub.submit=='Waived'}" ng-click="sub.submit='Waived'">Waived</button>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -154,7 +125,49 @@
                     </uib-accordion>
                 </div>
             </div>
+
+            <!--||(forms.lorCount=='LOR' && forms.approvalStatus=='Approved')-->
+            <!--{{!((forms.lorCount=='NA' && forms.approvalStatus=='Draft')||(forms.lorCount=='LOR' && forms.approvalStatus=='Pending'))}}-->
+            <div class="col-md-12" ng-if="(!((forms.lorCount=='NA' && forms.approvalStatus=='Draft')||(forms.lorCount=='LOR' && forms.approvalStatus=='Pending')))">
+                <uib-accordion>
+                    <!--<div ng-if="category.viewallCat==true">-->
+                    <div uib-accordion-group class="panel-default custom-panel" ng-init="outerIndex=$index" ng-repeat="category in forms.forms track by $index">
+                        <uib-accordion-heading>
+                            {{category.name}}
+                        </uib-accordion-heading>
+                        <div class="line-holder" ng-init="innerIndex=$index" ng-repeat="sub in category.items track by $index">
+                            <div class="form-builder">
+                                <div class="form-repeater">
+                                    <div>
+                                        <div class="form-builder-item no-pad row-item">
+                                            <div class="col-item">
+                                                <p> <span class="pull-left"><toggle-switch ng-model="sub.isCheck" ng-change="addToForm(sub)" class="switch-small switch-success m5"></toggle-switch></span>                                                    {{sub.name}}</p>
+                                            </div>
+                                            <div class="col-item" style="flex:0.5;" ng-if="sub.isCheck && isDateNeeded">
+                                                <input type="date" date-model placeholder="Enter submitted date" class="form-control" ng-model="sub.date">
+                                            </div>
+                                            <div class="col-item">
+                                                <toggle-switch ng-model="sub.typeOfDoc" on-label="Original" off-label="Copy" class="switch-small switch-success"></toggle-switch>
+                                            </div>
+                                            <div class="col-item" style="flex:2;" ng-if="sub.isCheck && isTypeNeeded">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': sub.submit=='Pending'}" ng-click="sub.submit='Pending'">Pending</button>
+                                                    <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': sub.submit=='Partially Recieved'}" ng-click="sub.submit='Partially Recieved'">Partial</button>
+                                                    <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': sub.submit=='Recieved'}" ng-click="sub.submit='Received'">Recieved</button>
+                                                    <button type="button" class="btn btn-default btn-wave" ng-class="{'btn-primary': sub.submit=='Waived'}" ng-click="sub.submit='Waived'">Waived</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--</div>-->
+                </uib-accordion>
+            </div>
         </div>
+
         <div class="col-item" style="flex:1; padding-left:25%; width:75%" ng-if="approval==false">
             <select class="form-control" ng-model="forms.officeEmail" required>
                     <option ng-value="{{employees.officeEmail}}" ng-repeat="employees in employee">{{employees.name}} &lt;{{employees.email}}&gt;</option>
