@@ -1543,42 +1543,27 @@
                 //  CLONE ASSIGNMENT
             if ($stateParams.assignment) {
                 NavigationService.getOneModel("Assignment", $stateParams.assignment, function (data) {
-                    $scope.formData = data.data;
-                    $scope.formData.appointment = $stateParams.pdf;
-                    $scope.formData.clone = $scope.formData._id;
-                    delete $scope.formData._id;
-                    delete $scope.formData.intimatedLoss;
-                    delete $scope.formData.city;
-                    delete $scope.formData.address;
-                    delete $scope.formData.pincode;
-                    delete $scope.formData.lat;
-                    delete $scope.formData.lng;
-                    delete $scope.formData.dateOfLoss;
-                    delete $scope.formData.timelineStatus;
-                    delete $scope.formData.prevtimelineStatus;
-                    delete $scope.formData.salvage;
-                    $scope.formData.products = [];
-                    $scope.formData.invoices = [];
-                    $scope.formData.LRs = [];
-                    $scope.formData.vehicleNumber = [];
-                    $scope.formData.others = [];
-                    $scope.formData.product = [];
-                    $scope.formData.locationArr = [];
-                    $scope.formData.templateLor = [];
-                    $scope.formData.templateJir = [];
-                    $scope.formData.templateIsr = [];
-                    $scope.formData.templateIla = [];
-                    $scope.formData.fsrs = [];
-                    $scope.formData.docs = [];
-                    $scope.formData.photos = [];
-                    $scope.formData.jir = [];
-                    $scope.formData.assessment = [];
-                    $scope.formData.timeline = [];
-                    delete $scope.formData.siteNumber;
-                    delete $scope.formData.siteMobile;
-                    delete $scope.formData.siteEmail;
-                    delete $scope.formData.name;
-                    delete $scope.formData.name1;
+                    $scope.formData.clone = data.data._id;
+                    $scope.formData.company = data.data.company;
+                    $scope.formData.office = data.data.office;
+                    $scope.formData.branch = data.data.branch;
+                    $scope.formData.department = data.data.department;
+                    $scope.formData.owner = data.data.owner;
+                    $scope.formData.typeOfClaim = data.data.typeOfClaim;
+                    $scope.formData.shareWith = data.data.shareWith;
+                    $scope.formData.isInsured = data.data.isInsured;
+                    $scope.formData.postLoss = data.data.postLoss;
+                    $scope.formData.customer = data.data.customer;
+                    $scope.formData.segment = data.data.segment;
+                    $scope.formData.customerCompany = data.data.customerCompany;
+                    $scope.formData.insured = data.data.insured;
+                    $scope.formData.insuredOffice = data.data.insuredOffice;
+                    $scope.formData.insurer = data.data.insurer;
+                    $scope.formData.insurerOffice = data.data.insurerOffice;
+                    $scope.formData.broker = data.data.broker;
+                    $scope.formData.brokerOffice = data.data.brokerOffice;
+                    $scope.formData.policyDepartment = data.data.policyDepartment;
+                    $scope.formData.policyType = data.data.policyType;
                 });
             }
 

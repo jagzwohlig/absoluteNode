@@ -222,7 +222,6 @@ var models = {
             if (err) {
                 callback(err);
             } else {
-
                 var id = mongoose.Types.ObjectId();
                 var newFilename = id + ".pdf";
                 var writestream = gfs.createWriteStream({
