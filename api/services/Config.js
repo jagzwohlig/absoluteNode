@@ -235,7 +235,7 @@ var models = {
                     } else {
                         callback(null, {
                             name: newFilename,
-                            url: "http://wohlig.io/api/download/" + newFilename
+                            url: global["env"].realHost + "/api/downloadWithName/" + newFilename
                         });
                     }
                 });

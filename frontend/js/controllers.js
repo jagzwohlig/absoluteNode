@@ -1838,7 +1838,8 @@
                     $scope.formData.timelineStatus = "LOR Pending"
                 }
                 // $scope.formData.email = ($.jStorage.get("assignmentEmail") ? $.jStorage.get("assignmentEmail") : {});
-                NavigationService.assignmentSave($scope.formData, function (data) {
+
+                 NavigationService.assignmentSave($scope.formData, function (data) {
                     console.log(data);
                     if (data.value === true) {
                         // $state.go('assignment-list');
@@ -1852,6 +1853,38 @@
                         toastr.error("Assignment  creation failed," + data.error.message + ".", "Assignment creation error");
                     }
                 });
+
+                // NavigationService.assignmentSave($scope.formData, function (data) {
+                //     console.log(data);
+                //     if (data.value === true) {
+                //         // $state.go('assignment-list');
+                //         // $window.history.back();
+                //         $scope.message= {};
+                //         $scope.message.title = "Assignment Created";
+                //         $scope.message.type = "Normal";
+                //         $scope.timeline = {};
+                //         $scope.timeline.chat = [];
+                //         $scope.timeline.chat.push($scope.message);
+                //         NavigationService.saveChat($scope.timeline, function (timelineData) {
+                //             if (timelineData) {
+                //                 console.log("In Timeline : ",timelineData);
+                //                 $state.go("timeline", {
+                //                     id: data.data._id
+                //                 });
+                //                 toastr.success("Assignment " + data.data.name + " created successfully.", "Assignment Created");
+                //             } else {
+                //                 $state.go("timeline", {
+                //                     id: data.data._id,
+                //                 });
+                //                 toastr.success("Timeline updating status failed.", "Timeline status Creation error");
+                //             }
+                //         });
+
+                //     } else {
+                //         $scope.hideSaveCancel = false;
+                //         toastr.error("Assignment  creation failed," + data.error.message + ".", "Assignment creation error");
+                //     }
+                // });
 
             };
 
