@@ -297,10 +297,10 @@ var models = {
                 personalizations: personalizations,
                 from: data.from,
                 content: [{
-                    type: 'text/html',
-                    value: "<h1>Absolute Surveyors</h1>",
-                }]
-                // attachments: attachments
+                        type: 'text/html',
+                        value: "<h1>Absolute Surveyors</h1>",
+                    }]
+                    // attachments: attachments
             },
         });
 
@@ -400,7 +400,11 @@ var models = {
             if (proceedI === 2) {
                 Jimp.read(buf, function (err, image) {
                     if (err) {
-                        callback(err, null);
+                        return;
+                        res.json({
+                            value: false,
+                            error: err
+                        });
                     } else {
                         if (style === "contain" && width && height) {
                             image.contain(width, height).getBuffer(Jimp.AUTO, writer2);
@@ -441,7 +445,7 @@ var models = {
             });
             readstream2.pipe(res);
         }
-        
+
         var onlyName = filename.split(".")[0];
         var extension = filename.split(".").pop();
         if ((extension == "jpg" || extension == "png" || extension == "gif") && ((width && width > 0) || (height && height > 0))) {
