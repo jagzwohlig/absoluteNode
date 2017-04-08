@@ -161,7 +161,9 @@ function makeItCurrency (num) {
                     <div class="row">
                         <div class="col-xs-4"><em>Insurer</em></div>
                         <div class="col-xs-8">
-                            <%=data.assignment.insurerOffice.name%>
+                            <% if(data.assignment.insurerOffice) {%>
+                            <%= data.assignment.insurerOffice.name %>
+                            <% } %>
                         </div>
                     </div>
                 </div>

@@ -1506,7 +1506,7 @@ var model = {
               }
               // console.log('mailData', mailData);
               var mailData = [];
-              if ($scope.data.type == "templateLor") {
+              if (body.type == "templateLor" && body.approvalStatus == "Pending") {
                 mailData[0] = "LOR Send Authorization";
                 mailData[1] = emailData;
                 mailData[2] = body.accessToken;
@@ -1526,7 +1526,7 @@ var model = {
                   }
                 });
 
-              } else if ($scope.data.type == "templateIla") {
+              } else if (body.type == "templateIla" && body.approvalStatus == "Pending") {
                 mailData[0] = "ILA Send for Authorization";
                 mailData[1] = emailData;
                 mailData[2] = body.accessToken;
@@ -1539,7 +1539,7 @@ var model = {
                     if (_.isEmpty(newData)) {
                       callback("There was an error while sending mail", null);
                     } else {
-                      console.log("LOR DATA.................................................", $scope.data);
+                      console.log("ILA DATA.................................................", $scope.data);
                       Config.generatePdf("new-ila", $scope, callback);
                     }
                   }

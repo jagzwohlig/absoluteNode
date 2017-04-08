@@ -178,17 +178,6 @@ var model = {
         raw: req.body.raw
       }
     };
-    // } else {
-    //   var reqUrl = {
-    //     url: 'https://www.googleapis.com/gmail/v1/users/' + req.user.email + "/" + req.body.url,
-    //     form: {
-    //       refresh_token: req.user.googleRefreshToken,
-    //       client_id: GoogleclientId,
-    //       raw: req.body.raw
-    //     }
-    //   };
-    // }
-    // console.log("reqUrl , ", reqUrl);
     request.post(reqUrl, function (err, httpResponse, body) {
       if (err) {
         callback(err);
@@ -322,6 +311,7 @@ var model = {
   //   }
   //   makeGmailCall();
   // },
+
   gmailCall: function (req, callback) {
     var noTry = 0;
     var labelIds = "";

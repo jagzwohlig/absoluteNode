@@ -467,62 +467,36 @@ var controller = {
         }
 
         var attachments = [{
-            filename: "58df550390366f15f5c74274.jpg",
-            path: global["env"].realHost + '/api/upload/readFile?file=58df550390366f15f5c74274.jpg'
+            filename: "58e8a599557f603459400df3.png",
+            path: global["env"].realHost + '/api/upload/readFile?file=58e8a599557f603459400df3.png'
         }];
-
-        // create reusable transporter object using the default SMTP transport
-        // var transporter = nodemailer.createTransport({
-        //     service: 'gmail',
-        //     auth: {
-        //         user: 'priyank.parmar@wohlig.com',
-        //         pass: 'Prriyyannk394'
-        //     }
-        // });
-
-        // setup email data with unicode symbols
-        // console.log("imageData : ", image);
-        // var mailOptions = {
-        //     from: '"'+ req.user.name +'" <' + req.user.email +'>', // sender address
-        //     to: 'priyank.parmar@wohlig.com', // list of receivers
-        //     subject: 'Hello ✔', // Subject line
-        //     // text: 'Jai ho', // plain text body
-        //     html: '<b>Gmail mail</b>', // html body
-        //     attachments: attachments
-        // };
-
-        // send mail with defined transport object
-        // transporter.sendMail(mailOptions, function (error, emailData) {
-        //     if (error) {
-        //         res.callback(error, null);
-        //     } else {
-        //         res.callback(null, emailData);
-        //     }
-        //     console.log("mail Data", emailData);
-        // });
 
         console.log("users = ",req.user);
         // create reusable transporter object using the default SMTP transport
         var transporter = nodemailer.createTransport({
             service: 'gmail',
-            auth: {
-                xoauth2: xoauth2.createXOAuth2Generator({
-                    user: req.user.name,
-                    clientId: global["GoogleclientId"],
-                    clientSecret: global["GoogleclientSecret"],
-                    refreshToken: req.user.googleRefreshToken,
-                    accessToken: req.body.accessToken
-                })
-            }
+                auth: {
+                    user: 'priyank.parmar@wohlig.com',
+                    pass: 'Prriyyannk394'
+                }
+            // auth: {
+            //     xoauth2: xoauth2.createXOAuth2Generator({
+            //         user: req.user.name,
+            //         clientId: global["GoogleclientId"],
+            //         clientSecret: global["GoogleclientSecret"],
+            //         refreshToken: req.user.googleRefreshToken,
+            //         accessToken: req.body.accessToken
+            //     })
+            // }
         });
 
-            console.log("transporter : ", transporter.options.xoauth2);
-        
+        // console.log("transporter : ", transporter.options.xoauth2);
         // setup email data with unicode symbols
-        
         var mailOptions = {
-            from: '"' + req.user.name + '" <' + req.user.email + '>', // sender address
+            // from: '"' + req.user.name + '" <' + req.user.email + '>', // sender address
+            from: '"Priyank Parmar" <priyank.parmar@wohlig.com>', // sender address
             to: 'priyank.parmar@wohlig.com', // list of receivers
+            // reply_to: 'priyank.parmar@wohlig.com',
             subject: 'Hello ✔', // Subject line
             // text: 'Jai ho', // plain text body
             html: '<b>Gmail mail</b>', // html body
@@ -538,9 +512,6 @@ var controller = {
             }
             console.log("mail Data", emailData);
         });
-
-
-
     }
 };
 module.exports = _.assign(module.exports, controller);

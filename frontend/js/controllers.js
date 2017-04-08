@@ -399,7 +399,10 @@
                 }
                 NavigationService.searchModel($scope.ModelApi, {
                     page: $scope.currentPage,
-                    keyword: $scope.search.keyword
+                    keyword: $scope.search.keyword,
+                    filter:{
+                        approvalStatus:"Approved"
+                    }
                 }, ++i, function (data, ini) {
                     if (ini == i) {
                         $scope.modelList = data.data.results;
@@ -577,8 +580,10 @@
 
             if ($stateParams.model === "assignment") {
                 $scope.showAssignment();
-            } else {
-                $scope.showAll();
+            } else if($stateParams.model === "invoice") {
+                $scope.showAllInvoices();
+            }else{
+                showAll();
             }
             $scope.deleteModel = function (id) {
                 console.log("Delete Id", id);

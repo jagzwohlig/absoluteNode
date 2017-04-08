@@ -288,165 +288,14 @@ var model = {
                             } else {
                                 console.log("updated data", updated, data);
                                 // callback(null,updated);
-                                Assignment.getOne({
-                                    _id: data.assignment._id
-                                }, function (err, assignmentData) {
-                                    // console.log("assignmentData =========", assignmentData);
+                                Invoice.getAssignmentMailData(data, function (err, mailData) {
                                     if (err) {
-                                        console.log("err", err);
-                                        callback("No data found in assignment", null);
+                                        callback("There was an error while sending mail", null);
                                     } else {
-                                        console.log("assignmentData else", assignmentData);
-                                        if (_.isEmpty(assignmentData)) {
-                                            callback("No data found in assignment search", null);
+                                        if (_.isEmpty(mailData)) {
+                                            callback("No Data found in sending mail", null);
                                         } else {
-                                            toName = "";
-                                            toEmail = "";
-                                            if (data.officeEmail) {
-                                                console.log("office Email", data.officeEmail);
-                                                var to = data.officeEmail;
-                                                to = to.split("<");
-                                                // console.log("to[1]",to[1]);
-                                                toName = to[0];
-                                                var toEmails = to[1].split(">");
-                                                toEmail = toEmails[0];
-                                            }
-                                            console.log("assignmentData In ", assignmentData);
-                                            var emailData = {};
-                                            emailData.assignmentNo = assignmentData.name;
-                                            emailData.ownerName = assignmentData.owner.name;
-                                            emailData.ownerEmail = assignmentData.owner.officeEmail;
-                                            emailData.ownerPhone = assignmentData.owner.officeMobile;
-                                            if (assignmentData.city !== undefined) {
-                                                emailData.siteCity = assignmentData.city.name;
-                                            }
-                                            emailData.invoiceNumber = data.invoiceNumber;
-                                            if (assignmentData.insured) {
-                                                if (assignmentData.insured.name) {
-                                                    emailData.insuredName = (assignmentData.insured.name ? assignmentData.insured.name : "");
-                                                } else {
-                                                    emailData.insuredName = "";
-                                                }
-                                            } else {
-                                                emailData.insuredName = "";
-                                            }
-                                            if (assignmentData.templateIla[0]) {
-                                                emailData.ilaAuthDate = assignmentData.templateIla[0].authTimestamp;
-                                            }
-                                            if (assignmentData.products[0]) {
-                                                if (assignmentData.products[0].product) {
-                                                    emailData.productName = (assignmentData.products[0].product.name ? assignmentData.products[0].product.name : "NA");
-                                                }
-                                            }
-
-                                            // emailData.surveyDate = (surveyDate ? moment(surveyDate).format("DD/MM/YYYY") : "");
-                                            // console.log("emailData In 1 ", emailData);
-                                            if (assignmentData.survey) {
-                                                _.each(assignmentData.survey, function (values) {
-                                                    console.log("survey: ", values);
-                                                    if (values.status == "Pending") {
-                                                        console.log("In surveyor");
-                                                        if (values.employee) {
-                                                            emailData.surveyorNumber = values.employee.officeMobile;
-                                                            emailData.surveyorName = values.employee.name;
-                                                            emailData.surveyorEmail = values.employee.officeEmail;
-                                                            emailData.surveyDate = values.surveyDate;
-                                                        }
-                                                    }
-                                                });
-                                            }
-
-
-                                            // console.log("emailData In 2 ", emailData);
-                                            emailData.to = [];
-                                            emailData.to.push({
-                                                name: assignmentData.owner.name,
-                                                email: assignmentData.owner.officeEmail
-                                            });
-                                            emailData.cc = [];
-                                            if (assignmentData.shareWith) {
-                                                _.each(assignmentData.shareWith, function (values) {
-                                                    console.log("values", values);
-                                                    _.each(values.persons, function (personss) {
-                                                        console.log("persons", personss);
-                                                        emailData.cc.push({
-                                                            name: personss.name,
-                                                            email: personss.officeEmail
-                                                        });
-                                                    });
-                                                });
-                                            }
-
-                                            if (data.user) {
-                                                emailData.assignmentAuthorizer = data.user.name;
-                                            }
-                                            console.log('emailData', emailData);
-
-                                            //Find Acknowledgment Email data
-                                            if (data.approvalStatus == "Pending") {
-                                                console.log(" Approval status : Pending ->");
-                                                var mailData = [];
-                                                mailData[0] = "Invoice Send Authorization";
-                                                mailData[1] = emailData;
-                                                mailData[2] = data.accessToken;
-                                                mailData[3] = data.users.email;
-                                                Assignment.getMailAndSendMail(mailData, function (err, newData) {
-                                                    if (err) {
-                                                        callback(null, err);
-                                                    } else {
-                                                        if (_.isEmpty(newData)) {
-                                                            callback("There was an error while sending mail", null);
-                                                        } else {
-                                                            callback(null, newData);
-                                                        }
-                                                    }
-                                                });
-                                            } else if (data.approvalStatus == "Approved") {
-                                                
-                                                console.log(" Approval status : Approved ->");
-                                                emailData.to = [];
-                                                emailData.to.push({
-                                                    name: toName,
-                                                    email: toEmail
-                                                });
-                                                var mailData = [];
-                                                mailData[0] = "Invoice Authorization";
-                                                mailData[1] = emailData;
-                                                mailData[2] = data.accessToken;
-                                                mailData[3] = data.users.email;
-                                                Assignment.getMailAndSendMail(mailData, function (err, newData) {
-                                                    if (err) {
-                                                        callback(null, err);
-                                                    } else {
-                                                        if (_.isEmpty(newData)) {
-                                                            callback("There was an error while sending mail", null);
-                                                        } else {
-                                                            callback(null, newData);
-                                                        }
-                                                    }
-                                                });
-                                            } else if (data.approvalStatus == "Revised") {
-                                                console.log(" Approval status : Revised ->");
-                                                var mailData = [];
-                                                mailData[0] = "Invoice Back to Regenerate";
-                                                mailData[1] = emailData;
-                                                mailData[2] = data.accessToken;
-                                                mailData[3] = data.users.email;
-                                                Assignment.getMailAndSendMail(mailData, function (err, newData) {
-                                                    if (err) {
-                                                        callback(null, err);
-                                                    } else {
-                                                        if (_.isEmpty(newData)) {
-                                                            callback("There was an error while sending mail", null);
-                                                        } else {
-                                                            callback(null, newData);
-                                                        }
-                                                    }
-                                                });
-                                            } else {
-                                                callback(null, updated);
-                                            }
-
+                                            callback(null, updated);
                                         }
                                     }
                                 });
@@ -470,12 +319,210 @@ var model = {
                         if (err) {
                             callback(err, data2);
                         } else {
-                            Model.generateInvoiceNumber(data2, callback);
+                            Model.generateInvoiceNumber(data2, function (err, mailData) {
+                                if (err) {
+                                    callback("There was an error while generating Invoice number", null);
+                                } else {
+                                    if (_.isEmpty(mailData)) {
+                                        callback("No Data found in generating Invoice number", null);
+                                    } else {
+                                        data.saveStatus = true;
+                                        data.invoiceNumber = data2.invoiceNumber; 
+                                        console.log("Invoice number , ",data2.invoiceNumber);
+                                        Invoice.getAssignmentMailData(data, function (err, mailData) {
+                                            if (err) {
+                                                callback(err, null);
+                                            } else {
+                                                if (_.isEmpty(mailData)) {
+                                                    callback("No Data found in sending mail", null);
+                                                } else {
+                                                    callback(null, data2);
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            });
                         }
                     });
                 }
             });
         }
+    },
+
+    getAssignmentMailData: function (data, callback) {
+        if(data.saveStatus===true){
+            var id =  data.assignment;
+        } else {
+            var id =  data.assignment._id;
+        }
+        Assignment.getOne({
+            _id: id
+        }, function (err, assignmentData) {
+            // console.log("assignmentData =========", assignmentData);
+            if (err) {
+                console.log("err", err);
+                callback("No data found in assignment", null);
+            } else {
+                console.log("assignmentData else", assignmentData);
+                if (_.isEmpty(assignmentData)) {
+                    callback("No data found in assignment search", null);
+                } else {
+                    toName = "";
+                    toEmail = "";
+                    if (data.officeEmail) {
+                        console.log("office Email", data.officeEmail);
+                        var to = data.officeEmail;
+                        to = to.split("<");
+                        // console.log("to[1]",to[1]);
+                        toName = to[0];
+                        var toEmails = to[1].split(">");
+                        toEmail = toEmails[0];
+                    }
+                    console.log("assignmentData In ", assignmentData);
+                    var emailData = {};
+                    emailData.assignmentNo = assignmentData.name;
+                    emailData.ownerName = assignmentData.owner.name;
+                    emailData.ownerEmail = assignmentData.owner.officeEmail;
+                    emailData.ownerPhone = assignmentData.owner.officeMobile;
+                    if (assignmentData.city !== undefined) {
+                        emailData.siteCity = assignmentData.city.name;
+                    }
+                    emailData.invoiceNumber = data.invoiceNumber;
+                    if (assignmentData.insured) {
+                        if (assignmentData.insured.name) {
+                            emailData.insuredName = (assignmentData.insured.name ? assignmentData.insured.name : "");
+                        } else {
+                            emailData.insuredName = "";
+                        }
+                    } else {
+                        emailData.insuredName = "";
+                    }
+                    if (assignmentData.templateIla[0]) {
+                        emailData.ilaAuthDate = assignmentData.templateIla[0].authTimestamp;
+                    }
+                    if (assignmentData.products[0]) {
+                        if (assignmentData.products[0].product) {
+                            emailData.productName = (assignmentData.products[0].product.name ? assignmentData.products[0].product.name : "NA");
+                        }
+                    }
+
+                    // emailData.surveyDate = (surveyDate ? moment(surveyDate).format("DD/MM/YYYY") : "");
+                    // console.log("emailData In 1 ", emailData);
+                    if (assignmentData.survey) {
+                        _.each(assignmentData.survey, function (values) {
+                            console.log("survey: ", values);
+                            if (values.status == "Pending") {
+                                console.log("In surveyor");
+                                if (values.employee) {
+                                    emailData.surveyorNumber = values.employee.officeMobile;
+                                    emailData.surveyorName = values.employee.name;
+                                    emailData.surveyorEmail = values.employee.officeEmail;
+                                    emailData.surveyDate = values.surveyDate;
+                                }
+                            }
+                        });
+                    }
+
+
+                    // console.log("emailData In 2 ", emailData);
+                    emailData.to = [];
+                    emailData.to.push({
+                        name: assignmentData.owner.name,
+                        email: assignmentData.owner.officeEmail
+                    });
+                    emailData.cc = [];
+                    if (assignmentData.shareWith) {
+                        _.each(assignmentData.shareWith, function (values) {
+                            console.log("values", values);
+                            _.each(values.persons, function (personss) {
+                                console.log("persons", personss);
+                                emailData.cc.push({
+                                    name: personss.name,
+                                    email: personss.officeEmail
+                                });
+                            });
+                        });
+                    }
+
+                    if (data.user) {
+                        emailData.assignmentAuthorizer = data.user.name;
+                    }
+                    console.log('emailData', emailData);
+
+                    //Find Acknowledgment Email data
+                    if (data.approvalStatus === "Pending" && data.saveStatus === true) {
+                        console.log("Approval status : Pending ->");
+                        emailData.to = [];
+                        emailData.to.push({
+                            name: toName,
+                            email: toEmail
+                        });
+                        var mailData = [];
+                        mailData[0] = "Invoice Send Authorization";
+                        mailData[1] = emailData;
+                        mailData[2] = data.accessToken;
+                        mailData[3] = data.users.email;
+                        Assignment.getMailAndSendMail(mailData, function (err, newData) {
+                            if (err) {
+                                callback(null, err);
+                            } else {
+                                if (_.isEmpty(newData)) {
+                                    callback("There was an error while sending mail", null);
+                                } else {
+                                    callback(null, newData);
+                                }
+                            }
+                        });
+                    } else if (data.approvalStatus == "Approved") {
+
+                        console.log(" Approval status : Approved ->");
+                        emailData.to = [];
+                        emailData.to.push({
+                            name: toName,
+                            email: toEmail
+                        });
+                        var mailData = [];
+                        mailData[0] = "Invoice Authorization";
+                        mailData[1] = emailData;
+                        mailData[2] = data.accessToken;
+                        mailData[3] = data.users.email;
+                        Assignment.getMailAndSendMail(mailData, function (err, newData) {
+                            if (err) {
+                                callback(null, err);
+                            } else {
+                                if (_.isEmpty(newData)) {
+                                    callback("There was an error while sending mail", null);
+                                } else {
+                                    callback(null, newData);
+                                }
+                            }
+                        });
+                    } else if (data.approvalStatus == "Revised") {
+                        console.log(" Approval status : Revised ->");
+                        var mailData = [];
+                        mailData[0] = "Invoice Back to Regenerate";
+                        mailData[1] = emailData;
+                        mailData[2] = data.accessToken;
+                        mailData[3] = data.users.email;
+                        Assignment.getMailAndSendMail(mailData, function (err, newData) {
+                            if (err) {
+                                callback(null, err);
+                            } else {
+                                if (_.isEmpty(newData)) {
+                                    callback("There was an error while sending mail", null);
+                                } else {
+                                    callback(null, newData);
+                                }
+                            }
+                        });
+                    } else {
+                        callback(null, data);
+                    }
+
+                }
+            }
+        });
     },
     generateInvoiceNumber: function (data, callback) {
         Invoice.find({
