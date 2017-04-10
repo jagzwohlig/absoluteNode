@@ -13,7 +13,7 @@ var schema = new Schema({
         ref: "Customer",
         required: true,
         key: "policydoc",
-        unique:true
+        unique: true
     },
     listOfDocuments: [{
         name: {
@@ -161,7 +161,7 @@ var model = {
     getPolicyDoc: function (data, callback) {
         var Model = this;
         var aggText = [];
-        var searchText = new RegExp(data.keyword, "i");
+        // var searchText = new RegExp(data.keyword, "i");
         if (data.filter && data.filter._id && mongoose.Types.ObjectId.isValid(data.filter._id)) {
             aggText = [{
                 "$unwind": "$listOfDocuments"
@@ -169,7 +169,8 @@ var model = {
                 "$match": {
                     "listOfDocuments._id": mongoose.Types.ObjectId(data.filter._id),
                     "listOfDocuments.name": {
-                        $regex: searchText
+                        $regex: data.keyword,
+                        $options: 'i'
                     }
                 }
             }, {
@@ -184,7 +185,8 @@ var model = {
                     // "listOfDocuments.insurerCompany": mongoose.Types.ObjectId(data.filter.insurerCompany),
                     // "listOfDocuments.insurerOffice": mongoose.Types.ObjectId(data.filter.insurerOffice),
                     "listOfDocuments.name": {
-                        $regex: searchText
+                        $regex: data.keyword,
+                        $options: 'i'
                     }
                 }
             }, {

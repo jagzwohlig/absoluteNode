@@ -1550,7 +1550,11 @@ var model = {
 
               } else {
                 console.log("template pdf : ",data3,"body=== ",body);
-                Config.generatePdf("new-ila", $scope, callback);
+                if(body.type == "templateIlor"){
+                   Config.generatePdf("pdf/new-lor", $scope, callback);
+                } else {
+                  Config.generatePdf("new-ila", $scope, callback);
+                }
                 // Config.generatePdf("pdf/abs-synopsis", $scope, callback);
               }
             }
