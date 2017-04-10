@@ -188,7 +188,9 @@ function makeItCurrency (num) {
                             <%if(data.assignment.insuredOffice===undefined){%>
                                 -
                                 <%}else{%>
+                                 <%if(data.assignment.insuredOffice){%>
                                     <%=data.assignment.insuredOffice.name%>
+                                    <%}%>
                                         <%}%>
                         </div>
                     </div>
