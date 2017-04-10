@@ -92,7 +92,7 @@
         </div>
         <div class="widget" ng-if="forms.type=='templateLor'">
             <div class="row">
-                <pre>{{forms.forms|json}}</pre>
+                <!--<pre>{{forms.forms|json}}</pre>-->
                 <div class="col-md-12" ng-if="((forms.lorCount=='NA' && forms.approvalStatus=='Draft')||(forms.lorCount=='LOR' && forms.approvalStatus=='Pending'))">
                     <uib-accordion ng-repeat="category in forms.forms">
                         <!--{{checkCategory(category)}}-->
