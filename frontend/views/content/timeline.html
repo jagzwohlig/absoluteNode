@@ -33,7 +33,8 @@
                 
                 <ul class="dropdown-menu info-dropdown" uib-dropdown-menu role="menu" aria-labelledby="new-tasks">
                   <li role="menuitem"><a ng-if="assignment.typeOfClaim && assignment.branch.STAT" ng-click="assignSurveyor();">Assign Surveyor</a></li>
-                   <li role="menuitem"><a ng-if="assignment.typeOfClaim && assignment.branch.STAT" ng-click="assignmentSurvey();">Offline Survey</a></li>
+                   <li role="menuitem"><a ng-click="assignmentSurvey();">Offline Survey</a></li>
+                   <!--ng-if="assignment.typeOfClaim && assignment.branch.STAT" -->
                 </ul>
 
                 </span>

@@ -1390,14 +1390,16 @@ var model = {
       approvalType: approvalType,
       approvalStatus: approvalStatus
     }, function (err, data3) {
+      console.log("data3 ====:=== ",data3);
       if (err) {
         callback(err, null);
       } else {
+         console.log("data3 ====:=== ",data3);
         $scope.assignment = findObj._id;
         toName = "";
         toEmail = "";
         if (body.officeEmail) {
-          console.log("office Email", body.officeEmail);
+          console.log("office Email == ", body.officeEmail);
           var to = body.officeEmail;
           to = to.split("<");
           // console.log("to[1]",to[1]);
@@ -1412,6 +1414,7 @@ var model = {
         Assignment.getOne({
           _id: body.assignment._id
         }, function (err, assignmentData) {
+          // console.log("assignment data ======= ",assignmentData);
           if (err) {
             callback("No data found in assignment", null);
           } else {
@@ -1485,14 +1488,14 @@ var model = {
                 name: toName,
                 email: toEmail
               });
-              console.log("emaildata.to ", emailData.to);
+              console.log("emaildata.to == ", emailData.to);
 
               emailData.cc = [];
               if (assignmentData.shareWith) {
                 _.each(assignmentData.shareWith, function (values) {
-                  console.log("values", values);
+                  // console.log("values", values);
                   _.each(values.persons, function (personss) {
-                    console.log("persons", personss);
+                    // console.log("persons", personss);
                     emailData.cc.push({
                       name: personss.name,
                       email: personss.officeEmail
@@ -1506,13 +1509,14 @@ var model = {
               }
               // console.log('mailData', mailData);
               var mailData = [];
-              if (body.type == "templateLor" && body.approvalStatus == "Pending") {
+              if (body.type == "templateLor") {
+                console.log("In template lor Status Pending!");
                 mailData[0] = "LOR Send Authorization";
                 mailData[1] = emailData;
                 mailData[2] = body.accessToken;
                 mailData[3] = body.users.email;
                 Assignment.getMailAndSendMail(mailData, function (err, newData) {
-                  console.log("newData", newData);
+                  // console.log("newData", newData);
                   if (err) {
                     callback(null, err);
                   } else {
@@ -1526,13 +1530,14 @@ var model = {
                   }
                 });
 
-              } else if (body.type == "templateIla" && body.approvalStatus == "Pending") {
+              } else if (body.type == "templateIla") {
+                console.log("In template ila Status Pending!");
                 mailData[0] = "ILA Send for Authorization";
                 mailData[1] = emailData;
                 mailData[2] = body.accessToken;
                 mailData[3] = body.users.email;
                 Assignment.getMailAndSendMail(mailData, function (err, newData) {
-                  console.log("newData", newData);
+                  // console.log("newData", newData);
                   if (err) {
                     callback(null, err);
                   } else {
@@ -1546,7 +1551,9 @@ var model = {
                 });
 
               } else {
-                Config.generatePdf("pdf/abs-synopsis", $scope, callback);
+                console.log("template pdf : ",data3,"body=== ",body);
+                Config.generatePdf("new-ila", $scope, callback);
+                // Config.generatePdf("pdf/abs-synopsis", $scope, callback);
               }
             }
           }
@@ -3395,7 +3402,7 @@ var model = {
     }
 
     var set2 = Object.assign(approvalStatus, authTimestamp, file, reqtimestamp, lorCount);
-    console.log("Set2................................................", set2);
+    // console.log("Set2................................................", set2);
     if (data.type == "templateIla") {
       matchObj = {
         _id: data.assignId,
@@ -3474,7 +3481,7 @@ var model = {
                 }
               }
               emailData.fullAddress = emailData.siteAddress + " " + emailData.siteCity + " " + emailData.siteState + " " + emailData.siteZone + " " + emailData.siteCountry;
-              console.log("emaildata fullAddress", emailData.fullAddress);
+              // console.log("emaildata fullAddress", emailData.fullAddress);
               if (assignmentData.insured) {
                 if (assignmentData.insured.name) {
                   emailData.insuredName = (assignmentData.insured.name ? assignmentData.insured.name : "");
