@@ -431,6 +431,7 @@ var controller = {
         //Attachment files
         var files = [];
         var imageData = {};
+        var images = [];
         var image = getAttachments_(files);
         console.log("Image : ", image);
 
@@ -440,35 +441,22 @@ var controller = {
 
             _.each(files, function (values) {
                 // console.log("files : ", values,"realHost = ",realHost);
-                var callAPI = {
-                    url: global["env"].realHost + '/api/upload/readFile?file=' + values,
-                    method: "POST"
+                var imageData = {
+                    filename: values,
+                    path: global["env"].realHost + '/api/upload/readFile?file=' + values
                 };
-
-                console.log("callAPI : ", callAPI);
-                request(callAPI, function (err, httpResponse, body) {
-                    // var filesData = fs.createWriteStream(body);
-                    // console.log("files stream , ",filesData);
-                    if (err) {
-                        res.callback(err);
-                    } else if (body) {
-                        imageData.fileName = values;
-                        imageData.contents = body;
-                    } else {
-                        res.callback("No Data found");
-                    }
-                });
+                images.push(imageData);
             });
 
-            // setTimeout(function () {
-            //     return imageData;
-            // }, 2000);
+            setTimeout(function () {
+                return images;
+            }, 2000);
 
         }
 
         var attachments = [{
-            filename: "58e8a599557f603459400df3.png",
-            path: global["env"].realHost + '/api/upload/readFile?file=58e8a599557f603459400df3.png'
+            filename: "58eb5c918d2061574cfbf8c1.pdf",
+            path: global["env"].realHost + '/api/upload/readFile?file=58eb5c918d2061574cfbf8c1.pdf'
         }];
 
         console.log("users = ",req.user);

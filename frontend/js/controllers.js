@@ -1046,6 +1046,7 @@
             };
 
         })
+
         .controller('CreateLorCategoryCtrl', function ($scope, hotkeys, $window, TemplateService, NavigationService, $timeout, $state, toastr, $uibModal) {
             //Used to name the .html file
 
@@ -12643,8 +12644,8 @@
             // console.log("$scope.assignment.survey Data", $scope.assignment.survey);
             _.each($scope.assignment.survey, function (n, key) {
                 console.log("$scope.assignment", $scope.assignment);
-                // if (n.status === "Pending" && (($scope.employee._id === $scope.assignment.owner._id))) {
-                if (n.status === "Pending" && ((n.employee._id === $scope.employee._id) || ($scope.employee._id === $scope.assignment.owner._id))) {
+                    // && ((n.employee._id === $scope.employee._id) || ($scope.employee._id === $scope.assignment.owner._id))
+                if (n.status === "Pending") {
                     console.log("IN If", n, validSurveyor);
                     $scope.offlineSurvey.surveyId = n._id;
                     validSurveyor = true;
@@ -12660,7 +12661,6 @@
                 validSurveyor = false;
             } else {
                 console.log("validSurveyor", validSurveyor);
-
                 toastr.error("Invalid Surveyor");
             }
         };
