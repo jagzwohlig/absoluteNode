@@ -1506,7 +1506,7 @@ var model = {
               }
               // console.log('mailData', mailData);
               var mailData = [];
-              if (body.type == "templateLor" && body.approvalStatus == "Pending") {
+              if (body.type == "templateLor") {
                 mailData[0] = "LOR Send Authorization";
                 mailData[1] = emailData;
                 mailData[2] = body.accessToken;
@@ -1526,7 +1526,7 @@ var model = {
                   }
                 });
 
-              } else if (body.type == "templateIla" && body.approvalStatus == "Pending") {
+              } else if (body.type == "templateIla") {
                 mailData[0] = "ILA Send for Authorization";
                 mailData[1] = emailData;
                 mailData[2] = body.accessToken;

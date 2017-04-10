@@ -3,7 +3,7 @@
 <%
 function checkPending (input) {
   for(var j=0; j<input.items.length; j++){
-    if(input.items[j].submit=="Pending" || input.items[j].submit=="Partially Recieved"){
+    if((input.items[j].submit=="Pending" || input.items[j].submit=="Partially Recieved")&& (data.forms[i].items[j].isCheck==true)){
       return true;
   }
   }
@@ -215,7 +215,7 @@ function checkPending (input) {
 							</tr>
 							<% for(var j=0; j<data.forms[i].items.length; j++) {%>
 								<tr>
-									<% if(data.forms[i].items[j].submit=="Pending" || data.forms[i].items[j].submit=="Partially Recieved"){ %>
+									<% if((data.forms[i].items[j].submit=="Pending" || data.forms[i].items[j].submit=="Partially Recieved") && (data.forms[i].items[j].isCheck==true)){ %>
 
 										<td>
 											<%= j+1 %>.
