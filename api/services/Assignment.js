@@ -1510,7 +1510,6 @@ var model = {
               // console.log('mailData', mailData);
               var mailData = [];
               if (body.type == "templateLor") {
-                console.log("In template lor Status Pending!");
                 mailData[0] = "LOR Send Authorization";
                 mailData[1] = emailData;
                 mailData[2] = body.accessToken;
@@ -1531,7 +1530,6 @@ var model = {
                 });
 
               } else if (body.type == "templateIla") {
-                console.log("In template ila Status Pending!");
                 mailData[0] = "ILA Send for Authorization";
                 mailData[1] = emailData;
                 mailData[2] = body.accessToken;

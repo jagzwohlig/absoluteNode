@@ -583,7 +583,7 @@
             } else if($stateParams.model === "invoice") {
                 $scope.showAllInvoices();
             }else{
-                showAll();
+                $scope.showAll();
             }
             $scope.deleteModel = function (id) {
                 console.log("Delete Id", id);
@@ -11150,53 +11150,20 @@
                
             // };
 
-            $scope.checkCategory = function (data) {
-                console.log("1");                
-                console.log("ABC", data, data.items.length);
-                var a = 0;
-                console.log("In A", a);
-                data.items.forEach(function (n) {
-                    console.log("AAAAAAAAAAAAA",n);
-                    if (n.isCheck == false || n.isCheck == undefined) {
-                        
-                    }else{
-                console.log("2");                
-                        $scope.checkLor=true;
-                        // $scope.setCategory();
-                    }
+
+            $scope.hasSubCategory = function(category) {
+                var retValue = true;
+                var indexNum = _.findIndex(category.items,function(n) {
+                    return n.isCheck;
                 });
-                // $scope.checkLor=false;
-                // _.each(data.items, function (n, key) {
-                //     if (n.isCheck == false || n.isCheck == undefined) {
-                //         // a=a+1;
-                //         console.log("In False",a);
-
-                //         console.log("$scope.checkLor",$scope.checkLor);
-                //     } else {
-                //         console.log("In True");
-                //         a++;
-                //         // return true;
-                //         // console.log("In True");
-                //         $scope.checkLor=true;
-                //         // $scope.checkLor=false;
-                //     }
-                // });
-
-            };
-            $scope.checkSubCategory = function (data) {
-                console.log("..............................................................", data);
-                if (data.isCheck == false || data.isCheck == undefined) {} else {
-                    $scope.checkItem = true;
+                if(indexNum >= 0) {
+                    retValue = true;
+                } else {
+                    retValue = false;
                 }
-                //  _.each(data.items, function (n, key) {
-                //     if (n.isCheck == false || n.isCheck == undefined) {
-                //         console.log("In False");
-                //     } else {
-                //         console.log("In True");
-                //         $scope.checkLor=true;
-                //     }
-                // });
-            }
+                return retValue;
+            };
+
             $scope.lorShowCategory = function (data) {
                 $scope.showAll = data;
             }
