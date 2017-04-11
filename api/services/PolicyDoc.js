@@ -156,7 +156,6 @@ var model = {
             }
         }
 
-
     },
     getPolicyDoc: function (data, callback) {
         var Model = this;
@@ -168,10 +167,7 @@ var model = {
             }, {
                 "$match": {
                     "listOfDocuments._id": mongoose.Types.ObjectId(data.filter._id),
-                    "listOfDocuments.name": {
-                        $regex: data.keyword,
-                        $options: 'i'
-                    }
+                    "listOfDocuments.name": data.keyword
                 }
             }, {
                 "$limit": 10
@@ -184,10 +180,7 @@ var model = {
                     "listOfDocuments.policyType": mongoose.Types.ObjectId(data.filter.policyType),
                     // "listOfDocuments.insurerCompany": mongoose.Types.ObjectId(data.filter.insurerCompany),
                     // "listOfDocuments.insurerOffice": mongoose.Types.ObjectId(data.filter.insurerOffice),
-                    "listOfDocuments.name": {
-                        $regex: data.keyword,
-                        $options: 'i'
-                    }
+                    "listOfDocuments.name": data.keyword
                 }
             }, {
                 "$limit": 10
