@@ -11703,6 +11703,7 @@
                 }
             });
         }
+        
         $scope.getEmployeeEmailsBcc = function (select) {
             NavigationService.getEmployeeNameEmail({
                 keyword: select
@@ -12846,6 +12847,24 @@
                 });
             }
         };
+        //For Invoice create new button
+        $scope.buttonStatus = false;
+        $scope.checkButtonViewStatus = function (assignment) {
+            console.log("is isInspection ",assignment.isInspection ,"date of loss",assignment.dateOfLoss);
+            if (_.isEmpty(assignment.dateOfLoss)) {
+                if (assignment.isInspection==true) {
+                    $scope.buttonStatus = true
+                } else {
+                     $scope.buttonStatus = false
+                }
+                 console.log("buttonStatus : = ", $scope.buttonStatus);
+            } else {
+                $scope.buttonStatus = true;
+                console.log("buttonStatus : = ", $scope.buttonStatus);
+            }
+        };
+
+
         $scope.viewInvoice = function (assignment, invoice) {
             if (invoice === '') {
                 $state.go("createInvoice", {
@@ -14260,18 +14279,6 @@
             });
         };
 
-        $scope.buttonStatus = false;
-        $scope.checkButtonViewStatus = function (assignment) {
-            if (_.isEmpty(assignment.dateOfLoss)) {
-                if (assignment.isInsured==true) {
-                    $scope.buttonStatus = true
-                } else {
-                     $scope.buttonStatus = false
-                }
-            } else {
-                $scope.buttonStatus = true;
-            }
-        };
         // 
         $scope.viewInvoice = function (invoice, assignment) {
                 $state.go("editInvoice", {
