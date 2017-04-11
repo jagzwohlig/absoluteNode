@@ -1312,8 +1312,6 @@ var model = {
       }
     }];
     aggText[1]["$match"][type + "._id"] = mongoose.Types.ObjectId(id);
-
-
     Model.aggregate(aggText).exec(function (err, data) {
       if (err || data.length === 0) {
         callback(err);
@@ -1331,7 +1329,7 @@ var model = {
               _id: data3.policyDoc
             }
             PolicyDoc.getPolicyDoc({
-              filter
+              filter  
             }, function (err, data4) {
               if (err) {
                 data2.assignment = data3;
