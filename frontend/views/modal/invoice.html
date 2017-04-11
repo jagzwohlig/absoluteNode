@@ -1,8 +1,7 @@
 <div class="modal-header green-bg" ng-init="checkButtonViewStatus(assignment)">
     <div class="pull-right">
-        <!--assignment.dateOfLoss-->
-        
-        <button class="btn btn-darker btn-round btn-nopad" ng-if="buttonStatus && assignment.invoice.length<1" ng-click="viewInvoice(assignment,'')">Create new</button>
+        <!--assignment.dateOfLoss buttonStatus &&  -->
+        <button class="btn btn-darker btn-round btn-nopad" ng-if="assignment.invoice.length<1" ng-click="viewInvoice(assignment,'')">Create new</button>
         <button class="btn btn-clear" ng-click="$dismiss()">
             <i class="ln-cross"></i>
         </button>
