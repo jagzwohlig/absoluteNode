@@ -336,6 +336,9 @@ var controller = {
                     name: name,
                 };
             });
+            
+            jagz.push({"key":"fs.chunks","name":"fs.chunks"},{"key":"fs.files","name":"fs.files"});
+            
             var isBackup = fs.existsSync("./backup");
             if (!isBackup) {
                 fs.mkdirSync("./backup");
