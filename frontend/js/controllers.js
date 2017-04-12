@@ -1740,6 +1740,7 @@
                             break;
                         case "LRs":
                             var newmod2 = a.lrNumber.split(',');
+                            console.log("NewLRs ",newmod2);
                             _.each(newmod2, function (n) {
                                 $scope.newjson = {};
                                 $scope.newjson.lrNumber = n;

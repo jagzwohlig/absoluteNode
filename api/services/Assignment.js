@@ -1390,11 +1390,11 @@ var model = {
       approvalType: approvalType,
       approvalStatus: approvalStatus
     }, function (err, data3) {
-      console.log("data3 ====:=== ",data3);
+      console.log("data3 ====:=== ", data3);
       if (err) {
         callback(err, null);
       } else {
-         console.log("data3 ====:=== ",data3);
+        console.log("data3 ====:=== ", data3);
         $scope.assignment = findObj._id;
         toName = "";
         toEmail = "";
@@ -1549,9 +1549,9 @@ var model = {
                 });
 
               } else {
-                console.log("template pdf : ",data3,"body=== ",body);
-                if(body.type == "templateIlor"){
-                   Config.generatePdf("pdf/new-lor", $scope, callback);
+                console.log("template pdf : ", data3, "body=== ", body);
+                if (body.type == "templateIlor") {
+                  Config.generatePdf("pdf/new-lor", $scope, callback);
                 } else {
                   Config.generatePdf("new-ila", $scope, callback);
                 }
@@ -1637,7 +1637,103 @@ var model = {
       .page(options, callback);
 
   },
+  CheckLr: function (data, callback) {
 
+    var aggText = [];
+      async.eachSeries(data, function (n, callback1) {
+    console.log("Data", data);
+    if (data.type == "LR") {
+      console.log("HIIIIIIIIIIIIIIIIIIIIIIIIIIII");
+      data.newArr = data.arr;
+      aggText = [{
+        "$unwind": {
+          path: "$LRs",
+          includeArrayIndex: "arrayIndex", // optional
+          preserveNullAndEmptyArrays: false // optional
+        }
+      }, {
+        $project: {
+          LRNumber: "$LRs.lrNumber",
+          name: 1
+        }
+      }, {
+        "$match": {
+          LRNumber: data.value
+        }
+      }, {
+        $count:"Count"
+      }];
+    } else {
+      aggText = [{
+        "$unwind": {
+          path: "$LRs",
+          includeArrayIndex: "arrayIndex", // optional
+          preserveNullAndEmptyArrays: false // optional
+        }
+      }, {
+        $project: {
+          LRNumber: "$LRs.lrNumber",
+          name: 1
+        }
+      }, {
+        "$match": {
+          LRNumber: data.value
+        }
+      }, {
+        $count:"Count"
+      }];
+    }
+    Assignment.aggregate(aggText).exec(function (err, found) {
+      if (err) {
+        callback(err, null);
+      } else {
+        if(found.length>0){
+        console.log("HIIIIIIIIIIIIIIIIIIIIIIIIIIII", found[0].Count);
+        }
+        callback(null, found);
+      }
+    });
+        }, function (err) {
+      if (err) {
+        console.log("Err");
+      } else {
+        callback(err, finalArr);
+      }
+    });
+    // async.eachSeries(data, function (n, callback1) {
+    //   // console.log("N",n._id);
+    //   Assignment.aggregate({
+    //     postedAt: n._id,
+    //     $or: [{
+    //       isSurveyor: true
+    //     }, {
+    //       isField: true
+    //     }]
+    //   }, {
+    //     officeEmail: 1,
+    //     date: 1,
+    //     photo: 1,
+    //     name: 1
+    //   }).exec(function (err, data3) {
+    //     if (err) {
+    //       callback1(err, null);
+    //     } else {
+    //       // console.log("Array Of Employee", data3);
+    //       _.each(data3, function (n) {
+    //         n.date = data.surveyDate;
+    //         finalArr.push(n);
+    //       });
+    //       callback1(null, "Done");
+    //     }
+    //   });
+    // }, function (err) {
+    //   if (err) {
+    //     console.log("Err");
+    //   } else {
+    //     callback(err, finalArr);
+    //   }
+    // });
+  },
   updateSurveyor: function (data, callback) {
     data.survey.timestamp = Date.now();
     Assignment.update({
@@ -2772,12 +2868,12 @@ var model = {
                 // console.log("newInvoiceList........", newInvoiceList);
                 if (newInvoiceList.length > 0 && newInvoiceList !== undefined) {
                   if (newInvoiceList[newInvoiceList.length - 1].approvalTime !== undefined) {
-                  obj["Reported Date"] = moment(newInvoiceList[newInvoiceList.length - 1].approvalTime).format("DD-MM-YYYY");
-                } else{
-                  obj["Reported Date"] = "";
+                    obj["Reported Date"] = moment(newInvoiceList[newInvoiceList.length - 1].approvalTime).format("DD-MM-YYYY");
+                  } else {
+                    obj["Reported Date"] = "";
+                  }
                 }
-                }
-                
+
               } else {
                 obj["Reported Date"] = "";
               }

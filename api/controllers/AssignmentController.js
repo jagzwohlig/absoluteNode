@@ -270,6 +270,16 @@ var controller = {
             });
         }
     },
+    CheckLr: function (req, res) {
+        if (req.body) {
+            req.model.CheckLr(req.body, res.callback);
+        } else {
+            res.json({
+                value: false,
+                data: "Invalid Request"
+            });
+        }
+    },
     updateAllIntimatedLoss: function (req, res) {
         if (req.body) {
             req.model.updateAllIntimatedLoss(req.body, res.callback);
@@ -399,13 +409,13 @@ var controller = {
         mailData.from = {};
         mailData.cc = [];
         mailData.email = [{
-                email: "priyank.parmar@wohlig.com",
-                name: "Priyank Parmar"
-            }]
-            // mailData.cc = [{
-            //    email: "priyank.parmar@wohlig.com",
-            //     name: "Priyank Parmar"
-            // }]
+            email: "priyank.parmar@wohlig.com",
+            name: "Priyank Parmar"
+        }]
+        // mailData.cc = [{
+        //    email: "priyank.parmar@wohlig.com",
+        //     name: "Priyank Parmar"
+        // }]
         mailData.from = {
             name: "Priyank Parmar",
             email: "priyank.parmar@wohlig.com"
@@ -459,14 +469,14 @@ var controller = {
             path: global["env"].realHost + '/api/upload/readFile?file=58eb5c918d2061574cfbf8c1.pdf'
         }];
 
-        console.log("users = ",req.user);
+        console.log("users = ", req.user);
         // create reusable transporter object using the default SMTP transport
         var transporter = nodemailer.createTransport({
             service: 'gmail',
-                auth: {
-                    user: 'priyank.parmar@wohlig.com',
-                    pass: 'Prriyyannk394'
-                }
+            auth: {
+                user: 'priyank.parmar@wohlig.com',
+                pass: 'Prriyyannk394'
+            }
             // auth: {
             //     xoauth2: xoauth2.createXOAuth2Generator({
             //         user: req.user.name,
