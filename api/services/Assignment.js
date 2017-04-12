@@ -1665,7 +1665,7 @@ var model = {
   CheckLr: function (data, callback) {
 
     var aggText = [];
-      async.eachSeries(data, function (n, callback1) {
+      async.eachSeries(data.arr, function (n, callback1) {
     console.log("Data", data);
     if (data.type == "LR") {
       console.log("HIIIIIIIIIIIIIIIIIIIIIIIIIIII");
@@ -1683,7 +1683,7 @@ var model = {
         }
       }, {
         "$match": {
-          LRNumber: data.value
+          LRNumber: n
         }
       }, {
         $count:"Count"
