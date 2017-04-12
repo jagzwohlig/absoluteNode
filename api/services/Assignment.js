@@ -1151,12 +1151,39 @@ var model = {
             if (err) {
               callback(err, data2);
             } else {
-              Model.generateAssignmentNumber(data2, callback);
+              Model.generateAssignmentNumber(data2, function(err,assignmentData){
+                console.log("assignmentData : ",assignmentData);
+                  if(err){
+                    callback(err,null);
+                  } else {
+                    if(_.isEmpty(assignmentData)){
+                      callback("There was an error while generating assignment number!",null);
+                    } else {
+                      callback(null,assignmentData);
+                    }
+                  }
+              });
             }
           });
         }
       });
     }
+  },
+
+  getAssignmentMatchedData: function(data,callback) { 
+    Assignment.getOne({
+      _id: data._id
+    },function(err,assignmentData){
+      if(err){
+        callback(err,null);
+      } else {
+        if(_.isEmpty(assignmentData)){
+          callback("No Assignment matched data found!",null);
+        } else {
+          callback(null,assignmentData);
+        }
+      }
+    });
   },
 
   getNearestSurveyor: function (data, callback) {
@@ -1312,8 +1339,6 @@ var model = {
       }
     }];
     aggText[1]["$match"][type + "._id"] = mongoose.Types.ObjectId(id);
-
-
     Model.aggregate(aggText).exec(function (err, data) {
       if (err || data.length === 0) {
         callback(err);
@@ -1331,7 +1356,7 @@ var model = {
               _id: data3.policyDoc
             }
             PolicyDoc.getPolicyDoc({
-              filter
+              filter  
             }, function (err, data4) {
               if (err) {
                 data2.assignment = data3;

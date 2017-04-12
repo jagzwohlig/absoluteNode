@@ -1,7 +1,7 @@
-<div class="modal-header green-bg">
+<div class="modal-header green-bg" ng-init="checkButtonViewStatus(assignment);">
     <div class="pull-right">
-        <!--assignment.dateOfLoss-->
-        <button class="btn btn-darker btn-round btn-nopad" ng-if="assignment.invoice.length<1" ng-click="viewInvoice(assignment,'')">Create new</button>
+        <!--assignment.dateOfLoss    -->
+        <button class="btn btn-darker btn-round btn-nopad" ng-if="buttonStatus && assignment.invoice.length<1" ng-click="viewInvoice(assignment,'')">Create new</button>
         <button class="btn btn-clear" ng-click="$dismiss()">
             <i class="ln-cross"></i>
         </button>
@@ -16,7 +16,7 @@
                 <th>Created By</th>
                 <th>InvoiceNumber</th>
                 <th>GrandTotal</th>
-                <th>Status</th>
+                <th>Status </th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -33,7 +33,7 @@
                             <i class="ln-download"></i>
                         </a>
                     </button>
-                    <button class="btn btn-clear" ng-if =="Invoice.approvalStatus=='Pending' || Invoice.approvalStatus=='Approved'" ng-click="viewInvoice(assignment,Invoice)"><i class="ln-pencil"></i></button>
+                    <button class="btn btn-clear" ng-if == "Invoice.approvalStatus=='Pending' || Invoice.approvalStatus=='Approved'" ng-click="viewInvoice(assignment,Invoice)"><i class="ln-pencil"></i></button>
                     <!--<button class="btn btn-clear" ng-click="deleteTemplate('invoice',$index,'INVOICE')"><i class="ln-trash2"></i></button>-->
                 </td>
             </tr>

@@ -156,12 +156,15 @@ var model = {
             }
         }
 
-
     },
     getPolicyDoc: function (data, callback) {
         var Model = this;
         var aggText = [];
+         if (!data.keyword) {
+            data.keyword = "";
+        }
         // var searchText = new RegExp(data.keyword, "i");
+        // console.log("policyDoc = ",data);
         if (data.filter && data.filter._id && mongoose.Types.ObjectId.isValid(data.filter._id)) {
             aggText = [{
                 "$unwind": "$listOfDocuments"
@@ -187,7 +190,7 @@ var model = {
                     "listOfDocuments.name": {
                         $regex: data.keyword,
                         $options: 'i'
-                    }
+                    }   
                 }
             }, {
                 "$limit": 10
@@ -202,9 +205,7 @@ var model = {
             callback("Data not Formatted", null);
             return false;
         }
-        if (!data.keyword) {
-            data.keyword = "";
-        }
+       
         Model.aggregate(aggText).exec(function (err, data2) {
             var data3 = [];
             _.each(data2, function (n) {
@@ -212,6 +213,7 @@ var model = {
             });
             var resultdoc = {};
             resultdoc.results = data3;
+            // console.log("resultdoc = ",resultdoc);
             callback(err, resultdoc);
         });
     },
